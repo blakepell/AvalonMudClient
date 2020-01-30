@@ -35,3 +35,8 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
  - Documentation
  - Publish binary for initial alpha release (self contained EXE)
  
+ ### License
+ 
+ The Avalon Mud Client is being released under a modified MIT license with an additional clause
+ requiring credit to the original author.  E.g. this means the licnese should be flexible enough
+ to do what you need to do with it.
