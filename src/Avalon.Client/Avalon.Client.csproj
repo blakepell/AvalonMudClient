@@ -1,0 +1,67 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Authors>Blake Pell</Authors>
+    <Company></Company>
+    <Description>Avalon Mud Client</Description>
+    <Copyright>2003-2020</Copyright>
+    <RootNamespace>Avalon</RootNamespace>
+    <AssemblyName>Avalon</AssemblyName>
+    <ApplicationIcon>Sword.ico</ApplicationIcon>
+    <Version>2020.1.27.1</Version>
+    <AssemblyVersion>2020.1.27.1</AssemblyVersion>
+    <FileVersion>2020.1.27.1</FileVersion>
+    <LangVersion>8.0</LangVersion>
+    <Product>Avalon Mud Client</Product>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Lua.xshd" />
+  </ItemGroup>
+
+  <!--Custom nesting for the partial classes of the MainWindow we're using or isolate pieces of code -->
+  <ItemGroup>
+    <Compile Update="MainWindow.Keyboard.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="MainWindow.Network.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="MainWindow.Terminal.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="MainWindow.Triggers.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Lua.xshd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Argus.Core" Version="2020.1.21.1" />
+    <PackageReference Include="AvalonEdit" Version="6.0.1" />
+    <PackageReference Include="CommandLineParser" Version="2.7.82" />
+    <PackageReference Include="ModernWpfUI" Version="0.7.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Avalon.Common\Avalon.Common.csproj" />
+    <ProjectReference Include="..\Avalon.MoonSharp\Avalon.MoonSharp.csproj" />
+  </ItemGroup>
+
+</Project>

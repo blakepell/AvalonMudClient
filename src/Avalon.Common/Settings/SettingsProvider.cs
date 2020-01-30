@@ -1,0 +1,206 @@
+﻿using Avalon.Common.Interfaces;
+using Avalon.Common.Models;
+using Newtonsoft.Json;
+using System;
+using System.IO;
+
+namespace Avalon.Common.Settings
+{
+    /// <summary>
+    /// The default implementation for settings.
+    /// </summary>
+    public class SettingsProvider : ISettingsProvider
+    {
+        /// <summary>
+        /// The settings file that is the current loaded profile.
+        /// </summary>
+        public ProfileSettings ProfileSettings { get; set; } = new ProfileSettings();
+
+        /// <summary>
+        /// The core settings file that is not profile settings related.
+        /// </summary>
+        public AvalonSettings AvalonSettings { get; set; } = new AvalonSettings();
+
+        /// <summary>
+        /// The application data directory that is in the standard shared location for Windows.
+        /// </summary>
+        public string AppDataDirectory { get; private set; }
+
+        /// <summary>
+        /// The folder that plugins are stored in.
+        /// </summary>
+        public string PluginDirectory { get; private set; }
+
+        /// <summary>
+        /// This is the settings file in the AppDataDirectory folder.  It will hold a small settings
+        /// file that have data like where the main save folder is if it's been changed.  Basically this
+        /// loads and then finds out where to get the actual profiles from (if it's saved in a DropBox,
+        /// OneDrive, etc. type of folder).
+        /// </summary>
+        public string AvalonSettingsFile { get; private set; }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public SettingsProvider()
+        {
+            this.AppDataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AvalonMudClient");
+            this.PluginDirectory = Path.Combine(this.AppDataDirectory, "Plugins");
+            this.AvalonSettingsFile = Path.Combine(this.AppDataDirectory, "avalon.json");
+            this.InitializeApplicationDataDirectory();
+        }
+
+        /// <summary>
+        /// Creates the default application data folder.  This is where the core settings file
+        /// will be held and any temp files will be stored.  The profiles folder will also default
+        /// here until it's changed by the user to be somewhere else.
+        /// </summary>
+        public void InitializeApplicationDataDirectory()
+        {
+            // Create the core app data folder if it doesn't exist.
+            if (!Directory.Exists(this.AppDataDirectory))
+            {
+                Argus.IO.FileSystemUtilities.CreateDirectory(this.AppDataDirectory);
+            }
+
+            // Create the plugin folder if it doesn't exist.
+            if (!Directory.Exists(this.PluginDirectory))
+            {
+                Argus.IO.FileSystemUtilities.CreateDirectory(this.PluginDirectory);
+            }
+
+            // Create the core (minimal) settings file if it doesn't exist.
+            if (!File.Exists(this.AvalonSettingsFile))
+            {
+                // The default save folder is the AppDataDirectory, this will be configurable.
+                this.AvalonSettings.SaveDirectory = this.AppDataDirectory;
+                File.WriteAllText(this.AvalonSettingsFile, JsonConvert.SerializeObject(this.AvalonSettings, Formatting.Indented));
+            }
+
+            // Now, read in the file.
+            if (File.Exists(this.AvalonSettingsFile))
+            {
+                try
+                {
+                    string json = File.ReadAllText(this.AvalonSettingsFile);
+                    this.AvalonSettings = JsonConvert.DeserializeObject<AvalonSettings>(json);
+                    
+                    // If the save directory is empty or doesn't exist then use the app data directory.
+                    if (string.IsNullOrWhiteSpace(this.AvalonSettings.SaveDirectory) || !Directory.Exists((this.AvalonSettings.SaveDirectory)))
+                    {
+                        this.AvalonSettings.SaveDirectory = this.AppDataDirectory;
+                    }
+
+                }
+                catch (JsonSerializationException ex)
+                {
+                    // Reset the file
+                    File.WriteAllText(this.AvalonSettingsFile, JsonConvert.SerializeObject(this.AvalonSettings, Formatting.Indented));
+                }
+                catch (Exception ex)
+                {
+                    // Something else went wrong so ya know.. guess we'll hang with the default settings like it's a brand new install.
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Loads the settings from the specified json file.
+        /// </summary>
+        /// <param name="settingsFile"></param>
+        public void LoadSettings(string settingsFile)
+        {
+            // If the storage folder hasn't been set, default to the save location.
+            if (!File.Exists(settingsFile))
+            {
+                // Get the name of the profile they wanted
+                this.ProfileSettings = new ProfileSettings
+                {
+                    FileName = Path.GetFileName(settingsFile)
+                };
+
+                // Use it to make this profile.
+                this.AvalonSettings.LastLoadedProfilePath = Path.Combine(this.AvalonSettings.SaveDirectory, this.ProfileSettings.FileName);
+            }
+            else
+            {
+                // File existed, let's try to read it in.
+
+                try
+                {
+                    // Load the file, then set it as the last loaded file -if- it existed.
+                    string json = File.ReadAllText(settingsFile);
+                    this.ProfileSettings = JsonConvert.DeserializeObject<ProfileSettings>(json);
+                    this.ProfileSettings.FileName = Path.GetFileName(settingsFile);
+                    this.AvalonSettings.LastLoadedProfilePath = settingsFile;
+                }
+                catch
+                {
+                    // No file or an error, default back to the safe storage location.
+                    this.ProfileSettings = new ProfileSettings();
+
+                    // Get the name of the profile they wanted
+                    this.ProfileSettings = new ProfileSettings
+                    {
+                        FileName = Path.GetFileName(settingsFile)
+                    };
+
+                    // Use it to make this profile.
+                    this.AvalonSettings.LastLoadedProfilePath = Path.Combine(this.AvalonSettings.SaveDirectory, this.ProfileSettings.FileName);
+                }
+            }
+
+            // There are no macros set, initialize our default ones.
+            if (this.ProfileSettings.MacroList.Count == 0)
+            {
+                this.ProfileSettings.MacroList.Add(new Macro(74, "NumPad0", "d"));   // Key.NumPad0
+                this.ProfileSettings.MacroList.Add(new Macro(75, "NumPad1", "sw"));  // Key.NumPad1
+                this.ProfileSettings.MacroList.Add(new Macro(76, "NumPad2", "s"));   // Key.NumPad2
+                this.ProfileSettings.MacroList.Add(new Macro(77, "NumPad3", "se"));  // Key.NumPad3
+                this.ProfileSettings.MacroList.Add(new Macro(78, "NumPad4", "w"));   // Key.NumPad4
+                this.ProfileSettings.MacroList.Add(new Macro(79, "NumPad5", "u"));   // Key.NumPad5
+                this.ProfileSettings.MacroList.Add(new Macro(80, "NumPad6", "e"));   // Key.NumPad6
+                this.ProfileSettings.MacroList.Add(new Macro(81, "NumPad7", "nw"));  // Key.NumPad7
+                this.ProfileSettings.MacroList.Add(new Macro(82, "NumPad8", "n"));   // Key.NumPad8
+                this.ProfileSettings.MacroList.Add(new Macro(83, "NumPad9", "ne"));  // Key.NumPad9
+                this.ProfileSettings.MacroList.Add(new Macro(90, "F1", ""));         // Key.F1
+                this.ProfileSettings.MacroList.Add(new Macro(91, "F2",""));          // Key.F2
+                this.ProfileSettings.MacroList.Add(new Macro(92, "F3", ""));         // Key.F3
+                this.ProfileSettings.MacroList.Add(new Macro(93, "F4", ""));         // Key.F4
+                this.ProfileSettings.MacroList.Add(new Macro(94, "F5", ""));         // Key.F5
+                this.ProfileSettings.MacroList.Add(new Macro(95, "F6", ""));         // Key.F6
+                this.ProfileSettings.MacroList.Add(new Macro(96, "F7", ""));         // Key.F7
+                this.ProfileSettings.MacroList.Add(new Macro(97, "F8", ""));         // Key.F8
+                this.ProfileSettings.MacroList.Add(new Macro(98, "F9", ""));         // Key.F9
+                this.ProfileSettings.MacroList.Add(new Macro(99, "F10", ""));        // Key.F10
+                this.ProfileSettings.MacroList.Add(new Macro(100, "F11", ""));       // Key.F11
+                this.ProfileSettings.MacroList.Add(new Macro(101, "F12", ""));       // Key.F12
+            }
+        }
+
+        /// <summary>
+        /// Saves our settings to the local storage.
+        /// </summary>
+        public void SaveSettings()
+        {
+            // Don't save the settings if they're null
+            if (this.ProfileSettings == null)
+            {
+                return;
+            }
+
+            // If there is no last loaded profile set it then save it.
+            if (string.IsNullOrWhiteSpace(this.AvalonSettings.LastLoadedProfilePath))
+            {
+                this.AvalonSettings.LastLoadedProfilePath = Path.Join(this.AvalonSettings.SaveDirectory, "default.json");
+            }
+
+            // Write the profile settings file.
+            File.WriteAllText(this.AvalonSettings.LastLoadedProfilePath, JsonConvert.SerializeObject(this.ProfileSettings, Formatting.Indented));
+
+            // Write the Avalon settings file.
+            File.WriteAllText(this.AvalonSettingsFile, JsonConvert.SerializeObject(this.AvalonSettings, Formatting.Indented));
+        }
+    }
+}

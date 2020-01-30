@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="Avalon.Controls.InfoBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Avalon.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="TextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5,5,5,5">
+            <TextBlock Text="{Binding Health}" Margin="0,0,0,0" Style="{StaticResource TextBlockStyle}" Foreground="{Binding HealthColorBrush}">
+            </TextBlock>
+            <TextBlock Text="hp" Margin="0,0,5,0" Style="{StaticResource TextBlockStyle}" />
+
+            <TextBlock Text="{Binding Mana}" Margin="0,0,0,0" Style="{StaticResource TextBlockStyle}" Foreground="{Binding ManaColorBrush}" />
+            <TextBlock Text="m" Margin="0,0,5,0" Style="{StaticResource TextBlockStyle}" />
+
+            <TextBlock Text="{Binding Move}" Margin="0,0,0,0" Style="{StaticResource TextBlockStyle}" Foreground="{Binding MoveColorBrush}" />
+            <TextBlock Text="mv" Margin="0,0,5,0" Style="{StaticResource TextBlockStyle}" />
+
+            <TextBlock Text="(" Foreground="White" Style="{StaticResource TextBlockStyle}"></TextBlock>
+            <TextBlock Text="Stance:" Foreground="DarkGray" Margin="0,0,3,0" Style="{StaticResource TextBlockStyle}"></TextBlock>
+            <TextBlock Foreground="DarkGray" Text="{Binding Stance}" Style="{StaticResource TextBlockStyle}" />
+            <TextBlock Text="@" Style="{StaticResource TextBlockStyle}" Foreground="DarkGray"></TextBlock>
+            <TextBlock Foreground="DarkGray" Text="{Binding Wimpy}" Style="{StaticResource TextBlockStyle}" />
+            <TextBlock Text=")" Foreground="White" Margin="0,0,5,0" Style="{StaticResource TextBlockStyle}"></TextBlock>
+
+            <TextBlock Text="(" Foreground="White" Style="{StaticResource TextBlockStyle}"></TextBlock>
+            <TextBlock Text="" Foreground="DarkGray" Style="{StaticResource TextBlockStyle}"></TextBlock>
+            <TextBlock Foreground="DarkCyan" Text="{Binding Room}" Style="{StaticResource TextBlockStyle}" />
+            <TextBlock Text=":" Foreground="White" Margin="0,0,5,0" Style="{StaticResource TextBlockStyle}"></TextBlock>
+            <TextBlock Foreground="Cyan" Text="{Binding Exits}" Style="{StaticResource TextBlockStyle}" />
+            <TextBlock Text=")" Foreground="White" Margin="0,0,5,0" Style="{StaticResource TextBlockStyle}"></TextBlock>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5,5,5,5">
+            <TextBlock Text="[Tick:" Foreground="White" Style="{StaticResource TextBlockStyle}"></TextBlock>
+            <TextBlock Text="" Foreground="DarkGray" Margin="0,0,3,0" Style="{StaticResource TextBlockStyle}"></TextBlock>
+            <TextBlock Text="{Binding TickTimer}" Style="{StaticResource TextBlockStyle}" Foreground="{Binding TickColorBrush, Mode=OneWay}" />
+            <TextBlock Text="]" Foreground="White" Margin="0,0,5,0" Style="{StaticResource TextBlockStyle}"></TextBlock>
+
+            <TextBlock Text="[Target:" Foreground="White" Style="{StaticResource TextBlockStyle}"></TextBlock>
+            <TextBlock Text="" Foreground="DarkGray" Margin="0,0,3,0" Style="{StaticResource TextBlockStyle}"></TextBlock>
+            <TextBlock Text="{Binding Target}" Foreground="{Binding TargetColorBrush}"  Style="{StaticResource TextBlockStyle}" />
+            <TextBlock Text="]" Foreground="White" Margin="0,0,5,0" Style="{StaticResource TextBlockStyle}"></TextBlock>
+
+            <TextBlock Text="[" Foreground="White" Style="{StaticResource TextBlockStyle}"></TextBlock>
+            <TextBlock Text="" Foreground="DarkGray" Style="{StaticResource TextBlockStyle}"></TextBlock>
+            <TextBlock Foreground="DarkGray" Text="{Binding Time}"  Style="{StaticResource TextBlockStyle}" />
+            <TextBlock Text="]" Foreground="White" Margin="0,0,5,0" Style="{StaticResource TextBlockStyle}"></TextBlock>
+        </StackPanel>
+    </Grid>
+</UserControl>

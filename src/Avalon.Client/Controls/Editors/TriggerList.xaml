@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="Avalon.Controls.TriggerList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Avalon.Controls"
+             xmlns:ui="http://schemas.modernwpf.com/2019"
+             xmlns:avalon="clr-namespace:Avalon"
+             mc:Ignorable="d" ui:ThemeManager.RequestedTheme="Dark" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             IsVisibleChanged="UserControl_IsVisibleChanged">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+            <CheckBox x:Name="CheckBoxTriggersEnabled" Content="Enabled" >
+            </CheckBox>
+            <Grid Margin="0,10,5,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Padding="5,5,10,0">Filter:</Label>
+                <TextBox x:Name="TextFilter" TextChanged="TextFilter_TextChanged" VerticalAlignment="Top" Grid.Column="1" Width="200"></TextBox>
+            </Grid>
+        </StackPanel>
+
+        <DataGrid x:Name="DataList" x:FieldModifier="public" RowHeight="10"
+                  Grid.Row="1" HeadersVisibility="Column" BorderBrush="Gray" BorderThickness="1"
+                  Margin="5,0,5,5"
+                  CanUserAddRows="True"
+                  AutoGenerateColumns="False"
+                  GridLinesVisibility="All">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="ButtonEdit_OnClick" ui:ControlHelper.CornerRadius="0" Margin="0,0,0,0" HorizontalAlignment="Stretch">Edit</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Pattern" Binding="{Binding Pattern,UpdateSourceTrigger=PropertyChanged}" Width="15*" />
+                <DataGridTextColumn Header="Command" Binding="{Binding Command,UpdateSourceTrigger=PropertyChanged}" Width="15*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                            <Setter Property="Padding" Value="6"></Setter>
+                            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Character" Binding="{Binding Character,UpdateSourceTrigger=PropertyChanged}" />
+                <DataGridTextColumn Header="Group" Binding="{Binding Group,UpdateSourceTrigger=PropertyChanged}" />
+                <DataGridCheckBoxColumn Header="Enabled" Binding="{Binding Enabled,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
+                <DataGridCheckBoxColumn Header="Var Replace" Binding="{Binding VariableReplacement,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
+                <DataGridCheckBoxColumn Header="Gag" Binding="{Binding Gag,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
+                <DataGridCheckBoxColumn Header="Highlight" Binding="{Binding Highlight,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
+                <DataGridTextColumn Header="Count" Binding="{Binding Count,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

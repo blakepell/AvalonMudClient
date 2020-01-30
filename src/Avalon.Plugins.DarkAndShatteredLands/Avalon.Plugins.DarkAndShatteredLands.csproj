@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Version>2020.1.29.1</Version>
+    <Authors>Blake Pell</Authors>
+    <Company>Blake Pell</Company>
+    <Product>Dark and Shattered Lands Plugin for Avalon Mud Client</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Avalon.Common\Avalon.Common.csproj" />
+  </ItemGroup>
+
+</Project>

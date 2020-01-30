@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Version>2020.1.29.1</Version>
+    <Company>Blake Pell</Company>
+    <Authors>Blake Pell</Authors>
+    <Description>Common library for use with the Avalon Mud Client.</Description>
+    <Copyright>2003-2020</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Argus.Core" Version="2020.1.21.1" />
+  </ItemGroup>
+
+</Project>
