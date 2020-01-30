@@ -77,7 +77,8 @@ namespace Avalon
         /// <param name="e"></param>
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            // The Conveyor will be passed around to other objects so that they can interact with the UI.
+            // The Conveyor will be passed around to other objects so that they can interact with the UI.  This Conveyor may have
+            // state so it's important to re-use this object unless sandboxing is needed.
             Conveyor = new Conveyor();
 
             // The settings for the app load in the app startup, they will then try to load the last profile

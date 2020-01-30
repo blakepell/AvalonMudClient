@@ -89,6 +89,13 @@ namespace Avalon
             };
 
             CheckTriggers(line);
+
+            // Check to see if we're scraping and if so append to the StringBuilder that holds the scraped text.
+            // Scraping will only occur when full lines come through.
+            if (Conveyor.ScrapeEnabled)
+            {
+                Conveyor.Scrape.AppendLine(line.Text);
+            }
         }
 
         /// <summary>

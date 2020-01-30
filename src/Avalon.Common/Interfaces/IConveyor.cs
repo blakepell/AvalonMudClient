@@ -1,4 +1,5 @@
-﻿using Avalon.Common.Models;
+﻿using System.Text;
+using Avalon.Common.Models;
 using Avalon.Common.Settings;
 
 namespace Avalon.Common.Interfaces
@@ -36,6 +37,10 @@ namespace Avalon.Common.Interfaces
         void ClearTerminal(TerminalTarget target);
 
         int LineCount(TerminalTarget target);
+
+        StringBuilder Scrape { get; set; }
+
+        bool ScrapeEnabled { get; set; }
 
     }
 }

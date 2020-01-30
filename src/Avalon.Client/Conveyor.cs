@@ -1,5 +1,4 @@
-﻿using Avalon.Controls;
-using Avalon.Common.Interfaces;
+﻿using Avalon.Common.Interfaces;
 using Avalon.Common.Settings;
 using System;
 using System.Linq;
@@ -12,7 +11,9 @@ namespace Avalon
 {
 
     /// <summary>
-    /// WPF Implementation of the IConveyor for UI interactions and specific platform implementations.
+    /// WPF Implementation of the IConveyor for UI interactions and specific platform implementations.  This will
+    /// allow everything from LUA scripts to plugins to have access to parts of the program that they need access
+    /// to function.
     /// </summary>
     public class Conveyor : IConveyor
     {
@@ -238,6 +239,19 @@ namespace Avalon
             return 0;
         }
 
+        /// <summary>
+        /// A StringBuilder for holding scraped data.
+        /// </summary>
+        public StringBuilder Scrape { get; set; } = new StringBuilder();
+
+        /// <summary>
+        /// Whether the main terminal should be scraping data into the Scrape StringBuilder for later use.
+        /// </summary>
+        public bool ScrapeEnabled { get; set; } = false;
+
+        /// <summary>
+        /// The settings for the current profile that is loaded.
+        /// </summary>
         public ProfileSettings ProfileSettings => App.Settings.ProfileSettings;
     }
 }
