@@ -56,7 +56,7 @@
                 <DataGridCheckBoxColumn Header="Enabled" Binding="{Binding Enabled,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
                 <DataGridCheckBoxColumn Header="Var Replace" Binding="{Binding VariableReplacement,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
                 <DataGridCheckBoxColumn Header="Gag" Binding="{Binding Gag,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
-                <DataGridCheckBoxColumn Header="Highlight" Binding="{Binding Highlight,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
+                <DataGridCheckBoxColumn Header="Highlight" Binding="{Binding HighlightLine,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
                 <DataGridTextColumn Header="Count" Binding="{Binding Count,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
