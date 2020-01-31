@@ -1,6 +1,8 @@
 ﻿using Avalon.Common.Colors;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using Argus.Extensions;
 using Avalon.Common.Interfaces;
 
 namespace Avalon.HashCommands
@@ -23,6 +25,7 @@ namespace Avalon.HashCommands
         public override void Execute()
         {
             var list = new List<string>();
+            var sb = new StringBuilder();
 
             foreach (var hc in this.Interpreter.HashCommands)
             {
@@ -30,12 +33,26 @@ namespace Avalon.HashCommands
             }
 
             list = list.OrderBy(p => p).ToList();
+            int i = 0;
+
+            this.Interpreter.EchoText("");
 
             foreach (string item in list)
             {
-                this.Interpreter.EchoText(item, AnsiColors.Cyan);
+                i++;
+                sb.AppendFormat($"{item,-25}");
+
+                // Line break every 4 items
+                if (i.IsInterval(3))
+                {
+                    this.Interpreter.EchoText(sb.ToString(), AnsiColors.Cyan);
+                    sb.Clear();
+                    i = 0;
+                }
             }
 
+            // Whatever was left.
+            this.Interpreter.EchoText($"{sb,-25}", AnsiColors.Cyan);
             this.Interpreter.EchoText("");
         }
 
