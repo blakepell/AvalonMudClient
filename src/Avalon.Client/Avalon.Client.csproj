@@ -4,10 +4,6 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
-    <RuntimeIdentifier>win-x86</RuntimeIdentifier>
-    <PublishSingleFile>true</PublishSingleFile>
-    <PublishReadyToRunShowWarnings>true</PublishReadyToRunShowWarnings>
-    <PublishTrimmed>false</PublishTrimmed>
     <Authors>Blake Pell</Authors>
     <Company></Company>
     <Description>Avalon Mud Client</Description>
