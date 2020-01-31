@@ -19,23 +19,24 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
  - Plugin ability (extend Avalon by writing your own C# plugins)
  - Opinionated UI with terminals for the main content as well as different communication types.
 
-### Open Source Packages / Software Used
+### Open Source Packages
 
- - [AvalonEdit](https://github.com/icsharpcode/AvalonEdit)
- - [ModernWpfUI](https://github.com/Kinnara/ModernWpf)
- - [MoonSharp](https://github.com/moonsharp-devs/moonsharp)
- - [Command Line Parser](https://github.com/commandlineparser/commandline)
- - [Argus Framework](https://www.github.com/blakepell/ArgusFramework)
- - [Visual Studio Community](https://visualstudio.microsoft.com/downloads)
-
- ### Roadmap
+ - [AvalonEdit](https://github.com/icsharpcode/AvalonEdit) (MIT)
+ - [ModernWpfUI](https://github.com/Kinnara/ModernWpf) (MIT)
+ - [MoonSharp](https://github.com/moonsharp-devs/moonsharp) (Custom License, see project)
+ - [Command Line Parser](https://github.com/commandlineparser/commandline) (MIT)
+ - [Argus Framework](https://www.github.com/blakepell/ArgusFramework) (MIT)
+ - [WPF-AutoComplete-TextBox](https://github.com/quicoli/WPF-AutoComplete-TextBox) (MIT)
+ - [TentacleSoftware.Telnet](https://github.com/Spksh/TentacleSoftware.Telnet) (Apache v2)
+ 
+### Roadmap
  
  - SQLite DB Support (including a SQL query editor)
  - Additional Hash Commands
  - Documentation
  - Publish binary for initial alpha release (self contained EXE)
  
- ### License
+### License
  
  The Avalon Mud Client is being released under a modified MIT license with an additional clause
  requiring credit to the original author.  E.g. this means the licnese should be flexible enough
