@@ -15,6 +15,7 @@ using Microsoft.Win32;
 using System.Reflection;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Plugins;
+using Newtonsoft.Json;
 
 namespace Avalon
 {
@@ -361,6 +362,58 @@ namespace Avalon
                         Disconnect();
                         Connect();
                     }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Interp.EchoText("");
+                Interp.EchoText($"--> An error occured: {ex.Message}.\r\n", AnsiColors.Red);
+            }
+        }
+
+        /// <summary>
+        /// Merges one profile with another.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonImportProfile_OnClick(object sender, RoutedEventArgs e)
+        {
+            // TODO - Instead of a straight import everything have this do an upsert if there are matching guids so that packages can be updated.
+            try
+            {
+                var dialog = new OpenFileDialog();
+                dialog.InitialDirectory = App.Settings.AvalonSettings.SaveDirectory;
+                dialog.Filter = "JSON files (*.json)|*.json|Text Files (*.txt)|*.txt|All files (*.*)|*.*";
+
+                if (dialog.ShowDialog() == true)
+                {
+                    // Load the file, then set it as the last loaded file -if- it existed.
+                    string json = File.ReadAllText(dialog.FileName);
+                    var settings = JsonConvert.DeserializeObject<ProfileSettings>(json);
+
+                    // For now we're using going to import the aliases and triggers
+                    foreach (var alias in settings.AliasList)
+                    {
+                        App.Settings.ProfileSettings.AliasList.Add(alias);
+                    }
+
+                    // For now we're using going to import the aliases and triggers
+                    foreach (var trigger in settings.TriggerList)
+                    {
+                        App.Settings.ProfileSettings.TriggerList.Add(trigger);
+                    }
+
+                    // Inject the Conveyor into all of the triggers
+                    foreach (var trigger in App.Settings.ProfileSettings.TriggerList)
+                    {
+                        trigger.Conveyor = Conveyor;
+                    }
+
+                    // Show the user that the profile was successfully loaded.
+                    Interp.EchoText("");
+                    Interp.EchoText($"--> Imported {dialog.FileName} into the current profile.\r\n", AnsiColors.Cyan);
 
                 }
 
