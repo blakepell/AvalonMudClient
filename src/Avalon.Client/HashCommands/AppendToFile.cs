@@ -16,20 +16,16 @@ namespace Avalon.HashCommands
 
         public override string Name { get; } = "#append-to-file";
 
-        public override string Description { get; } = "Syntax: #append-to-file -f <filename> -t <text>";
+        public override string Description { get; } = "Appends text to a file.";
 
         public override void Execute()
         {
-            Parser.Default.ParseArguments<AppendFileArguments>(CreateArgs(this.Parameters))
-                  .WithParsed(o =>
-                  {
-                      File.AppendAllText(o.File, o.Text);
-                  })
-                  .WithNotParsed(o =>
-                  {
-                          this.Interpreter.EchoText("[ Failure ] #append-to-file parameters are not correct.");
-                          this.Interpreter.EchoText("[         ] Syntax: #append-to-file -f <filename> -t <text>");
-                  });
+            // Parse the arguments and append to the file.
+            var result = Parser.Default.ParseArguments<AppendFileArguments>(CreateArgs(this.Parameters))
+                .WithParsed(o => { File.AppendAllText(o.File, o.Text); });
+
+            // Display the help or error output from the parameter parsing.
+            this.DisplayParserOutput(result);
         }
 
         /// <summary>

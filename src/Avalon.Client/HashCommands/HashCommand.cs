@@ -2,6 +2,8 @@
 using System.Text;
 using System.Threading.Tasks;
 using Avalon.Common.Interfaces;
+using CommandLine;
+using CommandLine.Text;
 
 namespace Avalon.HashCommands
 {
@@ -33,6 +35,29 @@ namespace Avalon.HashCommands
         public IInterpreter Interpreter { get; set; }
 
         public bool IsAsync { get; set; }
+
+
+        /// <summary>
+        /// Displays the parser output from the model.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="result"></param>
+        public void DisplayParserOutput<T>(ParserResult<T> result)
+        {
+            if (result.Tag == ParserResultType.NotParsed)
+            {
+                var helpText = HelpText.AutoBuild(result, h =>
+                {
+                    h.AutoVersion = false;
+                    h.Copyright = "";
+                    h.AdditionalNewLineAfterOption = false;
+                    h.Heading = $"{this.Name}: {this.Description}";
+                    return h;
+                });
+
+                this.Interpreter.EchoText(helpText);
+            }
+        }
 
         /// <summary>
         /// Command line argument parser.
