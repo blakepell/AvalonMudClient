@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using CommandLine;
 using Microsoft.Win32;
 using System.Reflection;
+using System.Threading.Tasks;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Plugins;
 using Newtonsoft.Json;
@@ -310,8 +311,21 @@ namespace Avalon
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ButtonExitApp_OnClick(object sender, RoutedEventArgs e)
+        private void ButtonExit_OnClick(object sender, RoutedEventArgs e)
         {
+            Application.Current.Shutdown(0);
+        }
+
+        /// <summary>
+        /// Exits the mud client and SKIPS saving the settings file.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void ButtonExitAndSkipProfileSave_OnClickAsync(object sender, RoutedEventArgs e)
+        {
+            App.SkipSaveOnExit = true;
+            Interp.EchoText("--> Exiting WITHOUT saving the current profile.", AnsiColors.Yellow);
+            await Task.Delay(1000);
             Application.Current.Shutdown(0);
         }
 

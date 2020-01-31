@@ -35,6 +35,11 @@ namespace Avalon
         public static Toast Toast { get; set; } = new Toast();
 
         /// <summary>
+        /// An override to force skipping a save on exit in case someone borked their settings up.
+        /// </summary>
+        internal static bool SkipSaveOnExit { get; set; } = false;
+
+        /// <summary>
         /// Runs as the first thing in the programs pipeline.
         /// </summary>
         /// <param name="sender"></param>
@@ -53,8 +58,9 @@ namespace Avalon
         /// <param name="e"></param>
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-            // Save the users current profile on exit.
-            if (Settings.ProfileSettings.SaveSettingsOnExit)
+            // Save the users current profile on exit if the setting is set to do so, but also if the override
+            // to skip it hasn't been flagged.
+            if (Settings.ProfileSettings.SaveSettingsOnExit && SkipSaveOnExit == false)
             {
                 App.Settings.SaveSettings();
             }
