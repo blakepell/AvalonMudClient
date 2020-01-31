@@ -4,6 +4,10 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishSingleFile>true</PublishSingleFile>
+    <PublishReadyToRunShowWarnings>true</PublishReadyToRunShowWarnings>
+    <PublishTrimmed>false</PublishTrimmed>
     <Authors>Blake Pell</Authors>
     <Company></Company>
     <Description>Avalon Mud Client</Description>
@@ -62,6 +66,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Avalon.Common\Avalon.Common.csproj" />
     <ProjectReference Include="..\Avalon.MoonSharp\Avalon.MoonSharp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 
 </Project>
