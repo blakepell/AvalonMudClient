@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using Avalon.Common.Colors;
+using Avalon.Colors;
 using Avalon.Controls;
 
 namespace Avalon

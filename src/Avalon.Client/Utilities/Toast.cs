@@ -27,21 +27,43 @@ namespace Avalon.Utilities
             _notifyIcon?.Dispose();
         }
 
+        /// <summary>
+        /// Show a notification message that lasts for 3 seconds.
+        /// </summary>
+        /// <param name="msg"></param>
         public void ShowNotification(string msg)
         {
             this.ShowNotification(Assembly.GetExecutingAssembly().GetName().Name, msg, ToolTipIcon.Info, 3000);
         }
 
+        /// <summary>
+        /// Shows a notification message with a title that lasts for 3 seconds.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="msg"></param>
         public void ShowNotification(string title, string msg)
         {
             this.ShowNotification(title, msg, ToolTipIcon.Info);
         }
 
+        /// <summary>
+        /// Shows a notification message with a title and a type icon that lasts for 3 seconds.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="msg"></param>
+        /// <param name="iconType"></param>
         public void ShowNotification(string title, string msg, ToolTipIcon iconType)
         {
             this.ShowNotification(title, msg, iconType, 3000);
         }
 
+        /// <summary>
+        /// Shows a notification based on the parameters provided for the length of time provided.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="msg"></param>
+        /// <param name="iconType"></param>
+        /// <param name="millisecondsTimeout"></param>
         public void ShowNotification(string title, string msg, ToolTipIcon iconType, int millisecondsTimeout)
         {
             _notifyIcon.Visible = true;

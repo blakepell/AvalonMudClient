@@ -91,7 +91,7 @@ namespace Avalon.Controls
         private void ButtonEdit_OnClick(object sender, RoutedEventArgs e)
         {
             // Get the direction from the current line.
-            Direction direction = ((FrameworkElement)sender).DataContext as Direction;
+            var direction = ((FrameworkElement)sender).DataContext as Direction;
 
             // Hmm, no direction.. gracefully exit.
             if (direction == null)

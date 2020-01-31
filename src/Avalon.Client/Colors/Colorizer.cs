@@ -1,12 +1,12 @@
-﻿using Avalon.Colors;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Media;
+using Avalon.Common.Colors;
 
-namespace Avalon.Common.Colors
+namespace Avalon.Colors
 {
     /// <summary>
     /// Class that handles mapping different color representations together.

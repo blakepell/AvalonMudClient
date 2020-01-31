@@ -1,6 +1,5 @@
 ﻿using Argus.Extensions;
-using Avalon.Common.Colors;
-using Avalon.Controls;
+using Avalon.Colors;
 using Avalon.Common.Interfaces;
 
 namespace Avalon.HashCommands

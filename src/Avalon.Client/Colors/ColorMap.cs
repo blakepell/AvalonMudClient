@@ -8,8 +8,14 @@ namespace Avalon.Colors
     /// </summary>
     public class ColorMap
     {
+        /// <summary>
+        /// The AnsiColor from the common library.
+        /// </summary>
         public AnsiColor AnsiColor { get; set; }
 
+        /// <summary>
+        /// The WPF SolidColorBrush the AnsiColor maps to.
+        /// </summary>
         public SolidColorBrush Brush { get; set; }
         
     }

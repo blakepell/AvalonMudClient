@@ -11,6 +11,10 @@ using Avalon.Common.Interfaces;
 
 namespace Avalon.Network
 {
+
+    /// <summary>
+    /// Telnet client.
+    /// </summary>
     public class TelnetClient : IDisposable, ITelnetClient
     {
         private readonly int _port;

@@ -93,7 +93,7 @@ namespace Avalon.Controls
         private void ButtonEdit_OnClick(object sender, RoutedEventArgs e)
         {
             // Get the variable from the current line.
-            Variable variable = ((FrameworkElement)sender).DataContext as Variable;
+            var variable = ((FrameworkElement)sender).DataContext as Variable;
 
             // Hmm, no variable.. gracefully exit.
             if (variable == null)

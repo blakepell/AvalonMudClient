@@ -114,7 +114,7 @@ namespace Avalon.Controls
         private void ButtonEdit_OnClick(object sender, RoutedEventArgs e)
         {
             // Get the alias from the current line.
-            Alias alias = ((FrameworkElement)sender).DataContext as Alias;
+            var alias = ((FrameworkElement)sender).DataContext as Alias;
 
             // Hmm, no alias.. gracefully exit.
             if (alias == null)

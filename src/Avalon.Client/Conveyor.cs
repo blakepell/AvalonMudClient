@@ -175,6 +175,10 @@ namespace Avalon
             }
         }
 
+        /// <summary>
+        /// Sets the seconds left on the tick timer on the main InfoBar.
+        /// </summary>
+        /// <param name="value"></param>
         public void SetTickTime(int value)
         {
             Application.Current.Dispatcher.Invoke(new Action(() =>
@@ -183,11 +187,19 @@ namespace Avalon
             }));
         }
 
+        /// <summary>
+        /// Gets the seconds left on the tick timer on the main InfoBar.
+        /// </summary>
+        /// <returns></returns>
         public int GetTickTime()
         {
             return App.MainWindow.InfoBar.TickTimer;
         }
 
+        /// <summary>
+        /// Gets the game time from the main InfoBar.
+        /// </summary>
+        /// <returns></returns>
         public string GetGameTime()
         {
             return App.MainWindow.InfoBar.Time;

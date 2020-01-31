@@ -91,7 +91,7 @@ namespace Avalon.Controls
         private void ButtonEdit_OnClick(object sender, RoutedEventArgs e)
         {
             // Get the macro from the current line.
-            Macro macro = ((FrameworkElement)sender).DataContext as Macro;
+            var macro = ((FrameworkElement)sender).DataContext as Macro;
 
             // Hmm, no macro.. gracefully exit.
             if (macro == null)

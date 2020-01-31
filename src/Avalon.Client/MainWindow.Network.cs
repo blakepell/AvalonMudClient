@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Windows;
+using Avalon.Colors;
 using Avalon.Common.Colors;
 using Avalon.Common.Models;
 using Avalon.Utilities;

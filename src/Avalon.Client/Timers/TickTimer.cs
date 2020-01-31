@@ -1,5 +1,4 @@
-﻿using Avalon.Controls;
-using Avalon.Common.Interfaces;
+﻿using Avalon.Common.Interfaces;
 using System;
 using System.Diagnostics;
 using System.Windows.Threading;
@@ -8,6 +7,12 @@ using Avalon.Common.Models;
 
 namespace Avalon.Timers
 {
+ 
+    /// <summary>
+    /// A general purpose tick timer.  It requires some time mechanism from the game to properly work.
+    /// In many Diku based muds an hour (and sometimes half hour) is available that can be put into your
+    /// prompt.  These times generally change on a tick a thus can be used to sync the TickTimer.
+    /// </summary>
     public class TickTimer
     {
 
@@ -51,13 +56,11 @@ namespace Avalon.Timers
                 // Reset if we've shown them the tick warning.
                 _echoWarningShown = false;
 
-                // Reduce any affects we might have stored.
-                Utilities.Utilities.DecrementAffectDurations();
-
                 _stopWatch.Restart();
                 return;
             }
 
+            // TODO - Make this a setting, 40 seconds is the default for DSL (minus the jiggle time where the tick can lag a small amount), make this configurable.
             _secondsUntilTick = 40 - (int)(_stopWatch.ElapsedMilliseconds / 1000);
 
             // Only update the UI if it's changed and the value is greater than or equal to 0.

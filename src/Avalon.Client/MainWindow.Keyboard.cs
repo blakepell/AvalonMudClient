@@ -44,6 +44,11 @@ namespace Avalon
             }
         }
 
+        /// <summary>
+        /// The PreviewKeyDown event for the input text box used to setup special behavior from that box.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Editor_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             // So they key's for macros aren't entered into the text box.

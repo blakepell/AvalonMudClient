@@ -1,11 +1,10 @@
-﻿using System.Linq;
-using System.Text;
+﻿using System.Text;
 using Avalon.Common.Colors;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using Avalon.Extensions;
+using Avalon.Colors;
 using Avalon.Common.Models;
 
 namespace Avalon.Controls
@@ -18,7 +17,6 @@ namespace Avalon.Controls
     /// TODO - Copy override: https://stackoverflow.com/questions/47541080/capture-modify-paste-event-in-avalonedit
     /// https://web.archive.org/web/20190316163741/http://community.sharpdevelop.net/forums/t/15881.aspx
     /// https://web.archive.org/web/20160410073639/http://community.sharpdevelop.net/forums/p/13903/37261.aspx#37261
-    /// 
     /// </remarks>
     public class AvalonTerminal : ICSharpCode.AvalonEdit.TextEditor
     {

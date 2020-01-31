@@ -10,6 +10,9 @@ namespace Avalon.Controls
     public class TabItemEx : TabItem
     {
 
+        /// <summary>
+        /// The Symbol to display on the TabItem.
+        /// </summary>
         public Symbol Icon
         {
             get => (Symbol)GetValue(IconProperty);

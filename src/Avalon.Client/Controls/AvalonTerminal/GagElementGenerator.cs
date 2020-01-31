@@ -3,7 +3,7 @@ using ICSharpCode.AvalonEdit.Rendering;
 using System.Linq;
 using System.Text;
 using System.Windows.Media.TextFormatting;
-using Avalon.Common.Colors;
+using Avalon.Colors;
 
 namespace Avalon.Controls
 {

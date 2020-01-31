@@ -30,11 +30,6 @@ namespace Avalon
         internal static List<ITrigger> SystemTriggers { get; set; } = new List<ITrigger>();
 
         /// <summary>
-        /// List of Affects currently on a player. (TODO: Factor into abstract layer)
-        /// </summary>
-        public static List<Affect> Affects { get; set; } = new List<Affect>();
-
-        /// <summary>
         /// Ability to send a Windows OS toast message.
         /// </summary>
         public static Toast Toast { get; set; } = new Toast();

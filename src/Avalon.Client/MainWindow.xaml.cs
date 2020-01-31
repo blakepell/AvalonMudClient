@@ -90,7 +90,7 @@ namespace Avalon
             // Parse the command line arguments to see if a profile was specified.
             var args = Environment.GetCommandLineArgs();
 
-            // This settings loading needs to be streamlined, it's too convoluted.
+            // TODO - This settings loading needs to be streamlined, it's too convoluted.
             Parser.Default.ParseArguments<CommandLineArguments>(args)
                   .WithParsed<CommandLineArguments>(o =>
                   {
@@ -246,7 +246,7 @@ namespace Avalon
         private void WindowSize()
         {
             // The windows forms namespaces give us some properties to easily get screen
-            // and window information so we're going to leverge those for now.
+            // and window information so we're going to leverage those for now.
             this.Width = SystemParameters.WorkArea.Width / 2;
             this.Height = SystemParameters.WorkArea.Height;
             this.Left = 0;
@@ -281,6 +281,11 @@ namespace Avalon
             this.ShowDialog(win);
         }
 
+        /// <summary>
+        /// Event for when the tab control's selected tab changes.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // When the game tab gets the focus always put the focus into the input box.
