@@ -9,9 +9,9 @@ namespace Avalon.HashCommands
     /// <summary>
     /// Executes a macro.
     /// </summary>
-    public class ExecuteMacro : HashCommand
+    public class Macro : HashCommand
     {
-        public ExecuteMacro(IInterpreter interp) : base(interp)
+        public Macro(IInterpreter interp) : base(interp)
         {
         }
 
@@ -21,7 +21,7 @@ namespace Avalon.HashCommands
 
         public override void Execute()
         {            
-            var macro = App.Settings.ProfileSettings.MacroList.FirstOrDefault(x => x.Key.ToString() == this.Parameters);
+            var macro = App.Settings.ProfileSettings.MacroList.FirstOrDefault(x => x.KeyDescription.ToString() == this.Parameters);
 
             if (macro == null)
             {
