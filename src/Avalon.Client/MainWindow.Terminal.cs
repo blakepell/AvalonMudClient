@@ -60,5 +60,27 @@ namespace Avalon
             Colorizer.AnsiToMudColorCodes(sb);
             Clipboard.SetText(sb.ToString());
         }
+
+        /// <summary>
+        /// Clears all of the text from the terminal window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AvalonTerminalContextMenuClear_OnClick(object sender, RoutedEventArgs e)
+        {
+            var item = sender as MenuItem;
+            var cm = (ContextMenu)item?.Parent;
+            var popup = (Popup)cm?.Parent;
+
+            var terminal = popup?.PlacementTarget as AvalonTerminal;
+
+            if (terminal == null)
+            {
+                return;
+            }
+
+            terminal.Text = "";
+        }
+
     }
 }

@@ -27,6 +27,8 @@
         <ContextMenu x:Key="AvalonTerminalContextMenu" x:Shared="true" ui:ControlHelper.CornerRadius="0">
             <MenuItem Header="Copy" Click="AvalonTerminalContextMenuCopy_OnClick" />
             <MenuItem Header="Copy with Mud Colors" Click="AvalonTerminalContextMenuCopyWithMudColors_OnClick" />
+            <Separator />
+            <MenuItem Header="Clear Terminal" Click="AvalonTerminalContextMenuClear_OnClick"></MenuItem>
         </ContextMenu>
     </Window.Resources>
 
