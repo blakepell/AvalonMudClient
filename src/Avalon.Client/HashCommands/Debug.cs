@@ -1,4 +1,5 @@
 ﻿using Avalon.Common.Interfaces;
+using Avalon.Common.Models;
 
 namespace Avalon.HashCommands
 {
@@ -18,20 +19,7 @@ namespace Avalon.HashCommands
 
         public override void Execute()
         {
-            //App.MainWindow.WriteLine()
-            //App.AppSettingsProvider.AppSettings.TriggersEnabled = !App.AppSettingsProvider.AppSettings.TriggersEnabled;
-            //App.MainWindow.WriteLine($"--> Triggers Enabled: {App.AppSettingsProvider.AppSettings.TriggersEnabled}");
-
-            //App.AppSettingsProvider.AppSettings.Debug = !App.AppSettingsProvider.AppSettings.Debug;
-            //App.MainWindow.WriteLine($"--> Debug: {App.AppSettingsProvider.AppSettings.Debug}");
-            //App.MainWindow.WriteLine($"--> Triggers Enabled: {App.AppSettingsProvider.AppSettings.TriggersEnabled}");
-
-            //Utilities.SortAffects();
-
-            //foreach (var a in App.MainWindow.Affects)
-            //{
-            //    App.MainWindow.WriteLine(a.Display());
-            //}
+            Interpreter.Conveyor.EchoLog($"Window Dimensions: {App.MainWindow.Width}x{App.MainWindow.Height}", LogType.Debug);
         }
 
     }
