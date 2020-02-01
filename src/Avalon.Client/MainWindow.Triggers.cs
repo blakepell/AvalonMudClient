@@ -1,5 +1,7 @@
 ﻿using Avalon.Controls;
 using System;
+using Argus.Extensions;
+using Avalon.Common.Colors;
 using Avalon.Common.Models;
 
 namespace Avalon
@@ -95,13 +97,21 @@ namespace Avalon
                     // Increment the counter.
                     item.Count++;
 
+                    // Line Highlighting if the trigger is supposed to.
+                    if (item.HighlightLine)
+                    {
+                        // TODO - Allow the highlighted color to be set for each trigger.
+                        int start = GameTerminal.Document.Text.LastIndexOf(line.Text, StringComparison.Ordinal);
+                        GameTerminal.Document.Replace(start, line.Text.Length, $"{AnsiColors.DarkCyan}{line.Text}");
+                    }
+
                     // Only send if it has something in it.  Use the processed command.  (in the future a target could be
                     // a lua script, etc.).
                     if (!string.IsNullOrWhiteSpace(item.ProcessedCommand))
                     {
                         await Interp.Send(item.ProcessedCommand, false, false);
                     }
-
+                    
                     // Check if we're supposed to move this line somewhere else.
                     if (item.MoveTo != TerminalTarget.None)
                     {
