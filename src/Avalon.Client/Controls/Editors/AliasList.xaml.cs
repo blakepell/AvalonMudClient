@@ -134,6 +134,11 @@ namespace Avalon.Controls
                 win.EditorMode = StringEditor.EditorType.Lua;
             }
 
+            // Startup position of the dialog should be in the center of the parent window.  The
+            // owner has to be set for this to work.
+            win.Owner = App.MainWindow;
+            win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
             // Show the Lua dialog.
             var result = win.ShowDialog();
 

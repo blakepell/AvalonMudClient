@@ -132,6 +132,11 @@ namespace Avalon.Controls
             // Show the Lua dialog.
             var result = win.ShowDialog();
 
+            // Startup position of the dialog should be in the center of the parent window.  The
+            // owner has to be set for this to work.
+            win.Owner = App.MainWindow;
+            win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
             // If the result
             if (result != null && result.Value)
             {

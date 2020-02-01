@@ -108,6 +108,11 @@ namespace Avalon.Controls
             // Set this to be a text editor.
             win.EditorMode = StringEditor.EditorType.Text;
 
+            // Startup position of the dialog should be in the center of the parent window.  The
+            // owner has to be set for this to work.
+            win.Owner = App.MainWindow;
+            win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
             // Show the string dialog
             var result = win.ShowDialog();
 
