@@ -321,7 +321,7 @@ namespace Avalon
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void ButtonExitAndSkipProfileSave_OnClickAsync(object sender, RoutedEventArgs e)
+        private async void ButtonExitWithoutSave_OnClickAsync(object sender, RoutedEventArgs e)
         {
             App.SkipSaveOnExit = true;
             Interp.EchoText("--> Exiting WITHOUT saving the current profile.", AnsiColors.Yellow);

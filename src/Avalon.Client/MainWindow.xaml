@@ -72,7 +72,7 @@
                                 </MenuItem.Icon>
                             </MenuItem>
                             <Separator />
-                            <MenuItem Header="Exit and Skip Settings Save" x:Name="ButtonExitAndSkipProfileSave" Click="ButtonExitAndSkipProfileSave_OnClickAsync" />
+                            <MenuItem Header="Exit Without Save" x:Name="ButtonExitWithoutSave" Click="ButtonExitWithoutSave_OnClickAsync" />
                             <MenuItem Header="E_xit" x:Name="ButtonExit" Click="ButtonExit_OnClick" />
                         </MenuItem>
                     </Menu>
