@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Threading;
+using MoonSharp.Interpreter.Loaders;
 
 namespace Avalon.Controls
 {
@@ -43,6 +44,15 @@ namespace Avalon.Controls
 
                 DataList.ItemsSource = lcv;
             }
+        }
+
+        /// <summary>
+        /// Reloads the DataList's ItemSource if it's changed.
+        /// </summary>
+        public void Reload()
+        {
+            DataList.ItemsSource = null;
+            DataList.ItemsSource = App.Settings.ProfileSettings.DirectionList;
         }
 
         /// <summary>

@@ -366,6 +366,14 @@ namespace Avalon
                         trigger.Conveyor = Conveyor;
                     }
 
+                    // Important!  This is a new profile, we have to reload ALL of the DataList controls
+                    // and reset their bindings.
+                    AliasList.Reload();
+                    DirectionList.Reload();
+                    MacroList.Reload();
+                    TriggersList.Reload();
+                    VariableList.Reload();
+
                     // Show the user that the profile was successfully loaded.
                     Interp.EchoText("");
                     Interp.EchoText($"--> Loaded {dialog.FileName}.\r\n", AnsiColors.Cyan);
@@ -393,6 +401,10 @@ namespace Avalon
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        /// <remarks>
+        /// We don't need to reload/reset after these have been imported because
+        /// the bindings haven't changed, we're loading into what is currently setup.
+        /// </remarks>
         private async void ButtonImportProfile_OnClickAsync(object sender, RoutedEventArgs e)
         {
             // TODO - Instead of a straight import everything have this do an upsert if there are matching guids so that packages can be updated.

@@ -65,6 +65,29 @@ namespace Avalon.Controls
         }
 
         /// <summary>
+        /// Reloads the DataList's ItemSource if it's changed.
+        /// </summary>
+        public void Reload()
+        {
+            DataList.ItemsSource = null;
+            DataList.ItemsSource = App.Settings.ProfileSettings.TriggerList;
+            DataList.Items.Refresh();
+
+            // Manually setup the bindings.  I couldn't get it to work in the Xaml because the AppSettings gets replaced
+            // after this control is loaded.
+            var binding = new Binding
+            {
+                Source = App.Settings.ProfileSettings,
+                Path = new PropertyPath("TriggersEnabled"),
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            };
+
+            BindingOperations.ClearAllBindings(CheckBoxTriggersEnabled);
+            BindingOperations.SetBinding(CheckBoxTriggersEnabled, CheckBox.IsCheckedProperty, binding);
+        }
+
+        /// <summary>
         /// The typing delay timer's tick that will refresh the filter after 300ms.
         /// </summary>
         /// <param name="sender"></param>

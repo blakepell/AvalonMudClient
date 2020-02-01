@@ -46,6 +46,16 @@ namespace Avalon.Controls
         }
 
         /// <summary>
+        /// Reloads the DataList's ItemSource if it's changed.
+        /// </summary>
+        public void Reload()
+        {
+            DataList.ItemsSource = null;
+            DataList.ItemsSource = App.Settings.ProfileSettings.Variables;
+            DataList.Items.Refresh();
+        }
+
+        /// <summary>
         /// The typing delay timer's tick that will refresh the filter after 300ms.
         /// </summary>
         /// <param name="sender"></param>
