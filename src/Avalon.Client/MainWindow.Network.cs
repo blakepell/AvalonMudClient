@@ -71,7 +71,7 @@ namespace Avalon
         public void HandleConnectionClosed(object sender, EventArgs e)
         {
             TabMain.IsConnected = false;
-            GameTerminal.Append($"Disconnected: {DateTime.Now.ToString()}\r\n", AnsiColors.Cyan);
+            Conveyor.EchoLog($"Disconnected: {DateTime.Now}", LogType.Warning);
             Interp.Telnet = null;
         }
 

@@ -10,11 +10,11 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using CommandLine;
 using Microsoft.Win32;
 using System.Reflection;
 using System.Threading.Tasks;
 using Avalon.Common.Interfaces;
+using Avalon.Common.Models;
 using Avalon.Common.Plugins;
 using ModernWpf.Controls;
 using Newtonsoft.Json;
@@ -86,49 +86,32 @@ namespace Avalon
 
             // The settings for the app load in the app startup, they will then try to load the last profile
             // that was used.
-            GameTerminal.Append($"Default Settings Folder: {App.Settings.AppDataDirectory}\r\n", AnsiColors.Cyan);
-            GameTerminal.Append($"Core Settings File:      {App.Settings.AvalonSettingsFile}\r\n", AnsiColors.Cyan);
-            GameTerminal.Append($"Current Profiles Folder: {App.Settings.AvalonSettings.SaveDirectory}\r\n", AnsiColors.Cyan);
+            Conveyor.EchoLog($"Settings Folder: {App.Settings.AppDataDirectory}", LogType.Information);
+            Conveyor.EchoLog($"Settings File:   {App.Settings.AvalonSettingsFile}", LogType.Information);
+            Conveyor.EchoLog($"Profiles Folder: {App.Settings.AvalonSettings.SaveDirectory}", LogType.Information);
 
             // Parse the command line arguments to see if a profile was specified.
             var args = Environment.GetCommandLineArgs();
 
-            // TODO - This settings loading needs to be streamlined, it's too convoluted.
-            Parser.Default.ParseArguments<CommandLineArguments>(args)
-                  .WithParsed<CommandLineArguments>(o =>
-                  {
-                      if (!string.IsNullOrWhiteSpace(o.Profile))
-                      {
-                          // A profile was specified, try to use that.
-                          string profilePath = Path.Join(App.Settings.AvalonSettings.SaveDirectory, o.Profile);
 
-                          if (File.Exists(profilePath))
-                          {
-                              App.Settings.LoadSettings(profilePath);
-                              GameTerminal.Append($"Settings Loaded:         {App.Settings.AvalonSettings.LastLoadedProfilePath}\r\n", AnsiColors.Cyan);
-                          }
-                          else
-                          {
-                              GameTerminal.Append($"Settings Not Found:      {profilePath}\r\n", AnsiColors.Red);
-                              App.Settings.LoadSettings(App.Settings.AvalonSettings.LastLoadedProfilePath);
-                              GameTerminal.Append($"Settings Loaded:         {App.Settings.AvalonSettings.LastLoadedProfilePath}\r\n", AnsiColors.Cyan);
-                          }
-                      }
-                      else
-                      {
-                          // No profile was specified, try to use the last one if there was no last one then load up
-                          // a new default profile.
-                          if (File.Exists(App.Settings.AvalonSettings.LastLoadedProfilePath))
-                          {
-                              App.Settings.LoadSettings(App.Settings.AvalonSettings.LastLoadedProfilePath);
-                              GameTerminal.Append($"Settings Loaded:         {App.Settings.AvalonSettings.LastLoadedProfilePath}\r\n", AnsiColors.Cyan);
-                          }
-                          else
-                          {
-                              GameTerminal.Append($"Last Profile Loaded Not Found: {App.Settings.AvalonSettings.LastLoadedProfilePath}\r\n", AnsiColors.Cyan);
-                          }
-                      }
-                  });
+            // Try to load the last profile loaded, if not found create a new profile.
+            if (File.Exists(App.Settings.AvalonSettings.LastLoadedProfilePath))
+            {
+                App.Settings.LoadSettings(App.Settings.AvalonSettings.LastLoadedProfilePath);
+                Conveyor.EchoLog($"Settings Loaded: {App.Settings.AvalonSettings.LastLoadedProfilePath}", LogType.Information);
+            }
+            else
+            {
+                if (string.IsNullOrWhiteSpace(App.Settings.AvalonSettings.LastLoadedProfilePath))
+                {
+                    Conveyor.EchoLog($"New Profile being created.", LogType.Information);
+                }
+                else
+                {
+                    Conveyor.EchoLog($"Last Profile Loaded Not Found: {App.Settings.AvalonSettings.LastLoadedProfilePath}", LogType.Warning);
+                }
+            }
+
 
             // TODO - Figure out a better way to inject a single Conveyor, maybe static in App?
             // Inject the Conveyor into the Triggers.

@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Avalon.Common.Colors;
 using Avalon.Common.Models;
 using Avalon.Common.Settings;
 
@@ -23,10 +24,13 @@ namespace Avalon.Common.Interfaces
 
         void EchoText(string text);
 
+        void EchoText(string text, AnsiColor foregroundColor, TerminalTarget terminal);
+
         void EchoText(string text, TerminalTarget target);
 
         void EchoText(Line line, TerminalTarget target);
 
+        void EchoLog(string text, LogType type);
 
         void SetTickTime(int value);
 

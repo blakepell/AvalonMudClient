@@ -4,6 +4,8 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using Avalon.Colors;
+using Avalon.Common.Colors;
 using Avalon.Extensions;
 using Avalon.Common.Models;
 
@@ -90,6 +92,7 @@ namespace Avalon
                 if (App.Settings.ProfileSettings.Variables[i].Key == key)
                 {
                     App.Settings.ProfileSettings.Variables.RemoveAt(i);
+
                     return;
                 }
             }
@@ -127,6 +130,17 @@ namespace Avalon
         public void EchoText(string text)
         {
             EchoText(text.ToLine(), TerminalTarget.Main);
+        }
+
+        /// <summary>
+        /// Writes output to the main terminal window.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="foregroundColor"></param>
+        /// <param name="terminal"></param>
+        public void EchoText(string text, AnsiColor foregroundColor, TerminalTarget terminal)
+        {
+            EchoText(text.ToLine().ForegroundColor = foregroundColor, terminal);
         }
 
         /// <summary>
@@ -173,6 +187,43 @@ namespace Avalon
 
                     break;
             }
+        }
+
+        /// <summary>
+        /// Echos a log line to the terminal.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="type"></param>
+        public void EchoLog(string text, LogType type)
+        {
+            var line = new Line
+            {
+                IgnoreLastColor = true,
+                ForegroundColor = AnsiColors.LightGray
+            };
+
+            switch (type)
+            {
+                case LogType.Information:
+                    line.FormattedText = $"[  {AnsiColors.Green}Info  {AnsiColors.LightGray}]  {text}\r\n";
+                    break;
+                case LogType.Success:
+                    line.FormattedText = $"[ {AnsiColors.Green}Success {AnsiColors.LightGray}] {text}\r\n";
+                    break;
+                case LogType.Warning:
+                    line.FormattedText = $"[ {AnsiColors.Yellow}Warning {AnsiColors.LightGray}] {text}\r\n";
+                    break;
+                case LogType.Error:
+                    line.FormattedText = $"[  {AnsiColors.Red}Error  {AnsiColors.LightGray}] {text}\r\n";
+                    break;
+                case LogType.Debug:
+                    line.FormattedText = $"[  {AnsiColors.Blue}Debug  {AnsiColors.LightGray}] {text}\r\n";
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
+
+            EchoText(line, TerminalTarget.Main);
         }
 
         /// <summary>

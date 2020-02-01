@@ -126,7 +126,6 @@ namespace Avalon.Common.Settings
             else
             {
                 // File existed, let's try to read it in.
-
                 try
                 {
                     // Load the file, then set it as the last loaded file -if- it existed.

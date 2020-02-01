@@ -63,7 +63,7 @@ namespace Avalon
             {
                 if (Telnet == null)
                 {
-                    EchoText("You are not connected to the game.", AnsiColors.Red);
+                    Conveyor.EchoLog("You are not connected to the game.", LogType.Error);
                     return;
                 }
 
@@ -105,13 +105,11 @@ namespace Avalon
                     }
                     else
                     {
-                        var hashCmd = HashCommands.Where(x => x.Name == item.FirstWord()).FirstOrDefault();
+                        var hashCmd = HashCommands.FirstOrDefault(x => x.Name == item.FirstWord());
 
                         if (hashCmd == null)
                         {
-                            EchoText("");
-                            EchoText($"--> Hash command '{item.FirstWord()}' was not found.", AnsiColors.Red);
-                            EchoText("");
+                            Conveyor.EchoLog($"Hash command '{item.FirstWord()}' was not found.\r\n", LogType.Error);
                         }
                         else
                         {
@@ -152,7 +150,8 @@ namespace Avalon
                     Telnet = null;
                 }
 
-                EchoText($"Connecting: {App.Settings.ProfileSettings.IpAddress}:{App.Settings.ProfileSettings.Port}\r\n", AnsiColors.Cyan);
+                Conveyor.EchoLog($"Connecting: {App.Settings.ProfileSettings.IpAddress}:{App.Settings.ProfileSettings.Port}", LogType.Information);
+
                 var ctc = new CancellationTokenSource();
                 Telnet = new TelnetClient(App.Settings.ProfileSettings.IpAddress, App.Settings.ProfileSettings.Port, TimeSpan.FromSeconds(0), ctc.Token);
                 Telnet.ConnectionClosed += connectionClosed;
@@ -163,7 +162,7 @@ namespace Avalon
             catch (Exception ex)
             {
                 Telnet.Dispose();
-                EchoText($"Connection Failed: {ex.Message}\r\n", AnsiColors.Red);
+                Conveyor.EchoLog($"Connection Failed: {ex.Message}", LogType.Error);
             }
 
         }
@@ -191,8 +190,7 @@ namespace Avalon
 
             if (_aliasRecursionDepth >= 5)
             {
-                EchoText($"--> Alias error: Reached max recursion depth of {_aliasRecursionDepth}.", AnsiColors.Red);
-                EchoText("", AnsiColors.Default);
+                Conveyor.EchoLog($"Alias error: Reached max recursion depth of {_aliasRecursionDepth}.\r\n", LogType.Error);
                 return new List<string>();
             }
 
