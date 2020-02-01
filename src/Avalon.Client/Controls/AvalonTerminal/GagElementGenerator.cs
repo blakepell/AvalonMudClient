@@ -98,8 +98,13 @@ namespace Avalon.Controls
             }
 
             // TODO - Performance Will running this linq query every time get slow?  Do we need to manually add the gag triggers in only when updated?
-            foreach (var trigger in App.Settings.ProfileSettings.TriggerList.Where(x => x.Gag == true && x.Enabled == true))
-            { 
+            // Once a trigger is found that this thing basically gets out.  It might behoof us here to run the system triggers
+            // first and maybe have a priority sequence so they can be run in a certain order.  The example being, the prompt
+            // will be gagged the most, it should run first and if it is, nothing else has to run here.
+
+            // System Triggers moved to be first.
+            foreach (var trigger in App.SystemTriggers.Where(x => x.Gag == true && x.Enabled == true))
+            {
                 // These triggers match for the gag but do NOT execute the trigger's command (VERY important because it would cause the triggers
                 // to get fired multiple times as the line is re-rendered on the screen.. that is -bad-).
                 if (trigger.IsMatch(_sb.ToString(), true))
@@ -109,8 +114,9 @@ namespace Avalon.Controls
                 }
             }
 
-            foreach (var trigger in App.SystemTriggers.Where(x => x.Gag == true && x.Enabled == true))
-            {
+            // Regular triggers
+            foreach (var trigger in App.Settings.ProfileSettings.TriggerList.Where(x => x.Gag == true && x.Enabled == true))
+            { 
                 // These triggers match for the gag but do NOT execute the trigger's command (VERY important because it would cause the triggers
                 // to get fired multiple times as the line is re-rendered on the screen.. that is -bad-).
                 if (trigger.IsMatch(_sb.ToString(), true))
