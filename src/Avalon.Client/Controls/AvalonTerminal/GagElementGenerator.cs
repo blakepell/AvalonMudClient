@@ -42,15 +42,24 @@ namespace Avalon.Controls
                 // it from the collection that's tracking the collapsed lines, we don't need to track it anymore.
                 if (value == false)
                 {
-
-                    foreach (int key in CollapsedLineSections.Keys)
-                    {
-                        CollapsedLineSections[key].Uncollapse();
-                        CollapsedLineSections.Remove(key);
-                    }
+                    this.UncollapseAll();
                 }
 
                 _enabled = value;
+            }
+        }
+
+        /// <summary>
+        /// Uncollapses all of the lines.  Generally this is done when the control's gagging is disabled but
+        /// it also needs to be done if the triggers that are enforcing gagging have changed to be off.  It basically
+        /// needs a reset so it can re-calculate what should be gagged at that point.
+        /// </summary>
+        public void UncollapseAll()
+        {
+            foreach (int key in CollapsedLineSections.Keys)
+            {
+                CollapsedLineSections[key].Uncollapse();
+                CollapsedLineSections.Remove(key);
             }
         }
 
@@ -59,6 +68,16 @@ namespace Avalon.Controls
             // Don't process if the AppSettings are null or triggers are disabled.
             if (App.Settings.ProfileSettings.TriggersEnabled == false || this.Enabled == false)
             {
+                // If triggers were globally shut off some how and we're tracking collapsed lines uncollapse all of them.
+                // If we don't do this AvalonEdit will crash.  Whenever triggers are re-enabled all of the gagging will
+                // be re-applied (the content of what was moved from this terminal stays in the other terminals which probably
+                // will have gagging disabled nearly always since the main point of gagging is to cleanup the main terminal
+                // and organize what's coming in).
+                if (this.CollapsedLineSections.Count > 0)
+                {
+                    this.UncollapseAll();
+                }
+
                 return -1;
             }
 
