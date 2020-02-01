@@ -1,0 +1,19 @@
+﻿<ui:ContentDialog
+    x:Class="Avalon.YesNoDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="http://schemas.modernwpf.com/2019"
+    Title="Are you sure?"
+    PrimaryButtonText="No"
+    SecondaryButtonText="Yes"
+    DefaultButton="Secondary">
+
+    <StackPanel
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch">
+        <!-- Content body -->
+        <TextBlock Text="Are you sure you want to import data from this profile?"
+                   TextWrapping="Wrap" />
+    </StackPanel>
+
+</ui:ContentDialog>
