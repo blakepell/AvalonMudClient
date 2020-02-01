@@ -133,5 +133,14 @@ namespace Avalon.Controls
             }
         }
 
+        /// <summary>
+        /// A cell has been edited.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DataList_OnCellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            App.MainWindow.RefreshAutoCompleteEntries();
+        }
     }
 }

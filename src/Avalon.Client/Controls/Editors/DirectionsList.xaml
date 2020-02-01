@@ -31,7 +31,8 @@
                   Margin="5,0,5,5"
                   CanUserAddRows="True"
                   AutoGenerateColumns="False"
-                  GridLinesVisibility="All">
+                  GridLinesVisibility="All"
+                  CellEditEnding="DataList_OnCellEditEnding">
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>

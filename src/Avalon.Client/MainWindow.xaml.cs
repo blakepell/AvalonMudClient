@@ -163,16 +163,7 @@ namespace Avalon
 
             // Setup the auto complete commands.  If they're found refresh them, if they're not
             // report it to the terminal window.  It should -always be found-.
-            var ac = this.Resources["AutoCompleteCommandProvider"] as AutoCompleteCommandProvider;
-
-            if (ac != null)
-            {
-                ac.RefreshAutoCompleteEntries();
-            }
-            else
-            {
-                this.GameTerminal.Append("Warning: AutoCompleteCommandProvider was not found.", AnsiColors.Yellow);
-            }
+            RefreshAutoCompleteEntries();
 
             // Auto connect to the game if the setting is set.
             if (App.Settings.ProfileSettings.AutoConnect)
@@ -240,6 +231,23 @@ namespace Avalon
                         this.Conveyor.EchoText($"   => {pluginInstance.Triggers.Count()} Triggers Loaded\r\n");
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Refreshes the auto complete values.
+        /// </summary>
+        public void RefreshAutoCompleteEntries()
+        {
+            var ac = this.Resources["AutoCompleteCommandProvider"] as AutoCompleteCommandProvider;
+
+            if (ac != null)
+            {
+                ac.RefreshAutoCompleteEntries();
+            }
+            else
+            {
+                this.GameTerminal.Append("Warning: AutoCompleteCommandProvider was not found.", AnsiColors.Yellow);
             }
         }
 
