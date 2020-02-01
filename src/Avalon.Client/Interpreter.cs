@@ -404,7 +404,8 @@ namespace Avalon
             {
                 Text = $"{text}\r\n",
                 UseDefaultColors = true,
-                ForegroundColor = AnsiColors.Default
+                ForegroundColor = AnsiColors.Default,
+                Terminal = TerminalTarget.Main
             };
 
             this.OnEcho(e);
@@ -422,6 +423,7 @@ namespace Avalon
                 Text = $"{text}\r\n",
                 UseDefaultColors = false,
                 ForegroundColor = foregroundColor,
+                Terminal = TerminalTarget.Main
             };
 
             this.OnEcho(e);
@@ -440,7 +442,29 @@ namespace Avalon
                 Text = $"{text}\r\n",
                 UseDefaultColors = false,
                 ForegroundColor = foregroundColor,
-                ReverseColors = reverseColors
+                ReverseColors = reverseColors,
+                Terminal = TerminalTarget.Main
+            };
+
+            this.OnEcho(e);
+        }
+
+        /// <summary>
+        /// Tells the implementing window or form that it needs to echo some text to it's terminal.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="foregroundColor"></param>
+        /// <param name="reverseColors"></param>
+        /// <param name="terminal">The terminal that the main window should try to echo to.</param>
+        public void EchoText(string text, AnsiColor foregroundColor, bool reverseColors, TerminalTarget terminal)
+        {
+            var e = new EchoEventArgs
+            {
+                Text = $"{text}\r\n",
+                UseDefaultColors = false,
+                ForegroundColor = foregroundColor,
+                ReverseColors = reverseColors,
+                Terminal = terminal
             };
 
             this.OnEcho(e);

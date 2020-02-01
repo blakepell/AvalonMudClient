@@ -4,6 +4,7 @@ using System.Windows;
 using Avalon.Colors;
 using Avalon.Common.Colors;
 using Avalon.Common.Models;
+using Avalon.Controls;
 using Avalon.Utilities;
 
 namespace Avalon
@@ -124,21 +125,47 @@ namespace Avalon
         }
 
         /// <summary>
-        /// Handles text from the interpreter that needs to be echo'd out to the terminal.
+        /// Handles text from the interpreter that needs to be echo'd out to the terminal.  This text
+        /// does not get checked for triggers, it's an echo that's coming from the interpreter or
+        /// the possibly the Conveyor.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void InterpreterEcho(object sender, EventArgs e)
         {
             var ea = e as EchoEventArgs;
+            AvalonTerminal term;
+
+            if (ea == null)
+            {
+                GameTerminal.Append("--> Error: Null EchoEventArgs in InterpreterEcho", AnsiColors.Red);
+                return;
+            }
+
+            switch (ea.Terminal)
+            {
+                case TerminalTarget.None:
+                case TerminalTarget.Main:
+                    term = GameTerminal;
+                    break;
+                case TerminalTarget.Communication:
+                    term = CommunicationTerminal;
+                    break;
+                case TerminalTarget.OutOfCharacterCommunication:
+                    term = OocCommunicationTerminal;
+                    break;
+                default:
+                    term = GameTerminal;
+                    break;
+            }
 
             if (ea.UseDefaultColors)
             {
-                GameTerminal.Append(ea.Text);
+                term.Append(ea.Text);
             }
             else
             {
-                GameTerminal.Append(ea.Text, ea.ForegroundColor, ea.ReverseColors);
+                term.Append(ea.Text, ea.ForegroundColor, ea.ReverseColors);
             }
         }
 
