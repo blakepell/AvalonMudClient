@@ -16,6 +16,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Plugins;
+using ModernWpf.Controls;
 using Newtonsoft.Json;
 
 namespace Avalon
@@ -392,7 +393,7 @@ namespace Avalon
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ButtonImportProfile_OnClick(object sender, RoutedEventArgs e)
+        private async void ButtonImportProfile_OnClickAsync(object sender, RoutedEventArgs e)
         {
             // TODO - Instead of a straight import everything have this do an upsert if there are matching guids so that packages can be updated.
             try
@@ -403,6 +404,23 @@ namespace Avalon
 
                 if (dialog.ShowDialog() == true)
                 {
+                    var confirmDialog = new YesNoDialog()
+                    {
+                        Title = "Are you sure?",
+                        Content = $"Are you sure you want to import from: {Argus.IO.FileSystemUtilities.ExtractFileName(dialog.FileName)}?",
+                        PrimaryButtonText = "Yes",
+                        SecondaryButtonText = "No"
+                    };
+
+                    var result = await confirmDialog.ShowAsync();
+
+                    if (result == ContentDialogResult.Secondary)
+                    {
+                        Interp.EchoText("");
+                        Interp.EchoText($"--> Cancelled Import\r\n", AnsiColors.Cyan);
+                        return;
+                    }
+
                     // Load the file, then set it as the last loaded file -if- it existed.
                     string json = File.ReadAllText(dialog.FileName);
                     var settings = JsonConvert.DeserializeObject<ProfileSettings>(json);
