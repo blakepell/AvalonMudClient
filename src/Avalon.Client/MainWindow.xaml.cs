@@ -86,6 +86,7 @@ namespace Avalon
 
             // The settings for the app load in the app startup, they will then try to load the last profile
             // that was used.
+            Conveyor.EchoLog($"Avalon Mud Client Version {Assembly.GetExecutingAssembly()?.GetName()?.Version.ToString() ?? "Unknown"}", LogType.Information);
             Conveyor.EchoLog($"Settings Folder: {App.Settings.AppDataDirectory}", LogType.Information);
             Conveyor.EchoLog($"Settings File:   {App.Settings.AvalonSettingsFile}", LogType.Information);
             Conveyor.EchoLog($"Profiles Folder: {App.Settings.AvalonSettings.SaveDirectory}", LogType.Information);
