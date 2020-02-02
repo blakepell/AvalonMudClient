@@ -112,13 +112,9 @@ namespace Avalon
                 }
             }
 
-
-            // TODO - Figure out a better way to inject a single Conveyor, maybe static in App?
-            // Inject the Conveyor into the Triggers.
-            foreach (var trigger in App.Settings.ProfileSettings.TriggerList)
-            {
-                trigger.Conveyor = Conveyor;
-            }
+            // Inject the Conveyor into the Triggers so the Triggers know how to talk to the UI.  Not doing this
+            // causes ya know, problems.
+            TriggersList.TriggerConveyorSetup();
 
             // Wire up any events that have to be wired up through code.
             TextInput.Editor.PreviewKeyDown += this.Editor_PreviewKeyDown;

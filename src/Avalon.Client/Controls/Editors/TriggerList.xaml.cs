@@ -71,6 +71,9 @@ namespace Avalon.Controls
         {
             DataList.ItemsSource = null;
             DataList.ItemsSource = App.Settings.ProfileSettings.TriggerList;
+
+            TriggerConveyorSetup();
+
             DataList.Items.Refresh();
 
             // Manually setup the bindings.  I couldn't get it to work in the Xaml because the AppSettings gets replaced
@@ -85,6 +88,28 @@ namespace Avalon.Controls
 
             BindingOperations.ClearAllBindings(CheckBoxTriggersEnabled);
             BindingOperations.SetBinding(CheckBoxTriggersEnabled, CheckBox.IsCheckedProperty, binding);
+        }
+
+        /// <summary>
+        /// Sets all triggers up with the Conveyor from the MainWindow if they haven't been wired up already.
+        /// </summary>
+        public void TriggerConveyorSetup()
+        {
+            if (App.Settings?.ProfileSettings?.TriggerList == null)
+            {
+                return;
+            }
+
+            foreach (var trigger in App.Settings.ProfileSettings.TriggerList)
+            {
+                if (trigger.Conveyor == null)
+                {
+                    if (App.MainWindow?.Conveyor != null)
+                    {
+                        trigger.Conveyor = App.MainWindow.Conveyor;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -165,6 +190,16 @@ namespace Avalon.Controls
             {
                 trigger.Command = win.Text;
             }
+        }
+
+        /// <summary>
+        /// When a cell is done being edited ensure that all of the Triggers have Conveyors setup.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DataList_OnCellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            TriggerConveyorSetup();
         }
 
     }
