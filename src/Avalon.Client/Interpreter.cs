@@ -196,16 +196,7 @@ namespace Avalon
 
             // Swap known variables out, both system and user defined. Strings are immutable but if no variable
             // is found it won't create a new string, it will return the reference to the current one.
-            if (cmd.Contains("@"))
-            {
-                cmd = cmd.Replace("@Username", App.Settings.ProfileSettings.Username);
-                cmd = cmd.Replace("@Password", App.Settings.ProfileSettings.Password);
-                
-                foreach (var item in App.Settings.ProfileSettings.Variables)
-                {
-                    cmd = cmd.Replace($"@{item.Key}", item.Value);
-                }
-            }
+            cmd = this.Conveyor.ReplaceVariablesWithValue(cmd);
 
             // Get the current character
             string characterName = Conveyor.GetVariable("Character");

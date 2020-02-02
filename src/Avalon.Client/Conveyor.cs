@@ -1,10 +1,10 @@
-﻿using Avalon.Common.Interfaces;
+﻿using Argus.Extensions;
+using Avalon.Common.Interfaces;
 using Avalon.Common.Settings;
 using System;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using Avalon.Colors;
 using Avalon.Common.Colors;
 using Avalon.Extensions;
 using Avalon.Common.Models;
@@ -74,6 +74,10 @@ namespace Avalon
                 {
                     sb.Replace($"@{item.Key}", item.Value);
                 }
+
+                // Custom variables such as date or computer environmental like the current username.
+                sb.Replace("@date", DateTime.Now.ToFileNameFriendlyFormat(false));
+                sb.Replace("@username", Environment.UserName);
 
                 return sb.ToString();
             }
