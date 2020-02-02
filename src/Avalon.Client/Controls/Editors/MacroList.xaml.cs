@@ -67,7 +67,7 @@ namespace Avalon.Controls
         private void _typingTimer_Tick(object sender, EventArgs e)
         {
             _typingTimer.Stop();
-            ((ListCollectionView)DataList.ItemsSource).Refresh();
+            ((ListCollectionView)DataList?.ItemsSource)?.Refresh();
         }
 
         /// <summary>
