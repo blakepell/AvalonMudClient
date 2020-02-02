@@ -38,27 +38,21 @@ namespace Avalon.HashCommands
                                    {
                                        case BeepType.Beep:
                                            SystemSounds.Beep.Play();
-
                                            return;
                                        case BeepType.Asterisk:
                                            SystemSounds.Asterisk.Play();
-
                                            return;
                                        case BeepType.Exclamation:
                                            SystemSounds.Exclamation.Play();
-
                                            return;
                                        case BeepType.Hand:
                                            SystemSounds.Hand.Play();
-
                                            return;
                                        case BeepType.Question:
                                            SystemSounds.Question.Play();
-
                                            return;
                                        default:
                                            SystemSounds.Beep.Play();
-
                                            return;
                                    }
                                });
@@ -81,14 +75,13 @@ namespace Avalon.HashCommands
         }
 
         /// <summary>
-        /// The supported command line arguments for this application.
+        /// The supported command line arguments the #beep hash command.
         /// </summary>
         public class BeepArguments
         {
             [Option('t', "type", Required = false, HelpText = "The type of system beep: [Beep|Asterisk|Exclamation|Hand|Question]")]
             public BeepType BeepType { get; set; }
         }
-
 
     }
 }
