@@ -2,10 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Version>2020.1.30.1</Version>
+    <Version>2020.2.2.1</Version>
     <Authors>Blake Pell</Authors>
     <Company>Blake Pell</Company>
     <Product>Dark and Shattered Lands Plugin for Avalon Mud Client</Product>
+    <PackageProjectUrl>https://github.com/blakepell/AvalonMudClient</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/blakepell/AvalonMudClient</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
