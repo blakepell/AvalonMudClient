@@ -1,7 +1,9 @@
-﻿using System.Media;
+﻿using System;
+using System.Media;
 using Argus.Extensions;
 using Avalon.Common.Colors;
 using Avalon.Common.Interfaces;
+using CommandLine;
 
 namespace Avalon.HashCommands
 {
@@ -28,37 +30,65 @@ namespace Avalon.HashCommands
                 return;
             }
 
-            if (!this.Parameters.IsNumeric())
-            {
-                Interpreter.EchoText($"--> Syntax: #beep <1, 2, 3, 4, 5>", AnsiColors.Red);
-                return;
-            }
+            // Parse the arguments and append to the file.
+            var result = Parser.Default.ParseArguments<BeepArguments>(CreateArgs(this.Parameters))
+                               .WithParsed(o =>
+                               {
+                                   switch (o.BeepType)
+                                   {
+                                       case BeepType.Beep:
+                                           SystemSounds.Beep.Play();
 
-            int beepType = int.Parse(this.Parameters);
+                                           return;
+                                       case BeepType.Asterisk:
+                                           SystemSounds.Asterisk.Play();
 
-            switch (beepType)
-            {
-                case 1:
-                    SystemSounds.Beep.Play();
-                    return;
-                case 2:
-                    SystemSounds.Asterisk.Play();
-                    return;
-                case 3:
-                    SystemSounds.Exclamation.Play();
-                    return;
-                case 4:
-                    SystemSounds.Hand.Play();
-                    return;
-                case 5:
-                    SystemSounds.Question.Play();
-                    return;
-            }
+                                           return;
+                                       case BeepType.Exclamation:
+                                           SystemSounds.Exclamation.Play();
 
-            // Default if anything other than 1-5 was entered.
-            SystemSounds.Beep.Play();
+                                           return;
+                                       case BeepType.Hand:
+                                           SystemSounds.Hand.Play();
+
+                                           return;
+                                       case BeepType.Question:
+                                           SystemSounds.Question.Play();
+
+                                           return;
+                                       default:
+                                           SystemSounds.Beep.Play();
+
+                                           return;
+                                   }
+                               });
+
+            // Display the help or error output from the parameter parsing.
+            this.DisplayParserOutput(result);
 
         }
+
+        /// <summary>
+        /// The types of beeps/alerts that are supported via the system.
+        /// </summary>
+        public enum BeepType
+        {
+            Beep,
+            Asterisk,
+            Exclamation,
+            Hand,
+            Question
+        }
+
+        /// <summary>
+        /// The supported command line arguments for this application.
+        /// </summary>
+        public class BeepArguments
+        {
+            [Option('t', "type", Required = false, HelpText = "The type of system beep: [Beep|Asterisk|Exclamation|Hand|Question]")]
+            public BeepType BeepType { get; set; }
+        }
+
 
     }
 }
