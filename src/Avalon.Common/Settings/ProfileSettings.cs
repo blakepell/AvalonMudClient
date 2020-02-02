@@ -34,26 +34,6 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public bool AutoConnect { get; set; } = true;
 
-        [CategoryAttribute("Login")]
-        [DescriptionAttribute("Whether the client should try to auto login with triggers.")]
-        [Browsable(true)]
-        public bool AutoLogin { get; set; } = false;
-
-        [CategoryAttribute("Login")]
-        [DescriptionAttribute("The username that auto login will use.")]
-        [Browsable(true)]
-        public string Username { get; set; } = "";
-
-        [CategoryAttribute("Login")]
-        [DescriptionAttribute("The password that auto login will use.")]
-        [Browsable(true)]
-        public string Password { get; set; } = "";
-
-        [CategoryAttribute("Login")]
-        [DescriptionAttribute("Whether the client should try to skip the MOTD.")]
-        [Browsable(true)]
-        public bool SkipMotd { get; set; } = false;
-
         private bool _aliasesEnabled = true;
 
         [Browsable(false)]

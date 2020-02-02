@@ -366,9 +366,8 @@ namespace Avalon
                     Interp.EchoText("");
                     Interp.EchoText($"--> Loaded {dialog.FileName}.\r\n", AnsiColors.Cyan);
 
-                    // Auto connect if it's setup to do so (this will disconnect from the previous server if it
-                    // was connected.
-                    if (App.Settings.ProfileSettings.AutoLogin)
+                    // Auto connect if it's setup to do so (this will disconnect from the previous server if it was connected.
+                    if (App.Settings.ProfileSettings.AutoConnect)
                     {
                         Disconnect();
                         Connect();
