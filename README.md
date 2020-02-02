@@ -7,7 +7,7 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
  - Langauge: C# / WPF for .Net Core 3.1
  - OS Support: Windows 7, 8.1, 10 (1607+)
  
- ### Key Features
+### Key Features
  
  - Aliases (simple and regular expression)
  - Triggers (simple and regular expression)
@@ -15,9 +15,10 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
  - LUA (LUA can be inlined as alias or trigger commands with extended UI commands exposed)
  - Colored syntax editor for LUA
  - Directions support
- - Global variable support in and outside of LUA. 
+ - Global variable support in and outside of LUA that persists beyond mud sessions (Avalon also has temp variable support). 
  - Plugin ability (extend Avalon by writing your own C# plugins)
  - Opinionated UI with terminals for the main content as well as different communication types.
+ - Custom scraping that can be easily turned on and off via hash commands/LUA and then piped to variables (imagine an alias that scraped notes into a database for posterity, etc.).
 
 ### Open Source Packages
 
@@ -29,15 +30,25 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
  - [WPF-AutoComplete-TextBox](https://github.com/quicoli/WPF-AutoComplete-TextBox) (MIT)
  - [TentacleSoftware.Telnet](https://github.com/Spksh/TentacleSoftware.Telnet) (Apache v2)
  
-### Roadmap
- 
- - SQLite DB Support (including a SQL query editor)
+### Short Term Roadmap
+
+ - SQLite DB Support (including a SQLite query editor control that I also plan to open source as it's own NuGet package) 
+ - Plugin support will change a bit over the short term.  Plugins will support JSON for Triggers/Aliases/Lua and C# for things that need UI components or a robust programming model/framework.  The ability to add a user control from a plugin straight into the UI will be a priority.  I think this will be incredibly easy to use and a powerful to extend the UI outside of my realm.
+ - The ability to easy search for community based triggers, aliases and scripts for import.
  - Additional Hash Commands
  - Documentation
  - Publish binary for initial alpha release (self contained EXE)
+ - Touch scrolling to be enabled for touch screen devices.
+ - Figure out the best deployment mechanism or subsets of deployment mechansims.
+
+### Long Term Roadmap
+
+ - The UI is already 4K/high resolution friendly.  Provide additional layouts for high resolution monitors that surface more content areas the user can pipe data or import plugins into.
+ - Publish this app on the Windows Store free of charge.
+ - Use the shared components to start a Xamarin forms project that can be deployed to Android/iOS as well as Avalonia for an OSX deployment.
  
 ### License
  
  The Avalon Mud Client is being released under a modified MIT license with an additional clause
- requiring credit to the original author.  E.g. this means the licnese should be flexible enough
+ requiring credit to the original author (me).  E.g. this means the licnese should be flexible enough
  to do what you need to do with it.
