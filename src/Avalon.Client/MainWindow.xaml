@@ -14,7 +14,8 @@
         x:Name="mainPage" TextOptions.TextFormattingMode="Ideal"
         ui:TitleBar.Background="#1E1E1E"
         Loaded="MainWindow_Loaded"
-        Initialized="MainWindow_OnInitialized" UseLayoutRounding="True"
+        Initialized="MainWindow_OnInitialized" 
+        UseLayoutRounding="True" SnapsToDevicePixels="True" RenderOptions.EdgeMode="Aliased"
         PreviewKeyDown="MainWindow_OnPreviewKeyDown"
         >
     <Window.Resources>

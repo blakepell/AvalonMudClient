@@ -50,10 +50,11 @@
                                 <ui:SymbolIcon Name="SettingsSymbol" Foreground="LightGray" Symbol="Setting" />
                             </Viewbox>
                         </Button>
+                        <!-- The .9 is weird on the border thickness but fixes a weird double pixel border on 4k monitors -->
                         <Border 
                             Name="Border" 
                             Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
-                            BorderThickness="0"
+                            BorderThickness="0,.9,0,0"
                             CornerRadius="0" 
                             KeyboardNavigation.TabNavigation="Local"
                             KeyboardNavigation.DirectionalNavigation="Contained"
