@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Avalon"
         xmlns:swf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:ui="http://schemas.modernwpf.com/2019"
-        ui:WindowHelper.UseModernWindowStyle="True" 
+        ui:WindowHelper.UseModernWindowStyle="True" UseLayoutRounding="True"
         ui:TitleBar.Background="#1E1E1E" Background="#2D2D30" BorderBrush="#007ACC"
         mc:Ignorable="d"
         Loaded="SettingsWindow_OnLoaded"
@@ -30,8 +30,6 @@
                     <TextBlock x:Name="TextSettingsFilename"></TextBlock>
                 </StatusBar>
             </StackPanel>
-
         </Grid>
-
     </Grid>
 </Window>

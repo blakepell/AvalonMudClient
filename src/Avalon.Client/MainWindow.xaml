@@ -14,7 +14,7 @@
         x:Name="mainPage" TextOptions.TextFormattingMode="Ideal"
         ui:TitleBar.Background="#1E1E1E"
         Loaded="MainWindow_Loaded"
-        Initialized="MainWindow_OnInitialized"
+        Initialized="MainWindow_OnInitialized" UseLayoutRounding="True"
         PreviewKeyDown="MainWindow_OnPreviewKeyDown"
         >
     <Window.Resources>
@@ -42,7 +42,7 @@
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </TabControl.Resources>
-            <controls:TabItemEx x:Name="TabGame" Header="Game" Icon="Home" ui:ControlHelper.CornerRadius="0" Padding="0">
+            <controls:TabItemEx x:Name="TabGame" Header="Game" Icon="Home" ui:ControlHelper.CornerRadius="0">
                 <Grid Margin="-3">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
