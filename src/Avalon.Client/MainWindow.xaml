@@ -136,7 +136,7 @@
                         KeyDown="Terminal_OnKeyDown">
                     </controls:AvalonTerminal>
 
-                    <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="White" BorderThickness="0,.5,0,0">
+                    <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="0,.9,0,0">
                         <controls:InfoBar x:Name="InfoBar" x:FieldModifier="public" Background="#171717"></controls:InfoBar>
                     </Border>
 
