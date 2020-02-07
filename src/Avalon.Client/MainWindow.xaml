@@ -73,6 +73,11 @@
                                         <ui:SymbolIcon Symbol="SyncFolder" />
                                     </MenuItem.Icon>
                                 </MenuItem>
+                                <MenuItem Header="Open Plugins Folder" Click="MenuItemOpenPluginsFolderAsync_Click">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon Symbol="SyncFolder" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
                             </MenuItem>
                             <Separator />
                             <MenuItem Header="_Open Profile" x:Name="ButtonOpenProfile" Click="ButtonOpenProfile_OnClick">

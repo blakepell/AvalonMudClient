@@ -536,7 +536,26 @@ namespace Avalon
             {
                 await MsgBox(ex.Message, "Open Directory Error");
             }
-
         }
+
+        private async void MenuItemOpenPluginsFolderAsync_Click(object sender, RoutedEventArgs e)
+        {
+            // Check to see if the directory exists (it mostly likely should)
+            if (!Directory.Exists(App.Settings.AvalonSettings.SaveDirectory))
+            {
+                await MsgBox($"The plugins folder was not found at:\r\n\r\n{App.Settings.PluginDirectory}", "Directory not found");
+                return;
+            }
+
+            try
+            {
+                Process.Start("explorer.exe", App.Settings.PluginDirectory);
+            }
+            catch (Exception ex)
+            {
+                await MsgBox(ex.Message, "Open Directory Error");
+            }
+        }
+
     }
 }
