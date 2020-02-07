@@ -186,12 +186,26 @@ namespace Avalon
                 // Load the assembly
                 var assembly = Assembly.LoadFrom(file);
 
-                // Get the plugins
-                var plugins = assembly.GetTypes().Where(x => pluginType.IsAssignableFrom(x));
+                // Get the plugins, don't load abstract classes or interfaces.
+                var plugins = assembly.GetTypes().Where(x => pluginType.IsAssignableFrom(x)
+                                                             && !x.IsAbstract
+                                                             && !x.IsInterface);
 
                 foreach (var plugin in plugins)
                 {
-                    var pluginInstance = (Plugin)Activator.CreateInstance(plugin);
+                    this.Conveyor.EchoLog($"Plugin File Found: {Argus.IO.FileSystemUtilities.ExtractFileName(file)}", LogType.Information);
+
+                    Plugin pluginInstance;
+
+                    try
+                    {
+                        pluginInstance = (Plugin)Activator.CreateInstance(plugin);
+                    }
+                    catch (Exception ex)
+                    {
+                        this.Conveyor.EchoLog($"Plugin Load Error: {ex.Message}", LogType.Error);
+                        continue;
+                    }
 
                     // The IP address specified in the plugin matches the IP address we're connecting to.
                     if (pluginInstance.IpAddress.ToUpper() == App.Settings.ProfileSettings.IpAddress.ToUpper())
@@ -207,9 +221,8 @@ namespace Avalon
                             App.SystemTriggers.Add(trigger);
                         }
 
-                        this.Conveyor.EchoText($"Plugin File: {Argus.IO.FileSystemUtilities.ExtractFileName(file)}\r\n");
-                        this.Conveyor.EchoText($"   => Plugins For: {pluginInstance.IpAddress}\r\n");
-                        this.Conveyor.EchoText($"   => {pluginInstance.Triggers.Count()} Triggers Loaded\r\n");
+                        this.Conveyor.EchoLog($"Plugins Loaded For: {pluginInstance.IpAddress}", LogType.Success);
+                        this.Conveyor.EchoLog($"   => {pluginInstance.Triggers.Count()} Triggers Loaded", LogType.Success);
                     }
                 }
             }
