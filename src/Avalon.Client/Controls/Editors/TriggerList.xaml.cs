@@ -69,8 +69,13 @@ namespace Avalon.Controls
         /// </summary>
         public void Reload()
         {
+            var lcv = new ListCollectionView(App.Settings.ProfileSettings.TriggerList)
+            {
+                Filter = Filter
+            };
+
             DataList.ItemsSource = null;
-            DataList.ItemsSource = App.Settings.ProfileSettings.TriggerList;
+            DataList.ItemsSource = lcv;
 
             TriggerConveyorSetup();
 

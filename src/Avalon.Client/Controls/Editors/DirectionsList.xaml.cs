@@ -51,8 +51,13 @@ namespace Avalon.Controls
         /// </summary>
         public void Reload()
         {
+            var lcv = new ListCollectionView(App.Settings.ProfileSettings.DirectionList)
+            {
+                Filter = Filter
+            };
+
             DataList.ItemsSource = null;
-            DataList.ItemsSource = App.Settings.ProfileSettings.DirectionList;
+            DataList.ItemsSource = lcv;
         }
 
         /// <summary>

@@ -50,8 +50,13 @@ namespace Avalon.Controls
         /// </summary>
         public void Reload()
         {
+            var lcv = new ListCollectionView(App.Settings.ProfileSettings.MacroList)
+            {
+                Filter = Filter
+            };
+
             DataList.ItemsSource = null;
-            DataList.ItemsSource = App.Settings.ProfileSettings.MacroList;
+            DataList.ItemsSource = lcv;
             DataList.Items.Refresh();
         }
 

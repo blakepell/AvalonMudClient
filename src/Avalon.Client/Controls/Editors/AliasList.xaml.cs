@@ -70,8 +70,13 @@ namespace Avalon.Controls
         /// </summary>
         public void Reload()
         {
+            var lcv = new ListCollectionView(App.Settings.ProfileSettings.AliasList)
+            {
+                Filter = Filter
+            };
+
             DataList.ItemsSource = null;
-            DataList.ItemsSource = App.Settings.ProfileSettings.AliasList;
+            DataList.ItemsSource = lcv;
             DataList.Items.Refresh();
 
             // Manually setup the bindings.  I couldn't get it to work in the Xaml because the AppSettings gets replaced
