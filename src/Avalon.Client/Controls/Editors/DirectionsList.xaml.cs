@@ -148,6 +148,7 @@ namespace Avalon.Controls
         /// <param name="e"></param>
         private void DataList_OnCellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
+            // A direction has been edited possibly, go ahead and refresh the auto complete entries.
             App.MainWindow.RefreshAutoCompleteEntries();
         }
     }

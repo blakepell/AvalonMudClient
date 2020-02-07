@@ -362,6 +362,9 @@ namespace Avalon
                     TriggersList.Reload();
                     VariableList.Reload();
 
+                    // We have a new profile, refresh the auto complete command list.
+                    RefreshAutoCompleteEntries();
+
                     // Show the user that the profile was successfully loaded.
                     Interp.EchoText("");
                     Interp.EchoText($"--> Loaded {dialog.FileName}.\r\n", AnsiColors.Cyan);
