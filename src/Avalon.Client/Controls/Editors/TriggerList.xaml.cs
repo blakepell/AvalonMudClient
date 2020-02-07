@@ -177,6 +177,9 @@ namespace Avalon.Controls
 
             win.EditorMode = StringEditor.EditorType.Text;
 
+            // Show what trigger is being edited in the status bar of the string editor window.
+            win.StatusText = $"Trigger: {trigger.Pattern}";
+
             // Show the Lua dialog.
             var result = win.ShowDialog();
 

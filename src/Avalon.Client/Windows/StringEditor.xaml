@@ -8,26 +8,32 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="True" 
         x:Name="StringEditorWindow" TextOptions.TextFormattingMode="Ideal"
-        ui:TitleBar.Background="#1E1E1E" Background="#2D2D30"
+        ui:TitleBar.Background="#1E1E1E" Background="#2D2D30" BorderBrush="#007ACC"
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
         Title="Editor" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="74"></RowDefinition>
         </Grid.RowDefinitions>
 
+        <!-- 1 pixel left margin was so the left border of the window will render -->
         <avalonedit:TextEditor
             x:Name="AvalonLuaEditor" ShowLineNumbers="True" WordWrap="False"
             Grid.Row="0"
             FontFamily="Consolas" IsReadOnly="False"
-            Padding="0,0,0,0"
+            Padding="0,0,0,0" Margin="1,0,0,0"
             FontSize="10pt" Grid.Column="0" BorderBrush="White">
         </avalonedit:TextEditor>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
-            <Button ui:ControlHelper.CornerRadius="0" Margin="5,5,5,5" Width="100" x:Name="ButtonCancel" Click="ButtonCancel_OnClick">Cancel</Button>
-            <Button ui:ControlHelper.CornerRadius="0" Margin="5,5,5,5" Width="100" x:Name="ButtonSave" Click="ButtonSave_OnClick">Save</Button>
+        <StackPanel Grid.Row="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button ui:ControlHelper.CornerRadius="0" Margin="5,10,5,10" Width="100" x:Name="ButtonCancel" Click="ButtonCancel_OnClick">Cancel</Button>
+                <Button ui:ControlHelper.CornerRadius="0" Margin="5,10,5,10" Width="100" x:Name="ButtonSave" Click="ButtonSave_OnClick">Save</Button>
+            </StackPanel>
+            <StatusBar Background="#007ACC" Foreground="White">
+                <TextBlock x:Name="TextBlockStatus" Text="" TextWrapping="NoWrap"></TextBlock>
+            </StatusBar>
         </StackPanel>
     </Grid>
 </Window>

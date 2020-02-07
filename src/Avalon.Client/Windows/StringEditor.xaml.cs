@@ -20,6 +20,15 @@ namespace Avalon
             set => AvalonLuaEditor.Text = value;
         }
 
+        /// <summary>
+        /// The text for the status bar.
+        /// </summary>
+        public string StatusText
+        {
+            get => TextBlockStatus.Text;
+            set => TextBlockStatus.Text = value;
+        }
+
         private EditorType _editorMode;
 
         public EditorType EditorMode
@@ -52,7 +61,7 @@ namespace Avalon
                 }
             }
         }
-
+        
         public enum EditorType
         {
             Text,

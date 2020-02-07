@@ -157,6 +157,9 @@ namespace Avalon.Controls
                 win.EditorMode = StringEditor.EditorType.Lua;
             }
 
+            // Show what alias is being edited in the status bar of the string editor window.
+            win.StatusText = $"Alias: {alias.AliasExpression}";
+
             // Startup position of the dialog should be in the center of the parent window.  The
             // owner has to be set for this to work.
             win.Owner = App.MainWindow;

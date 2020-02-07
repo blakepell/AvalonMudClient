@@ -118,6 +118,9 @@ namespace Avalon.Controls
             // Set this to be a text editor.
             win.EditorMode = StringEditor.EditorType.Text;
 
+            // Show what direction is being edited in the status bar of the string editor window.
+            win.StatusText = $"Direction: {direction.Name}";
+
             // Startup position of the dialog should be in the center of the parent window.  The
             // owner has to be set for this to work.
             win.Owner = App.MainWindow;
