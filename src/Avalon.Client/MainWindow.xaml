@@ -59,6 +59,22 @@
 
                     <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="0,0,0,1" Background="#171717">
                         <MenuItem Header="_File">
+                            <MenuItem Header="Storage Folders">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon Symbol="SyncFolder" />
+                                </MenuItem.Icon>
+                                <MenuItem Header="Open Settings Folder" Click="MenuItemOpenSettingsFolderAsync_Click">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon Symbol="SyncFolder" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Open Profiles Folder" Click="MenuItemOpenProfilesFolderAsync_Click">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon Symbol="SyncFolder" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </MenuItem>
+                            <Separator />
                             <MenuItem Header="_Open Profile" x:Name="ButtonOpenProfile" Click="ButtonOpenProfile_OnClick">
                                 <MenuItem.Icon>
                                     <ui:SymbolIcon Symbol="OpenFile" />

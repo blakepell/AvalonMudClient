@@ -18,6 +18,7 @@ using Avalon.Common.Models;
 using Avalon.Common.Plugins;
 using ModernWpf.Controls;
 using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace Avalon
 {
@@ -246,6 +247,23 @@ namespace Avalon
         }
 
         /// <summary>
+        /// Shows a message box dialog.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        public async Task<ContentDialogResult> MsgBox(string message, string title)
+        {
+            var dialog = new MessageBoxDialog()
+            {
+                Title = title,
+                Content = message,
+            };
+
+            return await dialog.ShowAsync();
+        }
+
+        /// <summary>
         /// TODO - Move to utilities.
         /// </summary>
         /// <param name="window"></param>
@@ -459,5 +477,53 @@ namespace Avalon
             }
         }
 
+        /// <summary>
+        /// Opens the app settings directory.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void MenuItemOpenSettingsFolderAsync_Click(object sender, RoutedEventArgs e)
+        {
+            // Check to see if the directory exists (it should)
+            if (!Directory.Exists(App.Settings.AppDataDirectory))
+            {
+                await MsgBox($"The settings folder was not found at:\r\n\r\n{App.Settings.AppDataDirectory}", "Directory not found");
+                return;
+            }
+
+            try
+            {
+                Process.Start("explorer.exe", App.Settings.AppDataDirectory);
+            }
+            catch (Exception ex)
+            {
+                await MsgBox(ex.Message, "Open Directory Error");
+            }
+        }
+
+        /// <summary>
+        /// Opens the profile save folder.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void MenuItemOpenProfilesFolderAsync_Click(object sender, RoutedEventArgs e)
+        {
+            // Check to see if the directory exists (it mostly likely should)
+            if (!Directory.Exists(App.Settings.AvalonSettings.SaveDirectory))
+            {
+                await MsgBox($"The profile folder was not found at:\r\n\r\n{App.Settings.AvalonSettings.SaveDirectory}", "Directory not found");
+                return;
+            }
+
+            try
+            {
+                Process.Start("explorer.exe", App.Settings.AvalonSettings.SaveDirectory);
+            }
+            catch (Exception ex)
+            {
+                await MsgBox(ex.Message, "Open Directory Error");
+            }
+
+        }
     }
 }
