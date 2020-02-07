@@ -209,7 +209,7 @@ namespace Avalon
             switch (type)
             {
                 case LogType.Information:
-                    line.FormattedText = $"[  {AnsiColors.Green}Info  {AnsiColors.LightGray}]  {text}\r\n";
+                    line.FormattedText = $"[  {AnsiColors.Green}Info   {AnsiColors.LightGray}] {text}\r\n";
                     break;
                 case LogType.Success:
                     line.FormattedText = $"[ {AnsiColors.Green}Success {AnsiColors.LightGray}] {text}\r\n";
