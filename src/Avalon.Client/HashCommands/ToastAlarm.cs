@@ -21,7 +21,7 @@ namespace Avalon.HashCommands
         public override void Execute()
         {
             SystemSounds.Exclamation.Play();
-            App.Toast.ShowNotification("Avalon", this.Parameters, ToolTipIcon.Warning, 1000 * 240);
+            App.Toast.ShowNotification("Avalon", this.Parameters, ToolTipIcon.Warning);
         }
 
     }
