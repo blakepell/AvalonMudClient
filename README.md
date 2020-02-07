@@ -4,7 +4,7 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
 
 ### Info
 
- - Langauge: C# / WPF for .Net Core 3.1
+ - Language: C# / WPF for .Net Core 3.1
  - OS Support: Windows 7, 8.1, 10 (1607+)
  
 ### Key Features
@@ -30,7 +30,7 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
  - [WPF-AutoComplete-TextBox](https://github.com/quicoli/WPF-AutoComplete-TextBox) (MIT)
  - [TentacleSoftware.Telnet](https://github.com/Spksh/TentacleSoftware.Telnet) (Apache v2)
  
-### Short Term Roadmap
+### Short Term Road-map
 
  - SQLite DB Support (including a SQLite query editor control that I also plan to open source as it's own NuGet package) 
  - Plugin support will change a bit over the short term.  Plugins will support JSON for Triggers/Aliases/Lua and C# for things that need UI components or a robust programming model/framework.  The ability to add a user control from a plugin straight into the UI will be a priority.  I think this will be incredibly easy to use and a powerful to extend the UI outside of my realm.
@@ -39,16 +39,18 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
  - Documentation
  - Publish binary for initial alpha release (self contained EXE)
  - Touch scrolling to be enabled for touch screen devices.
- - Figure out the best deployment mechanism or subsets of deployment mechansims.
+ - Figure out the best deployment mechanism or subsets of deployment mechanisms.
+ - Plugin support for a Dark and Shattered Lands (dsl-mud.org) with a deployment that is completely setup to play from the first run (a custom tailored deployment that just works without a cumbersome setup process for new players).
 
-### Long Term Roadmap
+### Long Term Road-map
 
  - The UI is already 4K/high resolution friendly.  Provide additional layouts for high resolution monitors that surface more content areas the user can pipe data or import plugins into.
  - Publish this app on the Windows Store free of charge.
  - Use the shared components to start a Xamarin forms project that can be deployed to Android/iOS as well as Avalonia for an OSX deployment.
+ - Any controls are of general use and are stable will be abstracted will be housed as their own project so that they can be submitted to NuGet.  An example of this is the SQLite query control which is in development and can be provided as a general WPF control.  The control offers the ability to open a sqlite database, see it's schema (tables/views) and then query the data with syntax highlighting for the SQL and a DataGrid for the output (which will have exporting and importing abilities that can be turned on and off).
  
 ### License
  
  The Avalon Mud Client is being released under a modified MIT license with an additional clause
- requiring credit to the original author (me).  E.g. this means the licnese should be flexible enough
+ requiring credit to the original author (me).  E.g. this means the license should be flexible enough
  to do what you need to do with it.
