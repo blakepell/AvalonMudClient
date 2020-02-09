@@ -172,12 +172,8 @@ namespace Avalon
         /// </summary>
         public void Disconnect()
         {
-            if (Telnet != null)
-            {
-                Telnet.Dispose();
-                Telnet = null;
-                return;
-            }
+            Telnet?.Dispose();
+            Telnet = null;
         }
 
         /// <summary>
