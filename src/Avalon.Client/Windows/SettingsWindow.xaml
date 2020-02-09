@@ -22,14 +22,14 @@
                 <swf:PropertyGrid x:Name="propertyGrid"/>
             </WindowsFormsHost>
 
-            <StackPanel Orientation="Vertical" Grid.Row="1">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <DockPanel Grid.Row="1">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Top">
                     <Button ui:ControlHelper.CornerRadius="0" Margin="5,5,5,5" Width="100" x:Name="ButtonClose" Click="ButtonClose_OnClick">Close</Button>
                 </StackPanel>
                 <StatusBar Background="#007ACC" Foreground="White">
                     <TextBlock x:Name="TextSettingsFilename"></TextBlock>
                 </StatusBar>
-            </StackPanel>
+            </DockPanel>
         </Grid>
     </Grid>
 </Window>
