@@ -53,8 +53,8 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             // Auction
             this.Triggers.Add(new Trigger(@"^([\w'-]+) auctions: '(.*?)'", "", "", true, "ae84003b-8252-4946-8db9-01b71dd6d44e", TerminalTarget.Communication, true));
 
-            // Prays for immortals
-            this.Triggers.Add(new Trigger(@"^([\w'-]+) (pray|prays) '(.*?)'", "", "", true, "8f324cf1-0f99-4c80-a4f4-a32f1b3e6cfb", TerminalTarget.Communication, true));
+            // Prays for immortals & grats.
+            this.Triggers.Add(new Trigger(@"^([\w'-]+) (pray|prays|grats) '(.*?)'", "", "", true, "8f324cf1-0f99-4c80-a4f4-a32f1b3e6cfb", TerminalTarget.Communication, true));
 
             // Shalonesti shared channel.
             this.Triggers.Add(new Trigger(@"^\(Shalonesti\) ", "", "", true, "bd8f5ed0-3122-4091-bb23-db2f589e7cf0", TerminalTarget.Communication, true));
