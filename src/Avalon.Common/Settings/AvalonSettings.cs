@@ -1,4 +1,6 @@
-﻿namespace Avalon.Common.Settings
+﻿using System.ComponentModel;
+
+namespace Avalon.Common.Settings
 {
     /// <summary>
     /// The global settings for the Avalon Mud Client.  These are NOT profile specific like many of
@@ -7,15 +9,20 @@
     /// </summary>
     public class AvalonSettings
     {
-
         /// <summary>
         /// The overridden save directory if one exists.
         /// </summary>
+        [CategoryAttribute("FileSystem")]
+        [DescriptionAttribute("The default directory save profiles and other game related file data in.")]
+        [Browsable(true)]
         public string SaveDirectory { get; set; } = "";
 
         /// <summary>
         /// The path to the last loaded profile file.
         /// </summary>
+        [CategoryAttribute("FileSystem")]
+        [DescriptionAttribute("The path to the last loaded profile file.  This is the profile that will be loaded by default on the clients next startup.")]
+        [Browsable(true)]
         public string LastLoadedProfilePath { get; set; } = "";
 
     }

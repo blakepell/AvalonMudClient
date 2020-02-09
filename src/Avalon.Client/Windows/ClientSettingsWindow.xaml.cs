@@ -4,11 +4,11 @@ using System.IO;
 namespace Avalon
 {
     /// <summary>
-    /// Interaction logic for Settings.xaml
+    /// Interaction logic for global client settings.
     /// </summary>
-    public partial class SettingsWindow : Window
+    public partial class ClientSettingsWindow : Window
     {
-        public SettingsWindow()
+        public ClientSettingsWindow()
         {
             InitializeComponent();
         }
@@ -19,9 +19,9 @@ namespace Avalon
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void SettingsWindow_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            propertyGrid.SelectedObject = App.Settings.ProfileSettings;
-            TextSettingsFilename.Text = Path.Join(App.Settings.AvalonSettings.SaveDirectory, App.Settings.ProfileSettings.FileName);
+        {            
+            propertyGrid.SelectedObject = App.Settings.AvalonSettings;
+            TextSettingsFilename.Text = App.Settings.AvalonSettingsFile;
         }
 
         /// <summary>

@@ -99,6 +99,18 @@
                             <MenuItem Header="Exit Without Save" x:Name="ButtonExitWithoutSave" Click="ButtonExitWithoutSave_OnClickAsync" />
                             <MenuItem Header="E_xit" x:Name="ButtonExit" Click="ButtonExit_OnClick" />
                         </MenuItem>
+                        <MenuItem Header="_Tools">
+                            <MenuItem Header="Client Properties" Click="MenuItemClientProperties_OnClick">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon Symbol="Setting" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Profile Properties" Click="MenuItemProfileProperties_OnClick">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon Symbol="Setting" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </MenuItem>
                     </Menu>
 
                     <controls:AvalonTerminal

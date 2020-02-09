@@ -299,7 +299,7 @@ namespace Avalon
         /// <param name="args"></param>
         private void SettingsButton_Click(object o, RoutedEventArgs args)
         {
-            var win = new SettingsWindow();
+            var win = new ProfileSettingsWindow();
             this.ShowDialog(win);
         }
 
@@ -555,6 +555,28 @@ namespace Avalon
             {
                 await MsgBox(ex.Message, "Open Directory Error");
             }
+        }
+
+        /// <summary>
+        /// Shows the client settings dialog.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemClientProperties_OnClick(object sender, RoutedEventArgs e)
+        {
+            var win = new ClientSettingsWindow();
+            win.ShowDialog();
+        }
+
+        /// <summary>
+        /// Shows the profile settings dialog.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemProfileProperties_OnClick(object sender, RoutedEventArgs e)
+        {
+            var win = new ProfileSettingsWindow();
+            win.ShowDialog();
         }
 
     }
