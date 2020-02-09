@@ -99,8 +99,7 @@ namespace Avalon
             // Try to load the last profile loaded, if not found create a new profile.
             if (File.Exists(App.Settings.AvalonSettings.LastLoadedProfilePath))
             {
-                App.Settings.LoadSettings(App.Settings.AvalonSettings.LastLoadedProfilePath);
-                Conveyor.EchoLog($"Settings Loaded: {App.Settings.AvalonSettings.LastLoadedProfilePath}", LogType.Information);
+                LoadSettings(App.Settings.AvalonSettings.LastLoadedProfilePath);
             }
             else
             {
@@ -160,6 +159,28 @@ namespace Avalon
 
             // Finally, all is done, set the focus to the command box.
             TextInput.Focus();
+        }
+
+        /// <summary>
+        /// Loads the settings for the specified file.
+        /// </summary>
+        /// <param name="fileName"></param>
+        private void LoadSettings(string fileName)
+        {
+            try
+            {
+                App.Settings.LoadSettings(fileName);
+
+                this.Title = string.IsNullOrWhiteSpace(App.Settings.ProfileSettings.WindowTitle)
+                    ? "Avalon Mud Client"
+                    : App.Settings.ProfileSettings.WindowTitle;
+
+                Conveyor.EchoLog($"Settings Loaded: {fileName}", LogType.Information);
+            }
+            catch (Exception ex)
+            {
+                Conveyor.EchoLog(ex.Message, LogType.Error);
+            }
         }
 
         /// <summary>
@@ -377,7 +398,7 @@ namespace Avalon
                 if (dialog.ShowDialog() == true)
                 {
                     // Load the settings for the file that was selected.
-                    App.Settings.LoadSettings(dialog.FileName);
+                    LoadSettings(dialog.FileName);
 
                     // Inject the Conveyor into the Triggers.
                     foreach (var trigger in App.Settings.ProfileSettings.TriggerList)
@@ -395,10 +416,6 @@ namespace Avalon
 
                     // We have a new profile, refresh the auto complete command list.
                     RefreshAutoCompleteEntries();
-
-                    // Show the user that the profile was successfully loaded.
-                    Interp.EchoText("");
-                    Interp.EchoText($"--> Loaded {dialog.FileName}.\r\n", AnsiColors.Cyan);
 
                     // Auto connect if it's setup to do so (this will disconnect from the previous server if it was connected.
                     if (App.Settings.ProfileSettings.AutoConnect)

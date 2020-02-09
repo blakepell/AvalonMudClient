@@ -66,6 +66,12 @@ namespace Avalon.Common.Settings
             }
         }
 
+        [CategoryAttribute("UI")]
+        [DescriptionAttribute("The title that should be displayed client window for this profile.  A blank setting will default to 'Avalon Mud Client'.")]
+        [Browsable(true)]
+        public string WindowTitle { get; set; } = "Avalon Mud Client";
+
+
         [CategoryAttribute("Misc")]
         [DescriptionAttribute("Whether the game should save the settings file when the client closes.")]
         [Browsable(true)]
