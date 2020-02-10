@@ -175,7 +175,7 @@ namespace Avalon
                     ? "Avalon Mud Client"
                     : App.Settings.ProfileSettings.WindowTitle;
 
-                Conveyor.EchoLog($"Settings Loaded: {fileName}", LogType.Information);
+                Conveyor.EchoLog($"Settings Loaded: {fileName}", LogType.Success);
             }
             catch (Exception ex)
             {
@@ -377,9 +377,15 @@ namespace Avalon
         /// <param name="e"></param>
         private void ButtonSaveProfile_OnClick(object sender, RoutedEventArgs e)
         {
-            App.Settings.SaveSettings();
-            Interp.EchoText("");
-            Interp.EchoText($"--> Settings Saved\r\n", AnsiColors.Cyan);
+            try
+            {
+                App.Settings.SaveSettings();
+                this.Conveyor.EchoLog($"Settings Saved", LogType.Success);
+            }
+            catch (Exception ex)
+            {
+                this.Conveyor.EchoLog(ex.Message, LogType.Error);
+            }
         }
 
         /// <summary>
