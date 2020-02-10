@@ -8,7 +8,7 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="True" 
         x:Name="StringEditorWindow" TextOptions.TextFormattingMode="Ideal"
-        ui:TitleBar.Background="#1E1E1E" Background="#2D2D30" BorderBrush="#007ACC"
+        ui:TitleBar.Background="#2D2D30" Background="#2D2D30" BorderBrush="#007ACC"
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
         Title="Editor" Height="450" Width="800">
     <Grid>
@@ -20,10 +20,11 @@
         <!-- 1 pixel left margin was so the left border of the window will render -->
         <avalonedit:TextEditor
             x:Name="AvalonLuaEditor" ShowLineNumbers="True" WordWrap="False"
-            Grid.Row="0"
-            FontFamily="Consolas" IsReadOnly="False"
+            Grid.Row="0" Grid.Column="0"
+            FontFamily="Consolas" FontSize="10pt" IsReadOnly="False"
             Padding="0,0,0,0" Margin="1,0,0,0"
-            FontSize="10pt" Grid.Column="0" BorderBrush="White">
+            Background="#1E1E1E" Foreground="#DCDCDC"
+            BorderBrush="White">
         </avalonedit:TextEditor>
 
         <DockPanel Grid.Row="1">

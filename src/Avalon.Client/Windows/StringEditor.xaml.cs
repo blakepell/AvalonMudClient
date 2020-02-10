@@ -47,7 +47,7 @@ namespace Avalon
                         this.Title = "Lua Editor";
 
                         var asm = Assembly.GetExecutingAssembly();
-                        string resourceName = $"{asm.GetName().Name}.Resources.Lua.xshd";
+                        string resourceName = $"{asm.GetName().Name}.Resources.LuaDarkTheme.xshd";
 
                         using (var s = asm.GetManifestResourceStream(resourceName))
                         {

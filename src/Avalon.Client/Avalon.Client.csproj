@@ -31,7 +31,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Lua.xshd" />
+    <None Remove="Resources\LuaDarkTheme.xshd" />
+    <None Remove="Resources\LuaLightTheme.xshd" />
   </ItemGroup>
 
   <!--Custom nesting for the partial classes of the MainWindow we're using or isolate pieces of code -->
@@ -51,7 +52,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Lua.xshd" />
+    <EmbeddedResource Include="Resources\LuaDarkTheme.xshd" />
+    <EmbeddedResource Include="Resources\LuaLightTheme.xshd" />
   </ItemGroup>
 
   <ItemGroup>
