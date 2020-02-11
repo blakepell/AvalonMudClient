@@ -43,12 +43,11 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
         public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register("Watermark", typeof(string), typeof(AutoCompleteTextBox), new FrameworkPropertyMetadata(string.Empty));
         public static readonly DependencyProperty SuggestionBackgroundProperty = DependencyProperty.Register("SuggestionBackground", typeof(Brush), typeof(AutoCompleteTextBox), new FrameworkPropertyMetadata(Brushes.White));
         public static readonly DependencyProperty DirectionalKeysOpenProperty = DependencyProperty.Register("DirectionalKeysOpen", typeof(bool), typeof(AutoCompleteTextBox), new PropertyMetadata(false));
+        public static readonly DependencyProperty SpellCheckEnabledProperty = DependencyProperty.Register("SpellCheckEnabled", typeof(bool), typeof(AutoCompleteTextBox), new PropertyMetadata(false));
 
         private bool _isUpdatingText;
         private bool _selectionCancelled;
-
         private SuggestionsAdapter _suggestionsAdapter;
-
 
         #endregion
 
@@ -86,6 +85,15 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
         {
             get => (bool)GetValue(DirectionalKeysOpenProperty);
             set => SetValue(DirectionalKeysOpenProperty, value);
+        }
+
+        /// <summary>
+        /// Whether spell checking is enabled on the input box.
+        /// </summary>
+        public bool SpellCheckEnabled
+        {
+            get => (bool)GetValue(SpellCheckEnabledProperty);
+            set => SetValue(SpellCheckEnabledProperty, value);
         }
 
         public int MaxLength
