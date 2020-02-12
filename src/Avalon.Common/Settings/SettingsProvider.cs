@@ -40,10 +40,16 @@ namespace Avalon.Common.Settings
         public string AvalonSettingsFile { get; private set; }
 
         /// <summary>
+        /// The implementation of the Conveyor so that the settings can interact with the UI.
+        /// </summary>
+        public IConveyor Conveyor { get; set; }
+
+        /// <summary>
         /// Constructor
         /// </summary>
-        public SettingsProvider()
+        public SettingsProvider(IConveyor ic)
         {
+            this.Conveyor = ic;
             this.AppDataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AvalonMudClient");
             this.PluginDirectory = Path.Combine(this.AppDataDirectory, "Plugins");
             this.AvalonSettingsFile = Path.Combine(this.AppDataDirectory, "avalon.json");
@@ -194,6 +200,8 @@ namespace Avalon.Common.Settings
             {
                 this.AvalonSettings.LastLoadedProfilePath = Path.Join(this.AvalonSettings.SaveDirectory, "default.json");
             }
+
+            this.AvalonSettings.LastWindowPosition = this.Conveyor.GetWindowPosition;
 
             // Write the profile settings file.
             File.WriteAllText(this.AvalonSettings.LastLoadedProfilePath, JsonConvert.SerializeObject(this.ProfileSettings, Formatting.Indented));

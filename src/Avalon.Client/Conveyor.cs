@@ -307,6 +307,25 @@ namespace Avalon
         }
 
         /// <summary>
+        /// Returns information about the current WindowPosition.
+        /// </summary>
+        public WindowPosition GetWindowPosition
+        {
+            get
+            {
+                var win = new WindowPosition
+                {
+                    Left = App.MainWindow.Left,
+                    Top = App.MainWindow.Top,
+                    Height = App.MainWindow.Height,
+                    Width = App.MainWindow.Width
+                };
+
+                return win;
+            }
+        }
+
+        /// <summary>
         /// A StringBuilder for holding scraped data.
         /// </summary>
         public StringBuilder Scrape { get; set; } = new StringBuilder();

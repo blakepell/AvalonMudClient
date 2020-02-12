@@ -23,14 +23,12 @@ namespace Avalon.HashCommands
             try
             {
                 App.Settings.SaveSettings();
-                Interpreter.EchoText($"--> Settings Saved\r\n", AnsiColors.Cyan);
+                Interpreter.Conveyor.EchoLog("Settings Saved", Common.Models.LogType.Success);
             }
             catch (Exception ex)
             {
-                Interpreter.EchoText($"--> Error\r\n", AnsiColors.Red);
-                Interpreter.EchoText(ex.Message);
+                Interpreter.Conveyor.EchoLog(ex.Message, Common.Models.LogType.Error);
             }
         }
-
     }
 }

@@ -56,11 +56,6 @@ namespace Avalon
         public TickTimer TickTimer;
 
         /// <summary>
-        /// A copy of the conveyor used by hash commands and other abstracted classes.
-        /// </summary>
-        public Conveyor Conveyor;
-
-        /// <summary>
         /// Window initialization.  This occurs before the Loaded event.  We'll set the initial
         /// window positioning here before the UI is shown.
         /// </summary>
@@ -68,9 +63,6 @@ namespace Avalon
         /// <param name="e"></param>
         private void MainWindow_OnInitialized(object sender, EventArgs e)
         {
-            // TODO - This causes some issue with Aero snap initially, research.
-            // Initialize Screen Position
-            this.WindowSize();
         }
 
         /// <summary>
@@ -81,16 +73,12 @@ namespace Avalon
         /// <param name="e"></param>
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            // The Conveyor will be passed around to other objects so that they can interact with the UI.  This Conveyor may have
-            // state so it's important to re-use this object unless sandboxing is needed.
-            Conveyor = new Conveyor();
-
             // The settings for the app load in the app startup, they will then try to load the last profile
             // that was used.
-            Conveyor.EchoLog($"Avalon Mud Client Version {Assembly.GetExecutingAssembly()?.GetName()?.Version.ToString() ?? "Unknown"}", LogType.Information);
-            Conveyor.EchoLog($"Settings Folder: {App.Settings.AppDataDirectory}", LogType.Information);
-            Conveyor.EchoLog($"Settings File:   {App.Settings.AvalonSettingsFile}", LogType.Information);
-            Conveyor.EchoLog($"Profiles Folder: {App.Settings.AvalonSettings.SaveDirectory}", LogType.Information);
+            App.Conveyor.EchoLog($"Avalon Mud Client Version {Assembly.GetExecutingAssembly()?.GetName()?.Version.ToString() ?? "Unknown"}", LogType.Information);
+            App.Conveyor.EchoLog($"Settings Folder: {App.Settings.AppDataDirectory}", LogType.Information);
+            App.Conveyor.EchoLog($"Settings File:   {App.Settings.AvalonSettingsFile}", LogType.Information);
+            App.Conveyor.EchoLog($"Profiles Folder: {App.Settings.AvalonSettings.SaveDirectory}", LogType.Information);
 
             // Parse the command line arguments to see if a profile was specified.
             var args = Environment.GetCommandLineArgs();
@@ -105,12 +93,30 @@ namespace Avalon
             {
                 if (string.IsNullOrWhiteSpace(App.Settings.AvalonSettings.LastLoadedProfilePath))
                 {
-                    Conveyor.EchoLog($"New Profile being created.", LogType.Information);
+                    App.Conveyor.EchoLog($"New Profile being created.", LogType.Information);
                 }
                 else
                 {
-                    Conveyor.EchoLog($"Last Profile Loaded Not Found: {App.Settings.AvalonSettings.LastLoadedProfilePath}", LogType.Warning);
+                    App.Conveyor.EchoLog($"Last Profile Loaded Not Found: {App.Settings.AvalonSettings.LastLoadedProfilePath}", LogType.Warning);
                 }
+            }
+
+            // Set the startup position.
+            switch (App.Settings.AvalonSettings.WindowStartupPosition)
+            {
+                case WindowStartupPosition.OperatingSystemDefault:
+                    this.WindowState = WindowState.Normal;
+                    break;
+                case WindowStartupPosition.Maximized:
+                    this.WindowState = WindowState.Maximized;
+                    break;
+                case WindowStartupPosition.LastUsed:
+                    this.Left = App.Settings.AvalonSettings.LastWindowPosition.Left;
+                    this.Top = App.Settings.AvalonSettings.LastWindowPosition.Top;
+                    this.Height = App.Settings.AvalonSettings.LastWindowPosition.Height;
+                    this.Width = App.Settings.AvalonSettings.LastWindowPosition.Width;
+                    this.WindowState = (WindowState)App.Settings.AvalonSettings.LastWindowPosition.WindowState;
+                    break;
             }
 
             // Inject the Conveyor into the Triggers so the Triggers know how to talk to the UI.  Not doing this
@@ -123,7 +129,7 @@ namespace Avalon
             AddHandler(TabControlEx.SettingsButtonClickEvent, new RoutedEventHandler(SettingsButton_Click));
 
             // Pass the necessary reference from this page to the Interpreter.
-            Interp = new Interpreter(this.Conveyor);
+            Interp = new Interpreter(App.Conveyor);
 
             // Setup the handler so when it wants to write to the main window it can by raising the echo event.
             Interp.Echo += this.InterpreterEcho;
@@ -139,7 +145,7 @@ namespace Avalon
             LuaControl = new ExecutionControlToken();
 
             // Setup the tick timer.
-            TickTimer = new TickTimer(Conveyor);
+            TickTimer = new TickTimer(App.Conveyor);
 
             // Setup the auto complete commands.  If they're found refresh them, if they're not
             // report it to the terminal window.  It should -always be found-.
@@ -175,11 +181,11 @@ namespace Avalon
                     ? "Avalon Mud Client"
                     : App.Settings.ProfileSettings.WindowTitle;
 
-                Conveyor.EchoLog($"Settings Loaded: {fileName}", LogType.Success);
+                App.Conveyor.EchoLog($"Settings Loaded: {fileName}", LogType.Success);
             }
             catch (Exception ex)
             {
-                Conveyor.EchoLog(ex.Message, LogType.Error);
+                App.Conveyor.EchoLog(ex.Message, LogType.Error);
             }
         }
 
@@ -214,7 +220,7 @@ namespace Avalon
 
                 foreach (var plugin in plugins)
                 {
-                    this.Conveyor.EchoLog($"Plugin File Found: {Argus.IO.FileSystemUtilities.ExtractFileName(file)}", LogType.Information);
+                    App.Conveyor.EchoLog($"Plugin File Found: {Argus.IO.FileSystemUtilities.ExtractFileName(file)}", LogType.Information);
 
                     Plugin pluginInstance;
 
@@ -224,7 +230,7 @@ namespace Avalon
                     }
                     catch (Exception ex)
                     {
-                        this.Conveyor.EchoLog($"Plugin Load Error: {ex.Message}", LogType.Error);
+                        App.Conveyor.EchoLog($"Plugin Load Error: {ex.Message}", LogType.Error);
                         continue;
                     }
 
@@ -238,12 +244,12 @@ namespace Avalon
                         foreach (var trigger in pluginInstance.Triggers)
                         {
                             trigger.Plugin = true;
-                            trigger.Conveyor = this.Conveyor;
+                            trigger.Conveyor = App.Conveyor;
                             App.SystemTriggers.Add(trigger);
                         }
 
-                        this.Conveyor.EchoLog($"Plugins Loaded For: {pluginInstance.IpAddress}", LogType.Success);
-                        this.Conveyor.EchoLog($"   => {pluginInstance.Triggers.Count()} Triggers Loaded", LogType.Success);
+                        App.Conveyor.EchoLog($"Plugins Loaded For: {pluginInstance.IpAddress}", LogType.Success);
+                        App.Conveyor.EchoLog($"   => {pluginInstance.Triggers.Count()} Triggers Loaded", LogType.Success);
                     }
                 }
             }
@@ -264,20 +270,6 @@ namespace Avalon
             {
                 this.GameTerminal.Append("Warning: AutoCompleteCommandProvider was not found.", AnsiColors.Yellow);
             }
-        }
-
-        /// <summary>
-        /// Initially sizes the window.
-        /// </summary>
-        private void WindowSize()
-        {
-            // The windows forms namespaces give us some properties to easily get screen
-            // and window information so we're going to leverage those for now.
-            this.Width = SystemParameters.WorkArea.Width / 2;
-            this.Height = SystemParameters.WorkArea.Height;
-            this.Left = 0;
-            this.Top = 0;
-            this.WindowState = WindowState.Normal;
         }
 
         /// <summary>
@@ -365,7 +357,7 @@ namespace Avalon
         private async void ButtonExitWithoutSave_OnClickAsync(object sender, RoutedEventArgs e)
         {
             App.SkipSaveOnExit = true;
-            Interp.EchoText("--> Exiting WITHOUT saving the current profile.", AnsiColors.Yellow);
+            App.Conveyor.EchoLog("Exiting WITHOUT saving the current profile.", LogType.Warning);
             await Task.Delay(1000);
             Application.Current.Shutdown(0);
         }
@@ -380,11 +372,11 @@ namespace Avalon
             try
             {
                 App.Settings.SaveSettings();
-                this.Conveyor.EchoLog($"Settings Saved", LogType.Success);
+                App.Conveyor.EchoLog($"Settings Saved", LogType.Success);
             }
             catch (Exception ex)
             {
-                this.Conveyor.EchoLog(ex.Message, LogType.Error);
+                App.Conveyor.EchoLog(ex.Message, LogType.Error);
             }
         }
 
@@ -409,7 +401,7 @@ namespace Avalon
                     // Inject the Conveyor into the Triggers.
                     foreach (var trigger in App.Settings.ProfileSettings.TriggerList)
                     {
-                        trigger.Conveyor = Conveyor;
+                        trigger.Conveyor = App.Conveyor;
                     }
 
                     // Important!  This is a new profile, we have to reload ALL of the DataList controls
@@ -496,7 +488,7 @@ namespace Avalon
                     // Inject the Conveyor into all of the triggers
                     foreach (var trigger in App.Settings.ProfileSettings.TriggerList)
                     {
-                        trigger.Conveyor = Conveyor;
+                        trigger.Conveyor = App.Conveyor;
                     }
 
                     // Show the user that the profile was successfully loaded.

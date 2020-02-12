@@ -35,6 +35,11 @@ namespace Avalon.Common.Interfaces
         /// </summary>
         string AvalonSettingsFile { get; }
 
+        /// <summary>
+        /// An implementation of the Conveyor so some settings can be discerned from the UI (such as last
+        /// window position, etc.).
+        /// </summary>
+        IConveyor Conveyor { get; set; }
 
         /// <summary>
         /// Creates the default application data folder.  This is where the core settings file

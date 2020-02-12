@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace Avalon.Common.Settings
 {
@@ -25,5 +26,14 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public string LastLoadedProfilePath { get; set; } = "";
 
+        [CategoryAttribute("UI")]
+        [DescriptionAttribute("The position of the mud client window when it starts up.")]
+        [Browsable(true)]
+        public WindowStartupPosition WindowStartupPosition { get; set; } = WindowStartupPosition.OperatingSystemDefault;
+
+
+        [Browsable(true)]
+        public WindowPosition LastWindowPosition { get; set; } = new WindowPosition();
+        
     }
 }

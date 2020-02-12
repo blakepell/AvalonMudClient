@@ -109,9 +109,9 @@ namespace Avalon.Controls
             {
                 if (trigger.Conveyor == null)
                 {
-                    if (App.MainWindow?.Conveyor != null)
+                    if (App.Conveyor != null)
                     {
-                        trigger.Conveyor = App.MainWindow.Conveyor;
+                        trigger.Conveyor = App.Conveyor;
                     }
                 }
             }

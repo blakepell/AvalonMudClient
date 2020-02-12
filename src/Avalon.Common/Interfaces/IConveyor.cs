@@ -46,5 +46,6 @@ namespace Avalon.Common.Interfaces
 
         bool ScrapeEnabled { get; set; }
 
+        WindowPosition GetWindowPosition { get; }
     }
 }

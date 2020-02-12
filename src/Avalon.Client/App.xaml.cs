@@ -19,6 +19,12 @@ namespace Avalon
         internal static MainWindow MainWindow { get; set; }
 
         /// <summary>
+        /// A reference to the main Conveyor which is the platform specific implementation of how the
+        /// abstracted libraries can interact with the UI.
+        /// </summary>
+        internal static Conveyor Conveyor { get; set; }
+
+        /// <summary>
         /// A reference to the Settings for the profile that is currently loaded.
         /// </summary>
         internal static ISettingsProvider Settings { get; set; }
@@ -46,9 +52,13 @@ namespace Avalon
         /// <param name="e"></param>
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            // Setup the Conveyor for this instance of the mud client.  This can be passed to
+            // the business logic layer via because it inherits the IConveyor interface.
+            App.Conveyor = new Conveyor();
+
             // First thing's first, setup the Settings.  This will at least initialize the client
             // settings (and if a profile has previously been loaded it will load that profile).
-            App.Settings = new SettingsProvider();
+            App.Settings = new SettingsProvider(App.Conveyor);
         }
 
         /// <summary>

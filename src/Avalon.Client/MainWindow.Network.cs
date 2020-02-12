@@ -71,7 +71,7 @@ namespace Avalon
         public void HandleConnectionClosed(object sender, EventArgs e)
         {
             TabMain.IsConnected = false;
-            Conveyor.EchoLog($"Disconnected: {DateTime.Now}", LogType.Warning);
+            App.Conveyor.EchoLog($"Disconnected: {DateTime.Now}", LogType.Warning);
             Interp.Telnet = null;
         }
 
@@ -94,9 +94,9 @@ namespace Avalon
 
             // Check to see if we're scraping and if so append to the StringBuilder that holds the scraped text.
             // Scraping will only occur when full lines come through.
-            if (Conveyor.ScrapeEnabled)
+            if (App.Conveyor.ScrapeEnabled)
             {
-                Conveyor.Scrape.AppendLine(line.Text);
+                App.Conveyor.Scrape.AppendLine(line.Text);
             }
         }
 

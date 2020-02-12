@@ -78,7 +78,7 @@ namespace Avalon
                 }
 
                 // Skip it if it's not global or for this character.
-                if (!string.IsNullOrWhiteSpace(item.Character) && item.Character != this.Conveyor.GetVariable("Character"))
+                if (!string.IsNullOrWhiteSpace(item.Character) && item.Character != App.Conveyor.GetVariable("Character"))
                 {
                     continue;
                 }
