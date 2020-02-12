@@ -2,6 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using System.Windows;
+using Avalon.Common.Interfaces;
 
 namespace Avalon.Lua
 {
@@ -10,7 +11,7 @@ namespace Avalon.Lua
     /// </summary>
     public class LuaCommands
     {
-        public LuaCommands(Interpreter interp)
+        public LuaCommands(IInterpreter interp)
         {
             _interpreter = interp;
         }
@@ -162,7 +163,7 @@ namespace Avalon.Lua
             _interpreter.Conveyor.Title = title;
         }
 
-        private Interpreter _interpreter;
+        private IInterpreter _interpreter;
 
     }
 }

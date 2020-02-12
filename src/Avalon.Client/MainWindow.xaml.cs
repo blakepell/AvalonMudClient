@@ -41,11 +41,6 @@ namespace Avalon
         public Interpreter Interp;
 
         /// <summary>
-        /// The Lua Environment
-        /// </summary>
-        public Script Lua;
-
-        /// <summary>
         /// Lua control token to pause, stop and resume scripts.
         /// </summary>
         public ExecutionControlToken LuaControl;
@@ -133,16 +128,6 @@ namespace Avalon
 
             // Setup the handler so when it wants to write to the main window it can by raising the echo event.
             Interp.Echo += this.InterpreterEcho;
-
-            // Setup Lua
-            Lua = new Script();
-            Lua.Options.CheckThreadAccess = false;
-            UserData.RegisterType<LuaCommands>();
-
-            // create a userdata, again, explicitly.
-            var luaCmd = UserData.Create(new LuaCommands(Interp));
-            Lua.Globals.Set("Cmd", luaCmd);
-            LuaControl = new ExecutionControlToken();
 
             // Setup the tick timer.
             TickTimer = new TickTimer(App.Conveyor);

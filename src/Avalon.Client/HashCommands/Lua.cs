@@ -4,6 +4,9 @@ using System.Windows;
 using System.Windows.Threading;
 using Avalon.Common.Colors;
 using Avalon.Common.Interfaces;
+using Avalon.Common.Models;
+using Avalon.Lua;
+using MoonSharp.Interpreter;
 
 namespace Avalon.HashCommands
 {
@@ -24,7 +27,17 @@ namespace Avalon.HashCommands
                {
                    try
                    {
-                       await App.MainWindow.Lua.DoStringAsync(App.MainWindow.LuaControl, Parameters);
+                       // Setup Lua
+                       var lua = new Script();
+                       lua.Options.CheckThreadAccess = false;
+                       UserData.RegisterType<LuaCommands>();
+
+                       // Create a userdata, again, explicitly.
+                       var luaCmd = UserData.Create(new LuaCommands(this.Interpreter));
+                       lua.Globals.Set("Cmd", luaCmd);
+                       var executionControlToken = new ExecutionControlToken();
+
+                       await lua.DoStringAsync(executionControlToken, Parameters);
                    }
                    catch (Exception ex)
                    {
@@ -32,20 +45,21 @@ namespace Avalon.HashCommands
                        {
                            if (ex.InnerException.Message.Contains("abort"))
                            {
+                               // TODO - Make this a setting so that it can be tailored (the command that is sent, e.g. the ~).
                                // Cancel pending sends with the mud in case something went haywire
                                Interpreter.Send("~", true, false);
-                               Interpreter.EchoText("--> All active Lua scripts have been terminated.", AnsiColors.Red);
+                               Interpreter.Conveyor.EchoLog("All active Lua scripts have been terminated.", LogType.Error);
                            }
                            else
                            {
                                Interpreter.Send("~", true, false);
-                               Interpreter.EchoText($"--> {ex.InnerException.Message}", AnsiColors.Red);
+                               Interpreter.Conveyor.EchoLog($"--> {ex.InnerException.Message}", LogType.Error);
                            }
                        }
                        else
                        {
                            Interpreter.Send("~", true, false);
-                           Interpreter.EchoText($"--> {ex.Message}", AnsiColors.Red);
+                           Interpreter.Conveyor.EchoLog(ex.Message, LogType.Error);
                        }
                    }
                }), DispatcherPriority.Normal);
