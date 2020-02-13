@@ -113,16 +113,31 @@
                         </MenuItem>
                     </Menu>
 
-                    <controls:AvalonTerminal
-                        x:Name="GameTerminal" ShowLineNumbers="False" WordWrap="True"
-                        Grid.Row="1" Grid.RowSpan="2"
-                        FontFamily="Consolas" IsReadOnly="True"
-                        Padding="10,0,20,0"
-                        Background="Black" Foreground="LightGray"
-                        FontSize="10pt" Grid.Column="0" BorderBrush="White"
-                        ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
-                        KeyDown="Terminal_OnKeyDown">
-                    </controls:AvalonTerminal>
+                    <UniformGrid Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Columns="1">
+                        <controls:AvalonTerminal x:Name="GameBackBufferTerminal"
+                            Visibility="Collapsed"
+                            DockPanel.Dock="Top"
+                            ShowLineNumbers="False" WordWrap="True"
+                            FontFamily="Consolas" IsReadOnly="True"
+                            Padding="10,0,20,0"
+                            BorderThickness="0,0,0,1"
+                            Background="Black" Foreground="LightGray"
+                            FontSize="10pt" BorderBrush="LightGray"
+                            ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
+                            KeyDown="Terminal_OnKeyDown">
+                        </controls:AvalonTerminal>
+
+                        <controls:AvalonTerminal x:Name="GameTerminal"
+                            DockPanel.Dock="Bottom"
+                            ShowLineNumbers="False" WordWrap="True"
+                            FontFamily="Consolas" IsReadOnly="True"
+                            Padding="10,0,20,0"
+                            Background="Black" Foreground="LightGray"
+                            FontSize="10pt" BorderBrush="White"
+                            ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
+                            KeyDown="Terminal_OnKeyDown">
+                        </controls:AvalonTerminal>
+                    </UniformGrid>
 
                     <controls:AvalonTerminal
                         x:Name="OocCommunicationTerminal" ShowLineNumbers="False" WordWrap="True" GagEnabled="False"

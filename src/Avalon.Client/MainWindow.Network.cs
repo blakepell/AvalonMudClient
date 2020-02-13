@@ -117,6 +117,12 @@ namespace Avalon
 
                 // Append the data to the terminal as it comes in.
                 GameTerminal.Append(sb.ToString());
+
+                // If the back buffer setting is enabled put the data also in there.
+                if (App.Settings.AvalonSettings.BackBufferEnabled)
+                {
+                    GameBackBufferTerminal.Append(sb.ToString(), false);
+                }
             }
             catch (Exception ex)
             {
@@ -162,10 +168,22 @@ namespace Avalon
             if (ea.UseDefaultColors)
             {
                 term.Append(ea.Text);
+
+                // If the back buffer setting is enabled put the data also in there.
+                if (App.Settings.AvalonSettings.BackBufferEnabled && ea.Terminal == TerminalTarget.Main)
+                {
+                    GameBackBufferTerminal.Append(ea.Text, false);
+                }
             }
             else
             {
                 term.Append(ea.Text, ea.ForegroundColor, ea.ReverseColors);
+
+                // If the back buffer setting is enabled put the data also in there.
+                if (App.Settings.AvalonSettings.BackBufferEnabled && ea.Terminal == TerminalTarget.Main)
+                {
+                    GameBackBufferTerminal.Append(ea.Text, ea.ForegroundColor, ea.ReverseColors, false);
+                }
             }
         }
 

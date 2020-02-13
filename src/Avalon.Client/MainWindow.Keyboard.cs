@@ -96,14 +96,39 @@ namespace Avalon
 
                     break;
                 case Key.PageUp:
-                    // Scroll down a page in the terminal.
                     e.Handled = true;
-                    GameTerminal.PageUp();
+
+                    // Back buffer is collapsed, show it, scroll to the bottom of it.
+                    if (GameBackBufferTerminal.Visibility == System.Windows.Visibility.Collapsed)
+                    {
+                        GameBackBufferTerminal.ScrollToLastLine();
+                        GameBackBufferTerminal.Visibility = System.Windows.Visibility.Visible;
+
+                        // Since the height of this changed scroll it to the bottom.
+                        GameTerminal.ScrollToLastLine();
+                        break;
+                    }
+
+                    // If it was already visible, then we PageUp()
+                    GameBackBufferTerminal.PageUp();
+
                     break;
                 case Key.PageDown:
-                    // Scroll down a page in the terminal.
                     e.Handled = true;
-                    GameTerminal.PageDown();
+
+                    // Back buffer is visible then execute a PageDown()
+                    if (GameBackBufferTerminal.Visibility == System.Windows.Visibility.Visible)
+                    {
+                        GameBackBufferTerminal.PageDown();
+                    }
+
+                    // Now, if the last line in the back buffer is visible then we can just collapse the
+                    // back buffer because the main terminal shows everything at the end.
+                    if (GameBackBufferTerminal.IsLastLineVisible())
+                    {
+                        GameBackBufferTerminal.Visibility = System.Windows.Visibility.Collapsed;
+                    }
+
                     break;
                 case Key.Oem5:
                 case Key.OemBackslash:
@@ -111,6 +136,10 @@ namespace Avalon
                     e.Handled = true;
                     break;
                 case Key.Escape:
+                    // Collapse the back buffer so it hides it and reclaims the space for the main terminal.
+                    GameBackBufferTerminal.Visibility = System.Windows.Visibility.Collapsed;
+
+                    // Reset the input history to the default position and clear the text in the input box.
                     Interp.InputHistoryPosition = -1;
                     TextInput.Editor.Text = "";
                     break;

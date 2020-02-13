@@ -35,5 +35,10 @@ namespace Avalon.Common.Models
         /// </summary>
         public bool ReverseColors { get; set; } = false;
 
+        /// <summary>
+        /// Whether or not the terminal should scroll to the last line when this line is inserted.  Default value is true.
+        /// </summary>
+        public bool ScrollToLastLine { get; set; } = true;
+
     }
 }

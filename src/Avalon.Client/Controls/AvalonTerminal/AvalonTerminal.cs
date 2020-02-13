@@ -105,6 +105,25 @@ namespace Avalon.Controls
         /// <summary>
         /// Adds a line into the Lines list and appends it's content to the buffer.
         /// </summary>
+        /// <param name="text">The text to append to the terminal.</param>
+        /// <param name="scrollToLastLine">Whether or not the line should cause the terminal to scroll to the last line.</param>
+        public void Append(string text, bool scrollToLastLine)
+        {
+            var line = new Line
+            {
+                FormattedText = text,
+                Text = Colorizer.RemoveAllAnsiCodes(text),
+                IgnoreLastColor = false,
+                ForegroundColor = AnsiColors.Default,
+                ScrollToLastLine = scrollToLastLine
+            };
+            
+            Append(line);
+        }
+
+        /// <summary>
+        /// Adds a line into the Lines list and appends it's content to the buffer.
+        /// </summary>
         /// <param name="text"></param>
         /// <param name="foregroundColor"></param>
         public void Append(string text, AnsiColor foregroundColor)
@@ -135,6 +154,28 @@ namespace Avalon.Controls
                 IgnoreLastColor = true,
                 ForegroundColor = foregroundColor,
                 ReverseColors = reverseColors
+            };
+
+            Append(line);
+        }
+
+        /// <summary>
+        /// Adds a line into the Lines list and appends it's content to the buffer.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="foregroundColor"></param>
+        /// <param name="reverseColors"></param>
+        /// <param name="scrollToLastLine">Whether or not the line should cause the terminal to scroll to the last line.</param>
+        public void Append(string text, AnsiColor foregroundColor, bool reverseColors, bool scrollToLastLine)
+        {
+            var line = new Line
+            {
+                FormattedText = text,
+                Text = Colorizer.RemoveAllAnsiCodes(text),
+                IgnoreLastColor = true,
+                ForegroundColor = foregroundColor,
+                ReverseColors = reverseColors,
+                ScrollToLastLine = scrollToLastLine
             };
 
             Append(line);
@@ -179,9 +220,15 @@ namespace Avalon.Controls
                     line.FormattedText = line.FormattedText.Insert(0, AnsiColors.Reverse);
                 }
             }
-
+            
             this.AppendText(line.FormattedText);
-            this.ScrollToLastLine();
+
+            // Check to see if we should scroll to the last line after appending.  This will be true for probably
+            // all terminal windows except the back buffer.
+            if (line.ScrollToLastLine)
+            {
+                this.ScrollToLastLine();
+            }
         }
 
         /// <summary>
@@ -190,6 +237,38 @@ namespace Avalon.Controls
         public void ScrollToLastLine()
         {
             this.ScrollToVerticalOffset(this.TextArea.TextView.GetVisualTopByDocumentLine(this.LineCount));
+        }
+
+        /// <summary>
+        /// Whether or not the last line is visible on the screen.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsLastLineVisible()
+        {
+            var lastLine = this.TextArea.TextView.GetVisualLine(this.LineCount);
+
+            if (lastLine == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Whether or not the first line is visible on the screen.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsFirstLineVisible()
+        {
+            var firstLine = this.TextArea.TextView.GetVisualLine(0);
+
+            if (firstLine == null)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>

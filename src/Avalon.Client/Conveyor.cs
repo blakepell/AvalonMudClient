@@ -176,6 +176,14 @@ namespace Avalon
                     Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
                         App.MainWindow.GameTerminal.Append(line);
+                        
+                        // If the back buffer setting is enabled put the data also in there.
+                        if (App.Settings.AvalonSettings.BackBufferEnabled)
+                        {
+                            line.ScrollToLastLine = false;
+                            App.MainWindow.GameBackBufferTerminal.Append(line);
+                        }
+
                     }));
 
                     break;
