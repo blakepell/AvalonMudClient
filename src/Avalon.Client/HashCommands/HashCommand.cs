@@ -71,8 +71,8 @@ namespace Avalon.HashCommands
             // Character 30 is a record separator.
             char splitter = (char)30;
 
-            // Convert the spaces to a newline sign so we can split at newline later on
-            // Only convert spaces which are outside the boundaries of quoted text
+            // Convert the spaces to a record separator sign so we can split at newline
+            // later on.  Only convert spaces which are outside the boundaries of quoted text.
             for (int i = 0; i < sb.Length; i++)
             {
                 if (sb[i].Equals('"'))
