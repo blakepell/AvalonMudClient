@@ -19,17 +19,6 @@ namespace Avalon
                 return;
             }
 
-            // First, handle special keys.
-            switch (e.Key)
-            {
-                case Key.PageUp:
-                    GameTerminal.PageUp();
-                    return;
-                case Key.PageDown:
-                    GameTerminal.PageDown();
-                    return;
-            }
-
             // Second, look for whether this key was a Macro, if a Macro is found, execute it,
             // set the focus to the text input box then get out.
             foreach (var item in App.Settings.ProfileSettings.MacroList)
