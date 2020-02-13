@@ -144,7 +144,10 @@ namespace Avalon
         /// <param name="terminal"></param>
         public void EchoText(string text, AnsiColor foregroundColor, TerminalTarget terminal)
         {
-            EchoText(text.ToLine().ForegroundColor = foregroundColor, terminal);
+            var line = text.ToLine();
+            line.ForegroundColor = foregroundColor;
+            line.IgnoreLastColor = true;
+            EchoText(line, terminal);
         }
 
         /// <summary>

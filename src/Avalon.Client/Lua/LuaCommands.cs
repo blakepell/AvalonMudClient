@@ -60,6 +60,7 @@ namespace Avalon.Lua
         {
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
+                //_interpreter.Conveyor.EchoText(msg + "\r\n", AnsiColors.Cyan, Common.Models.TerminalTarget.Main);
                 _interpreter.EchoText(msg, AnsiColors.Cyan);
             }));
         }
@@ -160,6 +161,7 @@ namespace Avalon.Lua
         /// <returns></returns>
         public void SetTitle(string title)
         {
+            // TODO - Threading done in the property, probably the wrong way to do this, should move here probably.
             _interpreter.Conveyor.Title = title;
         }
 
