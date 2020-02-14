@@ -50,5 +50,10 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public bool BackBufferEnabled { get; set; } = true;
 
+        [CategoryAttribute("Security")]
+        [DescriptionAttribute("Whether features that might implicate security are turned on.  These generally allow an expert to run commands a normal player shouldn't run.")]
+        [Browsable(true)]
+        public bool DeveloperMode { get; set; } = false;
+
     }
 }
