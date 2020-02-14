@@ -75,7 +75,9 @@
             <TextBlock x:Name="TextBlockStatus" HorizontalAlignment="Right" Padding="0,10,10,0" FontSize="14"></TextBlock>
         </DockPanel>
 
-        <TreeView x:Name="TreeViewSchema" BorderBrush="LightGray" BorderThickness="1,1,1,1"
+        <TreeView x:Name="TreeViewSchema"
+                  BorderBrush="LightGray" Background="#1E1E1E" Foreground="#DCDCDC"
+                  BorderThickness="1,1,1,1"
                   Grid.Row="1" Grid.Column="0">
             <TreeViewItem x:Name="TreeViewDatabaseName" IsExpanded="True">
                 <TreeViewItem.Header>
@@ -158,11 +160,18 @@
         </avalonedit:TextEditor>
 
         <DataGrid x:Name="SqlResults" AutoGenerateColumns="True" IsReadOnly="True"
+                  Background="#1E1E1E" Foreground="#DCDCDC"                  
                   Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Padding="0"
                   Margin="0"
                   BorderThickness="1,0,1,1" BorderBrush="LightGray"
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                   AutoGeneratingColumn="SqlResults_AutoGeneratingColumn">
+            <!--<DataGrid.Resources>
+                <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Background" Value="#1E1E1E" />
+                    <Setter Property="Foreground" Value="#DCDCDC"></Setter>
+                </Style>
+            </DataGrid.Resources>-->
         </DataGrid>
     </Grid>
 </UserControl>

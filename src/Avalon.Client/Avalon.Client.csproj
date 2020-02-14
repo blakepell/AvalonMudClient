@@ -66,6 +66,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Avalon.Common\Avalon.Common.csproj" />
     <ProjectReference Include="..\Avalon.MoonSharp\Avalon.MoonSharp.csproj" />
+    <ProjectReference Include="..\Avalon.SQLite\Avalon.Sqlite.csproj" />
   </ItemGroup>
 
   <ItemGroup>

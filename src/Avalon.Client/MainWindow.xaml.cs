@@ -66,13 +66,13 @@ namespace Avalon
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // The settings for the app load in the app startup, they will then try to load the last profile
             // that was used.
             App.Conveyor.EchoLog($"Avalon Mud Client Version {Assembly.GetExecutingAssembly()?.GetName()?.Version.ToString() ?? "Unknown"}", LogType.Information);
-            App.Conveyor.EchoLog($"Settings Folder: {App.Settings.AppDataDirectory}", LogType.Information);
-            App.Conveyor.EchoLog($"Settings File:   {App.Settings.AvalonSettingsFile}", LogType.Information);
+            App.Conveyor.EchoLog($"Global Settings Folder: {App.Settings.AppDataDirectory}", LogType.Information);
+            App.Conveyor.EchoLog($"Global Settings File:   {App.Settings.AvalonSettingsFile}", LogType.Information);
             App.Conveyor.EchoLog($"Profiles Folder: {App.Settings.AvalonSettings.SaveDirectory}", LogType.Information);
 
             // Parse the command line arguments to see if a profile was specified.
@@ -135,6 +135,18 @@ namespace Avalon
             // Setup the auto complete commands.  If they're found refresh them, if they're not
             // report it to the terminal window.  It should -always be found-.
             RefreshAutoCompleteEntries();
+
+            // Setup the database control.            
+            try
+            {
+                App.Conveyor.EchoLog($"Initializing SQLite Database: {App.Settings.ProfileSettings.SqliteDatabase}", LogType.Information);
+                SqliteQueryControl.ConnectionString = @$"Data Source={App.Settings.ProfileSettings.SqliteDatabase}";
+                await SqliteQueryControl.RefreshSchema();
+            }
+            catch (Exception ex)
+            {
+                App.Conveyor.EchoLog(ex.Message, LogType.Error);
+            }
 
             // Auto connect to the game if the setting is set.
             if (App.Settings.ProfileSettings.AutoConnect)

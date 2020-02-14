@@ -10,6 +10,7 @@
         xmlns:editors="clr-namespace:Avalon.Controls.AutoCompleteTextBox.Editors"
         xmlns:providers="clr-namespace:Avalon.Controls.AutoCompleteTextBox"
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+        xmlns:sqlite="clr-namespace:Avalon.Sqlite;assembly=Avalon.Sqlite"
         ui:WindowHelper.UseModernWindowStyle="True" 
         x:Name="mainPage" TextOptions.TextFormattingMode="Ideal"
         ui:TitleBar.Background="#1E1E1E"
@@ -202,6 +203,9 @@
             </controls:TabItemEx>
             <controls:TabItemEx x:Name="TabVariables" Header="Variables" Icon="Account" ui:ControlHelper.CornerRadius="0">
                 <controls:VariableList x:Name="VariableList"></controls:VariableList>
+            </controls:TabItemEx>
+            <controls:TabItemEx x:Name="TabDatabase" Header="Database" Icon="Tag" ui:ControlHelper.CornerRadius="0">
+                <sqlite:SqliteQueryControl x:Name="SqliteQueryControl"></sqlite:SqliteQueryControl>
             </controls:TabItemEx>
         </controls:TabControlEx>
     </Grid>

@@ -156,6 +156,13 @@ namespace Avalon.Common.Settings
                 }
             }
 
+            // Set the database that corresponds to this profile (we will not save this out, it will be constructed and be saved in
+            // the same folder as the profile.
+            if (string.IsNullOrWhiteSpace(this.ProfileSettings.SqliteDatabase))
+            {
+                this.ProfileSettings.SqliteDatabase = Path.Combine(this.AvalonSettings.SaveDirectory, $"{this.ProfileSettings.FileName.Replace(".json", "")}.db");
+            }
+
             // There are no macros set, initialize our default ones.
             if (this.ProfileSettings.MacroList.Count == 0)
             {

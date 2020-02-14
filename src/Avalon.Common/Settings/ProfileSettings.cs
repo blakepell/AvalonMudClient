@@ -120,6 +120,16 @@ namespace Avalon.Common.Settings
             }
         }
 
+        /// <summary>
+        /// The location to the SQLite database for this profile.  Note that if the file is changed it will try
+        /// to create a new database in the location specified.
+        /// </summary>
+        [JsonIgnore]
+        [CategoryAttribute("Database")]
+        [DescriptionAttribute("Location to the SQLite database for this profile.")]
+        [Browsable(true)]
+        public string SqliteDatabase { get; set; } = "";
+
         [Browsable(false)]
         public ObservableCollection<Macro> MacroList { get; set; } = new ObservableCollection<Macro>();
 
