@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+    <Version>2020.2.13.1</Version>
+    <Authors>Blake Pell</Authors>
+    <Company>Blake Pell</Company>
+    <Description>SQLite Query Control and Extensions for WPF (.NET Core)</Description>
+    <Copyright>2020</Copyright>
+    <PackageProjectUrl>https://github.com/blakepell/AvalonMudClient</PackageProjectUrl>
+    <PackageId>Avalon.Sqlite</PackageId>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\SQLite.xshd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\SQLite.xshd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Argus.Core" Version="2020.1.21.1" />
+    <PackageReference Include="AvalonEdit" Version="6.0.1" />
+    <PackageReference Include="Dapper" Version="2.0.30" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="3.1.1" />
+    <PackageReference Include="ModernWpfUI" Version="0.7.4" />
+  </ItemGroup>
+
+</Project>

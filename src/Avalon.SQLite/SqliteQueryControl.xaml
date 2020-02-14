@@ -1,0 +1,168 @@
+﻿<UserControl x:Class="Avalon.Sqlite.SqliteQueryControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Avalon.Sqlite"
+             xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+             xmlns:ui="http://schemas.modernwpf.com/2019"
+             mc:Ignorable="d"
+             Name="QueryControl"
+             d:DesignHeight="450" d:DesignWidth="800"
+             KeyDown="QueryControl_KeyDownAsync">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ui:ThemeResources />
+                <ui:XamlControlsResources />
+                <ui:ThemeResources RequestedTheme="Dark">
+                    <ui:ThemeResources.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Light">
+                            <ResourceDictionary.MergedDictionaries>
+                                <ui:ColorPaletteResources
+                                    TargetTheme="Light"
+                                    Accent="Green" BaseHigh="Red"
+                                    AltHigh="LightGray" />
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Dark">
+                            <ResourceDictionary.MergedDictionaries>
+                                <ui:ColorPaletteResources
+                                    TargetTheme="Dark"
+                                    Accent="White"
+                                    BaseHigh="White"       
+                                    AltHigh="#2D2D30"
+                                />
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+                    </ui:ThemeResources.ThemeDictionaries>
+                </ui:ThemeResources>
+                <ui:XamlControlsResources />
+                <ResourceDictionary x:Name="Icons" Source="Assets/Icons.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <local:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="7*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40*" />
+            <RowDefinition Height="50*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Background="LightGray" Grid.Row="0" Grid.Column="0">
+            <ui:CommandBar x:Name="DbExplorerCommandBar" Background="LightGray" DefaultLabelPosition="Right"  HorizontalAlignment="Left">
+                <ui:AppBarButton x:Name="ButtonRefreshSchema" Label="Refresh Schema" Click="ButtonRefreshSchema_ClickAsync">
+                    <ui:AppBarButton.Icon>
+                        <ui:SymbolIcon Symbol="Refresh" Foreground="Blue" />
+                    </ui:AppBarButton.Icon>
+                </ui:AppBarButton>
+            </ui:CommandBar>
+        </StackPanel>
+
+        <DockPanel Background="LightGray" Grid.Row="0" Grid.Column="1">
+            <ui:CommandBar x:Name="SqlCommandBar" Background="LightGray" DefaultLabelPosition="Right" HorizontalAlignment="Left">
+                <ui:AppBarButton x:Name="ButtonExecuteSql" Label="Execute Query [F5]" Click="ButtonExecuteSql_ClickAsync" DataContext="{Binding ElementName=QueryControl}" IsEnabled="{Binding Path=IsQueryExecuting, Converter={StaticResource InverseBooleanConverter}}">
+                    <ui:AppBarButton.Icon>
+                        <ui:SymbolIcon Symbol="Play" Foreground="Green" />
+                    </ui:AppBarButton.Icon>
+                </ui:AppBarButton>
+            </ui:CommandBar>
+            <TextBlock x:Name="TextBlockStatus" HorizontalAlignment="Right" Padding="0,10,10,0" FontSize="14"></TextBlock>
+        </DockPanel>
+
+        <TreeView x:Name="TreeViewSchema" BorderBrush="LightGray" BorderThickness="1,1,1,1"
+                  Grid.Row="1" Grid.Column="0">
+            <TreeViewItem x:Name="TreeViewDatabaseName" IsExpanded="True">
+                <TreeViewItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{StaticResource Database}" Height="16" Width="16" Margin="0,0,5,0" VerticalAlignment="Center"></Image>
+                        <TextBlock Text="{Binding DatabaseName}" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </TreeViewItem.Header>
+                <TreeViewItem ItemsSource="{Binding Tables}" Margin="0,0,0,0">
+                    <TreeViewItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource Folder}" Height="16" Width="16" Margin="0,0,5,0" VerticalAlignment="Center"></Image>
+                            <TextBlock Text="Tables" VerticalAlignment="Center"></TextBlock>
+                        </StackPanel>
+                    </TreeViewItem.Header>
+                    <TreeViewItem.ItemTemplate>
+                        <DataTemplate>
+                            <TreeViewItem ItemsSource="{Binding Fields}" Margin="-30,0,0,0">
+                                <TreeViewItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{StaticResource Table}" Height="16" Width="16" Margin="0,0,5,0" VerticalAlignment="Center"></Image>
+                                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center"></TextBlock>
+                                    </StackPanel>
+                                </TreeViewItem.Header>
+
+                                <TreeViewItem.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="{StaticResource Field}" Height="16" Width="16" Margin="0,0,5,0" VerticalAlignment="Center"></Image>
+                                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center"></TextBlock>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </TreeViewItem.ItemTemplate>
+                            </TreeViewItem>
+                        </DataTemplate>
+                    </TreeViewItem.ItemTemplate>
+                </TreeViewItem>
+                <TreeViewItem ItemsSource="{Binding Views}">
+                    <TreeViewItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource Folder}" Height="16" Width="16" Margin="0,0,5,0" VerticalAlignment="Center"></Image>
+                            <TextBlock Text="Views" VerticalAlignment="Center"></TextBlock>
+                        </StackPanel>
+                    </TreeViewItem.Header>
+                    <TreeViewItem.ItemTemplate>
+                        <DataTemplate>
+                            <TreeViewItem ItemsSource="{Binding Fields}" Margin="-30,0,0,0">
+                                <TreeViewItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{StaticResource Table}" Height="16" Width="16" Margin="0,0,5,0" VerticalAlignment="Center"></Image>
+                                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center"></TextBlock>
+                                    </StackPanel>
+                                </TreeViewItem.Header>
+                                <TreeViewItem.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="{StaticResource Field}" Height="16" Width="16" Margin="0,0,5,0" VerticalAlignment="Center"></Image>
+                                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </TreeViewItem.ItemTemplate>
+                            </TreeViewItem>
+                        </DataTemplate>
+                    </TreeViewItem.ItemTemplate>
+                </TreeViewItem>
+            </TreeViewItem>
+        </TreeView>
+
+        <avalonedit:TextEditor
+            x:Name="SqlEditor" ShowLineNumbers="True" WordWrap="False"
+            SyntaxHighlighting="SQLite"
+            Background="#1E1E1E" Foreground="#DCDCDC"
+            Grid.Row="1" Grid.Column="1"
+            FontFamily="Consolas"
+            Padding="0,0,0,15"
+            Margin="0"
+            BorderBrush="LightGray" BorderThickness="0,1,1,1"
+            HorizontalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible"
+            FontSize="10pt">
+        </avalonedit:TextEditor>
+
+        <DataGrid x:Name="SqlResults" AutoGenerateColumns="True" IsReadOnly="True"
+                  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Padding="0"
+                  Margin="0"
+                  BorderThickness="1,0,1,1" BorderBrush="LightGray"
+                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                  AutoGeneratingColumn="SqlResults_AutoGeneratingColumn">
+        </DataGrid>
+    </Grid>
+</UserControl>

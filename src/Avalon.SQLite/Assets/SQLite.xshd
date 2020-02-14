@@ -1,0 +1,186 @@
+﻿<?xml version="1.0"?>
+<SyntaxDefinition name="SQLite" extensions=".sql" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+  <Color name="Comment" foreground="Green" exampleText="-- comment" />
+  <Color name="Char" foreground="Red" exampleText="name = 'abc'"/>
+  <Color name="Keywords" fontWeight="bold" foreground="Blue" exampleText="SELECT FROM"/>
+
+  <Property name="DocCommentMarker" value="///" />
+
+  <RuleSet name="CommentMarkerSet">
+    <Keywords fontWeight="bold" foreground="Red">
+      <Word>TODO</Word>
+      <Word>FIXME</Word>
+    </Keywords>
+    <Keywords fontWeight="bold" foreground="#E0E000">
+      <Word>HACK</Word>
+      <Word>UNDONE</Word>
+    </Keywords>
+  </RuleSet>
+
+  <RuleSet ignoreCase="true">
+    <Span color="Comment" ruleSet="CommentMarkerSet">
+      <Begin>--</Begin>
+    </Span>
+
+    <Span color="Comment" ruleSet="CommentMarkerSet" multiline="true">
+      <Begin>/\*</Begin>
+      <End>\*/</End>
+    </Span>
+
+    <Span color="Char">
+      <Begin>'</Begin>
+      <End>'</End>
+      <RuleSet>
+        <Span begin="\\" end="."/>
+      </RuleSet>
+    </Span>
+
+    <Keywords color="Keywords">
+      <Word>abort</Word>
+      <Word>action</Word>
+      <Word>add</Word>
+      <Word>after</Word>
+      <Word>all</Word>
+      <Word>alter</Word>
+      <Word>always</Word>
+      <Word>analyze</Word>
+      <Word>and</Word>
+      <Word>as</Word>
+      <Word>asc</Word>
+      <Word>attach</Word>
+      <Word>autoincrement</Word>
+      <Word>before</Word>
+      <Word>begin</Word>
+      <Word>between</Word>
+      <Word>by</Word>
+      <Word>cascade</Word>
+      <Word>case</Word>
+      <Word>cast</Word>
+      <Word>check</Word>
+      <Word>collate</Word>
+      <Word>column</Word>
+      <Word>commit</Word>
+      <Word>conflict</Word>
+      <Word>constraint</Word>
+      <Word>create</Word>
+      <Word>cross</Word>
+      <Word>current</Word>
+      <Word>current_date</Word>
+      <Word>current_time</Word>
+      <Word>current_timestamp</Word>
+      <Word>database</Word>
+      <Word>default</Word>
+      <Word>deferrable</Word>
+      <Word>deferred</Word>
+      <Word>delete</Word>
+      <Word>desc</Word>
+      <Word>detach</Word>
+      <Word>distinct</Word>
+      <Word>do</Word>
+      <Word>drop</Word>
+      <Word>each</Word>
+      <Word>else</Word>
+      <Word>end</Word>
+      <Word>escape</Word>
+      <Word>except</Word>
+      <Word>exclude</Word>
+      <Word>exclusive</Word>
+      <Word>exists</Word>
+      <Word>explain</Word>
+      <Word>fail</Word>
+      <Word>filter</Word>
+      <Word>first</Word>
+      <Word>following</Word>
+      <Word>for</Word>
+      <Word>foreign</Word>
+      <Word>from</Word>
+      <Word>full</Word>
+      <Word>generated</Word>
+      <Word>glob</Word>
+      <Word>group</Word>
+      <Word>groups</Word>
+      <Word>having</Word>
+      <Word>if</Word>
+      <Word>ignore</Word>
+      <Word>immediate</Word>
+      <Word>in</Word>
+      <Word>index</Word>
+      <Word>indexed</Word>
+      <Word>initially</Word>
+      <Word>inner</Word>
+      <Word>insert</Word>
+      <Word>instead</Word>
+      <Word>intersect</Word>
+      <Word>into</Word>
+      <Word>is</Word>
+      <Word>isnull</Word>
+      <Word>join</Word>
+      <Word>key</Word>
+      <Word>last</Word>
+      <Word>left</Word>
+      <Word>like</Word>
+      <Word>limit</Word>
+      <Word>match</Word>
+      <Word>natural</Word>
+      <Word>no</Word>
+      <Word>not</Word>
+      <Word>nothing</Word>
+      <Word>notnull</Word>
+      <Word>null</Word>
+      <Word>nulls</Word>
+      <Word>of</Word>
+      <Word>offset</Word>
+      <Word>on</Word>
+      <Word>or</Word>
+      <Word>order</Word>
+      <Word>others</Word>
+      <Word>outer</Word>
+      <Word>over</Word>
+      <Word>partition</Word>
+      <Word>plan</Word>
+      <Word>pragma</Word>
+      <Word>preceding</Word>
+      <Word>primary</Word>
+      <Word>query</Word>
+      <Word>raise</Word>
+      <Word>range</Word>
+      <Word>recursive</Word>
+      <Word>references</Word>
+      <Word>regexp</Word>
+      <Word>reindex</Word>
+      <Word>release</Word>
+      <Word>rename</Word>
+      <Word>replace</Word>
+      <Word>restrict</Word>
+      <Word>right</Word>
+      <Word>rollback</Word>
+      <Word>row</Word>
+      <Word>rows</Word>
+      <Word>savepoint</Word>
+      <Word>select</Word>
+      <Word>set</Word>
+      <Word>table</Word>
+      <Word>temp</Word>
+      <Word>temporary</Word>
+      <Word>then</Word>
+      <Word>ties</Word>
+      <Word>to</Word>
+      <Word>transaction</Word>
+      <Word>trigger</Word>
+      <Word>unbounded</Word>
+      <Word>union</Word>
+      <Word>unique</Word>
+      <Word>update</Word>
+      <Word>using</Word>
+      <Word>vacuum</Word>
+      <Word>values</Word>
+      <Word>view</Word>
+      <Word>virtual</Word>
+      <Word>when</Word>
+      <Word>where</Word>
+      <Word>window</Word>
+      <Word>with</Word>
+      <Word>without</Word>
+    </Keywords>
+  </RuleSet>
+</SyntaxDefinition>
