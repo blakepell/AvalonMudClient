@@ -189,6 +189,7 @@ namespace Avalon.Common.Settings
                 this.ProfileSettings.MacroList.Add(new Macro(100, "F11", ""));       // Key.F11
                 this.ProfileSettings.MacroList.Add(new Macro(101, "F12", ""));       // Key.F12
             }
+
         }
 
         /// <summary>

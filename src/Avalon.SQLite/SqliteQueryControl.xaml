@@ -12,25 +12,19 @@
              KeyDown="QueryControl_KeyDownAsync">
     <UserControl.Resources>
         <ResourceDictionary>
+            <SolidColorBrush x:Key="GridLines">#565656</SolidColorBrush>
+            <local:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
             <ResourceDictionary.MergedDictionaries>
                 <ui:ThemeResources />
                 <ui:XamlControlsResources />
                 <ui:ThemeResources RequestedTheme="Dark">
                     <ui:ThemeResources.ThemeDictionaries>
-                        <ResourceDictionary x:Key="Light">
-                            <ResourceDictionary.MergedDictionaries>
-                                <ui:ColorPaletteResources
-                                    TargetTheme="Light"
-                                    Accent="Green" BaseHigh="Red"
-                                    AltHigh="LightGray" />
-                            </ResourceDictionary.MergedDictionaries>
-                        </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark">
                             <ResourceDictionary.MergedDictionaries>
                                 <ui:ColorPaletteResources
                                     TargetTheme="Dark"
-                                    Accent="White"
-                                    BaseHigh="White"       
+                                    Accent="Black"
+                                    BaseHigh="Black"       
                                     AltHigh="#2D2D30"
                                 />
                             </ResourceDictionary.MergedDictionaries>
@@ -40,10 +34,9 @@
                 <ui:XamlControlsResources />
                 <ResourceDictionary x:Name="Icons" Source="Assets/Icons.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <local:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
+    <Grid Margin="-3">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="7*" />
@@ -54,29 +47,30 @@
             <RowDefinition Height="50*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Background="LightGray" Grid.Row="0" Grid.Column="0">
-            <ui:CommandBar x:Name="DbExplorerCommandBar" Background="LightGray" DefaultLabelPosition="Right"  HorizontalAlignment="Left">
+        <StackPanel Background="#171717" Grid.Row="0" Grid.Column="0">
+            <ui:CommandBar x:Name="DbExplorerCommandBar" Background="#171717" DefaultLabelPosition="Right"  HorizontalAlignment="Left">
                 <ui:AppBarButton x:Name="ButtonRefreshSchema" Label="Refresh Schema" Click="ButtonRefreshSchema_ClickAsync">
                     <ui:AppBarButton.Icon>
-                        <ui:SymbolIcon Symbol="Refresh" Foreground="Blue" />
+                        <ui:SymbolIcon Symbol="Refresh" Foreground="CornflowerBlue" />
                     </ui:AppBarButton.Icon>
                 </ui:AppBarButton>
             </ui:CommandBar>
         </StackPanel>
 
-        <DockPanel Background="LightGray" Grid.Row="0" Grid.Column="1">
-            <ui:CommandBar x:Name="SqlCommandBar" Background="LightGray" DefaultLabelPosition="Right" HorizontalAlignment="Left">
+        <DockPanel Background="#171717" Grid.Row="0" Grid.Column="1">
+            <ui:CommandBar x:Name="SqlCommandBar" Background="#171717" DefaultLabelPosition="Right" HorizontalAlignment="Left">
                 <ui:AppBarButton x:Name="ButtonExecuteSql" Label="Execute Query [F5]" Click="ButtonExecuteSql_ClickAsync" DataContext="{Binding ElementName=QueryControl}" IsEnabled="{Binding Path=IsQueryExecuting, Converter={StaticResource InverseBooleanConverter}}">
                     <ui:AppBarButton.Icon>
                         <ui:SymbolIcon Symbol="Play" Foreground="Green" />
                     </ui:AppBarButton.Icon>
                 </ui:AppBarButton>
             </ui:CommandBar>
-            <TextBlock x:Name="TextBlockStatus" HorizontalAlignment="Right" Padding="0,10,10,0" FontSize="14"></TextBlock>
+            <TextBlock x:Name="TextBlockStatus" HorizontalAlignment="Right" Padding="0,10,10,0" FontSize="14" Foreground="White"></TextBlock>
         </DockPanel>
 
         <TreeView x:Name="TreeViewSchema"
-                  BorderBrush="LightGray" Background="#1E1E1E" Foreground="#DCDCDC"
+                  BorderBrush="{StaticResource ResourceKey=GridLines}" Background="#1E1E1E" Foreground="#DCDCDC"
+                  Margin="0" Padding="0,0,0,0"
                   BorderThickness="1,1,1,1"
                   Grid.Row="1" Grid.Column="0">
             <TreeViewItem x:Name="TreeViewDatabaseName" IsExpanded="True">
@@ -154,7 +148,7 @@
             FontFamily="Consolas"
             Padding="0,0,0,15"
             Margin="0"
-            BorderBrush="LightGray" BorderThickness="0,1,1,1"
+            BorderBrush="{StaticResource ResourceKey=GridLines}" BorderThickness="0,1,1,1"
             HorizontalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible"
             FontSize="10pt">
         </avalonedit:TextEditor>
@@ -162,16 +156,24 @@
         <DataGrid x:Name="SqlResults" AutoGenerateColumns="True" IsReadOnly="True"
                   Background="#1E1E1E" Foreground="#DCDCDC"                  
                   Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Padding="0"
-                  Margin="0"
-                  BorderThickness="1,0,1,1" BorderBrush="LightGray"
+                  Margin="0" GridLinesVisibility="All"
+                  BorderThickness="1,0,1,1" BorderBrush="{StaticResource ResourceKey=GridLines}"
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                   AutoGeneratingColumn="SqlResults_AutoGeneratingColumn">
-            <!--<DataGrid.Resources>
-                <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+            <DataGrid.Resources>
+                <Style BasedOn="{ui:StaticResource ResourceKey=DefaultDataGridColumnHeaderStyle}" TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="Background" Value="#1E1E1E" />
                     <Setter Property="Foreground" Value="#DCDCDC"></Setter>
                 </Style>
-            </DataGrid.Resources>-->
+                <Style BasedOn="{ui:StaticResource ResourceKey=DefaultDataGridRowHeaderStyle}" TargetType="{x:Type DataGridRowHeader}">
+                    <Setter Property="Background" Value="#1E1E1E" />
+                    <Setter Property="Foreground" Value="#DCDCDC"></Setter>
+                </Style>
+                <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type DataGrid}, ResourceId=DataGridSelectAllButtonStyle}" TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="#1E1E1E" />
+                    <Setter Property="Foreground" Value="#DCDCDC"></Setter>
+                </Style>
+            </DataGrid.Resources>
         </DataGrid>
     </Grid>
 </UserControl>

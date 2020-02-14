@@ -82,7 +82,7 @@ namespace Avalon
             // Try to load the last profile loaded, if not found create a new profile.
             if (File.Exists(App.Settings.AvalonSettings.LastLoadedProfilePath))
             {
-                LoadSettings(App.Settings.AvalonSettings.LastLoadedProfilePath);
+                await LoadSettings(App.Settings.AvalonSettings.LastLoadedProfilePath);
             }
             else
             {
@@ -136,18 +136,6 @@ namespace Avalon
             // report it to the terminal window.  It should -always be found-.
             RefreshAutoCompleteEntries();
 
-            // Setup the database control.            
-            try
-            {
-                App.Conveyor.EchoLog($"Initializing SQLite Database: {App.Settings.ProfileSettings.SqliteDatabase}", LogType.Information);
-                SqliteQueryControl.ConnectionString = @$"Data Source={App.Settings.ProfileSettings.SqliteDatabase}";
-                await SqliteQueryControl.RefreshSchema();
-            }
-            catch (Exception ex)
-            {
-                App.Conveyor.EchoLog(ex.Message, LogType.Error);
-            }
-
             // Auto connect to the game if the setting is set.
             if (App.Settings.ProfileSettings.AutoConnect)
             {
@@ -168,7 +156,7 @@ namespace Avalon
         /// Loads the settings for the specified file.
         /// </summary>
         /// <param name="fileName"></param>
-        private void LoadSettings(string fileName)
+        private async Task LoadSettings(string fileName)
         {
             try
             {
@@ -179,6 +167,19 @@ namespace Avalon
                     : App.Settings.ProfileSettings.WindowTitle;
 
                 App.Conveyor.EchoLog($"Settings Loaded: {fileName}", LogType.Success);
+
+                // Setup the database control.            
+                try
+                {
+                    App.Conveyor.EchoLog($"Initializing SQLite Database: {App.Settings.ProfileSettings.SqliteDatabase}", LogType.Information);
+                    SqliteQueryControl.ConnectionString = $"Data Source={App.Settings.ProfileSettings.SqliteDatabase}";
+                    await SqliteQueryControl.RefreshSchema();
+                }
+                catch (Exception ex)
+                {
+                    App.Conveyor.EchoLog(ex.Message, LogType.Error);
+                }
+
             }
             catch (Exception ex)
             {
@@ -382,7 +383,7 @@ namespace Avalon
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ButtonOpenProfile_OnClick(object sender, RoutedEventArgs e)
+        private async void ButtonOpenProfile_OnClick(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -393,7 +394,7 @@ namespace Avalon
                 if (dialog.ShowDialog() == true)
                 {
                     // Load the settings for the file that was selected.
-                    LoadSettings(dialog.FileName);
+                    await LoadSettings(dialog.FileName);
 
                     // Inject the Conveyor into the Triggers.
                     foreach (var trigger in App.Settings.ProfileSettings.TriggerList)

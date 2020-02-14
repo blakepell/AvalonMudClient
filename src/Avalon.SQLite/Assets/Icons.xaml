@@ -25,7 +25,7 @@
     <DrawingImage x:Key="Folder">
         <DrawingImage.Drawing>
             <DrawingGroup ClipGeometry="M0,0 V32 H32 V0 H0 Z">
-                <GeometryDrawing Brush="#DCDCDC" Geometry="F1 M32,32z M0,0z M24,18L24,20 8,20 8,20 8,18z M24,14L24,16 8,16 8,16 8,14z M20,22L20,24 8,24 8,24 8,22z M30,8L30,6 10,6 10,4 0,4 0,32 31.999,32 32,8 30,8z M29.999,29.999L2,29.999 2,6 8,6 8,10 29.999,10 29.999,29.999z" />
+                <GeometryDrawing Brush="#E9B664" Geometry="F1 M32,32z M0,0z M24,18L24,20 8,20 8,20 8,18z M24,14L24,16 8,16 8,16 8,14z M20,22L20,24 8,24 8,24 8,22z M30,8L30,6 10,6 10,4 0,4 0,32 31.999,32 32,8 30,8z M29.999,29.999L2,29.999 2,6 8,6 8,10 29.999,10 29.999,29.999z" />
             </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
