@@ -41,6 +41,7 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
  - Touch scrolling to be enabled for touch screen devices.
  - Figure out the best deployment mechanism or subsets of deployment mechanisms.
  - Plugin support for a Dark and Shattered Lands (dsl-mud.org) with a deployment that is completely setup to play from the first run (a custom tailored deployment that just works without a cumbersome setup process for new players).
+ - Timers (there is a tick timer built in and some hash commands like alias support a delay flag which is effectivly a one time timer to fire a command after a specified amount of time.
 
 ### Long Term Road-map
 
