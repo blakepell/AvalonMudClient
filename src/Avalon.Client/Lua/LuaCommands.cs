@@ -165,6 +165,14 @@ namespace Avalon.Lua
             _interpreter.Conveyor.Title = title;
         }
 
+        /// <summary>
+        /// The text that is currently in the scrape buffer.
+        /// </summary>
+        public string GetScrapedText()
+        {
+            return _interpreter.Conveyor.Scrape.ToString();
+        }
+
         private IInterpreter _interpreter;
 
     }
