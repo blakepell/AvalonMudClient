@@ -74,10 +74,11 @@ namespace Avalon.Timers
             {
                 var line = new Line
                 {
-                    FormattedText = $"-- > Tick in 5 seconds.", 
-                    Text = $"-- > Tick in 5 seconds.", 
+                    FormattedText = $"Tick in 5 seconds.", 
+                    Text = $"Tick in 5 seconds.", 
                     IgnoreLastColor = true, 
-                    ForegroundColor = AnsiColors.Cyan
+                    ForegroundColor = AnsiColors.Cyan,
+                    ReverseColors = true
                 };
 
                 Conveyor.EchoText(line, TerminalTarget.Main);
