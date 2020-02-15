@@ -8,6 +8,7 @@
         None,
         Main,
         Communication,
-        OutOfCharacterCommunication
+        OutOfCharacterCommunication,
+        BackBuffer
     }
 }
