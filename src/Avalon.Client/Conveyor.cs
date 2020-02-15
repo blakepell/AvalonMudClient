@@ -292,6 +292,9 @@ namespace Avalon
                     case TerminalTarget.OutOfCharacterCommunication:
                         App.MainWindow.OocCommunicationTerminal.Text = "";
                         break;
+                    case TerminalTarget.BackBuffer:
+                        App.MainWindow.GameBackBufferTerminal.Text = "";
+                        break;
                 }
             }));
         }
@@ -312,6 +315,8 @@ namespace Avalon
                     return App.MainWindow.CommunicationTerminal.LineCount;
                 case TerminalTarget.OutOfCharacterCommunication:
                     return App.MainWindow.OocCommunicationTerminal.LineCount;
+                case TerminalTarget.BackBuffer:
+                    return App.MainWindow.GameBackBufferTerminal.LineCount;
             }
 
             return 0;

@@ -28,6 +28,7 @@ namespace Avalon.HashCommands
                 Interpreter.Conveyor.ClearTerminal(TerminalTarget.Main);
                 Interpreter.Conveyor.ClearTerminal(TerminalTarget.Communication);
                 Interpreter.Conveyor.ClearTerminal(TerminalTarget.OutOfCharacterCommunication);
+                Interpreter.Conveyor.ClearTerminal(TerminalTarget.BackBuffer);
                 return;
             }
 
@@ -49,6 +50,11 @@ namespace Avalon.HashCommands
                                    {
                                        Interpreter.Conveyor.ClearTerminal(TerminalTarget.OutOfCharacterCommunication);
                                    }
+
+                                   if (o.BackBuffer)
+                                   {
+                                       Interpreter.Conveyor.ClearTerminal(TerminalTarget.BackBuffer);
+                                   }
                                });
 
             // Display the help or error output from the parameter parsing.
@@ -68,6 +74,10 @@ namespace Avalon.HashCommands
 
             [Option('c', "comm", Required = false, HelpText = "Clear the communication (IC) terminal.")]
             public bool Comm { get; set; }
+
+            [Option('b', "back", Required = false, HelpText = "Clear the main terminal back buffer.")]
+            public bool BackBuffer { get; set; }
+
         }
     }
 }
