@@ -22,12 +22,16 @@ namespace Avalon.Common.Interfaces
 
         /// <summary>
         /// Will be called first by the mud client.  This method is where all items should be initialized
-        /// and put into their respective collections.
+        /// and put into their respective collections.  Any setup should be called from here (such as creating
+        /// database tables if they don't exist, etc.).
         /// </summary>
         void Initialize();
 
         /// <summary>
-        /// The list of triggers that should be imported into (or run) from the mud.
+        /// The list of triggers that should be imported into (or run) from the mud.  This can be standard
+        /// triggers or CLR triggers which are very flexible.  These should be considered core system triggers
+        /// that are stable as they are only loaded from the plugin and not changeable by the user at this
+        /// point.
         /// </summary>
         List<Trigger> Triggers { get; set; }
 

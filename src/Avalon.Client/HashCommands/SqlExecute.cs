@@ -10,6 +10,16 @@ namespace Avalon.HashCommands
     /// <summary>
     /// Executes a SQL statement with no result set.
     /// </summary>
+    /// <remarks>
+    /// This command requires developer mode to be turned on because it does not escape input.  When
+    /// a user creates the SQL this isn't a problem, it's their database after all.  However, if they
+    /// use this command in tandem with a trigger it becomes potentially problematic and that should
+    /// be understood (a player name for instance with a quote in it would break a statement if used
+    /// as a parameter.. those things should be escaped with the sqlite quote command for which I'll
+    /// provide examples.  That approach can allow this to work while preventing injection exploits.
+    /// But at some point if we're going to allow flexible developer features the dev has to understand
+    /// some basics.
+    /// </remarks>
     public class SqlExecute : HashCommand
     {
         public SqlExecute(IInterpreter interp) : base(interp)
