@@ -124,6 +124,7 @@
                             BorderThickness="0,0,0,1"
                             Background="Black" Foreground="LightGray"
                             FontSize="10pt" BorderBrush="LightGray"
+                            ScrollViewer.PanningMode="VerticalOnly"
                             ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
                             KeyDown="Terminal_OnKeyDown">
                         </controls:AvalonTerminal>
@@ -134,7 +135,7 @@
                             FontFamily="Consolas" IsReadOnly="True"
                             Padding="10,0,20,0"
                             Background="Black" Foreground="LightGray"
-                            FontSize="10pt" BorderBrush="White"
+                            FontSize="10pt" BorderBrush="White"                                                 
                             ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
                             KeyDown="Terminal_OnKeyDown">
                         </controls:AvalonTerminal>
@@ -148,6 +149,7 @@
                         FontSize="10pt" 
                         Grid.Row="1" Grid.Column="1" 
                         BorderThickness="1,0,0,0"  BorderBrush="Gray"
+                        ScrollViewer.PanningMode="VerticalOnly"
                         ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
                         KeyDown="Terminal_OnKeyDown">
                     </controls:AvalonTerminal>
@@ -160,6 +162,7 @@
                         Background="Black" Foreground="LightGray"
                         FontSize="10pt"
                         BorderThickness="1,1,0,0" BorderBrush="Gray"
+                        ScrollViewer.PanningMode="VerticalOnly"
                         ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
                         KeyDown="Terminal_OnKeyDown">
                     </controls:AvalonTerminal>

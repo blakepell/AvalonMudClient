@@ -24,6 +24,7 @@
             FontFamily="Consolas" FontSize="10pt" IsReadOnly="False"
             Padding="0,0,0,0" Margin="1,0,0,0"
             Background="#1E1E1E" Foreground="#DCDCDC"
+            ScrollViewer.PanningMode="VerticalOnly"
             BorderBrush="White">
         </avalonedit:TextEditor>
 
