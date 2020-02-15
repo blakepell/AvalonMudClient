@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Avalon.Common.Models;
+﻿using Avalon.Common.Models;
 using Avalon.Common.Triggers;
 
 namespace Avalon.Plugins.DarkAndShatteredLands
@@ -16,8 +13,10 @@ namespace Avalon.Plugins.DarkAndShatteredLands
 
         public override void Initialize()
         {
-            // TODO: (The ghost of) The ghost of Jimminy clan gossips 'please, you were hunting down a trainee. stop your pathetic rationalizing'
+            this.Conveyor.Title = "Dark and Shattered Lands";
 
+            // TODO: (The ghost of) The ghost of Jimminy clan gossips 'please, you were hunting down a trainee. stop your pathetic rationalizing'
+            
             // Clan
             this.Triggers.Add(new Trigger(@"^You clan '(.*?)'", "", "", true, "8b0bc970-08de-498e-9866-8e1aec458c08", TerminalTarget.Communication, true));
             this.Triggers.Add(new Trigger(@"^You clan \((\w+)\) '(.*?)'", "", "", true, "1cb43145-5020-4300-97db-856e5d515530", TerminalTarget.Communication, true));

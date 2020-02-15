@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Avalon.Common.Settings;
 using Avalon.Common.Triggers;
 
 namespace Avalon.Common.Interfaces
@@ -34,6 +35,21 @@ namespace Avalon.Common.Interfaces
         /// point.
         /// </summary>
         List<Trigger> Triggers { get; set; }
+
+        /// <summary>
+        /// The profile settings of the currently loaded profile.
+        /// </summary>
+        /// <remarks>
+        /// The profile is important because it will allow access to things like the location of the current
+        /// database so that any CLR triggers or menu options might be able to use that to establish a database
+        /// connection.
+        /// </remarks>
+        ProfileSettings ProfileSettings { get; set; }
+
+        /// <summary>
+        /// The Conveyor so that the plugin can interact with the UI.
+        /// </summary>
+        IConveyor Conveyor { get; set; }
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Avalon.Common.Interfaces;
+using Avalon.Common.Settings;
 using Avalon.Common.Triggers;
 
 namespace Avalon.Common.Plugins
@@ -18,6 +19,10 @@ namespace Avalon.Common.Plugins
         public abstract void Initialize();
 
         public abstract string IpAddress { get; set; }
+
+        public ProfileSettings ProfileSettings { get; set; } = new ProfileSettings();
+
+        public IConveyor Conveyor { get; set; }
 
         public List<Trigger> Triggers { get; set; }
     }
