@@ -180,7 +180,10 @@ namespace Avalon.Controls
                 Text = trigger.Command
             };
 
-            win.EditorMode = StringEditor.EditorType.Text;
+            if (trigger.IsLua)
+            {
+                win.EditorMode = StringEditor.EditorType.Lua;
+            }
 
             // Show what trigger is being edited in the status bar of the string editor window.
             win.StatusText = $"Trigger: {trigger.Pattern}";

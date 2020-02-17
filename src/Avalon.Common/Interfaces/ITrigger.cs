@@ -27,6 +27,8 @@ namespace Avalon.Common.Interfaces
 
         bool Enabled { get; set; }
 
+        bool IsLua { get; set; }
+
         TerminalTarget MoveTo { get; set; }
 
         bool HighlightLine { get; set; }

@@ -41,9 +41,15 @@ namespace Avalon
                     // Run any CLR that might exist.
                     item.Execute();
 
-                    if (!string.IsNullOrEmpty(item.Command))
+                    if (!string.IsNullOrEmpty(item.Command) && item.IsLua == false)
                     {
+                        // If it has text but it's not lua, send it to the interpreter.
                         await Interp.Send(item.Command, item.IsSilent, false);
+                    }
+                    else if (!string.IsNullOrEmpty(item.Command) && item.IsLua == true)
+                    {
+                        // If it has text and it IS lua, send it to the LUA engine.
+                        await Interp.LuaCaller.ExecuteAsync(item.Command);
                     }
 
                     // Check if we're supposed to move this line somewhere else.
@@ -105,13 +111,18 @@ namespace Avalon
                         GameTerminal.Document.Replace(start, line.Text.Length, $"{AnsiColors.DarkCyan}{line.Text}");
                     }
 
-                    // Only send if it has something in it.  Use the processed command.  (in the future a target could be
-                    // a lua script, etc.).
-                    if (!string.IsNullOrWhiteSpace(item.ProcessedCommand))
+                    // Only send if it has something in it.  Use the processed command.
+                    if (!string.IsNullOrEmpty(item.ProcessedCommand) && item.IsLua == false)
                     {
+                        // If it has text but it's not lua, send it to the interpreter.
                         await Interp.Send(item.ProcessedCommand, false, false);
                     }
-                    
+                    else if (!string.IsNullOrEmpty(item.ProcessedCommand) && item.IsLua == true)
+                    {
+                        // If it has text and it IS lua, send it to the LUA engine.
+                        await Interp.LuaCaller.ExecuteAsync(item.ProcessedCommand);
+                    }
+
                     // Check if we're supposed to move this line somewhere else.
                     if (item.MoveTo != TerminalTarget.None)
                     {

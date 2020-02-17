@@ -98,7 +98,14 @@ namespace Avalon.Common.Triggers
                 ProcessedCommand = this.Command;
 
                 // Allow the user to have the content of the last trigger if they need it.
-                ProcessedCommand = ProcessedCommand.Replace("%0", TriggeringText);
+                if (this.IsLua == false)
+                {
+                    ProcessedCommand = ProcessedCommand.Replace("%0", TriggeringText);
+                }
+                else
+                {
+                    ProcessedCommand = ProcessedCommand.Replace("%0", TriggeringText.Replace("\"", "\\\""));
+                }
 
                 // Go through any groups backwards that came back in the trigger match.  Groups are matched in reverse
                 // order so that %1 doesn't overwrite %12 and leave a trailing 2.
@@ -117,9 +124,15 @@ namespace Avalon.Common.Triggers
                         // TODO - Consider StringBuilder
                         // TODO - Consider doing both the variables sets, and then ALSO the pattern matches.
                         // Replace %1, %2, etc. variables with their values from the pattern match.
-                        ProcessedCommand = ProcessedCommand.Replace($"%{i}", match.Groups[i].Value);
+                        if (this.IsLua == false)
+                        {
+                            ProcessedCommand = ProcessedCommand.Replace($"%{i}", match.Groups[i].Value);
+                        }
+                        else
+                        {
+                            ProcessedCommand = ProcessedCommand.Replace($"%{i}", match.Groups[i].Value.Replace("\"", "\\\""));
+                        }
                     }
-
                 }
             }
 
@@ -206,6 +219,11 @@ namespace Avalon.Common.Triggers
         /// Whether the triggers output should be silent (not echo to the main terminal).
         /// </summary>
         public bool IsSilent { get; set; } = false;
+
+        /// <summary>
+        /// Whether the command should be executed as a Lua script.
+        /// </summary>
+        public bool IsLua { get; set; } = false;
 
         /// <summary>
         /// Indicates whether a trigger was loaded from a plugin or not.
