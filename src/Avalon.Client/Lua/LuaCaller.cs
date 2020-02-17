@@ -92,11 +92,14 @@ namespace Avalon.Lua
                     // Setup Lua
                     var lua = new Script();
                     lua.Options.CheckThreadAccess = false;
+                    
                     UserData.RegisterType<LuaCommands>();
+                    UserData.RegisterType<Conveyor>();
 
                     // Create a userdata, again, explicitly.
                     var luaCmd = UserData.Create(new LuaCommands((_interpreter)));
                     lua.Globals.Set("Cmd", luaCmd);
+
                     var executionControlToken = new ExecutionControlToken();
 
                     await lua.DoStringAsync(executionControlToken, luaCode);

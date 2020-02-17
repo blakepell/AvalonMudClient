@@ -245,6 +245,26 @@ namespace Avalon.Lua
             return buf.Replace(searchValue, replaceValue);
         }
 
+        /// <summary>
+        /// Enables all aliases and triggers in a group.
+        /// </summary>
+        /// <param name="groupName"></param>
+        /// <returns>Returns true if the group was found, false if it was not.</returns>
+        public bool EnableGroup(string groupName)
+        {
+            return _interpreter.Conveyor.EnableGroup(groupName);
+        }
+
+        /// <summary>
+        /// Disables all aliases and triggers in a group.
+        /// </summary>
+        /// <param name="groupName"></param>
+        /// <returns>Returns true if the group was found, false if it was not.</returns>
+        public bool DisableGroup(string groupName)
+        {
+            return _interpreter.Conveyor.DisableGroup(groupName);
+        }
+
         private IInterpreter _interpreter;
 
     }

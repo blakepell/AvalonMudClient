@@ -10,7 +10,7 @@ namespace Avalon.HashCommands
     /// </summary>
     public class GroupDisable : HashCommand
     {
-        public GroupDisable(IInterpreter interp) : base (interp)
+        public GroupDisable(IInterpreter interp) : base(interp)
         {
         }
 
@@ -26,38 +26,16 @@ namespace Avalon.HashCommands
                 return;
             }
 
-            bool found = false;
-            this.Parameters = this.Parameters.ToLower();
-
-            foreach (var item in App.Settings.ProfileSettings.TriggerList)
-            {
-                if (item.Group.ToLower() == this.Parameters)
-                {
-                    found = true;
-                    item.Enabled = false;
-                }
-            }
-
-            foreach (var item in App.Settings.ProfileSettings.AliasList)
-            {
-                if (item.Group.ToLower() == this.Parameters)
-                {
-                    found = true;
-                    item.Enabled = false;
-                }
-            }
+            bool found = this.Interpreter.Conveyor.DisableGroup(this.Parameters);
 
             if (found)
             {
-                Interpreter.EchoText($"--> Group '{this.Parameters}' disabled.", AnsiColors.Cyan);
-                return;
-            }
-            else
-            {
-                Interpreter.EchoText($"--> Group '{this.Parameters}' was not found", AnsiColors.Red);
+                Interpreter.Conveyor.EchoLog($"Group '{this.Parameters}' disabled.", Common.Models.LogType.Information);
                 return;
             }
 
+            Interpreter.Conveyor.EchoLog($"Group '{this.Parameters}' was not found", Common.Models.LogType.Information);
+            return;
         }
 
     }

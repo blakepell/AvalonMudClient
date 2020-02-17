@@ -42,6 +42,10 @@ namespace Avalon.Common.Interfaces
 
         int LineCount(TerminalTarget target);
 
+        bool EnableGroup(string groupName);
+
+        bool DisableGroup(string groupName);
+
         StringBuilder Scrape { get; set; }
 
         bool ScrapeEnabled { get; set; }

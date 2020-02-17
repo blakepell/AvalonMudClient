@@ -323,6 +323,68 @@ namespace Avalon
         }
 
         /// <summary>
+        /// Enables all aliases and triggers in a group.
+        /// </summary>
+        /// <param name="groupName"></param>
+        /// <returns>Returns true if the group was found, false if it was not.</returns>
+        public bool EnableGroup(string groupName)
+        {
+            bool found = false;
+            groupName = groupName.ToLower();
+
+            foreach (var item in App.Settings.ProfileSettings.TriggerList)
+            {
+                if (item.Group.ToLower() == groupName)
+                {
+                    found = true;
+                    item.Enabled = true;
+                }
+            }
+
+            foreach (var item in App.Settings.ProfileSettings.AliasList)
+            {
+                if (item.Group.ToLower() == groupName)
+                {
+                    found = true;
+                    item.Enabled = true;
+                }
+            }
+
+            return found;
+        }
+
+        /// <summary>
+        /// Disables all aliases and triggers in a group.
+        /// </summary>
+        /// <param name="groupName"></param>
+        /// <returns>Returns true if the group was found, false if it was not.</returns>
+        public bool DisableGroup(string groupName)
+        {
+            bool found = false;
+            groupName = groupName.ToLower();
+
+            foreach (var item in App.Settings.ProfileSettings.TriggerList)
+            {
+                if (item.Group.ToLower() == groupName)
+                {
+                    found = true;
+                    item.Enabled = false;
+                }
+            }
+
+            foreach (var item in App.Settings.ProfileSettings.AliasList)
+            {
+                if (item.Group.ToLower() == groupName)
+                {
+                    found = true;
+                    item.Enabled = false;
+                }
+            }
+
+            return found;
+        }
+
+        /// <summary>
         /// Returns information about the current WindowPosition.
         /// </summary>
         public WindowPosition GetWindowPosition

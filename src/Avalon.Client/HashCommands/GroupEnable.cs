@@ -26,38 +26,16 @@ namespace Avalon.HashCommands
                 return;
             }
 
-            bool found = false;
-            this.Parameters = this.Parameters.ToLower();
-
-            foreach (var item in App.Settings.ProfileSettings.TriggerList)
-            {
-                if (item.Group.ToLower() == this.Parameters)
-                {
-                    found = true;
-                    item.Enabled = true;
-                }
-            }
-
-            foreach (var item in App.Settings.ProfileSettings.AliasList)
-            {
-                if (item.Group.ToLower() == this.Parameters)
-                {
-                    found = true;
-                    item.Enabled = true;
-                }
-            }
+            bool found = this.Interpreter.Conveyor.EnableGroup(this.Parameters);
 
             if (found)
             {
-                Interpreter.EchoText($"--> Group '{this.Parameters}' enabled.", AnsiColors.Cyan);
-                return;
-            }
-            else
-            {
-                Interpreter.EchoText($"--> Group '{this.Parameters}' was not found", AnsiColors.Red);
+                Interpreter.Conveyor.EchoLog($"Group '{this.Parameters}' enabled.", Common.Models.LogType.Information);
                 return;
             }
 
+            Interpreter.Conveyor.EchoLog($"Group '{this.Parameters}' was not found", Common.Models.LogType.Information);
+            return;
         }
 
     }
