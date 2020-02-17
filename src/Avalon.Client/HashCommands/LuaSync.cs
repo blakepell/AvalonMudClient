@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Threading;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
 using Avalon.Lua;
