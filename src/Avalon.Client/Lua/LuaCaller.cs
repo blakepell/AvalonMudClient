@@ -31,6 +31,11 @@ namespace Avalon.Lua
         /// <param name="luaCode"></param>
         public void Execute(string luaCode)
         {
+            if (string.IsNullOrWhiteSpace(luaCode))
+            {
+                return;
+            }
+
             try
             {
                 // Setup Lua
@@ -75,6 +80,11 @@ namespace Avalon.Lua
         /// <param name="luaCode"></param>
         public async Task ExecuteAsync(string luaCode)
         {
+            if (string.IsNullOrWhiteSpace(luaCode))
+            {
+                return;
+            }
+
             await Application.Current.Dispatcher.InvokeAsync(new Action(async () =>
             {
                 try
