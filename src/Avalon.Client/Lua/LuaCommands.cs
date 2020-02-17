@@ -173,6 +173,78 @@ namespace Avalon.Lua
             return _interpreter.Conveyor.Scrape.ToString();
         }
 
+        /// <summary>
+        /// Trims whitespace off of the front and end of a string.
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <returns></returns>
+        public string Trim(string buf)
+        {
+            return buf?.Trim() ?? "";
+        }
+
+        /// <summary>
+        /// Trims whitespace off of the start of a string.
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <returns></returns>
+        public string TrimStart(string buf)
+        {
+            return buf?.TrimStart();
+        }
+
+        /// <summary>
+        /// Trims whitespace off the end of a string.
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <returns></returns>
+        public string TrimEnd(string buf)
+        {
+            return buf?.TrimEnd();
+        }
+
+        /// <summary>
+        /// Splits a string into a string array using a specified delimiter.
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <param name="delim"></param>
+        /// <returns></returns>
+        public string[] Split(string buf, string delim)
+        {
+            return buf.Split(delim);
+        }
+
+        /// <summary>
+        /// Searches an array for whether a specified value exists within it.
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="searchValue"></param>
+        /// <returns></returns>
+        public bool ArrayContains(string[] array, string searchValue)
+        {
+            foreach (var s in array)
+            {
+                if (s == searchValue)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Returns a new string with all occurrences of a string replaced with another string.
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <param name="searchValue"></param>
+        /// <param name="replaceValue"></param>
+        /// <returns></returns>
+        public string Replace(string buf, string searchValue, string replaceValue)
+        {
+            return buf.Replace(searchValue, replaceValue);
+        }
+
         private IInterpreter _interpreter;
 
     }
