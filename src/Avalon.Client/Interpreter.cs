@@ -3,6 +3,7 @@ using Avalon.Common.Colors;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
 using Avalon.Network;
+using Avalon.Lua;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,9 @@ namespace Avalon
                 var cmd = (IHashCommand)Activator.CreateInstance(t, this);
                 HashCommands.Add(cmd);
             }
+
+            // Initialize the Lua wrapper we'll make calls from in this class.
+            this.LuaCaller = new LuaCaller(this);
         }
 
         /// <summary>
@@ -227,7 +231,6 @@ namespace Avalon
 
                     // If the alias is defined as Lua it will be processed verbatim.  A lua alias anywhere in the command short circuits 
                     // any other input and only that Lua command gets run (and only the first one).
-                    // TODO: Deal with % 1 variables for passing
                     // TODO: Make this work better.  Is an alias the right way to do this?
                     if (alias.IsLua)
                     {
@@ -246,7 +249,9 @@ namespace Avalon
                             lua = lua.Replace($"%{i}", first.Item2.ParseWord(i, " "));
                         }
 
-                        list.Add($"#lua {lua}");
+                        // This is all that's going to execute as it clears the list.. we can "fire and forget".
+                        this.LuaCaller.ExecuteAsync(lua);
+
                         return list;
                     }
 
@@ -500,6 +505,11 @@ namespace Avalon
         /// The Conveyor class that can be used to interact with the UI.
         /// </summary>
         public IConveyor Conveyor { get; set; }
+
+        /// <summary>
+        /// A class to handle executing Lua scripts.
+        /// </summary>
+        public LuaCaller LuaCaller { get; set; }
 
     }
 
