@@ -100,9 +100,9 @@ namespace Avalon.Common.Triggers
                 // Allow the user to have the content of the last trigger if they need it.
                 ProcessedCommand = ProcessedCommand.Replace("%0", TriggeringText);
 
-                // Go through any groups that came back in the trigger match.
-                //foreach (Group g in match.Groups)
-                for (int i = 0; i < match.Groups.Count; i++)
+                // Go through any groups backwards that came back in the trigger match.  Groups are matched in reverse
+                // order so that %1 doesn't overwrite %12 and leave a trailing 2.
+                for (int i = match.Groups.Count - 1; i >= 0; i--)
                 {
                     // If it's a named match, we specifically named it in the trigger and thus we're going
                     // to automatically store it in a variable that can then be used later by aliases, triggers, etc.
