@@ -241,12 +241,12 @@ namespace Avalon
                         string lua = alias.Command;
 
                         // %0 will represent the entire matched string.
-                        lua = lua.Replace("%0", first.Item2);
+                        lua = lua.Replace("%0", first.Item2.Replace("\"", "\\\""));
 
                         // %1-%9
                         for (int i = 1; i <= 9; i++)
                         {
-                            lua = lua.Replace($"%{i}", first.Item2.ParseWord(i, " "));
+                            lua = lua.Replace($"%{i}", first.Item2.ParseWord(i, " ").Replace("\"", "\\\""));
                         }
 
                         // This is all that's going to execute as it clears the list.. we can "fire and forget".
