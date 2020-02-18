@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using System.Windows;
 using Avalon.Common.Models;
 
 namespace Avalon.Timers
@@ -35,11 +36,17 @@ namespace Avalon.Timers
 
                 if (task.IsLua)
                 {
-                    await this.Interpreter.LuaCaller.ExecuteAsync(task.Command);
+                    await Application.Current.Dispatcher.InvokeAsync(new Action(async () =>
+                    {
+                        await this.Interpreter.LuaCaller.ExecuteAsync(task.Command);
+                    }));
                 }
                 else
                 {
-                    await Interpreter.Send(task.Command);
+                    await Application.Current.Dispatcher.InvokeAsync(new Action(async () =>
+                    {
+                        await Interpreter.Send(task.Command, false, false);
+                    }));
                 }
 
                 await Task.Delay(TimeSpan.FromSeconds(secondsBetweenCommands));
