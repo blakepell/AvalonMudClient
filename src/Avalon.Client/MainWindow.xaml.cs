@@ -51,6 +51,11 @@ namespace Avalon
         public TickTimer TickTimer;
 
         /// <summary>
+        /// A queue of commands that will run after a specified time.
+        /// </summary>
+        public ScheduledTasks ScheduledTasks;
+
+        /// <summary>
         /// Window initialization.  This occurs before the Loaded event.  We'll set the initial
         /// window positioning here before the UI is shown.
         /// </summary>
@@ -131,6 +136,10 @@ namespace Avalon
 
             // Setup the tick timer.
             TickTimer = new TickTimer(App.Conveyor);
+
+            // TODO - Setting to disable and command to view these tasks.
+            // Setup the scheduled tasks.
+            ScheduledTasks = new ScheduledTasks(this.Interp);
 
             // Setup the auto complete commands.  If they're found refresh them, if they're not
             // report it to the terminal window.  It should -always be found-.

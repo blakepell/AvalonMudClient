@@ -265,6 +265,26 @@ namespace Avalon.Lua
             return _interpreter.Conveyor.DisableGroup(groupName);
         }
 
+        /// <summary>
+        /// Adds a scheduled task (command or Lua) to be executed after a designated time.
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="isLua"></param>
+        /// <param name="seconds"></param>
+        /// <returns></returns>
+        public void AddTask(string command, bool isLua, int seconds)
+        {
+            App.MainWindow.ScheduledTasks.AddTask(command, isLua, DateTime.Now.AddSeconds(seconds));
+        }
+
+        /// <summary>
+        /// Clears all tasks from the scheduled tasks queue.
+        /// </summary>
+        public void ClearTasks()
+        {
+            App.MainWindow.ScheduledTasks.ClearTasks();
+        }
+
         private IInterpreter _interpreter;
 
     }
