@@ -56,6 +56,11 @@ namespace Avalon
         public ScheduledTasks ScheduledTasks;
 
         /// <summary>
+        /// A queue of commands that can be executed as a batch in the order they are added.
+        /// </summary>
+        public BatchTasks BatchTasks;
+
+        /// <summary>
         /// Window initialization.  This occurs before the Loaded event.  We'll set the initial
         /// window positioning here before the UI is shown.
         /// </summary>
@@ -138,8 +143,9 @@ namespace Avalon
             TickTimer = new TickTimer(App.Conveyor);
 
             // TODO - Setting to disable and command to view these tasks.
-            // Setup the scheduled tasks.
+            // Setup the scheduled and batch tasks.
             ScheduledTasks = new ScheduledTasks(this.Interp);
+            BatchTasks = new BatchTasks(this.Interp);
 
             // Setup the auto complete commands.  If they're found refresh them, if they're not
             // report it to the terminal window.  It should -always be found-.

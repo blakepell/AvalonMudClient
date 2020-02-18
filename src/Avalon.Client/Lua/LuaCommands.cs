@@ -272,9 +272,28 @@ namespace Avalon.Lua
         /// <param name="isLua"></param>
         /// <param name="seconds"></param>
         /// <returns></returns>
-        public void AddTask(string command, bool isLua, int seconds)
+        public void AddScheduledTask(string command, bool isLua, int seconds)
         {
             App.MainWindow.ScheduledTasks.AddTask(command, isLua, DateTime.Now.AddSeconds(seconds));
+        }
+
+        /// <summary>
+        /// Adds a batch task (command or Lua) to be executed in order when the batch is run.
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="isLua"></param>
+        public void AddBatchTask(string command, bool isLua)
+        {
+            App.MainWindow.BatchTasks.AddTask(command, isLua);
+        }
+
+        /// <summary>
+        /// Starts the current batch processing.
+        /// </summary>
+        /// <param name="secondsInBetweenCommands"></param>
+        public void StartBatch(int secondsInBetweenCommands)
+        {
+            App.MainWindow.BatchTasks.StartBatch(secondsInBetweenCommands);
         }
 
         /// <summary>
