@@ -94,4 +94,12 @@ namespace Avalon.Timers
         public List<ScheduledTask> Tasks { get; set; } = new List<ScheduledTask>();
 
     }
+
+    public class ScheduledTask
+    {
+        public string Command { get; set; }
+        public bool IsLua { get; set; }
+        public DateTime RunAfter { get; set; } = DateTime.MaxValue;
+    }
+
 }
