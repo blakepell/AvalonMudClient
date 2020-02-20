@@ -46,9 +46,9 @@ namespace Avalon.Lua
                 UserData.RegisterType<LuaCommands>();
                 UserData.RegisterType<LuaGlobalVariables>();
 
-                // Create a userdata, again, explicitly.
+                // Create a UserData, again, explicitly.
                 var luaCmd = UserData.Create(new LuaCommands(_interpreter));
-                lua.Globals.Set("Cmd", luaCmd);
+                lua.Globals.Set("lua", luaCmd);
 
                 // Set the global variables that are specifically only available in Lua.
                 lua.Globals["global"] = _luaGlobalVariables;
@@ -103,9 +103,9 @@ namespace Avalon.Lua
                     UserData.RegisterType<LuaCommands>();
                     UserData.RegisterType<LuaGlobalVariables>();
 
-                    // Create a userdata, again, explicitly.
+                    // Create a UserData, again, explicitly.
                     var luaCmd = UserData.Create(new LuaCommands((_interpreter)));
-                    lua.Globals.Set("Cmd", luaCmd);
+                    lua.Globals.Set("lua", luaCmd);
 
                     // Set the global variables that are specifically only available in Lua.
                     lua.Globals["global"] = _luaGlobalVariables;
