@@ -3,6 +3,7 @@ using System;
 using System.Threading.Tasks;
 using System.Windows;
 using Avalon.Common.Interfaces;
+using Argus.Extensions;
 
 namespace Avalon.Lua
 {
@@ -302,6 +303,27 @@ namespace Avalon.Lua
         public void ClearTasks()
         {
             App.MainWindow.ScheduledTasks.ClearTasks();
+        }
+
+        /// <summary>
+        /// Formats a number as string with commas and no decimal places.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public string FormatNumber(string value)
+        {
+            return value.FormatIfNumber();
+        }
+
+        /// <summary>
+        /// Formats a number as string with commas with the specified number of decimal places.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="decimalPlaces"></param>
+        /// <returns></returns>
+        public string FormatNumber(string value, int decimalPlaces)
+        {
+            return value.FormatIfNumber(decimalPlaces);
         }
 
         private IInterpreter _interpreter;
