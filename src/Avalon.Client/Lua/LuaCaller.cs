@@ -8,13 +8,14 @@ using MoonSharp.Interpreter;
 
 namespace Avalon.Lua
 {
-
     /// <summary>
     /// A class to handle the code to execute Lua from various locations in the client.
     /// </summary>
     public class LuaCaller
     {
         private IInterpreter _interpreter;
+
+        private LuaGlobalVariables _luaGlobalVariables;
 
         /// <summary>
         /// Constructor
@@ -23,6 +24,7 @@ namespace Avalon.Lua
         public LuaCaller(IInterpreter interp)
         {
             _interpreter = interp;
+            _luaGlobalVariables = new LuaGlobalVariables();
         }
 
         /// <summary>
@@ -42,11 +44,16 @@ namespace Avalon.Lua
                 var lua = new Script();
                 lua.Options.CheckThreadAccess = false;
                 UserData.RegisterType<LuaCommands>();
+                UserData.RegisterType<LuaGlobalVariables>();
 
                 // Create a userdata, again, explicitly.
                 var luaCmd = UserData.Create(new LuaCommands(_interpreter));
                 lua.Globals.Set("Cmd", luaCmd);
 
+                // Set the global variables that are specifically only available in Lua.
+                lua.Globals["global"] = _luaGlobalVariables;
+
+                // Execute the lua code.
                 lua.DoString(luaCode);
             }
             catch (Exception ex)
@@ -94,11 +101,14 @@ namespace Avalon.Lua
                     lua.Options.CheckThreadAccess = false;
                     
                     UserData.RegisterType<LuaCommands>();
-                    UserData.RegisterType<Conveyor>();
+                    UserData.RegisterType<LuaGlobalVariables>();
 
                     // Create a userdata, again, explicitly.
                     var luaCmd = UserData.Create(new LuaCommands((_interpreter)));
                     lua.Globals.Set("Cmd", luaCmd);
+
+                    // Set the global variables that are specifically only available in Lua.
+                    lua.Globals["global"] = _luaGlobalVariables;
 
                     var executionControlToken = new ExecutionControlToken();
 
