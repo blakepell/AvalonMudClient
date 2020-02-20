@@ -2,6 +2,16 @@
 
 A Windows MUD (multi-user dimension) client that allows you to connect to and play any number of text based online multi user games.
 
+### Documentation
+
+- Aliases 
+- Triggers
+- Variables
+- Macros
+- [Lua](doc/Lua.md)
+  - [Lua Overview](doc/Lua.md)
+  - [Lua Examples](doc/LuaExamples.md)
+
 ### Info
 
  - Language: C# / WPF for .Net Core 3.1
