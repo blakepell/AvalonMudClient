@@ -1,9 +1,9 @@
-﻿using Avalon.Common.Colors;
+﻿using Argus.Extensions;
+using Avalon.Common.Colors;
+using Avalon.Common.Interfaces;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
-using Avalon.Common.Interfaces;
-using Argus.Extensions;
 
 namespace Avalon.Lua
 {
@@ -147,6 +147,31 @@ namespace Avalon.Lua
         }
 
         /// <summary>
+        /// Returns a random element from the string array provided.
+        /// </summary>
+        /// <param name="choices"></param>
+        /// <returns></returns>
+        public string RandomChoice(string[] choices)
+        {
+            int upperBound = choices.GetUpperBound(0);
+            var rnd = new Random();
+            return choices[rnd.Next(0, upperBound)];
+        }
+
+        /// <summary>
+        /// Returns a random element from the string provided that string and a delimiter.  The delimiter
+        /// is used to split the string into the choices.
+        /// </summary>
+        /// <param name="choices"></param>
+        /// <param name="delimiter"></param>
+        /// <returns></returns>
+        public string RandomChoice(string choices, string delimiter)
+        {
+            var items = choices.Split(delimiter);
+            return this.RandomChoice(items);
+        }
+
+        /// <summary>
         /// Returns a new GUID.
         /// </summary>
         /// <returns></returns>
@@ -208,11 +233,11 @@ namespace Avalon.Lua
         /// Splits a string into a string array using a specified delimiter.
         /// </summary>
         /// <param name="buf"></param>
-        /// <param name="delim"></param>
+        /// <param name="delimiter"></param>
         /// <returns></returns>
-        public string[] Split(string buf, string delim)
+        public string[] Split(string buf, string delimiter)
         {
-            return buf.Split(delim);
+            return buf.Split(delimiter);
         }
 
         /// <summary>
