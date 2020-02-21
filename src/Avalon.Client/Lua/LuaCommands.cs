@@ -12,10 +12,21 @@ namespace Avalon.Lua
     /// </summary>
     public class LuaCommands
     {
-        public LuaCommands(IInterpreter interp)
+        public LuaCommands(IInterpreter interp, Random rnd)
         {
             _interpreter = interp;
+            _random = rnd;
         }
+
+        /// <summary>
+        /// Single static Random object that will need to be locked between usages.
+        /// </summary>
+        private static Random _random;
+
+        /// <summary>
+        /// Locking object for the random number generator
+        /// </summary>
+        private static object _randomLock = new object();
 
         /// <summary>
         /// Sends text to the server.
@@ -142,8 +153,11 @@ namespace Avalon.Lua
         /// <returns></returns>
         public int RandomNumber(int low, int high)
         {
-            var rnd = new Random();
-            return rnd.Next(low, high);
+            lock (_randomLock)
+            {
+                // Randoms lower bound is inclusive.. but the upper bound is exclusive, so +1
+                return _random.Next(low, high + 1);
+            }
         }
 
         /// <summary>
@@ -154,8 +168,12 @@ namespace Avalon.Lua
         public string RandomChoice(string[] choices)
         {
             int upperBound = choices.GetUpperBound(0);
-            var rnd = new Random();
-            return choices[rnd.Next(0, upperBound)];
+
+            lock (_randomLock)
+            {
+                // Randoms lower bound is inclusive.. but the upper bound is exclusive, so +1
+                return choices[_random.Next(0, upperBound + 1)];
+            }
         }
 
         /// <summary>
@@ -168,7 +186,7 @@ namespace Avalon.Lua
         public string RandomChoice(string choices, string delimiter)
         {
             var items = choices.Split(delimiter);
-            return this.RandomChoice(items);
+            return RandomChoice(items);
         }
 
         /// <summary>
@@ -197,6 +215,34 @@ namespace Avalon.Lua
         public string GetScrapedText()
         {
             return _interpreter.Conveyor.Scrape.ToString();
+        }
+
+        /// <summary>
+        /// Checks if a string exists in another string (Case Sensitive).
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <param name="contains"></param>
+        /// <returns></returns>
+        public bool Contains(string buf, string contains)
+        {
+            return Contains(buf, contains, false);
+        }
+
+        /// <summary>
+        /// Checks if a string exists in another string.
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <param name="contains"></param>
+        /// <param name="ignoreCase"></param>
+        /// <returns></returns>
+        public bool Contains(string buf, string contains, bool ignoreCase)
+        {
+            if (ignoreCase)
+            {
+                return buf.Contains(contains, StringComparison.OrdinalIgnoreCase);
+            }
+
+            return buf.Contains(contains, StringComparison.Ordinal);
         }
 
         /// <summary>

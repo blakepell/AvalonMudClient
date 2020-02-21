@@ -13,9 +13,21 @@ namespace Avalon.Lua
     /// </summary>
     public class LuaCaller
     {
+        /// <summary>
+        /// A reference to the mud client's current interpreter.
+        /// </summary>
         private IInterpreter _interpreter;
 
+        /// <summary>
+        /// Global variables available to Lua that are shared across all of our Lua sessions.
+        /// </summary>
         private LuaGlobalVariables _luaGlobalVariables;
+
+        /// <summary>
+        /// Single static Random object that will need to be locked between usages.  Calls to _random
+        /// should be locked for thread safety as Random is not thread safe.
+        /// </summary>
+        private static Random _random;
 
         /// <summary>
         /// Constructor
@@ -25,6 +37,7 @@ namespace Avalon.Lua
         {
             _interpreter = interp;
             _luaGlobalVariables = new LuaGlobalVariables();
+            _random = new Random();
         }
 
         /// <summary>
@@ -47,7 +60,7 @@ namespace Avalon.Lua
                 UserData.RegisterType<LuaGlobalVariables>();
 
                 // Create a UserData, again, explicitly.
-                var luaCmd = UserData.Create(new LuaCommands(_interpreter));
+                var luaCmd = UserData.Create(new LuaCommands(_interpreter, _random));
                 lua.Globals.Set("lua", luaCmd);
 
                 // Set the global variables that are specifically only available in Lua.
@@ -99,19 +112,16 @@ namespace Avalon.Lua
                     // Setup Lua
                     var lua = new Script();
                     lua.Options.CheckThreadAccess = false;
-                    
                     UserData.RegisterType<LuaCommands>();
                     UserData.RegisterType<LuaGlobalVariables>();
 
-                    // Create a UserData, again, explicitly.
-                    var luaCmd = UserData.Create(new LuaCommands((_interpreter)));
+                    // Custom Lua Commands
+                    var luaCmd = UserData.Create(new LuaCommands(_interpreter, _random));
                     lua.Globals.Set("lua", luaCmd);
 
                     // Set the global variables that are specifically only available in Lua.
                     lua.Globals["global"] = _luaGlobalVariables;
-
                     var executionControlToken = new ExecutionControlToken();
-
                     await lua.DoStringAsync(executionControlToken, luaCode);
                 }
                 catch (Exception ex)
@@ -127,8 +137,9 @@ namespace Avalon.Lua
                         }
                         else
                         {
+                            var exInner = ((InterpreterException) ex.InnerException);
                             _interpreter.Send("~", true, false);
-                            _interpreter.Conveyor.EchoLog($"--> {ex.InnerException.Message}", LogType.Error);
+                            _interpreter.Conveyor.EchoLog($"--> {exInner.DecoratedMessage}", LogType.Error);
                         }
                     }
                     else

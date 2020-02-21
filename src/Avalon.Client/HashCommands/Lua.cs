@@ -14,7 +14,14 @@ namespace Avalon.HashCommands
         public Lua(IInterpreter interp) : base(interp)
         {
             this.IsAsync = true;
+            _random = new Random();
         }
+
+        /// <summary>
+        /// Single static Random object that will need to be locked between usages.  Calls to _random
+        /// should be locked for thread safety as Random is not thread safe.
+        /// </summary>
+        private static Random _random;
 
         public override string Name { get; } = "#lua";
 
@@ -32,7 +39,7 @@ namespace Avalon.HashCommands
                        UserData.RegisterType<LuaCommands>();
 
                        // Create a userdata, again, explicitly.
-                       var luaCmd = UserData.Create(new LuaCommands(this.Interpreter));
+                       var luaCmd = UserData.Create(new LuaCommands(this.Interpreter, _random));
                        lua.Globals.Set("Cmd", luaCmd);
                        var executionControlToken = new ExecutionControlToken();
 
