@@ -5,12 +5,15 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
 ### Documentation
 
 - Aliases 
-- Triggers
-- Variables
-- Macros
+- HashCommands
 - [Lua](doc/Lua.md)
   - [Lua Overview](doc/Lua.md)
   - [Lua Examples](doc/LuaExamples.md)
+- Macros
+- Packages
+- Plugins
+- Triggers
+- Variables
 
 ### Info
 
