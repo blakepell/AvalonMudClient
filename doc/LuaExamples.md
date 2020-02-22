@@ -10,3 +10,4 @@ Note: Packages aren't just limited to Lua, they can be used to share in game dir
 | ----------- | ----------------------- |
 |[Alias to cast identify spell on multiple objects](https://gist.github.com/blakepell/60ce102c41b64c19ad77f90dfe1a7051)| No |
 |[PKP till next level](https://gist.github.com/blakepell/e825f2f854029b27d9ca81e01633aa4b)| Yes |
+|[Shop Item Mass Inspect Script](https://gist.github.com/blakepell/0af993ecad9c832bd34f9d1eab7e32fa)|Yes|
