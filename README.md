@@ -6,17 +6,17 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
 
 ### Documentation
 
-- [Aliases](doc/Aliases.md)
+- Aliases
 - [Hash Commands](doc/HashCommands.md)
 - [Lua](doc/Lua.md)
   - [Lua Overview](doc/Lua.md)
   - [Lua Extensions](doc/LuaExtensions.md)
   - [Lua Examples](doc/LuaExamples.md)
-- [Macros](doc/Macros.md)
-- [Packages](doc/Packages.md)
-- [Plugins](doc/Plugins.md)
-- [Triggers](doc/Triggers.md)
-- [Variables](doc/Variables.md)
+- Macros
+- Packages
+- Plugins
+- Triggers
+- Variables
 
 ### Info
 
