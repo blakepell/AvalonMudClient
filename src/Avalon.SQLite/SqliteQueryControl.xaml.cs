@@ -192,6 +192,7 @@ namespace Avalon.Sqlite
             }
             catch (Exception e)
             {
+                MessageBox.Show(e.Message);
                 // TODO - Show this exception.
                 TextBlockStatus.Text = "0 records returned.";
             }
