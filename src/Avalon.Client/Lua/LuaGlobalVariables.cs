@@ -81,6 +81,9 @@ namespace Avalon.Lua
 					case DataType.String:
 						_values[index.String] = value.Clone();
 						return true;
+					case DataType.Table:
+						_values[index.String] = value.Clone();
+						return true;
 					default:
 						throw new ScriptRuntimeException("Cannot share a value of type {0}", value.Type.ToErrorTypeString());
 				}
