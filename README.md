@@ -2,6 +2,8 @@
 
 A Windows MUD (multi-user dimension) client that allows you to connect to and play any number of text based online multi user games.
 
+[Screenshots](doc/Screenshots.md)
+
 ### Documentation
 
 - Aliases 
@@ -19,7 +21,7 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
 
  - Language: C# / WPF for .Net Core 3.1
  - OS Support: Windows 7, 8.1, 10 (1607+)
- 
+
 ### Key Features
  
  - Aliases (simple and regular expression)
@@ -27,9 +29,13 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
  - Macros
  - LUA (LUA can be inlined as alias or trigger commands with extended UI commands exposed)
  - Colored syntax editor for LUA
+ - 4K monitor support / responsive UI design.
+ - Touch screen friendly.
+ - SQLite Database Builtin with each profile.
+ - Profiles can be used for multiple characters (any trigger or alias can be set to only run for certain characters)
  - Directions support
  - Global variable support in and outside of LUA that persists beyond mud sessions (Avalon also has temp variable support). 
- - Plugin ability (extend Avalon by writing your own C# plugins)
+ - Plugin ability (extend Avalon by writing your own C# or Lua plugins)
  - Opinionated UI with terminals for the main content as well as different communication types.
  - Custom scraping that can be easily turned on and off via hash commands/LUA and then piped to variables (imagine an alias that scraped notes into a database for posterity, etc.).
 
@@ -45,13 +51,13 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
  
 ### Short Term Road-map
 
- - SQLite DB Support (including a SQLite query editor control that I also plan to open source as it's own NuGet package) 
+ - Finish SQLite DB Support
  - Plugin support will change a bit over the short term.  Plugins will support JSON for Triggers/Aliases/Lua and C# for things that need UI components or a robust programming model/framework.  The ability to add a user control from a plugin straight into the UI will be a priority.  I think this will be incredibly easy to use and a powerful to extend the UI outside of my realm.
  - The ability to easy search for community based triggers, aliases and scripts for import.
- - Additional Hash Commands
+ - Additional Hash Commands and Lua extensions.
  - Documentation
  - Publish binary for initial alpha release (self contained EXE)
- - Touch scrolling to be enabled for touch screen devices.
+ - Ensure touch screen scrolling is smooth on all termianls and controls.
  - Figure out the best deployment mechanism or subsets of deployment mechanisms.
  - Plugin support for a Dark and Shattered Lands (dsl-mud.org) with a deployment that is completely setup to play from the first run (a custom tailored deployment that just works without a cumbersome setup process for new players).
  - Timers (there is a tick timer built in and some hash commands like alias support a delay flag which is effectivly a one time timer to fire a command after a specified amount of time.
