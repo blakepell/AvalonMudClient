@@ -90,6 +90,21 @@ namespace Avalon.Lua
         }
 
         /// <summary>
+        /// Returns the first non null and non empty value.
+        /// </summary>
+        /// <param name="checkValue"></param>
+        /// <param name="returnValue"></param>
+        public string Coalesce(string valueOne, string valueTwo)
+        {
+            if (string.IsNullOrWhiteSpace(valueOne))
+            {
+                return valueTwo;
+            }
+
+            return valueOne;
+        }
+
+        /// <summary>
         /// Returns the current time in HH:MM:SS format.
         /// </summary>
         /// <returns></returns>
@@ -256,13 +271,34 @@ namespace Avalon.Lua
         }
 
         /// <summary>
+        /// Trims whitespace off of the front and end of a string.
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <param name="trimOff"></param>
+        public string Trim(string buf, string trimOff)
+        {
+            return buf?.Trim(trimOff) ?? "";
+        }
+
+        /// <summary>
         /// Trims whitespace off of the start of a string.
         /// </summary>
         /// <param name="buf"></param>
         /// <returns></returns>
         public string TrimStart(string buf)
         {
-            return buf?.TrimStart();
+            return buf?.TrimStart() ?? "";
+        }
+
+        /// <summary>
+        /// Trims whitespace off of the start of a string.
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <param name="trimOff"></param>
+        /// <returns></returns>
+        public string TrimStart(string buf, string trimOff)
+        {
+            return buf?.TrimStart(trimOff) ?? "";
         }
 
         /// <summary>
@@ -272,7 +308,18 @@ namespace Avalon.Lua
         /// <returns></returns>
         public string TrimEnd(string buf)
         {
-            return buf?.TrimEnd();
+            return buf?.TrimEnd() ?? "";
+        }
+
+        /// <summary>
+        /// Trims whitespace off the end of a string.
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <param name="trimOff"></param>
+        /// <returns></returns>
+        public string TrimEnd(string buf, string trimOff)
+        {
+            return buf?.TrimEnd(trimOff) ?? "";
         }
 
         /// <summary>
