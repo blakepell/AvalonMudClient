@@ -10,6 +10,7 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
 - [Hash Commands](doc/HashCommands.md)
 - [Lua](doc/Lua.md)
   - [Lua Overview](doc/Lua.md)
+  - [Lua Extensions](doc/LuaExtensions.md)
   - [Lua Examples](doc/LuaExamples.md)
 - [Macros](doc/Macros.md)
 - [Packages](doc/Packages.md)
