@@ -86,7 +86,7 @@
                                     <ui:SymbolIcon Symbol="OpenFile" />
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="Import Profile" x:Name="ButtonImportProfile" Click="ButtonImportProfile_OnClickAsync">
+                            <MenuItem Header="Import Package" x:Name="ButtonImportPackage" Click="ButtonImportPackage_OnClickAsync">
                                 <MenuItem.Icon>
                                     <ui:SymbolIcon Symbol="Import" />
                                 </MenuItem.Icon>

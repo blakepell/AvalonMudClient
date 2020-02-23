@@ -458,7 +458,7 @@ namespace Avalon
         /// We don't need to reload/reset after these have been imported because
         /// the bindings haven't changed, we're loading into what is currently setup.
         /// </remarks>
-        private async void ButtonImportProfile_OnClickAsync(object sender, RoutedEventArgs e)
+        private async void ButtonImportPackage_OnClickAsync(object sender, RoutedEventArgs e)
         {
             // TODO - Instead of a straight import everything have this do an upsert if there are matching guids so that packages can be updated.
             try
@@ -502,6 +502,12 @@ namespace Avalon
                         App.Settings.ProfileSettings.TriggerList.Add(trigger);
                     }
 
+                    // Add any directions that are found.
+                    foreach (var direction in settings.DirectionList)
+                    {
+                        App.Settings.ProfileSettings.DirectionList.Add(direction);
+                    }
+
                     // Inject the Conveyor into all of the triggers
                     foreach (var trigger in App.Settings.ProfileSettings.TriggerList)
                     {
@@ -510,7 +516,7 @@ namespace Avalon
 
                     // Show the user that the profile was successfully loaded.
                     Interp.EchoText("");
-                    Interp.EchoText($"--> Imported {dialog.FileName} into the current profile.\r\n", AnsiColors.Cyan);
+                    Interp.EchoText($"--> Imported the package {dialog.FileName} into the current profile.\r\n", AnsiColors.Cyan);
 
                 }
 
