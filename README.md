@@ -13,10 +13,10 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
   - [Lua Extensions](doc/LuaExtensions.md)
   - [Lua Examples](doc/LuaExamples.md)
 - Macros
-- Packages
+- [Packages](doc/Packages.md)
 - Plugins
 - Triggers
-- Variables
+- [Variables](doc/Variables.md)
 
 ### Info
 
