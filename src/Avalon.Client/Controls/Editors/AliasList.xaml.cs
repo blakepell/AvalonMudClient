@@ -76,7 +76,7 @@ namespace Avalon.Controls
                 DataList.SelectedItem = null;
             }
 
-            this.FirstLoad = false;            
+            this.FirstLoad = false;
         }
 
         /// <summary>

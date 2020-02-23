@@ -38,7 +38,10 @@ namespace Avalon
                 return;
             }
 
-            var package = new Package();
+            var package = new Package
+            {
+                GameAddress = App.Settings.ProfileSettings.IpAddress
+            };
 
             foreach (Alias item in AliasList.DataList.SelectedItems)
             {
