@@ -107,12 +107,18 @@
                             <MenuItem Header="E_xit" x:Name="ButtonExit" Click="ButtonExit_OnClick" />
                         </MenuItem>
                         <MenuItem Header="_Tools">
-                            <MenuItem Header="Client Properties" Click="MenuItemClientProperties_OnClick">
+                            <MenuItem Header="_Send Text to Game" Click="MenuItemSendTextToGameAsync_Click">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon Symbol="Send" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator />
+                            <MenuItem Header="_Client Properties" Click="MenuItemClientProperties_OnClick">
                                 <MenuItem.Icon>
                                     <ui:SymbolIcon Symbol="Setting" />
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="Profile Properties" Click="MenuItemProfileProperties_OnClick">
+                            <MenuItem Header="Profile _Properties" Click="MenuItemProfileProperties_OnClick">
                                 <MenuItem.Icon>
                                     <ui:SymbolIcon Symbol="Setting" />
                                 </MenuItem.Icon>

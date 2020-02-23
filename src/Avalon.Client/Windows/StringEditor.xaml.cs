@@ -77,6 +77,21 @@ namespace Avalon
         }
 
         /// <summary>
+        /// Gets or sets the text of the action button.
+        /// </summary>
+        public string ActionButtonText
+        {
+            get
+            {
+                return ButtonSave.Content.ToString();
+            }
+            set
+            {
+                ButtonSave.Content = value;
+            }
+        }
+
+        /// <summary>
         /// Code that is executed for the Cancel button.
         /// </summary>
         /// <param name="sender"></param>

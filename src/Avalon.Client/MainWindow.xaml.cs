@@ -622,5 +622,37 @@ namespace Avalon
             var win = new CreatePackageWindow();
             win.Show();
         }
+
+        /// <summary>
+        /// Sends text to the game with a specified delay between each line.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void MenuItemSendTextToGameAsync_Click(object sender, RoutedEventArgs e)
+        {
+            // Set the initial text for the editor.
+            var win = new StringEditor();
+
+            // Startup position of the dialog should be in the center of the parent window.  The
+            // owner has to be set for this to work.
+            win.Owner = App.MainWindow;
+            win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            win.ActionButtonText = "Send";
+
+            // Show the Lua dialog.
+            var result = win.ShowDialog();
+
+            // If the result
+            if (result != null && result.Value)
+            {
+                var lines = win.Text.Split(Environment.NewLine);
+
+                foreach (string line in lines)
+                {
+                    await this.Interp.Send(line, false, false);
+                    await Task.Delay(500);
+                }
+            }
+        }
     }
 }
