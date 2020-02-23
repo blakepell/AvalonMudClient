@@ -1,6 +1,7 @@
 ﻿using Argus.Extensions;
 using Avalon.Common.Colors;
 using Avalon.Common.Interfaces;
+using Avalon.Common.Models;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
@@ -72,8 +73,15 @@ namespace Avalon.Lua
         {
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
-                //_interpreter.Conveyor.EchoText(msg + "\r\n", AnsiColors.Cyan, Common.Models.TerminalTarget.Main);
-                _interpreter.EchoText(msg, AnsiColors.Cyan);
+                var line = new Line
+                {
+                    FormattedText = $"{msg}\r\n",
+                    ForegroundColor = AnsiColors.Cyan,
+                    ReverseColors = false,
+                    IgnoreLastColor = true
+                };
+
+                _interpreter.Conveyor.EchoText(line, TerminalTarget.Main);
             }));
         }
 
@@ -85,7 +93,15 @@ namespace Avalon.Lua
         {
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
-                _interpreter.EchoText(msg, AnsiColors.Cyan, true);
+                var line = new Line
+                {
+                    FormattedText = $"{msg}\r\n",
+                    ForegroundColor = AnsiColors.Cyan,
+                    ReverseColors = true,
+                    IgnoreLastColor = true
+                };
+
+                _interpreter.Conveyor.EchoText(line, TerminalTarget.Main);
             }));
         }
 
