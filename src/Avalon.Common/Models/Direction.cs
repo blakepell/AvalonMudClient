@@ -1,8 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace Avalon.Common.Models
 {
-    public class Direction : INotifyPropertyChanged
+    public class Direction : ICloneable, INotifyPropertyChanged
     {
         public Direction()
         {
@@ -40,6 +41,14 @@ namespace Avalon.Common.Models
         }
 
         public string StartingRoom { get; set; } = "";
+
+        /// <summary>
+        /// Clones the direction.
+        /// </summary>
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
 
         protected virtual void OnPropertyChanged(string propertyName)
         {

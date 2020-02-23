@@ -22,6 +22,11 @@ namespace Avalon.Controls
         }
 
         /// <summary>
+        /// Whether it's the first time the control has been shown.
+        /// </summary>
+        public bool FirstLoad { get; set; } = false;
+
+        /// <summary>
         /// Timer that sets the delay on your filtering TextBox.
         /// </summary>
         DispatcherTimer _typingTimer;
@@ -32,6 +37,7 @@ namespace Avalon.Controls
             _typingTimer = new DispatcherTimer();
             _typingTimer.Tick += this._typingTimer_Tick;
             DataContext = this;
+            this.FirstLoad = true;
         }
 
         /// <summary>
@@ -63,6 +69,14 @@ namespace Avalon.Controls
             };
 
             BindingOperations.SetBinding(CheckBoxAliasesEnabled, CheckBox.IsCheckedProperty, binding);
+
+            // Nothing should be selected at the start.
+            if (this.FirstLoad)
+            {
+                DataList.SelectedItem = null;
+            }
+
+            this.FirstLoad = false;            
         }
 
         /// <summary>
@@ -91,6 +105,14 @@ namespace Avalon.Controls
 
             BindingOperations.ClearAllBindings(CheckBoxAliasesEnabled);
             BindingOperations.SetBinding(CheckBoxAliasesEnabled, CheckBox.IsCheckedProperty, binding);
+        }
+
+        /// <summary>
+        /// The number of items currently selected.
+        /// </summary>
+        public int SelectedCount()
+        {
+            return DataList?.SelectedItems?.Count ?? 0;
         }
 
         /// <summary>

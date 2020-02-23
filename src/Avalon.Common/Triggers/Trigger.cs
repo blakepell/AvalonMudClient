@@ -8,7 +8,7 @@ using Avalon.Common.Models;
 
 namespace Avalon.Common.Triggers
 {
-    public class Trigger : ITrigger, INotifyPropertyChanged
+    public class Trigger : ITrigger, ICloneable, INotifyPropertyChanged
     {
         public Trigger()
         {
@@ -291,6 +291,14 @@ namespace Avalon.Common.Triggers
         }
 
         public string Identifier { get; set; } = Guid.NewGuid().ToString();
+
+        /// <summary>
+        /// Clones the trigger.
+        /// </summary>
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
 
         private Regex _regex;
 

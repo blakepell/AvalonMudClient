@@ -18,12 +18,18 @@ namespace Avalon.Controls
         /// </summary>
         DispatcherTimer _typingTimer;
 
+        /// <summary>
+        /// Whether it's the first time the control has been shown.
+        /// </summary>
+        public bool FirstLoad { get; set; } = false;
+
         public VariableList()
         {
             InitializeComponent();
             _typingTimer = new DispatcherTimer();
             _typingTimer.Tick += this._typingTimer_Tick;
             DataContext = this;
+            this.FirstLoad = true;
         }
 
         /// <summary>
@@ -43,6 +49,14 @@ namespace Avalon.Controls
 
                 DataList.ItemsSource = lcv;
             }
+
+            // Nothing should be selected at the start.
+            if (this.FirstLoad)
+            {
+                DataList.SelectedItem = null;
+            }
+
+            this.FirstLoad = false;
         }
 
         /// <summary>
@@ -58,6 +72,14 @@ namespace Avalon.Controls
             DataList.ItemsSource = null;
             DataList.ItemsSource = lcv;
             DataList.Items.Refresh();
+        }
+
+        /// <summary>
+        /// The number of items currently selected.
+        /// </summary>
+        public int SelectedCount()
+        {
+            return DataList?.SelectedItems?.Count ?? 0;
         }
 
         /// <summary>

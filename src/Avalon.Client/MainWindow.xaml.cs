@@ -617,5 +617,10 @@ namespace Avalon
             win.ShowDialog();
         }
 
+        private void MenuItemCreatePackage_Click(object sender, RoutedEventArgs e)
+        {
+            var win = new CreatePackageWindow();
+            win.Show();
+        }
     }
 }

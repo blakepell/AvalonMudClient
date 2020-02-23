@@ -1,9 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using Avalon.Common.Interfaces;
 
 namespace Avalon.Common.Models
 {
-    public class Alias : INotifyPropertyChanged, IAlias
+    public class Alias : INotifyPropertyChanged, ICloneable, IAlias
     {
 
         public Alias()
@@ -87,6 +88,14 @@ namespace Avalon.Common.Models
             //});
             PropertyChanged?.Invoke(this, e);
 
+        }
+
+        /// <summary>
+        /// Clones the alias.
+        /// </summary>
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
