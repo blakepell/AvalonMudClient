@@ -12,4 +12,4 @@ In the following example the JSON package includes and alias and a trigger that 
 
 The following gist contains the JSON package that could be imported as well as the fiendly versions of the Lua for the alias and the trigger and the regular expression pattern for the trigger.
 
-<script src="https://gist.github.com/blakepell/0af993ecad9c832bd34f9d1eab7e32fa.js"></script>
+[shop-inspect gist](https://gist.github.com/blakepell/0af993ecad9c832bd34f9d1eab7e32fa)
