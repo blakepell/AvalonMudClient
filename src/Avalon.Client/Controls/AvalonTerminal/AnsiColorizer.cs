@@ -20,17 +20,17 @@ namespace Avalon.Controls
         protected override void ColorizeLine(DocumentLine line)
         {
             int lineStartOffset = line.Offset;
-            string text = CurrentContext.Document.GetText(line);
+            var text = CurrentContext.Document.GetText(line).AsSpan();
 
             foreach (var color in Colorizer.ColorMap)
             {
                 int start = 0;
                 int index;
 
-                while ((index = text.IndexOf(color.AnsiColor.ToString(), start, StringComparison.Ordinal)) >= 0)
+                while ((index = text.IndexOf(color.AnsiColor.ToString(), start)) >= 0)
                 {
                     // Find the end of the control sequence
-                    int indexEnd = text.IndexOf("m", index + 1, StringComparison.Ordinal) + 1;
+                    int indexEnd = text.IndexOf("m", index + 1) + 1;
 
                     // This should look for the index of the next color code EXCEPT when it's a style code.
                     int endMarker = text.IndexOfNextColorCode("\x1B", index + 1);
@@ -76,13 +76,13 @@ namespace Avalon.Controls
                 int start = 0;
                 int index;
 
-                while ((index = text.IndexOf(color.AnsiColor.ToString(), start, StringComparison.Ordinal)) >= 0)
+                while ((index = text.IndexOf(color.AnsiColor.ToString(), start)) >= 0)
                 {
                     // Find the end of the control sequence
                     int indexEnd = index + color.AnsiColor.ToString().Length;
 
                     // Find the clear color code if it exists.
-                    int endMarker = text.IndexOf(AnsiColors.Clear, index + 1, StringComparison.Ordinal);
+                    int endMarker = text.IndexOf(AnsiColors.Clear, index + 1);
 
                     // If the end marker isn't found on this line then it goes to the end of the line
                     if (endMarker == -1)
