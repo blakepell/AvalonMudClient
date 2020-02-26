@@ -2,10 +2,7 @@
 {
     public class Underline : AnsiColor
     {
-        public override string ToString()
-        {
-            return "\x1B[4m";
-        }
+        public override string AnsiCode => "\x1B[4m";
 
         public override string MudColorCode => "{_";
 

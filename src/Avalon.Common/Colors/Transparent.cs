@@ -2,13 +2,9 @@
 {
     public class Transparent : AnsiColor
     {
-        public override string ToString()
-        {
-            // TODO - Verify this is the right ANSI code.
-            //[39m - default foreground
-            //[49m - default background
-            return "\x1B[1;31;49m";
-        }
+        //[39m - default foreground
+        //[49m - default background
+        public override string AnsiCode => "\x1B[1;31;49m";
 
         public override string MudColorCode => "";
 

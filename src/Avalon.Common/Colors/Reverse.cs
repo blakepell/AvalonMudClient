@@ -2,10 +2,7 @@
 {
     public class Reverse : AnsiColor
     {
-        public override string ToString()
-        {
-            return "\x1B[7m";
-        }
+        public override string AnsiCode => "\x1B[7m";
 
         public override string MudColorCode => "{&";
 

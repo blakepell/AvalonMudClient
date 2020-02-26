@@ -2,10 +2,7 @@
 {
     public class Black : AnsiColor
     {
-        public override string ToString()
-        {
-            return "\x1B[1;30m";
-        }
+        public override string AnsiCode => "\x1B[1;30m";
 
         public override string MudColorCode => "";
 
