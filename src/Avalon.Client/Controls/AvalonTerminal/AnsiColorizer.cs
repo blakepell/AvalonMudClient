@@ -20,6 +20,8 @@ namespace Avalon.Controls
         protected override void ColorizeLine(DocumentLine line)
         {
             int lineStartOffset = line.Offset;
+
+            // Instead of allocating a string here we're going to use a Span and work from it.
             var text = CurrentContext.Document.GetText(line).AsSpan();
 
             foreach (var color in Colorizer.ColorMap)
@@ -30,10 +32,10 @@ namespace Avalon.Controls
                 while ((index = text.IndexOf(color.AnsiColor.ToString(), start)) >= 0)
                 {
                     // Find the end of the control sequence
-                    int indexEnd = text.IndexOf("m", index + 1) + 1;
+                    int indexEnd = text.IndexOf("m".AsSpan(), index + 1) + 1;
 
                     // This should look for the index of the next color code EXCEPT when it's a style code.
-                    int endMarker = text.IndexOfNextColorCode("\x1B", index + 1);
+                    int endMarker = text.IndexOfNextColorCode("\x1B".AsSpan(), index + 1);
 
                     // If the end marker isn't found on this line then it goes to the end of the line
                     if (endMarker == -1)
@@ -50,8 +52,8 @@ namespace Avalon.Controls
                             element.TextRunProperties.SetForegroundBrush(color.Brush);
                         });
 
-                    //start = index + 1; // search for next occurrence
-                    start = index + color.AnsiColor.ToString().Length; // search for next occurrence
+                    // Search for next occurrence, again, we'll reference the span and not the length.
+                    start = index + color.AnsiColor.AnsiCode.AsSpan().Length;
 
                     // Hide the control sequence (the control escape is hidden via the TextArea.TextView.Options.ShowBoxForControlCharacters
                     // property, but we need to hide the rest of the ANSI sequence as well.  I haven't found a way to make these hidden and
@@ -76,13 +78,13 @@ namespace Avalon.Controls
                 int start = 0;
                 int index;
 
-                while ((index = text.IndexOf(color.AnsiColor.ToString(), start)) >= 0)
+                while ((index = text.IndexOf(color.AnsiColor.AnsiCode.AsSpan(), start)) >= 0)
                 {
                     // Find the end of the control sequence
-                    int indexEnd = index + color.AnsiColor.ToString().Length;
+                    int indexEnd = index + color.AnsiColor.AnsiCode.AsSpan().Length;
 
                     // Find the clear color code if it exists.
-                    int endMarker = text.IndexOf(AnsiColors.Clear, index + 1);
+                    int endMarker = text.IndexOf(AnsiColors.Clear.AnsiCode.AsSpan(), index + 1);
 
                     // If the end marker isn't found on this line then it goes to the end of the line
                     if (endMarker == -1)
@@ -110,7 +112,7 @@ namespace Avalon.Controls
                         });
 
                     // Search for the next occurrence
-                    start = index + color.AnsiColor.ToString().Length;
+                    start = index + color.AnsiColor.AnsiCode.AsSpan().Length;
 
                     // Hide the control sequence (the control escape is hidden via the TextArea.TextView.Options.ShowBoxForControlCharacters
                     // property, but we need to hide the rest of the ANSI sequence as well.  I haven't found a way to make these hidden and
