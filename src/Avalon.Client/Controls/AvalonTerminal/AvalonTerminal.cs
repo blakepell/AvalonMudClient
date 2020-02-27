@@ -89,12 +89,16 @@ namespace Avalon.Controls
         /// Adds a line into the Lines list and appends it's content to the buffer.
         /// </summary>
         /// <param name="text"></param>
+        /// <remarks>
+        /// As the Text property isn't used in this context we are specificity not allocating an
+        /// entry for it.  In the past we used to save a collection of the lines received but we
+        /// are no longer doing that for now.
+        /// </remarks>
         public void Append(string text)
         {
             var line = new Line
             {
                 FormattedText = text,
-                Text = Colorizer.RemoveAllAnsiCodes(text),
                 IgnoreLastColor = false,
                 ForegroundColor = AnsiColors.Default
             };
@@ -107,12 +111,16 @@ namespace Avalon.Controls
         /// </summary>
         /// <param name="text">The text to append to the terminal.</param>
         /// <param name="scrollToLastLine">Whether or not the line should cause the terminal to scroll to the last line.</param>
+        /// <remarks>
+        /// As the Text property isn't used in this context we are specificity not allocating an
+        /// entry for it.  In the past we used to save a collection of the lines received but we
+        /// are no longer doing that for now.
+        /// </remarks>
         public void Append(string text, bool scrollToLastLine)
         {
             var line = new Line
             {
                 FormattedText = text,
-                Text = Colorizer.RemoveAllAnsiCodes(text),
                 IgnoreLastColor = false,
                 ForegroundColor = AnsiColors.Default,
                 ScrollToLastLine = scrollToLastLine
@@ -126,12 +134,16 @@ namespace Avalon.Controls
         /// </summary>
         /// <param name="text"></param>
         /// <param name="foregroundColor"></param>
+        /// <remarks>
+        /// As the Text property isn't used in this context we are specificity not allocating an
+        /// entry for it.  In the past we used to save a collection of the lines received but we
+        /// are no longer doing that for now.
+        /// </remarks>
         public void Append(string text, AnsiColor foregroundColor)
         {
             var line = new Line
             {
                 FormattedText = text,
-                Text = Colorizer.RemoveAllAnsiCodes(text),
                 IgnoreLastColor = true,
                 ForegroundColor = foregroundColor
             };
@@ -145,12 +157,16 @@ namespace Avalon.Controls
         /// <param name="text"></param>
         /// <param name="foregroundColor"></param>
         /// <param name="reverseColors"></param>
+        /// <remarks>
+        /// As the Text property isn't used in this context we are specificity not allocating an
+        /// entry for it.  In the past we used to save a collection of the lines received but we
+        /// are no longer doing that for now.
+        /// </remarks>
         public void Append(string text, AnsiColor foregroundColor, bool reverseColors)
         {
             var line = new Line
             {
                 FormattedText = text,
-                Text = Colorizer.RemoveAllAnsiCodes(text),
                 IgnoreLastColor = true,
                 ForegroundColor = foregroundColor,
                 ReverseColors = reverseColors
@@ -166,12 +182,16 @@ namespace Avalon.Controls
         /// <param name="foregroundColor"></param>
         /// <param name="reverseColors"></param>
         /// <param name="scrollToLastLine">Whether or not the line should cause the terminal to scroll to the last line.</param>
+        /// <remarks>
+        /// As the Text property isn't used in this context we are specificity not allocating an
+        /// entry for it.  In the past we used to save a collection of the lines received but we
+        /// are no longer doing that for now.
+        /// </remarks>
         public void Append(string text, AnsiColor foregroundColor, bool reverseColors, bool scrollToLastLine)
         {
             var line = new Line
             {
                 FormattedText = text,
-                Text = Colorizer.RemoveAllAnsiCodes(text),
                 IgnoreLastColor = true,
                 ForegroundColor = foregroundColor,
                 ReverseColors = reverseColors,
