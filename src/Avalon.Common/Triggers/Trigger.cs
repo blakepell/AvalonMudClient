@@ -50,7 +50,7 @@ namespace Avalon.Common.Triggers
         /// the variable later down the line.  The first "variable replacement" has to happen in both cases.
         /// </summary>
         /// <param name="line"></param>
-        /// <param name="ignoreVariableSet">Default false: Whether to explicitly skip variable setting (not replacing).</param>
+        /// <param name="skipVariableSet">Default false: Whether to explicitly skip variable setting (not replacing).</param>
         public bool IsMatch(string line, bool skipVariableSet = false)
         {
             Match match;
