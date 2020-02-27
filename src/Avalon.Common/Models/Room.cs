@@ -3,11 +3,11 @@
     public class Room
     {
         public int Vnum { get; set; } = 0;
-        public string Name { get; set; } = "";
-        public string Description { get; set; } = "";
-        public string Exits { get; set; } = "";
-        public string Area { get; set; } = "";
-        public string Continent { get; set; } = "";
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Exits { get; set; }
+        public string Area { get; set; }
+        public string Continent { get; set; }
         public int North { get; set; } = -1;
         public int South { get; set; } = -1;
         public int East { get; set; } = -1;

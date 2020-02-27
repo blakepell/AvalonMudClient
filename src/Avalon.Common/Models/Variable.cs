@@ -23,13 +23,10 @@ namespace Avalon.Common.Models
             this.Character = character;
         }
 
-        private string _key = "";
+        private string _key;
         public string Key
         {
-            get
-            {
-                return _key;
-            }
+            get => _key;
             set
             {
                 _key = value;
@@ -37,13 +34,10 @@ namespace Avalon.Common.Models
             }
         }
 
-        private string _value = "";
+        private string _value;
         public string Value
         {
-            get
-            {
-                return _value;
-            }
+            get => _value;
             set
             {
                 _value = value;
@@ -51,16 +45,11 @@ namespace Avalon.Common.Models
             }
         }
 
-        public string Character { get; set; } = "";
+        public string Character { get; set; }
 
         protected virtual async void OnPropertyChanged(string propertyName)
         {
             var e = new PropertyChangedEventArgs(propertyName);
-
-            //await App.MainWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //{
-            //    PropertyChanged?.Invoke(this, e);
-            //});
             PropertyChanged?.Invoke(this, e);
         }
 

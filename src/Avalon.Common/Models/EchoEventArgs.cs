@@ -12,7 +12,7 @@ namespace Avalon.Common.Models
         /// <summary>
         /// The text to echo to the terminal.
         /// </summary>
-        public string Text { get; set; } = "";
+        public string Text { get; set; }
 
         /// <summary>
         /// The foreground color of the text.
