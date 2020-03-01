@@ -96,7 +96,7 @@ namespace Avalon
             // Scraping will only occur when full lines come through.
             if (App.Conveyor.ScrapeEnabled)
             {
-                App.Conveyor.Scrape.AppendLine(line.Text);
+                App.Conveyor.Scrape.Append(line.Text.AsSpan()).AppendLine();
             }
         }
 
@@ -111,18 +111,24 @@ namespace Avalon
         {
             try
             {
+                // Get a StringBuilder from the shared pool.
+                var sb = Argus.Memory.StringBuilderPool.Take();
+                sb.Append(e);
+
                 // Remove unwanted characters
-                var sb = new StringBuilder(e);
                 sb.RemoveUnsupportedCharacters();
 
                 // Append the data to the terminal as it comes in.
-                GameTerminal.Append(sb.ToString());
+                GameTerminal.Append(sb);
 
                 // If the back buffer setting is enabled put the data also in there.
                 if (App.Settings.AvalonSettings.BackBufferEnabled)
                 {
-                    GameBackBufferTerminal.Append(sb.ToString(), false);
+                    GameBackBufferTerminal.Append(sb, false);
                 }
+
+                // Return the StringBuilder to the pool.
+                Argus.Memory.StringBuilderPool.Return(sb);
             }
             catch (Exception ex)
             {

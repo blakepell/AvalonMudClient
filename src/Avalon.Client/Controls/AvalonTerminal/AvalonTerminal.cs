@@ -106,6 +106,28 @@ namespace Avalon.Controls
             Append(line);
         }
 
+
+        /// <summary>
+        /// Adds a line into the Lines list and appends it's content to the buffer.
+        /// </summary>
+        /// <param name="sb"></param>
+        /// <remarks>
+        /// As the Text property isn't used in this context we are specificity not allocating an
+        /// entry for it.  In the past we used to save a collection of the lines received but we
+        /// are no longer doing that for now.
+        /// </remarks>
+        public void Append(StringBuilder sb)
+        {
+            var line = new Line
+            {
+                FormattedText = sb.ToString(),
+                IgnoreLastColor = false,
+                ForegroundColor = AnsiColors.Default
+            };
+
+            Append(line);
+        }
+
         /// <summary>
         /// Adds a line into the Lines list and appends it's content to the buffer.
         /// </summary>
@@ -132,6 +154,29 @@ namespace Avalon.Controls
         /// <summary>
         /// Adds a line into the Lines list and appends it's content to the buffer.
         /// </summary>
+        /// <param name="sb">The text to append to the terminal.</param>
+        /// <param name="scrollToLastLine">Whether or not the line should cause the terminal to scroll to the last line.</param>
+        /// <remarks>
+        /// As the Text property isn't used in this context we are specificity not allocating an
+        /// entry for it.  In the past we used to save a collection of the lines received but we
+        /// are no longer doing that for now.
+        /// </remarks>
+        public void Append(StringBuilder sb, bool scrollToLastLine)
+        {
+            var line = new Line
+            {
+                FormattedText = sb.ToString(),
+                IgnoreLastColor = false,
+                ForegroundColor = AnsiColors.Default,
+                ScrollToLastLine = scrollToLastLine
+            };
+
+            Append(line);
+        }
+
+        /// <summary>
+        /// Adds a line into the Lines list and appends it's content to the buffer.
+        /// </summary>
         /// <param name="text"></param>
         /// <param name="foregroundColor"></param>
         /// <remarks>
@@ -144,6 +189,28 @@ namespace Avalon.Controls
             var line = new Line
             {
                 FormattedText = text,
+                IgnoreLastColor = true,
+                ForegroundColor = foregroundColor
+            };
+
+            Append(line);
+        }
+
+        /// <summary>
+        /// Adds a line into the Lines list and appends it's content to the buffer.
+        /// </summary>
+        /// <param name="sb"></param>
+        /// <param name="foregroundColor"></param>
+        /// <remarks>
+        /// As the Text property isn't used in this context we are specificity not allocating an
+        /// entry for it.  In the past we used to save a collection of the lines received but we
+        /// are no longer doing that for now.
+        /// </remarks>
+        public void Append(StringBuilder sb, AnsiColor foregroundColor)
+        {
+            var line = new Line
+            {
+                FormattedText = sb.ToString(),
                 IgnoreLastColor = true,
                 ForegroundColor = foregroundColor
             };
@@ -178,6 +245,30 @@ namespace Avalon.Controls
         /// <summary>
         /// Adds a line into the Lines list and appends it's content to the buffer.
         /// </summary>
+        /// <param name="sb"></param>
+        /// <param name="foregroundColor"></param>
+        /// <param name="reverseColors"></param>
+        /// <remarks>
+        /// As the Text property isn't used in this context we are specificity not allocating an
+        /// entry for it.  In the past we used to save a collection of the lines received but we
+        /// are no longer doing that for now.
+        /// </remarks>
+        public void Append(StringBuilder sb, AnsiColor foregroundColor, bool reverseColors)
+        {
+            var line = new Line
+            {
+                FormattedText = sb.ToString(),
+                IgnoreLastColor = true,
+                ForegroundColor = foregroundColor,
+                ReverseColors = reverseColors
+            };
+
+            Append(line);
+        }
+
+        /// <summary>
+        /// Adds a line into the Lines list and appends it's content to the buffer.
+        /// </summary>
         /// <param name="text"></param>
         /// <param name="foregroundColor"></param>
         /// <param name="reverseColors"></param>
@@ -192,6 +283,32 @@ namespace Avalon.Controls
             var line = new Line
             {
                 FormattedText = text,
+                IgnoreLastColor = true,
+                ForegroundColor = foregroundColor,
+                ReverseColors = reverseColors,
+                ScrollToLastLine = scrollToLastLine
+            };
+
+            Append(line);
+        }
+
+        /// <summary>
+        /// Adds a line into the Lines list and appends it's content to the buffer.
+        /// </summary>
+        /// <param name="sb"></param>
+        /// <param name="foregroundColor"></param>
+        /// <param name="reverseColors"></param>
+        /// <param name="scrollToLastLine">Whether or not the line should cause the terminal to scroll to the last line.</param>
+        /// <remarks>
+        /// As the Text property isn't used in this context we are specificity not allocating an
+        /// entry for it.  In the past we used to save a collection of the lines received but we
+        /// are no longer doing that for now.
+        /// </remarks>
+        public void Append(StringBuilder sb, AnsiColor foregroundColor, bool reverseColors, bool scrollToLastLine)
+        {
+            var line = new Line
+            {
+                FormattedText = sb.ToString(),
                 IgnoreLastColor = true,
                 ForegroundColor = foregroundColor,
                 ReverseColors = reverseColors,
