@@ -29,7 +29,7 @@ namespace Avalon.Controls
                 int start = 0;
                 int index;
 
-                while ((index = text.IndexOf(color.AnsiColor.ToString(), start)) >= 0)
+                while ((index = text.IndexOf(color.AnsiColor.AnsiCode.AsSpan(), start)) >= 0)
                 {
                     // Find the end of the control sequence
                     int indexEnd = text.IndexOf("m".AsSpan(), index + 1) + 1;
