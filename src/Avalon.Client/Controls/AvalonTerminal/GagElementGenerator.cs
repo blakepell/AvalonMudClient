@@ -18,7 +18,9 @@ namespace Avalon.Controls
         /// <summary>
         /// This might seem like a micro optimization but the StringBuilder used in GetFirstInterestedOffset had a performance
         /// hit allocated that is avoided if we reuse the StringBuilder and simply clear it.  Since this is called A LOT it
-        /// while rendering the impact was enough that this made sense.
+        /// while rendering the impact was enough that this made sense.  Since this is heavily used in the Gag and it's only
+        /// allocated once when the Gag is created I've choosen to keep this here instead of using the StringBuilderPool because
+        /// it's always going to be needed so I've just made it dedicated.
         /// </summary>
         private readonly StringBuilder _sb = new StringBuilder();
 
