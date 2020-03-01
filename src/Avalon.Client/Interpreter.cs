@@ -208,7 +208,7 @@ namespace Avalon
             foreach (var item in initialList)
             {
                 var first = item.FirstArgument();
-                var alias = App.Settings.ProfileSettings.AliasList.FirstOrDefault(x => x.AliasExpression == first.Item1 && x.Enabled == true && (x.Character == "" || x.Character == characterName));
+                var alias = App.Settings.ProfileSettings.AliasList.FirstOrDefault(x => x.AliasExpression == first.Item1 && x.Enabled == true && (string.IsNullOrEmpty(x.Character) || x.Character == characterName));
 
                 if (alias == null)
                 {
