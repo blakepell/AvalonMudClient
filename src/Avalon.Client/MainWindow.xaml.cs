@@ -19,6 +19,7 @@ using Avalon.Common.Plugins;
 using ModernWpf.Controls;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Windows.Media.Animation;
 
 namespace Avalon
 {
@@ -654,5 +655,33 @@ namespace Avalon
                 }
             }
         }
+
+        private void ShowHideMenu(string storyboard, Button btnHide, Button btnShow, StackPanel pnl)
+        {
+            var sb = Resources[storyboard] as Storyboard;
+            sb.Begin(pnl);
+
+            if (storyboard.Contains("Show"))
+            {
+                btnHide.Visibility = Visibility.Visible;
+                btnShow.Visibility = Visibility.Hidden;
+            }
+            else if (storyboard.Contains("Hide"))
+            {
+                btnHide.Visibility = Visibility.Hidden;
+                btnShow.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void btnBottomMenuHide_Click(object sender, RoutedEventArgs e)
+        {
+            ShowHideMenu("sbHideBottomMenu", btnBottomMenuHide, btnBottomMenuShow, pnlBottomMenu);
+        }
+
+        private void btnBottomMenuShow_Click(object sender, RoutedEventArgs e)
+        {
+            ShowHideMenu("sbShowBottomMenu", btnBottomMenuHide, btnBottomMenuShow, pnlBottomMenu);
+        }
+
     }
 }
