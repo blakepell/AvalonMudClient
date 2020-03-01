@@ -26,14 +26,12 @@ namespace Avalon.HashCommands
                 return;
             }
 
-            this.Parameters = this.Parameters.ToLower();
-
-            if (this.Parameters == "alias")
+            if (string.Equals(this.Parameters, "alias", System.StringComparison.OrdinalIgnoreCase))
             {
                 App.Settings.ProfileSettings.AliasesEnabled = false;
                 Interpreter.EchoText($"--> Aliases Disabled", AnsiColors.Cyan);
             }
-            else if (this.Parameters == "trigger")
+            else if (string.Equals(this.Parameters, "trigger", System.StringComparison.OrdinalIgnoreCase))
             {
                 App.Settings.ProfileSettings.TriggersEnabled = false;
                 Interpreter.EchoText($"--> Triggers Disable", AnsiColors.Cyan);

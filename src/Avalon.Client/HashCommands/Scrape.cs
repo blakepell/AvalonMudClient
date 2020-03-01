@@ -28,19 +28,19 @@ namespace Avalon.HashCommands
 
         public override void Execute()
         {
-            if (this.Parameters.ToUpper() == "ON")
+            if (string.Equals(this.Parameters, "ON", System.StringComparison.OrdinalIgnoreCase))
             {
                 this.Interpreter.Conveyor.ScrapeEnabled = true;
             }
-            else if (this.Parameters.ToUpper() == "OFF")
+            else if (string.Equals(this.Parameters, "OFF", System.StringComparison.OrdinalIgnoreCase))
             {
                 this.Interpreter.Conveyor.ScrapeEnabled = false;
             }
-            else if (this.Parameters.ToUpper() == "ECHO")
+            else if (string.Equals(this.Parameters, "ECHO", System.StringComparison.OrdinalIgnoreCase))
             {
                 this.Interpreter.EchoText(this.Interpreter.Conveyor.Scrape.ToString());
             }
-            else if (this.Parameters.ToUpper() == "CLEAR")
+            else if (string.Equals(this.Parameters, "CLEAR", System.StringComparison.OrdinalIgnoreCase))
             {
                 this.Interpreter.Conveyor.ScrapeEnabled = false;
                 this.Interpreter.Conveyor.Scrape.Clear();

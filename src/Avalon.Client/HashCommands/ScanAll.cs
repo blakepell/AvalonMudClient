@@ -24,7 +24,7 @@ namespace Avalon.HashCommands
 
             foreach (string buf in exits)
             {
-                if (buf.ToLower() == "none" || buf.IsNullOrEmptyOrWhiteSpace())
+                if (string.Equals(buf, "none", System.StringComparison.OrdinalIgnoreCase) || buf.IsNullOrEmptyOrWhiteSpace())
                 {
                     continue;
                 }

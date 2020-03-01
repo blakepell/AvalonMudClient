@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Media;
-using Avalon.Common.Models;
 
 namespace Avalon.Utilities
 {
@@ -75,10 +74,9 @@ namespace Avalon.Utilities
             }
 
             var sb = new StringBuilder();
-            var list = input.Split(' ');
-
+            
             // This will be each individual step (or a number in the same direction)
-            foreach (string step in list)
+            foreach (string step in input.Split(' '))
             {
                 if (step.ContainsNumber())
                 {

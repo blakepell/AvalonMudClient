@@ -248,7 +248,7 @@ namespace Avalon
                     }
 
                     // The IP address specified in the plugin matches the IP address we're connecting to.
-                    if (pluginInstance.IpAddress.ToUpper() == App.Settings.ProfileSettings.IpAddress.ToUpper())
+                    if (string.Equals(pluginInstance.IpAddress, App.Settings.ProfileSettings.IpAddress, StringComparison.OrdinalIgnoreCase))
                     {
                         // Set a copy of the current profile settings into the plugin in case it needs them.
                         pluginInstance.ProfileSettings = App.Settings.ProfileSettings;

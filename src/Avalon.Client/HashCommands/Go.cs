@@ -23,10 +23,10 @@ namespace Avalon.HashCommands
         public override void Execute()
         {
             // Get the room we are in.
-            string room = this.Interpreter.Conveyor.GetVariable("Room").ToLower();
+            string room = this.Interpreter.Conveyor.GetVariable("Room");
 
             // First, search for a exact match location if it exists.
-            var dest = App.Settings.ProfileSettings.DirectionList.FirstOrDefault(x => x.Name.ToLower() == this.Parameters.ToLower() && x.StartingRoom.ToLower() == room);
+            var dest = App.Settings.ProfileSettings.DirectionList.FirstOrDefault(x => string.Equals(x.Name, this.Parameters, System.StringComparison.OrdinalIgnoreCase) && string.Equals(x.StartingRoom, room, System.StringComparison.OrdinalIgnoreCase));
 
             // This is it, walk it and get out.
             if (dest != null)
@@ -38,7 +38,7 @@ namespace Avalon.HashCommands
             }
 
             // Search for the destination room, whether we're in the starting room or not.  If we're not, we'll later search for a bridge room
-            dest = App.Settings.ProfileSettings.DirectionList.FirstOrDefault(x => x.Name.ToLower() == this.Parameters.ToLower());
+            dest = App.Settings.ProfileSettings.DirectionList.FirstOrDefault(x => string.Equals(x.Name, this.Parameters, System.StringComparison.OrdinalIgnoreCase));
 
             if (dest == null)
             {
@@ -47,7 +47,7 @@ namespace Avalon.HashCommands
             }
 
             // Starting room is correct, start walking
-            if (dest != null && dest.StartingRoom.ToLower() == room.ToLower())
+            if (dest != null && string.Equals(dest.StartingRoom, room, System.StringComparison.OrdinalIgnoreCase))
             {
                 // Parse the speedwalk and send it to the hash command.
                 string buf = Utilities.Utilities.Speedwalk(dest.Speedwalk);
@@ -56,7 +56,7 @@ namespace Avalon.HashCommands
             }
 
             // See if we can get to the starting room from here.
-            var midDest = App.Settings.ProfileSettings.DirectionList.FirstOrDefault(x => x.Name.ToLower() == dest.StartingRoom.ToLower() && x.StartingRoom.ToLower() == room);
+            var midDest = App.Settings.ProfileSettings.DirectionList.FirstOrDefault(x => string.Equals(x.Name, dest.StartingRoom, System.StringComparison.OrdinalIgnoreCase) && string.Equals(x.StartingRoom, room, System.StringComparison.OrdinalIgnoreCase));
 
             // Walk to the starting room.
             if (midDest != null)

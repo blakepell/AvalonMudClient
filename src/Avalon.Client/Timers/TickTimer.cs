@@ -43,7 +43,6 @@ namespace Avalon.Timers
                     var line = new Line
                     {
                         FormattedText = $"--> TICK @ {DateTime.Now}: {((double) _stopWatch.ElapsedMilliseconds / 1000)}", 
-                        Text = $"--> TICK @ {DateTime.Now}: {((double) _stopWatch.ElapsedMilliseconds / 1000)}", 
                         ForegroundColor = AnsiColors.Cyan, 
                         IgnoreLastColor = true
                     };
@@ -75,7 +74,6 @@ namespace Avalon.Timers
                 var line = new Line
                 {
                     FormattedText = $"Tick in 5 seconds.\r\n", 
-                    Text = $"Tick in 5 seconds.\r\n", 
                     IgnoreLastColor = true, 
                     ForegroundColor = AnsiColors.Cyan,
                     ReverseColors = true

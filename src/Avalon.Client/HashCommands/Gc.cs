@@ -24,7 +24,7 @@ namespace Avalon.HashCommands
             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
             GC.WaitForPendingFinalizers();
 
-            if (this.Parameters.ToLower() != "silent")
+            if (!string.Equals(this.Parameters, "silent", StringComparison.OrdinalIgnoreCase))
             {
                 Interpreter.EchoText("Garbage Collection Executed.", AnsiColors.Cyan);
             }

@@ -27,7 +27,7 @@ namespace Avalon
         /// <returns></returns>
         public string GetVariable(string key)
         {
-            var variable = App.Settings.ProfileSettings.Variables.FirstOrDefault(x => x.Key.ToLower() == key.ToLower());
+            var variable = App.Settings.ProfileSettings.Variables.FirstOrDefault(x => string.Equals(x.Key, key, StringComparison.OrdinalIgnoreCase));
 
             if (variable != null)
             {
@@ -46,7 +46,7 @@ namespace Avalon
         /// <param name="value"></param>
         public void SetVariable(string key, string value)
         {
-            var variable = App.Settings.ProfileSettings.Variables.FirstOrDefault(x => x.Key.ToLower() == key.ToLower());
+            var variable = App.Settings.ProfileSettings.Variables.FirstOrDefault(x => string.Equals(x.Key, key, StringComparison.OrdinalIgnoreCase));
 
             if (variable != null)
             {
@@ -96,7 +96,6 @@ namespace Avalon
                 if (App.Settings.ProfileSettings.Variables[i].Key == key)
                 {
                     App.Settings.ProfileSettings.Variables.RemoveAt(i);
-
                     return;
                 }
             }
@@ -330,11 +329,10 @@ namespace Avalon
         public bool EnableGroup(string groupName)
         {
             bool found = false;
-            groupName = groupName.ToLower();
 
             foreach (var item in App.Settings.ProfileSettings.TriggerList)
             {
-                if (item.Group.ToLower() == groupName)
+                if (string.Equals(item.Group, groupName, StringComparison.OrdinalIgnoreCase))
                 {
                     found = true;
                     item.Enabled = true;
@@ -343,7 +341,7 @@ namespace Avalon
 
             foreach (var item in App.Settings.ProfileSettings.AliasList)
             {
-                if (item.Group.ToLower() == groupName)
+                if (string.Equals(item.Group, groupName, StringComparison.OrdinalIgnoreCase))
                 {
                     found = true;
                     item.Enabled = true;
@@ -361,11 +359,10 @@ namespace Avalon
         public bool DisableGroup(string groupName)
         {
             bool found = false;
-            groupName = groupName.ToLower();
 
             foreach (var item in App.Settings.ProfileSettings.TriggerList)
             {
-                if (item.Group.ToLower() == groupName)
+                if (string.Equals(item.Group, groupName, StringComparison.OrdinalIgnoreCase))
                 {
                     found = true;
                     item.Enabled = false;
@@ -374,7 +371,7 @@ namespace Avalon
 
             foreach (var item in App.Settings.ProfileSettings.AliasList)
             {
-                if (item.Group.ToLower() == groupName)
+                if (string.Equals(item.Group, groupName, StringComparison.OrdinalIgnoreCase))
                 {
                     found = true;
                     item.Enabled = false;
