@@ -84,6 +84,8 @@ namespace Avalon
         /// <param name="e"></param>
         public void HandleLineReceived(object sender, string e)
         {
+            // The "Text" on a line isn't always important which is why we don't always set it.  It
+            // is critical in this location though in order to match triggers.
             var line = new Line
             {
                 FormattedText = e,

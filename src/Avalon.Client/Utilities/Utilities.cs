@@ -73,75 +73,82 @@ namespace Avalon.Utilities
                 return "";
             }
 
-            var sb = new StringBuilder();
-            
-            // This will be each individual step (or a number in the same direction)
-            foreach (string step in input.Split(' '))
+            var sb = Argus.Memory.StringBuilderPool.Take();
+
+            try
             {
-                if (step.ContainsNumber())
+                // This will be each individual step (or a number in the same direction)
+                foreach (string step in input.Split(' '))
                 {
-                    string stepsStr = "";
-                    string direction = "";
-
-                    // Pluck the number off the front (e.g. 4n)
-                    foreach (char c in step)
+                    if (step.ContainsNumber())
                     {
-                        if (char.IsNumber(c))
+                        string stepsStr = "";
+                        string direction = "";
+
+                        // Pluck the number off the front (e.g. 4n)
+                        foreach (char c in step)
                         {
-                            stepsStr += c;
+                            if (char.IsNumber(c))
+                            {
+                                stepsStr += c;
+                            }
+                            else
+                            {
+                                direction += c;
+                            }
                         }
-                        else
+
+                        // The number of steps to repeat this specific step
+                        int steps = int.Parse(stepsStr);
+
+                        for (int i = 1; i <= steps; i++)
                         {
-                            direction += c;
+                            sb.Append(direction);
+                            sb.Append(';');
                         }
+
                     }
-
-                    // The number of steps to repeat this specific step
-                    int steps = int.Parse(stepsStr);
-
-                    for (int i = 1; i <= steps; i++)
+                    else
                     {
-                        sb.Append(direction);
+                        // No number, put it in verbatim.
+                        sb.Append(step);
                         sb.Append(';');
                     }
 
                 }
-                else
+
+                sb.TrimEnd(';');
+
+                // Finally, look for parens and turn semi-colons in between there into spaces.  This might be hacky but should
+                // allow for commands in the middle of our directions as long as they're surrounded by ().
+                bool on = false;
+
+                for (int i = 0; i < sb.Length; i++)
                 {
-                    // No number, put it in verbatim.
-                    sb.Append(step);
-                    sb.Append(';');
+                    if (sb[i] == '(')
+                    {
+                        on = true;
+                    }
+                    else if (sb[i] == ')')
+                    {
+                        on = false;
+                    }
+
+                    if (on == true && sb[i] == ';')
+                    {
+                        sb[i] = ' ';
+                    }
                 }
 
+                // Now that the command has been properly placed, remove any parents.
+                sb.Replace("(", "").Replace(")", "");
+
+                return sb.ToString();
             }
-
-            sb.TrimEnd(';');
-
-            // Finally, look for parens and turn semi-colons in between there into spaces.  This might be hacky but should
-            // allow for commands in the middle of our directions as long as they're surrounded by ().
-            bool on = false;
-
-            for (int i = 0; i < sb.Length; i++)
+            finally
             {
-                if (sb[i] == '(')
-                {
-                    on = true;
-                }
-                else if (sb[i] == ')')
-                {
-                    on = false;
-                }
-
-                if (on == true && sb[i] == ';')
-                {
-                    sb[i] = ' ';
-                }
-            }
-
-            // Now that the command has been properly placed, remove any parents.
-            sb.Replace("(", "").Replace(")", "");
-
-            return sb.ToString();
+                Argus.Memory.StringBuilderPool.Return(sb);
+            }            
         }
     }
 }

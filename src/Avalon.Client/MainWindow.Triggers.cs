@@ -58,7 +58,6 @@ namespace Avalon
                         // Create a brand new line (not a shared reference) where this can be shown in the communication window.
                         var commLine = new Line
                         {
-                            Text = line.Text,
                             FormattedText = $"[{DateTime.Now.ToShortTimeString()}]: {line.FormattedText}\r\n"
                         };
 
@@ -129,7 +128,6 @@ namespace Avalon
                         // Create a brand new line (not a shared reference) where this can be shown in the communication window.
                         var commLine = new Line
                         {
-                            Text = line.Text,
                             FormattedText = $"[{DateTime.Now.ToShortTimeString()}]: {line.FormattedText}\r\n"
                         };
 

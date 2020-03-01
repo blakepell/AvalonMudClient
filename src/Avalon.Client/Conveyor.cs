@@ -56,8 +56,6 @@ namespace Avalon
             {
                 App.Settings.ProfileSettings.Variables.Add(new Variable(key, value));
             }
-
-            return;
         }
 
         /// <summary>
@@ -68,18 +66,27 @@ namespace Avalon
         {
             if (text.Contains("@"))
             {
-                var sb = new StringBuilder(text);
+                var sb = Argus.Memory.StringBuilderPool.Take();
 
-                foreach (var item in App.Settings.ProfileSettings.Variables)
+                try
                 {
-                    sb.Replace($"@{item.Key}", item.Value);
+                    sb.Append(text);
+
+                    foreach (var item in App.Settings.ProfileSettings.Variables)
+                    {
+                        sb.Replace($"@{item.Key}", item.Value);
+                    }
+
+                    // Custom variables such as date or computer environmental like the current username.
+                    sb.Replace("@date", DateTime.Now.ToFileNameFriendlyFormat(false));
+                    sb.Replace("@username", Environment.UserName);
+
+                    return sb.ToString();
                 }
-
-                // Custom variables such as date or computer environmental like the current username.
-                sb.Replace("@date", DateTime.Now.ToFileNameFriendlyFormat(false));
-                sb.Replace("@username", Environment.UserName);
-
-                return sb.ToString();
+                finally
+                {
+                    Argus.Memory.StringBuilderPool.Return(sb);
+                }
             }
 
             return text;
@@ -108,7 +115,7 @@ namespace Avalon
         {
             get
             {
-                string buf = "";
+                string buf = ""; ;
 
                 Application.Current.Dispatcher.Invoke(new Action(() =>
                 {
