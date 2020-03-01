@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Argus.Core" Version="2020.1.21.1" />
+    <PackageReference Include="Argus.Core" Version="2020.2.29.1" />
   </ItemGroup>
 
 </Project>
