@@ -35,6 +35,11 @@ namespace Avalon.Lua
         /// <param name="cmd"></param>
         public async void Send(string cmd)
         {
+            if (cmd == null)
+            {
+                return;
+            }
+
             Application.Current.Dispatcher.Invoke(new Action(async () =>
             {
                 await _interpreter.Send(cmd, false, false);
@@ -48,8 +53,15 @@ namespace Avalon.Lua
         /// <returns></returns>
         public string GetVariable(string key)
         {
-            return Application.Current.Dispatcher.Invoke(new Func<string>(() => _interpreter.Conveyor.GetVariable(key))
-            );
+            if (key == null)
+            {
+                return "";
+            }
+
+            return Application.Current.Dispatcher.Invoke(new Func<string>(() =>
+            {
+                return _interpreter.Conveyor.GetVariable(key);
+            }));
         }
 
         /// <summary>
@@ -59,6 +71,16 @@ namespace Avalon.Lua
         /// <param name="value"></param>
         public void SetVariable(string key, string value)
         {
+            if (key == null)
+            {
+                return;
+            }
+
+            if (value == null)
+            {
+                value = "";
+            }
+
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 _interpreter.Conveyor.SetVariable(key, value);
@@ -71,6 +93,11 @@ namespace Avalon.Lua
         /// <param name="msg"></param>
         public void Echo(string msg)
         {
+            if (msg == null)
+            {
+                return;
+            }
+
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 var line = new Line
@@ -91,6 +118,11 @@ namespace Avalon.Lua
         /// <param name="msg"></param>
         public void EchoEvent(string msg)
         {
+            if (msg == null)
+            {
+                return;
+            }
+
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 var line = new Line
@@ -106,18 +138,22 @@ namespace Avalon.Lua
         }
 
         /// <summary>
-        /// Returns the first non null and non empty value.
+        /// Returns the first non null and non empty value.  If none are found a blank
+        /// string will be returned.
         /// </summary>
-        /// <param name="checkValue"></param>
-        /// <param name="returnValue"></param>
         public string Coalesce(string valueOne, string valueTwo)
         {
-            if (string.IsNullOrWhiteSpace(valueOne))
+            if (!string.IsNullOrWhiteSpace(valueOne))
+            {
+                return valueOne;
+            }
+
+            if (!string.IsNullOrWhiteSpace(valueTwo))
             {
                 return valueTwo;
             }
 
-            return valueOne;
+            return "";
         }
 
         /// <summary>
@@ -198,6 +234,11 @@ namespace Avalon.Lua
         /// <returns></returns>
         public string RandomChoice(string[] choices)
         {
+            if (choices == null)
+            {
+                return "";
+            }
+
             int upperBound = choices.GetUpperBound(0);
 
             lock (_randomLock)
@@ -216,6 +257,11 @@ namespace Avalon.Lua
         /// <returns></returns>
         public string RandomChoice(string choices, string delimiter)
         {
+            if (choices == null || delimiter == null)
+            {
+                return "";
+            }
+
             var items = choices.Split(delimiter);
             return RandomChoice(items);
         }
@@ -236,6 +282,11 @@ namespace Avalon.Lua
         /// <returns></returns>
         public void SetTitle(string title)
         {
+            if (title == null)
+            {
+                return;
+            }
+
             // TODO - Threading done in the property, probably the wrong way to do this, should move here probably.
             _interpreter.Conveyor.Title = title;
         }
@@ -346,7 +397,7 @@ namespace Avalon.Lua
         /// <returns></returns>
         public string[] Split(string buf, string delimiter)
         {
-            return buf.Split(delimiter);
+            return buf?.Split(delimiter);
         }
 
         /// <summary>
@@ -377,6 +428,11 @@ namespace Avalon.Lua
         /// <returns></returns>
         public string Replace(string buf, string searchValue, string replaceValue)
         {
+            if (buf == null)
+            {
+                return "";
+            }
+
             return buf.Replace(searchValue, replaceValue);
         }
 
@@ -387,6 +443,11 @@ namespace Avalon.Lua
         /// <returns>Returns true if the group was found, false if it was not.</returns>
         public bool EnableGroup(string groupName)
         {
+            if (groupName == null)
+            {
+                return false;
+            }
+
             return _interpreter.Conveyor.EnableGroup(groupName);
         }
 
@@ -397,6 +458,11 @@ namespace Avalon.Lua
         /// <returns>Returns true if the group was found, false if it was not.</returns>
         public bool DisableGroup(string groupName)
         {
+            if (groupName == null)
+            {
+                return false;
+            }
+
             return _interpreter.Conveyor.DisableGroup(groupName);
         }
 
@@ -446,7 +512,12 @@ namespace Avalon.Lua
         /// <returns></returns>
         public string FormatNumber(string value)
         {
-            return value.FormatIfNumber();
+            if (value == null)
+            {
+                return "";
+            }
+
+            return value.FormatIfNumber() ;
         }
 
         /// <summary>
@@ -457,6 +528,11 @@ namespace Avalon.Lua
         /// <returns></returns>
         public string FormatNumber(string value, int decimalPlaces)
         {
+            if (value == null)
+            {
+                return "";
+            }
+
             return value.FormatIfNumber(decimalPlaces);
         }
 
