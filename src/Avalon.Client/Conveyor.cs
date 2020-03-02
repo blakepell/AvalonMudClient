@@ -64,6 +64,11 @@ namespace Avalon
         /// <param name="text"></param>
         public string ReplaceVariablesWithValue(string text)
         {
+            if (text == null)
+            {
+                return "";
+            }
+
             if (text.Contains("@"))
             {
                 var sb = Argus.Memory.StringBuilderPool.Take();
