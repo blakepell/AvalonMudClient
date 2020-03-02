@@ -23,9 +23,9 @@ namespace Avalon.Common.Models
             this.StartingRoom = startingRoom;
         }
 
-        public string Name { get; set; }
+        public string Name { get; set; } = "";
 
-        private string _speedwalk;
+        private string _speedwalk = "";
 
         public string Speedwalk
         {
@@ -40,7 +40,7 @@ namespace Avalon.Common.Models
             }
         }
 
-        public string StartingRoom { get; set; }
+        public string StartingRoom { get; set; } = "";
 
         /// <summary>
         /// Clones the direction.

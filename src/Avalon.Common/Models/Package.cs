@@ -6,13 +6,13 @@ namespace Avalon.Common.Models
 {
     public class Package : IPackage
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = "";
 
-        public string Description { get; set; }
+        public string Description { get; set; } = "";
 
-        public string Author { get; set; }
+        public string Author { get; set; } = "";
 
-        public string GameAddress { get; set; }
+        public string GameAddress { get; set; } = "";
 
         public List<Alias> AliasList { get; set; } = new List<Alias>();
 

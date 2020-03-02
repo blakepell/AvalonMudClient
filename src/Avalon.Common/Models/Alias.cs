@@ -25,9 +25,9 @@ namespace Avalon.Common.Models
             this.Group = group;
         }
 
-        public string AliasExpression { get; set; }
+        public string AliasExpression { get; set; } = "";
 
-        private string _command;
+        private string _command = "";
         public string Command
         {
             get => _command;
@@ -52,9 +52,9 @@ namespace Avalon.Common.Models
         /// <summary>
         /// The character who the trigger should be isolated to (if any).
         /// </summary>
-        public string Character { get; set; }
+        public string Character { get; set; } = "";
 
-        public string Group { get; set; }
+        public string Group { get; set; } = "";
 
         public bool IsLua { get; set; } = false;
 

@@ -34,7 +34,7 @@ namespace Avalon.Common.Models
 
         public string KeyDescription { get; set; }
 
-        private string _command;
+        private string _command = "";
         public string Command
         {
             get => _command;

@@ -23,7 +23,7 @@ namespace Avalon.Common.Models
             this.Character = character;
         }
 
-        private string _key;
+        private string _key = "";
         public string Key
         {
             get => _key;
@@ -34,7 +34,7 @@ namespace Avalon.Common.Models
             }
         }
 
-        private string _value;
+        private string _value = "";
         public string Value
         {
             get => _value;
@@ -45,7 +45,7 @@ namespace Avalon.Common.Models
             }
         }
 
-        public string Character { get; set; }
+        public string Character { get; set; } = "";
 
         protected virtual async void OnPropertyChanged(string propertyName)
         {
