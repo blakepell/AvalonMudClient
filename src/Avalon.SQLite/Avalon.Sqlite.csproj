@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
     <UseWPF>true</UseWPF>
-    <Version>2020.2.13.1</Version>
+    <Version>2020.3.3.1</Version>
     <Authors>Blake Pell</Authors>
     <Company>Blake Pell</Company>
     <Description>SQLite Query Control and Extensions for WPF (.NET Core)</Description>
