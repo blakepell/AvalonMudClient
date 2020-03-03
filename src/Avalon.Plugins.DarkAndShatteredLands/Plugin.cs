@@ -32,6 +32,9 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             this.Triggers.Add(new Trigger(@"^([\w'-]+) clan gossips '(.*?)'", "", "", true, "64cffbfa-3431-4b44-8c74-475e5c4ae3fb", TerminalTarget.Communication, true));
             this.Triggers.Add(new Trigger(@"^([\w'-]+) clan gossips \((\w+)\) '(.*?)'", "", "", true, "6e36dc83-104a-4d0c-b379-0f6fd5ddc289", TerminalTarget.Communication, true));
 
+            // Kingdom (TODO - Work on this, it's getting both OOC and IC).  Need two so they can go to the correct window.
+            this.Triggers.Add(new Trigger(@"^(The ghost of)?\s?([\w'-]+)?\s?Kingdom: (.*?)\s?'(.*'?)'", "", "", true, "a9f2539d-f89f-4c7d-8a22-29ca63177d97", TerminalTarget.Communication, true));
+
             // Gossip
             this.Triggers.Add(new Trigger(@"^You gossip '(.*?)'", "", "", true, "62507924-4462-46a6-b3a2-91241c6699cb", TerminalTarget.Communication, true));
             this.Triggers.Add(new Trigger(@"^You gossip \((\w+)\) '(.*?)'", "", "", true, "51f60ec4-21da-4ff0-8c62-abf35c3ba30e", TerminalTarget.Communication, true));
