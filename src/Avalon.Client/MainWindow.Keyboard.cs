@@ -127,6 +127,7 @@ namespace Avalon
                     if (GameBackBufferTerminal.IsLastLineVisible())
                     {
                         GameBackBufferTerminal.Visibility = System.Windows.Visibility.Collapsed;
+                        TextInput.Editor.Focus();
                     }
 
                     break;
@@ -147,8 +148,71 @@ namespace Avalon
         }
 
         /// <summary>
+        /// Shared preview key down logic between the game terminal and it's back buffer.  If they have focus this
+        /// will implement page up and page down so that the back buffer will show all of the paging, once it gets
+        /// to the bottom it will disappear.  The escape key will send the focus back to the input box hiding the
+        /// back buffer.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GameTerminal_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.PageUp:
+                    e.Handled = true;
+
+                    // Back buffer is collapsed, show it, scroll to the bottom of it.
+                    if (GameBackBufferTerminal.Visibility == System.Windows.Visibility.Collapsed)
+                    {
+                        GameBackBufferTerminal.ScrollToLastLine();
+                        GameBackBufferTerminal.Visibility = System.Windows.Visibility.Visible;
+
+                        // Since the height of this changed scroll it to the bottom.
+                        GameTerminal.ScrollToLastLine();
+                        break;
+                    }
+
+                    // If it was already visible, then we PageUp()
+                    GameBackBufferTerminal.PageUp();
+
+                    break;
+                case Key.PageDown:
+                    e.Handled = true;
+
+                    // Back buffer is visible then execute a PageDown()
+                    if (GameBackBufferTerminal.Visibility == System.Windows.Visibility.Visible)
+                    {
+                        GameBackBufferTerminal.PageDown();
+                    }
+
+                    // Now, if the last line in the back buffer is visible then we can just collapse the
+                    // back buffer because the main terminal shows everything at the end.  Set the focus
+                    // back to the input box if it's not already there.
+                    if (GameBackBufferTerminal.IsLastLineVisible())
+                    {
+                        GameBackBufferTerminal.Visibility = System.Windows.Visibility.Collapsed;
+                        TextInput.Editor.Focus();
+                    }
+
+                    break;
+                case Key.Escape:
+                    // Collapse the back buffer so it hides it and reclaims the space for the main terminal.
+                    GameBackBufferTerminal.Visibility = System.Windows.Visibility.Collapsed;
+
+                    // Reset the input history to the default position and clear the text in the input box.
+                    Interp.InputHistoryPosition = -1;
+                    TextInput.Editor.Text = "";
+                    TextInput.Editor.Focus();
+
+                    break;
+            }
+        }
+
+        /// <summary>
         /// Common OnKeyDown event used in all of the ANSI terminals.  Since they are read only anytime someone
-        /// clicks into one of them and types it will go straight to the input box.
+        /// clicks into one of them and types it will go straight to the input box.  This specific functionality
+        /// is a shared event between all of the terminals on the main game tab.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

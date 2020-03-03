@@ -62,7 +62,7 @@ namespace Avalon.Controls
         /// when text is copied.
         /// </summary>
         /// <param name="sender"></param>
-        /// <param name="args"></param>
+        /// <param name="e"></param>
         private void OnPreviewKeyDown(object sender, KeyEventArgs e)
         {
             // Override copy so that we can strip out the ANSI color codes if they exist.

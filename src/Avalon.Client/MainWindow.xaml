@@ -138,7 +138,8 @@
                             FontSize="10pt" BorderBrush="LightGray"
                             ScrollViewer.PanningMode="VerticalOnly"
                             ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
-                            KeyDown="Terminal_OnKeyDown">
+                            KeyDown="Terminal_OnKeyDown"
+                            PreviewKeyDown="GameTerminal_PreviewKeyDown">
                         </controls:AvalonTerminal>
 
                         <controls:AvalonTerminal x:Name="GameTerminal"
@@ -149,7 +150,8 @@
                             Background="Black" Foreground="LightGray"
                             FontSize="10pt" BorderBrush="White"                                                 
                             ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
-                            KeyDown="Terminal_OnKeyDown">
+                            KeyDown="Terminal_OnKeyDown"
+                            PreviewKeyDown="GameTerminal_PreviewKeyDown">
                         </controls:AvalonTerminal>
                     </UniformGrid>
 
