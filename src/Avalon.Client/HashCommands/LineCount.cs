@@ -1,5 +1,7 @@
 ﻿using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
+using Argus.Extensions;
+using Avalon.Common.Colors;
 
 namespace Avalon.HashCommands
 {
@@ -19,8 +21,20 @@ namespace Avalon.HashCommands
 
         public override void Execute()
         {
-            string buf = $"Line Count: {Interpreter.Conveyor.LineCount(TerminalTarget.Main)}\r\n";
-            Interpreter.EchoText(buf);
+            int gameTermLines = Interpreter.Conveyor.LineCount(TerminalTarget.Main);
+            int gameTermBackBufferLines = Interpreter.Conveyor.LineCount(TerminalTarget.BackBuffer);
+            int commLines = Interpreter.Conveyor.LineCount(TerminalTarget.Communication);
+            int oocCommLines = Interpreter.Conveyor.LineCount(TerminalTarget.OutOfCharacterCommunication);
+            int totalLines = gameTermLines + gameTermBackBufferLines + commLines + oocCommLines;
+
+            // TODO - EchoLine
+            Interpreter.Conveyor.EchoText($"\r\n");
+            Interpreter.Conveyor.EchoText($"    Game Terminal: {gameTermLines.ToString().FormatIfNumber(0).PadLeft(8, ' ')}\r\n", AnsiColors.Cyan, TerminalTarget.Main);
+            Interpreter.Conveyor.EchoText($"      Back Buffer: {gameTermBackBufferLines.ToString().FormatIfNumber(0).PadLeft(8, ' ')}\r\n", AnsiColors.Cyan, TerminalTarget.Main);
+            Interpreter.Conveyor.EchoText($"    Communication: {commLines.ToString().FormatIfNumber(0).PadLeft(8, ' ')}\r\n", AnsiColors.Cyan, TerminalTarget.Main);
+            Interpreter.Conveyor.EchoText($"OOC Communication: {oocCommLines.ToString().FormatIfNumber(0).PadLeft(8, ' ')}\r\n", AnsiColors.Cyan, TerminalTarget.Main);
+            Interpreter.Conveyor.EchoText($"                   --------\r\n", AnsiColors.Cyan, TerminalTarget.Main);
+            Interpreter.Conveyor.EchoText($"      Total Lines: {totalLines.ToString().FormatIfNumber(0).PadLeft(8, ' ')}\r\n", AnsiColors.Cyan, TerminalTarget.Main);
         }
 
     }
