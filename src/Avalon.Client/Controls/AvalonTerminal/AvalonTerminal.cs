@@ -147,7 +147,7 @@ namespace Avalon.Controls
                 ForegroundColor = AnsiColors.Default,
                 ScrollToLastLine = scrollToLastLine
             };
-            
+
             Append(line);
         }
 
@@ -357,7 +357,7 @@ namespace Avalon.Controls
                     line.FormattedText = line.FormattedText.Insert(0, AnsiColors.Reverse);
                 }
             }
-            
+
             this.AppendText(line.FormattedText);
 
             // Check to see if we should scroll to the last line after appending.  This will be true for probably
@@ -379,7 +379,6 @@ namespace Avalon.Controls
         /// <summary>
         /// Whether or not the last line is visible on the screen.
         /// </summary>
-        /// <returns></returns>
         public bool IsLastLineVisible()
         {
             var lastLine = this.TextArea.TextView.GetVisualLine(this.LineCount);
@@ -395,7 +394,6 @@ namespace Avalon.Controls
         /// <summary>
         /// Whether or not the first line is visible on the screen.
         /// </summary>
-        /// <returns></returns>
         public bool IsFirstLineVisible()
         {
             var firstLine = this.TextArea.TextView.GetVisualLine(0);
@@ -406,6 +404,66 @@ namespace Avalon.Controls
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Removes the specified line number if it exists.
+        /// </summary>
+        /// <param name="lineNumber"></param>
+        public void RemoveLine(int lineNumber)
+        {
+            if (lineNumber < 1 || lineNumber > this.LineCount)
+            {
+                return;
+            }
+
+            var line = this.Document.GetLineByNumber(lineNumber);
+
+            if (line == null)
+            {
+                return;
+            }
+
+            this.Document.Remove(line.Offset, line.TotalLength);
+        }
+
+        /// <summary>
+        /// Removes lines between the start and end line number.
+        /// </summary>
+        /// <param name="startLineNumber">The starting line number with 1 being the lowest.</param>
+        /// <param name="endLineNumber">The ending line number.</param>
+        /// <remarks>
+        /// If the start or ending line number exceeds the bounds of lines in the editor then the
+        /// upper or lower bound will be defaulted to for that parameter.
+        /// </remarks>
+        public void RemoveLine(int startLineNumber, int endLineNumber)
+        {
+            int length = 0;
+            int startPosition = 0;
+
+            if (startLineNumber < 1)
+            {
+                startLineNumber = 1;
+            }
+
+            if (endLineNumber > this.LineCount)
+            {
+                endLineNumber = this.LineCount;
+            }
+
+            for (int i = startLineNumber; i < endLineNumber; i++)
+            {
+                var line = this.Document.GetLineByNumber(i);
+
+                if (i == startLineNumber)
+                {
+                    startPosition = line.Offset;
+                }
+
+                length += line.TotalLength;
+            }
+            
+            this.Document.Remove(startPosition, length);
         }
 
         /// <summary>
