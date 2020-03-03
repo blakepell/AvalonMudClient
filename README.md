@@ -6,6 +6,7 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
 
 ### Documentation
 
+- [FAQ](doc/FAQ.md)
 - Aliases
 - [Hash Commands](doc/HashCommands.md)
 - [Lua](doc/Lua.md)
