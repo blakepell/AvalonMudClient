@@ -110,9 +110,9 @@ namespace Avalon.Controls
 
             var variable = (Variable)item;
 
-            return variable.Key.Contains(TextFilter.Text)
-                   || variable.Value.Contains(TextFilter.Text)
-                   || variable.Character.Contains(TextFilter.Text);
+            return (variable?.Key?.Contains(TextFilter.Text) ?? false)
+                   || (variable?.Value?.Contains(TextFilter.Text) ?? false)
+                   || (variable?.Character?.Contains(TextFilter.Text) ?? false);
         }
 
         /// <summary>

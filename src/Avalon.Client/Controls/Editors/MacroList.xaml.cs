@@ -109,7 +109,7 @@ namespace Avalon.Controls
 
             var macro = (Macro)item;
 
-            return macro.Command.Contains(TextFilter.Text);
+            return macro?.Command?.Contains(TextFilter.Text) ?? false;
         }
 
         /// <summary>
