@@ -217,5 +217,59 @@ namespace Avalon.Common.Settings
             // Write the Avalon settings file.
             File.WriteAllText(this.AvalonSettingsFile, JsonConvert.SerializeObject(this.AvalonSettings, Formatting.Indented));
         }
+
+        /// <summary>
+        /// Imports a package of aliases, triggers and directions into the current profile.  Values that already
+        /// exist are updated preserving various information such as count..
+        /// </summary>
+        /// <param name="json"></param>
+        public void ImportPackageFromJson(string json)
+        {
+            var settings = JsonConvert.DeserializeObject<ProfileSettings>(json);
+
+            // An alias must be unique by it's expression.
+            foreach (var alias in settings.AliasList)
+            {
+                int count = 0;
+
+                // Go through all of the aliases and see if this one already exists.
+                for (int i = this.ProfileSettings.AliasList.Count - 1; i >= 0; i--)
+                {
+                    if (this.ProfileSettings.AliasList[i].AliasExpression == alias.AliasExpression)
+                    {
+                        // Save the count we're going to preserve it.
+                        count = this.ProfileSettings.AliasList[i].Count;
+
+                        // Remove the alias, we're going to re-add the new copy.
+                        this.ProfileSettings.AliasList.RemoveAt(i);
+
+                        break;
+                    }
+                }
+
+                alias.Count = count;
+                this.ProfileSettings.AliasList.Add(alias);
+            }
+
+            //// For now we're using going to import the aliases and triggers
+            //foreach (var trigger in settings.TriggerList)
+            //{
+            //    this.ProfileSettings.TriggerList.Add(trigger);
+            //}
+
+            //// Add any directions that are found.
+            //foreach (var direction in settings.DirectionList)
+            //{
+            //    this.ProfileSettings.DirectionList.Add(direction);
+            //}
+
+            //// Inject the Conveyor into all of the triggers
+            //foreach (var trigger in this.ProfileSettings.TriggerList)
+            //{
+            //    trigger.Conveyor = this.Conveyor;
+            //}
+
+        }
+
     }
 }

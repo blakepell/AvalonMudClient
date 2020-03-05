@@ -59,5 +59,11 @@ namespace Avalon.Common.Interfaces
         /// </summary>
         void SaveSettings();
 
+        /// <summary>
+        /// Imports a package of aliases, triggers and directions from a JSON string.
+        /// </summary>
+        /// <param name="json"></param>
+        void ImportPackageFromJson(string json);
+
     }
 }
