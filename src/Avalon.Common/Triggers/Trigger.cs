@@ -60,7 +60,7 @@ namespace Avalon.Common.Triggers
             // specifically opt into this.  Since the Gag triggers run -a lot- on the terminal rendering
             // the bool will be more performant as a first check before the string contains check.  This is
             // a micro optimization that had real payoff in the performance profiler.
-            if (this.VariableReplacement && Pattern.Contains("@", StringComparison.Ordinal))
+            if (this.VariableReplacement && Pattern.Contains('@', StringComparison.Ordinal))
             {
                 // Replace any variables with their literal values.
                 string tempPattern = this.Conveyor.ReplaceVariablesWithValue(Pattern);
