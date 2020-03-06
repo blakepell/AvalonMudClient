@@ -19,8 +19,6 @@ namespace Avalon.Controls
     {
         protected override void ColorizeLine(DocumentLine line)
         {
-            int lineStartOffset = line.Offset;
-
             // Instead of allocating a string here we're going to use a Span and work from it.
             var text = CurrentContext.Document.GetText(line).AsSpan();
 
@@ -45,8 +43,8 @@ namespace Avalon.Controls
 
                     // All of the text that needs to be colored
                     base.ChangeLinePart(
-                        lineStartOffset + index,    // startOffset
-                        lineStartOffset + endMarker, // endOffset
+                        line.Offset + index,    // startOffset
+                        line.Offset + endMarker, // endOffset
                         (VisualLineElement element) =>
                         {
                             element.TextRunProperties.SetForegroundBrush(color.Brush);
@@ -59,8 +57,8 @@ namespace Avalon.Controls
                     // property, but we need to hide the rest of the ANSI sequence as well.  I haven't found a way to make these hidden and
                     // collapse their space so I'm setting them to transparent and making them really really small.  Kind of a hack but it works.
                     base.ChangeLinePart(
-                        lineStartOffset + index,    // startOffset
-                        lineStartOffset + indexEnd, // endOffset
+                        line.Offset + index,    // startOffset
+                        line.Offset + indexEnd, // endOffset
                         (VisualLineElement element) =>
                         {
                             element.TextRunProperties.SetForegroundBrush(Brushes.Transparent);
@@ -94,8 +92,8 @@ namespace Avalon.Controls
 
                     // Flip flop the colors
                     base.ChangeLinePart(
-                        lineStartOffset + index,    // startOffset
-                        lineStartOffset + endMarker, // endOffset
+                        line.Offset + index,    // startOffset
+                        line.Offset + endMarker, // endOffset
                         (VisualLineElement element) =>
                         {
                             if (color.AnsiColor is Reverse)
@@ -118,8 +116,8 @@ namespace Avalon.Controls
                     // property, but we need to hide the rest of the ANSI sequence as well.  I haven't found a way to make these hidden and
                     // collapse their space so I'm setting them to transparent and making them really really small.  Kind of a hack but it works.
                     base.ChangeLinePart(
-                        lineStartOffset + index,    // startOffset
-                        lineStartOffset + indexEnd, // endOffset
+                        line.Offset + index,    // startOffset
+                        line.Offset + indexEnd, // endOffset
                         (VisualLineElement element) =>
                         {
                             element.TextRunProperties.SetForegroundBrush(Brushes.Transparent);
