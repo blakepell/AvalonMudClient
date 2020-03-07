@@ -17,8 +17,8 @@ namespace Avalon.Utilities
         /// </summary>
         public static void UpdateCommonVariables()
         {
-            App.Conveyor.SetVariable("@Username", Environment.UserName);
-            App.Conveyor.SetVariable("@Date", DateTime.Now.ToFileNameFriendlyFormat(false));
+            App.Conveyor.SetVariable("Username", Environment.UserName);
+            App.Conveyor.SetVariable("Date", DateTime.Now.ToFileNameFriendlyFormat(false));
         }
 
         /// <summary>
