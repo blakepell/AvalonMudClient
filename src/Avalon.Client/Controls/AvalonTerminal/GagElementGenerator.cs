@@ -91,6 +91,9 @@ namespace Avalon.Controls
             _sb.Append(segment.Text);
             Colorizer.RemoveAllAnsiCodes(_sb);
 
+            // Create only one string that will pass multiple times into the trigger's IsMatch function.
+            string text = _sb.ToString();
+
             // TODO - Performance (only Uncollapse() when needed)... perhaps put this in else below but the add would need a check then.
             // If the triggers change, it has to have Uncollapse() called on it.
             if (endLine?.NextLine != null && CollapsedLineSections.ContainsKey(endLine.NextLine.LineNumber))
@@ -109,7 +112,7 @@ namespace Avalon.Controls
             {
                 // These triggers match for the gag but do NOT execute the trigger's command (VERY important because it would cause the triggers
                 // to get fired multiple times as the line is re-rendered on the screen.. that is -bad-).
-                if (trigger.IsMatch(_sb.ToString(), true))
+                if (trigger.IsMatch(text, true))
                 {
                     CollapsedLineSections.Add(endLine.NextLine.LineNumber, CurrentContext.TextView.CollapseLines(endLine.NextLine, endLine.NextLine));
                     return startOffset;
@@ -121,7 +124,7 @@ namespace Avalon.Controls
             { 
                 // These triggers match for the gag but do NOT execute the trigger's command (VERY important because it would cause the triggers
                 // to get fired multiple times as the line is re-rendered on the screen.. that is -bad-).
-                if (trigger.IsMatch(_sb.ToString(), true))
+                if (trigger.IsMatch(text, true))
                 {
                     CollapsedLineSections.Add(endLine.NextLine.LineNumber, CurrentContext.TextView.CollapseLines(endLine.NextLine, endLine.NextLine));
                     return startOffset;
