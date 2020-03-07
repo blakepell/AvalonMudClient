@@ -167,10 +167,10 @@ namespace Avalon.Controls
 
             var trigger = (Common.Triggers.Trigger)item;
             
-            return trigger.Pattern.Contains(TextFilter.Text)
-                   || trigger.Command.Contains(TextFilter.Text)
-                   || trigger.Character.Contains(TextFilter.Text)
-                   || trigger.Group.Contains(TextFilter.Text);
+            return (trigger?.Pattern?.Contains(TextFilter.Text) ?? false)
+                   || (trigger?.Command?.Contains(TextFilter.Text) ?? false)
+                   || (trigger?.Character?.Contains(TextFilter.Text) ?? false)
+                   || (trigger?.Group?.Contains(TextFilter.Text) ?? false);
         }
 
         /// <summary>

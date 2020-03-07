@@ -110,7 +110,10 @@ namespace Avalon.Controls
 
             var direction = (Direction)item;
 
-            return direction.Name.Contains(TextFilter.Text) || direction.StartingRoom.Contains(TextFilter.Text);
+            // Ugly, but must be done in case nulls slip in (say if someone nulls out a value in the JSON
+            // and it gets loaded that way).
+            return (direction?.Name?.Contains(TextFilter.Text) ?? false)
+                   || (direction?.StartingRoom?.Contains(TextFilter.Text) ?? false);
         }
 
         /// <summary>

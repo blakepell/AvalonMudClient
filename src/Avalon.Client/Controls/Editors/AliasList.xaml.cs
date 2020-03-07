@@ -143,10 +143,12 @@ namespace Avalon.Controls
 
             var alias = (Alias)item;
 
-            return alias.AliasExpression.Contains(TextFilter.Text)
-                   || alias.Command.Contains(TextFilter.Text)
-                   || alias.Character.Contains(TextFilter.Text)
-                   || alias.Group.Contains(TextFilter.Text);
+            // Ugly, but must be done in case nulls slip in (say if someone nulls out a value in the JSON
+            // and it gets loaded that way).
+            return (alias?.AliasExpression?.Contains(TextFilter.Text) ?? false)
+                   || (alias?.Command?.Contains(TextFilter.Text) ?? false)
+                   || (alias?.Character?.Contains(TextFilter.Text) ?? false)
+                   || (alias?.Group?.Contains(TextFilter.Text) ?? false);
         }
 
         /// <summary>
