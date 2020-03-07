@@ -151,6 +151,10 @@ namespace Avalon
             // report it to the terminal window.  It should -always be found-.
             RefreshAutoCompleteEntries();
 
+            // Update static variables from places that might be expensive to populate from (like Environment.Username).  Normally
+            // something like that isn't expensive but when run on variable replacement it can be more noticable.
+            Utilities.Utilities.UpdateCommonVariables();
+
             // Auto connect to the game if the setting is set.
             if (App.Settings.ProfileSettings.AutoConnect)
             {

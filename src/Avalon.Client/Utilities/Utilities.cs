@@ -1,4 +1,5 @@
 ﻿using Argus.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Media;
@@ -10,6 +11,16 @@ namespace Avalon.Utilities
     /// </summary>
     public static class Utilities
     {
+        /// <summary>
+        /// Puts common variables that might be expensive to populate into the common variable list
+        /// as a static variable.
+        /// </summary>
+        public static void UpdateCommonVariables()
+        {
+            App.Conveyor.SetVariable("@Username", Environment.UserName);
+            App.Conveyor.SetVariable("@Date", DateTime.Now.ToFileNameFriendlyFormat(false));
+        }
+
         /// <summary>
         /// Removes unsupported characters or other sets of sequences we don't want parsed.
         /// </summary>

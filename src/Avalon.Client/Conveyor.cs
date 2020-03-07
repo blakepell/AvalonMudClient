@@ -82,10 +82,6 @@ namespace Avalon
                         sb.Replace($"@{item.Key}", item.Value);
                     }
 
-                    // Custom variables such as date or computer environmental like the current username.
-                    sb.Replace("@date", DateTime.Now.ToFileNameFriendlyFormat(false));
-                    sb.Replace("@username", Environment.UserName);
-
                     return sb.ToString();
                 }
                 finally

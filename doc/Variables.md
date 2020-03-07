@@ -27,6 +27,13 @@ The above trigger would match the following prompt.  It would set each of the na
 <1825/1902hp 542/652m 276/376mv (100|Offensive) (The Cross Roads) (NESW) 47906 11:30am>
 ```
 
+### Built-in CLR Variables
+
+|Variable|Description|
+|--------|-----------|
+|@Username|The username of the person currently logged into the computer|
+|@Date|The currently date in a time friendly format.|
+
 ### Lua Global Variable Example:
 
 ```
