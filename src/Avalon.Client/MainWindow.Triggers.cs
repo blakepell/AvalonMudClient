@@ -33,7 +33,8 @@ namespace Avalon
             // Go through the immutable system triggers, system triggers are silent in that
             // they won't echo to the terminal window, they also don't adhere to attributes like
             // character or enabled.  These can and will have CLR implementations and can be loaded
-            // from other DLL's as plugins.
+            // from other DLL's as plugins.  System triggers are also unique in that they are designed
+            // to be loaded from a plugin and they don't save their state in the profile.
             foreach (var item in App.SystemTriggers)
             {
                 // Skip it if it's not enabled.
@@ -41,7 +42,7 @@ namespace Avalon
                 {
                     continue;
                 }
-
+                
                 if (item.IsMatch(line.Text))
                 {
                     // Run any CLR that might exist.

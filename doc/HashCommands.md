@@ -65,6 +65,7 @@ Hash commands that reside in the main project will be general purpose.  Plugins 
 |#task-list|Echos out all pending tasks.|
 |#toast|Shows an operating system toast message.|
 |#toast-alarm|Shows an operating system toast message in alarm format meaning it will stay around longer.|
+|#trigger|Allows for a single trigger to be manipulated (enabled, disabled, etc.)|
 |#update-info-bar|Updates the info bar with the current values of it's underlaying model.|
 |#version|Echos the version of the Avalon Mud Client|
 |#walk|Fast walks a given path|
