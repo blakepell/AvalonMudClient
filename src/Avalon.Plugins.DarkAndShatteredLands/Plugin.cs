@@ -27,10 +27,9 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             // Toasts, TODO: Dragon/Remort toasts ( Dragon ) ( Balanx )
             this.Triggers.Add(new Trigger(@"([\[\(](.*?)[\]\)])?[ ]{0,}([\w'-]+) got (.*?) by (.*?) ([\[\(] (.*?) [\]\)])?[ ]{0,}([\(]Arena[\)])?", "", "", true, "6731ca72-5672-4dab-879b-896b2945805a", TerminalTarget.Communication, true));
 
-            // Game events
-            this.Triggers.Add(new Trigger(@"^([\w'-]+) has unlocked the Underworld Keeps!", "", "", true, "638a6c30-0a5e-4859-b666-72413f2f1781", TerminalTarget.Communication, false));
-            this.Triggers.Add(new Trigger(@"^([\w'-]+) has conquered (.*)!", "", "", true, "03e68858-53dd-4412-80e3-6c869544ae15", TerminalTarget.Communication, false));
-            this.Triggers.Add(new Trigger(@"^personal> Keep Lord clans '(.*) is invading (.*)!'", "", "", true, "16f9a412-a6ef-4b5d-a2b7-4dd36f117416", TerminalTarget.Communication, false));
+            // Game events: Keeps
+            this.Triggers.Add(new Trigger(@"^([\w'-]+) has (conquered|unlocked) (.*)!", "", "", true, "638a6c30-0a5e-4859-b666-72413f2f1781", TerminalTarget.Communication, false));
+            this.Triggers.Add(new Trigger(@"^(personal> )?Keep Lord clans '(.*) is invading (.*)!'", "", "", true, "16f9a412-a6ef-4b5d-a2b7-4dd36f117416", TerminalTarget.Communication, false));
         }
     }
 }
