@@ -34,7 +34,8 @@
                   CanUserAddRows="True"
                   AutoGenerateColumns="False"
                   GridLinesVisibility="All"
-                  CellEditEnding="DataList_OnCellEditEnding">
+                  CellEditEnding="DataList_OnCellEditEnding"
+                  InitializingNewItem="DataList_InitializingNewItem">
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>

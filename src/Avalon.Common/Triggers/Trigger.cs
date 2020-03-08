@@ -70,11 +70,11 @@ namespace Avalon.Common.Triggers
             else
             {
                 // Run the match normal Match, this will be most all cases.
-                match = _regex.Match(line);
+                match = _regex?.Match(line);
             }
 
             // If it's not a match, get out.
-            if (!match.Success)
+            if (match == null || !match.Success)
             {
                 return false;
             }
@@ -193,7 +193,17 @@ namespace Avalon.Common.Triggers
             set
             {
                 _pattern = value;
-                _regex = new Regex(_pattern, RegexOptions.Compiled);
+
+                try
+                {
+                    _regex = new Regex(_pattern, RegexOptions.Compiled);
+                }
+                catch
+                {
+                    // TODO
+                    // They might have been updating the trigger and the pattern failed, consider logging this
+                    // under developer mode
+                }
             }
         }
 

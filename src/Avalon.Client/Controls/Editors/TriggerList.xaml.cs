@@ -166,7 +166,7 @@ namespace Avalon.Controls
             }
 
             var trigger = (Common.Triggers.Trigger)item;
-            
+
             return (trigger?.Pattern?.Contains(TextFilter.Text) ?? false)
                    || (trigger?.Command?.Contains(TextFilter.Text) ?? false)
                    || (trigger?.Character?.Contains(TextFilter.Text) ?? false)
@@ -235,5 +235,15 @@ namespace Avalon.Controls
             TriggerConveyorSetup();
         }
 
+        private void DataList_InitializingNewItem(object sender, InitializingNewItemEventArgs e)
+        {
+            // Get the Trigger from the current line.
+            var trigger = e?.NewItem as Common.Triggers.Trigger;
+
+            if (trigger != null & App.Conveyor != null)
+            {
+                trigger.Conveyor = App.Conveyor;
+            }
+        }
     }
 }
