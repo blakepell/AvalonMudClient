@@ -36,6 +36,12 @@ namespace Avalon
             // from other DLL's as plugins.
             foreach (var item in App.SystemTriggers)
             {
+                // Skip it if it's not enabled.
+                if (!item.Enabled)
+                {
+                    continue;
+                }
+
                 if (item.IsMatch(line.Text))
                 {
                     // Run any CLR that might exist.
