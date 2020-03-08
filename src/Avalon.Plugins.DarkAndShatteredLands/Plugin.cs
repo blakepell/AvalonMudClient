@@ -31,6 +31,12 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             // Game events: Keeps
             this.Triggers.Add(new Trigger(@"^([\w'-]+) has (conquered|unlocked) (.*)!", "", "", true, "638a6c30-0a5e-4859-b666-72413f2f1781", TerminalTarget.Communication, false));
             this.Triggers.Add(new Trigger(@"^(personal> )?Keep Lord clans '(.*) is invading (.*)!'", "", "", true, "16f9a412-a6ef-4b5d-a2b7-4dd36f117416", TerminalTarget.Communication, false));
+
+            // Login, find out who the player is and put it into a variable.  Run whoami and then score to scrap initial info.
+            this.Triggers.Add(new Trigger(@"^Welcome to DSL! DSL Loves You! Other muds think you are ugly, they said so", "whoami;score"));
+            this.Triggers.Add(new Trigger(@"^You are logged in as\: (?<Character>.*?)$", "whois @Character"));
+            this.Triggers.Add(new Trigger(@"\[Exits: (?<Exits>.*?)  \]", ""));
+            this.Triggers.Add(new Trigger(@"^Your current war\(s\): (?<Wars>.*?)$", ""));
         }
     }
 }
