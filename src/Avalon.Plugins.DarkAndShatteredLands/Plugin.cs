@@ -36,6 +36,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             this.Triggers.Add(new Trigger(@"^Welcome to DSL! DSL Loves You! Other muds think you are ugly, they said so", "whoami;score"));
             this.Triggers.Add(new Trigger(@"^You are logged in as\: (?<Character>.*?)$", "whois @Character"));
             this.Triggers.Add(new Trigger(@"\[Exits: (?<Exits>.*?)  \]", ""));
+            this.Triggers.Add(new Trigger(@"\[Exits:  \]", "#set ExitsShort none;#set Exits none", "", true, "f8efc60a-adcf-46fc-b230-bcf3a4fee8a2"));
             this.Triggers.Add(new Trigger(@"^Your current war\(s\): (?<Wars>.*?)$", ""));
 
             // One time trigger that will disable itself, it sets the players info from the whois entry (but then
