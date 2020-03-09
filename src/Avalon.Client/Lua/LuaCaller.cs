@@ -66,6 +66,22 @@ namespace Avalon.Lua
                 // Set the global variables that are specifically only available in Lua.
                 lua.Globals["global"] = _luaGlobalVariables;
 
+                // If there is a Lua global shared set of code run it, try catch it in case there
+                // is a problem with it, we don't want it to interfere with everything if there is
+                // an issue with it, we DO want to show the user that though.
+                try
+                {
+                    if (!string.IsNullOrWhiteSpace(App.Settings?.ProfileSettings?.LuaGlobalScript))
+                    {
+                        lua.DoString(App.Settings.ProfileSettings.LuaGlobalScript);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _interpreter.Conveyor.EchoLog("There was an error in the global Lua file.", LogType.Error);
+                    _interpreter.Conveyor.EchoLog($"Lua: {ex.Message}", LogType.Error);
+                }
+
                 // Execute the lua code.
                 lua.DoString(luaCode);
             }
@@ -121,7 +137,25 @@ namespace Avalon.Lua
 
                     // Set the global variables that are specifically only available in Lua.
                     lua.Globals["global"] = _luaGlobalVariables;
+
+                    // If there is a Lua global shared set of code run it, try catch it in case there
+                    // is a problem with it, we don't want it to interfere with everything if there is
+                    // an issue with it, we DO want to show the user that though.
                     var executionControlToken = new ExecutionControlToken();
+
+                    try
+                    {
+                        if (!string.IsNullOrWhiteSpace(App.Settings?.ProfileSettings?.LuaGlobalScript))
+                        {                                                        
+                            await lua.DoStringAsync(executionControlToken, App.Settings.ProfileSettings.LuaGlobalScript);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _interpreter.Conveyor.EchoLog("There was an error in the global Lua file.", LogType.Error);
+                        _interpreter.Conveyor.EchoLog($"Lua: {ex.Message}", LogType.Error);
+                    }
+
                     await lua.DoStringAsync(executionControlToken, luaCode);
                 }
                 catch (Exception ex)

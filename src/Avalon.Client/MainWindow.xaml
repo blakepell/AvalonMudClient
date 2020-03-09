@@ -113,6 +113,12 @@
                                 </MenuItem.Icon>
                             </MenuItem>
                             <Separator />
+                                <MenuItem Header="_Edit Global Lua File" Click="MenuItemEditGlobalLuaFile_Click">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon Symbol="Share" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            <Separator />
                             <MenuItem Header="_Client Properties" Click="MenuItemClientProperties_OnClick">
                                 <MenuItem.Icon>
                                     <ui:SymbolIcon Symbol="Setting" />

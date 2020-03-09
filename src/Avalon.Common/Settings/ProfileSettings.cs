@@ -130,6 +130,14 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public string SqliteDatabase { get; set; } = "";
 
+        /// <summary>
+        /// A global Lua script that can be used to share functions and code with all Lua from the UI.
+        /// </summary>
+        [CategoryAttribute("Lua")]
+        [DescriptionAttribute("A global Lua script that can be used to share functions and code with all Lua from the UI.")]
+        [Browsable(true)]
+        public string LuaGlobalScript { get; set; } = "";
+
         [Browsable(false)]
         public ObservableCollection<Macro> MacroList { get; set; } = new ObservableCollection<Macro>();
 

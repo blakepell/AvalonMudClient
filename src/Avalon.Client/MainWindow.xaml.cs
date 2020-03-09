@@ -658,5 +658,35 @@ namespace Avalon
                 }
             }
         }
+
+        /// <summary>
+        /// Edits the global Lua file that is loaded into all Lua scripts to allow for shared
+        /// Lua logic between all Lua instances.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemEditGlobalLuaFile_Click(object sender, RoutedEventArgs e)
+        {
+            // Set the initial text for the editor.
+            var win = new StringEditor();
+
+            // Startup position of the dialog should be in the center of the parent window.  The
+            // owner has to be set for this to work.
+            win.Owner = App.MainWindow;
+            win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            win.ActionButtonText = "Save";
+            win.EditorMode = StringEditor.EditorType.Lua;
+            win.StatusText = "Global Lua File";
+            win.Text = App.Settings?.ProfileSettings?.LuaGlobalScript ?? "";
+
+            // Show the Lua dialog.
+            var result = win.ShowDialog();
+
+            // If the result
+            if (result != null && result.Value)
+            {
+                App.Settings.ProfileSettings.LuaGlobalScript = win.Text;
+            }
+        }
     }
 }
