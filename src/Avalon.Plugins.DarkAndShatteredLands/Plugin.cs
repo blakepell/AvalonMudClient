@@ -17,7 +17,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             
             // IC Channels: Clan gossip, clan, gossip, ask, answer, kingdom, group tells, tells, auction, pray, grats, quest
             this.Triggers.Add(new Trigger(@"^([\w'-]+|The ghost of [\w'-]+|\(An Imm\)|\(Imm\) [\w'-]+) (clan gossip|clan|gossip|ask|answer|tell|auction|Bloodbath|pray|grats|quest|radio|imm).*$", "", "", true, "8b0bc970-08de-498e-9866-8e1aec458c08", TerminalTarget.Communication, true));
-            this.Triggers.Add(new Trigger(@"^Kingdom: .*$", "", "", true, "1dcf2580-da86-45b5-880f-36f9468891c1", TerminalTarget.Communication, true));
+            this.Triggers.Add(new Trigger(@"^[\w'-]+ Kingdom: .*$", "", "", true, "1dcf2580-da86-45b5-880f-36f9468891c1", TerminalTarget.Communication, true));
 
             // OOC Channels: OOC, OOC Clan, OOC Kingdom, Newbie
             this.Triggers.Add(new Trigger(@"^([\w'-]+|The ghost of [\w'-]+|\(An Imm\)|\(Imm\) [\w'-]+) (OOC|\[Newbie\]).*$", "", "", true, "4c7efde0-6f9a-4429-8b5c-edf23e60e61f", TerminalTarget.OutOfCharacterCommunication, true));
@@ -37,6 +37,10 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             this.Triggers.Add(new Trigger(@"^You are logged in as\: (?<Character>.*?)$", "whois @Character"));
             this.Triggers.Add(new Trigger(@"\[Exits: (?<Exits>.*?)  \]", ""));
             this.Triggers.Add(new Trigger(@"^Your current war\(s\): (?<Wars>.*?)$", ""));
+
+            // One time trigger that will disable itself, it sets the players info from the whois entry (but then
+            // disables it so you don't reset those variables when you look at other players entries.
+            this.Triggers.Add(new Trigger(@"^\[\s?(?<Level>\d+)\s+([\w-]+) (?<Class>\w+)\]\s+(\[Quiet\] )?(\[ (?<Clan>.*?) \] )?(\((?<Kingdom>.*?)\))?", "#trigger -i 0000f3e4-9ab9-4f52-9e29-0ba6d88348a6 -d", "", false, "0000f3e4-9ab9-4f52-9e29-0ba6d88348a6"));
         }
     }
 }
