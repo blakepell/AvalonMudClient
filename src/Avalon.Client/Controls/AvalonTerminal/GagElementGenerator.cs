@@ -112,7 +112,7 @@ namespace Avalon.Controls
             {
                 // These triggers match for the gag but do NOT execute the trigger's command (VERY important because it would cause the triggers
                 // to get fired multiple times as the line is re-rendered on the screen.. that is -bad-).
-                if (trigger.IsMatch(text, true))
+                if (trigger.IsMatch(text, true) && endLine?.NextLine != null)
                 {
                     CollapsedLineSections.Add(endLine.NextLine.LineNumber, CurrentContext.TextView.CollapseLines(endLine.NextLine, endLine.NextLine));
                     return startOffset;
@@ -124,7 +124,7 @@ namespace Avalon.Controls
             { 
                 // These triggers match for the gag but do NOT execute the trigger's command (VERY important because it would cause the triggers
                 // to get fired multiple times as the line is re-rendered on the screen.. that is -bad-).
-                if (trigger.IsMatch(text, true))
+                if (trigger.IsMatch(text, true) && endLine?.NextLine != null)
                 {
                     CollapsedLineSections.Add(endLine.NextLine.LineNumber, CurrentContext.TextView.CollapseLines(endLine.NextLine, endLine.NextLine));
                     return startOffset;
