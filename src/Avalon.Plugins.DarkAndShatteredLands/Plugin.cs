@@ -34,14 +34,52 @@ namespace Avalon.Plugins.DarkAndShatteredLands
 
             // Login, find out who the player is and put it into a variable.  Run whoami and then score to scrap initial info.
             this.Triggers.Add(new Trigger(@"^Welcome to DSL! DSL Loves You! Other muds think you are ugly, they said so", "whoami;score"));
+            this.Triggers.Add(new Trigger(@"Reconnecting. Type replay to see missed tells.", "#trigger -i 0000f3e4-9ab9-4f52-9e29-0ba6d88348a6 -e;whoami;score"));
             this.Triggers.Add(new Trigger(@"^You are logged in as\: (?<Character>.*?)$", "whois @Character"));
             this.Triggers.Add(new Trigger(@"\[Exits: (?<Exits>.*?)  \]", ""));
             this.Triggers.Add(new Trigger(@"\[Exits:  \]", "#set ExitsShort none;#set Exits none", "", true, "f8efc60a-adcf-46fc-b230-bcf3a4fee8a2"));
             this.Triggers.Add(new Trigger(@"^Your current war\(s\): (?<Wars>.*?)$", ""));
 
             // One time trigger that will disable itself, it sets the players info from the whois entry (but then
-            // disables it so you don't reset those variables when you look at other players entries.
-            this.Triggers.Add(new Trigger(@"^\[\s?(?<Level>\d+)\s+([\w-]+) (?<Class>\w+)\]\s+(\[Quiet\] )?(\[ (?<Clan>.*?) \] )?(\((?<Kingdom>.*?)\))?", "#trigger -i 0000f3e4-9ab9-4f52-9e29-0ba6d88348a6 -d", "", false, "0000f3e4-9ab9-4f52-9e29-0ba6d88348a6"));
+            // disables it so you don't reset those variables when you look at other players entries.  Some Lua will
+            // be run here so it only runs a cinfo if the person is in a clan.
+            var t = new Trigger(@"^\[\s?(?<Level>\d+)\s+([\w-]+) (?<Class>\w+)\]\s+(\[Quiet\] )?(\[ (?<Clan>.*?) \] )?(\((?<Kingdom>.*?)\))?", "", "", false, "0000f3e4-9ab9-4f52-9e29-0ba6d88348a6")
+            {
+                IsLua = true,
+            };
+
+            t.Command = @"
+lua:Send(""#trigger -i 0000f3e4-9ab9-4f52-9e29-0ba6d88348a6 -d"")
+
+local clan = lua:GetVariable(""Clan"")
+
+if clan ~= nil and clan ~= """" and clan ~= ""Loner"" and clan ~= ""Renegade"" and clan ~= ""Dragon"" and clan ~= ""Angel"" and clan ~= ""Balanx"" and clan ~= ""Demon"" then
+    lua:Send(""cinfo "" ..clan)
+end";
+
+            this.Triggers.Add(t);
+
+            // Reset any CLR variables we want to be empty by default.
+            this.Conveyor.SetVariable("Health", "0");
+            this.Conveyor.SetVariable("MaxHealth", "0");
+            this.Conveyor.SetVariable("Mana", "0");
+            this.Conveyor.SetVariable("MaxMana", "0");
+            this.Conveyor.SetVariable("Move", "0");
+            this.Conveyor.SetVariable("MaxMove", "0");
+            this.Conveyor.SetVariable("Target", "Nobody");
+            this.Conveyor.SetVariable("Room", "Limbo");
+            this.Conveyor.SetVariable("Area", "Unknown");
+            this.Conveyor.SetVariable("Exits", "none");
+            this.Conveyor.SetVariable("ExitsShort", "none");
+            this.Conveyor.SetVariable("Character", "");
+            this.Conveyor.SetVariable("Clan", "");
+            this.Conveyor.SetVariable("Kingdom", "");
+            this.Conveyor.SetVariable("Wimpy", "0");
+            this.Conveyor.SetVariable("PKP", "0");
+            this.Conveyor.SetVariable("PKPLevel", "0");
+            this.Conveyor.SetVariable("Level", "1");
+            this.Conveyor.SetVariable("Class", "");
         }
+
     }
 }
