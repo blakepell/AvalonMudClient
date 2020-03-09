@@ -74,4 +74,10 @@
     <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Media\alert.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

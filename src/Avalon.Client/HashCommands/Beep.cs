@@ -51,6 +51,17 @@ namespace Avalon.HashCommands
                                        case BeepType.Question:
                                            SystemSounds.Question.Play();
                                            return;
+                                       case BeepType.Alert:
+                                           // Special type, this will play even if other system sounds are muted.
+                                           if (!System.IO.File.Exists(@"Media\alert.wav"))
+                                           {
+                                               this.Interpreter.Conveyor.EchoLog("Media\alert.wav does not exist.", Common.Models.LogType.Error);
+                                               return;
+                                           }
+
+                                           var snd = new SoundPlayer(@"Media\alert.wav");
+                                           snd.Play();
+                                           return;
                                        default:
                                            SystemSounds.Beep.Play();
                                            return;
@@ -71,7 +82,8 @@ namespace Avalon.HashCommands
             Asterisk,
             Exclamation,
             Hand,
-            Question
+            Question,
+            Alert
         }
 
         /// <summary>
@@ -79,7 +91,7 @@ namespace Avalon.HashCommands
         /// </summary>
         public class BeepArguments
         {
-            [Option('t', "type", Required = false, HelpText = "The type of system beep: [Beep|Asterisk|Exclamation|Hand|Question]")]
+            [Option('t', "type", Required = false, HelpText = "The type of system beep: [Beep|Asterisk|Exclamation|Hand|Question|Alert]")]
             public BeepType BeepType { get; set; }
         }
 
