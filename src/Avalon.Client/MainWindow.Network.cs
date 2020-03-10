@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Media;
 using System.Text;
 using System.Windows;
 using Avalon.Colors;
@@ -91,6 +92,14 @@ namespace Avalon
                 FormattedText = e,
                 Text = Colorizer.RemoveAllAnsiCodes(e),
             };
+
+            // Beep is checked here because it should only happen one time, not everytime a trigger is checked which for
+            // gags can be a lot.  We'll do this when the line comes in -if- the user has the setting for it turned on.
+            // One beep per line max, everything else is ignored.
+            if (App.Settings.ProfileSettings.AnsiBeep && e.Contains('\a'))
+            {
+                App.Beep.Play();
+            }
 
             CheckTriggers(line);
 

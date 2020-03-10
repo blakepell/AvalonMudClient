@@ -4,6 +4,8 @@ using Avalon.Common.Settings;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
 using Avalon.Utilities;
+using System.Media;
+using System.IO;
 
 namespace Avalon
 {
@@ -46,6 +48,11 @@ namespace Avalon
         internal static bool SkipSaveOnExit { get; set; } = false;
 
         /// <summary>
+        /// The SoundPlayer used to play the ANSI beep.
+        /// </summary>
+        internal static SoundPlayer Beep;
+
+        /// <summary>
         /// Runs as the first thing in the programs pipeline.
         /// </summary>
         /// <param name="sender"></param>
@@ -59,6 +66,13 @@ namespace Avalon
             // First thing's first, setup the Settings.  This will at least initialize the client
             // settings (and if a profile has previously been loaded it will load that profile).
             App.Settings = new SettingsProvider(App.Conveyor);
+
+            // We're going to try to load the wav file to play the ANSI beep when it's needed.
+            if (File.Exists(@"Media\alert.wav"))
+            {
+                App.Beep = new SoundPlayer(@"Media\alert.wav");
+                App.Beep.Load();
+            }
         }
 
         /// <summary>

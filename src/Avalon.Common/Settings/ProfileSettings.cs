@@ -87,12 +87,15 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public bool SpamGuard { get; set; } = true;
 
-
         [CategoryAttribute("Performance")]
         [DescriptionAttribute("Whether the game tracks the last date each trigger was fired.")]
         [Browsable(true)]
         public bool TrackTriggerLastMatched { get; set; } = true;
 
+        [CategoryAttribute("Audio")]
+        [DescriptionAttribute("Whether the mud client should make a beep when the ANSI beep code is sent from the mud.")]
+        [Browsable(true)]
+        public bool AnsiBeep { get; set; } = false;
 
         [CategoryAttribute("Misc")]
         [DescriptionAttribute("A command or set of commands that will run as the last step in the mud client startup process.")]

@@ -59,8 +59,8 @@ namespace Avalon.HashCommands
                                                return;
                                            }
 
-                                           var snd = new SoundPlayer(@"Media\alert.wav");
-                                           snd.Play();
+                                           App.Beep.Play();
+
                                            return;
                                        default:
                                            SystemSounds.Beep.Play();
