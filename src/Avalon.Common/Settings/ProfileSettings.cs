@@ -4,6 +4,7 @@ using Avalon.Common.Triggers;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Newtonsoft.Json;
+using Avalon.Common.Attributes;
 
 namespace Avalon.Common.Settings
 {
@@ -136,6 +137,7 @@ namespace Avalon.Common.Settings
         /// <summary>
         /// A global Lua script that can be used to share functions and code with all Lua from the UI.
         /// </summary>
+        [Lua]
         [CategoryAttribute("Lua")]
         [DescriptionAttribute("A global Lua script that can be used to share functions and code with all Lua from the UI.")]
         [Browsable(true)]

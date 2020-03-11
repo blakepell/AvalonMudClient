@@ -1,5 +1,8 @@
 ﻿using System.Windows;
 using System.IO;
+using System.ComponentModel;
+using Avalon.Windows;
+using System.Drawing.Design;
 
 namespace Avalon
 {

@@ -6,6 +6,9 @@ using Avalon.Common.Models;
 using Avalon.Utilities;
 using System.Media;
 using System.IO;
+using System.ComponentModel;
+using Avalon.Windows;
+using System.Drawing.Design;
 
 namespace Avalon
 {
@@ -73,6 +76,10 @@ namespace Avalon
                 App.Beep = new SoundPlayer(@"Media\alert.wav");
                 App.Beep.Load();
             }
+
+            // Adds the string editor to all strings.. but based on convention (or attribute) we'll 
+            // determine which string editor opens.
+            TypeDescriptor.AddAttributes(typeof(string), new EditorAttribute(typeof(StringPropertyEditor), typeof(UITypeEditor)));
         }
 
         /// <summary>
