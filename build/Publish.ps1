@@ -4,7 +4,11 @@ $x64output = ".\x64"
 $x86output = ".\x86"
 $dotnet = "C:\Program Files\dotnet\dotnet.exe"
 
-# Clear the previous releases
+# Make the build folders if they don't exist.
+New-Item -ItemType Directory -Force -Path $x64output
+New-Item -ItemType Directory -Force -Path $x86output
+
+# Clear the previous releases if it exists.
 Remove-Item "$x64output\*" -Recurse -Confirm:$true
 Remove-Item "$x86output\*" -Recurse -Confirm:$true
 
