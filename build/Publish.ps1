@@ -17,8 +17,8 @@ Remove-Item "$x86output\*" -Recurse -Confirm:$true
 & $dotnet publish $project -c Release -r win-x86 -o $x86output
 
 # Execute the Inno scripts to build the installers.
-$installer = '"C:\Users\bpell\AppData\Local\Programs\Inno Setup 6\iscc.exe" ".\x64Installer.iss"'
+$installer = '"C:\Program Files (x86)\Inno Setup 6\iscc.exe" ".\x64Installer.iss"'
 Invoke-Expression "& $installer"
 
-$installer = '"C:\Users\bpell\AppData\Local\Programs\Inno Setup 6\iscc.exe" ".\x86Installer.iss"'
+$installer = '"C:\Program Files (x86)\Inno Setup 6\iscc.exe" ".\x86Installer.iss"'
 Invoke-Expression "& $installer"
