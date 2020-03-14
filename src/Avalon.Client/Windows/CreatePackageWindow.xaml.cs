@@ -3,6 +3,8 @@ using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Forms;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace Avalon
 {
@@ -43,27 +45,43 @@ namespace Avalon
                 GameAddress = App.Settings.ProfileSettings.IpAddress
             };
 
-            foreach (Alias item in AliasList.DataList.SelectedItems)
+            foreach (object obj in AliasList.DataList.SelectedItems)
             {
-                var alias = (Alias)item.Clone();
-                alias.Count = 0;
-                alias.Character = "";
-                package.AliasList.Add(alias);
+                // Make sure the item is an Alias.  The last item in the list which is a new record is sometimes
+                // an different object type.
+                if (obj is Alias item)
+                {
+                    var alias = (Alias)item.Clone();
+                    alias.Count = 0;
+                    alias.Character = "";
+                    package.AliasList.Add(alias);
+                }
             }
 
-            foreach (Common.Triggers.Trigger item in TriggerList.DataList.SelectedItems)
+            foreach (object obj in TriggerList.DataList.SelectedItems)
             {
-                var trigger = (Common.Triggers.Trigger)item.Clone();
-                trigger.Character = "";
-                trigger.LastMatched = DateTime.MinValue;
-                trigger.Count = 0;
-                package.TriggerList.Add(trigger);
+                // Make sure the item is an Alias.  The last item in the list which is a new record is sometimes
+                // an different object type.
+                if (obj is Common.Triggers.Trigger item)
+                {
+                    var trigger = (Common.Triggers.Trigger)item.Clone();
+                    trigger.Character = "";
+                    trigger.LastMatched = DateTime.MinValue;
+                    trigger.Count = 0;
+                    package.TriggerList.Add(trigger);
+                }
+
             }
 
-            foreach (Direction item in DirectionList.DataList.SelectedItems)
+            foreach (object obj in DirectionList.DataList.SelectedItems)
             {
-                var direction = (Direction)item.Clone();
-                package.DirectionList.Add(direction);
+                // Make sure the item is an Alias.  The last item in the list which is a new record is sometimes
+                // an different object type.
+                if (obj is Direction item)
+                {
+                    var direction = (Direction)item.Clone();
+                    package.DirectionList.Add(direction);
+                }
             }
 
             var dialog = new SaveFileDialog
