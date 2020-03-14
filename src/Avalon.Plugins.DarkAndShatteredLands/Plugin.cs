@@ -46,11 +46,10 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             var t = new Trigger(@"^\[\s?(?<Level>\d+)\s+([\w-]+) (?<Class>\w+)\]\s+(\[Quiet\] )?(\[ (?<Clan>.*?) \] )?(\((?<Kingdom>.*?)\))?", "", "", false, "0000f3e4-9ab9-4f52-9e29-0ba6d88348a6")
             {
                 IsLua = true,
+                DisableAfterTriggered = true
             };
 
             t.Command = @"
-lua:Send(""#trigger -i 0000f3e4-9ab9-4f52-9e29-0ba6d88348a6 -d"")
-
 local clan = lua:GetVariable(""Clan"")
 
 if clan ~= nil and clan ~= """" and clan ~= ""Loner"" and clan ~= ""Renegade"" and clan ~= ""Dragon"" and clan ~= ""Angel"" and clan ~= ""Balanx"" and clan ~= ""Demon"" then
