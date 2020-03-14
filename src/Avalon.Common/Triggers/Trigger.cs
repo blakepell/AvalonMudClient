@@ -79,6 +79,12 @@ namespace Avalon.Common.Triggers
                 return false;
             }
 
+            // If it's supposed to auto disable itself after it fires then set that.
+            if (this.DisableAfterTriggered)
+            {
+                this.Enabled = false;
+            }
+
             // Save the match for CLR processing if needed.
             this.Match = match;
 
@@ -239,6 +245,11 @@ namespace Avalon.Common.Triggers
         /// Indicates whether a trigger was loaded from a plugin or not.
         /// </summary>
         public bool Plugin { get; set; } = false;
+
+        /// <summary>
+        /// If set to true will disable the trigger after it fires.
+        /// </summary>
+        public bool DisableAfterTriggered { get; set; } = false;
 
         /// <summary>
         /// The date/time the trigger last fired successfully.  This can be useful in tracking down
