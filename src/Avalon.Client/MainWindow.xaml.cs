@@ -486,49 +486,26 @@ namespace Avalon
                     if (result == ContentDialogResult.Secondary)
                     {
                         Interp.EchoText("");
-                        Interp.EchoText($"--> Cancelled Import\r\n", AnsiColors.Cyan);
+                        Interp.Conveyor.EchoLog("Cancelled Import\r\n", LogType.Warning);
                         return;
                     }
 
                     // Load the file, then set it as the last loaded file -if- it existed.
                     string json = File.ReadAllText(dialog.FileName);
-                    var settings = JsonConvert.DeserializeObject<ProfileSettings>(json);
 
-                    // For now we're using going to import the aliases and triggers
-                    foreach (var alias in settings.AliasList)
-                    {
-                        App.Settings.ProfileSettings.AliasList.Add(alias);
-                    }
-
-                    // For now we're using going to import the aliases and triggers
-                    foreach (var trigger in settings.TriggerList)
-                    {
-                        App.Settings.ProfileSettings.TriggerList.Add(trigger);
-                    }
-
-                    // Add any directions that are found.
-                    foreach (var direction in settings.DirectionList)
-                    {
-                        App.Settings.ProfileSettings.DirectionList.Add(direction);
-                    }
-
-                    // Inject the Conveyor into all of the triggers
-                    foreach (var trigger in App.Settings.ProfileSettings.TriggerList)
-                    {
-                        trigger.Conveyor = App.Conveyor;
-                    }
+                    // This will update this profile with the items from the json package.
+                    App.Settings.ImportPackageFromJson(json);
 
                     // Show the user that the profile was successfully loaded.
                     Interp.EchoText("");
-                    Interp.EchoText($"--> Imported the package {dialog.FileName} into the current profile.\r\n", AnsiColors.Cyan);
-
+                    Interp.Conveyor.EchoLog($"Imported the package {dialog.FileName} into the current profile.\r\n", LogType.Success);
                 }
 
             }
             catch (Exception ex)
             {
                 Interp.EchoText("");
-                Interp.EchoText($"--> An error occured: {ex.Message}.\r\n", AnsiColors.Red);
+                Interp.Conveyor.EchoLog($"An error occured: {ex.Message}.\r\n", LogType.Error);
             }
         }
 

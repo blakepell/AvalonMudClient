@@ -251,25 +251,52 @@ namespace Avalon.Common.Settings
                 this.ProfileSettings.AliasList.Add(alias);
             }
 
-            //// For now we're using going to import the aliases and triggers
-            //foreach (var trigger in settings.TriggerList)
-            //{
-            //    this.ProfileSettings.TriggerList.Add(trigger);
-            //}
+            // A trigger must be unique by it's expression.
+            foreach (var trigger in settings.TriggerList)
+            {
+                int count = 0;
 
-            //// Add any directions that are found.
-            //foreach (var direction in settings.DirectionList)
-            //{
-            //    this.ProfileSettings.DirectionList.Add(direction);
-            //}
+                // Go through all of the triggers and see if this one already exists.
+                for (int i = this.ProfileSettings.TriggerList.Count - 1; i >= 0; i--)
+                {
+                    if (this.ProfileSettings.TriggerList[i].Identifier == trigger.Identifier)
+                    {
+                        // Save the count we're going to preserve it.
+                        count = this.ProfileSettings.TriggerList[i].Count;
 
-            //// Inject the Conveyor into all of the triggers
-            //foreach (var trigger in this.ProfileSettings.TriggerList)
-            //{
-            //    trigger.Conveyor = this.Conveyor;
-            //}
+                        // Remove the trigger, we're going to re-add the new copy.
+                        this.ProfileSettings.TriggerList.RemoveAt(i);
 
+                        break;
+                    }
+                }
+
+                trigger.Count = count;
+                this.ProfileSettings.TriggerList.Add(trigger);
+            }
+
+            // Inject the Conveyor into all of the triggers so they're ready to roll.
+            foreach (var trigger in this.ProfileSettings.TriggerList)
+            {
+                trigger.Conveyor = this.Conveyor;
+            }
+
+            // A direction must be unique by it's name and starting room.
+            foreach (var direction in settings.DirectionList)
+            {
+                // Go through all of the directions and see if this one already exists.
+                for (int i = this.ProfileSettings.DirectionList.Count - 1; i >= 0; i--)
+                {
+                    if (string.Equals(this.ProfileSettings.DirectionList[i].Name, direction.Name, StringComparison.OrdinalIgnoreCase)
+                        && string.Equals(this.ProfileSettings.DirectionList[i].StartingRoom, direction.StartingRoom, StringComparison.OrdinalIgnoreCase))
+                    {
+                        // Remove the trigger, we're going to re-add the new copy.
+                        this.ProfileSettings.DirectionList.RemoveAt(i);
+                    }
+                }
+
+                this.ProfileSettings.DirectionList.Add(direction);
+            }
         }
-
     }
 }
