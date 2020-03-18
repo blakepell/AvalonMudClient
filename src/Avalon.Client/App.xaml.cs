@@ -69,7 +69,7 @@ namespace Avalon
             // First thing's first, setup the Settings.  This will at least initialize the client
             // settings (and if a profile has previously been loaded it will load that profile).
             App.Settings = new SettingsProvider(App.Conveyor);
-
+            
             // We're going to try to load the wav file to play the ANSI beep when it's needed.
             if (File.Exists(@"Media\alert.wav"))
             {

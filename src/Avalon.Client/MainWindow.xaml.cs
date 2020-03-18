@@ -269,6 +269,20 @@ namespace Avalon
                             App.SystemTriggers.Add(trigger);
                         }
 
+                        // Load any top level menu items included in the plugin.
+                        foreach (var item in pluginInstance.MenuItems)
+                        {
+                            if (item == null)
+                            {
+                                continue;
+                            }
+                            
+                            var rd = (ResourceDictionary)item;
+                            var menuItem = (MenuItem)rd["PluginMenu"];
+                            menuItem.Tag = this.Interp;
+                            MenuGame.Items.Add(menuItem);
+                        }
+
                         App.Conveyor.EchoLog($"Plugins Loaded For: {pluginInstance.IpAddress}", LogType.Success);
                         App.Conveyor.EchoLog($"   => {pluginInstance.Triggers.Count()} Triggers Loaded", LogType.Success);
                     }

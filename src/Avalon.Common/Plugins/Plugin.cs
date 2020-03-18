@@ -14,6 +14,7 @@ namespace Avalon.Common.Plugins
         protected Plugin()
         {
             this.Triggers = new List<Trigger>();
+            this.MenuItems = new List<object>();
         }
 
         public abstract void Initialize();
@@ -25,5 +26,8 @@ namespace Avalon.Common.Plugins
         public IConveyor Conveyor { get; set; }
 
         public List<Trigger> Triggers { get; set; }
+
+        public List<object> MenuItems { get; set; }
+
     }
 }

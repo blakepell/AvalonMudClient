@@ -390,6 +390,15 @@ namespace Avalon
         }
 
         /// <summary>
+        /// Imports a JSON package into the currently loaded profile.
+        /// </summary>
+        /// <param name="json"></param>
+        public void ImportPackageFromJson(string json)
+        {
+            App.Settings.ImportPackageFromJson(json);
+        }
+
+        /// <summary>
         /// Returns information about the current WindowPosition.
         /// </summary>
         public WindowPosition GetWindowPosition

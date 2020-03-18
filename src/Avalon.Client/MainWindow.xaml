@@ -58,7 +58,7 @@
                         <ColumnDefinition Width="45*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
 
-                    <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="0,0,0,1" Background="#171717">
+                    <Menu x:Name="MenuGame" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="0,0,0,1" Background="#171717">
                         <MenuItem Header="_File">
                             <MenuItem Header="Create Package" Click="MenuItemCreatePackage_Click">
                                 <MenuItem.Icon>

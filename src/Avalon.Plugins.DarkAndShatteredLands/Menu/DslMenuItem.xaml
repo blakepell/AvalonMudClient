@@ -1,0 +1,14 @@
+﻿<ResourceDictionary x:Class="Avalon.Plugins.DarkAndShatteredLands.DslMenuItem"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Avalon.Plugins.DarkAndShatteredLands">
+    <MenuItem x:Key="PluginMenu" Header="DSL">
+        <MenuItem Header="Links">
+            <MenuItem Header="DSL Website" Click="MenuItemDslWebite_Click"></MenuItem>
+            <MenuItem Header="Forum" Click="MenuItemForum_Click"></MenuItem>
+            <MenuItem Header="Wiki" Click="MenuItemWiki_Click"></MenuItem>
+        </MenuItem>
+        <Separator />
+        <MenuItem Header="Update DSL Shared Package" Click="MenuItemUpdateDslPackageAsync_Click"></MenuItem>
+    </MenuItem>    
+</ResourceDictionary>

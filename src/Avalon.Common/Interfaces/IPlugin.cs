@@ -47,6 +47,11 @@ namespace Avalon.Common.Interfaces
         ProfileSettings ProfileSettings { get; set; }
 
         /// <summary>
+        /// A list of top level menu items to add to the UI that represent the platform specific menu.
+        /// </summary>
+        List<object> MenuItems { get; set; }
+
+        /// <summary>
         /// The Conveyor so that the plugin can interact with the UI.
         /// </summary>
         IConveyor Conveyor { get; set; }

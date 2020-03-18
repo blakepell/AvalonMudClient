@@ -1,5 +1,6 @@
 ﻿using Avalon.Common.Models;
 using Avalon.Common.Triggers;
+using System;
 
 namespace Avalon.Plugins.DarkAndShatteredLands
 {
@@ -57,6 +58,11 @@ if clan ~= nil and clan ~= """" and clan ~= ""Loner"" and clan ~= ""Renegade"" a
 end";
 
             this.Triggers.Add(t);
+
+            // Load any menu items that exist.  The implementing UI will now how to cast them.
+            var rd = new System.Windows.ResourceDictionary();
+            rd.Source = new Uri("/Avalon.Plugins.DarkAndShatteredLands;component/Menu/DslMenuItem.xaml", UriKind.Relative);
+            this.MenuItems.Add(rd);
 
             // Reset any CLR variables we want to be empty by default.
             this.Conveyor.SetVariable("Health", "0");

@@ -46,6 +46,8 @@ namespace Avalon.Common.Interfaces
 
         bool DisableGroup(string groupName);
 
+        void ImportPackageFromJson(string json);
+
         StringBuilder Scrape { get; set; }
 
         bool ScrapeEnabled { get; set; }
