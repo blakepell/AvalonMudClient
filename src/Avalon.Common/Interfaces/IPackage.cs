@@ -32,6 +32,11 @@ namespace Avalon.Common.Interfaces
         string GameAddress { get; set; }
 
         /// <summary>
+        /// The version of the import package.
+        /// </summary>
+        int Version { get; set; }
+
+        /// <summary>
         /// The list of packaged aliases.
         /// </summary>
         List<Alias> AliasList { get; set; }

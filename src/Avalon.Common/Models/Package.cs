@@ -14,6 +14,8 @@ namespace Avalon.Common.Models
 
         public string GameAddress { get; set; } = "";
 
+        public int Version { get; set; } = 0;
+
         public List<Alias> AliasList { get; set; } = new List<Alias>();
 
         public List<Trigger> TriggerList { get; set; } = new List<Trigger>();
