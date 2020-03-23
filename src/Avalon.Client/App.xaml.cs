@@ -9,6 +9,7 @@ using System.IO;
 using System.ComponentModel;
 using Avalon.Windows;
 using System.Drawing.Design;
+using Avalon.Common.Plugins;
 
 namespace Avalon
 {
@@ -39,6 +40,11 @@ namespace Avalon
         /// the user defined triggers.  (TODO: Factor into abstract layer)
         /// </summary>
         internal static List<ITrigger> SystemTriggers { get; set; } = new List<ITrigger>();
+
+        /// <summary>
+        /// A list of plugins that were loaded via reflection on startup.
+        /// </summary>
+        internal static List<Plugin> Plugins { get; set; } = new List<Plugin>();
 
         /// <summary>
         /// Ability to send a Windows OS toast message.

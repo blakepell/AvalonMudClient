@@ -22,10 +22,12 @@ namespace Avalon.HashCommands
 
         public override void Execute()
         {
-            var list = this.Interpreter.Conveyor.ProfileSettings.TriggerList.Where(x => x.LastMatched > DateTime.MinValue).OrderByDescending(x => x.LastMatched).Take(50);
+            var list = this.Interpreter.Conveyor.ProfileSettings.TriggerList.Where(x => x.LastMatched > DateTime.MinValue).OrderByDescending(x => x.LastMatched).Take(25);
 
-            this.Interpreter.EchoText("");
-            
+            this.Interpreter.Conveyor.EchoText("\r\n");
+            this.Interpreter.Conveyor.EchoLog($"There are currently {this.Interpreter.Conveyor.ProfileSettings.TriggerList.Count} user triggers loaded.", Common.Models.LogType.Information);
+            this.Interpreter.Conveyor.EchoLog($"There are currently {App.SystemTriggers.Count} system triggers loaded via plugin.", Common.Models.LogType.Information);
+
             foreach (var trigger in list)
             {
                 this.Interpreter.EchoText($"{trigger.LastMatched}: {trigger.Pattern}", new Cyan());

@@ -116,7 +116,7 @@ namespace Avalon
         {
             get
             {
-                string buf = ""; ;
+                string buf = "";
 
                 Application.Current.Dispatcher.Invoke(new Action(() =>
                 {

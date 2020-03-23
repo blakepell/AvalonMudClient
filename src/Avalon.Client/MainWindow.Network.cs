@@ -46,8 +46,8 @@ namespace Avalon
         /// </summary>
         public void Connect()
         {
-            // Load any plugins into the System Triggers.
-            LoadPlugins();
+            // Activate any plugins for this game.
+            ActivatePlugins();
 
             // Connect, then put the focus into the input text box.
             Interp.Connect(HandleLineReceived, this.HandleDataReceived, HandleConnectionClosed);

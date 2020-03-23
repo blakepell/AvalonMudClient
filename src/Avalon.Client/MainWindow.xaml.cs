@@ -155,6 +155,10 @@ namespace Avalon
             // something like that isn't expensive but when run on variable replacement it can be more noticable.
             Utilities.Utilities.UpdateCommonVariables();
 
+            // Load any plugin classes from the plugins folder.  They will be "activated" when a mud who matches
+            // the plugin IP is connected to.
+            LoadPlugins();
+
             // Auto connect to the game if the setting is set.
             if (App.Settings.ProfileSettings.AutoConnect)
             {
@@ -207,16 +211,11 @@ namespace Avalon
         }
 
         /// <summary>
-        /// Loads any plugins found in any DLL in the plugins folder if the IP address for that plugin matches
-        /// the IP address that the user is currently connecting to.
-        ///
-        /// TODO - cleanup
-        /// 
+        /// Finds plugins in any DLL's in the plugins folder and loads them.
         /// </summary>
         private void LoadPlugins()
         {
-            // Clear the system triggers
-            App.SystemTriggers.Clear();
+            App.Plugins.Clear();
 
             // Get all the DLL's in the plugin folder.
             var files = Directory.GetFiles(App.Settings.PluginDirectory, "*.dll");
@@ -237,7 +236,7 @@ namespace Avalon
 
                 foreach (var plugin in plugins)
                 {
-                    App.Conveyor.EchoLog($"Plugin File Found: {Argus.IO.FileSystemUtilities.ExtractFileName(file)}", LogType.Information);
+                    App.Conveyor.EchoLog($"Plugin Found: {Argus.IO.FileSystemUtilities.ExtractFileName(file)}", LogType.Information);
 
                     Plugin pluginInstance;
 
@@ -251,43 +250,75 @@ namespace Avalon
                         continue;
                     }
 
-                    // The IP address specified in the plugin matches the IP address we're connecting to.
-                    if (string.Equals(pluginInstance.IpAddress, App.Settings.ProfileSettings.IpAddress, StringComparison.OrdinalIgnoreCase))
-                    {
-                        // Set a copy of the current profile settings into the plugin in case it needs them.
-                        pluginInstance.ProfileSettings = App.Settings.ProfileSettings;
-                        pluginInstance.Conveyor = App.Settings.Conveyor;
-
-                        // Let it run it's own Initialize.
-                        pluginInstance.Initialize();
-
-                        // Go through all of the triggers and put them into our system triggers.
-                        foreach (var trigger in pluginInstance.Triggers)
-                        {
-                            trigger.Plugin = true;
-                            trigger.Conveyor = App.Conveyor;
-                            App.SystemTriggers.Add(trigger);
-                        }
-
-                        // Load any top level menu items included in the plugin.
-                        foreach (var item in pluginInstance.MenuItems)
-                        {
-                            if (item == null)
-                            {
-                                continue;
-                            }
-                            
-                            var rd = (ResourceDictionary)item;
-                            var menuItem = (MenuItem)rd["PluginMenu"];
-                            menuItem.Tag = this.Interp;
-                            MenuGame.Items.Add(menuItem);
-                        }
-
-                        App.Conveyor.EchoLog($"Plugins Loaded For: {pluginInstance.IpAddress}", LogType.Success);
-                        App.Conveyor.EchoLog($"   => {pluginInstance.Triggers.Count()} Triggers Loaded", LogType.Success);
-                    }
+                    App.Plugins.Add(pluginInstance);
+                    App.Conveyor.EchoLog($"   => Loaded For: {pluginInstance.IpAddress}", LogType.Success);
                 }
             }
+        }
+
+        /// <summary>
+        /// Loads any plugins found in any DLL in the plugins folder if the IP address for that plugin matches
+        /// the IP address that the user is currently connecting to.
+        ///
+        /// TODO - cleanup
+        /// 
+        /// </summary>
+        private void ActivatePlugins()
+        {
+            // If there are any system triggers, clear the references to the Conveyor.
+            foreach (var trigger in App.SystemTriggers)
+            {
+                trigger.Conveyor = null;
+            }
+
+            // Clear the system triggers list.
+            App.SystemTriggers.Clear();
+
+            // Go through all of the found plugins and add in and initialize any triggers so they can be used now.
+            foreach (var plugin in App.Plugins)
+            {
+                // The IP address specified in the plugin matches the IP address we're connecting to.
+                if (string.Equals(plugin.IpAddress, App.Settings.ProfileSettings.IpAddress, StringComparison.OrdinalIgnoreCase))
+                {
+                    // Set a copy of the current profile settings into the plugin in case it needs them.
+                    plugin.ProfileSettings = App.Settings.ProfileSettings;
+                    plugin.Conveyor = App.Settings.Conveyor;
+
+                    // Let it run it's own Initialize.
+                    plugin.Initialize();
+
+                    // Go through all of the triggers and put them into our system triggers.
+                    foreach (var trigger in plugin.Triggers)
+                    {
+                        trigger.Plugin = true;
+                        trigger.Conveyor = App.Conveyor;
+                        App.SystemTriggers.Add(trigger);
+                    }
+
+                    // Load any top level menu items included in the plugin.
+                    foreach (var item in plugin.MenuItems)
+                    {
+                        if (item == null)
+                        {
+                            continue;
+                        }
+
+                        var rd = (ResourceDictionary)item;
+                        var menuItem = (MenuItem)rd["PluginMenu"];
+                        menuItem.Tag = this.Interp;
+
+                        if (menuItem.Parent == null)
+                        {
+                            MenuGame.Items.Add(menuItem);
+                        }
+                    }
+
+                    App.Conveyor.EchoLog($"Plugins Loaded For: {plugin.IpAddress}", LogType.Success);
+                    App.Conveyor.EchoLog($"   => {plugin.Triggers.Count()} Triggers Loaded", LogType.Success);
+                }
+
+            }
+
         }
 
         /// <summary>

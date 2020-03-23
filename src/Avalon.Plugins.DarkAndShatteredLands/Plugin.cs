@@ -15,7 +15,22 @@ namespace Avalon.Plugins.DarkAndShatteredLands
         public override void Initialize()
         {
             this.Conveyor.Title = "Dark and Shattered Lands";
-            
+
+            this.LoadTriggers();
+            this.LoadMenu();
+            this.ResetVariables();
+        }
+
+        /// <summary>
+        /// Loads any triggers if they haven't already been loaded.
+        /// </summary>
+        public void LoadTriggers()
+        {
+            if (this.Triggers.Count > 0)
+            {
+                return;
+            }
+
             // IC Channels: Clan gossip, clan, gossip, ask, answer, kingdom, group tells, tells, auction, pray, grats, quest (quote at the end)
             this.Triggers.Add(new Trigger(@"^[\a]?([\w'-]+|The ghost of [\w'-]+|\(An Imm\)|\(Imm\) [\w'-]+) (clan gossip|clan|gossip|ask|answer|tell|auction|Bloodbath|pray|grats|quest|radio|imm).*'$", "", "", true, "8b0bc970-08de-498e-9866-8e1aec458c08", TerminalTarget.Communication, true));
             this.Triggers.Add(new Trigger(@"^[\w'-]+ Kingdom: .*$", "", "", true, "1dcf2580-da86-45b5-880f-36f9468891c1", TerminalTarget.Communication, true));
@@ -59,11 +74,30 @@ end";
 
             this.Triggers.Add(t);
 
+
+        }
+
+        /// <summary>
+        /// Loads any menu items if they haven't already been loaded.
+        /// </summary>
+        public void LoadMenu()
+        {
+            if (this.MenuItems.Count > 0)
+            {
+                return;
+            }
+
             // Load any menu items that exist.  The implementing UI will now how to cast them.
             var rd = new System.Windows.ResourceDictionary();
             rd.Source = new Uri("/Avalon.Plugins.DarkAndShatteredLands;component/Menu/DslMenuItem.xaml", UriKind.Relative);
             this.MenuItems.Add(rd);
+        }
 
+        /// <summary>
+        /// Resets any variables used by this plugin.
+        /// </summary>
+        public void ResetVariables()
+        {
             // Reset any CLR variables we want to be empty by default.
             this.Conveyor.SetVariable("Health", "0");
             this.Conveyor.SetVariable("MaxHealth", "0");
