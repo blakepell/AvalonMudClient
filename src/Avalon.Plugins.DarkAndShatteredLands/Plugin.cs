@@ -33,7 +33,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands
 
             // IC Channels: Clan gossip, clan, gossip, ask, answer, kingdom, group tells, tells, auction, pray, grats, quest (quote at the end)
             this.Triggers.Add(new Trigger(@"^[\a]?([\w'-]+|The ghost of [\w'-]+|\(An Imm\)|\(Imm\) [\w'-]+) (clan gossip|clan|gossip|ask|answer|tell|auction|Bloodbath|pray|grats|quest|radio|imm).*'$", "", "", true, "8b0bc970-08de-498e-9866-8e1aec458c08", TerminalTarget.Communication, true));
-            this.Triggers.Add(new Trigger(@"^[\w'-]+ Kingdom: .*$", "", "", true, "1dcf2580-da86-45b5-880f-36f9468891c1", TerminalTarget.Communication, true));
+            this.Triggers.Add(new Trigger(@"^([\w'-]+)?(\s+)?Kingdom: .*$", "", "", true, "1dcf2580-da86-45b5-880f-36f9468891c1", TerminalTarget.Communication, true));
 
             // OOC Channels: OOC, OOC Clan, OOC Kingdom, Newbie
             this.Triggers.Add(new Trigger(@"^([\w'-]+|The ghost of [\w'-]+|\(An Imm\)|\(Imm\) [\w'-]+) (OOC|\[Newbie\]).*$", "", "", true, "4c7efde0-6f9a-4429-8b5c-edf23e60e61f", TerminalTarget.OutOfCharacterCommunication, true));
