@@ -55,6 +55,7 @@
                 <DataGridTextColumn Header="Character" Binding="{Binding Character,UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Group" Binding="{Binding Group,UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridCheckBoxColumn Header="Lua" Binding="{Binding IsLua,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
+                <DataGridCheckBoxColumn Header="Lock" Binding="{Binding Lock,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
                 <DataGridTextColumn Header="Count" Binding="{Binding Count,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>

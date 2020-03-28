@@ -43,6 +43,11 @@ namespace Avalon.Common.Models
         public string StartingRoom { get; set; } = "";
 
         /// <summary>
+        /// Whether or not the direction can be auto-updated.
+        /// </summary>
+        public bool Lock { get; set; } = false;
+
+        /// <summary>
         /// Clones the direction.
         /// </summary>
         public object Clone()

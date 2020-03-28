@@ -129,12 +129,9 @@ namespace Avalon.Controls
 
             foreach (var trigger in App.Settings.ProfileSettings.TriggerList)
             {
-                if (trigger.Conveyor == null)
+                if (trigger.Conveyor == null && App.Conveyor != null)
                 {
-                    if (App.Conveyor != null)
-                    {
-                        trigger.Conveyor = App.Conveyor;
-                    }
+                    trigger.Conveyor = App.Conveyor;
                 }
             }
         }

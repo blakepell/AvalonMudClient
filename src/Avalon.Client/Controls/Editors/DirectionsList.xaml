@@ -44,6 +44,7 @@
                 <DataGridTextColumn Header="Name" Binding="{Binding Name,UpdateSourceTrigger=PropertyChanged}" Width="20*" />
                 <DataGridTextColumn Header="Starting Room" Binding="{Binding StartingRoom,UpdateSourceTrigger=PropertyChanged}" Width="20*" />
                 <DataGridTextColumn Header="Directions" Binding="{Binding Speedwalk,UpdateSourceTrigger=PropertyChanged}" Width="60*" />
+                <DataGridCheckBoxColumn Header="Lock" Binding="{Binding Lock,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

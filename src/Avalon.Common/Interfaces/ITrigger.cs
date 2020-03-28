@@ -33,6 +33,10 @@ namespace Avalon.Common.Interfaces
 
         bool HighlightLine { get; set; }
 
+        bool Lock { get; set; }
+
+        bool DisableAfterTriggered { get; set; }
+
         int Count { get; set; }
 
         void Execute();

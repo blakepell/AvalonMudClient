@@ -58,6 +58,11 @@ namespace Avalon.Common.Models
 
         public bool IsLua { get; set; } = false;
 
+        /// <summary>
+        /// Whether or not the alias is locked for updating.
+        /// </summary>
+        public bool Lock { get; set; } = false;
+
         private int _count = 0;
         public int Count
         {

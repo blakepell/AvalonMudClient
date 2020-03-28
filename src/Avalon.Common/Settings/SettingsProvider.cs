@@ -230,6 +230,12 @@ namespace Avalon.Common.Settings
             // An alias must be unique by it's expression.
             foreach (var alias in settings.AliasList)
             {
+                // Skip any locked items
+                if (alias.Lock)
+                {
+                    continue;
+                }
+
                 int count = 0;
 
                 // Go through all of the aliases and see if this one already exists.
@@ -254,6 +260,12 @@ namespace Avalon.Common.Settings
             // A trigger must be unique by it's expression.
             foreach (var trigger in settings.TriggerList)
             {
+                // Skip any locked items
+                if (trigger.Lock)
+                {
+                    continue;
+                }
+
                 int count = 0;
 
                 // Go through all of the triggers and see if this one already exists.
@@ -284,6 +296,12 @@ namespace Avalon.Common.Settings
             // A direction must be unique by it's name and starting room.
             foreach (var direction in settings.DirectionList)
             {
+                // Skip any locked items
+                if (direction.Lock)
+                {
+                    continue;
+                }
+
                 // Go through all of the directions and see if this one already exists.
                 for (int i = this.ProfileSettings.DirectionList.Count - 1; i >= 0; i--)
                 {

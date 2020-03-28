@@ -9,5 +9,6 @@
         bool Enabled { get; set; }
         string Group { get; set; }
         bool IsLua { get; set; }
+        bool Lock { get; set; }
     }
 }

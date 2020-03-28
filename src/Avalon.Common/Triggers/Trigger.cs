@@ -252,6 +252,11 @@ namespace Avalon.Common.Triggers
         public bool DisableAfterTriggered { get; set; } = false;
 
         /// <summary>
+        /// Whether the trigger is locked.  This will stop a trigger from being auto-updated in a package.
+        /// </summary>
+        public bool Lock { get; set; } = false;
+
+        /// <summary>
         /// The date/time the trigger last fired successfully.  This can be useful in tracking down
         /// errant triggers that are running (when you have -a lot- of them).  This can be toggled not
         /// to set via the TrackTriggerLastMatched profile setting.
