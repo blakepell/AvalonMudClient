@@ -236,7 +236,7 @@ namespace Avalon
 
                 foreach (var plugin in plugins)
                 {
-                    App.Conveyor.EchoLog($"Plugin Found: {Argus.IO.FileSystemUtilities.ExtractFileName(file)}", LogType.Information);
+                    App.Conveyor.EchoLog($"Plugin Found: {Argus.IO.FileSystemUtilities.ExtractFileName(file)} v{assembly.GetName().Version}", LogType.Information);
 
                     Plugin pluginInstance;
 
