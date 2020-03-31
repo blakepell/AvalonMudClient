@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
-    <Version>2020.3.25.1</Version>
+    <Version>2020.3.31.1</Version>
     <Authors>Blake Pell</Authors>
     <Company>Blake Pell</Company>
     <Product>Dark and Shattered Lands Plugin for Avalon Mud Client</Product>
