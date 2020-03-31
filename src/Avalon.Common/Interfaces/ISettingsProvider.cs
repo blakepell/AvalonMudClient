@@ -23,6 +23,11 @@ namespace Avalon.Common.Interfaces
         string PluginDirectory { get; }
 
         /// <summary>
+        /// A staging directory where updates for plugins are downloaded to.
+        /// </summary>
+        string UpdateDirectory { get; }
+
+        /// <summary>
         /// The core settings file that is not profile settings related.
         /// </summary>
         AvalonSettings AvalonSettings { get; set; } 

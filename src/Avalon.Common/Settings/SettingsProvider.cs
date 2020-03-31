@@ -32,6 +32,11 @@ namespace Avalon.Common.Settings
         public string PluginDirectory { get; private set; }
 
         /// <summary>
+        /// A staging directory where updates for plugins are downloaded to.
+        /// </summary>
+        public string UpdateDirectory { get; private set; }
+
+        /// <summary>
         /// This is the settings file in the AppDataDirectory folder.  It will hold a small settings
         /// file that have data like where the main save folder is if it's been changed.  Basically this
         /// loads and then finds out where to get the actual profiles from (if it's saved in a DropBox,
@@ -52,6 +57,7 @@ namespace Avalon.Common.Settings
             this.Conveyor = ic;
             this.AppDataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AvalonMudClient");
             this.PluginDirectory = Path.Combine(this.AppDataDirectory, "Plugins");
+            this.UpdateDirectory = Path.Combine(this.AppDataDirectory, "Updates");
             this.AvalonSettingsFile = Path.Combine(this.AppDataDirectory, "avalon.json");
             this.InitializeApplicationDataDirectory();
         }
@@ -75,6 +81,12 @@ namespace Avalon.Common.Settings
                 Argus.IO.FileSystemUtilities.CreateDirectory(this.PluginDirectory);
             }
 
+            // Create the updates folder if it doesn't exist.
+            if (!Directory.Exists(this.UpdateDirectory))
+            {
+                Argus.IO.FileSystemUtilities.CreateDirectory(this.UpdateDirectory);
+            }
+            
             // Create the core (minimal) settings file if it doesn't exist.
             if (!File.Exists(this.AvalonSettingsFile))
             {
