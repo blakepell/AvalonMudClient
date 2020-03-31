@@ -1,5 +1,6 @@
 ﻿using Avalon.Common.Colors;
 using Avalon.Extensions;
+using Argus.Extensions;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Rendering;
 using System;

@@ -2,6 +2,7 @@
 using System;
 using Avalon.Colors;
 using Avalon.Common.Models;
+using Argus.Extensions;
 
 namespace Avalon.Extensions
 {
@@ -25,44 +26,6 @@ namespace Avalon.Extensions
             };
 
             return line;
-        }
-
-        /// <summary>
-        /// Reports the zero based index of the first occurence of a matching string.
-        /// </summary>
-        /// <param name="span">The Span to search.</param>
-        /// <param name="value">The string to search for.</param>
-        /// <param name="startIndex"></param>
-        /// <returns>Returns the zero based index or a -1 if the string isn't found or the
-        /// startIndex greater than the length of the string.
-        /// </returns>
-        public static int SafeIndexOf(this ReadOnlySpan<char> span, ReadOnlySpan<char> value, int startIndex)
-        {
-            if (startIndex > span.Length - 1)
-            {
-                return -1;
-            }
-
-            return span.IndexOf(value, startIndex);
-        }
-
-        /// <summary>
-        /// Returns the zero based index of the first occurence of a matching string.
-        /// </summary>
-        /// <param name="span"></param>
-        /// <param name="value"></param>
-        /// <param name="startIndex"></param>
-        /// <returns></returns>
-        public static int IndexOf(this ReadOnlySpan<char> span, ReadOnlySpan<char> value, int startIndex)
-        {
-            var indexInSlice = span.Slice(startIndex).IndexOf(value, StringComparison.Ordinal);
-
-            if (indexInSlice == -1)
-            {
-                return -1;
-            }
-            
-            return startIndex + indexInSlice;
         }
 
         /// <summary>
