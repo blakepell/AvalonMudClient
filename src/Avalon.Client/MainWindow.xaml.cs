@@ -60,6 +60,21 @@ namespace Avalon
         /// </summary>
         public BatchTasks BatchTasks;
 
+
+        /// <summary>
+        /// Whether spell checking is currently enabled.
+        /// </summary>
+        public bool SpellCheckEnabled
+        {
+            get { return (bool)GetValue(SpellCheckEnabledProperty); }
+            set { SetValue(SpellCheckEnabledProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SpellCheckEnabled.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SpellCheckEnabledProperty =
+            DependencyProperty.Register("SpellCheckEnabled", typeof(bool), typeof(MainWindow), new PropertyMetadata(true));
+
+
         /// <summary>
         /// Window initialization.  This occurs before the Loaded event.  We'll set the initial
         /// window positioning here before the UI is shown.
@@ -77,7 +92,7 @@ namespace Avalon
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
+        {      
             // The settings for the app load in the app startup, they will then try to load the last profile
             // that was used.
             App.Conveyor.EchoLog($"Avalon Mud Client Version {Assembly.GetExecutingAssembly()?.GetName()?.Version.ToString() ?? "Unknown"}", LogType.Information);
@@ -158,6 +173,9 @@ namespace Avalon
             // Load any plugin classes from the plugins folder.  They will be "activated" when a mud who matches
             // the plugin IP is connected to.
             LoadPlugins();
+
+            // Update any UI settings
+            UpdateUISettings();
 
             // Auto connect to the game if the setting is set.
             if (App.Settings.ProfileSettings.AutoConnect)
@@ -319,6 +337,15 @@ namespace Avalon
 
             }
 
+        }
+
+        /// <summary>
+        /// Updates any dependency properties with the value from the settings.  Notably this will be called
+        /// from the settings dialog when it closes.
+        /// </summary>
+        public void UpdateUISettings()
+        {
+            this.SpellCheckEnabled = App.Settings.ProfileSettings.SpellChecking;
         }
 
         /// <summary>
