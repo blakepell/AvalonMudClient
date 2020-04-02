@@ -59,6 +59,29 @@ namespace Avalon.HashCommands
                                 this.Interpreter.Conveyor.EchoLog($"A trigger with the ID of '{o.Id}' was disabled.", Common.Models.LogType.Success);
                             }
                         }
+
+                        // The pattern has to be something
+                        if (!string.IsNullOrWhiteSpace(o.Pattern))
+                        {
+                            t.Pattern = o.Pattern;
+
+                            if (o.Verbose)
+                            {
+                                this.Interpreter.Conveyor.EchoLog($"A trigger with the ID of '{o.Id}' had its pattern set to {o.Pattern}.", Common.Models.LogType.Success);
+                            }
+                        }
+
+                        // The command only has to not be null so it can be cleared.
+                        if (o.Command != null)
+                        {
+                            t.Command = o.Command;
+
+                            if (o.Verbose)
+                            {
+                                this.Interpreter.Conveyor.EchoLog($"A trigger with the ID of '{o.Id}' had its command set to {o.Command}.", Common.Models.LogType.Success);
+                            }
+                        }
+
                     }
 
                     // User created triggers that match the ID.
@@ -69,12 +92,45 @@ namespace Avalon.HashCommands
                         if (o.Enable)
                         {
                             t.Enabled = true;
+
+                            if (o.Verbose)
+                            {
+                                this.Interpreter.Conveyor.EchoLog($"A trigger with the ID of '{o.Id}' was enabled.", Common.Models.LogType.Success);
+                            }
                         }
 
                         if (o.Disable)
                         {
                             t.Enabled = false;
+
+                            if (o.Verbose)
+                            {
+                                this.Interpreter.Conveyor.EchoLog($"A trigger with the ID of '{o.Id}' was disabled.", Common.Models.LogType.Success);
+                            }
                         }
+
+                        // The pattern has to be something
+                        if (!string.IsNullOrWhiteSpace(o.Pattern))
+                        {
+                            t.Pattern = o.Pattern;
+                            
+                            if (o.Verbose)
+                            {
+                                this.Interpreter.Conveyor.EchoLog($"A trigger with the ID of '{o.Id}' had its pattern set to {o.Pattern}.", Common.Models.LogType.Success);
+                            }
+                        }
+
+                        // The command only has to not be null so it can be cleared.
+                        if (o.Command != null)
+                        {
+                            t.Command = o.Command;
+
+                            if (o.Verbose)
+                            {
+                                this.Interpreter.Conveyor.EchoLog($"A trigger with the ID of '{o.Id}' had its command set to {o.Command}.", Common.Models.LogType.Success);
+                            }
+                        }
+
                     }
 
                     if (!found)
@@ -105,6 +161,12 @@ namespace Avalon.HashCommands
 
             [Option('v', "verbose", Required = false, HelpText = "Whether echo to the terminal even on success.")]
             public bool Verbose { get; set; }
+
+            [Option('p', "pattern", Required = false, HelpText = "Sets the pattern of the trigger.")]
+            public string Pattern { get; set; }
+
+            [Option('c', "command", Required = false, HelpText = "Sets the command of the trigger.")]
+            public string Command { get; set; }
 
         }
 
