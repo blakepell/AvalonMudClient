@@ -81,4 +81,10 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="Windows\SettingsWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>

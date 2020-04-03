@@ -1,14 +1,13 @@
 ﻿using System.Windows;
-using System.IO;
 
 namespace Avalon
 {
     /// <summary>
     /// Interaction logic for global client settings.
     /// </summary>
-    public partial class ClientSettingsWindow : Window
+    public partial class SettingsWindow : Window
     {
-        public ClientSettingsWindow()
+        public SettingsWindow()
         {
             InitializeComponent();
         }
@@ -19,9 +18,10 @@ namespace Avalon
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void SettingsWindow_OnLoaded(object sender, RoutedEventArgs e)
-        {            
-            propertyGrid.SelectedObject = App.Settings.AvalonSettings;
-            TextSettingsFilename.Text = App.Settings.AvalonSettingsFile;
+        {
+            profilePropertyGrid.SelectedObject = App.Settings.ProfileSettings;
+            clientPropertyGrid.SelectedObject = App.Settings.AvalonSettings;
+            TextSettingsFilename.Text = App.Settings.AvalonSettings.LastLoadedProfilePath;
         }
 
         /// <summary>
@@ -33,6 +33,19 @@ namespace Avalon
         {
             App.MainWindow.UpdateUISettings();
             this.Close();
+        }
+
+        private void TabSettings_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (TabProfileSettings.IsSelected)
+            {
+                TextSettingsFilename.Text = App.Settings.AvalonSettings.LastLoadedProfilePath;
+            }
+            else if (TabClientSettings.IsSelected)
+            {
+                TextSettingsFilename.Text = App.Settings.AvalonSettingsFile;
+            }
+
         }
     }
 }

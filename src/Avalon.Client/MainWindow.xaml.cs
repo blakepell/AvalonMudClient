@@ -432,7 +432,7 @@ namespace Avalon
         /// <param name="args"></param>
         private void SettingsButton_Click(object o, RoutedEventArgs args)
         {
-            var win = new ProfileSettingsWindow();
+            var win = new SettingsWindow();
             this.ShowDialog(win);
         }
 
@@ -675,28 +675,23 @@ namespace Avalon
             }
         }
 
-        /// <summary>
-        /// Shows the client settings dialog.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MenuItemClientProperties_OnClick(object sender, RoutedEventArgs e)
-        {
-            var win = new ClientSettingsWindow();
-            win.ShowDialog();
-        }
 
         /// <summary>
         /// Shows the profile settings dialog.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MenuItemProfileProperties_OnClick(object sender, RoutedEventArgs e)
+        private void MenuItemSettings_OnClick(object sender, RoutedEventArgs e)
         {
-            var win = new ProfileSettingsWindow();
-            win.ShowDialog();
+            var win = new SettingsWindow();
+            this.ShowDialog(win);
         }
 
+        /// <summary>
+        /// Shows the window to create JSON packages.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MenuItemCreatePackage_Click(object sender, RoutedEventArgs e)
         {
             var win = new CreatePackageWindow();
