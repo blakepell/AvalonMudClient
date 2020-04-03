@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using Avalon.Common.Interfaces;
 
 namespace Avalon.HashCommands
@@ -20,14 +21,17 @@ namespace Avalon.HashCommands
         public override void Execute()
         {
             string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            string platform = "Windows Presentation Foundation (WPF)";
+            string bit = Environment.Is64BitProcess ? "64-bit" : "32-bit";
 
 #if DEBUG
             string mode = "Debug";
 #else
             string mode = "Release";
 #endif
-            Interpreter.EchoText($"\r\nVersion: {mode} {version} | {platform}");
+
+            Interpreter.Conveyor.EchoText("\r\n");
+            Interpreter.Conveyor.EchoText($"Version:  {version} {bit}\r\n");
+            Interpreter.Conveyor.EchoText($"Build:    {mode}");
         }
 
     }
