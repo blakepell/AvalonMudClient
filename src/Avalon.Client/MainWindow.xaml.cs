@@ -19,6 +19,7 @@ using Avalon.Common.Plugins;
 using ModernWpf.Controls;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Windows.Media;
 
 namespace Avalon
 {
@@ -345,6 +346,32 @@ namespace Avalon
         /// </summary>
         public void UpdateUISettings()
         {
+            // Terminal font size
+            this.GameTerminal.FontSize = App.Settings.AvalonSettings.TerminalFontSize;
+            this.OocCommunicationTerminal.FontSize = App.Settings.AvalonSettings.TerminalFontSize;
+            this.CommunicationTerminal.FontSize = App.Settings.AvalonSettings.TerminalFontSize;
+
+            // Terminal font
+            FontFamily font;
+
+            switch (App.Settings.AvalonSettings.TerminalFont)
+            {
+                case AvalonSettings.TerminalFonts.Consolas:
+                    font = new FontFamily("Consolas");
+                    break;
+                case AvalonSettings.TerminalFonts.CourierNew:
+                    font = new FontFamily("Courier New");
+                    break;
+                default:
+                    font = new FontFamily("Consolas");
+                    break;
+            }
+
+            this.GameTerminal.FontFamily = font;
+            this.OocCommunicationTerminal.FontFamily = font;
+            this.CommunicationTerminal.FontFamily = font;
+
+
             this.SpellCheckEnabled = App.Settings.ProfileSettings.SpellChecking;
         }
 

@@ -55,5 +55,25 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public bool DeveloperMode { get; set; } = false;
 
+
+        [CategoryAttribute("UI")]
+        [DescriptionAttribute("The font size that should be used in the terminal panels.")]
+        [Browsable(true)]
+        public int TerminalFontSize { get; set; } = 13;
+
+        /// <summary>
+        /// Supported fonts.
+        /// </summary>
+        public enum TerminalFonts
+        {
+            Consolas,
+            CourierNew
+        }
+
+        [CategoryAttribute("UI")]
+        [DescriptionAttribute("Whether features that might implicate security are turned on.  These generally allow an expert to run commands a normal player shouldn't run.")]
+        [Browsable(true)]
+        public TerminalFonts TerminalFont { get; set; } = TerminalFonts.Consolas;
+
     }
 }

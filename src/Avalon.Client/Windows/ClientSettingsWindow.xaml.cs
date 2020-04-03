@@ -31,6 +31,7 @@ namespace Avalon
         /// <param name="e"></param>
         private void ButtonClose_OnClick(object sender, RoutedEventArgs e)
         {
+            App.MainWindow.UpdateUISettings();
             this.Close();
         }
     }
