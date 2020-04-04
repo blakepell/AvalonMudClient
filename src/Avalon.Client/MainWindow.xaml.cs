@@ -332,6 +332,20 @@ namespace Avalon
                         }
                     }
 
+                    // Add any custom hash commands.
+                    foreach (var item in plugin.HashCommands)
+                    {
+                        // Only add a hash command if it doesn't already exist.
+                        if (Interp.HashCommands.Count(x => x.Name.Equals(item.Name, StringComparison.OrdinalIgnoreCase)) == 0)
+                        {
+                            // Make sure it has a current reference to the interpreter.
+                            item.Interpreter = this.Interp;
+
+                            // Add it to the list of HashCommands.
+                            Interp.HashCommands.Add(item);
+                        }
+                    }
+
                     App.Conveyor.EchoLog($"Plugins Loaded For: {plugin.IpAddress}", LogType.Success);
                     App.Conveyor.EchoLog($"   => {plugin.Triggers.Count()} Triggers Loaded", LogType.Success);
                 }

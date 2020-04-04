@@ -15,6 +15,7 @@ namespace Avalon.Common.Plugins
         {
             this.Triggers = new List<Trigger>();
             this.MenuItems = new List<object>();
+            this.HashCommands = new List<IHashCommand>();
         }
 
         public abstract void Initialize();
@@ -26,6 +27,8 @@ namespace Avalon.Common.Plugins
         public IConveyor Conveyor { get; set; }
 
         public List<Trigger> Triggers { get; set; }
+
+        public List<IHashCommand> HashCommands { get; set; }
 
         public List<object> MenuItems { get; set; }
 

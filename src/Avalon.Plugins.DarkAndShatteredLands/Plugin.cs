@@ -18,6 +18,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands
 
             this.LoadTriggers();
             this.LoadMenu();
+            this.LoadHashCommands();
             this.ResetVariables();
         }
 
@@ -94,6 +95,15 @@ end";
             var rd = new System.Windows.ResourceDictionary();
             rd.Source = new Uri("/Avalon.Plugins.DarkAndShatteredLands;component/Menu/DslMenuItem.xaml", UriKind.Relative);
             this.MenuItems.Add(rd);
+        }
+
+        /// <summary>
+        /// Loads any custom HashCommand objcts.
+        /// </summary>
+        public void LoadHashCommands()
+        {
+            this.HashCommands.Add(new HashCommands.DslVersion());
+            this.HashCommands.Add(new HashCommands.ConCard());
         }
 
         /// <summary>

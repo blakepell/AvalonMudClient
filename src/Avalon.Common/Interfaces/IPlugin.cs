@@ -37,6 +37,11 @@ namespace Avalon.Common.Interfaces
         List<Trigger> Triggers { get; set; }
 
         /// <summary>
+        /// A list of custom hash commands for the mud the plugin is for.
+        /// </summary>
+        List<IHashCommand> HashCommands { get; set; }
+
+        /// <summary>
         /// The profile settings of the currently loaded profile.
         /// </summary>
         /// <remarks>

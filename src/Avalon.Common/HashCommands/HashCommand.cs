@@ -17,6 +17,11 @@ namespace Avalon.HashCommands
             this.Interpreter = interp;
         }
 
+        protected HashCommand()
+        {
+
+        }
+
         public abstract string Name { get; }
 
         public abstract string Description { get; }
