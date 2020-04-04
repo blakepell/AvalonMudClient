@@ -104,6 +104,7 @@ end";
         {
             this.HashCommands.Add(new HashCommands.DslVersion());
             this.HashCommands.Add(new HashCommands.ConCard());
+            this.HashCommands.Add(new HashCommands.Online());
         }
 
         /// <summary>
