@@ -759,5 +759,45 @@ namespace Avalon
                 App.Settings.ProfileSettings.LuaGlobalScript = win.Text;
             }
         }
+
+        /// <summary>
+        /// Link to the git documentation.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemDocumentation_Click(object sender, RoutedEventArgs e)
+        {
+            Utilities.Utilities.ShellLink("https://github.com/blakepell/AvalonMudClient/blob/master/README.md");
+        }
+
+        /// <summary>
+        /// Link to the git hash commands documentation.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemHashCommands_Click(object sender, RoutedEventArgs e)
+        {
+            Utilities.Utilities.ShellLink("https://github.com/blakepell/AvalonMudClient/blob/master/doc/HashCommands.md");
+        }
+
+        /// <summary>
+        /// Link to the git Lua documentation.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemLua_Click(object sender, RoutedEventArgs e)
+        {
+            Utilities.Utilities.ShellLink("https://github.com/blakepell/AvalonMudClient/blob/master/doc/Lua.md");
+        }
+
+        /// <summary>
+        /// A link to the git source code.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemSourceCode_Click(object sender, RoutedEventArgs e)
+        {
+            Utilities.Utilities.ShellLink("https://github.com/blakepell/AvalonMudClient");
+        }
     }
 }
