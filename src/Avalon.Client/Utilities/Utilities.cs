@@ -1,6 +1,7 @@
 ﻿using Argus.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Windows.Media;
 
@@ -161,5 +162,26 @@ namespace Avalon.Utilities
                 Argus.Memory.StringBuilderPool.Return(sb);
             }            
         }
+
+        /// <summary>
+        /// Shells a link via System.Diagnostics.Process.
+        /// </summary>
+        /// <param name="url"></param>
+        public static void ShellLink(string url)
+        {
+            var link = new Uri(url);
+
+            var psi = new ProcessStartInfo
+            {
+                FileName = "cmd",
+                WindowStyle = ProcessWindowStyle.Hidden,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                Arguments = $"/c start {link.AbsoluteUri}"
+            };
+
+            Process.Start(psi);
+        }
+
     }
 }
