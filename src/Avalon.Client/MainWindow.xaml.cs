@@ -101,7 +101,11 @@ namespace Avalon
             try
             {
                 int count = Utilities.Utilities.CleanupUpdatesFolder();
-                App.Conveyor.EchoLog($"{count} files(s) deleted from the updates folder.", LogType.Information);
+
+                if (count > 0)
+                {
+                    App.Conveyor.EchoLog($"{count} files(s) deleted from the updates folder.", LogType.Information);
+                }
             }
             catch (Exception ex)
             {

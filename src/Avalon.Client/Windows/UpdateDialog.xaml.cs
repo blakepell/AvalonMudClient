@@ -1,4 +1,5 @@
-﻿using ModernWpf.Controls;
+﻿using Avalon.GitHub;
+using ModernWpf.Controls;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
@@ -13,9 +14,7 @@ namespace Avalon
 {
     public partial class UpdateDialog : ContentDialog
     {
-        public string AvalonUrl { get; set; } = "";
-
-        public string DownloadUrl { get; set; } = "";
+        public Release Release { get; set; }
 
         public Exception Exception { get; set; } = null;
 
@@ -28,54 +27,48 @@ namespace Avalon
 
         private async void ContentDialog_Loaded(object sender, RoutedEventArgs e)
         {
+            this.Closing += this.UpdateDialog_Closing;
+
+            ProgressRingUpdate.IsActive = true;
+
+            TextBlockInfo.Text = "Checking for update.";
+
             try
             {
-                this.Closing += this.UpdateDialog_Closing;
-
-                ProgressRingUpdate.IsActive = true;
-
-                string versionJson = "";
-
-                TextBlockInfo.Text = "Requesting update url.";
-
                 // The HttpClient is unique.. it implements IDisposable but DO NOT call Dispose.  It's meant to be used throughout
                 // the life of your application and will be re-used by the framework.  Odd but that's what it is.
                 var http = new HttpClient();
+                http.DefaultRequestHeaders.Add("User-Agent", "Avalon Mud Client");
 
-                // This is my site for now, it will always be there.. it will get the update url to the actual update site
-                // which is currently, a free azure site that will probably move.
-                using (var response = await http.GetAsync("https://www.blakepell.com/api/avalon-site-url"))
+                // Get the release information from GitHub, including the version and the links to all of the installers
+                // for this release.
+                using (var response = await http.GetAsync(App.Settings.AvalonSettings.ReleaseUrl))
                 {
-                    this.AvalonUrl = await response.Content.ReadAsStringAsync();
+                    string json = await response.Content.ReadAsStringAsync();
+                    this.Release = JsonConvert.DeserializeObject<Release>(json);
+
+                    var updateVersion = new Version(this.Release.TagName);
+                    var thisVersion = Assembly.GetExecutingAssembly().GetName().Version;
+
+                    if (updateVersion == thisVersion)
+                    {
+                        TextBlockInfo.Text = "You are using the current version.";
+                        return;
+                    }
+                    else if (updateVersion > thisVersion)
+                    {
+                        TextBlockInfo.Text = $"There is an update available to version {updateVersion}";
+                        this.PrimaryButtonText = "Update";
+                        return;
+                    }
+                    else if (updateVersion < thisVersion)
+                    {
+                        TextBlockInfo.Text = $"You are using a version that is newer than the general release.";
+                        this.PrimaryButtonText = "";
+                        return;
+                    }
                 }
 
-                TextBlockInfo.Text = $"Checking for update.";
-
-                using (var response = await http.GetAsync($"{this.AvalonUrl}/api/current-client-version"))
-                {
-                    versionJson = await response.Content.ReadAsStringAsync();
-                }
-
-                var updateVersion = JsonConvert.DeserializeObject<Version>(versionJson, new VersionConverter());
-                var thisVersion = Assembly.GetExecutingAssembly().GetName().Version;
-
-                if (updateVersion == thisVersion)
-                {
-                    TextBlockInfo.Text = "You are using the current version.";
-                    return;
-                }
-                else if (updateVersion > thisVersion)
-                {
-                    TextBlockInfo.Text = $"There is an update available to version {updateVersion}";
-                    this.PrimaryButtonText = "Update";
-                    return;
-                }
-                else if (updateVersion < thisVersion)
-                {
-                    TextBlockInfo.Text = $"You are using a version that is newer than the general release.";
-                    this.PrimaryButtonText = "";
-                    return;
-                }
             }
             catch (Exception ex)
             {
@@ -107,26 +100,33 @@ namespace Avalon
             {
                 ProgressRingUpdate.IsActive = true;
 
-                string requestUrl = $"{this.AvalonUrl}/api/download-url?is64Bit={Environment.Is64BitProcess}";
-                string downloadFile = Path.Combine(App.Settings.UpdateDirectory, "Installer.zip");
+                string downloadUrl = "";
+                string installerFile = "";
+
+                foreach (var asset in this.Release.Assets)
+                {
+                    if (Environment.Is64BitProcess && asset.BrowserDownloadUrl.Contains("AvalonSetup-x64.exe"))
+                    {
+                        downloadUrl = asset.BrowserDownloadUrl;
+                        installerFile = Path.Combine(App.Settings.UpdateDirectory, "AvalonSetup-x64.exe");
+                    }
+
+                    if (!Environment.Is64BitProcess && asset.BrowserDownloadUrl.Contains("AvalonSetup-x86.exe"))
+                    {
+                        downloadUrl = asset.BrowserDownloadUrl;
+                        installerFile = Path.Combine(App.Settings.UpdateDirectory, "AvalonSetup-x86.exe");
+                    }
+                }
 
                 // The HttpClient is unique.. it implements IDisposable but DO NOT call Dispose.  It's meant to be used throughout
                 // the life of your application and will be re-used by the framework.  Odd but that's what it is.
                 var http = new HttpClient();
 
-                // This is my site for now, it will always be there.. it will get the update url to the actual update site
-                // which is currently, a free azure site that will probably move.
-                using (var response = await http.GetAsync(requestUrl))
-                {
-                    this.DownloadUrl = await response.Content.ReadAsStringAsync();
-                    this.DownloadUrl = JsonConvert.DeserializeObject<string>(this.DownloadUrl);
-                }
-
-                using (var response = http.GetAsync(this.DownloadUrl, HttpCompletionOption.ResponseHeadersRead).Result)
+                using (var response = http.GetAsync(downloadUrl, HttpCompletionOption.ResponseHeadersRead).Result)
                 {
                     response.EnsureSuccessStatusCode();
 
-                    using (Stream contentStream = await response.Content.ReadAsStreamAsync(), fileStream = new FileStream(downloadFile, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true))
+                    using (Stream contentStream = await response.Content.ReadAsStreamAsync(), fileStream = new FileStream(installerFile, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true))
                     {
                         var totalRead = 0L;
                         var totalReads = 0L;
@@ -160,24 +160,10 @@ namespace Avalon
                 // Download complete!
                 TextBlockInfo.Text = "Download complete, starting installer...";
 
-                // Unzip the archive.
-                ZipFile.ExtractToDirectory(downloadFile, App.Settings.UpdateDirectory);
-
-                // Installer file
-                string installer = "";
-
-                if (Environment.Is64BitProcess)
+                // Sanity check that it exists.
+                if (File.Exists(installerFile))
                 {
-                    installer = Path.Combine(App.Settings.UpdateDirectory, "AvalonSetup-x64.exe");
-                }
-                else
-                {
-                    installer = Path.Combine(App.Settings.UpdateDirectory, "AvalonSetup-x86.exe");
-                }
-
-                if (File.Exists(installer))
-                {
-                    Utilities.Utilities.ShellLink(installer);
+                    Utilities.Utilities.ShellLink(installerFile);
 
                     // Delay 2 seconds.
                     await Task.Delay(2000);
@@ -187,13 +173,12 @@ namespace Avalon
                 }
                 else
                 {
-                    TextBlockInfo.Text = $"Error: {installer} not found.";
+                    TextBlockInfo.Text = $"Error: {installerFile} not found.";
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                this.Exception = ex;
             }
             finally
             {

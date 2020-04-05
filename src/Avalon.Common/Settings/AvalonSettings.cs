@@ -75,5 +75,10 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public TerminalFonts TerminalFont { get; set; } = TerminalFonts.Consolas;
 
+        [CategoryAttribute("Updates")]
+        [DescriptionAttribute("The URL that the mud client to reference to determine if there is an update.")]
+        [Browsable(true)]
+        public string ReleaseUrl { get; } = "https://api.github.com/repos/blakepell/AvalonMudClient/releases/latest";
+
     }
 }
