@@ -94,9 +94,27 @@ namespace Avalon
         /// <param name="e"></param>
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {      
-            // The settings for the app load in the app startup, they will then try to load the last profile
-            // that was used.
+            // The settings for the app load in the app startup, they will then try to load the last profile that was used.
             App.Conveyor.EchoLog($"Avalon Mud Client Version {Assembly.GetExecutingAssembly()?.GetName()?.Version.ToString() ?? "Unknown"}", LogType.Information);
+
+            try
+            {
+                int count = Utilities.Utilities.UpdatePlugins();
+
+                if (count == 1)
+                {
+                    App.Conveyor.EchoLog($"{count} plugin was updated.", LogType.Information);
+                }
+                else if (count > 1)
+                {
+                    App.Conveyor.EchoLog($"{count} plugins were updated.", LogType.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                App.Conveyor.EchoLog("An error occured copying updated plugins.", LogType.Error);
+                App.Conveyor.EchoLog(ex.Message, LogType.Error);
+            }
 
             try
             {

@@ -165,6 +165,30 @@ namespace Avalon.Utilities
         }
 
         /// <summary>
+        /// Copies any plugins that were updated to the plugins folder.
+        /// </summary>
+        /// <returns></returns>
+        public static int UpdatePlugins()
+        {
+            var files = Directory.GetFiles(App.Settings.UpdateDirectory);
+            int count = 0;
+
+            // First, move any plugin DLL's
+            foreach (string file in files)
+            {
+                if (file.StartsWith("Avalon.Plugin") && file.EndsWith(".dll"))
+                {
+                    string outputFile = Path.Combine(App.Settings.UpdateDirectory, Argus.IO.FileSystemUtilities.ExtractFileName(file));
+                    File.Copy(file, outputFile, true);
+                }
+
+                count++;
+            }
+
+            return count;
+        }
+
+        /// <summary>
         /// Try to cleanup all files in the update folder, not point in them hanging around.
         /// </summary>
         public static int CleanupUpdatesFolder()

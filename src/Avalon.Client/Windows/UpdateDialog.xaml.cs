@@ -3,6 +3,7 @@ using ModernWpf.Controls;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
@@ -102,6 +103,7 @@ namespace Avalon
 
                 string downloadUrl = "";
                 string installerFile = "";
+                var plugins = new List<string>();
 
                 foreach (var asset in this.Release.Assets)
                 {
@@ -116,11 +118,59 @@ namespace Avalon
                         downloadUrl = asset.BrowserDownloadUrl;
                         installerFile = Path.Combine(App.Settings.UpdateDirectory, "AvalonSetup-x86.exe");
                     }
+
+                    if (asset.BrowserDownloadUrl.EndsWith(".dll"))
+                    {
+                        plugins.Add(asset.BrowserDownloadUrl);
+                    }
+
                 }
 
                 // The HttpClient is unique.. it implements IDisposable but DO NOT call Dispose.  It's meant to be used throughout
                 // the life of your application and will be re-used by the framework.  Odd but that's what it is.
                 var http = new HttpClient();
+
+                // Get any plugins first
+                foreach (string item in plugins)
+                {
+                    using (var response = http.GetAsync(item, HttpCompletionOption.ResponseHeadersRead).Result)
+                    {
+                        string pluginName = Argus.IO.FileSystemUtilities.ExtractFileName(item);
+                        string pluginSavePath = Path.Combine(App.Settings.UpdateDirectory, pluginName);
+
+                        response.EnsureSuccessStatusCode();
+
+                        using (Stream contentStream = await response.Content.ReadAsStreamAsync(), fileStream = new FileStream(pluginSavePath, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true))
+                        {
+                            var totalRead = 0L;
+                            var totalReads = 0L;
+                            var buffer = new byte[8192];
+                            var isMoreToRead = true;
+
+                            do
+                            {
+                                var read = await contentStream.ReadAsync(buffer, 0, buffer.Length);
+                                if (read == 0)
+                                {
+                                    isMoreToRead = false;
+                                }
+                                else
+                                {
+                                    await fileStream.WriteAsync(buffer, 0, read);
+
+                                    totalRead += read;
+                                    totalReads += 1;
+
+                                    if (totalReads % 2000 == 0)
+                                    {
+                                        TextBlockInfo.Text = string.Format("Total bytes downloaded for {0}: {1:n0}", pluginName, totalRead);
+                                    }
+                                }
+                            }
+                            while (isMoreToRead);
+                        }
+                    }
+                }
 
                 using (var response = http.GetAsync(downloadUrl, HttpCompletionOption.ResponseHeadersRead).Result)
                 {
@@ -149,7 +199,7 @@ namespace Avalon
 
                                 if (totalReads % 2000 == 0)
                                 {
-                                    TextBlockInfo.Text = string.Format("Total bytes downloaded: {0:n0}", totalRead);
+                                    TextBlockInfo.Text = string.Format("Total bytes downloaded for installer update: {0:n0}", totalRead);
                                 }
                             }
                         }
