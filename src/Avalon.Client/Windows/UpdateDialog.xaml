@@ -1,0 +1,28 @@
+﻿<ui:ContentDialog
+    x:Class="Avalon.UpdateDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="http://schemas.modernwpf.com/2019"
+    Loaded="ContentDialog_Loaded"
+    PrimaryButtonText=""
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    CloseButtonText="Close"
+    >
+    <ui:ContentDialog.Title>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Update"></TextBlock>
+            <ui:ProgressRing x:Name="ProgressRingUpdate" Margin="10,0,0,0"
+                    IsActive="False"
+                    Height="12"
+                    Width="12" />
+        </StackPanel>
+    </ui:ContentDialog.Title>
+    <StackPanel
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch">
+        <TextBlock x:Name="TextBlockInfo"
+                   Text="There is no update available."
+                   TextWrapping="Wrap" />
+    </StackPanel>
+
+</ui:ContentDialog>

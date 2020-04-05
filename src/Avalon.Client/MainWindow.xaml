@@ -147,6 +147,12 @@
                                     <ui:SymbolIcon Symbol="ViewAll"></ui:SymbolIcon>
                                 </MenuItem.Icon>
                             </MenuItem>
+                            <Separator />
+                            <MenuItem Header="Update Client" Click="MenuItemUpdateClient_Click">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon Symbol="Download"></ui:SymbolIcon>
+                                </MenuItem.Icon>
+                            </MenuItem>
                         </MenuItem>
                     </Menu>
 

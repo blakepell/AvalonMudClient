@@ -97,101 +97,126 @@ namespace Avalon
             // The settings for the app load in the app startup, they will then try to load the last profile
             // that was used.
             App.Conveyor.EchoLog($"Avalon Mud Client Version {Assembly.GetExecutingAssembly()?.GetName()?.Version.ToString() ?? "Unknown"}", LogType.Information);
-            App.Conveyor.EchoLog($"Global Settings Folder: {App.Settings.AppDataDirectory}", LogType.Information);
-            App.Conveyor.EchoLog($"Global Settings File:   {App.Settings.AvalonSettingsFile}", LogType.Information);
-            App.Conveyor.EchoLog($"Profiles Folder: {App.Settings.AvalonSettings.SaveDirectory}", LogType.Information);
 
-            // Parse the command line arguments to see if a profile was specified.
-            var args = Environment.GetCommandLineArgs();
-
-
-            // Try to load the last profile loaded, if not found create a new profile.
-            if (File.Exists(App.Settings.AvalonSettings.LastLoadedProfilePath))
+            try
             {
-                await LoadSettings(App.Settings.AvalonSettings.LastLoadedProfilePath);
+                int count = Utilities.Utilities.CleanupUpdatesFolder();
+                App.Conveyor.EchoLog($"{count} files(s) deleted from the updates folder.", LogType.Information);
             }
-            else
+            catch (Exception ex)
             {
-                if (string.IsNullOrWhiteSpace(App.Settings.AvalonSettings.LastLoadedProfilePath))
+                App.Conveyor.EchoLog("An error occured removing old updates from the updates folder.", LogType.Error);
+                App.Conveyor.EchoLog(ex.Message, LogType.Error);
+            }
+
+            try
+            {
+                if (App.Settings.AvalonSettings.DeveloperMode)
                 {
-                    App.Conveyor.EchoLog($"New Profile being created.", LogType.Information);
+                    App.Conveyor.EchoLog($"Global Settings Folder: {App.Settings.AppDataDirectory}", LogType.Information);
+                    App.Conveyor.EchoLog($"Global Settings File:   {App.Settings.AvalonSettingsFile}", LogType.Information);
+                    App.Conveyor.EchoLog($"Profiles Folder: {App.Settings.AvalonSettings.SaveDirectory}", LogType.Information);
+                }
+
+                // Parse the command line arguments to see if a profile was specified.
+                var args = Environment.GetCommandLineArgs();
+
+                // Try to load the last profile loaded, if not found create a new profile.
+                if (File.Exists(App.Settings.AvalonSettings.LastLoadedProfilePath))
+                {
+                    await LoadSettings(App.Settings.AvalonSettings.LastLoadedProfilePath);
                 }
                 else
                 {
-                    App.Conveyor.EchoLog($"Last Profile Loaded Not Found: {App.Settings.AvalonSettings.LastLoadedProfilePath}", LogType.Warning);
+                    if (string.IsNullOrWhiteSpace(App.Settings.AvalonSettings.LastLoadedProfilePath))
+                    {
+                        App.Conveyor.EchoLog($"New Profile being created.", LogType.Information);
+                    }
+                    else
+                    {
+                        App.Conveyor.EchoLog($"Last Profile Loaded Not Found: {App.Settings.AvalonSettings.LastLoadedProfilePath}", LogType.Warning);
+                    }
                 }
-            }
 
-            // Set the startup position.
-            switch (App.Settings.AvalonSettings.WindowStartupPosition)
+                // Set the startup position.
+                switch (App.Settings.AvalonSettings.WindowStartupPosition)
+                {
+                    case WindowStartupPosition.OperatingSystemDefault:
+                        this.WindowState = WindowState.Normal;
+                        break;
+                    case WindowStartupPosition.Maximized:
+                        this.WindowState = WindowState.Maximized;
+                        break;
+                    case WindowStartupPosition.LastUsed:
+                        this.Left = App.Settings.AvalonSettings.LastWindowPosition.Left;
+                        this.Top = App.Settings.AvalonSettings.LastWindowPosition.Top;
+                        this.Height = App.Settings.AvalonSettings.LastWindowPosition.Height;
+                        this.Width = App.Settings.AvalonSettings.LastWindowPosition.Width;
+                        this.WindowState = (WindowState)App.Settings.AvalonSettings.LastWindowPosition.WindowState;
+                        break;
+                }
+
+                // Inject the Conveyor into the Triggers so the Triggers know how to talk to the UI.  Not doing this
+                // causes ya know, problems.
+                TriggersList.TriggerConveyorSetup();
+
+                // Wire up any events that have to be wired up through code.
+                TextInput.Editor.PreviewKeyDown += this.Editor_PreviewKeyDown;
+                AddHandler(TabControlEx.NetworkButtonClickEvent, new RoutedEventHandler(NetworkButton_Click));
+                AddHandler(TabControlEx.SettingsButtonClickEvent, new RoutedEventHandler(SettingsButton_Click));
+
+                // Pass the necessary reference from this page to the Interpreter.
+                Interp = new Interpreter(App.Conveyor);
+
+                // Setup the handler so when it wants to write to the main window it can by raising the echo event.
+                Interp.Echo += this.InterpreterEcho;
+
+                // Setup the tick timer.
+                TickTimer = new TickTimer(App.Conveyor);
+
+                // TODO - Setting to disable and command to view these tasks.
+                // Setup the scheduled and batch tasks.
+                ScheduledTasks = new ScheduledTasks(this.Interp);
+                BatchTasks = new BatchTasks(this.Interp);
+
+                // Setup the auto complete commands.  If they're found refresh them, if they're not
+                // report it to the terminal window.  It should -always be found-.
+                RefreshAutoCompleteEntries();
+
+                // Update static variables from places that might be expensive to populate from (like Environment.Username).  Normally
+                // something like that isn't expensive but when run on variable replacement it can be more noticable.
+                Utilities.Utilities.UpdateCommonVariables();
+
+                // Load any plugin classes from the plugins folder.  They will be "activated" when a mud who matches
+                // the plugin IP is connected to.
+                LoadPlugins();
+
+                // Update any UI settings
+                UpdateUISettings();
+
+                // Auto connect to the game if the setting is set.
+                if (App.Settings.ProfileSettings.AutoConnect)
+                {
+                    NetworkButton_Click(null, null);
+                }
+
+                // Is there an auto execute command or set of commands to run?
+                if (!string.IsNullOrWhiteSpace(App.Settings.ProfileSettings.AutoExecuteCommand))
+                {
+                    Interp.Send(App.Settings.ProfileSettings.AutoExecuteCommand, true, false);
+                }
+
+                // Finally, all is done, set the focus to the command box.
+                TextInput.Focus();
+            }
+            catch (Exception ex)
             {
-                case WindowStartupPosition.OperatingSystemDefault:
-                    this.WindowState = WindowState.Normal;
-                    break;
-                case WindowStartupPosition.Maximized:
-                    this.WindowState = WindowState.Maximized;
-                    break;
-                case WindowStartupPosition.LastUsed:
-                    this.Left = App.Settings.AvalonSettings.LastWindowPosition.Left;
-                    this.Top = App.Settings.AvalonSettings.LastWindowPosition.Top;
-                    this.Height = App.Settings.AvalonSettings.LastWindowPosition.Height;
-                    this.Width = App.Settings.AvalonSettings.LastWindowPosition.Width;
-                    this.WindowState = (WindowState)App.Settings.AvalonSettings.LastWindowPosition.WindowState;
-                    break;
+                App.Conveyor.EchoLog("A critical error on startup occured.", LogType.Error);
+                App.Conveyor.EchoLog(ex.Message, LogType.Error);
+                App.Conveyor.EchoText(ex?.StackTrace?.ToString() ?? "No stack trace available.");
+                return;
             }
 
-            // Inject the Conveyor into the Triggers so the Triggers know how to talk to the UI.  Not doing this
-            // causes ya know, problems.
-            TriggersList.TriggerConveyorSetup();
-
-            // Wire up any events that have to be wired up through code.
-            TextInput.Editor.PreviewKeyDown += this.Editor_PreviewKeyDown;
-            AddHandler(TabControlEx.NetworkButtonClickEvent, new RoutedEventHandler(NetworkButton_Click));
-            AddHandler(TabControlEx.SettingsButtonClickEvent, new RoutedEventHandler(SettingsButton_Click));
-
-            // Pass the necessary reference from this page to the Interpreter.
-            Interp = new Interpreter(App.Conveyor);
-
-            // Setup the handler so when it wants to write to the main window it can by raising the echo event.
-            Interp.Echo += this.InterpreterEcho;
-
-            // Setup the tick timer.
-            TickTimer = new TickTimer(App.Conveyor);
-
-            // TODO - Setting to disable and command to view these tasks.
-            // Setup the scheduled and batch tasks.
-            ScheduledTasks = new ScheduledTasks(this.Interp);
-            BatchTasks = new BatchTasks(this.Interp);
-
-            // Setup the auto complete commands.  If they're found refresh them, if they're not
-            // report it to the terminal window.  It should -always be found-.
-            RefreshAutoCompleteEntries();
-
-            // Update static variables from places that might be expensive to populate from (like Environment.Username).  Normally
-            // something like that isn't expensive but when run on variable replacement it can be more noticable.
-            Utilities.Utilities.UpdateCommonVariables();
-
-            // Load any plugin classes from the plugins folder.  They will be "activated" when a mud who matches
-            // the plugin IP is connected to.
-            LoadPlugins();
-
-            // Update any UI settings
-            UpdateUISettings();
-
-            // Auto connect to the game if the setting is set.
-            if (App.Settings.ProfileSettings.AutoConnect)
-            {
-                NetworkButton_Click(null, null);
-            }
-
-            // Is there an auto execute command or set of commands to run?
-            if (!string.IsNullOrWhiteSpace(App.Settings.ProfileSettings.AutoExecuteCommand))
-            {
-                Interp.Send(App.Settings.ProfileSettings.AutoExecuteCommand, true, false);
-            }
-
-            // Finally, all is done, set the focus to the command box.
-            TextInput.Focus();
         }
 
         /// <summary>
@@ -213,7 +238,11 @@ namespace Avalon
                 // Setup the database control.            
                 try
                 {
-                    App.Conveyor.EchoLog($"Initializing SQLite Database: {App.Settings.ProfileSettings.SqliteDatabase}", LogType.Information);
+                    if (App.Settings.AvalonSettings.DeveloperMode)
+                    {
+                        App.Conveyor.EchoLog($"Initializing SQLite Database: {App.Settings.ProfileSettings.SqliteDatabase}", LogType.Information);
+                    }
+
                     SqliteQueryControl.ConnectionString = $"Data Source={App.Settings.ProfileSettings.SqliteDatabase}";
                     await SqliteQueryControl.RefreshSchema();
                 }
@@ -270,7 +299,11 @@ namespace Avalon
                     }
 
                     App.Plugins.Add(pluginInstance);
-                    App.Conveyor.EchoLog($"   => Loaded For: {pluginInstance.IpAddress}", LogType.Success);
+
+                    if (App.Settings.AvalonSettings.DeveloperMode)
+                    {
+                        App.Conveyor.EchoLog($"   => Loaded For: {pluginInstance.IpAddress}", LogType.Success);
+                    }
                 }
             }
         }
@@ -812,6 +845,20 @@ namespace Avalon
         private void MenuItemSourceCode_Click(object sender, RoutedEventArgs e)
         {
             Utilities.Utilities.ShellLink("https://github.com/blakepell/AvalonMudClient");
+        }
+
+        /// <summary>
+        /// Shows the update client dialog.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void MenuItemUpdateClient_Click(object sender, RoutedEventArgs e)
+        {
+            var confirmDialog = new UpdateDialog()
+            {
+            };
+
+            var result = await confirmDialog.ShowAsync();
         }
     }
 }
