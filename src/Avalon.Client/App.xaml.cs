@@ -68,24 +68,32 @@ namespace Avalon
         /// <param name="e"></param>
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            // Setup the Conveyor for this instance of the mud client.  This can be passed to
-            // the business logic layer via because it inherits the IConveyor interface.
-            App.Conveyor = new Conveyor();
-
-            // First thing's first, setup the Settings.  This will at least initialize the client
-            // settings (and if a profile has previously been loaded it will load that profile).
-            App.Settings = new SettingsProvider(App.Conveyor);
-            
-            // We're going to try to load the wav file to play the ANSI beep when it's needed.
-            if (File.Exists(@"Media\alert.wav"))
+            try
             {
-                App.Beep = new SoundPlayer(@"Media\alert.wav");
-                App.Beep.Load();
-            }
+                // Setup the Conveyor for this instance of the mud client.  This can be passed to
+                // the business logic layer via because it inherits the IConveyor interface.
+                App.Conveyor = new Conveyor();
 
-            // Adds the string editor to all strings.. but based on convention (or attribute) we'll 
-            // determine which string editor opens.
-            TypeDescriptor.AddAttributes(typeof(string), new EditorAttribute(typeof(StringPropertyEditor), typeof(UITypeEditor)));
+                // First thing's first, setup the Settings.  This will at least initialize the client
+                // settings (and if a profile has previously been loaded it will load that profile).
+                App.Settings = new SettingsProvider(App.Conveyor);
+
+                // We're going to try to load the wav file to play the ANSI beep when it's needed.
+                if (File.Exists(@"Media\alert.wav"))
+                {
+                    App.Beep = new SoundPlayer(@"Media\alert.wav");
+                    App.Beep.Load();
+                }
+
+                // Adds the string editor to all strings.. but based on convention (or attribute) we'll 
+                // determine which string editor opens.
+                TypeDescriptor.AddAttributes(typeof(string), new EditorAttribute(typeof(StringPropertyEditor), typeof(UITypeEditor)));
+            }
+            catch (System.Exception ex)
+            {
+                // TODO - logging
+                MessageBox.Show($"A startup error occured: {ex.Message}");
+            }
         }
 
         /// <summary>
