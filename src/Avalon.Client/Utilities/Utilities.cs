@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Windows.Media;
 
@@ -161,6 +162,23 @@ namespace Avalon.Utilities
             {
                 Argus.Memory.StringBuilderPool.Return(sb);
             }            
+        }
+
+        /// <summary>
+        /// Try to cleanup all files in the update folder, not point in them hanging around.
+        /// </summary>
+        public static int CleanupUpdatesFolder()
+        {
+            var files = Directory.GetFiles(App.Settings.UpdateDirectory);
+            int count = 0;
+
+            foreach (string file in files)
+            {
+                count++;
+                File.Delete(file);
+            }
+
+            return count;
         }
 
         /// <summary>
