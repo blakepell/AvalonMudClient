@@ -148,7 +148,12 @@
                                 </MenuItem.Icon>
                             </MenuItem>
                             <Separator />
-                            <MenuItem Header="Update Client" Click="MenuItemUpdateClient_Click">
+                            <MenuItem Header="Update Client and Plugins" Click="MenuItemUpdateClient_Click">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon Symbol="Download"></ui:SymbolIcon>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Update Plugins Only" Click="MenuItemUpdatePlugins_Click">
                                 <MenuItem.Icon>
                                     <ui:SymbolIcon Symbol="Download"></ui:SymbolIcon>
                                 </MenuItem.Icon>

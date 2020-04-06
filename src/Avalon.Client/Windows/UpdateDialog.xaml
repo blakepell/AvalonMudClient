@@ -7,6 +7,8 @@
     PrimaryButtonText=""
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     CloseButtonText="Close"
+    SecondaryButtonText=""
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
     >
     <ui:ContentDialog.Title>
         <StackPanel Orientation="Horizontal">

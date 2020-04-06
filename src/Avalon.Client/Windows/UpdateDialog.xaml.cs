@@ -21,6 +21,8 @@ namespace Avalon
 
         public bool Progress { get; set; } = false;
 
+        public bool PluginsOnly { get; set; } = false;
+
         public UpdateDialog()
         {
             InitializeComponent();
@@ -31,7 +33,6 @@ namespace Avalon
             this.Closing += this.UpdateDialog_Closing;
 
             ProgressRingUpdate.IsActive = true;
-
             TextBlockInfo.Text = "Checking for update.";
 
             try
@@ -47,6 +48,14 @@ namespace Avalon
                 {
                     string json = await response.Content.ReadAsStringAsync();
                     this.Release = JsonConvert.DeserializeObject<Release>(json);
+
+                    if (this.PluginsOnly)
+                    {
+                        TextBlockInfo.Text = "Would you like to download the latest version of the plugins?";
+                        this.SecondaryButtonText = "Update Plugins";
+                        ProgressRingUpdate.IsActive = false;
+                        return;
+                    }
 
                     var updateVersion = new Version(this.Release.TagName);
                     var thisVersion = Assembly.GetExecutingAssembly().GetName().Version;
@@ -82,6 +91,12 @@ namespace Avalon
 
         }
 
+        /// <summary>
+        /// Prevents closing of the dialog which is the default action by a dialog when any of its stock buttons
+        /// are clicked, we will handle closing manually by calling this.Hide().
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void UpdateDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
         {
             if (ProgressRingUpdate.IsActive)
@@ -172,6 +187,7 @@ namespace Avalon
                     }
                 }
 
+                // Now, get the full installer.
                 using (var response = http.GetAsync(downloadUrl, HttpCompletionOption.ResponseHeadersRead).Result)
                 {
                     response.EnsureSuccessStatusCode();
@@ -237,5 +253,88 @@ namespace Avalon
             }
         }
 
+        /// <summary>
+        /// Force the updates of the plugins.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private async void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            try
+            {
+                ProgressRingUpdate.IsActive = true;
+
+                var plugins = new List<string>();
+
+                foreach (var asset in this.Release.Assets)
+                {
+                    if (asset.BrowserDownloadUrl.EndsWith(".dll"))
+                    {
+                        plugins.Add(asset.BrowserDownloadUrl);
+                    }
+
+                }
+
+                // The HttpClient is unique.. it implements IDisposable but DO NOT call Dispose.  It's meant to be used throughout
+                // the life of your application and will be re-used by the framework.  Odd but that's what it is.
+                var http = new HttpClient();
+
+                // Get any plugins first
+                foreach (string item in plugins)
+                {
+                    using (var response = http.GetAsync(item, HttpCompletionOption.ResponseHeadersRead).Result)
+                    {
+                        string pluginName = Argus.IO.FileSystemUtilities.ExtractFileName(item);
+                        string pluginSavePath = Path.Combine(App.Settings.UpdateDirectory, pluginName);
+
+                        response.EnsureSuccessStatusCode();
+
+                        using (Stream contentStream = await response.Content.ReadAsStreamAsync(), fileStream = new FileStream(pluginSavePath, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true))
+                        {
+                            var totalRead = 0L;
+                            var totalReads = 0L;
+                            var buffer = new byte[8192];
+                            var isMoreToRead = true;
+
+                            do
+                            {
+                                var read = await contentStream.ReadAsync(buffer, 0, buffer.Length);
+                                if (read == 0)
+                                {
+                                    isMoreToRead = false;
+                                }
+                                else
+                                {
+                                    await fileStream.WriteAsync(buffer, 0, read);
+
+                                    totalRead += read;
+                                    totalReads += 1;
+
+                                    if (totalReads % 2000 == 0)
+                                    {
+                                        TextBlockInfo.Text = string.Format("Total bytes downloaded for {0}: {1:n0}", pluginName, totalRead);
+                                    }
+                                }
+                            }
+                            while (isMoreToRead);
+                        }
+                    }
+                }
+
+                // Download complete!
+                TextBlockInfo.Text = "Download complete, you will need to close and restart the mud client.";
+                this.SecondaryButtonText = "";
+            }
+            catch (Exception ex)
+            {
+                this.Exception = ex;
+            }
+            finally
+            {
+                ProgressRingUpdate.IsActive = false;
+                this.Hide();
+            }
+
+        }
     }
 }

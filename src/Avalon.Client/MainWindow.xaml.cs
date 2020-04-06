@@ -878,9 +878,29 @@ namespace Avalon
         {
             var confirmDialog = new UpdateDialog()
             {
+                PluginsOnly = false
             };
 
             var result = await confirmDialog.ShowAsync();
         }
+
+        /// <summary>
+        /// Shows the update client dialog for only the plugins.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void MenuItemUpdatePlugins_Click(object sender, RoutedEventArgs e)
+        {
+            var confirmDialog = new UpdateDialog()
+            {
+                PluginsOnly = true
+            };
+
+            var result = await confirmDialog.ShowAsync();
+
+            this.Interp.Conveyor.EchoText("\r\n");
+            this.Interp.Conveyor.EchoLog("In order for the plugin updates to take affect you will need to close and then restart this application.", LogType.Warning);
+        }
+
     }
 }
