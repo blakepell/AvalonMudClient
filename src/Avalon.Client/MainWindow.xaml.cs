@@ -902,5 +902,35 @@ namespace Avalon
             this.Interp.Conveyor.EchoLog("In order for the plugin updates to take affect you will need to close and then restart this application.", LogType.Warning);
         }
 
+        /// <summary>
+        /// Event for when the window gets focus.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainWindow_Activated(object sender, EventArgs e)
+        {
+            try
+            {
+                // When the game tab gets the focus always put the focus into the input box.
+                if (TabGame.IsSelected && TextInput.Editor != null)
+                {
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        // In order to get the focus in this instance an UpdateLayout() call has to be called first.
+                        UpdateLayout();
+
+                        // When the app is first loaded the Editor was coming up null so we'll just check the nulls
+                        // and then default the caret position to 0 if that's the case.
+                        TextInput.Editor.CaretIndex = TextInput?.Editor?.Text?.Length ?? 0;
+                        TextInput.Editor.Focus();
+                    }));
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Interp.Conveyor.EchoLog("An error occured setting the focus on the input box when the window received focus.", LogType.Error);
+                this.Interp.Conveyor.EchoLog(ex.Message, LogType.Error);
+            }
+        }
     }
 }

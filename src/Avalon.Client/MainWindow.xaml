@@ -18,6 +18,7 @@
         Initialized="MainWindow_OnInitialized" 
         UseLayoutRounding="True" SnapsToDevicePixels="True" RenderOptions.EdgeMode="Aliased"
         PreviewKeyDown="MainWindow_OnPreviewKeyDown"
+        Activated="MainWindow_Activated"
         >
     <Window.Resources>
         <providers:AutoCompleteCommandProvider x:Key="AutoCompleteCommandProvider"/>
