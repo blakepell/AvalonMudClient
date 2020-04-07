@@ -178,7 +178,7 @@ namespace Avalon.Utilities
             {
                 if (file.StartsWith("Avalon.Plugin") && file.EndsWith(".dll"))
                 {
-                    string outputFile = Path.Combine(App.Settings.UpdateDirectory, Argus.IO.FileSystemUtilities.ExtractFileName(file));
+                    string outputFile = Path.Combine(App.Settings.PluginDirectory, Argus.IO.FileSystemUtilities.ExtractFileName(file));
                     File.Copy(file, outputFile, true);
                 }
 
