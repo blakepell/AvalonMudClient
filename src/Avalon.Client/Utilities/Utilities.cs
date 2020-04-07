@@ -176,13 +176,14 @@ namespace Avalon.Utilities
             // First, move any plugin DLL's
             foreach (string file in files)
             {
-                if (file.StartsWith("Avalon.Plugin") && file.EndsWith(".dll"))
-                {
-                    string outputFile = Path.Combine(App.Settings.PluginDirectory, Argus.IO.FileSystemUtilities.ExtractFileName(file));
-                    File.Copy(file, outputFile, true);
-                }
+                string pluginFileName = Argus.IO.FileSystemUtilities.ExtractFileName(file);
 
-                count++;
+                if (pluginFileName.StartsWith("Avalon.Plugin", StringComparison.OrdinalIgnoreCase) && pluginFileName.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
+                {
+                    string outputFile = Path.Combine(App.Settings.PluginDirectory, pluginFileName);
+                    File.Copy(file, outputFile, true);
+                    count++;
+                }
             }
 
             return count;
@@ -198,8 +199,8 @@ namespace Avalon.Utilities
 
             foreach (string file in files)
             {
-                count++;
                 File.Delete(file);
+                count++;
             }
 
             return count;
