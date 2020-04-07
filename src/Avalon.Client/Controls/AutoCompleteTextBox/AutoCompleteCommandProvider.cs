@@ -45,6 +45,15 @@ namespace Avalon.Controls.AutoCompleteTextBox
                 cmd.Command = $"#a {item}";
                 Items.Add(cmd);
             }
+
+            // Add the available hash commands into the auto complete box.
+            foreach (var hashCmd in App.MainWindow.Interp.HashCommands)
+            {
+                var cmd = new AutoCompleteCommand();
+                cmd.Command = hashCmd.Name;
+                Items.Add(cmd);
+            }
+
         }
 
         public IEnumerable GetSuggestions(string filter)
