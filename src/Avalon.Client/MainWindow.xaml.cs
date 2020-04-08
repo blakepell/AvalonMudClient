@@ -932,5 +932,26 @@ namespace Avalon
                 this.Interp.Conveyor.EchoLog(ex.Message, LogType.Error);
             }
         }
+
+        /// <summary>
+        /// Shows the regular expression test window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemRegexTester_Click(object sender, RoutedEventArgs e)
+        {
+            // Set the initial text for the editor.
+            var win = new RegexTestWindow();
+
+            // Startup position of the dialog should be in the center of the parent window.  The
+            // owner has to be set for this to work.
+            win.Owner = App.MainWindow;
+            win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            win.CancelButtonText = "Close";
+            win.SaveButtonVisible = false;
+
+            // Show the Lua dialog.
+            win.ShowDialog();
+        }
     }
 }

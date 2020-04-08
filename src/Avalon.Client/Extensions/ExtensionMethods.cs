@@ -3,6 +3,11 @@ using System;
 using Avalon.Colors;
 using Avalon.Common.Models;
 using Argus.Extensions;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows;
+using System.Text.RegularExpressions;
+using System.Windows.Media;
 
 namespace Avalon.Extensions
 {
@@ -93,6 +98,145 @@ namespace Avalon.Extensions
             // No instances of the value were found where notValue wasn't found at the same
             // position.  Return -1;
             return -1;
+        }
+
+        /// <summary>
+        /// Returns the Text from the RichTextBox.
+        /// </summary>
+        /// <param name="rtb"></param>
+        public static string Text(this RichTextBox rtb)
+        {
+            var textRange = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
+            return textRange?.Text ?? "";
+        }
+
+        /// <summary>
+        /// Clears all properties/formatting in the RichTextBox.
+        /// </summary>
+        /// <param name="rtb"></param>
+        public static void ClearAllProperties(this RichTextBox rtb)
+        {           
+            var tr = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);            
+            tr?.ClearAllProperties();
+        }
+
+        /// <summary>
+        /// Clears only the backgrounds.
+        /// </summary>
+        /// <param name="rtb"></param>
+        public static void ClearAllBackgrounds(this RichTextBox rtb)
+        {
+            var tr = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
+            tr?.ApplyPropertyValue(TextElement.BackgroundProperty, null);
+        }
+
+        /// <summary>
+        /// This method highlights a word with a given color in a RichTextBox.  This clears all
+        /// formatting
+        /// </summary>
+        /// <param name="rtb">RichTextBox Control</param>
+        /// <param name="word">The word which you need to highlighted</param>
+        /// <param name="color">The color with which you highlight</param>
+        public static void HighlightWord(this RichTextBox rtb, string word, SolidColorBrush color)
+        {
+            // Current word at the pointer
+            rtb.ClearAllBackgrounds();
+
+            var tr = rtb.Document.ContentStart.FindText(word);
+
+            if (tr == null)
+            {
+                return;
+            }
+
+            tr.ApplyPropertyValue(TextElement.BackgroundProperty, color);
+        }
+
+        /// <summary>
+        /// Finds the first TextRange with the matching text starting at the position provided.
+        /// </summary>
+        /// <param name="rtb"></param>
+        /// <param name="word"></param>
+        /// <param name="startingPosition"></param>
+        public static TextRange FindText(this RichTextBox rtb, string word, int startingPosition = 0)
+        {
+            return FindText(rtb.Document.ContentStart, word);
+        }
+
+        /// <summary>
+        /// Finds the first TextRange with the matching text starting at the position provided.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="word"></param>
+        /// <param name="startingPosition"></param>
+        public static TextRange FindText(this TextPointer position, string word, int startingPosition = 0)
+        {
+            while (position != null)
+            {
+                if (position.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.Text)
+                {
+                    string textRun = position.GetTextInRun(LogicalDirection.Forward);
+
+                    // Find the starting index of any substring that matches "word".
+                    int indexInRun = textRun.IndexOf(word, startingPosition);
+
+                    if (indexInRun >= 0)
+                    {
+                        var start = position.GetPositionAtOffset(indexInRun);
+                        var end = start.GetPositionAtOffset(word.Length);
+                        return new TextRange(start, end);
+                    }
+                }
+
+                position = position.GetNextContextPosition(LogicalDirection.Forward);
+            }
+
+            // Position will be null if "word" is not found.
+            return null;
+        }
+
+        /// <summary>
+        /// Clears the selection in the RichTextBox leaving the cursor position where it was.
+        /// </summary>
+        /// <param name="rtb"></param>
+        public static void SelectClear(this RichTextBox rtb)
+        {
+            rtb.Selection.Select(rtb.CaretPosition, rtb.CaretPosition);
+        }
+
+        /// <summary>
+        /// Clears the selection in the RichTextBox leaving the cursor position where it was.
+        /// </summary>
+        /// <param name="rtb"></param>
+        /// <param name="text"></param>
+        /// <param name="startIndex"></param>
+        /// <param name="setFocus"></param>
+        public static int SelectFind(this RichTextBox rtb, string text, int startIndex = 0, bool setFocus = false)
+        {
+            var textRange = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
+
+            // Clear previous selection if there was one.
+            rtb.Selection.Select(textRange.Start, textRange.Start);
+            
+            textRange.ClearAllProperties();
+            
+            var index = textRange.Text.IndexOf(text, startIndex, StringComparison.OrdinalIgnoreCase);
+            if (index > -1)
+            {
+                var textPointerStart = textRange.Start.GetPositionAtOffset(index);
+                var textPointerEnd = textRange.Start.GetPositionAtOffset(index + text.Length);
+
+                var textRangeSelection = new TextRange(textPointerStart, textPointerEnd);
+                textRangeSelection.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
+                rtb.Selection.Select(textRangeSelection.Start, textRangeSelection.End);
+
+                if (setFocus)
+                {
+                    rtb.Focus();
+                }
+            }
+
+            return index;
         }
 
     }

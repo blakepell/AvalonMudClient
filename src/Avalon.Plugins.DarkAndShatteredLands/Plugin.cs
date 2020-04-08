@@ -33,12 +33,12 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             }
 
             // IC Channels: Clan gossip, clan, gossip, ask, answer, kingdom, group tells, tells, auction, pray, grats, quest (quote at the end)
-            this.Triggers.Add(new Trigger(@"^[\a]?([\w'-]+|The ghost of [\w'-]+|\(An Imm\)|\(Imm\) [\w'-]+|\(Wizi@\d\d\) \(Imm\) [\w'-]+) (clan gossip|clan|gossip|ask|answer|tell|auction|Bloodbath|pray|grats|quest|radio|imm).*'$", "", "", true, "8b0bc970-08de-498e-9866-8e1aec458c08", TerminalTarget.Communication, true));
-            this.Triggers.Add(new Trigger(@"^([\w'-]+)?(\s+)?Kingdom: .*$", "", "", true, "1dcf2580-da86-45b5-880f-36f9468891c1", TerminalTarget.Communication, true));
+            this.Triggers.Add(new Trigger(@"^[\a]?(\[ .* \] )?([\w'-]+|The ghost of [\w'-]+|\(An Imm\)|\(Imm\) [\w'-]+|\(Wizi@\d\d\) \(Imm\) [\w'-]+) (clan gossip|clan|gossip|ask|answer|tell|auction|Bloodbath|pray|grats|quest|radio|imm).*'$", "", "", true, "8b0bc970-08de-498e-9866-8e1aec458c08", TerminalTarget.Communication, true));            
+            this.Triggers.Add(new Trigger(@"^(?!.*OOC).*Kingdom: .*$", "", "", true, "1dcf2580-da86-45b5-880f-36f9468891c1", TerminalTarget.Communication, true));
             this.Triggers.Add(new Trigger(@"\((Admin|Coder)\) \(Imm\) [\w'-]+:", "", "", true, "b5c8f16b-31d1-48e9-a895-fda1be732051", TerminalTarget.Communication, true));
 
             // OOC Channels: OOC, OOC Clan, OOC Kingdom, Newbie
-            this.Triggers.Add(new Trigger(@"^([\w'-]+|The ghost of [\w'-]+|\(An Imm\)|\(Imm\) [\w'-]+) (OOC|\[Newbie\]).*$", "", "", true, "4c7efde0-6f9a-4429-8b5c-edf23e60e61f", TerminalTarget.OutOfCharacterCommunication, true));
+            this.Triggers.Add(new Trigger(@"^(\(.*\)?)?([\w'-]+|The ghost of [\w'-]+|\(An Imm\)|\(Imm\) [\w'-]+) (OOC|\[Newbie\]).*$", "", "", true, "4c7efde0-6f9a-4429-8b5c-edf23e60e61f", TerminalTarget.OutOfCharacterCommunication, true));
 
             // Shared channels (Shalonesti, Conclave)
             this.Triggers.Add(new Trigger(@"^\((Shalonesti|OOC Shalonesti|Clave|OOC Clave)\).*$", "", "", true, "bd8f5ed0-3122-4091-bb23-db2f589e7cf0", TerminalTarget.Communication, true));

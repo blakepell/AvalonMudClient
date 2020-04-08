@@ -120,6 +120,12 @@
                                     </MenuItem.Icon>
                                 </MenuItem>
                             <Separator />
+                            <MenuItem Header="Regular Expression Tester" Click="MenuItemRegexTester_Click">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon Symbol="Accept" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator />
                             <MenuItem Header="_Settings" Click="MenuItemSettings_OnClick">
                                 <MenuItem.Icon>
                                     <ui:SymbolIcon Symbol="Setting" />
