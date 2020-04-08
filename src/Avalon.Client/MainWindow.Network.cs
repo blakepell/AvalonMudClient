@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Media;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using Avalon.Colors;
 using Avalon.Common.Colors;
@@ -53,6 +55,24 @@ namespace Avalon
             Interp.Connect(HandleLineReceived, this.HandleDataReceived, HandleConnectionClosed);
             TabMain.IsConnected = true;
             TextInput.Focus();
+
+            // If a command has been defined to send after connect then check it and fire it off here.
+            if (!string.IsNullOrWhiteSpace(App.Settings.ProfileSettings.OnConnect))
+            {
+                var source = new CancellationTokenSource();
+
+                var t = Task.Run(async delegate
+                {
+                    await Task.Delay(TimeSpan.FromMilliseconds(App.Settings.ProfileSettings.OnConnectDelayMilliseconds), source.Token);
+
+                    Application.Current.Dispatcher.Invoke(new Action(async () =>
+                    {
+                        await Interp.Send(App.Settings.ProfileSettings.OnConnect);
+                    }));
+
+                    return;
+                });
+            }
         }
 
         /// <summary>

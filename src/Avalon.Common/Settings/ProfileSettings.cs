@@ -35,6 +35,16 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public bool AutoConnect { get; set; } = true;
 
+        [CategoryAttribute("Network")]
+        [DescriptionAttribute("A command or set of commands that will execute when the network connection is first established.")]
+        [Browsable(true)]
+        public string OnConnect { get; set; } = "";
+
+        [CategoryAttribute("Network")]
+        [DescriptionAttribute("The number of milliseconds to wait after a connect attempt to send the OnConnect commands if they exist.  1 second = 1000 milliseconds.")]
+        [Browsable(true)]
+        public int OnConnectDelayMilliseconds { get; set; } = 1000;
+
         private bool _aliasesEnabled = true;
 
         [Browsable(false)]
