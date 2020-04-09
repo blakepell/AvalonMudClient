@@ -10,6 +10,11 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Avalon.Common", "src\Avalon.Common\Avalon.Common.csproj", "{429FA27B-37A1-4051-A162-B9CA22CCE078}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CD384D4B-FDCF-4004-A337-CC256AE76B04}"
+	ProjectSection(SolutionItems) = preProject
+		build\Publish.ps1 = build\Publish.ps1
+		build\x64Installer.iss = build\x64Installer.iss
+		build\x86Installer.iss = build\x86Installer.iss
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Avalon.Plugins.DarkAndShatteredLands", "src\Avalon.Plugins.DarkAndShatteredLands\Avalon.Plugins.DarkAndShatteredLands.csproj", "{BDD6640F-176C-47B7-835D-2AB6B3EDA1CE}"
 EndProject
