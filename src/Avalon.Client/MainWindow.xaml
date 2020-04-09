@@ -113,6 +113,8 @@
                                     <ui:SymbolIcon Symbol="Send" />
                                 </MenuItem.Icon>
                             </MenuItem>
+                            <MenuItem Header="Simulate Incoming Text" Click="MenuItemSimulateIncomingTextAsync_Click">
+                            </MenuItem>
                             <Separator />
                                 <MenuItem Header="_Edit Global Lua File" Click="MenuItemEditGlobalLuaFile_Click">
                                     <MenuItem.Icon>

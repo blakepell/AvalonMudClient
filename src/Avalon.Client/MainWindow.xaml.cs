@@ -800,6 +800,44 @@ namespace Avalon
         }
 
         /// <summary>
+        /// Simulates text as if it were sent by the game.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void MenuItemSimulateIncomingTextAsync_Click(object sender, RoutedEventArgs e)
+        {
+            // Set the initial text for the editor.
+            var win = new StringEditor();
+
+            // Startup position of the dialog should be in the center of the parent window.  The
+            // owner has to be set for this to work.
+            win.Owner = App.MainWindow;
+            win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            win.Title = "Simulate Incoming Text";
+            win.ActionButtonText = "Simulate";
+            win.StatusText = "Although a simulation of incoming text, triggers and aliases will actually fire.";
+
+            // Show the Lua dialog.
+            var result = win.ShowDialog();
+
+            // If the result
+            if (result != null && result.Value)
+            {
+                var lines = win.Text.Split(Environment.NewLine);
+
+                foreach (string line in lines)
+                {
+                    // Like it really came in, send it to the places it should go to display
+                    // it and then process it.
+                    HandleDataReceived(sender, $"{line}\r\n");
+                    HandleLineReceived(sender, line.Trim());
+                    await Task.Delay(50);
+                }
+            }
+
+        }
+
+        /// <summary>
         /// Edits the global Lua file that is loaded into all Lua scripts to allow for shared
         /// Lua logic between all Lua instances.
         /// </summary>
@@ -953,5 +991,6 @@ namespace Avalon
             // Show the Lua dialog.
             win.ShowDialog();
         }
+
     }
 }
