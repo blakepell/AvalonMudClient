@@ -92,6 +92,16 @@ namespace Avalon
         }
 
         /// <summary>
+        /// Fires when the Window is loaded.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StringEditorWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            AvalonLuaEditor.Focus();
+        }
+
+        /// <summary>
         /// Code that is executed for the Cancel button.
         /// </summary>
         /// <param name="sender"></param>

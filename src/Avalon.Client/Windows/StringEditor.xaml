@@ -10,6 +10,7 @@
         x:Name="StringEditorWindow" TextOptions.TextFormattingMode="Ideal"
         ui:TitleBar.Background="#2D2D30" Background="#2D2D30" BorderBrush="#007ACC"
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+        Loaded="StringEditorWindow_Loaded"
         Title="Editor" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
