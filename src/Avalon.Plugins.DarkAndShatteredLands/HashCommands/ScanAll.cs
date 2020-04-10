@@ -1,7 +1,8 @@
 ﻿using Argus.Extensions;
 using Avalon.Common.Interfaces;
+using Avalon.HashCommands;
 
-namespace Avalon.HashCommands
+namespace Avalon.Plugins.DarkAndShatteredLands.HashCommands
 {
 
     /// <summary>
@@ -11,6 +12,11 @@ namespace Avalon.HashCommands
     {
         public ScanAll(IInterpreter interp) : base (interp)
         {
+        }
+
+        public ScanAll()
+        {
+
         }
 
         public override string Name { get; } = "#scan-all";

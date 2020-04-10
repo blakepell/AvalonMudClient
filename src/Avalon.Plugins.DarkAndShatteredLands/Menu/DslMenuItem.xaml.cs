@@ -13,6 +13,22 @@ namespace Avalon.Plugins.DarkAndShatteredLands
     {
 
         /// <summary>
+        /// Gets a casted copy of the interpreter
+        /// </summary>
+        /// <returns></returns>
+        private IInterpreter GetInterpreter()
+        {
+            try
+            {
+                return (IInterpreter)((MenuItem)this["PluginMenu"]).Tag;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Opens the DSL website.
         /// </summary>
         /// <param name="sender"></param>
@@ -69,16 +85,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands
         /// <param name="e"></param>
         private async void MenuItemUpdateDslPackageAsync_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            IInterpreter interp;
-
-            try
-            {
-                interp = (IInterpreter)((MenuItem)this["PluginMenu"]).Tag;
-            }
-            catch (Exception ex)
-            {
-                return;
-            }
+            var interp = GetInterpreter();
 
             if (interp == null)
             {
@@ -107,5 +114,45 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             }
         }
 
+        /// <summary>
+        /// Checks the status of a con card.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void MenuItemCheckConCard_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var interp = GetInterpreter();
+
+            if (interp == null)
+            {
+                return;
+            }
+
+            string value = await interp.Conveyor.InputBox("What is the con card code you would like to check the status of?", "Check Con Card");
+
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return;
+            }
+
+            await interp.Send($"#con-card {value}");
+        }
+
+        /// <summary>
+        /// Show who is online according to the web-site.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void MenuItemPlayersOnline_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var interp = GetInterpreter();
+
+            if (interp == null)
+            {
+                return;
+            }
+
+            await interp.Send($"#online");
+        }
     }
 }
