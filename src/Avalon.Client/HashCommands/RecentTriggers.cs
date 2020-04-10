@@ -30,7 +30,7 @@ namespace Avalon.HashCommands
 
             foreach (var trigger in list)
             {
-                this.Interpreter.EchoText($"{trigger.LastMatched}: {trigger.Pattern}", new Cyan());
+                this.Interpreter.EchoText($"{trigger.LastMatched}: {trigger.Pattern}", AnsiColors.Cyan);
             }
         }
 
