@@ -8,6 +8,7 @@ using System.Windows;
 using Avalon.Common.Colors;
 using Avalon.Extensions;
 using Avalon.Common.Models;
+using System.Threading.Tasks;
 
 namespace Avalon
 {
@@ -396,6 +397,25 @@ namespace Avalon
         public void ImportPackageFromJson(string json)
         {
             App.Settings.ImportPackageFromJson(json);
+        }
+
+        /// <summary>
+        /// Prompts the user with an input box and returns the string content.
+        /// </summary>
+        /// <param name="caption"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        public async Task<string> InputBox(string caption, string title)
+        {
+            var win = new InputBoxDialog
+            {
+                Title = title,
+                Caption = caption
+            };
+
+            var result = await win.ShowAsync();
+
+            return win.Text;
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Threading.Tasks;
 using Avalon.Common.Colors;
 using Avalon.Common.Models;
 using Avalon.Common.Settings;
@@ -45,6 +46,8 @@ namespace Avalon.Common.Interfaces
         bool EnableGroup(string groupName);
 
         bool DisableGroup(string groupName);
+
+        Task<string> InputBox(string caption, string title);
 
         void ImportPackageFromJson(string json);
 
