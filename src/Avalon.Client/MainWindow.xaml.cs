@@ -238,7 +238,6 @@ namespace Avalon
                 App.Conveyor.EchoText(ex?.StackTrace?.ToString() ?? "No stack trace available.");
                 return;
             }
-
         }
 
         /// <summary>
@@ -992,5 +991,17 @@ namespace Avalon
             win.ShowDialog();
         }
 
+        /// <summary>
+        /// Resets the layout to the default.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemResetLayout_Click(object sender, RoutedEventArgs e)
+        {
+            Row2.Height = new GridLength(3.0, GridUnitType.Star);
+            Row3.Height = new GridLength(7.0, GridUnitType.Star);
+            Col1.Width = new GridLength(55.0, GridUnitType.Star);
+            Col2.Width = new GridLength(45.0, GridUnitType.Star);
+        }
     }
 }

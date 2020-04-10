@@ -49,14 +49,14 @@
                 <Grid Margin="-3">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="30*"></RowDefinition>
-                        <RowDefinition Height="70*"></RowDefinition>
+                        <RowDefinition Height="30*" x:Name="Row2"></RowDefinition>
+                        <RowDefinition Height="70*" x:Name="Row3"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="55*"></ColumnDefinition>
-                        <ColumnDefinition Width="45*"></ColumnDefinition>
+                        <ColumnDefinition Width="55*" x:Name="Col1"></ColumnDefinition>
+                        <ColumnDefinition Width="45*" x:Name="Col2"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                    
                     <Menu x:Name="MenuGame" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="0,0,0,1" Background="#171717">
@@ -106,6 +106,13 @@
                             <Separator />
                             <MenuItem Header="Exit Without Save" x:Name="ButtonExitWithoutSave" Click="ButtonExitWithoutSave_OnClickAsync" />
                             <MenuItem Header="E_xit" x:Name="ButtonExit" Click="ButtonExit_OnClick" />
+                        </MenuItem>
+                        <MenuItem Header="_View">
+                            <MenuItem Header="Reset Layout" Click="MenuItemResetLayout_Click">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon Symbol="Undo" />
+                                </MenuItem.Icon>
+                            </MenuItem>                            
                         </MenuItem>
                         <MenuItem Header="_Tools">
                             <MenuItem Header="Send _Text to Game" Click="MenuItemSendTextToGameAsync_Click">
