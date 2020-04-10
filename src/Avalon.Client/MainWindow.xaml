@@ -192,7 +192,8 @@
                             FontFamily="Consolas" IsReadOnly="True"
                             Padding="10,0,20,0"
                             Background="Black" Foreground="LightGray"
-                            FontSize="13" BorderBrush="White"                                                 
+                            FontSize="13" BorderBrush="White"                                                                                                  
+                            ScrollViewer.PanningMode="VerticalOnly"                                                 
                             ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
                             KeyDown="Terminal_OnKeyDown"
                             PreviewKeyDown="GameTerminal_PreviewKeyDown">
