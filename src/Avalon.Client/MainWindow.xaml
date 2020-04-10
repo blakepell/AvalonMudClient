@@ -58,7 +58,7 @@
                         <ColumnDefinition Width="55*"></ColumnDefinition>
                         <ColumnDefinition Width="45*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-
+                   
                     <Menu x:Name="MenuGame" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="0,0,0,1" Background="#171717">
                         <MenuItem Header="_File">
                             <MenuItem Header="Create Package" Click="MenuItemCreatePackage_Click">
@@ -249,6 +249,22 @@
                             <TextBlock Text="Loading..." Margin="5" FontSize="14" />
                         </editors:AutoCompleteTextBox.LoadingContent>-->
                     </editors:AutoCompleteTextBox>
+
+                    <!-- Vertical Splitter -->
+                    <GridSplitter Grid.Column="0" Grid.Row="1" Grid.RowSpan="2"
+                                  HorizontalAlignment="Right" VerticalAlignment="Stretch"
+                                  Background="Transparent" 
+                                  ShowsPreview="True"
+                                  Width="3" />
+
+                    <!-- Horizontal Splitter -->
+                    <GridSplitter Grid.Row="1" Grid.Column="1"
+                                  ResizeDirection="Rows"
+                                  HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+                                  Background="Transparent" 
+                                  ShowsPreview="True"
+                                  Height="3" />
+
                 </Grid>
             </controls:TabItemEx>
             <controls:TabItemEx x:Name="TabAliases"  Header="Aliases" Icon="Shuffle" ui:ControlHelper.CornerRadius="0">
