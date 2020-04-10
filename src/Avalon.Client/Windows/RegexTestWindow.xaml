@@ -21,35 +21,35 @@
         <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0" Margin="10,5,0,0">
             <DockPanel LastChildFill="True" Margin="5">
                 <Label VerticalAlignment="Center" Margin="0,0,10,0" Width="100">Regex Pattern:</Label>
-                <TextBox x:Name="TextBoxRegexPattern" TextChanged="TextBox_TextChanged" AcceptsReturn="False"></TextBox>
+                <TextBox x:Name="TextBoxRegexPattern" TextChanged="TextBox_TextChanged" AcceptsReturn="False" ui:ControlHelper.CornerRadius="0"></TextBox>
             </DockPanel>
             <DockPanel LastChildFill="True" Margin="5">
                 <Label VerticalAlignment="Center" Margin="0,0,10,0" Width="100">Test Text 1:</Label>
-                <RichTextBox x:Name="TextBoxTest1" TextChanged="TextBox_TextChanged" AcceptsReturn="False"></RichTextBox>
+                <RichTextBox x:Name="TextBoxTest1" TextChanged="TextBox_TextChanged" AcceptsReturn="False" ui:ControlHelper.CornerRadius="0"></RichTextBox>
             </DockPanel>
             <DockPanel LastChildFill="True" Margin="5">
                 <Label VerticalAlignment="Center" Margin="0,0,10,0" Width="100">Test Text 2:</Label>
-                <RichTextBox x:Name="TextBoxTest2" TextChanged="TextBox_TextChanged" AcceptsReturn="False"></RichTextBox>
+                <RichTextBox x:Name="TextBoxTest2" TextChanged="TextBox_TextChanged" AcceptsReturn="False" ui:ControlHelper.CornerRadius="0"></RichTextBox>
             </DockPanel>
             <DockPanel LastChildFill="True" Margin="5">
                 <Label VerticalAlignment="Center" Margin="0,0,10,0" Width="100">Test Text 3:</Label>
-                <RichTextBox x:Name="TextBoxTest3" TextChanged="TextBox_TextChanged" AcceptsReturn="False"></RichTextBox>
+                <RichTextBox x:Name="TextBoxTest3" TextChanged="TextBox_TextChanged" AcceptsReturn="False" ui:ControlHelper.CornerRadius="0"></RichTextBox>
             </DockPanel>
             <DockPanel LastChildFill="True" Margin="5">
                 <Label VerticalAlignment="Center" Margin="0,0,10,0" Width="100">Test Text 4:</Label>
-                <RichTextBox x:Name="TextBoxTest4" TextChanged="TextBox_TextChanged" AcceptsReturn="False"></RichTextBox>
+                <RichTextBox x:Name="TextBoxTest4" TextChanged="TextBox_TextChanged" AcceptsReturn="False" ui:ControlHelper.CornerRadius="0"></RichTextBox>
             </DockPanel>
             <DockPanel LastChildFill="True" Margin="5">
                 <Label VerticalAlignment="Center" Margin="0,0,10,0" Width="100">Test Text 5:</Label>
-                <RichTextBox x:Name="TextBoxTest5" TextChanged="TextBox_TextChanged" AcceptsReturn="False"></RichTextBox>
+                <RichTextBox x:Name="TextBoxTest5" TextChanged="TextBox_TextChanged" AcceptsReturn="False" ui:ControlHelper.CornerRadius="0"></RichTextBox>
             </DockPanel>
             <DockPanel LastChildFill="True" Margin="5">
                 <Label VerticalAlignment="Center" Margin="0,0,10,0" Width="100">Test Text 6:</Label>
-                <RichTextBox x:Name="TextBoxTest6" TextChanged="TextBox_TextChanged" AcceptsReturn="False"></RichTextBox>
+                <RichTextBox x:Name="TextBoxTest6" TextChanged="TextBox_TextChanged" AcceptsReturn="False" ui:ControlHelper.CornerRadius="0"></RichTextBox>
             </DockPanel>
             <DockPanel LastChildFill="True" Margin="5">
                 <Label VerticalAlignment="Center" Margin="0,0,10,0" Width="100">Test Text 7:</Label>
-                <RichTextBox x:Name="TextBoxTest7" TextChanged="TextBox_TextChanged" AcceptsReturn="False"></RichTextBox>
+                <RichTextBox x:Name="TextBoxTest7" TextChanged="TextBox_TextChanged" AcceptsReturn="False" ui:ControlHelper.CornerRadius="0"></RichTextBox>
             </DockPanel>
         </StackPanel>
 
