@@ -245,9 +245,6 @@
                             <Binding Path="SelectedCommand" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="False">
                             </Binding>
                         </editors:AutoCompleteTextBox.SelectedItem>
-                        <!--<editors:AutoCompleteTextBox.LoadingContent>
-                            <TextBlock Text="Loading..." Margin="5" FontSize="14" />
-                        </editors:AutoCompleteTextBox.LoadingContent>-->
                     </editors:AutoCompleteTextBox>
 
                     <!-- Vertical Splitter -->
