@@ -2,7 +2,6 @@
 using Avalon.Common.Settings;
 using Avalon.Controls;
 using Avalon.Controls.AutoCompleteTextBox;
-using Avalon.Lua;
 using Avalon.Timers;
 using MoonSharp.Interpreter;
 using System;
@@ -17,7 +16,6 @@ using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
 using Avalon.Common.Plugins;
 using ModernWpf.Controls;
-using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Windows.Media;
 
@@ -438,7 +436,6 @@ namespace Avalon
             this.GameTerminal.FontFamily = font;
             this.OocCommunicationTerminal.FontFamily = font;
             this.CommunicationTerminal.FontFamily = font;
-
 
             this.SpellCheckEnabled = App.Settings.ProfileSettings.SpellChecking;
         }
@@ -998,10 +995,14 @@ namespace Avalon
         /// <param name="e"></param>
         private void MenuItemResetLayout_Click(object sender, RoutedEventArgs e)
         {
+            Row1.Height = new GridLength(0, GridUnitType.Auto);
             Row2.Height = new GridLength(3.0, GridUnitType.Star);
             Row3.Height = new GridLength(7.0, GridUnitType.Star);
+            Row4.Height = new GridLength(1.0, GridUnitType.Auto);
+            Row5.Height = new GridLength(1.0, GridUnitType.Auto);
             Col1.Width = new GridLength(55.0, GridUnitType.Star);
             Col2.Width = new GridLength(45.0, GridUnitType.Star);
         }
+
     }
 }

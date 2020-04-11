@@ -46,13 +46,13 @@
                 </ResourceDictionary>
             </TabControl.Resources>
             <controls:TabItemEx x:Name="TabGame" Header="Game" Icon="Home" ui:ControlHelper.CornerRadius="0">
-                <Grid Margin="-3">
+                <Grid x:Name="GridGame" Margin="-3">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto" x:Name="Row1"></RowDefinition>
                         <RowDefinition Height="30*" x:Name="Row2"></RowDefinition>
                         <RowDefinition Height="70*" x:Name="Row3"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto" x:Name="Row4"></RowDefinition>
+                        <RowDefinition Height="Auto" x:Name="Row5"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="55*" x:Name="Col1"></ColumnDefinition>
