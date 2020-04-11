@@ -1,6 +1,8 @@
+using Avalon.Extensions;
 using System;
 using System.Collections;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -227,6 +229,15 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
         #endregion
 
         #region "Methods"
+
+        /// <summary>
+        /// Pulses the input text box a color.
+        /// </summary>
+        /// <param name="durationMilliseconds"></param>
+        public async void Pulse(Color color, int durationMilliseconds = 1000)
+        {
+            await Editor.Pulse(BackgroundProperty, color, durationMilliseconds);
+        }
 
         public static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

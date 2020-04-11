@@ -52,6 +52,7 @@ Hash commands that reside in the main project will be general purpose.  Plugins 
 |#lua|Executes Lua asynchronously.|
 |#lua-sync|Executes Lua synchronously.|
 |#macro|Will execute a macro.|
+|#pulse|Pulses the input text box a color like a heart beat.|
 |#recent-triggers|Will show you the recent triggers that have fired and the date/time they fired on.|
 |#repeat|Will repeat a command 'n' number of times.|
 |#save|Saves your profile.|
