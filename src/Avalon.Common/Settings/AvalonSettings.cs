@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using Avalon.Common.Models;
 using Newtonsoft.Json;
 
 namespace Avalon.Common.Settings
@@ -40,6 +42,12 @@ namespace Avalon.Common.Settings
         /// </summary>
         [Browsable(true)]
         public WindowPosition LastWindowPosition { get; set; } = new WindowPosition();
+
+        /// <summary>
+        /// Serialized state of the grid rows.
+        /// </summary>
+        [Browsable(false)]
+        public List<GridLengthState> GameGridState = new List<GridLengthState>();
 
         /// <summary>
         /// Whether the back buffer terminal should be populated when data arrives.  This also determines whether PageUp() and PageDown() triggers

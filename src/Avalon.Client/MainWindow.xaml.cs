@@ -438,6 +438,9 @@ namespace Avalon
             this.CommunicationTerminal.FontFamily = font;
 
             this.SpellCheckEnabled = App.Settings.ProfileSettings.SpellChecking;
+
+            // Grid Layout
+            LoadGridState();
         }
 
         /// <summary>
@@ -556,6 +559,7 @@ namespace Avalon
         {
             try
             {
+                App.MainWindow.SaveGridState();
                 App.Settings.SaveSettings();
                 App.Conveyor.EchoLog($"Settings Saved", LogType.Success);
             }
@@ -995,6 +999,15 @@ namespace Avalon
         /// <param name="e"></param>
         private void MenuItemResetLayout_Click(object sender, RoutedEventArgs e)
         {
+            ResetGridState();
+            SaveGridState();
+        }
+
+        /// <summary>
+        /// Resets the grid state to the default.
+        /// </summary>
+        public void ResetGridState()
+        {
             Row1.Height = new GridLength(0, GridUnitType.Auto);
             Row2.Height = new GridLength(3.0, GridUnitType.Star);
             Row3.Height = new GridLength(7.0, GridUnitType.Star);
@@ -1002,6 +1015,126 @@ namespace Avalon
             Row5.Height = new GridLength(1.0, GridUnitType.Auto);
             Col1.Width = new GridLength(55.0, GridUnitType.Star);
             Col2.Width = new GridLength(45.0, GridUnitType.Star);
+        }
+
+        /// <summary>
+        /// Saves the grids current state into the settings.
+        /// </summary>
+        public void SaveGridState()
+        {
+            App.Settings.AvalonSettings.GameGridState.Clear();
+
+            // Save rows.
+            for (int i = 0; i < GridGame.RowDefinitions.Count; i++)
+            {
+                var row = new GridLengthState
+                {
+                    Length = GridGame.RowDefinitions[i].Height.Value,
+                    ElementType = GridLengthState.GridElementType.Row,
+                    Index = i
+                };
+
+                switch (GridGame.RowDefinitions[i].Height.GridUnitType)
+                {
+                    case GridUnitType.Star:
+                        row.UnitType = GridLengthState.GridUnitType.Star;
+                        break;
+                    case GridUnitType.Pixel:
+                        row.UnitType = GridLengthState.GridUnitType.Pixel;
+                        break;
+                    case GridUnitType.Auto:
+                        row.UnitType = GridLengthState.GridUnitType.Auto;
+                        break;
+                }
+
+                App.Settings.AvalonSettings.GameGridState.Add(row);
+            }
+
+            // Save columns.
+            for (int i = 0; i < GridGame.ColumnDefinitions.Count; i++)
+            {
+                var column = new GridLengthState
+                {
+                    Length = GridGame.ColumnDefinitions[i].Width.Value,
+                    ElementType = GridLengthState.GridElementType.Column,
+                    Index = i
+                };
+
+                switch (GridGame.ColumnDefinitions[i].Width.GridUnitType)
+                {
+                    case GridUnitType.Star:
+                        column.UnitType = GridLengthState.GridUnitType.Star;
+                        break;
+                    case GridUnitType.Pixel:
+                        column.UnitType = GridLengthState.GridUnitType.Pixel;
+                        break;
+                    case GridUnitType.Auto:
+                        column.UnitType = GridLengthState.GridUnitType.Auto;
+                        break;
+                }
+
+                App.Settings.AvalonSettings.GameGridState.Add(column);
+            }
+        }
+
+        /// <summary>
+        /// Loads the grids state from the settings.
+        /// </summary>
+        public void LoadGridState()
+        {
+            if (App.Settings.AvalonSettings.GameGridState.Count == 0)
+            {
+                ResetGridState();
+                SaveGridState();
+                return;
+            }
+
+            try
+            {
+                foreach (var item in App.Settings.AvalonSettings.GameGridState)
+                {
+                    if (item.ElementType == GridLengthState.GridElementType.Row)
+                    {
+                        switch (item.UnitType)
+                        {
+                            case GridLengthState.GridUnitType.Auto:
+                                GridGame.RowDefinitions[item.Index].Height = new GridLength(item.Length, GridUnitType.Auto);
+                                break;
+                            case GridLengthState.GridUnitType.Pixel:
+                                GridGame.RowDefinitions[item.Index].Height = new GridLength(item.Length, GridUnitType.Pixel);
+                                break;
+                            case GridLengthState.GridUnitType.Star:
+                                GridGame.RowDefinitions[item.Index].Height = new GridLength(item.Length, GridUnitType.Star);
+                                break;
+                        }
+
+                    }
+                    else if (item.ElementType == GridLengthState.GridElementType.Column)
+                    {
+                        switch (item.UnitType)
+                        {
+                            case GridLengthState.GridUnitType.Auto:
+                                GridGame.ColumnDefinitions[item.Index].Width = new GridLength(item.Length, GridUnitType.Auto);
+                                break;
+                            case GridLengthState.GridUnitType.Pixel:
+                                GridGame.ColumnDefinitions[item.Index].Width = new GridLength(item.Length, GridUnitType.Pixel);
+                                break;
+                            case GridLengthState.GridUnitType.Star:
+                                GridGame.ColumnDefinitions[item.Index].Width = new GridLength(item.Length, GridUnitType.Star);
+                                break;
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Interp.Conveyor.EchoLog("The grid layout was saved did not match the current grid layout (possibly because of a client update).  The grid has been reset to the default.", LogType.Error);
+                this.Interp.Conveyor.EchoLog(ex.Message, LogType.Error);
+                ResetGridState();
+                SaveGridState();
+            }
+
         }
 
     }

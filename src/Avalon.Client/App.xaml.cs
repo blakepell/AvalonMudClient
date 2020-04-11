@@ -107,6 +107,10 @@ namespace Avalon
             // to skip it hasn't been flagged.
             if (Settings.ProfileSettings.SaveSettingsOnExit && SkipSaveOnExit == false)
             {
+                // For saving of the grid layout into the settings object.
+                App.MainWindow.SaveGridState();
+
+                // Actually save the settings.
                 App.Settings.SaveSettings();
             }
 
