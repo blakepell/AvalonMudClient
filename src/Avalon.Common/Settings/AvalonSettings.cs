@@ -83,6 +83,11 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public TerminalFonts TerminalFont { get; set; } = TerminalFonts.Consolas;
 
+        [CategoryAttribute("UI")]
+        [DescriptionAttribute("Whether the input box should clear after you enter a command.")]
+        [Browsable(true)]
+        public bool InputBoxClearAfterCommand { get; set; } = false;
+
         [CategoryAttribute("Updates")]
         [DescriptionAttribute("The URL that the mud client to reference to determine if there is an update.")]
         [Browsable(true)]

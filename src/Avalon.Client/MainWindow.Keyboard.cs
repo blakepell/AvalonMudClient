@@ -61,6 +61,12 @@ namespace Avalon
                     TextInput.Editor.SelectAll();
                     Interp.Send(TextInput.Editor.Text);
 
+                    // If the user wants the input box to clear after a command, make it so.
+                    if (App.Settings.AvalonSettings.InputBoxClearAfterCommand)
+                    {
+                        TextInput.Editor.Text = "";
+                    }
+
                     // Set the history count to the end
                     Interp.InputHistoryPosition = -1;
 
