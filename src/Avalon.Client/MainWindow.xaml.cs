@@ -937,7 +937,7 @@ namespace Avalon
             var result = await confirmDialog.ShowAsync();
 
             this.Interp.Conveyor.EchoText("\r\n");
-            this.Interp.Conveyor.EchoLog("In order for the plugin updates to take affect you will need to close and then restart this application.", LogType.Warning);
+            this.Interp.Conveyor.EchoLog("In order for the plugin updates to take effect you will need to close and then restart this application.", LogType.Warning);
         }
 
         /// <summary>
