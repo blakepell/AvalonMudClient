@@ -1,0 +1,43 @@
+﻿<Window x:Class="Avalon.MacroEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Avalon"
+        mc:Ignorable="d"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True" 
+        x:Name="StringEditorWindow" TextOptions.TextFormattingMode="Ideal"
+        ui:TitleBar.Background="#2D2D30" Background="#171717" BorderBrush="#007ACC"
+        xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+        Loaded="StringEditorWindow_Loaded"
+        Title="Macro Editor" Height="200" Width="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="74"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <!-- 1 pixel left margin was so the left border of the window will render -->
+        <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0" Margin="10,5,0,0">
+            <DockPanel LastChildFill="True" Margin="5">
+                <Label VerticalAlignment="Center" Margin="0,0,10,0" Width="100">Macro Key:</Label>
+                <TextBox x:Name="TextBoxMacroKey" KeyDown="TextBoxMacroKey_KeyDown" PreviewKeyDown="TextBoxMacroKey_PreviewKeyDown" AcceptsReturn="False" ui:ControlHelper.CornerRadius="0"></TextBox>
+            </DockPanel>
+            <DockPanel LastChildFill="True" Margin="5">
+                <Label VerticalAlignment="Center" Margin="0,0,10,0" Width="100">Command</Label>
+                <TextBox x:Name="TextBoxCommand" AcceptsReturn="False" ui:ControlHelper.CornerRadius="0"></TextBox>
+            </DockPanel>
+        </StackPanel>
+
+        <DockPanel Grid.Row="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Top">
+                <Button ui:ControlHelper.CornerRadius="0" Margin="5,10,5,10" Width="100" x:Name="ButtonCancel" Click="ButtonCancel_OnClick">Cancel</Button>
+                <Button ui:ControlHelper.CornerRadius="0" Margin="5,10,5,10" Width="100" x:Name="ButtonSave" Click="ButtonSave_OnClick" Visibility="{Binding SaveButtonVisible}">Save</Button>
+            </StackPanel>
+            <StatusBar x:Name="StatusBarWindow" Background="#007ACC" Foreground="White">
+                <TextBlock x:Name="TextBlockStatus" Text="" TextWrapping="NoWrap"></TextBlock>
+            </StatusBar>
+        </DockPanel>
+    </Grid>
+</Window>

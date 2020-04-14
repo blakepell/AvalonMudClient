@@ -15,22 +15,27 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Grid Margin="0,10,5,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Padding="5,5,10,0">Filter:</Label>
-                <TextBox x:Name="TextFilter" TextChanged="TextFilter_TextChanged" VerticalAlignment="Top" Grid.Column="1" Width="200"></TextBox>
-            </Grid>
-        </StackPanel>
+        <DockPanel Grid.Row="0">
+            <Button x:Name="ButtonNewMacro" Click="ButtonNewMacro_Click" 
+                    ui:ControlHelper.CornerRadius="0" Margin="5,10,5,10" Width="100">New Macro</Button>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right">
+                <Grid Margin="0,10,5,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Padding="5,5,10,0">Filter:</Label>
+                    <TextBox x:Name="TextFilter" TextChanged="TextFilter_TextChanged" VerticalAlignment="Top" Grid.Column="1" Width="200"></TextBox>
+                </Grid>
+            </StackPanel>
+        </DockPanel>
 
         <DataGrid x:Name="DataList" x:FieldModifier="public" RowHeight="10"
                   Grid.Row="1" HeadersVisibility="Column" BorderBrush="Gray" BorderThickness="1"
                   Margin="5,0,5,5"
                   CanUserAddRows="True"
-                  CanUserDeleteRows="False"
+                  CanUserDeleteRows="True"
                   AutoGenerateColumns="False"
                   GridLinesVisibility="All">
             <DataGrid.Columns>
@@ -41,7 +46,8 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Key" Binding="{Binding KeyDescription,UpdateSourceTrigger=PropertyChanged}" Width="20*" IsReadOnly="True" />
+                <!--<DataGridTextColumn Header="Key" Binding="{Binding Key,UpdateSourceTrigger=PropertyChanged}" Width="10*" IsReadOnly="True" />-->
+                <DataGridTextColumn Header="Key Description" Binding="{Binding KeyDescription,UpdateSourceTrigger=PropertyChanged}" Width="10*" IsReadOnly="True" />
                 <DataGridTextColumn Header="Command" Binding="{Binding Command,UpdateSourceTrigger=PropertyChanged}" Width="80*" />
                 <!--<DataGridTextColumn Header="Character" Binding="{Binding Character,UpdateSourceTrigger=PropertyChanged}" Width="20*" />-->
             </DataGrid.Columns>

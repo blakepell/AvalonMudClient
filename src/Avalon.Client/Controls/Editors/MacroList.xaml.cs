@@ -38,6 +38,9 @@ namespace Avalon.Controls
         /// <param name="e"></param>
         private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            // Fix the descriptions on any macros in case they get borked up.
+            this.FixMacros();
+
             // Load the macro list the first time that it's requested.
             if (DataList.ItemsSource == null)
             {
@@ -71,6 +74,30 @@ namespace Avalon.Controls
             DataList.ItemsSource = null;
             DataList.ItemsSource = lcv;
             DataList.Items.Refresh();
+        }
+
+        /// <summary>
+        /// Attempt to fix any macros with broken descriptions.
+        /// </summary>
+        public void FixMacros()
+        {
+            // Fix any macros if they don't have descriptions
+            try
+            {
+                var convert = new System.Windows.Input.KeyConverter();
+
+                foreach (var macro in App.Settings.ProfileSettings.MacroList)
+                {
+                    if (string.IsNullOrWhiteSpace(macro.KeyDescription))
+                    {
+                        macro.KeyDescription = convert.ConvertToString(macro.Key);
+                    }
+                }
+            }
+            catch
+            {
+                // TODO - Error Logging
+            }
         }
 
         /// <summary>
@@ -136,31 +163,57 @@ namespace Avalon.Controls
             }
 
             // Set the initial text for the editor.
-            var win = new StringEditor
+            var win = new MacroEditWindow
             {
-                Text = macro.Command
+                Macro = macro
             };
 
-            // Set this to be a text editor.
-            win.EditorMode = StringEditor.EditorType.Text;
-
             // Show what macro is being edited in the status bar of the string editor window.
-            win.StatusText = $"Macro Key: {macro.KeyDescription}";
+            win.SetStatus(macro);
 
             // Startup position of the dialog should be in the center of the parent window.  The
             // owner has to be set for this to work.
             win.Owner = App.MainWindow;
             win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            win.EditType = MacroEditWindow.EditTypeCode.Edit;
 
             // Show the string dialog
             var result = win.ShowDialog();
 
-            // If the result
-            if (result != null && result.Value)
-            {
-                macro.Command = win.Text;
-            }
+            //// If the result
+            //if (result != null && result.Value)
+            //{
+            //    macro. = win.Command;
+            //}
         }
 
+        /// <summary>
+        /// Creates a new macro.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonNewMacro_Click(object sender, RoutedEventArgs e)
+        {
+            var macro = new Macro();
+            App.Settings.ProfileSettings.MacroList.Add(macro);
+
+            // Set the initial text for the editor.
+            var win = new MacroEditWindow
+            {
+                Macro = macro
+            };
+
+            // Show what macro is being edited in the status bar of the string editor window.
+            win.SetStatus("Put the focus in the 'Macro Key' text box and press the key you want to create a macro for.");
+
+            // Startup position of the dialog should be in the center of the parent window.  The
+            // owner has to be set for this to work.
+            win.Owner = App.MainWindow;
+            win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            win.EditType = MacroEditWindow.EditTypeCode.Add;
+
+            // Show the string dialog
+            var result = win.ShowDialog();
+        }
     }
 }

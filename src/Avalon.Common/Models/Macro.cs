@@ -30,9 +30,33 @@ namespace Avalon.Common.Models
 
         }
 
-        public int Key { get; set; }
+        private int _key = 0;
+        public int Key 
+        { 
+            get
+            {
+                return _key;
+            }
+            set
+            {
+                _key = value;
+                OnPropertyChanged("Key");
+            }
+        }
 
-        public string KeyDescription { get; set; }
+        private string _keyDescription = "";
+        public string KeyDescription
+        { 
+            get
+            {
+                return _keyDescription;
+            }
+            set
+            {
+                _keyDescription = value;
+                OnPropertyChanged("KeyDescription");
+            }
+        }
 
         private string _command = "";
         public string Command
