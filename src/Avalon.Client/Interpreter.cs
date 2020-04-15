@@ -188,7 +188,7 @@ namespace Avalon
         {
             _aliasRecursionDepth += 1;
 
-            if (_aliasRecursionDepth >= 5)
+            if (_aliasRecursionDepth >= 10)
             {
                 Conveyor.EchoLog($"Alias error: Reached max recursion depth of {_aliasRecursionDepth}.\r\n", LogType.Error);
                 return new List<string>();
@@ -260,6 +260,7 @@ namespace Avalon
                     if (!alias.Command.Contains("%"))
                     {
                         list.AddRange(ParseCommand($"{alias.Command} {first.Item2}".Trim()));
+                        _aliasRecursionDepth--;
                     }
                     else
                     {
@@ -276,6 +277,7 @@ namespace Avalon
                         }
 
                         list.AddRange(ParseCommand(aliasStr));
+                        _aliasRecursionDepth--;
                     }
 
                 }
