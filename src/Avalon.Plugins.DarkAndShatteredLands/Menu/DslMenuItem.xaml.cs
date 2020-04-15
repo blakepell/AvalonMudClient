@@ -154,5 +154,24 @@ namespace Avalon.Plugins.DarkAndShatteredLands
 
             await interp.Send($"#online");
         }
+
+        /// <summary>
+        /// A helper to allow an immortal to create restrings.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemRestring_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var interp = GetInterpreter();
+
+            if (interp == null)
+            {
+                return;
+            }
+            
+            var win = new RestringWindow(interp);
+            win.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+            win.Show();
+        }
     }
 }

@@ -4,6 +4,17 @@
                     xmlns:ui="http://schemas.modernwpf.com/2019"
                     xmlns:local="clr-namespace:Avalon.Plugins.DarkAndShatteredLands">
     <MenuItem x:Key="PluginMenu" Header="DSL">
+        <MenuItem Header="Immortal Helpers">
+            <MenuItem.Icon>
+                <ui:SymbolIcon Symbol="Admin" />
+            </MenuItem.Icon>
+
+            <MenuItem Header="Restring" Click="MenuItemRestring_Click">
+                <MenuItem.Icon>
+                    <ui:SymbolIcon Symbol="Repair" />
+                </MenuItem.Icon>
+            </MenuItem>
+        </MenuItem>
         <MenuItem Header="Web Links and Utilities">
             <MenuItem.Icon>
                 <ui:SymbolIcon Symbol="World" />

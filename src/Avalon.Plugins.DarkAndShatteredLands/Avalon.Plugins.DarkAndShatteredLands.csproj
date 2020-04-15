@@ -19,6 +19,12 @@
     <ProjectReference Include="..\Avalon.Common\Avalon.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="Dialogs\RestringWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="copy &quot;$(TargetPath)&quot; &quot;%25APPDATA%25\..\Local\AvalonMudClient\Plugins&quot;" />
   </Target>
