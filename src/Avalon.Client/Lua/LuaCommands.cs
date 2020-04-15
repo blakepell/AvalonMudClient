@@ -517,7 +517,7 @@ namespace Avalon.Lua
                 return "";
             }
 
-            return value.FormatIfNumber() ;
+            return value.FormatIfNumber();
         }
 
         /// <summary>
