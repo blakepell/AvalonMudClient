@@ -1,4 +1,6 @@
-﻿namespace Avalon.Common.Colors
+﻿using System.Collections.Generic;
+
+namespace Avalon.Common.Colors
 {
     public static class AnsiColors
     {
@@ -27,5 +29,36 @@
         public static AnsiColor Pink { get; } = new Pink();
         public static AnsiColor Brown { get; } = new Brown();
         public static AnsiColor Magenta { get; } = new Magenta();
+
+        /// <summary>
+        /// A List of all of the AnsiColor objects that are supported.
+        /// </summary>
+        public static List<AnsiColor> ToList()
+        {
+            return new List<AnsiColor>
+            {
+                new Clear(),
+                new Green(),
+                new DarkGreen(),
+                new White(),
+                new LightGray(),
+                new DarkGray(),
+                new Black(),
+                new Red(),
+                new DarkRed(),
+                new Blue(),
+                new DarkBlue(),
+                new Yellow(),
+                new DarkYellow(),
+                new Cyan(),
+                new DarkCyan(),
+                new Purple(),
+                new DarkPurple(),
+                new Pink(),
+                new Brown(),
+                new Magenta()
+            };
+        }
     }
+
 }
