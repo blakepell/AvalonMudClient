@@ -22,7 +22,7 @@ namespace Avalon
         {
             // This is a hack, delay half a second so that the Focus sticks.
             await Task.Delay(500);
-            TextBoxInput.Focus();
+            TextBoxInput.Focus();            
         }
 
         /// <summary>

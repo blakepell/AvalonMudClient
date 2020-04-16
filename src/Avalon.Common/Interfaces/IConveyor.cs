@@ -49,6 +49,8 @@ namespace Avalon.Common.Interfaces
 
         Task<string> InputBox(string caption, string title);
 
+        void InputBoxToVariable(string caption, string title, string variable);
+
         void ImportPackageFromJson(string json);
 
         StringBuilder Scrape { get; set; }

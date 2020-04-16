@@ -419,6 +419,34 @@ namespace Avalon
         }
 
         /// <summary>
+        /// Prompts a dialog box and sets a variable with the result when it's complete.
+        /// </summary>
+        /// <param name="caption"></param>
+        /// <param name="title"></param>
+        /// <param name="variable"></param>
+        public async void InputBoxToVariable(string caption, string title, string variable)
+        {
+            var win = new InputBoxDialog
+            {
+                Title = title,
+                Caption = caption
+            };
+
+            var result = await win.ShowAsync();
+            
+            if (result == ModernWpf.Controls.ContentDialogResult.Primary)
+            {
+                // Cancel
+                return;
+            }
+            else if (result == ModernWpf.Controls.ContentDialogResult.Secondary)
+            {
+                // OK
+                this.SetVariable(variable, win.Text);
+            }
+        }
+
+        /// <summary>
         /// Returns information about the current WindowPosition.
         /// </summary>
         public WindowPosition GetWindowPosition
