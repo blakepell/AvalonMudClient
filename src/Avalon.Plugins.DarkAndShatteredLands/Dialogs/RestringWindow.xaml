@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         Loaded="StringEditorWindow_Loaded"
-        ui:WindowHelper.UseModernWindowStyle="True" 
+        ui:WindowHelper.UseModernWindowStyle="True"
         x:Name="StringEditorWindow" TextOptions.TextFormattingMode="Ideal"
         ui:TitleBar.Background="#2D2D30" Background="#171717" BorderBrush="#007ACC"
         Title="Restring" Height="340" Width="800">
@@ -48,7 +48,7 @@
                 <Button ui:ControlHelper.CornerRadius="0" Margin="5,10,5,10" Width="100" x:Name="ButtonExecuteRestring" Click="ButtonExecuteRestring_OnClick" Visibility="{Binding SaveButtonVisible}">Restring</Button>
             </StackPanel>
             <StatusBar x:Name="StatusBarWindow" Background="#007ACC" Foreground="White">
-                <TextBlock x:Name="TextBlockStatus" Text="" TextWrapping="NoWrap"></TextBlock>
+                <TextBlock x:Name="TextBlockStatus" Text="The dialog will help with the executing the commands for a restring." TextWrapping="NoWrap"></TextBlock>
             </StatusBar>
         </DockPanel>
     </Grid>
