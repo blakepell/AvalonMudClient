@@ -87,15 +87,29 @@ namespace Avalon
 
             if (string.IsNullOrWhiteSpace(TextBoxShortDescription.Text))
             {
-                SetError("Please enter a proper short description.");
+                SetError("Please enter a short description.");
                 TextBoxShortDescription.Focus();
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(TextBoxLongDescription.Text))
             {
-                SetError("Please enter a proper long description.");
+                SetError("Please enter a long description.");
                 TextBoxLongDescription.Focus();
+                return;
+            }
+
+            if (TextBoxShortDescription.Text.StartsWith("short", StringComparison.CurrentCultureIgnoreCase))
+            {
+                SetError("Your short description begings with the word 'short', copy/paste mistake?");
+                TextBoxShortDescription.Focus();
+                return;
+            }
+
+            if (TextBoxLongDescription.Text.StartsWith("long", StringComparison.CurrentCultureIgnoreCase))
+            {
+                SetError("Your long description begings with the word 'long', copy/paste mistake?");
+                TextBoxShortDescription.Focus();
                 return;
             }
 
