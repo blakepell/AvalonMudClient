@@ -26,16 +26,9 @@ namespace Avalon.HashCommands
 
         public override async Task ExecuteAsync()
         {
-            //string value = await Interpreter.Conveyor.InputBox("Name", "What is your name?");
-            var win = new StringEditor();
-            win.EditorMode = StringEditor.EditorType.MobProg;
-            win.ShowDialog();
-
-            ////this.Interpreter.Conveyor.EchoLog($"Name is: {win.Text}", LogType.Debug);
-            //await this.Interpreter.Send($"#echo Hello {value}");
-
             return;
         }
+
         public override void Execute()
         {
 
