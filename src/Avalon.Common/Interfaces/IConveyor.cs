@@ -53,6 +53,8 @@ namespace Avalon.Common.Interfaces
 
         void ImportPackageFromJson(string json);
 
+        void Focus(FocusTarget target);
+
         StringBuilder Scrape { get; set; }
 
         bool ScrapeEnabled { get; set; }

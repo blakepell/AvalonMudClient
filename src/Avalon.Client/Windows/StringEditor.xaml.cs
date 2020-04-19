@@ -38,7 +38,7 @@ namespace Avalon
             {
                 _editorMode = value;
 
-                switch(_editorMode)
+                switch (_editorMode)
                 {
                     case EditorType.Text:
                         this.Title = "Text Editor";
@@ -61,11 +61,11 @@ namespace Avalon
                 }
             }
         }
-        
+
         public enum EditorType
         {
             Text,
-            Lua,
+            Lua
         }
 
         /// <summary>

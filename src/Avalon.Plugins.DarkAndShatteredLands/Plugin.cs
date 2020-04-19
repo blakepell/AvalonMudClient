@@ -34,7 +34,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands
 
             // IC Channels: Clan gossip, clan, gossip, ask, answer, kingdom, group tells, tells, auction, pray, grats, quest (quote at the end)
             this.Triggers.Add(new Trigger(@"^[\a]?(\[ .* \] )?([\w'-]+|The ghost of [\w'-]+|\(An Imm\)|\(Imm\) [\w'-]+|\(Wizi@\d\d\) \(Imm\) [\w'-]+) (\bclan gossip(s?)\b|\bclan(s?)\b|\bgossip(s?)\b|\bask(s?)\b|\banswers(s?)\b|\btell(s?)\b|\bBloodbath(s?)\b|\bpray(s?)\b|\bgrats\b|\bauction(s?)\b|\bquest(s?)\b|\bradio(s?)\b|\bimm(s?)\b).*'$", "", "", true, "8b0bc970-08de-498e-9866-8e1aec458c08", TerminalTarget.Communication, true));            
-            this.Triggers.Add(new Trigger(@"^(?!.*OOC).*Kingdom: .*$", "", "", true, "1dcf2580-da86-45b5-880f-36f9468891c1", TerminalTarget.Communication, true));
+            this.Triggers.Add(new Trigger(@"^[\a]?(\[ .* \] )?(?!.*OOC).*Kingdom: .*$", "", "", true, "1dcf2580-da86-45b5-880f-36f9468891c1", TerminalTarget.Communication, true));
             this.Triggers.Add(new Trigger(@"\((Admin|Coder)\) \(Imm\) [\w'-]+:", "", "", true, "b5c8f16b-31d1-48e9-a895-fda1be732051", TerminalTarget.Communication, true));
 
             // OOC Channels: OOC, OOC Clan, OOC Kingdom, Newbie
@@ -105,6 +105,7 @@ end";
         {
             this.HashCommands.Add(new HashCommands.DslVersion());
             this.HashCommands.Add(new HashCommands.ScanAll());
+            this.HashCommands.Add(new HashCommands.Edit());
             this.HashCommands.Add(new HashCommands.ConCard());
             this.HashCommands.Add(new HashCommands.Online());
         }

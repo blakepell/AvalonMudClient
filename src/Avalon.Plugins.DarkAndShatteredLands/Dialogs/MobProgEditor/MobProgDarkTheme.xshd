@@ -1,0 +1,185 @@
+﻿<?xml version="1.0"?>
+<SyntaxDefinition name="MobProg" extensions=".mobprog" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+  <Color name="Comment" foreground="#608B4E" exampleText="* comment" />
+  <Color name="Digits" foreground="#B5CEA8" exampleText="3.1415f"/>
+  <Color name="Keywords" fontWeight="bold" foreground="#D8A0DF" exampleText="if"/>
+  <Color name="Operators" foreground="#9CDCFE" exampleText="&gt;="/>
+  <Color name="Variable" foreground="#D69D85" exampleText="$n" />
+  <Color name="Commands" foreground="#569CD6" />
+  <Color name="CommandsBase" foreground="#569CD6" />
+  <Color name="Function" foreground="#569CD6" />
+  
+  <RuleSet ignoreCase="true">
+    <Span color="Comment">
+      <Begin>^(\s+)?\*</Begin>
+    </Span>
+
+    <Keywords color="Keywords">
+      <Word>and</Word>
+      <Word>else</Word>
+      <Word>endif</Word>
+      <Word>if</Word>
+      <Word>or</Word>
+      <Word>break</Word>
+      <Word>end</Word>
+    </Keywords>
+
+    <Keywords color="Operators">
+      <Word>==</Word>
+      <Word>!=</Word>
+      <Word>&lt;</Word>
+      <Word>&gt;</Word>
+      <Word>&lt;=</Word>
+      <Word>&gt;=</Word>
+      <Word>\*</Word>
+      <Word>/</Word>
+      <Word>-</Word>
+      <Word>\+</Word>
+    </Keywords>
+
+    <Keywords color="Function">
+      <Word>rand</Word>
+      <Word>mobhere</Word>
+      <Word>objhere</Word>
+      <Word>mobexists</Word>
+      <Word>objexists</Word>
+      <Word>people</Word>
+      <Word>players</Word>
+      <Word>mobs</Word>
+      <Word>clones</Word>
+      <Word>order</Word>
+      <Word>hour</Word>
+      <Word>ispc</Word>
+      <Word>isnpc</Word>
+      <Word>isevil</Word>
+      <Word>isneutral</Word>
+      <Word>isimmort</Word>
+      <Word>ischarm</Word>
+      <Word>isfollow</Word>
+      <Word>isactive</Word>
+      <Word>isdelay</Word>
+      <Word>isvisible</Word>
+      <Word>hastarget</Word>
+      <Word>istarget</Word>
+      <Word>exists</Word>
+      <Word>affected</Word>
+      <Word>act</Word>
+      <Word>off</Word>
+      <Word>imm</Word>
+      <Word>carries</Word>
+      <Word>wears</Word>
+      <Word>has</Word>
+      <Word>uses</Word>
+      <Word>name</Word>
+      <Word>pos</Word>
+      <Word>clan</Word>
+      <Word>race</Word>
+      <Word>class</Word>
+      <Word>objtype</Word>
+      <Word>vnum</Word>
+      <Word>hpcnt</Word>
+      <Word>room</Word>
+      <Word>sex</Word>
+      <Word>level</Word>
+      <Word>align</Word>
+      <Word>money</Word>
+      <Word>objval0</Word>
+      <Word>objval1</Word>
+      <Word>objval2</Word>
+      <Word>objval3</Word>
+      <Word>objval4</Word>
+      <Word>grpsize</Word>
+      <Word>ismounted</Word>
+      <Word>comm</Word>
+      <Word>isship</Word>
+      <Word>rank</Word>
+      <Word>sunlight</Word>
+    </Keywords>
+      
+    <Keywords color="Commands">
+      <Word>mob</Word>
+      <Word>asound</Word>
+      <Word>gecho</Word>
+      <Word>zecho</Word>
+      <Word>kill</Word>
+      <Word>assist</Word>
+      <Word>junk</Word>
+      <Word>echo</Word>
+      <Word>echoaround</Word>
+      <Word>echoat</Word>
+      <Word>mload</Word>
+      <Word>oload</Word>
+      <Word>purge</Word>
+      <Word>goto</Word>
+      <Word>at</Word>
+      <Word>transfer</Word>
+      <Word>gtransfer</Word>
+      <Word>otransfer</Word>
+      <Word>force</Word>
+      <Word>gforce</Word>
+      <Word>vforce</Word>
+      <Word>cast</Word>
+      <Word>damage</Word>
+      <Word>remember</Word>
+      <Word>forget</Word>
+      <Word>delay</Word>
+      <Word>cancel</Word>
+      <Word>call</Word>
+      <Word>flee</Word>
+      <Word>remove</Word>
+      <Word>mreclass</Word>
+      <Word>noshout</Word>
+      <Word>nodisp</Word>
+      <Word>echotoship</Word>
+      <Word>immecho</Word>
+      <Word>mpapplyb</Word>
+      <Word>timer</Word>
+      <Word>hunt</Word>
+      <Word>ahunt</Word>
+      <Word>ghunt</Word>
+      <Word>chunt</Word>      
+    </Keywords>
+    
+    <Keywords color="Variable">
+      <Word>$i</Word>
+      <Word>$I</Word>
+      <Word>$n</Word>
+      <Word>$N</Word>
+      <Word>$t</Word>
+      <Word>$T</Word>
+      <Word>$r</Word>
+      <Word>$R</Word>
+      <Word>$q</Word>
+      <Word>$Q</Word>
+      <Word>$j</Word>
+      <Word>$J</Word>
+      <Word>$e</Word>
+      <Word>$E</Word>
+      <Word>$X</Word>
+      <Word>$k</Word>
+      <Word>$m</Word>
+      <Word>$M</Word>
+      <Word>$K</Word>
+      <Word>$Y</Word>
+      <Word>$l</Word>
+      <Word>$s</Word>
+      <Word>$S</Word>
+      <Word>$L</Word>
+      <Word>$Z</Word>
+      <Word>$o</Word>
+      <Word>$O</Word>
+      <Word>$p</Word>
+      <Word>$P</Word>
+    </Keywords>
+    
+    <Rule color="Variable">
+      \%[\d\w_]+
+    </Rule>
+
+    <!-- Digits -->
+    <Rule color="Digits">
+      \b[0-9]+\b
+    </Rule>
+
+  </RuleSet>
+</SyntaxDefinition>

@@ -447,6 +447,24 @@ namespace Avalon
         }
 
         /// <summary>
+        /// Sets the focus to the given UI element.
+        /// </summary>
+        /// <param name="target"></param>
+        public void Focus(FocusTarget target)
+        {
+            switch (target)
+            {
+                case FocusTarget.Input:
+                    Application.Current.Dispatcher.Invoke(new Action(() =>
+                    {
+                        App.MainWindow.TextInput.Editor.Focus();
+                    }));
+
+                    break;
+            }
+        }
+
+        /// <summary>
         /// Returns information about the current WindowPosition.
         /// </summary>
         public WindowPosition GetWindowPosition

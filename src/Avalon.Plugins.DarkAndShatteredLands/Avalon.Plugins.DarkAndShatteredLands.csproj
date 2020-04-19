@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
-    <Version>2020.4.16.1</Version>
+    <Version>2020.4.18.1</Version>
     <Authors>Blake Pell</Authors>
     <Company>Blake Pell</Company>
     <Product>Dark and Shattered Lands Plugin for Avalon Mud Client</Product>
@@ -12,6 +12,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Dialogs\MobProgEditor\MobProgDarkTheme.xshd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Dialogs\MobProgEditor\MobProgDarkTheme.xshd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AvalonEdit" Version="6.0.1" />
     <PackageReference Include="ModernWpfUI" Version="0.8.2" />
   </ItemGroup>
 
@@ -20,6 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Dialogs\MobProgEditor\MobProgEditorWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Dialogs\RestringWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
