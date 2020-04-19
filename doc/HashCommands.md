@@ -70,3 +70,13 @@ Hash commands that reside in the main project will be general purpose.  Plugins 
 |#update-info-bar|Updates the info bar with the current values of it's underlaying model.|
 |#version|Echos the version of the Avalon Mud Client|
 |#walk|Fast walks a given path|
+
+## DSL Plugin Hash Commands
+
+|Command|Description|
+|-------|-----------|
+|#edit|Edits an existing mob prog in the custom mob prog editor.  The editor has intellisense for code completion and documentation for what each command does.<br />Syntax:#edit mp &lt;vnum&gt;|
+|#dsl-version|Echos the version of the DSL plugin.|
+|#online|Retrieves who is playing the game as per the dsl-mud.org web-site.|
+|#con-card|Checks on the status of a submitted con card.|
+|#scan-all|Scans in the directions that are available from the current room.|
