@@ -62,6 +62,13 @@ namespace Avalon.Plugins.DarkAndShatteredLands.HashCommands
 
             }
 
+            if (sb.ToString().Contains("MPEdit: That vnum does not exist."))
+            {
+                this.Interpreter.Conveyor.EchoLog("You need to create the mob prog with 'edit mp create <vnum>'", LogType.Information);
+                Argus.Memory.StringBuilderPool.Return(sb);
+                return;
+            }
+
             var win = new MobProgEditorWindow
             {
                 WindowStartupLocation = WindowStartupLocation.CenterScreen,
