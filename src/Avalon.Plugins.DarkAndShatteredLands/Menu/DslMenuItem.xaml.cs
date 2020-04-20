@@ -173,5 +173,24 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             win.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             win.Show();
         }
+
+        /// <summary>
+        /// Shows the OLC VNUM Batch Commands helper window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemOlcVnumBatchCommands_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var interp = GetInterpreter();
+
+            if (interp == null)
+            {
+                return;
+            }
+
+            var win = new OlcVnumBatchCommandsWindow(interp);
+            win.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+            win.Show();
+        }
     }
 }

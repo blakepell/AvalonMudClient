@@ -32,6 +32,9 @@
     <Page Update="Dialogs\MobProgEditor\MobProgEditorWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Dialogs\OlcVnumBatchCommandsWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Dialogs\RestringWindow.xaml">
       <SubType>Designer</SubType>
     </Page>

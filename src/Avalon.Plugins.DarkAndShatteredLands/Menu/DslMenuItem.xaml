@@ -8,11 +8,22 @@
             <MenuItem.Icon>
                 <ui:SymbolIcon Symbol="Admin" />
             </MenuItem.Icon>
-
             <MenuItem Header="Restring" Click="MenuItemRestring_Click">
                 <MenuItem.Icon>
                     <ui:SymbolIcon Symbol="Repair" />
                 </MenuItem.Icon>
+            </MenuItem>
+            <Separator />
+            <MenuItem Header="OLC">
+                <MenuItem.Icon>
+                    <ui:SymbolIcon Symbol="Globe"></ui:SymbolIcon>
+                </MenuItem.Icon>
+
+                <MenuItem Header="VNUM Batch Commands" Click="MenuItemOlcVnumBatchCommands_Click">
+                    <MenuItem.Icon>
+                        <ui:SymbolIcon Symbol="RepeatAll" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </MenuItem>
         <MenuItem Header="Web Links and Utilities">

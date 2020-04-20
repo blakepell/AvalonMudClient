@@ -1,0 +1,50 @@
+﻿<Window x:Class="Avalon.OlcVnumBatchCommandsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Avalon"
+        mc:Ignorable="d"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        Loaded="StringEditorWindow_Loaded"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        x:Name="OlcVnumBatchWindow" TextOptions.TextFormattingMode="Ideal"
+        ui:TitleBar.Background="#2D2D30" Background="#171717" BorderBrush="#007ACC"
+        Title="VNUM Batch Commands" Height="600" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="74"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <!-- 1 pixel left margin was so the left border of the window will render -->
+        <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0" Margin="10,5,0,0">
+            <DockPanel LastChildFill="True" Margin="5">
+                <Label VerticalAlignment="Center" Margin="0,0,10,0" Width="150">VNUM Range:</Label>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                    <ui:NumberBox x:Name="TextBoxVnumStart" ValidationMode="InvalidInputOverwritten" Width="100" ui:ControlHelper.CornerRadius="0" Text="0" LostFocus="TextBox_LostFocus"></ui:NumberBox>
+                    <Label HorizontalAlignment="Center" Margin="10,5,10,0">to</Label>
+                    <ui:NumberBox x:Name="TextBoxVnumEnd" ValidationMode="InvalidInputOverwritten" Width="100" ui:ControlHelper.CornerRadius="0" Text="0" LostFocus="TextBox_LostFocus"></ui:NumberBox>
+                </StackPanel>
+            </DockPanel>
+            <DockPanel LastChildFill="True" Margin="5">
+                <Label VerticalAlignment="Top" Margin="0,0,10,0" Width="150">Commands to Execute:</Label>
+                <TextBox x:Name="TextBoxCommandsToExecute" TextChanged="TextBoxOriginalKeyword_TextChanged" LostFocus="TextBox_LostFocus" AcceptsReturn="True" ui:ControlHelper.CornerRadius="0" Height="100" Text="goto @vnum"></TextBox>
+            </DockPanel>
+            <DockPanel LastChildFill="True" Margin="5">
+                <Label VerticalAlignment="Top" Margin="0,0,10,0" Width="150">Preview:</Label>
+                <TextBox x:Name="TextBoxPreview" Background="Black" Foreground="Gray" IsReadOnly="True" Height="400" VerticalScrollBarVisibility="Visible" ui:ControlHelper.CornerRadius="0"></TextBox>
+            </DockPanel>
+        </StackPanel>
+
+        <DockPanel Grid.Row="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Top">
+                <Button ui:ControlHelper.CornerRadius="0" Margin="5,10,5,10" Width="200" x:Name="ButtonCancel" Click="ButtonCancel_OnClick">Cancel</Button>
+                <Button ui:ControlHelper.CornerRadius="0" Margin="5,10,5,10" Width="200" x:Name="ButtonSendToDsl" Click="ButtonSendToDsl_OnClick" Visibility="{Binding SaveButtonVisible}">Send Commands to DSL</Button>
+            </StackPanel>
+            <StatusBar x:Name="StatusBarWindow" Background="#007ACC" Foreground="White">
+                <TextBlock x:Name="TextBlockStatus" Text="This dialog will execute a set of batch commands on every vnum in the listed range. Use @vnum to swap the vnum in for each room." TextWrapping="NoWrap"></TextBlock>
+            </StatusBar>
+        </DockPanel>
+    </Grid>
+</Window>
