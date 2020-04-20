@@ -58,6 +58,12 @@
                     <ui:SymbolIcon Symbol="ProtectedDocument" />
                 </MenuItem.Icon>
             </MenuItem>
+            <Separator />
+            <MenuItem Header="Community Directions Spreadsheet on Google Docs" Click="MenuItemDirectionsSpreadsheet_Click">
+                <MenuItem.Icon>
+                    <ui:SymbolIcon Symbol="Map" />
+                </MenuItem.Icon>
+            </MenuItem>
         </MenuItem>
         <Separator />
         <MenuItem Header="Update DSL Shared Package" Click="MenuItemUpdateDslPackageAsync_Click">

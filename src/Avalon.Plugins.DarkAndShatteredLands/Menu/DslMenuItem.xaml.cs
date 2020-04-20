@@ -59,6 +59,16 @@ namespace Avalon.Plugins.DarkAndShatteredLands
         }
 
         /// <summary>
+        /// Opens the community Google Docs spreadsheet with directions.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemDirectionsSpreadsheet_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ShellLink("https://docs.google.com/spreadsheets/d/1XRuFO6WLwIgNRoH5XX70frnETlX_ceUDlrpo-NrX12M/edit#gid=0");
+        }
+
+        /// <summary>
         /// Shells a link via System.Diagnostics.Process.
         /// </summary>
         /// <param name="url"></param>
