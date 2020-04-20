@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Xml;
 using Argus.Extensions;
@@ -143,7 +144,7 @@ namespace Avalon
                     // Open code completion after the user has pressed dot:
                     _completionWindow = new CompletionWindow(AvalonLuaEditor.TextArea);
                     var data = _completionWindow.CompletionList.CompletionData;
-                    
+
                     data.Add(new MobProgCompletionData("rand", "Usage: if rand 50\r\nIs random percentage less than or equal to random number."));
                     data.Add(new MobProgCompletionData("mobhere", "Usage:if mobhere 2500\r\nUsage: if mobhere guard\r\nIs an NPC with this vnum/name in the room."));
                     data.Add(new MobProgCompletionData("objhere", "Usage:if objhere 2500\r\nUsage: if objhere gauntlet\r\nIs an object with this vnum/name in the room."));
@@ -339,6 +340,68 @@ namespace Avalon
             set => TextBlockStatus.Text = value;
         }
 
+        /// <summary>
+        /// Opens a file from the file system.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemOpenFile_Click(object sender, RoutedEventArgs e)
+        {
+            var ofd = new OpenFileDialog
+            {
+                Title = "Open File",
+                ValidateNames = true,
+                AutoUpgradeEnabled = true,
+                Multiselect = false
+            };
 
+            ofd.ShowDialog();
+
+            if (string.IsNullOrWhiteSpace(ofd.FileName))
+            {
+                return;
+            }
+
+            try
+            {
+                AvalonLuaEditor.Text = System.IO.File.ReadAllText(ofd.FileName, System.Text.Encoding.ASCII);
+                this.StatusText = ofd.SafeFileName;
+            }
+            catch (Exception ex)
+            {
+                this.StatusText = $"Error: {ex.Message}";
+            }
+        }
+
+        /// <summary>
+        /// Saves a file to the file system.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemSaveFile_Click(object sender, RoutedEventArgs e)
+        {
+            var sfd = new SaveFileDialog
+            {
+                Title = "Save File",
+                ValidateNames = true,
+                AutoUpgradeEnabled = true,
+            };
+
+            sfd.ShowDialog();
+
+            if (string.IsNullOrWhiteSpace(sfd.FileName))
+            {
+                return;
+            }
+
+            try
+            {
+                System.IO.File.WriteAllText(sfd.FileName, AvalonLuaEditor.Text, System.Text.Encoding.ASCII);
+            }
+            catch (Exception ex)
+            {
+                this.StatusText = $"Error: {ex.Message}";
+            }
+        }
     }
 }

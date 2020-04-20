@@ -14,14 +14,30 @@
         Title="Editor" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="74"></RowDefinition>
         </Grid.RowDefinitions>
 
+        <Menu x:Name="MenuGame" Grid.Row="0" BorderBrush="Gray" BorderThickness="0,0,0,1" Background="#171717">
+            <MenuItem Header="_File">
+                <MenuItem Header="Open File" Click="MenuItemOpenFile_Click">
+                    <MenuItem.Icon>
+                        <ui:SymbolIcon Symbol="OpenFile"></ui:SymbolIcon>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Save File to Computer" Click="MenuItemSaveFile_Click">
+                    <MenuItem.Icon>
+                        <ui:SymbolIcon Symbol="SaveLocal"></ui:SymbolIcon>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+
         <!-- 1 pixel left margin was so the left border of the window will render -->
         <avalonedit:TextEditor
             x:Name="AvalonLuaEditor" ShowLineNumbers="True" WordWrap="False"
-            Grid.Row="0" Grid.Column="0"
+            Grid.Row="1" Grid.Column="0"
             FontFamily="Consolas" FontSize="10pt" IsReadOnly="False"
             Padding="0,0,0,0" Margin="1,0,0,0"
             Background="#1E1E1E" Foreground="#DCDCDC"
@@ -29,10 +45,10 @@
             BorderBrush="White">
         </avalonedit:TextEditor>
 
-        <DockPanel Grid.Row="1">
+        <DockPanel Grid.Row="2">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Top">
                 <Button ui:ControlHelper.CornerRadius="0" Margin="5,10,5,10" Width="100" x:Name="ButtonCancel" Click="ButtonCancel_OnClick">Cancel</Button>
-                <Button ui:ControlHelper.CornerRadius="0" Margin="5,10,5,10" Width="100" x:Name="ButtonSave" Click="ButtonSave_OnClick">Save</Button>
+                <Button ui:ControlHelper.CornerRadius="0" Margin="5,10,5,10" Width="100" x:Name="ButtonSave" Click="ButtonSave_OnClick">Save to DSL</Button>
             </StackPanel>
             <StatusBar Background="#007ACC" Foreground="White">
                 <TextBlock x:Name="TextBlockStatus" Text="" TextWrapping="NoWrap"></TextBlock>
