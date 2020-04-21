@@ -38,7 +38,7 @@ namespace Avalon
             }
             catch (Exception ex)
             {
-                GameTerminal.Append($"ERROR: {ex.Message}", AnsiColors.Red);
+                this.Interp.Conveyor.EchoLog($"Network Failure: {ex.Message}", LogType.Error);
             }
 
         }
@@ -54,6 +54,7 @@ namespace Avalon
             // Connect, then put the focus into the input text box.
             Interp.Connect(HandleLineReceived, this.HandleDataReceived, HandleConnectionClosed);
             TabMain.IsConnected = true;
+            MenuNetworkButton.Header = "Disconnect";
             TextInput.Focus();
 
             // If a command has been defined to send after connect then check it and fire it off here.
@@ -82,6 +83,7 @@ namespace Avalon
         {
             Interp.Disconnect();
             TabMain.IsConnected = false;
+            MenuNetworkButton.Header = "Connect";
         }
 
         /// <summary>

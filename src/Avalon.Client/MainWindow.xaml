@@ -61,6 +61,12 @@
                    
                     <Menu x:Name="MenuGame" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="0,0,0,1" Background="#171717">
                         <MenuItem Header="_File">
+                            <MenuItem x:Name="MenuNetworkButton" Header="Connect" Click="NetworkButton_Click">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon Symbol="MapDrive"></ui:SymbolIcon>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator />
                             <MenuItem Header="Create Package" Click="MenuItemCreatePackage_Click">
                                 <MenuItem.Icon>
                                     <ui:SymbolIcon Symbol="NewWindow"></ui:SymbolIcon>
