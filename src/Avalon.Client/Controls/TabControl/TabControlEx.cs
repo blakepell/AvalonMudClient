@@ -86,6 +86,5 @@ namespace Avalon.Controls
             base.OnApplyTemplate();
         }
 
-
     }
 }

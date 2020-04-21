@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Avalon.Windows.MobProgEditor;
+using ICSharpCode.AvalonEdit;
+using ICSharpCode.AvalonEdit.CodeCompletion;
+using ICSharpCode.AvalonEdit.Highlighting;
+using ICSharpCode.AvalonEdit.Highlighting.Xshd;
+using System;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Xml;
-using Argus.Extensions;
-using Avalon.Windows.MobProgEditor;
-using ICSharpCode.AvalonEdit;
-using ICSharpCode.AvalonEdit.CodeCompletion;
-using ICSharpCode.AvalonEdit.Document;
-using ICSharpCode.AvalonEdit.Editing;
-using ICSharpCode.AvalonEdit.Highlighting;
-using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 
 namespace Avalon
 {
@@ -55,7 +51,7 @@ namespace Avalon
         /// <param name="e"></param>
         private void StringEditorWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            AvalonLuaEditor.Focus();
+            AvalonLuaEditor.Focus();            
         }
 
         /// <summary>
