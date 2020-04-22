@@ -283,10 +283,17 @@ namespace Avalon.Sqlite
                     _completionWindow = new CompletionWindow(SqlEditor.TextArea);
                     var data = _completionWindow.CompletionList.CompletionData;
 
+                    // Add tables
                     foreach (var item in Schema.Tables)
                     {
                         data.Add(new CompletionData(item.TableName));
                     }                    
+
+                    // Add views
+                    foreach (var view in Schema.Views)
+                    {
+                        data.Add(new CompletionData(view.TableName));
+                    }
 
                     _completionWindow.Show();
                     _completionWindow.Closed += delegate
