@@ -21,6 +21,8 @@ namespace Avalon.HashCommands
         {
             double visualTop = App.MainWindow.GameTerminal.TextArea.TextView.GetVisualTopByDocumentLine(App.MainWindow.GameTerminal.Document.Lines.Count);
             App.MainWindow.GameTerminal.ScrollToVerticalOffset(visualTop);
+            App.MainWindow.OocCommunicationTerminal.ScrollToLastLine();
+            App.MainWindow.CommunicationTerminal.ScrollToLastLine();
         }
 
     }
