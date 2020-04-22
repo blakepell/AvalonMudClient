@@ -1137,5 +1137,43 @@ namespace Avalon
 
         }
 
+        /// <summary>
+        /// Handles the scroll for terminals that auto scroll, but stop auto scrolling
+        /// when the user manually scrolls up.  When the scroll goes all the way to the
+        /// bottom auto scroll is re-enabled.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CommTerminal_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            var sv = e.OriginalSource as ScrollViewer;
+
+            if (sv == null)
+            {
+                return;
+            }
+
+            var term = sender as AvalonTerminal;
+
+            if (term == null)
+            {
+                return;
+            }
+
+            if (e.ExtentHeightChange == 0)
+            {
+                // Content unchanged : user scroll event
+                if (e.VerticalOffset == sv.ScrollableHeight)
+                {
+                    // Scroll bar is in bottom, set the auto scroll.
+                    term.IsAutoScrollEnabled = true;
+                }
+                else
+                {
+                    // Scroll bar isn't in bottom, unset the auto scroll.
+                    term.IsAutoScrollEnabled = false;
+                }
+            }
+        }
     }
 }

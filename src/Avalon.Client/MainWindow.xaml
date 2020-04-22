@@ -223,6 +223,7 @@
                         BorderThickness="1,0,0,0"  BorderBrush="Gray"
                         ScrollViewer.PanningMode="VerticalOnly"
                         ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
+                        ScrollViewer.ScrollChanged="CommTerminal_ScrollChanged"
                         KeyDown="Terminal_OnKeyDown">
                     </controls:AvalonTerminal>
 
@@ -236,6 +237,7 @@
                         BorderThickness="1,1,0,0" BorderBrush="Gray"
                         ScrollViewer.PanningMode="VerticalOnly"
                         ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
+                        ScrollViewer.ScrollChanged="CommTerminal_ScrollChanged"
                         KeyDown="Terminal_OnKeyDown">
                     </controls:AvalonTerminal>
 
