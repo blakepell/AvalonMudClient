@@ -5,11 +5,15 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Xml;
 using Dapper;
+using ICSharpCode.AvalonEdit;
+using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using Microsoft.Data.Sqlite;
@@ -87,6 +91,9 @@ namespace Avalon.Sqlite
                 }
             }
 
+            // Intellisense
+            SqlEditor.TextArea.TextEntering += SqlEditor_TextEntering;
+            SqlEditor.TextArea.TextEntered += SqlEditor_TextEntered;
         }
 
         /// <summary>
@@ -259,6 +266,111 @@ namespace Avalon.Sqlite
 
             this.Schema = schema;
             this.TreeViewSchema.DataContext = this.Schema;
+        }
+
+        CompletionWindow _completionWindow;
+
+        void SqlEditor_TextEntered(object sender, TextCompositionEventArgs e)
+        {
+            // Text was a space.. see if the previous word was a command that has sub commands.
+            if (e.Text == " ")
+            {
+                string word = GetWordBeforeSpace(SqlEditor);
+
+                if (word.Equals("from", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Open code completion after the user has pressed dot:
+                    _completionWindow = new CompletionWindow(SqlEditor.TextArea);
+                    var data = _completionWindow.CompletionList.CompletionData;
+
+                    foreach (var item in Schema.Tables)
+                    {
+                        data.Add(new CompletionData(item.TableName));
+                    }                    
+
+                    _completionWindow.Show();
+                    _completionWindow.Closed += delegate
+                    {
+                        _completionWindow = null;
+                    };
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            if (e.Text == ".")
+            {
+                // Open code completion after the user has pressed dot:
+                _completionWindow = new CompletionWindow(SqlEditor.TextArea);
+                var data = _completionWindow.CompletionList.CompletionData;
+
+                foreach (var table in Schema.Tables)
+                {
+                    foreach (var field in table.Fields)
+                    {
+                        data.Add(new CompletionData(field.Name, $"Type: {field.Type}\r\nNot Null: {field.NotNull}\r\nDefault Value: {field.DefaultValue}"));
+                    }
+                }
+
+                _completionWindow.Show();
+                _completionWindow.Closed += delegate
+                {
+                    _completionWindow = null;
+                };
+            }
+        }
+
+        public static string GetWordBeforeSpace(TextEditor textEditor)
+        {
+            var wordBeforeDot = string.Empty;
+            var caretPosition = textEditor.CaretOffset - 2;
+            var lineOffset = textEditor.Document.GetOffset(textEditor.Document.GetLocation(caretPosition));
+            string text = textEditor.Document.GetText(lineOffset, 1);
+
+            while (true)
+            {
+                if (text == null && text.CompareTo(" ") > 0)
+                {
+                    break;
+                }
+                if (Regex.IsMatch(text, @".*[^A-Za-z\. ]"))
+                {
+                    break;
+                }
+
+                if (text != " ")
+                {
+                    wordBeforeDot = text + wordBeforeDot;
+                }
+
+                if (caretPosition == 0)
+                {
+                    break;
+                }
+
+                lineOffset = textEditor.Document.GetOffset(textEditor.Document.GetLocation(--caretPosition));
+
+                text = textEditor.Document.GetText(lineOffset, 1);
+            }
+
+            return wordBeforeDot;
+        }
+
+        void SqlEditor_TextEntering(object sender, TextCompositionEventArgs e)
+        {
+            if (e.Text.Length > 0 && _completionWindow != null)
+            {
+                if (!char.IsLetterOrDigit(e.Text[0]))
+                {
+                    // Whenever a non-letter is typed while the completion window is open,
+                    // insert the currently selected element.
+                    _completionWindow.CompletionList.RequestInsertion(e);
+                }
+            }
+            // Do not set e.Handled=true.
+            // We still want to insert the character that was typed.
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
