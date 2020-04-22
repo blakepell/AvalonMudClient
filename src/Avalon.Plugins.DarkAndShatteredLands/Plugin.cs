@@ -44,7 +44,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             this.Triggers.Add(new Trigger(@"^\((Shalonesti|OOC Shalonesti|Clave|OOC Clave)\).*$", "", "", true, "bd8f5ed0-3122-4091-bb23-db2f589e7cf0", TerminalTarget.Communication, true));
 
             // Toasts, TODO: Dragon/Remort toasts ( Dragon ) ( Balanx )
-            this.Triggers.Add(new Trigger(@"([\[\(](.*?)[\]\)])?[ ]{0,}([\w'-]+) got (.*?) by (.*?) ([\[\(] (.*?) [\]\)])?[ ]{0,}([\(]Arena[\)])?", "", "", true, "6731ca72-5672-4dab-879b-896b2945805a", TerminalTarget.Communication, true));
+            this.Triggers.Add(new Trigger(@"^[\a]?([\[\(](.*?)[\]\)])?[ ]{0,}([\w'-]+) got (.*?) by (.*?) ([\[\(] (.*?) [\]\)])?[ ]{0,}([\(]Arena[\)])?", "", "", true, "6731ca72-5672-4dab-879b-896b2945805a", TerminalTarget.Communication, true));
 
             // Game events: Keeps
             this.Triggers.Add(new Trigger(@"^([\w'-]+) has (conquered|unlocked) (.*)!", "", "", true, "638a6c30-0a5e-4859-b666-72413f2f1781", TerminalTarget.Communication, false));
