@@ -38,7 +38,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             this.Triggers.Add(new Trigger(@"\((Admin|Coder)\) \(Imm\) [\w'-]+:", "", "", true, "b5c8f16b-31d1-48e9-a895-fda1be732051", TerminalTarget.Communication, true));
 
             // OOC Channels: OOC, OOC Clan, OOC Kingdom, Newbie
-            this.Triggers.Add(new Trigger(@"^(\(.*\)?)?([\w'-]+|The ghost of [\w'-]+|\(An Imm\)|\(Imm\) [\w'-]+) (OOC|\[Newbie\]).*$", "", "", true, "4c7efde0-6f9a-4429-8b5c-edf23e60e61f", TerminalTarget.OutOfCharacterCommunication, true));
+            this.Triggers.Add(new Trigger(@"^[\a]?(\(.*\)?)?([\w'-]+|The ghost of [\w'-]+|\(An Imm\)|\(Imm\) [\w'-]+) (OOC|\[Newbie\]).*$", "", "", true, "4c7efde0-6f9a-4429-8b5c-edf23e60e61f", TerminalTarget.OutOfCharacterCommunication, true));
 
             // Shared channels (Shalonesti, Conclave)
             this.Triggers.Add(new Trigger(@"^\((Shalonesti|OOC Shalonesti|Clave|OOC Clave)\).*$", "", "", true, "bd8f5ed0-3122-4091-bb23-db2f589e7cf0", TerminalTarget.Communication, true));
