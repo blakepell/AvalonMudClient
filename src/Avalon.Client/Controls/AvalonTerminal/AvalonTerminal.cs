@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Avalon.Colors;
 using Avalon.Common.Models;
+using System.Windows.Controls;
 
 namespace Avalon.Controls
 {
@@ -20,6 +21,13 @@ namespace Avalon.Controls
     /// </remarks>
     public class AvalonTerminal : ICSharpCode.AvalonEdit.TextEditor
     {
+        /// <summary>
+        /// Whether or not the terminal will attempt to AutoScroll if the line inserted
+        /// requests for auto scroll.  This being set to false negates all auto scrolling
+        /// even if requested by the line.
+        /// </summary>
+        public bool IsAutoScrollEnabled { get; set; } = true;
+
         /// <summary>
         /// The last ANSI color code that was used so that it can start the next set of text
         /// where color isn't ignored.
@@ -361,9 +369,10 @@ namespace Avalon.Controls
             this.AppendText(line.FormattedText);
 
             // Check to see if we should scroll to the last line after appending.  This will be true for probably
-            // all terminal windows except the back buffer.
-            if (line.ScrollToLastLine)
-            {
+            // all terminal windows except the back buffer.  The AutoScroll property can override this behavior in
+            // terms of being able to turn it off.
+            if (this.IsAutoScrollEnabled && line.ScrollToLastLine)
+            {                
                 this.ScrollToLastLine();
             }
         }
@@ -399,6 +408,21 @@ namespace Avalon.Controls
             var firstLine = this.TextArea.TextView.GetVisualLine(0);
 
             if (firstLine == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Whether or not the requested line number is visible.
+        /// </summary>
+        public bool IsLineVisible(int lineNumber)
+        {
+            var line = this.TextArea.TextView.GetVisualLine(lineNumber);
+
+            if (line == null)
             {
                 return false;
             }
@@ -462,7 +486,7 @@ namespace Avalon.Controls
 
                 length += line.TotalLength;
             }
-            
+
             this.Document.Remove(startPosition, length);
         }
 
