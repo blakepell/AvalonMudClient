@@ -561,6 +561,7 @@ namespace Avalon
             {
                 App.MainWindow.SaveGridState();
                 App.Settings.SaveSettings();
+                App.Conveyor.EchoText("\r\n");
                 App.Conveyor.EchoLog($"Settings Saved", LogType.Success);
             }
             catch (Exception ex)
