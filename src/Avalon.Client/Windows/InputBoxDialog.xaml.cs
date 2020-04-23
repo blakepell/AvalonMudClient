@@ -51,5 +51,15 @@ namespace Avalon
             }
         }
 
+        /// <summary>
+        /// Cancels the input box.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            TextBoxInput.Text = "";
+        }
+
     }
 }

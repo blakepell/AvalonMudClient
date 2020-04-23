@@ -5,6 +5,7 @@
     xmlns:ui="http://schemas.modernwpf.com/2019"
     Title="Input"
     PrimaryButtonText="Cancel"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     SecondaryButtonText="OK"
     DefaultButton="Secondary"
     Loaded="ContentDialog_Loaded">
