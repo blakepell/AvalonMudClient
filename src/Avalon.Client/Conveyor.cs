@@ -9,6 +9,7 @@ using Avalon.Common.Colors;
 using Avalon.Extensions;
 using Avalon.Common.Models;
 using System.Threading.Tasks;
+using Avalon.Colors;
 
 namespace Avalon
 {
@@ -247,6 +248,71 @@ namespace Avalon
             }
 
             EchoText(line, TerminalTarget.Main);
+        }
+
+        /// <summary>
+        /// Gets all of the text from the requested window.
+        /// </summary>
+        /// <param name="target"></param>
+        public string GetText(TerminalTarget target, bool removeColors)
+        {
+            var sb = new StringBuilder();
+
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                switch (target)
+                {
+                    case TerminalTarget.Main:
+                        sb.Append(App.MainWindow.GameTerminal.Text);                       
+                        break;
+                    case TerminalTarget.Communication:
+                        sb.Append(App.MainWindow.CommunicationTerminal.Text);
+                        break;
+                    case TerminalTarget.OutOfCharacterCommunication:
+                        sb.Append(App.MainWindow.OocCommunicationTerminal.Text);
+                        break;
+                }
+            }));
+
+            if (removeColors)
+            {
+                Colorizer.RemoveAllAnsiCodes(sb);
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Gets the selected text from the requested window.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public string GetSelectedText(TerminalTarget target, bool removeColors)
+        {
+            var sb = new StringBuilder();
+
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                switch (target)
+                {
+                    case TerminalTarget.Main:
+                        sb.Append(App.MainWindow.GameTerminal.SelectedText);
+                        break;
+                    case TerminalTarget.Communication:
+                        sb.Append(App.MainWindow.CommunicationTerminal.SelectedText);
+                        break;
+                    case TerminalTarget.OutOfCharacterCommunication:
+                        sb.Append(App.MainWindow.OocCommunicationTerminal.SelectedText);
+                        break;
+                }
+            }));
+
+            if (removeColors)
+            {
+                Colorizer.RemoveAllAnsiCodes(sb);
+            }
+
+            return sb.ToString();
         }
 
         /// <summary>

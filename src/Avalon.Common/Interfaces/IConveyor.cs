@@ -33,6 +33,10 @@ namespace Avalon.Common.Interfaces
 
         void EchoLog(string text, LogType type);
 
+        string GetText(TerminalTarget target, bool removeColors);
+
+        string GetSelectedText(TerminalTarget target, bool removeColors);
+
         void SetTickTime(int value);
 
         int GetTickTime();
