@@ -104,6 +104,11 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public TimestampFormats TimestampFormat { get; set; } = TimestampFormats.HoursMinutesSeconds;
 
+        [CategoryAttribute("UI")]
+        [DescriptionAttribute("If escape is pressed all terminal windows will scroll to the bottom.")]
+        [Browsable(true)]
+        public bool EscapeScrollsAllTerminalsToBottom { get; set; } = true;
+
         [CategoryAttribute("Updates")]
         [DescriptionAttribute("The URL that the mud client to reference to determine if there is an update.")]
         [Browsable(true)]

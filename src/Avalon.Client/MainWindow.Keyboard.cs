@@ -146,6 +146,14 @@ namespace Avalon
                     // Collapse the back buffer so it hides it and reclaims the space for the main terminal.
                     GameBackBufferTerminal.Visibility = System.Windows.Visibility.Collapsed;
 
+                    // Setting to see if the comm windows should scroll to the bottom on escape.
+                    if (App.Settings.AvalonSettings.EscapeScrollsAllTerminalsToBottom)
+                    {
+                        OocCommunicationTerminal.ScrollToLastLine();
+                        CommunicationTerminal.ScrollToLastLine();
+                        GameTerminal.ScrollToLastLine();
+                    }
+
                     // Reset the input history to the default position and clear the text in the input box.
                     Interp.InputHistoryPosition = -1;
                     TextInput.Editor.Text = "";
@@ -205,6 +213,14 @@ namespace Avalon
                 case Key.Escape:
                     // Collapse the back buffer so it hides it and reclaims the space for the main terminal.
                     GameBackBufferTerminal.Visibility = System.Windows.Visibility.Collapsed;
+
+                    // Setting to see if the comm windows should scroll to the bottom on escape.
+                    if (App.Settings.AvalonSettings.EscapeScrollsAllTerminalsToBottom)
+                    {
+                        GameTerminal.ScrollToLastLine();
+                        OocCommunicationTerminal.ScrollToLastLine();
+                        CommunicationTerminal.ScrollToLastLine();
+                    }
 
                     // Reset the input history to the default position and clear the text in the input box.
                     Interp.InputHistoryPosition = -1;
