@@ -88,6 +88,22 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public bool InputBoxClearAfterCommand { get; set; } = false;
 
+        /// <summary>
+        /// The supported time stamp formats.
+        /// </summary>
+        public enum TimestampFormats
+        {
+            HoursMinutes = 0,
+            HoursMinutesSeconds = 1,
+            TwentyFourHour = 2,
+            OSDefault = 3
+        }
+
+        [CategoryAttribute("UI")]
+        [DescriptionAttribute("The format of the timestamp when a line is written to a communication panel.")]
+        [Browsable(true)]
+        public TimestampFormats TimestampFormat { get; set; } = TimestampFormats.HoursMinutesSeconds;
+
         [CategoryAttribute("Updates")]
         [DescriptionAttribute("The URL that the mud client to reference to determine if there is an update.")]
         [Browsable(true)]
