@@ -485,6 +485,26 @@ namespace Avalon
         }
 
         /// <summary>
+        /// Prompts the user with an input box and returns the string content.
+        /// </summary>
+        /// <param name="caption"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        public async Task<string> InputBox(string caption, string title, string prepopulateText)
+        {
+            var win = new InputBoxDialog
+            {
+                Title = title,
+                Caption = caption,
+                Text = prepopulateText
+            };
+
+            var result = await win.ShowAsync();
+
+            return win.Text;
+        }
+
+        /// <summary>
         /// Prompts a dialog box and sets a variable with the result when it's complete.
         /// </summary>
         /// <param name="caption"></param>
@@ -563,5 +583,10 @@ namespace Avalon
         /// The settings for the current profile that is loaded.
         /// </summary>
         public ProfileSettings ProfileSettings => App.Settings.ProfileSettings;
+
+        /// <summary>
+        /// Retuns the client settings that are specific to the workstation
+        /// </summary>
+        public AvalonSettings ClientSettings => App.Settings.AvalonSettings;
     }
 }

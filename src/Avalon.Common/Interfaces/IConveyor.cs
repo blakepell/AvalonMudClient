@@ -13,6 +13,8 @@ namespace Avalon.Common.Interfaces
     {
         ProfileSettings ProfileSettings { get; }
 
+        AvalonSettings ClientSettings { get; }
+
         string GetVariable(string key);
 
         void SetVariable(string key, string value);
@@ -52,6 +54,8 @@ namespace Avalon.Common.Interfaces
         bool DisableGroup(string groupName);
 
         Task<string> InputBox(string caption, string title);
+
+        Task<string> InputBox(string caption, string title, string prepopulateText);
 
         void InputBoxToVariable(string caption, string title, string variable);
 
