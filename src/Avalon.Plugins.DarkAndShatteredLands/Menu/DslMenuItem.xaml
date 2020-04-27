@@ -66,6 +66,12 @@
             </MenuItem>
         </MenuItem>
         <Separator />
+        <MenuItem Header="Log Creator" Click="MenuItemLogCreator_Click">
+            <MenuItem.Icon>
+                <ui:SymbolIcon Symbol="Document" />
+            </MenuItem.Icon>
+        </MenuItem>
+        <Separator />
         <MenuItem Header="Update DSL Shared Package" Click="MenuItemUpdateDslPackageAsync_Click">
             <MenuItem.Icon>
                 <ui:SymbolIcon Symbol="Download" />

@@ -202,5 +202,33 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             win.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             win.Show();
         }
+
+        /// <summary>
+        /// A helper to allow an immortal to create restrings.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemLogCreator_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var interp = GetInterpreter();
+
+            if (interp == null)
+            {
+                return;
+            }
+
+            string text = interp.Conveyor.GetSelectedText(Common.Models.TerminalTarget.Main, true);
+
+            // If the selection was null, get all the text in the main window.
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                text = interp.Conveyor.GetText(Common.Models.TerminalTarget.Main, true);
+            }
+
+            var win = new LogCreatorWindow(interp, text);
+            win.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+            win.Show();
+        }
+
     }
 }

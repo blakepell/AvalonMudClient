@@ -1,0 +1,128 @@
+﻿<Window x:Class="Avalon.LogCreatorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Avalon"
+        mc:Ignorable="d"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+        Loaded="LogCreatorWindow_Loaded"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        x:Name="LogCreator" TextOptions.TextFormattingMode="Ideal"
+        ui:TitleBar.Background="#2D2D30" Background="#171717" BorderBrush="#007ACC"
+        Title="Log Creator" Height="595" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="220"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="74"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <!-- 1 pixel left margin was so the left border of the window will render -->
+        <avalonedit:TextEditor Grid.Row="0" Grid.Column="0"
+            x:Name="LogEditor" ShowLineNumbers="True" WordWrap="False"
+            FontFamily="Consolas" FontSize="12pt" IsReadOnly="False"
+            HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible"
+            Padding="0,0,0,0" Margin="1,0,0,0" KeyDown="LogEditor_KeyDown"
+            Background="Black" Foreground="#DCDCDC"
+            ScrollViewer.PanningMode="VerticalOnly"            
+            BorderBrush="White">
+        </avalonedit:TextEditor>
+
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical">
+            <Label Foreground="White" Margin="5,5,0,5">Remove Lines by Pattern</Label>
+            <ui:DropDownButton AutomationProperties.Name="Remove Line Options" ui:ControlHelper.CornerRadius="0" HorizontalAlignment="Stretch" BorderBrush="#1E1E1E" BorderThickness="0,0,0,1">
+                <ui:DropDownButton.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <ui:FontIcon Glyph="&#xECC9;" />
+                        <Label Margin="7,0,0,0">Remove Line Options</Label>
+                    </StackPanel>
+                </ui:DropDownButton.Content>
+                <ui:DropDownButton.Flyout>
+                    <ui:MenuFlyout Placement="BottomEdgeAlignedLeft">
+                        <MenuItem Header="Remove Double Blank Lines" Tag="Remove Double Blank Lines" Click="ButtonHandler_Click" HorizontalAlignment="Stretch" />
+                        <MenuItem Header="Remove Lines that Start With" Tag="Remove Lines that Start With" Click="ButtonHandler_Click" HorizontalAlignment="Stretch" />
+                        <MenuItem Header="Remove Lines that End With" Tag="Remove Lines that End With" Click="ButtonHandler_Click" HorizontalAlignment="Stretch" />
+                        <MenuItem Header="Remove Lines that Contain" Tag="Remove Lines that Contain" Click="ButtonHandler_Click" HorizontalAlignment="Stretch" />
+                        <MenuItem Header="Remove Lines by Regex" Tag="Remove Lines by Regex" Click="ButtonHandler_Click" HorizontalAlignment="Stretch" />
+                        <MenuItem Header="Remove Single Word Lines" Tag="Remove Single Word Lines" Click="ButtonHandler_Click" HorizontalAlignment="Stretch" />
+                    </ui:MenuFlyout>
+                </ui:DropDownButton.Flyout>
+            </ui:DropDownButton>
+
+            <Label Foreground="White" Margin="5,5,0,5">Text Replacement</Label>
+
+            <ui:DropDownButton AutomationProperties.Name="Remove Line Options" ui:ControlHelper.CornerRadius="0" HorizontalAlignment="Stretch" BorderBrush="#1E1E1E" BorderThickness="0,0,0,1">
+                <ui:DropDownButton.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <ui:FontIcon Glyph="&#xE773;" />
+                        <Label Margin="7,0,0,0">Find and Replace</Label>
+                    </StackPanel>
+                </ui:DropDownButton.Content>
+                <ui:DropDownButton.Flyout>
+                    <ui:MenuFlyout Placement="BottomEdgeAlignedLeft">
+                        <MenuItem Header="Find and Replace" Tag="Find and Replace" Click="ButtonHandler_Click" HorizontalAlignment="Stretch" />
+                    </ui:MenuFlyout>
+                </ui:DropDownButton.Flyout>
+            </ui:DropDownButton>
+
+            <Label Foreground="White" Margin="5,5,0,5">Remove DSL Game Sections</Label>
+
+            <ui:DropDownButton AutomationProperties.Name="Remove Line Options" ui:ControlHelper.CornerRadius="0" HorizontalAlignment="Stretch" BorderBrush="#1E1E1E" BorderThickness="0,0,0,1">
+                <ui:DropDownButton.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <ui:FontIcon Glyph="&#xECC9;" />
+                        <Label Margin="7,0,0,0">DSL Sections</Label>
+                    </StackPanel>
+                </ui:DropDownButton.Content>
+                <ui:DropDownButton.Flyout>
+                    <ui:MenuFlyout Placement="BottomEdgeAlignedLeft">
+                        <MenuItem Header="Remove Prompts" Tag="Remove Prompts" Click="ButtonHandler_Click" HorizontalAlignment="Stretch" />
+                        <MenuItem Header="Remove Channels" Tag="Remove Channels" Click="ButtonHandler_Click" HorizontalAlignment="Stretch" />
+                        <MenuItem Header="Remove Notes" Tag="Remove Notes" Click="ButtonHandler_Click" HorizontalAlignment="Stretch" />
+                        <MenuItem Header="Remove Battle" Tag="Remove Battle" Click="ButtonHandler_Click" HorizontalAlignment="Stretch" />
+                        <MenuItem Header="Remove Toasts" Tag="Remove Toasts" Click="ButtonHandler_Click" HorizontalAlignment="Stretch" />
+                        <MenuItem Header="Remove Affects" Tag="Remove Affects" Click="ButtonHandler_Click" HorizontalAlignment="Stretch" />
+                        <MenuItem Header="Remove Score" Tag="Remove Score" Click="ButtonHandler_Click" HorizontalAlignment="Stretch" />
+                        <MenuItem Header="Remove Clan Info" Tag="Remove Clan Info" Click="ButtonHandler_Click" HorizontalAlignment="Stretch" />
+                        <MenuItem Header="Remove Directions" Tag="Remove Directions" Click="ButtonHandler_Click" HorizontalAlignment="Stretch" />
+                        <MenuItem Header="Remove Spell Cast Commands" Tag="Remove Spell Cast Commands" Click="ButtonHandler_Click" HorizontalAlignment="Stretch" />
+                    </ui:MenuFlyout>
+                </ui:DropDownButton.Flyout>
+            </ui:DropDownButton>
+
+            <Label Foreground="White" Margin="5,5,0,5">Multiple Actions</Label>
+
+            <Button Tag="Battle Log" Click="ButtonHandler_Click" 
+                    ui:ControlHelper.CornerRadius="0" HorizontalAlignment="Stretch"
+                    BorderBrush="#1E1E1E" BorderThickness="0,0,0,1">Battle Log</Button>
+
+            <Button Tag="RP Log" Click="ButtonHandler_Click" 
+                    ui:ControlHelper.CornerRadius="0" HorizontalAlignment="Stretch"
+                    BorderBrush="#1E1E1E" BorderThickness="0,0,0,1">RP Log</Button>
+
+            <Button Tag="Communication Log" Click="ButtonHandler_Click" 
+                    ui:ControlHelper.CornerRadius="0" HorizontalAlignment="Stretch"
+                    BorderBrush="#1E1E1E" BorderThickness="0,0,0,1">Communication Log</Button>
+
+            <Button Tag="Remove Maccus" Click="ButtonHandler_Click" 
+                    ui:ControlHelper.CornerRadius="0" HorizontalAlignment="Stretch"
+                    BorderBrush="#1E1E1E" BorderThickness="0,0,0,1">Remove Maccus</Button>
+
+        </StackPanel>
+
+        <DockPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Top">
+                <Button ui:ControlHelper.CornerRadius="0" Margin="5,10,5,10" Width="100" x:Name="ButtonCancel" Click="ButtonCancel_OnClick">Cancel</Button>
+                <Button ui:ControlHelper.CornerRadius="0" Margin="5,10,5,10" Width="100" x:Name="ButtonSave" Click="ButtonSave_OnClick" Visibility="{Binding SaveButtonVisible}">Save File</Button>
+            </StackPanel>
+            <StatusBar x:Name="StatusBarWindow" Background="#007ACC" Foreground="White">
+                <TextBlock x:Name="TextBlockStatus" Text="The dialog will assist in creating a log from the game." TextWrapping="NoWrap"></TextBlock>
+            </StatusBar>
+        </DockPanel>
+    </Grid>
+</Window>
