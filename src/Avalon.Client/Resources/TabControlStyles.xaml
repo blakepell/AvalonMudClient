@@ -67,12 +67,39 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsConnected" Value="True">
+
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="NetworkSymbol" 
+                                                          Storyboard.TargetProperty="Foreground.Color"
+                                                          From="Red" To="Gray" Duration="0:0:0.5" />
+                                        <Storyboard BeginTime="0:0:0.5">
+                                            <ColorAnimation Storyboard.TargetName="NetworkSymbol" 
+                                                          Storyboard.TargetProperty="Foreground.Color"
+                                                          From="Gray" To="Green" Duration="0:0:0.5" />
+                                        </Storyboard>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="NetworkSymbol" 
+                                                          Storyboard.TargetProperty="Foreground.Color"
+                                                          From="Green" To="Gray" Duration="0:0:0.5" />
+                                        <Storyboard BeginTime="0:0:0.5">
+                                            <ColorAnimation Storyboard.TargetName="NetworkSymbol" 
+                                                          Storyboard.TargetProperty="Foreground.Color"
+                                                          From="Gray" To="Red" Duration="0:0:0.5" />
+                                        </Storyboard>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
                             <Setter TargetName="NetworkSymbol" Property="Symbol" Value="MapDrive" />
-                            <Setter TargetName="NetworkSymbol" Property="Foreground" Value="Green"></Setter>
                         </Trigger>
                         <Trigger Property="IsConnected" Value="False">
                             <Setter TargetName="NetworkSymbol" Property="Symbol" Value="DisconnectDrive" />
-                            <Setter TargetName="NetworkSymbol" Property="Foreground" Value="Red"></Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
