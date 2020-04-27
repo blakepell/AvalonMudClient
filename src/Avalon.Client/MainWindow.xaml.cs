@@ -18,6 +18,7 @@ using Avalon.Common.Plugins;
 using ModernWpf.Controls;
 using System.Diagnostics;
 using System.Windows.Media;
+using System.Windows.Input;
 
 namespace Avalon
 {
@@ -328,13 +329,21 @@ namespace Avalon
         }
 
         /// <summary>
-        /// Loads any plugins found in any DLL in the plugins folder if the IP address for that plugin matches
-        /// the IP address that the user is currently connecting to.
+        /// Activates any plugins for the game associated with the currently loaded profile.
+        /// </summary>
+        private void ActivatePlugins()
+        {
+            ActivatePlugins(App.Settings.ProfileSettings.IpAddress);
+        }
+
+        /// <summary>
+        /// Loads any plugins found in any DLL in the plugins folder for the game associated with
+        /// the IP address specified.
         ///
         /// TODO - cleanup
         /// 
         /// </summary>
-        private void ActivatePlugins()
+        private void ActivatePlugins(string ipAddress)
         {
             // If there are any system triggers, clear the references to the Conveyor.
             foreach (var trigger in App.SystemTriggers)
@@ -349,7 +358,7 @@ namespace Avalon
             foreach (var plugin in App.Plugins)
             {
                 // The IP address specified in the plugin matches the IP address we're connecting to.
-                if (string.Equals(plugin.IpAddress, App.Settings.ProfileSettings.IpAddress, StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(plugin.IpAddress, ipAddress, StringComparison.OrdinalIgnoreCase))
                 {
                     // Set a copy of the current profile settings into the plugin in case it needs them.
                     plugin.ProfileSettings = App.Settings.ProfileSettings;
@@ -438,6 +447,15 @@ namespace Avalon
             this.CommunicationTerminal.FontFamily = font;
 
             this.SpellCheckEnabled = App.Settings.ProfileSettings.SpellChecking;
+
+            if (App.Settings.AvalonSettings.DeveloperMode)
+            {
+                this.MenuItemDeveloperTools.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                this.MenuItemDeveloperTools.Visibility = Visibility.Collapsed;
+            }
 
             // Grid Layout
             LoadGridState();
@@ -1176,5 +1194,28 @@ namespace Avalon
                 }
             }
         }
+
+        /// <summary>
+        /// For handling executing the load plugin menu option via a hot-key.
+        /// </summary>
+        public static readonly RoutedUICommand LoadPlugin = new RoutedUICommand("LoadPlugin", "LoadPlugin", typeof(MainWindow));
+
+        /// <summary>
+        /// Manually activate plugins for a specified IP address.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void MenuItemManuallyLoadPlugin_Click(object sender, RoutedEventArgs e)
+        {
+            string ipAddress = await this.Interp.Conveyor.InputBox("What is the IP Address associated with the plugin you want to load?", "Load Plugin", App.Settings.ProfileSettings.IpAddress);
+
+            if (string.IsNullOrWhiteSpace(ipAddress))
+            {
+                return;
+            }
+
+            ActivatePlugins(ipAddress);
+        }
+
     }
 }
