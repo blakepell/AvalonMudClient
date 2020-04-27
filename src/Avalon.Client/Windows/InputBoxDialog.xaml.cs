@@ -49,6 +49,10 @@ namespace Avalon
             {
                 return TextBoxInput.Text;
             }
+            set
+            {
+                TextBoxInput.Text = value;
+            }
         }
 
         /// <summary>
@@ -61,5 +65,21 @@ namespace Avalon
             TextBoxInput.Text = "";
         }
 
+        /// <summary>
+        /// Cancels the input box.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ContentDialog_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Escape)
+            {
+                TextBoxInput.Text = "";
+            }
+            else
+            {
+                e.Handled = false;
+            }
+        }
     }
 }
