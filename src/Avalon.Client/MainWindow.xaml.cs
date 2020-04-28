@@ -933,6 +933,10 @@ namespace Avalon
         /// <param name="e"></param>
         private async void MenuItemUpdateClient_Click(object sender, RoutedEventArgs e)
         {
+            // Save first.
+            App.MainWindow.SaveGridState();
+            App.Settings.SaveSettings();
+
             var confirmDialog = new UpdateDialog()
             {
                 PluginsOnly = false
