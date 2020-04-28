@@ -382,7 +382,8 @@ namespace Avalon.Controls
         /// </summary>
         public void ScrollToLastLine()
         {
-            this.ScrollToVerticalOffset(this.TextArea.TextView.GetVisualTopByDocumentLine(this.LineCount));
+            //this.ScrollToVerticalOffset(this.TextArea.TextView.GetVisualTopByDocumentLine(this.LineCount));
+            this.ScrollTo(this.LineCount, 0);
         }
 
         /// <summary>
