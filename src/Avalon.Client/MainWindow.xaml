@@ -207,6 +207,7 @@
                             FontSize="13" BorderBrush="LightGray"
                             ScrollViewer.PanningMode="VerticalOnly"
                             ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
+                            PreviewMouseWheel="GameBackBufferTerminal_PreviewMouseWheel"
                             KeyDown="Terminal_OnKeyDown"
                             PreviewKeyDown="GameTerminal_PreviewKeyDown">
                         </controls:AvalonTerminal>

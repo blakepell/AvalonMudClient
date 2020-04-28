@@ -92,7 +92,7 @@ namespace Avalon
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {      
+        {
             // The settings for the app load in the app startup, they will then try to load the last profile that was used.
             App.Conveyor.EchoLog($"Avalon Mud Client Version {Assembly.GetExecutingAssembly()?.GetName()?.Version.ToString() ?? "Unknown"}", LogType.Information);
 
@@ -1271,6 +1271,28 @@ namespace Avalon
             }
 
             e.Handled = true;
+        }
+
+        /// <summary>
+        /// Mouse wheel scroll handling for the BackBuffer.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GameBackBufferTerminal_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (GameBackBufferTerminal.Visibility == Visibility.Visible)
+            {
+                if (e.Delta < 0)
+                {
+                    // Now, if the last line in the back buffer is visible then we can just collapse the
+                    // back buffer because the main terminal shows everything at the end.
+                    if (GameBackBufferTerminal.IsLastLineVisible())
+                    {
+                        GameBackBufferTerminal.Visibility = Visibility.Collapsed;
+                        TextInput.Editor.Focus();
+                    }
+                }
+            }
         }
     }
 }
