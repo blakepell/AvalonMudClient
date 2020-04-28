@@ -109,6 +109,12 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public bool EscapeScrollsAllTerminalsToBottom { get; set; } = true;
 
+        [CategoryAttribute("UI")]
+        [DescriptionAttribute("If the mouse wheel is used in the game terminal it will open the back buffer and re-route the scroll there.")]
+        [Browsable(true)]
+        public bool MouseWheelScrollReroutesToBackBuffer { get; set; } = true;
+
+
         [CategoryAttribute("Updates")]
         [DescriptionAttribute("The URL that the mud client to reference to determine if there is an update.")]
         [Browsable(true)]

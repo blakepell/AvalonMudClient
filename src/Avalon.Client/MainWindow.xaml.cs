@@ -1229,7 +1229,7 @@ namespace Avalon
         private void GameTerminal_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             // If no back buffer, don't bother.
-            if (!App.Settings.AvalonSettings.BackBufferEnabled)
+            if (!App.Settings.AvalonSettings.BackBufferEnabled || !App.Settings.AvalonSettings.MouseWheelScrollReroutesToBackBuffer)
             {
                 return;
             }
