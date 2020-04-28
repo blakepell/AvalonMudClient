@@ -66,10 +66,10 @@ namespace Avalon
                 return;
             }
 
-            // Scroll down when it's not visible, hard pass.
+            // Allowing scrolling down in the main terminal when the back buffer is collapsed.
             if (e.Delta < 0 && GameBackBufferTerminal.Visibility == Visibility.Collapsed)
             {
-                e.Handled = true;
+                e.Handled = false;
                 return;
             }
 
@@ -87,6 +87,9 @@ namespace Avalon
                 if (e.Delta > 0)
                 {
                     this.GameBackBufferTerminal.PageUp();
+
+                    // This mitigates scrolling up.
+                    e.Handled = true;
                 }
                 else
                 {
@@ -101,8 +104,6 @@ namespace Avalon
                     }
                 }
             }
-
-            e.Handled = true;
         }
 
         /// <summary>
