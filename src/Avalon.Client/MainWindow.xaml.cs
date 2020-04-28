@@ -1217,5 +1217,56 @@ namespace Avalon
             ActivatePlugins(ipAddress);
         }
 
+        /// <summary>
+        /// Pass mouse scrolling off to the back buffer.  Probably.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GameTerminal_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            // If no back buffer, don't bother.
+            if (!App.Settings.AvalonSettings.BackBufferEnabled)
+            {
+                return;
+            }
+
+            // Scroll down when it's not visible, hard pass.
+            if (e.Delta < 0 && GameBackBufferTerminal.Visibility == Visibility.Collapsed)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Back buffer is collapsed, show it, scroll to the bottom of it.
+            if (GameBackBufferTerminal.Visibility == Visibility.Collapsed)
+            {
+                GameBackBufferTerminal.ScrollToLastLine();
+                GameBackBufferTerminal.Visibility = Visibility.Visible;
+
+                // Since the height of this changed scroll it to the bottom.
+                GameTerminal.ScrollToLastLine();
+            }
+            else if (GameBackBufferTerminal.Visibility == Visibility.Visible)
+            {
+                if (e.Delta > 0)
+                {
+                    this.GameBackBufferTerminal.PageUp();
+                }
+                else
+                {
+                    this.GameBackBufferTerminal.PageDown();
+
+                    // Now, if the last line in the back buffer is visible then we can just collapse the
+                    // back buffer because the main terminal shows everything at the end.
+                    if (GameBackBufferTerminal.IsLastLineVisible())
+                    {
+                        GameBackBufferTerminal.Visibility = Visibility.Collapsed;
+                        TextInput.Editor.Focus();
+                    }
+                }
+            }
+
+            e.Handled = true;
+        }
     }
 }

@@ -219,7 +219,8 @@
                             Background="Black" Foreground="LightGray"
                             FontSize="13" BorderBrush="White"                                                                                                  
                             ScrollViewer.PanningMode="VerticalOnly"                                                 
-                            ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
+                            ContextMenu="{DynamicResource AvalonTerminalContextMenu}"                            
+                            PreviewMouseWheel="GameTerminal_PreviewMouseWheel"
                             KeyDown="Terminal_OnKeyDown"
                             PreviewKeyDown="GameTerminal_PreviewKeyDown">
                         </controls:AvalonTerminal>
