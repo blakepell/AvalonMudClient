@@ -43,6 +43,11 @@ namespace Avalon.Common.Interfaces
         void Disconnect();
 
         /// <summary>
+        /// Polls the TcpClient to see if the connection is still open.
+        /// </summary>
+        bool IsConnected();
+
+        /// <summary>
         /// Event for when a line is received.
         /// </summary>
         EventHandler<string> LineReceived { get; set; }

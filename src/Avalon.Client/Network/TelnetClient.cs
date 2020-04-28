@@ -327,6 +327,24 @@ namespace Avalon.Network
             }
         }
 
+        /// <summary>
+        /// A hard check of whether the TCP/IP connection is still open by peeking.
+        /// </summary>
+        public bool IsConnected()
+        {
+            if (_tcpClient.Client.Poll(0, SelectMode.SelectRead))
+            {
+                byte[] buff = new byte[1];
+                if (_tcpClient.Client.Receive(buff, SocketFlags.Peek) == 0)
+                {
+                    // Client disconnected
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         public void TraceInformation(string text)
         {
             if (_traceEnabled)
