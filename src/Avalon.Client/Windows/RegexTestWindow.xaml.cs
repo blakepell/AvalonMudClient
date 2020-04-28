@@ -15,6 +15,15 @@ namespace Avalon
     {
 
         /// <summary>
+        /// The pattern for the window.
+        /// </summary>
+        public string Pattern
+        {
+            get => TextBoxRegexPattern.Text;
+            set => TextBoxRegexPattern.Text = value;
+        }
+
+        /// <summary>
         /// The text for the status bar.
         /// </summary>
         public string StatusText
@@ -87,6 +96,20 @@ namespace Avalon
             _textBoxList.Add(TextBoxTest5);
             _textBoxList.Add(TextBoxTest6);
             _textBoxList.Add(TextBoxTest7);
+        }
+
+        public RegexTestWindow(string initialPattern) : this()
+        {
+            InitializeComponent();
+            _textBoxList.Add(TextBoxTest1);
+            _textBoxList.Add(TextBoxTest2);
+            _textBoxList.Add(TextBoxTest3);
+            _textBoxList.Add(TextBoxTest4);
+            _textBoxList.Add(TextBoxTest5);
+            _textBoxList.Add(TextBoxTest6);
+            _textBoxList.Add(TextBoxTest7);
+
+            TextBoxRegexPattern.Text = initialPattern;
         }
 
         /// <summary>
