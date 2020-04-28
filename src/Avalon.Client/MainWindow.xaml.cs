@@ -514,6 +514,16 @@ namespace Avalon
         }
 
         /// <summary>
+        /// Scrolls all the visible terminal windows to the bottom.
+        /// </summary>
+        public void ScrollAllToBottom()
+        {
+            OocCommunicationTerminal.ScrollToLastLine();
+            CommunicationTerminal.ScrollToLastLine();
+            GameTerminal.ScrollToLastLine();
+        }
+
+        /// <summary>
         /// Event for when the settings button is clicked.
         /// </summary>
         /// <param name="o"></param>
@@ -538,6 +548,10 @@ namespace Avalon
                 {
                     // In order to get the focus in this instance an UpdateLayout() call has to be called first.
                     UpdateLayout();
+
+                    // This is a little bit of a hack.. terminals stop auto scrolling for some reason when
+                    // another tab is active.
+                    ScrollAllToBottom();
 
                     // When the app is first loaded the Editor was coming up null so we'll just check the nulls
                     // and then default the caret position to 0 if that's the case.
@@ -981,6 +995,10 @@ namespace Avalon
                     {
                         // In order to get the focus in this instance an UpdateLayout() call has to be called first.
                         UpdateLayout();
+
+                        // This is a little bit of a hack.. terminals stop auto scrolling for some reason when
+                        // another tab is active.
+                        ScrollAllToBottom();
 
                         // When the app is first loaded the Editor was coming up null so we'll just check the nulls
                         // and then default the caret position to 0 if that's the case.
