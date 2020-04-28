@@ -425,6 +425,7 @@ namespace Avalon
             this.GameTerminal.FontSize = App.Settings.AvalonSettings.TerminalFontSize;
             this.OocCommunicationTerminal.FontSize = App.Settings.AvalonSettings.TerminalFontSize;
             this.CommunicationTerminal.FontSize = App.Settings.AvalonSettings.TerminalFontSize;
+            this.GameBackBufferTerminal.FontSize = App.Settings.AvalonSettings.TerminalFontSize;
 
             // Terminal font
             FontFamily font;
@@ -445,6 +446,7 @@ namespace Avalon
             this.GameTerminal.FontFamily = font;
             this.OocCommunicationTerminal.FontFamily = font;
             this.CommunicationTerminal.FontFamily = font;
+            this.GameBackBufferTerminal.FontFamily = font;
 
             this.SpellCheckEnabled = App.Settings.ProfileSettings.SpellChecking;
 
