@@ -28,10 +28,24 @@
             </Grid>
         </DataTemplate>
         <ContextMenu x:Key="AvalonTerminalContextMenu" x:Shared="true" ui:ControlHelper.CornerRadius="0">
-            <MenuItem Header="Copy" Click="AvalonTerminalContextMenuCopy_OnClick" />
-            <MenuItem Header="Copy with Mud Colors" Click="AvalonTerminalContextMenuCopyWithMudColors_OnClick" />
+            <MenuItem Header="Copy" Click="AvalonTerminalContextMenuCopy_OnClick">
+                <MenuItem.Icon>
+                    <ui:SymbolIcon Symbol="Copy" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Copy with Mud Colors" Click="AvalonTerminalContextMenuCopyWithMudColors_OnClick">
+                <MenuItem.Icon>
+                    <ui:SymbolIcon Symbol="Copy" Foreground="Green" />
+                </MenuItem.Icon>
+            </MenuItem>
             <Separator />
-            <MenuItem Header="Clear Terminal" Click="AvalonTerminalContextMenuClear_OnClick"></MenuItem>
+            <MenuItem Header="Test Selection in Regular Expression Tester" Click="MenuItemTestSelectionRegEx_Click" />
+            <Separator />
+            <MenuItem Header="Clear Terminal" Click="AvalonTerminalContextMenuClear_OnClick">
+                <MenuItem.Icon>
+                    <ui:SymbolIcon Symbol="ClearSelection" />
+                </MenuItem.Icon>
+            </MenuItem>
         </ContextMenu>
     </Window.Resources>
     <Window.CommandBindings>
