@@ -199,16 +199,18 @@ namespace Avalon.Common.Triggers
             set
             {
                 _pattern = value;
+                OnPropertyChanged("Pattern");
 
                 try
                 {
                     _regex = new Regex(_pattern, RegexOptions.Compiled);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // TODO
-                    // They might have been updating the trigger and the pattern failed, consider logging this
-                    // under developer mode
+                    if (this.Conveyor != null)
+                    {
+                        this.Conveyor.EchoLog($"Trigger creation error: {ex.Message}", LogType.Error);
+                    }
                 }
             }
         }
@@ -221,15 +223,40 @@ namespace Avalon.Common.Triggers
             return;
         }
 
+        private string _character = "";
         /// <summary>
         /// The character who the trigger should be isolated to (if any).
         /// </summary>
-        public string Character { get; set; } = "";
+        public string Character
+        {
+            get
+            {
+                return _character;
+            }
+            set
+            {
+                _character = value;
+                OnPropertyChanged("Character");
+            }
+        }
+
+        private string _group = "";
 
         /// <summary>
         /// The group the trigger is in.  This can be used to toggle all triggers on or off.
         /// </summary>
-        public string Group { get; set; } = "";
+        public string Group
+        {
+            get
+            {
+                return _group;
+            }
+            set
+            {
+                _group = value;
+                OnPropertyChanged("Group");
+            }
+        }
 
         /// <summary>
         /// Whether the triggers output should be silent (not echo to the main terminal).
@@ -263,11 +290,24 @@ namespace Avalon.Common.Triggers
         /// </summary>
         public DateTime LastMatched { get; set; } = DateTime.MinValue;
 
+        private bool _variableReplacement = false;
+
         /// <summary>
         /// Whether or not variables should be replaced in the pattern.  This is offered as
         /// a performance tweak so the player has to opt into it.
         /// </summary>
-        public bool VariableReplacement { get; set; } = false;
+        public bool VariableReplacement
+        {
+            get
+            {
+                return _variableReplacement;
+            }
+            set
+            {
+                _variableReplacement = value;
+                OnPropertyChanged("VariableReplacement");
+            }
+        }
 
         private bool _enabled = true;
         public bool Enabled
@@ -327,6 +367,7 @@ namespace Avalon.Common.Triggers
         }
 
         private Regex _regex;
+        private string character = "";
 
         protected virtual async void OnPropertyChanged(string propertyName)
         {

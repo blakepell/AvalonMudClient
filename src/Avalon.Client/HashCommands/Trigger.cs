@@ -33,13 +33,9 @@ namespace Avalon.HashCommands
                         return;
                     }
 
-                    bool found = false;
-
                     // System triggers that match the ID.
                     foreach (var t in App.SystemTriggers.Where(x => x.Identifier == o.Id))
                     {
-                        found = true;
-
                         if (o.Enable)
                         {
                             t.Enabled = true;
@@ -84,7 +80,9 @@ namespace Avalon.HashCommands
 
                     }
 
-                    // User created triggers that match the ID.
+                    bool found = false;
+
+                    // Update - User created triggers that match the ID.
                     foreach (var t in App.Settings.ProfileSettings.TriggerList.Where(x => x.Identifier == o.Id))
                     {
                         found = true;
@@ -133,9 +131,30 @@ namespace Avalon.HashCommands
 
                     }
 
+                    // Create
                     if (!found)
                     {
-                        this.Interpreter.Conveyor.EchoLog($"A trigger with the ID of '{o.Id}' was not found.", Common.Models.LogType.Warning);
+                        // Create the trigger.
+                        var t = new Common.Triggers.Trigger(o.Pattern, o.Command, "", false, o.Id);
+                        t.Group = o.Group ?? "";
+                        t.VariableReplacement = o.VariableReplacement;
+
+                        // Enabled is default, they can force it to be created disabled.
+                        if (o.Disable)
+                        {
+                            t.Enabled = false;
+                        }
+
+                        // Set the Conveyor so it's usable
+                        t.Conveyor = this.Interpreter.Conveyor;
+                        
+                        // Add it to the list.
+                        App.Settings.ProfileSettings.TriggerList.Add(t);
+
+                        if (o.Verbose)
+                        {
+                            this.Interpreter.Conveyor.EchoLog($"A trigger with the ID of '{o.Id}' has been created.", Common.Models.LogType.Success);
+                        }
                     }
 
                 });
@@ -162,11 +181,17 @@ namespace Avalon.HashCommands
             [Option('v', "verbose", Required = false, HelpText = "Whether echo to the terminal even on success.")]
             public bool Verbose { get; set; }
 
+            [Option('r', "replacement", Required = false, HelpText = "Whether variables should be replaced in the trigger.")]
+            public bool VariableReplacement { get; set; } = false;
+
             [Option('p', "pattern", Required = false, HelpText = "Sets the pattern of the trigger.")]
             public string Pattern { get; set; }
 
             [Option('c', "command", Required = false, HelpText = "Sets the command of the trigger.")]
             public string Command { get; set; }
+
+            [Option('g', "group", Required = false, HelpText = "Sets the group of the trigger.")]
+            public string Group { get; set; }
 
         }
 
