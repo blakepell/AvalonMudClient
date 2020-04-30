@@ -65,6 +65,19 @@ namespace Avalon.Controls
             }
         }
 
+        /// <summary>
+        /// Uncollapses a single line.
+        /// </summary>
+        /// <param name="lineNumber"></param>
+        public void UncollapseLine(int lineNumber)
+        {
+            if (CollapsedLineSections.ContainsKey(lineNumber))
+            {
+                CollapsedLineSections[lineNumber].Uncollapse();
+                CollapsedLineSections.Remove(lineNumber);
+            }
+        }
+
         public override int GetFirstInterestedOffset(int startOffset)
         {
             // Don't process if the AppSettings are null or triggers are disabled.

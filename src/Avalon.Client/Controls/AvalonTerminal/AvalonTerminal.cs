@@ -449,6 +449,8 @@ namespace Avalon.Controls
                 return;
             }
 
+            // Remove the line from the collapsed line section if it exists (before deleting it).
+            _gagElementGenerator.UncollapseLine(lineNumber);
             this.Document.Remove(line.Offset, line.TotalLength);
         }
 
@@ -486,6 +488,9 @@ namespace Avalon.Controls
                 }
 
                 length += line.TotalLength;
+
+                // Remove the line from the collapsed line section if it exists (before deleting it).
+                _gagElementGenerator.UncollapseLine(i);
             }
 
             this.Document.Remove(startPosition, length);
