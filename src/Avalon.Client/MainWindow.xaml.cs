@@ -462,6 +462,16 @@ namespace Avalon
             // Line numbers
             GameTerminal.ShowLineNumbers = App.Settings.AvalonSettings.ShowLineNumbersInGameTerminal;
 
+            // Word wrap
+            GameTerminal.WordWrap = App.Settings.AvalonSettings.WordWrapTerminals;
+            OocCommunicationTerminal.WordWrap = GameTerminal.WordWrap = App.Settings.AvalonSettings.WordWrapTerminals;
+            CommunicationTerminal.WordWrap = GameTerminal.WordWrap = App.Settings.AvalonSettings.WordWrapTerminals;
+
+            // Scroll everything to the last line in case heights/widths/wrapping has changed.
+            GameTerminal.ScrollToLastLine();
+            OocCommunicationTerminal.ScrollToLastLine();
+            CommunicationTerminal.ScrollToLastLine();
+
             // Grid Layout
             LoadGridState();
         }

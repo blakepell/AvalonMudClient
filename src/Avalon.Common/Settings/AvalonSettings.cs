@@ -120,6 +120,11 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public bool ShowLineNumbersInGameTerminal { get; set; } = false;
 
+        [CategoryAttribute("UI")]
+        [DescriptionAttribute("Word wrap the terminals.")]
+        [Browsable(true)]
+        public bool WordWrapTerminals { get; set; } = true;
+
 
         [CategoryAttribute("Security")]
         [DescriptionAttribute("The ability to start programs on the computer via #shell or lua:shell.")]
