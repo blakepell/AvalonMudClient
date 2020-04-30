@@ -226,5 +226,24 @@ namespace Avalon.Utilities
             Process.Start(psi);
         }
 
+        /// <summary>
+        /// Shells an executable.  Caller should check the AllowShell setting.
+        /// </summary>
+        /// <param name="path"></param>
+        public static void Shell(string path)
+        {
+            Process.Start(path);
+        }
+
+        /// <summary>
+        /// Shells an executable.  Caller should check the AllowShell setting.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="arguments"></param>
+        public static void Shell(string path, string arguments)
+        {
+            Process.Start(path, arguments);
+        }
+
     }
 }

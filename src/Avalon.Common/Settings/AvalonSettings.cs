@@ -120,6 +120,12 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public bool ShowLineNumbersInGameTerminal { get; set; } = false;
 
+
+        [CategoryAttribute("Security")]
+        [DescriptionAttribute("The ability to start programs on the computer via #shell or lua:shell.")]
+        [Browsable(true)]
+        public bool AllowShell { get; set; } = false;
+
         [CategoryAttribute("Updates")]
         [DescriptionAttribute("The URL that the mud client to reference to determine if there is an update.")]
         [Browsable(true)]
