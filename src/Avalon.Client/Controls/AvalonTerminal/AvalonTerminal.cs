@@ -378,12 +378,30 @@ namespace Avalon.Controls
         }
 
         /// <summary>
-        /// Similar functionality to ScrollToEnd but considerably more efficient.
+        /// Similar functionality to ScrollToEnd but considerably more efficient.  This scrolls with ScrollTo.
+        /// ScrollToLastLine with the vertical offset overload is even more efficient but will not scroll all
+        /// the way down in cases where there is word wrapping occuring.
         /// </summary>
         public void ScrollToLastLine()
         {
             //this.ScrollToVerticalOffset(this.TextArea.TextView.GetVisualTopByDocumentLine(this.LineCount));
             this.ScrollTo(this.LineCount, 0);
+        }
+
+        /// <summary>
+        /// Scrolls to the end of the terminal by the vertical offset.  This is the most efficient way to scroll
+        /// but sometimes does not scroll all the way to the bottom when wrapping has occured.
+        /// </summary>
+        public void ScrollToLastLine(bool useVerticalOffset = false)
+        {
+            if (useVerticalOffset)
+            {
+                this.ScrollToVerticalOffset(this.TextArea.TextView.GetVisualTopByDocumentLine(this.LineCount));
+            }
+            else
+            {
+                this.ScrollTo(this.LineCount, 0);
+            }
         }
 
         /// <summary>
