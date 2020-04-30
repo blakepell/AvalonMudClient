@@ -115,6 +115,11 @@ namespace Avalon.Common.Settings
         public bool MouseWheelScrollReroutesToBackBuffer { get; set; } = true;
 
 
+        [CategoryAttribute("UI")]
+        [DescriptionAttribute("Whether or not line numbers should be shown in the game terminal.")]
+        [Browsable(true)]
+        public bool ShowLineNumbersInGameTerminal { get; set; } = false;
+
         [CategoryAttribute("Updates")]
         [DescriptionAttribute("The URL that the mud client to reference to determine if there is an update.")]
         [Browsable(true)]

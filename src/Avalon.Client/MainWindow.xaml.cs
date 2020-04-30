@@ -459,6 +459,9 @@ namespace Avalon
                 this.MenuItemDeveloperTools.Visibility = Visibility.Collapsed;
             }
 
+            // Line numbers
+            GameTerminal.ShowLineNumbers = App.Settings.AvalonSettings.ShowLineNumbersInGameTerminal;
+
             // Grid Layout
             LoadGridState();
         }
