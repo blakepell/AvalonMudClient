@@ -136,7 +136,7 @@ namespace Avalon
         /// <summary>
         /// This is fired anytime new data is received whether it is a newline or not.  This will allow us to
         /// start putting that data into the window so the user can see it (even if the trigger can't fire until
-        /// the full line is available).
+        /// the full line is available).  Data provided here may or may not be a complete line.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
