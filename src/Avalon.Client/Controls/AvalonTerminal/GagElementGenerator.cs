@@ -99,6 +99,13 @@ namespace Avalon.Controls
             var endLine = CurrentContext.VisualLine.LastDocumentLine;
             var segment = CurrentContext.GetText(startOffset, endLine.EndOffset - startOffset);
             
+            // If the line has already been collapsed, ignore it.  However, if a trigger changes this potentially would need
+            // to be called again because it would have been collapsed by the old version.  But, this might be desirable.
+            if (endLine?.NextLine != null && CollapsedLineSections.ContainsKey(endLine.NextLine.LineNumber))
+            {
+                return startOffset;
+            }
+
             // Clear the StringBuilder and re-remove the ANSI codes so the match can run again.
             _sb.Clear();
             _sb.Append(segment.Text);
@@ -107,21 +114,13 @@ namespace Avalon.Controls
             // Create only one string that will pass multiple times into the trigger's IsMatch function.
             string text = _sb.ToString();
 
-            // TODO - Performance (only Uncollapse() when needed)... perhaps put this in else below but the add would need a check then.
-            // If the triggers change, it has to have Uncollapse() called on it.
-            if (endLine?.NextLine != null && CollapsedLineSections.ContainsKey(endLine.NextLine.LineNumber))
-            {
-                CollapsedLineSections[endLine.NextLine.LineNumber].Uncollapse();
-                CollapsedLineSections.Remove(endLine.NextLine.LineNumber);
-            }
-
             // TODO - Performance Will running this linq query every time get slow?  Do we need to manually add the gag triggers in only when updated?
             // Once a trigger is found that this thing basically gets out.  It might behoof us here to run the system triggers
             // first and maybe have a priority sequence so they can be run in a certain order.  The example being, the prompt
             // will be gagged the most, it should run first and if it is, nothing else has to run here.
 
             // System Triggers moved to be first.
-            foreach (var trigger in App.SystemTriggers.Where(x => x.Gag == true && x.Enabled == true))
+            foreach (var trigger in App.SystemTriggers.Where(x => x.Gag && x.Enabled))
             {
                 // These triggers match for the gag but do NOT execute the trigger's command (VERY important because it would cause the triggers
                 // to get fired multiple times as the line is re-rendered on the screen.. that is -bad-).
@@ -133,8 +132,8 @@ namespace Avalon.Controls
             }
 
             // Regular triggers
-            foreach (var trigger in App.Settings.ProfileSettings.TriggerList.Where(x => x.Gag == true && x.Enabled == true))
-            { 
+            foreach (var trigger in App.Settings.ProfileSettings.TriggerList.Where(x => x.Gag && x.Enabled))
+            {
                 // These triggers match for the gag but do NOT execute the trigger's command (VERY important because it would cause the triggers
                 // to get fired multiple times as the line is re-rendered on the screen.. that is -bad-).
                 if (trigger.IsMatch(text, true) && endLine?.NextLine != null)
@@ -146,6 +145,8 @@ namespace Avalon.Controls
 
             return -1;
         }
+
+        private int counter = 0;
 
         public override VisualLineElement ConstructElement(int offset)
         {
