@@ -101,7 +101,7 @@ namespace Avalon.Common.Triggers
                 TriggeringText = line;
 
                 // Setup the command that we may or may not process
-                ProcessedCommand = this.Command;
+                ProcessedCommand = this.Command ?? "";
 
                 // Allow the user to have the content of the last trigger if they need it.
                 if (this.IsLua == false)
