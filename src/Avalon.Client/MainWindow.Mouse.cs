@@ -76,8 +76,11 @@ namespace Avalon
             // Back buffer is collapsed, show it, scroll to the bottom of it.
             if (GameBackBufferTerminal.Visibility == Visibility.Collapsed)
             {
-                GameBackBufferTerminal.ScrollToLastLine();
                 GameBackBufferTerminal.Visibility = Visibility.Visible;
+
+                // Scroll via the vertical offset, if not done for some reason the first time the window is shown
+                // it will be at the top.
+                GameBackBufferTerminal.ScrollToLastLine(true);
 
                 // Since the height of this changed scroll it to the bottom.
                 GameTerminal.ScrollToLastLine();
