@@ -135,7 +135,7 @@ namespace Avalon.HashCommands
                     if (!found)
                     {
                         // Create the trigger.
-                        var t = new Common.Triggers.Trigger(o.Pattern, o.Command, "", false, o.Id);
+                        var t = new Common.Triggers.Trigger(o.Pattern, o.Command ?? "", "", false, o.Id);
                         t.Group = o.Group ?? "";
                         t.VariableReplacement = o.VariableReplacement;
 
@@ -149,7 +149,7 @@ namespace Avalon.HashCommands
                         t.Conveyor = this.Interpreter.Conveyor;
                         
                         // Add it to the list.
-                        App.Settings.ProfileSettings.TriggerList.Add(t);
+                       App.Settings.ProfileSettings.TriggerList.Add(t);
 
                         if (o.Verbose)
                         {
