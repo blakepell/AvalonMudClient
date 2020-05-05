@@ -165,7 +165,7 @@ namespace Avalon
             }
             catch (Exception ex)
             {
-                Telnet.Dispose();
+                Telnet?.Dispose();
                 Conveyor.EchoLog($"Connection Failed: {ex.Message}", LogType.Error);
             }
 
