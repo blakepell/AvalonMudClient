@@ -20,6 +20,8 @@ namespace Avalon.Common.Plugins
 
         public abstract void Initialize();
 
+        public abstract void Tick();
+
         public abstract string IpAddress { get; set; }
 
         public ProfileSettings ProfileSettings { get; set; } = new ProfileSettings();
@@ -31,6 +33,8 @@ namespace Avalon.Common.Plugins
         public List<IHashCommand> HashCommands { get; set; }
 
         public List<object> MenuItems { get; set; }
+
+        public bool Initialized { get; set; } = false;
 
     }
 }

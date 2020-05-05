@@ -55,7 +55,20 @@ namespace Avalon.Timers
                 // Reset if we've shown them the tick warning.
                 _echoWarningShown = false;
 
+                // Go ahead and restart now, we'll do some extra tick processing after the stopwatch has been updated.
                 _stopWatch.Restart();
+
+                // Run the tick code for each plugin
+                foreach (var plugin in App.Plugins)
+                {
+                    if (!plugin.Initialized)
+                    {
+                        continue;
+                    }
+
+                    plugin.Tick();
+                }
+
                 return;
             }
 

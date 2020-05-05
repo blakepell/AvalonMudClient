@@ -29,6 +29,13 @@ namespace Avalon.Common.Interfaces
         void Initialize();
 
         /// <summary>
+        /// A procedure that fires off when a tick occurs.  The client if it knows about this will fire off
+        /// the Tick of all plugins that are loaded so that they can do specially handling for anything they
+        /// keep track of that has to be updated on tick.
+        /// </summary>
+        void Tick();
+
+        /// <summary>
         /// The list of triggers that should be imported into (or run) from the mud.  This can be standard
         /// triggers or CLR triggers which are very flexible.  These should be considered core system triggers
         /// that are stable as they are only loaded from the plugin and not changeable by the user at this
@@ -60,6 +67,11 @@ namespace Avalon.Common.Interfaces
         /// The Conveyor so that the plugin can interact with the UI.
         /// </summary>
         IConveyor Conveyor { get; set; }
+
+        /// <summary>
+        /// Whether or not the plugin is currently initialized.
+        /// </summary>
+        bool Initialized { get; set; }
 
     }
 }
