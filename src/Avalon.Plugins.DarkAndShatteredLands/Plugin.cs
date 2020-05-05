@@ -1,5 +1,6 @@
 ﻿using Avalon.Common.Models;
 using Avalon.Common.Triggers;
+using Avalon.Plugins.DarkAndShatteredLands.Affects;
 using System;
 
 namespace Avalon.Plugins.DarkAndShatteredLands
@@ -12,6 +13,8 @@ namespace Avalon.Plugins.DarkAndShatteredLands
     {
         public override string IpAddress { get; set; } = "dsl-mud.org";
 
+        private AffectsTrigger _affectsTrigger;
+
         public override void Initialize()
         {
             this.Conveyor.Title = "Dark and Shattered Lands";
@@ -20,6 +23,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             this.LoadMenu();
             this.LoadHashCommands();
             this.ResetVariables();
+            this.Initialized = true;
         }
 
         /// <summary>
@@ -79,7 +83,29 @@ end";
 
             this.Triggers.Add(t);
 
+            // Affects processing.
+            _affectsTrigger = new AffectsTrigger();
+            var affectsPerm = new AffectsPermanentTrigger(_affectsTrigger);
+            var affectsClear = new AffectsClearTrigger(_affectsTrigger);
 
+            this.Triggers.Add(affectsClear);
+            this.Triggers.Add(_affectsTrigger);
+            this.Triggers.Add(affectsPerm);
+        }
+
+        /// <summary>
+        /// Code that should fire every tick.  Leave empty if nothing fires.
+        /// </summary>
+        public override void Tick()
+        {
+            // If this hasn't initialized a lot of this stuff is going to be null, ditch out here.
+            if (!this.Initialized || _affectsTrigger == null)
+            {
+                return;
+            }
+
+            _affectsTrigger?.DecrementAffectDurations();
+            _affectsTrigger?.UpdateUI();
         }
 
         /// <summary>
