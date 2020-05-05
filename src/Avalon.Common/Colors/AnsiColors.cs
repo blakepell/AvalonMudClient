@@ -56,7 +56,8 @@ namespace Avalon.Common.Colors
                 new DarkPurple(),
                 new Pink(),
                 new Brown(),
-                new Magenta()
+                new Magenta(),
+                new Orange()
             };
         }
     }
