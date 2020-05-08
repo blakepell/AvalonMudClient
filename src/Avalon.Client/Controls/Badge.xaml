@@ -1,0 +1,97 @@
+﻿<UserControl x:Class="Avalon.Controls.Badge"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             Opacity="0.8"
+              ClipToBounds="False"
+             x:Name="BadgeControl"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style TargetType="Label" x:Key="BadgeLabel">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Height" Value="22" />
+            <Setter Property="MinWidth" Value="22" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Label">
+                        <Border Name="badgeOuterBorder" CornerRadius="10" BorderBrush="White" BorderThickness="2" Background="#C80103">
+                            <Border.RenderTransform>
+                                <!-- 
+                                The TranslateTransform moves the badge so that when used as an Adorner, it bleeds over the upper left
+                                edge of the adorned control. The ScaleTransform ensures the badge is initially invisible on load,
+                                but gives the storyboard the ability to 'animate' it into visibility (by manipulating the ScaleTransform).
+                                -->
+                                <TransformGroup>
+                                    <TranslateTransform X="-4" Y="-6"/>
+                                    <ScaleTransform ScaleX="0" ScaleY="0" />
+                                </TransformGroup>
+                            </Border.RenderTransform>
+                            <Border.BitmapEffect>
+                                <!-- Give some depth to the badge with a drop-shadow -->
+                                <DropShadowBitmapEffect Color="Black" Direction="270" ShadowDepth="3" Softness="0.2" Opacity="1"/>
+                            </Border.BitmapEffect>
+                            <Border CornerRadius="8" Padding="5 0 5 0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" Opacity="0.8">
+                                        <GradientStop Color="White" Offset="0" />
+                                        <GradientStop Color="Transparent" Offset="0.6" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Content="{TemplateBinding Content}"></ContentPresenter>
+                            </Border>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <!--
+                                        The following storyboard animates the ScaleTransform in both the X and Y planes, so that the
+                                        badge appears to 'pop' into visibility.  The 1 second delay ensures that the parent control is 
+                                        fully visible before the animation begins, otherwise, the animation may actually run before the 
+                                        form has rendered to the screen.
+                                        -->
+                                        <Storyboard>
+                                            <DoubleAnimation
+                                                Storyboard.TargetName="badgeOuterBorder"
+                                                Storyboard.TargetProperty="(Border.RenderTransform).(TransformGroup.Children)[1].(ScaleTransform.ScaleX)"
+                                                From="0"
+                                                To="0.75"
+                                                BeginTime="0:0:1"
+                                                Duration="0:0:0.5">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <BackEase Amplitude='1' EasingMode='EaseOut' />
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation
+                                                Storyboard.TargetName="badgeOuterBorder"
+                                                Storyboard.TargetProperty="(Border.RenderTransform).(TransformGroup.Children)[1].(ScaleTransform.ScaleY)"
+                                                From="0"
+                                                To="0.75"
+                                                BeginTime="0:0:1"
+                                                Duration="0:0:0.5">
+                                                <!--<DoubleAnimation.EasingFunction>
+                                                    <BackEase Amplitude='1' EasingMode='EaseOut' />
+                                                </DoubleAnimation.EasingFunction>-->
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </UserControl.Resources>
+
+    <Grid HorizontalAlignment="Left" VerticalAlignment="Top"  ClipToBounds="False">
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Name="d" ClipToBounds="False">
+            <Label Style="{StaticResource BadgeLabel}" Content="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}}" ToolTip="Badge Tooltip" ClipToBounds="False" />
+        </Grid>
+    </Grid>
+</UserControl>
