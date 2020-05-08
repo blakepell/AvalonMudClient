@@ -30,10 +30,13 @@ namespace Avalon.HashCommands
             }
 
             int repeatTimes = int.Parse(argOne.Item1);
+            string cmd = "";
 
             for (int i = 0; i < repeatTimes; i++)
             {
-                Interpreter.Send(argTwo);
+                cmd = argTwo.Replace("@count", (i + 1).ToString());
+                cmd = cmd.Replace("@index", i.ToString());
+                Interpreter.Send(cmd);
             }
         }
 

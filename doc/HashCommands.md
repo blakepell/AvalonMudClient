@@ -54,7 +54,7 @@ Hash commands that reside in the main project will be general purpose.  Plugins 
 |#macro|Will execute a macro.|
 |#pulse|Pulses the input text box a color like a heart beat.|
 |#recent-triggers|Will show you the recent triggers that have fired and the date/time they fired on.|
-|#repeat|Will repeat a command 'n' number of times.|
+|#repeat|Will repeat a command 'n' number of times. @counter and @index can be used to send the iteration you're on to the command executed.|
 |#save|Saves your profile.|
 |#scrape|Turns screen scraping on or off.|
 |#scroll-to-end|Scrolls the terminal buffer to the last line.|
