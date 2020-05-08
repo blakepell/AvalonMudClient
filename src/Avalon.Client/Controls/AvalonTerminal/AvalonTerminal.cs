@@ -515,6 +515,16 @@ namespace Avalon.Controls
         }
 
         /// <summary>
+        /// Clears all of the text and uncollapses all of the lines.  Must be used instead of setting the text
+        /// or crashes will eventually occur if gagging existed.
+        /// </summary>
+        public void ClearText()
+        {
+            _gagElementGenerator.UncollapseAll();
+            this.Text = "";
+        }
+
+        /// <summary>
         /// Whether or not the gags are enabled on this instance of the terminal.
         /// </summary>
         public bool GagEnabled
