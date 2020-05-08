@@ -16,7 +16,7 @@
         ui:TitleBar.Background="#1E1E1E"
         Loaded="MainWindow_Loaded"
         Initialized="MainWindow_OnInitialized" 
-        UseLayoutRounding="True" SnapsToDevicePixels="True" RenderOptions.EdgeMode="Aliased"
+        UseLayoutRounding="True" SnapsToDevicePixels="True"
         PreviewKeyDown="MainWindow_OnPreviewKeyDown"
         Activated="MainWindow_Activated"
         >
@@ -77,7 +77,7 @@
                         <ColumnDefinition Width="55*" x:Name="Col1"></ColumnDefinition>
                         <ColumnDefinition Width="45*" x:Name="Col2"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                   
+
                     <Menu x:Name="MenuGame" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="0,0,0,1" Background="#171717">
                         <MenuItem Header="_File">
                             <MenuItem x:Name="MenuNetworkButton" Header="Connect" Click="NetworkButton_Click">
@@ -137,7 +137,7 @@
                                 <MenuItem.Icon>
                                     <ui:SymbolIcon Symbol="Undo" />
                                 </MenuItem.Icon>
-                            </MenuItem>                            
+                            </MenuItem>
                         </MenuItem>
                         <MenuItem Header="_Tools">
                             <MenuItem x:Name="MenuItemDeveloperTools" Header="Developer Tools">
@@ -155,11 +155,11 @@
                             <MenuItem Header="Simulate Incoming Text" Click="MenuItemSimulateIncomingTextAsync_Click">
                             </MenuItem>
                             <Separator />
-                                <MenuItem Header="_Edit Global Lua File" Click="MenuItemEditGlobalLuaFile_Click">
-                                    <MenuItem.Icon>
-                                        <ui:FontIcon Glyph="&#xE943;" />
-                                    </MenuItem.Icon>
-                                </MenuItem>
+                            <MenuItem Header="_Edit Global Lua File" Click="MenuItemEditGlobalLuaFile_Click">
+                                <MenuItem.Icon>
+                                    <ui:FontIcon Glyph="&#xE943;" />
+                                </MenuItem.Icon>
+                            </MenuItem>
                             <Separator />
                             <MenuItem Header="Regular Expression Tester" Click="MenuItemRegexTester_Click">
                                 <MenuItem.Icon>
@@ -241,33 +241,60 @@
                         </controls:AvalonTerminal>
                     </UniformGrid>
 
-                    <controls:AvalonTerminal
-                        x:Name="OocCommunicationTerminal" ShowLineNumbers="False" WordWrap="True" GagEnabled="False"
-                        FontFamily="Consolas" IsReadOnly="True"
-                        Background="Black" Foreground="LightGray"
-                        Padding="10,0,20,0"
-                        FontSize="13" 
-                        Grid.Row="1" Grid.Column="1" 
-                        BorderThickness="1,0,0,0"  BorderBrush="Gray"
-                        ScrollViewer.PanningMode="VerticalOnly"
-                        ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
-                        ScrollViewer.ScrollChanged="CommTerminal_ScrollChanged"
-                        KeyDown="Terminal_OnKeyDown">
-                    </controls:AvalonTerminal>
+                    <Border Margin="0" BorderThickness=".9,0,0,0" BorderBrush="Gray" Grid.Row="1" Grid.Column="1">
 
-                    <controls:AvalonTerminal
-                        x:Name="CommunicationTerminal" ShowLineNumbers="False" WordWrap="True" GagEnabled="False"
-                        Grid.Row="2" Grid.Column="1" 
-                        FontFamily="Consolas" IsReadOnly="True"
-                        Padding="10,0,20,0"
-                        Background="Black" Foreground="LightGray"
-                        FontSize="10pt"
-                        BorderThickness="1,1,0,0" BorderBrush="Gray"
-                        ScrollViewer.PanningMode="VerticalOnly"
-                        ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
-                        ScrollViewer.ScrollChanged="CommTerminal_ScrollChanged"
-                        KeyDown="Terminal_OnKeyDown">
-                    </controls:AvalonTerminal>
+                    </Border>
+
+                    <Border Margin="0" BorderThickness=".9,.9,0,0" BorderBrush="Gray" Grid.Row="2" Grid.Column="1">
+                        <controls:TabControlEx x:Name="TabComm" Margin="0,0,0,0">
+                            <TabControl.Resources>
+                                <ResourceDictionary>
+                                    <ResourceDictionary.MergedDictionaries>
+                                        <ResourceDictionary Source="/Resources/TabControlStylesSlim.xaml" />
+                                    </ResourceDictionary.MergedDictionaries>
+                                </ResourceDictionary>
+                            </TabControl.Resources>
+                            <controls:TabItemEx>
+                                <controls:TabItemEx.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14">In Character</Label>
+                                        <controls:Badge x:Name="Panel2Badge" x:FieldModifier="public"></controls:Badge>
+                                    </StackPanel>
+                                </controls:TabItemEx.Header>
+                                <controls:AvalonTerminal
+                                    x:Name="CommunicationTerminal" ShowLineNumbers="False" WordWrap="True" GagEnabled="False"
+                                    FontFamily="Consolas" IsReadOnly="True"
+                                    Padding="10,0,20,0"
+                                    Background="Black" Foreground="LightGray"
+                                    FontSize="10pt"
+                                    ScrollViewer.PanningMode="VerticalOnly"
+                                    ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
+                                    ScrollViewer.ScrollChanged="CommTerminal_ScrollChanged"
+                                    KeyDown="Terminal_OnKeyDown">
+                                </controls:AvalonTerminal>
+                            </controls:TabItemEx>
+                            <controls:TabItemEx>
+                                <controls:TabItemEx.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14">OOC</Label>
+                                        <controls:Badge x:Name="Panel3Badge" x:FieldModifier="public"></controls:Badge>
+                                    </StackPanel>
+                                </controls:TabItemEx.Header>                                
+                                <controls:AvalonTerminal
+                                    x:Name="OocCommunicationTerminal" ShowLineNumbers="False" WordWrap="True" GagEnabled="False"
+                                    FontFamily="Consolas" IsReadOnly="True"
+                                    Background="Black" Foreground="LightGray"
+                                    Padding="10,0,20,0"
+                                    FontSize="13"                                 
+                                    ScrollViewer.PanningMode="VerticalOnly"
+                                    ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
+                                    ScrollViewer.ScrollChanged="CommTerminal_ScrollChanged"
+                                    KeyDown="Terminal_OnKeyDown">
+                                </controls:AvalonTerminal>
+                            </controls:TabItemEx>
+                        </controls:TabControlEx>
+
+                    </Border>
 
                     <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="0,.9,0,0">
                         <controls:InfoBar x:Name="InfoBar" x:FieldModifier="public" Background="#171717"></controls:InfoBar>
