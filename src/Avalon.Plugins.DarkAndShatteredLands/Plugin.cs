@@ -105,7 +105,6 @@ end";
             }
 
             _affectsTrigger?.DecrementAffectDurations();
-            _affectsTrigger?.UpdateUI();
         }
 
         /// <summary>

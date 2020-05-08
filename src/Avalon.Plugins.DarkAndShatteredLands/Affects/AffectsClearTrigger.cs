@@ -23,8 +23,8 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
         {
             if (this.AffectsTrigger != null)
             {
-                this.AffectsTrigger.Affects.Clear();
-                this.AffectsTrigger.UpdateUI();
+               this.AffectsTrigger.Affects.Clear();
+               this.AffectsTrigger.UpdateUI();
             }
         }
     }

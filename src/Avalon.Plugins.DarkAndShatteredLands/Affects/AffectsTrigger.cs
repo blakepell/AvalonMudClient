@@ -69,27 +69,8 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
 
             foreach (var affect in this.Affects)
             {
-               this.Conveyor.ProgressBarRepeaterAdd(affect.Duration == -1 ? 50 : affect.Duration + 1, 50, affect.Display());
+               this.Conveyor.ProgressBarRepeaterAdd(affect.Duration == -1 ? 50 : affect.Duration + 1, 50, affect.Display(), affect.Name);
             }
-
-            //// Marker... where does this go.
-            //this.Conveyor.ClearTerminal(TerminalTarget.OutOfCharacterCommunication);
-
-            //foreach (var affect in this.Affects)
-            //{
-            //    if (affect.Duration == 0)
-            //    {
-            //        this.Conveyor.EchoText($"{affect.ToString()}\r\n", AnsiColors.Red, TerminalTarget.OutOfCharacterCommunication);
-            //    }
-            //    else if (affect.Duration >= 1 && affect.Duration <= 3)
-            //    {
-            //        this.Conveyor.EchoText($"{affect.ToString()}\r\n", AnsiColors.Yellow, TerminalTarget.OutOfCharacterCommunication);
-            //    }
-            //    else
-            //    {
-            //        this.Conveyor.EchoText($"{affect.ToString()}\r\n", AnsiColors.Green, TerminalTarget.OutOfCharacterCommunication);
-            //    }
-            //}
         }
 
         /// <summary>
@@ -122,7 +103,8 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
         }
 
         /// <summary>
-        /// Reduces all affects tick count by 1 and removes those that have expired.
+        /// Reduces all affects tick count by 1 and removes those that have expired.  This will update
+        /// the UI on it's own.
         /// </summary>
         public void DecrementAffectDurations()
         {
@@ -137,12 +119,14 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
                 // It's run out, remove it, then continue.
                 if (this.Affects[i].Duration == 0)
                 {
+                    this.Conveyor.ProgressBarRemove(this.Affects[i].Name);
                     this.Affects.RemoveAt(i);
                     continue;
                 }
 
                 // Reduce it's tick count by 1
                 this.Affects[i].Duration -= 1;
+                this.Conveyor.ProgressBarRepeaterAdd(this.Affects[i].Duration + 1, 50, this.Affects[i].Display(), this.Affects[i].Name);
             }
         }
 

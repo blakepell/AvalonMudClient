@@ -1,6 +1,9 @@
-﻿using System;
+﻿using SQLitePCL;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -26,49 +29,133 @@ namespace Avalon.Controls
             this.BarItems.Clear();
         }
 
-        public void Add(int value, int maximum, string text)
+        public void Add(int value, int maximum, string text, string key)
         {
-            this.BarItems.Add(new Bar(value, maximum, text));
+            //this.BarItems.Add(new Bar(value, maximum, text));
+            //this.scrollViewer.ScrollToEnd();
+
+            // Let's try an add or update.
+
+            var bar = this.BarItems.FirstOrDefault(x => x.Key == key);
+
+            if (bar == null)
+            {
+                // New
+                this.BarItems.Add(new Bar(value, maximum, text, key));
+            }
+            else
+            {
+                // Update
+                bar.Text = text;
+                bar.Value = value;
+            }
+
             this.scrollViewer.ScrollToEnd();
         }
 
-        public class Bar
+        /// <summary>
+        /// Removes at item from the BarRepeater.
+        /// </summary>
+        /// <param name="key"></param>
+        public void Remove(string key)
+        {
+            for (int i = this.BarItems.Count - 1; i >= 0; i--)
+            {
+                if (this.BarItems[i].Key.Equals(key, StringComparison.Ordinal))
+                {
+                    this.BarItems.RemoveAt(i);
+                }
+            }
+        }
+
+        public class Bar : INotifyPropertyChanged
         {
             public Bar()
             {
 
             }
 
-            public Bar(int value, int maximum, string text)
+            public Bar(int value, int maximum, string text, string key)
             {
                 this.Value = value;
                 this.Text = text;
                 this.Maximum = maximum;
+                this.Key = key;
+            }
 
-                var convert = new BrushConverter();
+            public string Key { get; set; } = "";
 
-                if (this.Value <= 2)
+            private int _value = 0;
+
+            public int Value
+            { 
+                get
                 {
-                    // (SolidColorBrush)convert.ConvertFrom("#6c2020")
-                    this.Background = Brushes.Red;
+                    return _value;
                 }
-                else if (this.Value == 3 || this.Value == 4 || this.Value == 5)
+                set
                 {
-                    this.Background = (SolidColorBrush)convert.ConvertFrom("#ae9818");
-                }
-                else
-                {
-                    this.Background = (SolidColorBrush)convert.ConvertFrom("#0078D7");
+                    _value = value;
+                    OnPropertyChanged("Value");
+
+                    var convert = new BrushConverter();
+
+                    if (this.Value <= 2)
+                    {
+                        // (SolidColorBrush)convert.ConvertFrom("#6c2020")
+                        this.Background = Brushes.Red;
+                    }
+                    else if (this.Value == 3 || this.Value == 4 || this.Value == 5)
+                    {
+                        this.Background = (SolidColorBrush)convert.ConvertFrom("#ae9818");
+                    }
+                    else
+                    {
+                        this.Background = (SolidColorBrush)convert.ConvertFrom("#0078D7");
+                    }
                 }
             }
 
-            public int Value { get; set; } = 0;
-
             public int Maximum { get; set; } = 0;
 
-            public string Text { get; set; } = "";
+            private string _text = "";
 
-            public Brush Background { get; set; }
+            public string Text 
+            { 
+                get
+                {
+                    return _text;
+                }
+                set
+                {
+                    _text = value;
+                    OnPropertyChanged("Text");
+                }
+            }
+
+            private Brush _background;
+
+            public Brush Background 
+            { 
+                get
+                {
+                    return _background;
+                }
+                set
+                {
+                    _background = value;
+                    OnPropertyChanged("Background");
+                }
+            }
+
+            protected virtual async void OnPropertyChanged(string propertyName)
+            {
+                var e = new PropertyChangedEventArgs(propertyName);
+                PropertyChanged?.Invoke(this, e);
+            }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+
 
         }
 

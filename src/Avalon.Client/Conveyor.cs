@@ -596,11 +596,12 @@ namespace Avalon
         /// <param name="value"></param>
         /// <param name="maximum"></param>
         /// <param name="text"></param>
-        public void ProgressBarRepeaterAdd(int value, int maximum, string text)
+        /// <param name="key"></param>
+        public void ProgressBarRepeaterAdd(int value, int maximum, string text, string key)
         {
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
-                App.MainWindow.BarRepeater.Add(value, maximum, text);
+                App.MainWindow.BarRepeater.Add(value, maximum, text, key);
             }));
         }
 
@@ -611,10 +612,32 @@ namespace Avalon
         /// <param name="maximum"></param>
         /// <param name="text"></param>
         /// <param name="progressBarName"></param>
-        public void ProgressBarRepeaterAdd(int value, int maximum, string text, string progressBarName)
+        public void ProgressBarRepeaterAdd(int value, int maximum, string text, string key, string progressBarName)
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Removes at item from the default progress bar repeater.
+        /// </summary>
+        /// <param name="key"></param>
+        public void ProgressBarRemove(string key)
+        {
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                App.MainWindow.BarRepeater.Remove(key);
+            }));
+        }
+
+        /// <summary>
+        /// Removes at item from the default progress bar repeater if it's found.
+        /// </summary>
+        /// <param name="key"></param>
+        public void ProgressBarRemove(string key, string progressBarName)
+        {
+            throw new NotImplementedException();
+        }
+
 
         /// <summary>
         /// Returns information about the current WindowPosition.
