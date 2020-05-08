@@ -1,10 +1,7 @@
-﻿using SQLitePCL;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -15,8 +12,12 @@ namespace Avalon.Controls
     /// </summary>
     public partial class BarRepeater : UserControl
     {
+
         public ObservableCollection<Bar> BarItems;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public BarRepeater()
         {
             InitializeComponent();
@@ -24,18 +25,25 @@ namespace Avalon.Controls
             repeater.ItemsSource = BarItems;            
         }
 
+        /// <summary>
+        /// Clears all items in the list.
+        /// </summary>
         public void Clear()
         {
             this.BarItems.Clear();
         }
 
+        /// <summary>
+        /// Adds an item into the progress bar repeater list.  If a key exists it's value
+        /// and text will be updated.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="maximum"></param>
+        /// <param name="text"></param>
+        /// <param name="key"></param>
         public void Add(int value, int maximum, string text, string key)
         {
-            //this.BarItems.Add(new Bar(value, maximum, text));
-            //this.scrollViewer.ScrollToEnd();
-
             // Let's try an add or update.
-
             var bar = this.BarItems.FirstOrDefault(x => x.Key == key);
 
             if (bar == null)
@@ -68,13 +76,26 @@ namespace Avalon.Controls
             }
         }
 
+        /// <summary>
+        /// A colored progress bar.
+        /// </summary>
         public class Bar : INotifyPropertyChanged
         {
+            /// <summary>
+            /// Constructor
+            /// </summary>
             public Bar()
             {
 
             }
 
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="value"></param>
+            /// <param name="maximum"></param>
+            /// <param name="text"></param>
+            /// <param name="key"></param>
             public Bar(int value, int maximum, string text, string key)
             {
                 this.Value = value;
@@ -83,10 +104,16 @@ namespace Avalon.Controls
                 this.Key = key;
             }
 
+            /// <summary>
+            /// They key that represents this bar.
+            /// </summary>
             public string Key { get; set; } = "";
 
             private int _value = 0;
 
+            /// <summary>
+            /// The value of the progress bar.  This can be over the maximum (and will display at a full bar if so).
+            /// </summary>
             public int Value
             { 
                 get
@@ -102,7 +129,6 @@ namespace Avalon.Controls
 
                     if (this.Value <= 2)
                     {
-                        // (SolidColorBrush)convert.ConvertFrom("#6c2020")
                         this.Background = Brushes.Red;
                     }
                     else if (this.Value == 3 || this.Value == 4 || this.Value == 5)
@@ -116,10 +142,29 @@ namespace Avalon.Controls
                 }
             }
 
-            public int Maximum { get; set; } = 0;
+            private int _maximum = 0;
+
+            /// <summary>
+            /// The maximum for the progress bar.
+            /// </summary>
+            public int Maximum
+            { 
+                get
+                {
+                    return _maximum;
+                }
+                set
+                {
+                    _maximum = value;
+                    OnPropertyChanged("Maximum");
+                }
+            }
 
             private string _text = "";
 
+            /// <summary>
+            /// The text to display on the progress bar.
+            /// </summary>
             public string Text 
             { 
                 get
@@ -135,6 +180,9 @@ namespace Avalon.Controls
 
             private Brush _background;
 
+            /// <summary>
+            /// The fill color for the progress bar.  This will be dynamically set from the value property.
+            /// </summary>
             public Brush Background 
             { 
                 get

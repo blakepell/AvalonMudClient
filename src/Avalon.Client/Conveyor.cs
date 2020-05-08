@@ -591,13 +591,13 @@ namespace Avalon
         }
 
         /// <summary>
-        /// Adds an item to the default progress bar repeater.
+        /// Adds an item to the default progress bar repeater.  If the key exists it will be updated.
         /// </summary>
+        /// <param name="key"></param>
         /// <param name="value"></param>
         /// <param name="maximum"></param>
         /// <param name="text"></param>
-        /// <param name="key"></param>
-        public void ProgressBarRepeaterAdd(int value, int maximum, string text, string key)
+        public void ProgressBarRepeaterAdd(string key, int value, int maximum, string text)
         {
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
@@ -612,7 +612,7 @@ namespace Avalon
         /// <param name="maximum"></param>
         /// <param name="text"></param>
         /// <param name="progressBarName"></param>
-        public void ProgressBarRepeaterAdd(int value, int maximum, string text, string key, string progressBarName)
+        public void ProgressBarRepeaterAdd(string key, int value, int maximum, string text, string progressBarName)
         {
             throw new NotImplementedException();
         }

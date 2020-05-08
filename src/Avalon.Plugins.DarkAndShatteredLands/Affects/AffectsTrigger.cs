@@ -69,7 +69,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
 
             foreach (var affect in this.Affects)
             {
-               this.Conveyor.ProgressBarRepeaterAdd(affect.Duration == -1 ? 50 : affect.Duration + 1, 50, affect.Display(), affect.Name);
+               this.Conveyor.ProgressBarRepeaterAdd(affect.Name, affect.Duration == -1 ? 50 : affect.Duration + 1, 50, affect.Display());
             }
         }
 
@@ -126,7 +126,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
 
                 // Reduce it's tick count by 1
                 this.Affects[i].Duration -= 1;
-                this.Conveyor.ProgressBarRepeaterAdd(this.Affects[i].Duration + 1, 50, this.Affects[i].Display(), this.Affects[i].Name);
+                this.Conveyor.ProgressBarRepeaterAdd(this.Affects[i].Name, this.Affects[i].Duration + 1, 50, this.Affects[i].Display());
             }
         }
 

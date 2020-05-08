@@ -69,11 +69,11 @@ namespace Avalon.Common.Interfaces
 
         void ProgressBarRepeaterClear();
 
-        void ProgressBarRepeaterAdd(int value, int maximum, string text, string key);
+        void ProgressBarRepeaterAdd(string key, int value, int maximum, string text);
 
         void ProgressBarRepeaterClear(string progressBarName);
 
-        void ProgressBarRepeaterAdd(int value, int maximum, string text, string key, string progressBarName);
+        void ProgressBarRepeaterAdd(string key, int value, int maximum, string text, string progressBarName);
 
         void ProgressBarRemove(string key);
 
