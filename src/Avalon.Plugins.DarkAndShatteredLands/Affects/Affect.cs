@@ -18,18 +18,18 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
 
         public override string ToString()
         {
-            return $"{this.Name.PadRightToLength(25)} : modifies {this.Modifies} by {Modifier} for {this.Duration} ticks";
+            return $"{this.Name.PadRightToLength(18)} : modifies {this.Modifies} by {Modifier} for {this.Duration} ticks";
         }
 
         public string Display()
         {
             if (this.Duration == -1)
             {
-                return $"{this.Name.PadRightToLength(25)} : Permanently";
+                return $"{this.Name.PadRightToLength(18)} : Perm";
             }
             else
             {
-                return $"{this.Name.PadRightToLength(25)} : {this.Duration}";
+                return $"{this.Name.PadRightToLength(18)} : {this.Duration}";
             }
         }
 

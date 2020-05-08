@@ -58,15 +58,22 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
         /// </summary>
         public void UpdateUI()
         {
-            //if (this.Conveyor == null)
-            //{
-            //    return;
-            //}
+            if (this.Conveyor == null)
+            {
+                return;
+            }
+
+            this.SortAffects();
+
+            this.Conveyor.ProgressBarRepeaterClear();
+
+            foreach (var affect in this.Affects)
+            {
+               this.Conveyor.ProgressBarRepeaterAdd(affect.Duration == -1 ? 50 : affect.Duration + 1, 50, affect.Display());
+            }
 
             //// Marker... where does this go.
             //this.Conveyor.ClearTerminal(TerminalTarget.OutOfCharacterCommunication);
-
-            //this.SortAffects();
 
             //foreach (var affect in this.Affects)
             //{

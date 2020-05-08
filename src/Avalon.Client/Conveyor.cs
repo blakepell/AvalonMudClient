@@ -571,6 +571,52 @@ namespace Avalon
         }
 
         /// <summary>
+        /// Clears the default progress bar repeater.
+        /// </summary>
+        public void ProgressBarRepeaterClear()
+        {
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                App.MainWindow.BarRepeater.Clear();
+            }));
+        }
+
+        /// <summary>
+        /// Clears a progress bar with the specified name if it's found.
+        /// </summary>
+        /// <param name="progressBarName"></param>
+        public void ProgressBarRepeaterClear(string progressBarName)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Adds an item to the default progress bar repeater.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="maximum"></param>
+        /// <param name="text"></param>
+        public void ProgressBarRepeaterAdd(int value, int maximum, string text)
+        {
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                App.MainWindow.BarRepeater.Add(value, maximum, text);
+            }));
+        }
+
+        /// <summary>
+        /// Adds an item to the default progress bar repeater if it's found.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="maximum"></param>
+        /// <param name="text"></param>
+        /// <param name="progressBarName"></param>
+        public void ProgressBarRepeaterAdd(int value, int maximum, string text, string progressBarName)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Returns information about the current WindowPosition.
         /// </summary>
         public WindowPosition GetWindowPosition

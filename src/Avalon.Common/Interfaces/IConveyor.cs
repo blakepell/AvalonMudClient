@@ -67,6 +67,14 @@ namespace Avalon.Common.Interfaces
 
         bool ScrapeEnabled { get; set; }
 
+        void ProgressBarRepeaterClear();
+
+        void ProgressBarRepeaterAdd(int value, int maximum, string text);
+
+        void ProgressBarRepeaterClear(string progressBarName);
+
+        void ProgressBarRepeaterAdd(int value, int maximum, string text, string progressBarName);
+
         WindowPosition GetWindowPosition { get; }
     }
 }
