@@ -1215,5 +1215,45 @@ namespace Avalon
             ActivatePlugins(ipAddress);
         }
 
+        private void TabComm_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // When the game tab gets the focus always put the focus into the input box.
+            if (Panel2.IsSelected && TextInput.Editor != null)
+            {
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    // Reset the value to 0, it's now been shown.
+                    Panel2Badge.Value = 0;
+
+                    // In order to get the focus in this instance an UpdateLayout() call has to be called first.
+                    UpdateLayout();
+
+                    CommunicationTerminal.ScrollToEnd();
+
+                    // When the app is first loaded the Editor was coming up null so we'll just check the nulls
+                    // and then default the caret position to 0 if that's the case.
+                    TextInput.Editor.CaretIndex = TextInput?.Editor?.Text?.Length ?? 0;
+                    TextInput.Editor.Focus();
+                }));
+            }
+            else if (Panel3.IsSelected && TextInput.Editor != null)
+            {
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    // Reset the value to 0, it's now been shown.
+                    Panel3Badge.Value = 0;
+
+                    // In order to get the focus in this instance an UpdateLayout() call has to be called first.
+                    UpdateLayout();
+
+                    OocCommunicationTerminal.ScrollToEnd();
+
+                    // When the app is first loaded the Editor was coming up null so we'll just check the nulls
+                    // and then default the caret position to 0 if that's the case.
+                    TextInput.Editor.CaretIndex = TextInput?.Editor?.Text?.Length ?? 0;
+                    TextInput.Editor.Focus();
+                }));
+            }
+        }
     }
 }

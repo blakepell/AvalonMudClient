@@ -79,7 +79,7 @@ namespace Avalon
                 return;
             }
 
-            terminal.Text = "";
+            terminal.ClearText();
         }
 
         /// <summary>

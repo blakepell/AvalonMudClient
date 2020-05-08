@@ -200,6 +200,16 @@ namespace Avalon
                     Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
                         App.MainWindow.CommunicationTerminal.Append(line);
+
+                        if (!App.MainWindow.Panel2.IsSelected)
+                        {
+                            App.MainWindow.Panel2Badge.Value += 1;
+                        }
+                        else if (App.MainWindow.Panel2.IsSelected && App.MainWindow.Panel2Badge.Value != 0)
+                        {
+                            // Only setting this if the value isn't 0 so it doesn't trigger UI processing.
+                            App.MainWindow.Panel2Badge.Value = 0;
+                        }
                     }));
 
                     break;
@@ -208,6 +218,16 @@ namespace Avalon
                     {
                         App.MainWindow.OocCommunicationTerminal.Append(line);
                     }));
+
+                    if (!App.MainWindow.Panel3.IsSelected)
+                    {
+                        App.MainWindow.Panel3Badge.Value += 1;
+                    }
+                    else if (App.MainWindow.Panel3.IsSelected && App.MainWindow.Panel3Badge.Value != 0)
+                    {
+                        // Only setting this if the value isn't 0 so it doesn't trigger UI processing.
+                        App.MainWindow.Panel3Badge.Value = 0;
+                    }
 
                     break;
             }
@@ -358,16 +378,16 @@ namespace Avalon
                     case TerminalTarget.None:
                         break;
                     case TerminalTarget.Main:
-                        App.MainWindow.GameTerminal.Text = "";
+                        App.MainWindow.GameTerminal.ClearText();
                         break;
                     case TerminalTarget.Communication:
-                        App.MainWindow.CommunicationTerminal.Text = "";
+                        App.MainWindow.CommunicationTerminal.ClearText();
                         break;
                     case TerminalTarget.OutOfCharacterCommunication:
-                        App.MainWindow.OocCommunicationTerminal.Text = "";
+                        App.MainWindow.OocCommunicationTerminal.ClearText();
                         break;
                     case TerminalTarget.BackBuffer:
-                        App.MainWindow.GameBackBufferTerminal.Text = "";
+                        App.MainWindow.GameBackBufferTerminal.ClearText();
                         break;
                 }
             }));

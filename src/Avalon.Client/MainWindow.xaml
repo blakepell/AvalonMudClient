@@ -246,7 +246,7 @@
                     </Border>
 
                     <Border Margin="0" BorderThickness=".9,.9,0,0" BorderBrush="Gray" Grid.Row="2" Grid.Column="1">
-                        <controls:TabControlEx x:Name="TabComm" Margin="0,0,0,0">
+                        <controls:TabControlEx x:Name="TabComm" Margin="0,0,0,0" SelectionChanged="TabComm_SelectionChanged">
                             <TabControl.Resources>
                                 <ResourceDictionary>
                                     <ResourceDictionary.MergedDictionaries>
@@ -254,7 +254,7 @@
                                     </ResourceDictionary.MergedDictionaries>
                                 </ResourceDictionary>
                             </TabControl.Resources>
-                            <controls:TabItemEx>
+                            <controls:TabItemEx x:Name="Panel2">
                                 <controls:TabItemEx.Header>
                                     <StackPanel Orientation="Horizontal">
                                         <Label FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14">In Character</Label>
@@ -273,7 +273,7 @@
                                     KeyDown="Terminal_OnKeyDown">
                                 </controls:AvalonTerminal>
                             </controls:TabItemEx>
-                            <controls:TabItemEx>
+                            <controls:TabItemEx x:Name="Panel3">
                                 <controls:TabItemEx.Header>
                                     <StackPanel Orientation="Horizontal">
                                         <Label FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14">OOC</Label>

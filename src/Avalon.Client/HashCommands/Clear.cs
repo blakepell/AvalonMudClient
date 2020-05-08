@@ -38,7 +38,7 @@ namespace Avalon.HashCommands
                                {
                                    if (o.Main)
                                    {
-                                       Interpreter.Conveyor.ClearTerminal(TerminalTarget.Main);
+                                       Interpreter.Conveyor.ClearTerminal(TerminalTarget.Main);                                       
                                    }
 
                                    if (o.Comm)

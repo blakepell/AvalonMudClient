@@ -92,10 +92,30 @@ namespace Avalon
                         if (item.MoveTo == TerminalTarget.Communication)
                         {
                             CommunicationTerminal.Append(commLine);
+
+                            if (!App.MainWindow.Panel2.IsSelected)
+                            {
+                                App.MainWindow.Panel2Badge.Value += 1;
+                            }
+                            else if (App.MainWindow.Panel2.IsSelected && App.MainWindow.Panel2Badge.Value != 0)
+                            {
+                                // Only setting this if the value isn't 0 so it doesn't trigger UI processing.
+                                App.MainWindow.Panel2Badge.Value = 0;
+                            }
                         }
                         else if (item.MoveTo == TerminalTarget.OutOfCharacterCommunication)
                         {
                             OocCommunicationTerminal.Append(commLine);
+
+                            if (!App.MainWindow.Panel3.IsSelected)
+                            {
+                                App.MainWindow.Panel3Badge.Value += 1;
+                            }
+                            else if (App.MainWindow.Panel3.IsSelected && App.MainWindow.Panel3Badge.Value != 0)
+                            {
+                                // Only setting this if the value isn't 0 so it doesn't trigger UI processing.
+                                App.MainWindow.Panel3Badge.Value = 0;
+                            }
                         }
                     }
                 }
@@ -183,10 +203,30 @@ namespace Avalon
                         if (item.MoveTo == TerminalTarget.Communication)
                         {
                             CommunicationTerminal.Append(commLine);
+
+                            if (!App.MainWindow.Panel2.IsSelected)
+                            {
+                                App.MainWindow.Panel2Badge.Value += 1;
+                            }
+                            else if (App.MainWindow.Panel2.IsSelected && App.MainWindow.Panel2Badge.Value != 0)
+                            {
+                                // Only setting this if the value isn't 0 so it doesn't trigger UI processing.
+                                App.MainWindow.Panel2Badge.Value = 0;
+                            }
                         }
                         else if (item.MoveTo == TerminalTarget.OutOfCharacterCommunication)
                         {
                             OocCommunicationTerminal.Append(commLine);
+
+                            if (!App.MainWindow.Panel3.IsSelected)
+                            {
+                                App.MainWindow.Panel3Badge.Value += 1;
+                            }
+                            else if (App.MainWindow.Panel3.IsSelected && App.MainWindow.Panel3Badge.Value != 0)
+                            {
+                                // Only setting this if the value isn't 0 so it doesn't trigger UI processing.
+                                App.MainWindow.Panel3Badge.Value = 0;
+                            }
                         }
                     }
                 }
