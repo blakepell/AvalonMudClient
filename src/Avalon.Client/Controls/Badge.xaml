@@ -91,7 +91,7 @@
 
     <Grid HorizontalAlignment="Left" VerticalAlignment="Top"  ClipToBounds="False">
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Name="d" ClipToBounds="False">
-            <Label Style="{StaticResource BadgeLabel}" Content="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}}" ToolTip="Badge Tooltip" ClipToBounds="False" />
+            <Label Style="{StaticResource BadgeLabel}" Content="{Binding Value, RelativeSource={RelativeSource AncestorType=UserControl}}" ToolTip="Badge Tooltip" ClipToBounds="False" />
         </Grid>
     </Grid>
 </UserControl>

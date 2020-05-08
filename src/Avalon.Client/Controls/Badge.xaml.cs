@@ -14,15 +14,15 @@ namespace Avalon.Controls
         /// <summary>
         /// The text to display in the badge notification.
         /// </summary>
-        public string Text
+        public int Value
         {
-            get { return (string)GetValue(TextProperty); }
+            get { return (int)GetValue(ValueProperty); }
             set
             {
-                SetValue(TextProperty, value);
+                SetValue(ValueProperty, value);
 
                 // Do we automatically hide or show ourselves?
-                if (string.IsNullOrWhiteSpace(value) || value.Equals("0", StringComparison.Ordinal))
+                if (value == 0)
                 {
                     this.Visibility = Visibility.Hidden;
                 }
@@ -33,14 +33,13 @@ namespace Avalon.Controls
             }
         }
 
-        // Using a DependencyProperty as the backing store for Text.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register("Text", typeof(string), typeof(Badge), new PropertyMetadata("0"));
+        public static readonly DependencyProperty ValueProperty =
+            DependencyProperty.Register("Value", typeof(int), typeof(Badge), new PropertyMetadata(0));
 
         public Badge()
         {
             InitializeComponent();
-            this.Text = "0";
+            this.Value = 0;
         }
     }
 }
