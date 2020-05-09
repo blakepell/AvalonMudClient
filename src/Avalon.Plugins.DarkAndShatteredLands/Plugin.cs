@@ -128,8 +128,9 @@ end";
         /// </summary>
         public void LoadHashCommands()
         {
-            this.HashCommands.Add(new HashCommands.DslVersion());
             this.HashCommands.Add(new HashCommands.ScanAll());
+            this.HashCommands.Add(new HashCommands.RemoveAffect(_affectsTrigger));
+            this.HashCommands.Add(new HashCommands.DslVersion());
             this.HashCommands.Add(new HashCommands.Edit());
             this.HashCommands.Add(new HashCommands.ConCard());
             this.HashCommands.Add(new HashCommands.Online());

@@ -69,7 +69,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
 
             foreach (var affect in this.Affects)
             {
-               this.Conveyor.ProgressBarRepeaterAdd(affect.Name, affect.Duration == -1 ? 50 : affect.Duration + 1, 50, affect.Display());
+                this.Conveyor.ProgressBarRepeaterAdd(affect.Name, affect.Duration == -1 ? 50 : affect.Duration + 1, 50, affect.Display());
             }
         }
 
@@ -98,6 +98,23 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
                 foreach (var a in temp)
                 {
                     this.Affects.Insert(0, a);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Remove a specific affect from the current affects list.
+        /// </summary>
+        /// <param name="key"></param>
+        public void RemoveAffect(string key)
+        {
+            for (int i = this.Affects.Count - 1; i >= 0; i--)
+            {
+                // It's run out, remove it, then continue.
+                if (this.Affects[i].Name.Equals(key, System.StringComparison.OrdinalIgnoreCase))
+                {
+                    this.Conveyor.ProgressBarRemove(this.Affects[i].Name);
+                    this.Affects.RemoveAt(i);
                 }
             }
         }
