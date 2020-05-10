@@ -91,6 +91,19 @@ end";
             this.Triggers.Add(affectsClear);
             this.Triggers.Add(_affectsTrigger);
             this.Triggers.Add(affectsPerm);
+
+            //this.Triggers.Add(new Trigger(@"^The white aura around your body fades.$", "#remove-affect sanctuary", "", true, ""));
+            //this.Triggers.Add(new Trigger(@"^You feel yourself slow down.$", "#remove-affect haste", "", true, ""));
+            //this.Triggers.Add(new Trigger(@"^The magical shield protecting your body quickly vanishes.$", "#remove-affect weapon resistance;#remove-affect magic resistance", "", true, ""));
+            //this.Triggers.Add(new Trigger(@"^You feel less protected.$", "#remove-affect protection good;#remove-affect protection neutral;#remove-affect protection evil", "", true, ""));
+            //this.Triggers.Add(new Trigger(@"^Your skin feels soft again.$", "#remove-affect stone skin", "", true, ""));
+            //this.Triggers.Add(new Trigger(@"^You feel solid again..$", "#remove-affect pass door", "", true, ""));
+            //this.Triggers.Add(new Trigger(@"^You feel less sick.$", "#remove-affect poison", "", true, ""));
+            //this.Triggers.Add(new Trigger(@"^You feel less righteous.$", "#remove-affect bless", "", true, ""));
+            //this.Triggers.Add(new Trigger(@"^Your rage ebbs.$", "#remove-affect frenzy", "", true, ""));
+            //this.Triggers.Add(new Trigger(@"^You feel weaker.$", "#remove-affect giant strength", "", true, ""));
+            //this.Triggers.Add(new Trigger(@"^You start gasping for air as you can breath normally again!$", "#remove-affect water breathing", "", true, ""));
+            //this.Triggers.Add(new Trigger(@"^ Your magic enhancement fades.$", "#remove-affect imbue", "", true, ""));
         }
 
         /// <summary>
