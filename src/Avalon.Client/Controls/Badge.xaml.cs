@@ -36,6 +36,22 @@ namespace Avalon.Controls
         public static readonly DependencyProperty ValueProperty =
             DependencyProperty.Register("Value", typeof(int), typeof(Badge), new PropertyMetadata(0));
 
+        /// <summary>
+        /// Incriments the value if the expression is true, sets the value to 0 if false.
+        /// </summary>
+        /// <param name="expression"></param>
+        public void IncrementOrReset(bool expression)
+        {
+            if (expression)
+            {
+                this.Value += 1;
+            }
+            else
+            {
+                this.Value = 0;
+            }
+        }
+
         public Badge()
         {
             InitializeComponent();
