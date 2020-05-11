@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Avalon.Colors;
+using Avalon.Common.Colors;
 using Avalon.Common.Interfaces;
+using Avalon.Common.Models;
 using CommandLine;
 
 namespace Avalon.HashCommands
@@ -26,16 +28,15 @@ namespace Avalon.HashCommands
                 .WithParsed(o =>
                 {
                     string text = o.Text;
-
                     var foregroundColor = Colorizer.ColorMapByName(o.Color);
-
+                    
                     if (foregroundColor != null)
                     {
-                        Interpreter.EchoText(text, foregroundColor.AnsiColor, o.Reverse);
+                        Interpreter.EchoText(text, foregroundColor.AnsiColor, o.Reverse, o.Terminal);
                     }
                     else
                     {
-                        Interpreter.EchoText($"{text}");
+                        Interpreter.EchoText($"{text}", AnsiColors.Default, false, o.Terminal);
                     }
                 });
 
@@ -64,6 +65,12 @@ namespace Avalon.HashCommands
 
             [Option('r', "reverse", Required = false, HelpText = "Whether or not to reverse the colors.  Only works when a valid color is specified.")]
             public bool Reverse { get; set; } = false;
+
+            /// <summary>
+            /// What terminal should be echoed to.
+            /// </summary>
+            [Option('t', "term", Required = false, HelpText = "The terminal that shuld be echoed to.  The main terminal is the default if not specified.")]
+            public TerminalTarget Terminal { get; set; } = TerminalTarget.Main;
 
         }
 
