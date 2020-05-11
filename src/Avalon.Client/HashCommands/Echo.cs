@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Avalon.Colors;
 using Avalon.Common.Colors;
 using Avalon.Common.Interfaces;
@@ -27,9 +28,30 @@ namespace Avalon.HashCommands
             var result = Parser.Default.ParseArguments<EchoArguments>(CreateArgs(this.Parameters))
                 .WithParsed(o =>
                 {
-                    string text = o.Text;
                     var foregroundColor = Colorizer.ColorMapByName(o.Color);
-                    
+                    string timeStamp = "";
+
+                    if (o.Timestamp)
+                    {
+                        switch (App.Settings.AvalonSettings.TimestampFormat)
+                        {
+                            case Common.Settings.AvalonSettings.TimestampFormats.HoursMinutes:
+                                timeStamp = $"[{DateTime.Now.ToString("hh:mm tt")}]: ";
+                                break;
+                            case Common.Settings.AvalonSettings.TimestampFormats.HoursMinutesSeconds:
+                                timeStamp = $"[{DateTime.Now.ToString("hh:mm:ss tt")}]: ";
+                                break;
+                            case Common.Settings.AvalonSettings.TimestampFormats.OSDefault:
+                                timeStamp = $"[{DateTime.Now.ToString("g")}]: ";
+                                break;
+                            case Common.Settings.AvalonSettings.TimestampFormats.TwentyFourHour:
+                                timeStamp = $"[{DateTime.Now.ToString("HH:mm:ss")}]: ";
+                                break;
+                        }
+                    }
+
+                    string text = $"{timeStamp}{o.Text}";
+
                     if (foregroundColor != null)
                     {
                         Interpreter.EchoText(text, foregroundColor.AnsiColor, o.Reverse, o.Terminal);
@@ -72,6 +94,8 @@ namespace Avalon.HashCommands
             [Option('t', "term", Required = false, HelpText = "The terminal that shuld be echoed to.  The main terminal is the default if not specified.")]
             public TerminalTarget Terminal { get; set; } = TerminalTarget.Main;
 
+            [Option('d', "datetime", Required = false, HelpText = "Whether a timestamp should preceed the echo.")]
+            public bool Timestamp { get; set; } = false;
         }
 
     }
