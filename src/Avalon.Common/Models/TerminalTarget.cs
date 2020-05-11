@@ -9,6 +9,7 @@
         Main,
         Communication,
         OutOfCharacterCommunication,
-        BackBuffer
+        BackBuffer,
+        Terminal3
     }
 }

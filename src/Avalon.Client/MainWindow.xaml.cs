@@ -471,6 +471,11 @@ namespace Avalon
             GameTerminal.ScrollToLastLine();
             OocCommunicationTerminal.ScrollToLastLine();
             CommunicationTerminal.ScrollToLastLine();
+            Terminal3.ScrollToLastLine();
+
+            // Custom tabs (Might be overriden by plugins)
+            CustomTab3Label.Content = App.Settings.AvalonSettings.CustomTab3Label;
+            CustomTab3.Visibility = (App.Settings.AvalonSettings.CustomTab3Visible) ? Visibility.Visible : Visibility.Hidden;
 
             // Grid Layout
             LoadGridState();

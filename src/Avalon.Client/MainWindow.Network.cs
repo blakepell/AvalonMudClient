@@ -199,6 +199,9 @@ namespace Avalon
                 case TerminalTarget.OutOfCharacterCommunication:
                     term = OocCommunicationTerminal;
                     break;
+                case TerminalTarget.Terminal3:
+                    term = Terminal3;
+                    break;
                 default:
                     term = GameTerminal;
                     break;

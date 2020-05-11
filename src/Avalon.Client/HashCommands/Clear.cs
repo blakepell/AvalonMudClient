@@ -29,6 +29,12 @@ namespace Avalon.HashCommands
                 Interpreter.Conveyor.ClearTerminal(TerminalTarget.Communication);
                 Interpreter.Conveyor.ClearTerminal(TerminalTarget.OutOfCharacterCommunication);
                 Interpreter.Conveyor.ClearTerminal(TerminalTarget.BackBuffer);
+                Interpreter.Conveyor.ClearTerminal(TerminalTarget.Terminal3);
+
+                App.MainWindow.Panel2Badge.Value = 0;
+                App.MainWindow.Panel3Badge.Value = 0;
+                App.MainWindow.CustomTab3Badge.Value = 0;
+
                 return;
             }
 
@@ -44,17 +50,26 @@ namespace Avalon.HashCommands
                                    if (o.Comm)
                                    {
                                        Interpreter.Conveyor.ClearTerminal(TerminalTarget.Communication);
+                                       App.MainWindow.Panel2Badge.Value = 0;
                                    }
 
                                    if (o.Ooc)
                                    {
                                        Interpreter.Conveyor.ClearTerminal(TerminalTarget.OutOfCharacterCommunication);
+                                       App.MainWindow.Panel3Badge.Value = 0;
                                    }
 
                                    if (o.BackBuffer)
                                    {
                                        Interpreter.Conveyor.ClearTerminal(TerminalTarget.BackBuffer);
                                    }
+
+                                   if (o.Term3)
+                                   {
+                                       App.MainWindow.CustomTab3Badge.Value = 0;
+                                       Interpreter.Conveyor.ClearTerminal(TerminalTarget.Terminal3);
+                                   }
+
                                });
 
             // Display the help or error output from the parameter parsing.
@@ -77,6 +92,11 @@ namespace Avalon.HashCommands
 
             [Option('b', "back", Required = false, HelpText = "Clear the main terminal back buffer.")]
             public bool BackBuffer { get; set; }
+
+
+            [Option('3', "term3", Required = false, HelpText = "Clears terminal 3.")]
+            public bool Term3 { get; set; }
+
 
         }
     }

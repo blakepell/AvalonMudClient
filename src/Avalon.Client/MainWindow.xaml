@@ -281,7 +281,7 @@
                                         <Label FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14">OOC</Label>
                                         <controls:Badge x:Name="Panel3Badge" x:FieldModifier="public"></controls:Badge>
                                     </StackPanel>
-                                </controls:TabItemEx.Header>                                
+                                </controls:TabItemEx.Header>
                                 <controls:AvalonTerminal
                                     x:Name="OocCommunicationTerminal" ShowLineNumbers="False" WordWrap="True" GagEnabled="False"
                                     FontFamily="Consolas" IsReadOnly="True"
@@ -294,8 +294,26 @@
                                     KeyDown="Terminal_OnKeyDown">
                                 </controls:AvalonTerminal>
                             </controls:TabItemEx>
+                            <controls:TabItemEx x:Name="CustomTab3">
+                                <controls:TabItemEx.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label x:Name="CustomTab3Label" FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14">OOC</Label>
+                                        <controls:Badge x:Name="CustomTab3Badge" x:FieldModifier="public"></controls:Badge>
+                                    </StackPanel>
+                                </controls:TabItemEx.Header>
+                                <controls:AvalonTerminal
+                                    x:Name="Terminal3" ShowLineNumbers="False" WordWrap="True" GagEnabled="False"
+                                    FontFamily="Consolas" IsReadOnly="True"
+                                    Background="Black" Foreground="LightGray"
+                                    Padding="10,0,20,0"
+                                    FontSize="13"                                 
+                                    ScrollViewer.PanningMode="VerticalOnly"
+                                    ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
+                                    ScrollViewer.ScrollChanged="CommTerminal_ScrollChanged"
+                                    KeyDown="Terminal_OnKeyDown">
+                                </controls:AvalonTerminal>
+                            </controls:TabItemEx>
                         </controls:TabControlEx>
-
                     </Border>
 
                     <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="0,.9,0,0">

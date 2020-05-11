@@ -230,6 +230,24 @@ namespace Avalon
                     }
 
                     break;
+                case TerminalTarget.Terminal3:
+                    Application.Current.Dispatcher.Invoke(new Action(() =>
+                    {
+                        App.MainWindow.Terminal3.Append(line);
+                    }));
+
+                    if (!App.MainWindow.CustomTab3.IsSelected)
+                    {
+                        App.MainWindow.CustomTab3Badge.Value += 1;
+                    }
+                    else if (App.MainWindow.CustomTab3.IsSelected && App.MainWindow.CustomTab3Badge.Value != 0)
+                    {
+                        // Only setting this if the value isn't 0 so it doesn't trigger UI processing.
+                        App.MainWindow.CustomTab3Badge.Value = 0;
+                    }
+
+                    break;
+
             }
         }
 
@@ -291,6 +309,12 @@ namespace Avalon
                     case TerminalTarget.OutOfCharacterCommunication:
                         sb.Append(App.MainWindow.OocCommunicationTerminal.Text);
                         break;
+                    case TerminalTarget.BackBuffer:
+                        sb.Append(App.MainWindow.GameBackBufferTerminal.Text);
+                        break;
+                    case TerminalTarget.Terminal3:
+                        sb.Append(App.MainWindow.Terminal3.Text);
+                        break;
                 }
             }));
 
@@ -323,6 +347,12 @@ namespace Avalon
                         break;
                     case TerminalTarget.OutOfCharacterCommunication:
                         sb.Append(App.MainWindow.OocCommunicationTerminal.SelectedText);
+                        break;
+                    case TerminalTarget.BackBuffer:
+                        sb.Append(App.MainWindow.GameBackBufferTerminal.SelectedText);
+                        break;
+                    case TerminalTarget.Terminal3:
+                        sb.Append(App.MainWindow.Terminal3.SelectedText);
                         break;
                 }
             }));
@@ -389,6 +419,9 @@ namespace Avalon
                     case TerminalTarget.BackBuffer:
                         App.MainWindow.GameBackBufferTerminal.ClearText();
                         break;
+                    case TerminalTarget.Terminal3:
+                        App.MainWindow.Terminal3.ClearText();
+                        break;
                 }
             }));
         }
@@ -411,6 +444,8 @@ namespace Avalon
                     return App.MainWindow.OocCommunicationTerminal.LineCount;
                 case TerminalTarget.BackBuffer:
                     return App.MainWindow.GameBackBufferTerminal.LineCount;
+                case TerminalTarget.Terminal3:
+                    return App.MainWindow.Terminal3.LineCount;
             }
 
             return 0;

@@ -125,6 +125,36 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public bool WordWrapTerminals { get; set; } = true;
 
+        [CategoryAttribute("UI")]
+        [DescriptionAttribute("The header name of custom tab 1.")]
+        [Browsable(true)]
+        public string CustomTab1Label { get; set; } = "Untitled 1";
+
+        [CategoryAttribute("UI")]
+        [DescriptionAttribute("Whether custom tab 1 is visible or not.")]
+        [Browsable(true)]
+        public bool CustomTab1Visible { get; set; } = true;
+
+        [CategoryAttribute("UI")]
+        [DescriptionAttribute("The header name of custom tab 2.")]
+        [Browsable(true)]
+        public string CustomTab2Label { get; set; } = "Untitled 2";
+
+        [CategoryAttribute("UI")]
+        [DescriptionAttribute("Whether custom tab 2 is visible or not.")]
+        [Browsable(true)]
+        public bool CustomTab2Visible { get; set; } = true;
+
+        [CategoryAttribute("UI")]
+        [DescriptionAttribute("The header name of custom tab 3.")]
+        [Browsable(true)]
+        public string CustomTab3Label { get; set; } = "Custom Tab 3";
+
+        [CategoryAttribute("UI")]
+        [DescriptionAttribute("Whether custom tab 2 is visible or not.")]
+        [Browsable(true)]
+        public bool CustomTab3Visible { get; set; } = false;
+
 
         [CategoryAttribute("Security")]
         [DescriptionAttribute("The ability to start programs on the computer via #shell or lua:shell.")]

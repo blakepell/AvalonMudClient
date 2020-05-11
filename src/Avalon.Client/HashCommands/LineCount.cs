@@ -25,7 +25,8 @@ namespace Avalon.HashCommands
             int gameTermBackBufferLines = Interpreter.Conveyor.LineCount(TerminalTarget.BackBuffer);
             int commLines = Interpreter.Conveyor.LineCount(TerminalTarget.Communication);
             int oocCommLines = Interpreter.Conveyor.LineCount(TerminalTarget.OutOfCharacterCommunication);
-            int totalLines = gameTermLines + gameTermBackBufferLines + commLines + oocCommLines;
+            int term3 = Interpreter.Conveyor.LineCount(TerminalTarget.Terminal3);
+            int totalLines = gameTermLines + gameTermBackBufferLines + commLines + oocCommLines + term3;
 
             // TODO - EchoLine
             Interpreter.Conveyor.EchoText($"\r\n");
@@ -33,6 +34,7 @@ namespace Avalon.HashCommands
             Interpreter.Conveyor.EchoText($"      Back Buffer: {gameTermBackBufferLines.ToString().FormatIfNumber(0).PadLeft(8, ' ')}\r\n", AnsiColors.Cyan, TerminalTarget.Main);
             Interpreter.Conveyor.EchoText($"    Communication: {commLines.ToString().FormatIfNumber(0).PadLeft(8, ' ')}\r\n", AnsiColors.Cyan, TerminalTarget.Main);
             Interpreter.Conveyor.EchoText($"OOC Communication: {oocCommLines.ToString().FormatIfNumber(0).PadLeft(8, ' ')}\r\n", AnsiColors.Cyan, TerminalTarget.Main);
+            Interpreter.Conveyor.EchoText($"       Terminal 3: {term3.ToString().FormatIfNumber(0).PadLeft(8, ' ')}\r\n", AnsiColors.Cyan, TerminalTarget.Main);
             Interpreter.Conveyor.EchoText($"                   --------\r\n", AnsiColors.Cyan, TerminalTarget.Main);
             Interpreter.Conveyor.EchoText($"      Total Lines: {totalLines.ToString().FormatIfNumber(0).PadLeft(8, ' ')}\r\n", AnsiColors.Cyan, TerminalTarget.Main);
         }
