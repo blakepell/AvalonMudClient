@@ -20,6 +20,38 @@ namespace Avalon.Extensions
     {
 
         /// <summary>
+        /// Returns visibility to visible or collapsed (does not reserves space) if not visible.
+        /// </summary>
+        /// <param name="value"></param>
+        public static Visibility ToVisibleOrCollapse(this bool value)
+        {
+            if (value)
+            {
+                return Visibility.Visible;
+            }
+            else
+            {
+                return Visibility.Collapsed;
+            }
+        }
+
+        /// <summary>
+        /// Returns visibility to visible or hidden (reserves space) if not visible.
+        /// </summary>
+        /// <param name="value"></param>
+        public static Visibility ToVisibleOrHidden(this bool value)
+        {
+            if (value)
+            {
+                return Visibility.Visible;
+            }
+            else
+            {
+                return Visibility.Hidden;
+            }
+        }
+
+        /// <summary>
         /// Converts the specified string into a Line for rendering.  ANSI codes are removed from the value
         /// that is put into the Text property.
         /// </summary>
