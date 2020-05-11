@@ -23,6 +23,13 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             this.LoadMenu();
             this.LoadHashCommands();
             this.ResetVariables();
+
+            this.Conveyor.SetCustomTabVisible(CustomTab.Tab1, true);
+            this.Conveyor.SetCustomTabLabel(CustomTab.Tab1, "In Character");
+
+            this.Conveyor.SetCustomTabVisible(CustomTab.Tab2, true);
+            this.Conveyor.SetCustomTabLabel(CustomTab.Tab2, "OOC");
+
             this.Initialized = true;
         }
 
@@ -37,22 +44,22 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             }
 
             // IC Channels: Clan gossip, clan, gossip, ask, answer, kingdom, group tells, tells, auction, pray, grats, quest (quote at the end)
-            this.Triggers.Add(new Trigger(@"^[\a]?(\[ .* \] )?([\w'-]+|The ghost of [\w'-]+|\(An Imm\)|\(Imm\) [\w'-]+|\(Wizi@\d\d\) \(Imm\) [\w'-]+) (\bclan gossip(s?)\b|\bclan(s?)\b|\bgossip(s?)\b|\bask(s?)\b|\banswers(s?)\b|\btell(s?)\b|\bBloodbath(s?)\b|\bpray(s?)\b|\bgrats\b|\bauction(s?)\b|\bquest(s?)\b|\bradio(s?)\b|\bimm(s?)\b).*'$", "", "", true, "8b0bc970-08de-498e-9866-8e1aec458c08", TerminalTarget.Communication, true));            
-            this.Triggers.Add(new Trigger(@"^[\a]?(\[ .* \] )?(?!.*OOC).*Kingdom: .*$", "", "", true, "1dcf2580-da86-45b5-880f-36f9468891c1", TerminalTarget.Communication, true));
-            this.Triggers.Add(new Trigger(@"\((Admin|Coder)\) \(Imm\) [\w'-]+:", "", "", true, "b5c8f16b-31d1-48e9-a895-fda1be732051", TerminalTarget.Communication, true));
+            this.Triggers.Add(new Trigger(@"^[\a]?(\[ .* \] )?([\w'-]+|The ghost of [\w'-]+|\(An Imm\)|\(Imm\) [\w'-]+|\(Wizi@\d\d\) \(Imm\) [\w'-]+) (\bclan gossip(s?)\b|\bclan(s?)\b|\bgossip(s?)\b|\bask(s?)\b|\banswers(s?)\b|\btell(s?)\b|\bBloodbath(s?)\b|\bpray(s?)\b|\bgrats\b|\bauction(s?)\b|\bquest(s?)\b|\bradio(s?)\b|\bimm(s?)\b).*'$", "", "", true, "8b0bc970-08de-498e-9866-8e1aec458c08", TerminalTarget.Terminal1, true));            
+            this.Triggers.Add(new Trigger(@"^[\a]?(\[ .* \] )?(?!.*OOC).*Kingdom: .*$", "", "", true, "1dcf2580-da86-45b5-880f-36f9468891c1", TerminalTarget.Terminal1, true));
+            this.Triggers.Add(new Trigger(@"\((Admin|Coder)\) \(Imm\) [\w'-]+:", "", "", true, "b5c8f16b-31d1-48e9-a895-fda1be732051", TerminalTarget.Terminal1, true));
 
             // OOC Channels: OOC, OOC Clan, OOC Kingdom, Newbie
-            this.Triggers.Add(new Trigger(@"^[\a]?(\(.*\)?)?([\w'-]+|The ghost of [\w'-]+|\(An Imm\)|\(Imm\) [\w'-]+) (OOC|\[Newbie\]).*$", "", "", true, "4c7efde0-6f9a-4429-8b5c-edf23e60e61f", TerminalTarget.OutOfCharacterCommunication, true));
+            this.Triggers.Add(new Trigger(@"^[\a]?(\(.*\)?)?([\w'-]+|The ghost of [\w'-]+|\(An Imm\)|\(Imm\) [\w'-]+) (OOC|\[Newbie\]).*$", "", "", true, "4c7efde0-6f9a-4429-8b5c-edf23e60e61f", TerminalTarget.Terminal2, true));
 
             // Shared channels (Shalonesti, Conclave)
-            this.Triggers.Add(new Trigger(@"^\((Shalonesti|OOC Shalonesti|Clave|OOC Clave)\).*$", "", "", true, "bd8f5ed0-3122-4091-bb23-db2f589e7cf0", TerminalTarget.Communication, true));
+            this.Triggers.Add(new Trigger(@"^\((Shalonesti|OOC Shalonesti|Clave|OOC Clave)\).*$", "", "", true, "bd8f5ed0-3122-4091-bb23-db2f589e7cf0", TerminalTarget.Terminal1, true));
 
             // Toasts, TODO: Dragon/Remort toasts ( Dragon ) ( Balanx )
-            this.Triggers.Add(new Trigger(@"^[\a]?([\[\(](.*?)[\]\)])?[ ]{0,}([\w'-]+) got (.*?) by (.*?) ([\[\(] (.*?) [\]\)])?[ ]{0,}([\(]Arena[\)])?", "", "", true, "6731ca72-5672-4dab-879b-896b2945805a", TerminalTarget.Communication, true));
+            this.Triggers.Add(new Trigger(@"^[\a]?([\[\(](.*?)[\]\)])?[ ]{0,}([\w'-]+) got (.*?) by (.*?) ([\[\(] (.*?) [\]\)])?[ ]{0,}([\(]Arena[\)])?", "", "", true, "6731ca72-5672-4dab-879b-896b2945805a", TerminalTarget.Terminal1, true));
 
             // Game events: Keeps
-            this.Triggers.Add(new Trigger(@"^([\w'-]+) has (conquered|unlocked) (.*)!", "", "", true, "638a6c30-0a5e-4859-b666-72413f2f1781", TerminalTarget.Communication, false));
-            this.Triggers.Add(new Trigger(@"^(personal> )?Keep Lord clans '(.*) is invading (.*)!'", "", "", true, "16f9a412-a6ef-4b5d-a2b7-4dd36f117416", TerminalTarget.Communication, false));
+            this.Triggers.Add(new Trigger(@"^([\w'-]+) has (conquered|unlocked) (.*)!", "", "", true, "638a6c30-0a5e-4859-b666-72413f2f1781", TerminalTarget.Terminal1, false));
+            this.Triggers.Add(new Trigger(@"^(personal> )?Keep Lord clans '(.*) is invading (.*)!'", "", "", true, "16f9a412-a6ef-4b5d-a2b7-4dd36f117416", TerminalTarget.Terminal1, false));
 
             // Login, find out who the player is and put it into a variable.  Run whoami and then score to scrap initial info.
             this.Triggers.Add(new Trigger(@"^Welcome to DSL! DSL Loves You! Other muds think you are ugly, they said so", "whoami;score;#set-prompt"));

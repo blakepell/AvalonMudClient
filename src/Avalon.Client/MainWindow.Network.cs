@@ -193,14 +193,17 @@ namespace Avalon
                 case TerminalTarget.Main:
                     term = GameTerminal;
                     break;
-                case TerminalTarget.Communication:
-                    term = CommunicationTerminal;
+                case TerminalTarget.Terminal1:
+                    term = Terminal1;
+                    CustomTab1Badge.IncrementOrReset(!CustomTab1.IsSelected);
                     break;
-                case TerminalTarget.OutOfCharacterCommunication:
-                    term = OocCommunicationTerminal;
+                case TerminalTarget.Terminal2:
+                    term = Terminal2;
+                    CustomTab2Badge.IncrementOrReset(!CustomTab2.IsSelected);
                     break;
                 case TerminalTarget.Terminal3:
                     term = Terminal3;
+                    CustomTab3Badge.IncrementOrReset(!CustomTab3.IsSelected);
                     break;
                 default:
                     term = GameTerminal;

@@ -7,8 +7,8 @@
     {
         None,
         Main,
-        Communication,
-        OutOfCharacterCommunication,
+        Terminal1,
+        Terminal2,
         BackBuffer,
         Terminal3
     }

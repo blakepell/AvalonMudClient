@@ -26,13 +26,13 @@ namespace Avalon.HashCommands
             if (this.Parameters.IsNullOrEmptyOrWhiteSpace())
             {
                 Interpreter.Conveyor.ClearTerminal(TerminalTarget.Main);
-                Interpreter.Conveyor.ClearTerminal(TerminalTarget.Communication);
-                Interpreter.Conveyor.ClearTerminal(TerminalTarget.OutOfCharacterCommunication);
                 Interpreter.Conveyor.ClearTerminal(TerminalTarget.BackBuffer);
+                Interpreter.Conveyor.ClearTerminal(TerminalTarget.Terminal1);
+                Interpreter.Conveyor.ClearTerminal(TerminalTarget.Terminal2);
                 Interpreter.Conveyor.ClearTerminal(TerminalTarget.Terminal3);
 
-                App.MainWindow.Panel2Badge.Value = 0;
-                App.MainWindow.Panel3Badge.Value = 0;
+                App.MainWindow.CustomTab1Badge.Value = 0;
+                App.MainWindow.CustomTab2Badge.Value = 0;
                 App.MainWindow.CustomTab3Badge.Value = 0;
 
                 return;
@@ -47,21 +47,21 @@ namespace Avalon.HashCommands
                                        Interpreter.Conveyor.ClearTerminal(TerminalTarget.Main);                                       
                                    }
 
-                                   if (o.Comm)
-                                   {
-                                       Interpreter.Conveyor.ClearTerminal(TerminalTarget.Communication);
-                                       App.MainWindow.Panel2Badge.Value = 0;
-                                   }
-
-                                   if (o.Ooc)
-                                   {
-                                       Interpreter.Conveyor.ClearTerminal(TerminalTarget.OutOfCharacterCommunication);
-                                       App.MainWindow.Panel3Badge.Value = 0;
-                                   }
-
                                    if (o.BackBuffer)
                                    {
                                        Interpreter.Conveyor.ClearTerminal(TerminalTarget.BackBuffer);
+                                   }
+
+                                   if (o.Term1)
+                                   {
+                                       Interpreter.Conveyor.ClearTerminal(TerminalTarget.Terminal1);
+                                       App.MainWindow.CustomTab1Badge.Value = 0;
+                                   }
+
+                                   if (o.Term2)
+                                   {
+                                       Interpreter.Conveyor.ClearTerminal(TerminalTarget.Terminal2);
+                                       App.MainWindow.CustomTab2Badge.Value = 0;
                                    }
 
                                    if (o.Term3)
@@ -84,19 +84,17 @@ namespace Avalon.HashCommands
             [Option('m', "main", Required = false, HelpText = "Clear the main terminal.")]
             public bool Main { get; set; }
 
-            [Option('o', "ooc", Required = false, HelpText = "Clear out of character (OOC) terminal.")]
-            public bool Ooc { get; set; }
-
-            [Option('c', "comm", Required = false, HelpText = "Clear the communication (IC) terminal.")]
-            public bool Comm { get; set; }
-
             [Option('b', "back", Required = false, HelpText = "Clear the main terminal back buffer.")]
             public bool BackBuffer { get; set; }
 
+            [Option('1', "term1", Required = false, HelpText = "Clears terminal 1")]
+            public bool Term1 { get; set; }
+
+            [Option('2', "term2", Required = false, HelpText = "Clears terminal 2")]
+            public bool Term2 { get; set; }
 
             [Option('3', "term3", Required = false, HelpText = "Clears terminal 3.")]
             public bool Term3 { get; set; }
-
 
         }
     }

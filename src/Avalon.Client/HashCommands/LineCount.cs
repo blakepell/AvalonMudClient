@@ -23,8 +23,8 @@ namespace Avalon.HashCommands
         {
             int gameTermLines = Interpreter.Conveyor.LineCount(TerminalTarget.Main);
             int gameTermBackBufferLines = Interpreter.Conveyor.LineCount(TerminalTarget.BackBuffer);
-            int commLines = Interpreter.Conveyor.LineCount(TerminalTarget.Communication);
-            int oocCommLines = Interpreter.Conveyor.LineCount(TerminalTarget.OutOfCharacterCommunication);
+            int commLines = Interpreter.Conveyor.LineCount(TerminalTarget.Terminal1);
+            int oocCommLines = Interpreter.Conveyor.LineCount(TerminalTarget.Terminal2);
             int term3 = Interpreter.Conveyor.LineCount(TerminalTarget.Terminal3);
             int totalLines = gameTermLines + gameTermBackBufferLines + commLines + oocCommLines + term3;
 

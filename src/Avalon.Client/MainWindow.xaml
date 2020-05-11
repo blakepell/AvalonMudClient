@@ -247,7 +247,9 @@
                         <controls:BarRepeater x:Name="BarRepeater" x:FieldModifier="public" Margin="0,0,0,0"></controls:BarRepeater>
                     </Border>
 
-                    <Border Margin="0" BorderThickness=".9,.9,0,0" BorderBrush="Gray" Grid.Row="2" Grid.Column="1">
+                    <Border x:Name="Panel2" x:FieldModifier="public"
+                            Grid.Row="2" Grid.Column="1"
+                            Margin="0" BorderThickness=".9,.9,0,0" BorderBrush="Gray">
                         <controls:TabControlEx x:Name="TabComm" Margin="0,0,0,0" SelectionChanged="TabComm_SelectionChanged">
                             <TabControl.Resources>
                                 <ResourceDictionary>
@@ -256,15 +258,15 @@
                                     </ResourceDictionary.MergedDictionaries>
                                 </ResourceDictionary>
                             </TabControl.Resources>
-                            <controls:TabItemEx x:Name="Panel2">
+                            <controls:TabItemEx x:Name="CustomTab1">
                                 <controls:TabItemEx.Header>
                                     <StackPanel Orientation="Horizontal">
-                                        <Label FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14">In Character</Label>
-                                        <controls:Badge x:Name="Panel2Badge" x:FieldModifier="public"></controls:Badge>
+                                        <Label x:Name="CustomTab1Label" x:FieldModifier="public" FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14">Custom Tab 1</Label>
+                                        <controls:Badge x:Name="CustomTab1Badge" x:FieldModifier="public"></controls:Badge>
                                     </StackPanel>
                                 </controls:TabItemEx.Header>
                                 <controls:AvalonTerminal
-                                    x:Name="CommunicationTerminal" ShowLineNumbers="False" WordWrap="True" GagEnabled="False"
+                                    x:Name="Terminal1" ShowLineNumbers="False" WordWrap="True" GagEnabled="False"
                                     FontFamily="Consolas" IsReadOnly="True"
                                     Padding="10,0,20,0"
                                     Background="Black" Foreground="LightGray"
@@ -275,15 +277,15 @@
                                     KeyDown="Terminal_OnKeyDown">
                                 </controls:AvalonTerminal>
                             </controls:TabItemEx>
-                            <controls:TabItemEx x:Name="Panel3">
+                            <controls:TabItemEx x:Name="CustomTab2">
                                 <controls:TabItemEx.Header>
                                     <StackPanel Orientation="Horizontal">
-                                        <Label FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14">OOC</Label>
-                                        <controls:Badge x:Name="Panel3Badge" x:FieldModifier="public"></controls:Badge>
+                                        <Label x:Name="CustomTab2Label" x:FieldModifier="public" FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14">Custom Tab 2</Label>
+                                        <controls:Badge x:Name="CustomTab2Badge" x:FieldModifier="public"></controls:Badge>
                                     </StackPanel>
                                 </controls:TabItemEx.Header>
                                 <controls:AvalonTerminal
-                                    x:Name="OocCommunicationTerminal" ShowLineNumbers="False" WordWrap="True" GagEnabled="False"
+                                    x:Name="Terminal2" ShowLineNumbers="False" WordWrap="True" GagEnabled="False"
                                     FontFamily="Consolas" IsReadOnly="True"
                                     Background="Black" Foreground="LightGray"
                                     Padding="10,0,20,0"
@@ -297,7 +299,7 @@
                             <controls:TabItemEx x:Name="CustomTab3">
                                 <controls:TabItemEx.Header>
                                     <StackPanel Orientation="Horizontal">
-                                        <Label x:Name="CustomTab3Label" FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14">OOC</Label>
+                                        <Label x:Name="CustomTab3Label" x:FieldModifier="public" FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14">Custom Tab 3</Label>
                                         <controls:Badge x:Name="CustomTab3Badge" x:FieldModifier="public"></controls:Badge>
                                     </StackPanel>
                                 </controls:TabItemEx.Header>

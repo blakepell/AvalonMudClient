@@ -19,6 +19,7 @@ using ModernWpf.Controls;
 using System.Diagnostics;
 using System.Windows.Media;
 using System.Windows.Input;
+using Avalon.Extensions;
 
 namespace Avalon
 {
@@ -423,8 +424,9 @@ namespace Avalon
         {
             // Terminal font size
             this.GameTerminal.FontSize = App.Settings.AvalonSettings.TerminalFontSize;
-            this.OocCommunicationTerminal.FontSize = App.Settings.AvalonSettings.TerminalFontSize;
-            this.CommunicationTerminal.FontSize = App.Settings.AvalonSettings.TerminalFontSize;
+            this.Terminal1.FontSize = App.Settings.AvalonSettings.TerminalFontSize;
+            this.Terminal2.FontSize = App.Settings.AvalonSettings.TerminalFontSize;
+            this.Terminal3.FontSize = App.Settings.AvalonSettings.TerminalFontSize;
             this.GameBackBufferTerminal.FontSize = App.Settings.AvalonSettings.TerminalFontSize;
 
             // Terminal font
@@ -444,8 +446,9 @@ namespace Avalon
             }
 
             this.GameTerminal.FontFamily = font;
-            this.OocCommunicationTerminal.FontFamily = font;
-            this.CommunicationTerminal.FontFamily = font;
+            this.Terminal1.FontFamily = font;
+            this.Terminal2.FontFamily = font;
+            this.Terminal3.FontFamily = font;
             this.GameBackBufferTerminal.FontFamily = font;
 
             this.SpellCheckEnabled = App.Settings.ProfileSettings.SpellChecking;
@@ -464,18 +467,23 @@ namespace Avalon
 
             // Word wrap
             GameTerminal.WordWrap = App.Settings.AvalonSettings.WordWrapTerminals;
-            OocCommunicationTerminal.WordWrap = GameTerminal.WordWrap = App.Settings.AvalonSettings.WordWrapTerminals;
-            CommunicationTerminal.WordWrap = GameTerminal.WordWrap = App.Settings.AvalonSettings.WordWrapTerminals;
+            Terminal1.WordWrap = GameTerminal.WordWrap = App.Settings.AvalonSettings.WordWrapTerminals;
+            Terminal2.WordWrap = GameTerminal.WordWrap = App.Settings.AvalonSettings.WordWrapTerminals;
+            Terminal3.WordWrap = GameTerminal.WordWrap = App.Settings.AvalonSettings.WordWrapTerminals;
 
             // Scroll everything to the last line in case heights/widths/wrapping has changed.
             GameTerminal.ScrollToLastLine();
-            OocCommunicationTerminal.ScrollToLastLine();
-            CommunicationTerminal.ScrollToLastLine();
+            Terminal1.ScrollToLastLine();
+            Terminal2.ScrollToLastLine();
             Terminal3.ScrollToLastLine();
 
             // Custom tabs (Might be overriden by plugins)
+            CustomTab1Label.Content = App.Settings.AvalonSettings.CustomTab1Label;
+            CustomTab1.Visibility = App.Settings.AvalonSettings.CustomTab1Visible.ToVisibleOrHidden();
+            CustomTab2Label.Content = App.Settings.AvalonSettings.CustomTab2Label;
+            CustomTab2.Visibility = App.Settings.AvalonSettings.CustomTab2Visible.ToVisibleOrHidden();
             CustomTab3Label.Content = App.Settings.AvalonSettings.CustomTab3Label;
-            CustomTab3.Visibility = (App.Settings.AvalonSettings.CustomTab3Visible) ? Visibility.Visible : Visibility.Hidden;
+            CustomTab3.Visibility = App.Settings.AvalonSettings.CustomTab3Visible.ToVisibleOrHidden();
 
             // Grid Layout
             LoadGridState();
@@ -536,9 +544,10 @@ namespace Avalon
         /// </summary>
         public void ScrollAllToBottom()
         {
-            OocCommunicationTerminal.ScrollToLastLine();
-            CommunicationTerminal.ScrollToLastLine();
             GameTerminal.ScrollToLastLine();
+            Terminal1.ScrollToLastLine();
+            Terminal2.ScrollToLastLine();
+            Terminal3.ScrollToLastLine();
         }
 
         /// <summary>
@@ -1223,17 +1232,17 @@ namespace Avalon
         private void TabComm_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // When the game tab gets the focus always put the focus into the input box.
-            if (Panel2.IsSelected && TextInput.Editor != null)
+            if (CustomTab1.IsSelected && TextInput.Editor != null)
             {
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
                     // Reset the value to 0, it's now been shown.
-                    Panel2Badge.Value = 0;
+                    CustomTab1Badge.Value = 0;
 
                     // In order to get the focus in this instance an UpdateLayout() call has to be called first.
                     UpdateLayout();
 
-                    CommunicationTerminal.ScrollToEnd();
+                    Terminal1.ScrollToEnd();
 
                     // When the app is first loaded the Editor was coming up null so we'll just check the nulls
                     // and then default the caret position to 0 if that's the case.
@@ -1241,17 +1250,35 @@ namespace Avalon
                     TextInput.Editor.Focus();
                 }));
             }
-            else if (Panel3.IsSelected && TextInput.Editor != null)
+            else if (CustomTab2.IsSelected && TextInput.Editor != null)
             {
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
                     // Reset the value to 0, it's now been shown.
-                    Panel3Badge.Value = 0;
+                    CustomTab2Badge.Value = 0;
 
                     // In order to get the focus in this instance an UpdateLayout() call has to be called first.
                     UpdateLayout();
 
-                    OocCommunicationTerminal.ScrollToEnd();
+                    Terminal2.ScrollToEnd();
+
+                    // When the app is first loaded the Editor was coming up null so we'll just check the nulls
+                    // and then default the caret position to 0 if that's the case.
+                    TextInput.Editor.CaretIndex = TextInput?.Editor?.Text?.Length ?? 0;
+                    TextInput.Editor.Focus();
+                }));
+            }
+            else if (CustomTab3.IsSelected && TextInput.Editor != null)
+            {
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    // Reset the value to 0, it's now been shown.
+                    CustomTab3Badge.Value = 0;
+
+                    // In order to get the focus in this instance an UpdateLayout() call has to be called first.
+                    UpdateLayout();
+
+                    Terminal3.ScrollToEnd();
 
                     // When the app is first loaded the Editor was coming up null so we'll just check the nulls
                     // and then default the caret position to 0 if that's the case.

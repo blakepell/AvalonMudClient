@@ -152,8 +152,9 @@ namespace Avalon
                     // Setting to see if the comm windows should scroll to the bottom on escape.
                     if (App.Settings.AvalonSettings.EscapeScrollsAllTerminalsToBottom)
                     {
-                        OocCommunicationTerminal.ScrollToLastLine();
-                        CommunicationTerminal.ScrollToLastLine();
+                        Terminal1.ScrollToLastLine();
+                        Terminal2.ScrollToLastLine();
+                        Terminal3.ScrollToLastLine();
                         GameTerminal.ScrollToLastLine();
                     }
 
@@ -224,8 +225,9 @@ namespace Avalon
                     if (App.Settings.AvalonSettings.EscapeScrollsAllTerminalsToBottom)
                     {
                         GameTerminal.ScrollToLastLine();
-                        OocCommunicationTerminal.ScrollToLastLine();
-                        CommunicationTerminal.ScrollToLastLine();
+                        Terminal1.ScrollToLastLine();
+                        Terminal2.ScrollToLastLine();
+                        Terminal3.ScrollToLastLine();
                     }
 
                     // Reset the input history to the default position and clear the text in the input box.

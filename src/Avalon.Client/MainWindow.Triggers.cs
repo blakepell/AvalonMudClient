@@ -89,34 +89,49 @@ namespace Avalon
                             FormattedText = $"[{timeStamp}]: {line.FormattedText}\r\n"
                         };
 
-                        if (item.MoveTo == TerminalTarget.Communication)
+                        if (item.MoveTo == TerminalTarget.Terminal1)
                         {
-                            CommunicationTerminal.Append(commLine);
+                            Terminal1.Append(commLine);
 
-                            if (!App.MainWindow.Panel2.IsSelected)
+                            if (!App.MainWindow.CustomTab1.IsSelected)
                             {
-                                App.MainWindow.Panel2Badge.Value += 1;
+                                App.MainWindow.CustomTab1Badge.Value += 1;
                             }
-                            else if (App.MainWindow.Panel2.IsSelected && App.MainWindow.Panel2Badge.Value != 0)
+                            else if (App.MainWindow.CustomTab1.IsSelected && App.MainWindow.CustomTab1Badge.Value != 0)
                             {
                                 // Only setting this if the value isn't 0 so it doesn't trigger UI processing.
-                                App.MainWindow.Panel2Badge.Value = 0;
+                                App.MainWindow.CustomTab1Badge.Value = 0;
                             }
                         }
-                        else if (item.MoveTo == TerminalTarget.OutOfCharacterCommunication)
+                        else if (item.MoveTo == TerminalTarget.Terminal2)
                         {
-                            OocCommunicationTerminal.Append(commLine);
+                            Terminal2.Append(commLine);
 
-                            if (!App.MainWindow.Panel3.IsSelected)
+                            if (!App.MainWindow.CustomTab2.IsSelected)
                             {
-                                App.MainWindow.Panel3Badge.Value += 1;
+                                App.MainWindow.CustomTab2Badge.Value += 1;
                             }
-                            else if (App.MainWindow.Panel3.IsSelected && App.MainWindow.Panel3Badge.Value != 0)
+                            else if (App.MainWindow.CustomTab2.IsSelected && App.MainWindow.CustomTab2Badge.Value != 0)
                             {
                                 // Only setting this if the value isn't 0 so it doesn't trigger UI processing.
-                                App.MainWindow.Panel3Badge.Value = 0;
+                                App.MainWindow.CustomTab2Badge.Value = 0;
                             }
                         }
+                        else if (item.MoveTo == TerminalTarget.Terminal3)
+                        {
+                            Terminal3.Append(commLine);
+
+                            if (!App.MainWindow.CustomTab3.IsSelected)
+                            {
+                                App.MainWindow.CustomTab3Badge.Value += 1;
+                            }
+                            else if (App.MainWindow.CustomTab3.IsSelected && App.MainWindow.CustomTab3Badge.Value != 0)
+                            {
+                                // Only setting this if the value isn't 0 so it doesn't trigger UI processing.
+                                App.MainWindow.CustomTab3Badge.Value = 0;
+                            }
+                        }
+
                     }
                 }
             }
@@ -200,34 +215,49 @@ namespace Avalon
                             FormattedText = $"[{timeStamp}]: {line.FormattedText}\r\n"
                         };
 
-                        if (item.MoveTo == TerminalTarget.Communication)
+                        if (item.MoveTo == TerminalTarget.Terminal1)
                         {
-                            CommunicationTerminal.Append(commLine);
+                            Terminal1.Append(commLine);
 
-                            if (!App.MainWindow.Panel2.IsSelected)
+                            if (!App.MainWindow.CustomTab1.IsSelected)
                             {
-                                App.MainWindow.Panel2Badge.Value += 1;
+                                App.MainWindow.CustomTab1Badge.Value += 1;
                             }
-                            else if (App.MainWindow.Panel2.IsSelected && App.MainWindow.Panel2Badge.Value != 0)
+                            else if (App.MainWindow.CustomTab1.IsSelected && App.MainWindow.CustomTab1Badge.Value != 0)
                             {
                                 // Only setting this if the value isn't 0 so it doesn't trigger UI processing.
-                                App.MainWindow.Panel2Badge.Value = 0;
+                                App.MainWindow.CustomTab1Badge.Value = 0;
                             }
                         }
-                        else if (item.MoveTo == TerminalTarget.OutOfCharacterCommunication)
+                        else if (item.MoveTo == TerminalTarget.Terminal2)
                         {
-                            OocCommunicationTerminal.Append(commLine);
+                            Terminal2.Append(commLine);
 
-                            if (!App.MainWindow.Panel3.IsSelected)
+                            if (!App.MainWindow.CustomTab2.IsSelected)
                             {
-                                App.MainWindow.Panel3Badge.Value += 1;
+                                App.MainWindow.CustomTab2Badge.Value += 1;
                             }
-                            else if (App.MainWindow.Panel3.IsSelected && App.MainWindow.Panel3Badge.Value != 0)
+                            else if (App.MainWindow.CustomTab2.IsSelected && App.MainWindow.CustomTab2Badge.Value != 0)
                             {
                                 // Only setting this if the value isn't 0 so it doesn't trigger UI processing.
-                                App.MainWindow.Panel3Badge.Value = 0;
+                                App.MainWindow.CustomTab2Badge.Value = 0;
                             }
                         }
+                        else if (item.MoveTo == TerminalTarget.Terminal3)
+                        {
+                            Terminal3.Append(commLine);
+
+                            if (!App.MainWindow.CustomTab3.IsSelected)
+                            {
+                                App.MainWindow.CustomTab3Badge.Value += 1;
+                            }
+                            else if (App.MainWindow.CustomTab3.IsSelected && App.MainWindow.CustomTab3Badge.Value != 0)
+                            {
+                                // Only setting this if the value isn't 0 so it doesn't trigger UI processing.
+                                App.MainWindow.CustomTab3Badge.Value = 0;
+                            }
+                        }
+
                     }
                 }
             }

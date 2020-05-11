@@ -185,7 +185,7 @@ namespace Avalon
                     Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
                         App.MainWindow.GameTerminal.Append(line);
-                        
+
                         // If the back buffer setting is enabled put the data also in there.
                         if (App.Settings.AvalonSettings.BackBufferEnabled)
                         {
@@ -196,37 +196,37 @@ namespace Avalon
                     }));
 
                     break;
-                case TerminalTarget.Communication:
+                case TerminalTarget.Terminal1:
                     Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
-                        App.MainWindow.CommunicationTerminal.Append(line);
+                        App.MainWindow.Terminal1.Append(line);
 
-                        if (!App.MainWindow.Panel2.IsSelected)
+                        if (!App.MainWindow.CustomTab1.IsSelected)
                         {
-                            App.MainWindow.Panel2Badge.Value += 1;
+                            App.MainWindow.CustomTab1Badge.Value += 1;
                         }
-                        else if (App.MainWindow.Panel2.IsSelected && App.MainWindow.Panel2Badge.Value != 0)
+                        else if (App.MainWindow.CustomTab1.IsSelected && App.MainWindow.CustomTab1Badge.Value != 0)
                         {
                             // Only setting this if the value isn't 0 so it doesn't trigger UI processing.
-                            App.MainWindow.Panel2Badge.Value = 0;
+                            App.MainWindow.CustomTab1Badge.Value = 0;
                         }
                     }));
 
                     break;
-                case TerminalTarget.OutOfCharacterCommunication:
+                case TerminalTarget.Terminal2:
                     Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
-                        App.MainWindow.OocCommunicationTerminal.Append(line);
+                        App.MainWindow.Terminal2.Append(line);
                     }));
 
-                    if (!App.MainWindow.Panel3.IsSelected)
+                    if (!App.MainWindow.CustomTab2.IsSelected)
                     {
-                        App.MainWindow.Panel3Badge.Value += 1;
+                        App.MainWindow.CustomTab2Badge.Value += 1;
                     }
-                    else if (App.MainWindow.Panel3.IsSelected && App.MainWindow.Panel3Badge.Value != 0)
+                    else if (App.MainWindow.CustomTab2.IsSelected && App.MainWindow.CustomTab2Badge.Value != 0)
                     {
                         // Only setting this if the value isn't 0 so it doesn't trigger UI processing.
-                        App.MainWindow.Panel3Badge.Value = 0;
+                        App.MainWindow.CustomTab2Badge.Value = 0;
                     }
 
                     break;
@@ -301,13 +301,13 @@ namespace Avalon
                 switch (target)
                 {
                     case TerminalTarget.Main:
-                        sb.Append(App.MainWindow.GameTerminal.Text);                       
+                        sb.Append(App.MainWindow.GameTerminal.Text);
                         break;
-                    case TerminalTarget.Communication:
-                        sb.Append(App.MainWindow.CommunicationTerminal.Text);
+                    case TerminalTarget.Terminal1:
+                        sb.Append(App.MainWindow.Terminal1.Text);
                         break;
-                    case TerminalTarget.OutOfCharacterCommunication:
-                        sb.Append(App.MainWindow.OocCommunicationTerminal.Text);
+                    case TerminalTarget.Terminal2:
+                        sb.Append(App.MainWindow.Terminal2.Text);
                         break;
                     case TerminalTarget.BackBuffer:
                         sb.Append(App.MainWindow.GameBackBufferTerminal.Text);
@@ -342,11 +342,11 @@ namespace Avalon
                     case TerminalTarget.Main:
                         sb.Append(App.MainWindow.GameTerminal.SelectedText);
                         break;
-                    case TerminalTarget.Communication:
-                        sb.Append(App.MainWindow.CommunicationTerminal.SelectedText);
+                    case TerminalTarget.Terminal1:
+                        sb.Append(App.MainWindow.Terminal1.SelectedText);
                         break;
-                    case TerminalTarget.OutOfCharacterCommunication:
-                        sb.Append(App.MainWindow.OocCommunicationTerminal.SelectedText);
+                    case TerminalTarget.Terminal2:
+                        sb.Append(App.MainWindow.Terminal2.SelectedText);
                         break;
                     case TerminalTarget.BackBuffer:
                         sb.Append(App.MainWindow.GameBackBufferTerminal.SelectedText);
@@ -410,11 +410,11 @@ namespace Avalon
                     case TerminalTarget.Main:
                         App.MainWindow.GameTerminal.ClearText();
                         break;
-                    case TerminalTarget.Communication:
-                        App.MainWindow.CommunicationTerminal.ClearText();
+                    case TerminalTarget.Terminal1:
+                        App.MainWindow.Terminal1.ClearText();
                         break;
-                    case TerminalTarget.OutOfCharacterCommunication:
-                        App.MainWindow.OocCommunicationTerminal.ClearText();
+                    case TerminalTarget.Terminal2:
+                        App.MainWindow.Terminal2.ClearText();
                         break;
                     case TerminalTarget.BackBuffer:
                         App.MainWindow.GameBackBufferTerminal.ClearText();
@@ -438,10 +438,10 @@ namespace Avalon
                     return 0;
                 case TerminalTarget.Main:
                     return App.MainWindow.GameTerminal.LineCount;
-                case TerminalTarget.Communication:
-                    return App.MainWindow.CommunicationTerminal.LineCount;
-                case TerminalTarget.OutOfCharacterCommunication:
-                    return App.MainWindow.OocCommunicationTerminal.LineCount;
+                case TerminalTarget.Terminal1:
+                    return App.MainWindow.Terminal1.LineCount;
+                case TerminalTarget.Terminal2:
+                    return App.MainWindow.Terminal2.LineCount;
                 case TerminalTarget.BackBuffer:
                     return App.MainWindow.GameBackBufferTerminal.LineCount;
                 case TerminalTarget.Terminal3:
@@ -574,7 +574,7 @@ namespace Avalon
             };
 
             var result = await win.ShowAsync();
-            
+
             if (result == ModernWpf.Controls.ContentDialogResult.Primary)
             {
                 // Cancel
@@ -673,6 +673,53 @@ namespace Avalon
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Sets the visibility of the specified custom tab.
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <param name="visible"></param>
+        public void SetCustomTabVisible(CustomTab tab, bool visible)
+        {
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                switch (tab)
+                {
+                    case CustomTab.Tab1:
+                        App.MainWindow.CustomTab1.Visibility = visible.ToVisibleOrCollapse();
+                        break;
+                    case CustomTab.Tab2:
+                        App.MainWindow.CustomTab2.Visibility = visible.ToVisibleOrCollapse();
+                        break;
+                    case CustomTab.Tab3:
+                        App.MainWindow.CustomTab3.Visibility = visible.ToVisibleOrCollapse();
+                        break;
+                }
+            }));
+        }
+
+        /// <summary>
+        /// Sets the label for the specified custom tab.
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <param name="label"></param>
+        public void SetCustomTabLabel(CustomTab tab, string label)
+        {
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                switch (tab)
+                {
+                    case CustomTab.Tab1:
+                        App.MainWindow.CustomTab1Label.Content = label;
+                        break;
+                    case CustomTab.Tab2:
+                        App.MainWindow.CustomTab2Label.Content = label;
+                        break;
+                    case CustomTab.Tab3:
+                        App.MainWindow.CustomTab3Label.Content = label;
+                        break;
+                }
+            }));
+        }
 
         /// <summary>
         /// Returns information about the current WindowPosition.

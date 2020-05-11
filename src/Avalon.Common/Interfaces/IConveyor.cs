@@ -79,6 +79,10 @@ namespace Avalon.Common.Interfaces
 
         void ProgressBarRemove(string key, string progressBarName);
 
+        void SetCustomTabVisible(CustomTab tab, bool visible);
+
+        void SetCustomTabLabel(CustomTab tab, string label);
+
         WindowPosition GetWindowPosition { get; }
     }
 }

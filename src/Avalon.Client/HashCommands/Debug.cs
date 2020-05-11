@@ -19,7 +19,6 @@ namespace Avalon.HashCommands
 
         public override void Execute()
         {            
-            App.MainWindow.Panel3Badge.Value = _rand.Next(0, 5);
         }
 
     }
