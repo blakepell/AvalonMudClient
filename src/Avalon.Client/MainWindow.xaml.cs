@@ -20,6 +20,7 @@ using System.Diagnostics;
 using System.Windows.Media;
 using System.Windows.Input;
 using Avalon.Extensions;
+using ModernWpf;
 
 namespace Avalon
 {
@@ -31,7 +32,7 @@ namespace Avalon
         public MainWindow()
         {
             InitializeComponent();
-
+            
             // Set the global reference.
             App.MainWindow = this;
         }
@@ -1229,7 +1230,30 @@ namespace Avalon
             ActivatePlugins(ipAddress);
         }
 
-        private void TabComm_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        /// <summary>
+        /// For handling executing the load plugin menu option via a hot-key.
+        /// </summary>
+        public static readonly RoutedUICommand SelectElement = new RoutedUICommand("SelectElement", "SelectElement", typeof(MainWindow));
+
+        /// <summary>
+        /// Handler to select an element.
+        /// </summary>
+        private void SelectElementInternal(object sender, ExecutedRoutedEventArgs e)
+        {
+            var element = this.FindDescendantByName((string)e.Parameter);
+
+            if (element != null && element is TabItemEx)
+            {
+                ((TabItemEx)element).IsSelected = true;
+            }
+        }
+
+        /// <summary>
+        /// Handles the event when the custom tab selection changes.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TabCustom_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // When the game tab gets the focus always put the focus into the input box.
             if (CustomTab1.IsSelected && TextInput.Editor != null)

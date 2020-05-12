@@ -50,9 +50,13 @@
     </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="local:MainWindow.LoadPlugin" Executed="MenuItemManuallyLoadPlugin_Click" />
+        <CommandBinding Command="local:MainWindow.SelectElement" Executed="SelectElementInternal" />
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Command="local:MainWindow.LoadPlugin" Key="P" Modifiers="Ctrl+Alt" />
+        <KeyBinding Command="local:MainWindow.SelectElement" Key="D1" Modifiers="Ctrl" CommandParameter="CustomTab1" />
+        <KeyBinding Command="local:MainWindow.SelectElement" Key="D2" Modifiers="Ctrl" CommandParameter="CustomTab2" />
+        <KeyBinding Command="local:MainWindow.SelectElement" Key="D3" Modifiers="Ctrl" CommandParameter="CustomTab3" />
     </Window.InputBindings>
     <Grid>
         <controls:TabControlEx x:Name="TabMain" SelectionChanged="TabControl_SelectionChanged">
@@ -250,7 +254,7 @@
                     <Border x:Name="Panel2" x:FieldModifier="public"
                             Grid.Row="2" Grid.Column="1"
                             Margin="0" BorderThickness=".9,.9,0,0" BorderBrush="Gray">
-                        <controls:TabControlEx x:Name="TabComm" Margin="0,0,0,0" SelectionChanged="TabComm_SelectionChanged">
+                        <controls:TabControlEx x:Name="TabCustom" Margin="0,0,0,0" SelectionChanged="TabCustom_SelectionChanged">
                             <TabControl.Resources>
                                 <ResourceDictionary>
                                     <ResourceDictionary.MergedDictionaries>
