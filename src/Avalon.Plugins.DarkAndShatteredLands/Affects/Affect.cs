@@ -27,6 +27,10 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
             {
                 return $"{this.Name.PadRightToLength(18)} : Perm";
             }
+            else if (this.Duration == -2)
+            {
+                return $"{this.Name.PadRightToLength(18)} : ?";
+            }
             else
             {
                 return $"{this.Name.PadRightToLength(18)} : {this.Duration}";

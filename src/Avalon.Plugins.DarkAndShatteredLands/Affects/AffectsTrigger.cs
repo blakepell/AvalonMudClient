@@ -4,6 +4,8 @@ using Avalon.Common.Settings;
 using Avalon.Common.Triggers;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Text;
 
 namespace Avalon.Plugins.DarkAndShatteredLands.Affects
@@ -69,7 +71,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
 
             foreach (var affect in this.Affects)
             {
-                this.Conveyor.ProgressBarRepeaterAdd(affect.Name, affect.Duration == -1 ? 50 : affect.Duration + 1, 50, affect.Display());
+                this.Conveyor.ProgressBarRepeaterAdd(affect.Name, affect.Duration < 0 ? 50 : affect.Duration + 1, 50, affect.Display());
             }
         }
 
@@ -108,6 +110,8 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
         /// <param name="key"></param>
         public void RemoveAffect(string key)
         {
+            bool found = false;
+
             for (int i = this.Affects.Count - 1; i >= 0; i--)
             {
                 // It's run out, remove it, then continue.
@@ -115,8 +119,74 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
                 {
                     this.Conveyor.ProgressBarRemove(this.Affects[i].Name);
                     this.Affects.RemoveAt(i);
+                    found = true;
                 }
             }
+
+            if (found)
+            {
+                this.UpdateUI();
+            }
+        }
+
+        /// <summary>
+        /// Adds an affect into the list whether it exists or not.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="modifies"></param>
+        /// <param name="modifier"></param>
+        /// <param name="duration"></param>
+        public void AddAffect(string name, string modifies, int modifier, int duration)
+        {
+            // Create the affect.
+            var a = new Affect
+            {
+                Name = name,
+                Modifies = modifies,
+                Modifier = modifier,
+                Duration = duration
+            };
+
+            // Add the affect into our saved list.
+            this.Affects.Add(a);
+
+            this.UpdateUI();
+        }
+
+        /// <summary>
+        /// Adds an affect into the list if it does not exist or updates an existing one.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="modifies"></param>
+        /// <param name="modifier"></param>
+        /// <param name="duration"></param>
+        public void AddOrUpdateAffect(string name, string modifies, int modifier, int duration)
+        {
+            // Get the affect if it exists.
+            var a = this.Affects.FirstOrDefault(x => x.Name.Equals(name, System.StringComparison.Ordinal));
+            bool add = false;
+
+            // If it doesn't exist, create a new one.
+            if (a == null)
+            {
+                add = true;
+                a = new Affect();
+            }
+
+            // Set or update the values.
+            a.Name = name;
+            a.Modifies = modifies;
+            a.Modifier = modifier;
+            a.Duration = duration;
+
+            // Add the affect into our saved list if it wasn't already there.  Otherwise, the
+            // reference has been updated.
+            if (add)
+            {
+                this.Affects.Add(a);
+            }
+
+            this.UpdateUI();
         }
 
         /// <summary>
@@ -127,8 +197,9 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
         {
             for (int i = this.Affects.Count - 1; i >= 0; i--)
             {
-                // It's perm, skip it.
-                if (this.Affects[i].Duration == -1)
+                // It's perm (-1) or something custom we set (-2 being we know the spell was cast but don't know how
+                // long it lasts yet).  Skip these.
+                if (this.Affects[i].Duration < 0)
                 {
                     continue;
                 }

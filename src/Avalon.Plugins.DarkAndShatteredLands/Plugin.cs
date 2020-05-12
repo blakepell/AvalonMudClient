@@ -99,10 +99,16 @@ end";
             this.Triggers.Add(_affectsTrigger);
             this.Triggers.Add(affectsPerm);
 
-            //this.Triggers.Add(new Trigger(@"^The white aura around your body fades.$", "#remove-affect sanctuary", "", true, ""));
-            //this.Triggers.Add(new Trigger(@"^You feel yourself slow down.$", "#remove-affect haste", "", true, ""));
-            //this.Triggers.Add(new Trigger(@"^The magical shield protecting your body quickly vanishes.$", "#remove-affect weapon resistance;#remove-affect magic resistance", "", true, ""));
-            //this.Triggers.Add(new Trigger(@"^You feel less protected.$", "#remove-affect protection good;#remove-affect protection neutral;#remove-affect protection evil", "", true, ""));
+            // These are of the utmost importance so we'll track these.
+            this.Triggers.Add(new Trigger(@"^You are surrounded by a white aura.$", "#partial-affect sanctuary", "", true, ""));
+            this.Triggers.Add(new Trigger(@"^The white aura around your body fades.$", "#remove-affect sanctuary", "", true, ""));
+
+            this.Triggers.Add(new Trigger(@"^You feel yourself moving more quickly.$", "#partial-affect haste", "", true, ""));
+            this.Triggers.Add(new Trigger(@"^You feel yourself slow down.$", "#remove-affect haste", "", true, ""));
+
+            this.Triggers.Add(new Trigger(@"^You feel less protected.$", "#remove-affect protection good;#remove-affect protection neutral;#remove-affect protection evil", "", true, ""));
+            this.Triggers.Add(new Trigger(@"^Your protection disappears!$", "#remove-affect protection good;#remove-affect protection neutral;#remove-affect protection evil", "", true, ""));
+
             //this.Triggers.Add(new Trigger(@"^Your skin feels soft again.$", "#remove-affect stone skin", "", true, ""));
             //this.Triggers.Add(new Trigger(@"^You feel solid again..$", "#remove-affect pass door", "", true, ""));
             //this.Triggers.Add(new Trigger(@"^You feel less sick.$", "#remove-affect poison", "", true, ""));
@@ -150,6 +156,7 @@ end";
         {
             this.HashCommands.Add(new HashCommands.ScanAll());
             this.HashCommands.Add(new HashCommands.RemoveAffect(_affectsTrigger));
+            this.HashCommands.Add(new HashCommands.PartialAffect(_affectsTrigger));
             this.HashCommands.Add(new HashCommands.DslVersion());
             this.HashCommands.Add(new HashCommands.Edit());
             this.HashCommands.Add(new HashCommands.ConCard());
