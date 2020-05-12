@@ -741,6 +741,56 @@ namespace Avalon
         }
 
         /// <summary>
+        /// Status bar text on the main progress bar repeater.
+        /// </summary>
+        public string ProgressBarRepeaterStatusText
+        {
+            get 
+            {
+                string text = "";
+
+                Application.Current.Dispatcher.Invoke(new Action(() =>
+                {
+                    text = App.MainWindow.BarRepeater.StatusText;
+                }));
+
+                return text;
+            }
+            set
+            {
+                Application.Current.Dispatcher.Invoke(new Action(() =>
+                {
+                    App.MainWindow.BarRepeater.StatusText = value;
+                }));
+            }
+        }
+
+        /// <summary>
+        /// Whether the status bar is visible on the main progress bar repeater.
+        /// </summary>
+        public bool ProgressBarRepeaterStatusVisible
+        {
+            get
+            {
+                bool visible = false;
+
+                Application.Current.Dispatcher.Invoke(new Action(() =>
+                {
+                    visible = App.MainWindow.BarRepeater.StatusBarVisible;
+                }));
+
+                return visible;
+            }
+            set
+            {
+                Application.Current.Dispatcher.Invoke(new Action(() =>
+                {
+                    App.MainWindow.BarRepeater.StatusBarVisible = value;
+                }));
+            }
+        }
+
+        /// <summary>
         /// A StringBuilder for holding scraped data.
         /// </summary>
         public StringBuilder Scrape { get; set; } = new StringBuilder();

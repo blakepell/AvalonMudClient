@@ -31,7 +31,32 @@
             MinColumnSpacing="5" />                
     </UserControl.Resources>
     <Grid HorizontalAlignment="Stretch">
-        <ui:ItemsRepeaterScrollHost>
+        <Grid.RowDefinitions>
+            <RowDefinition>
+                <RowDefinition.Style>
+                    <Style TargetType="{x:Type RowDefinition}">
+                        <Setter Property="Height" Value="0" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding StatusBarVisible, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="true">
+                                <Setter Property="Height" Value="20" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding StatusBarVisible, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="false">
+                                <Setter Property="Height" Value="0" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </RowDefinition.Style>
+            </RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StatusBar x:Name="StatusBarWindow" Grid.Row="0"
+                   Background="DarkRed" Foreground="White"
+                   BorderThickness="0,0,0,.9" BorderBrush="Gray">
+            <TextBlock x:Name="TextBlockStatus" Text="{Binding StatusText, RelativeSource={RelativeSource AncestorType=UserControl}}" TextWrapping="NoWrap"></TextBlock>
+        </StatusBar>
+
+        <ui:ItemsRepeaterScrollHost Grid.Row="1">
             <ScrollViewer x:Name="scrollViewer" HorizontalScrollBarVisibility="Disabled">
                 <ui:ItemsRepeater x:Name="repeater" Margin="4,4,0,4" HorizontalAlignment="Left"
                                 Layout="{StaticResource UniformGridLayout}"

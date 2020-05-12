@@ -83,6 +83,10 @@ namespace Avalon.Common.Interfaces
 
         void SetCustomTabLabel(CustomTab tab, string label);
 
+        string ProgressBarRepeaterStatusText { get; set; }
+
+        bool ProgressBarRepeaterStatusVisible { get; set; }
+
         WindowPosition GetWindowPosition { get; }
     }
 }

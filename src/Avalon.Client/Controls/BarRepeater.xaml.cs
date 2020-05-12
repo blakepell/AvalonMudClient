@@ -1,8 +1,12 @@
-﻿using System;
+﻿using Argus.Extensions;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 
 namespace Avalon.Controls
@@ -22,7 +26,8 @@ namespace Avalon.Controls
         {
             InitializeComponent();
             BarItems = new ObservableCollection<Bar>();
-            repeater.ItemsSource = BarItems;            
+            repeater.ItemsSource = BarItems;
+            this.StatusBarVisible = false;
         }
 
         /// <summary>
@@ -77,6 +82,46 @@ namespace Avalon.Controls
         }
 
         /// <summary>
+        /// Whether a specific entry exists or not.
+        /// </summary>
+        /// <param name="key"></param>
+        public bool Exists(string key)
+        {
+            return this.BarItems.Any(x => x.Key == key);
+        }
+
+        /// <summary>
+        /// The status text to display on the warning bar.
+        /// </summary>
+        public string StatusText
+        {
+            get { return (string)GetValue(StatusTextProperty); }
+            set 
+            {
+                SetValue(StatusTextProperty, value);
+            }
+        }
+
+        // Using a DependencyProperty as the backing store for WarningText.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty StatusTextProperty =
+            DependencyProperty.Register("StatusText", typeof(string), typeof(BarRepeater), new PropertyMetadata(""));
+
+        /// <summary>
+        /// Whether or not the status bar should show.
+        /// </summary>
+        public bool StatusBarVisible
+        {
+            get { return (bool)GetValue(StatusBarVisibleProperty); }
+            set
+            { 
+                SetValue(StatusBarVisibleProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty StatusBarVisibleProperty =
+            DependencyProperty.Register("StatusBarVisible", typeof(bool), typeof(BarRepeater), new PropertyMetadata(false));
+
+        /// <summary>
         /// A colored progress bar.
         /// </summary>
         public class Bar : INotifyPropertyChanged
@@ -115,7 +160,7 @@ namespace Avalon.Controls
             /// The value of the progress bar.  This can be over the maximum (and will display at a full bar if so).
             /// </summary>
             public int Value
-            { 
+            {
                 get
                 {
                     return _value;
@@ -148,7 +193,7 @@ namespace Avalon.Controls
             /// The maximum for the progress bar.
             /// </summary>
             public int Maximum
-            { 
+            {
                 get
                 {
                     return _maximum;
@@ -165,8 +210,8 @@ namespace Avalon.Controls
             /// <summary>
             /// The text to display on the progress bar.
             /// </summary>
-            public string Text 
-            { 
+            public string Text
+            {
                 get
                 {
                     return _text;
@@ -183,8 +228,8 @@ namespace Avalon.Controls
             /// <summary>
             /// The fill color for the progress bar.  This will be dynamically set from the value property.
             /// </summary>
-            public Brush Background 
-            { 
+            public Brush Background
+            {
                 get
                 {
                     return _background;
