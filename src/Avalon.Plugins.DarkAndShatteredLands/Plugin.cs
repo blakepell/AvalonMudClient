@@ -161,6 +161,7 @@ end";
             this.HashCommands.Add(new HashCommands.Edit());
             this.HashCommands.Add(new HashCommands.ConCard());
             this.HashCommands.Add(new HashCommands.Online());
+            this.HashCommands.Add(new HashCommands.Wiki());
         }
 
         /// <summary>
