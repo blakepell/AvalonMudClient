@@ -38,7 +38,7 @@
                         <Setter Property="Height" Value="0" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding StatusBarVisible, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="true">
-                                <Setter Property="Height" Value="20" />
+                                <Setter Property="Height" Value="25" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding StatusBarVisible, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="false">
                                 <Setter Property="Height" Value="0" />

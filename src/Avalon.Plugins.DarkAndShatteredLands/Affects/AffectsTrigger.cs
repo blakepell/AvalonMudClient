@@ -73,6 +73,34 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
             {
                 this.Conveyor.ProgressBarRepeaterAdd(affect.Name, affect.Duration < 0 ? 50 : affect.Duration + 1, 50, affect.Display());
             }
+
+            // Critical spells found
+            bool found = false;
+            var sb = Argus.Memory.StringBuilderPool.Take();
+
+            if (!this.Affects.Any(x => x.Name.Equals("sanctuary", System.StringComparison.Ordinal)))
+            {
+                found = true;
+                sb.Append("Santuary");
+            }
+
+            if (!this.Affects.Any(x => x.Name.Equals("haste", System.StringComparison.Ordinal)))
+            {
+                found = true;
+                sb.Append(" Haste");
+            }
+
+            if (found)
+            {
+                this.Conveyor.ProgressBarRepeaterStatusVisible = true;
+                this.Conveyor.ProgressBarRepeaterStatusText = $"Spells Missing: {sb.ToString()}";
+            }
+            else
+            {
+                this.Conveyor.ProgressBarRepeaterStatusVisible = false;
+            }
+
+            Argus.Memory.StringBuilderPool.Return(sb);
         }
 
         /// <summary>

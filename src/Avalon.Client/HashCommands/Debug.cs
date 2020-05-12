@@ -18,7 +18,9 @@ namespace Avalon.HashCommands
         Random _rand = new Random();
 
         public override void Execute()
-        {            
+        {
+            this.Interpreter.Conveyor.ProgressBarRepeaterStatusVisible = !this.Interpreter.Conveyor.ProgressBarRepeaterStatusVisible;
+            this.Interpreter.Conveyor.ProgressBarRepeaterStatusText = Guid.NewGuid().ToString();
         }
 
     }
