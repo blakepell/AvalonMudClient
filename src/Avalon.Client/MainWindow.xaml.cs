@@ -541,17 +541,6 @@ namespace Avalon
         }
 
         /// <summary>
-        /// Scrolls all the visible terminal windows to the bottom.
-        /// </summary>
-        public void ScrollAllToBottom()
-        {
-            GameTerminal.ScrollToLastLine();
-            Terminal1.ScrollToLastLine();
-            Terminal2.ScrollToLastLine();
-            Terminal3.ScrollToLastLine();
-        }
-
-        /// <summary>
         /// Event for when the settings button is clicked.
         /// </summary>
         /// <param name="o"></param>
@@ -1209,11 +1198,6 @@ namespace Avalon
         }
 
         /// <summary>
-        /// For handling executing the load plugin menu option via a hot-key.
-        /// </summary>
-        public static readonly RoutedUICommand LoadPlugin = new RoutedUICommand("LoadPlugin", "LoadPlugin", typeof(MainWindow));
-
-        /// <summary>
         /// Manually activate plugins for a specified IP address.
         /// </summary>
         /// <param name="sender"></param>
@@ -1228,24 +1212,6 @@ namespace Avalon
             }
 
             ActivatePlugins(ipAddress);
-        }
-
-        /// <summary>
-        /// For handling executing the load plugin menu option via a hot-key.
-        /// </summary>
-        public static readonly RoutedUICommand SelectElement = new RoutedUICommand("SelectElement", "SelectElement", typeof(MainWindow));
-
-        /// <summary>
-        /// Handler to select an element.
-        /// </summary>
-        private void SelectElementInternal(object sender, ExecutedRoutedEventArgs e)
-        {
-            var element = this.FindDescendantByName((string)e.Parameter);
-
-            if (element != null && element is TabItemEx)
-            {
-                ((TabItemEx)element).IsSelected = true;
-            }
         }
 
         /// <summary>

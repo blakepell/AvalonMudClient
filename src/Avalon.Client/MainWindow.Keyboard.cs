@@ -1,4 +1,6 @@
-﻿using System.Windows.Input;
+﻿using Avalon.Controls;
+using ModernWpf;
+using System.Windows.Input;
 
 namespace Avalon
 {
@@ -259,6 +261,29 @@ namespace Avalon
             // Set the focus of the keyboard to the input text box.
             TextInput.Editor.CaretIndex = TextInput.Editor.Text.Length;
             TextInput.Editor.Focus();
+        }
+
+        /// <summary>
+        /// For handling executing the load plugin menu option via a hot-key.
+        /// </summary>
+        public static readonly RoutedUICommand LoadPlugin = new RoutedUICommand("LoadPlugin", "LoadPlugin", typeof(MainWindow));
+
+        /// <summary>
+        /// For handling executing the select element option via a hot-key.
+        /// </summary>
+        public static readonly RoutedUICommand SelectElement = new RoutedUICommand("SelectElement", "SelectElement", typeof(MainWindow));
+
+        /// <summary>
+        /// Handler to select an element.
+        /// </summary>
+        private void SelectElementInternal(object sender, ExecutedRoutedEventArgs e)
+        {
+            var element = this.FindDescendantByName((string)e.Parameter);
+
+            if (element != null && element is TabItemEx)
+            {
+                ((TabItemEx)element).IsSelected = true;
+            }
         }
 
     }

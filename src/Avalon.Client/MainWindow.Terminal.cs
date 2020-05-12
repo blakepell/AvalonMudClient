@@ -13,6 +13,17 @@ namespace Avalon
     public partial class MainWindow
     {
         /// <summary>
+        /// Scrolls all the visible terminal windows to the bottom.
+        /// </summary>
+        public void ScrollAllToBottom()
+        {
+            GameTerminal.ScrollToLastLine();
+            Terminal1.ScrollToLastLine();
+            Terminal2.ScrollToLastLine();
+            Terminal3.ScrollToLastLine();
+        }
+
+        /// <summary>
         /// Copies any text from the terminal and removes all ANSI escape codes.
         /// </summary>
         /// <param name="sender"></param>
