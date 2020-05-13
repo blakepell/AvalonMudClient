@@ -3,6 +3,8 @@ using Avalon.Common.Colors;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
 using System;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -394,7 +396,6 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="buf"></param>
         /// <param name="delimiter"></param>
-        /// <returns></returns>
         public string[] Split(string buf, string delimiter)
         {
             return buf?.Split(delimiter);
@@ -405,7 +406,6 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="array"></param>
         /// <param name="searchValue"></param>
-        /// <returns></returns>
         public bool ArrayContains(string[] array, string searchValue)
         {
             foreach (var s in array)
@@ -417,6 +417,67 @@ namespace Avalon.Lua
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Adds an item to a list.  Duplicate items are acceptable.
+        /// </summary>
+        /// <param name="sourceList"></param>
+        /// <param name="value"></param>
+        /// <param name="delimiter"></param>
+        public string ListAdd(string sourceList, string value, char delimiter = '|')
+        {
+            return $"{sourceList}|{value}".Trim('|');
+        }
+
+        /// <summary>
+        /// Adds an item to a list only if it doesn't exist.  Duplicates
+        /// </summary>
+        /// <param name="sourceList"></param>
+        /// <param name="value"></param>
+        /// <param name="delimiter"></param>
+        public string ListAddIfNotExist(string sourceList, string value, char delimiter = '|')
+        {
+            if (ListExists(sourceList, value, delimiter))
+            {
+                return sourceList;
+            }
+
+            return ListAdd(sourceList, value, delimiter);
+        }
+
+        /// <summary>
+        /// Removes an item from a list.
+        /// </summary>
+        /// <param name="sourceList"></param>
+        /// <param name="value"></param>
+        /// <param name="delimiter"></param>
+        public string ListRemove(string sourceList, string value, char delimiter = '|')
+        {
+            var list = sourceList.Split(delimiter);
+            var sb = new StringBuilder();
+
+            foreach (string item in list)
+            {
+                if (!item.Equals(value, StringComparison.Ordinal))
+                {
+                    sb.AppendFormat("|{0}", value);
+                }
+            }
+
+            return sb.ToString().Trim('|');
+        }
+
+        /// <summary>
+        /// If an item exists in a list.
+        /// </summary>
+        /// <param name="sourceList"></param>
+        /// <param name="value"></param>
+        /// <param name="delimiter"></param>
+        public bool ListExists(string sourceList, string value, char delimiter = '|')
+        {
+            var list = sourceList.Split(delimiter);
+            return list.Any(x => x.Equals(value, StringComparison.Ordinal));
         }
 
         /// <summary>

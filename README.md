@@ -44,6 +44,8 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
  - Custom scraping that can be easily turned on and off via hash commands/LUA and then piped to variables (imagine an alias that scraped notes into a database for posterity, etc.).
  - Tick support.
  - Gagging, redirection and custom information panels.
+ - Regular Expression tester.
+ - 
 
 ### Open Source Packages
 
