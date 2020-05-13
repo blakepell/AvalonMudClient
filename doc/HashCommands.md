@@ -40,7 +40,7 @@ Hash commands that reside in the main project will be general purpose.  Plugins 
 |#cmd-list|Lists all of the available hash commands.|
 |#disable|Global disables of all triggers or all aliases.|
 |#echo|Echos text to the terminal.|
-|#echo-event|Echos and event to the terminal.|
+|#echo-event|Echos and event the default or any specified terminal.|
 |#enable|Global enable or aliases or triggers.|
 |#end|Exits the application|
 |#flash|Flashes the mud window on the taskbar|
@@ -60,6 +60,7 @@ Hash commands that reside in the main project will be general purpose.  Plugins 
 |#scroll-to-end|Scrolls the terminal buffer to the last line.|
 |#set|Sets a global variable.|
 |#set-title|Sets the title of the window to something other than 'Avalon Mud Client'.|
+|#shell|Shells and OS program or command.|
 |#sql-execute|Excutes a SQL command against the profiles SQLite database.|
 |#task-add|Adds a command to to be executed in a specified amount of time.  This is a single usage timer/scheduler.|
 |#task-clear|Clears all pending tasks.|
@@ -80,3 +81,6 @@ Hash commands that reside in the main project will be general purpose.  Plugins 
 |#online|Retrieves who is playing the game as per the dsl-mud.org web-site.|
 |#con-card|Checks on the status of a submitted con card.|
 |#scan-all|Scans in the directions that are available from the current room.|
+|#wiki|Starts a browser and runs a search on the DSL Wiki|
+|#remove-affect|Removes an affect by name from the current affects list|
+|#partial-affect|Adds or updates an affect whose duration or modifiers aren't known|

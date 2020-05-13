@@ -4,6 +4,8 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
 
 [Screenshots](doc/Screenshots.md)
 
+![alt text](images/ClientTerminal.png "Main Terminal")
+
 ### Documentation
 
 - [Quick Tips for Getting Started](doc/QuickTips.md)
@@ -27,20 +29,21 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
 
 ### Key Features
  
- - Aliases (simple and regular expression)
+ - Aliases
  - Triggers (simple and regular expression)
  - Macros
  - LUA (LUA can be inlined as alias or trigger commands with extended UI commands exposed)
  - Colored syntax editor for LUA
  - 4K monitor support / responsive UI design.
  - Touch screen friendly.
- - SQLite Database Builtin with each profile.
+ - SQLite Database Builtin.  Database/query editor with a color coded editor and auto completion built in.
  - Profiles can be used for multiple characters (any trigger or alias can be set to only run for certain characters)
  - Directions support
  - Global variable support in and outside of LUA that persists beyond mud sessions (Avalon also has temp variable support). 
  - Plugin ability (extend Avalon by writing your own C# or Lua plugins)
- - Opinionated UI with terminals for the main content as well as different communication types.
  - Custom scraping that can be easily turned on and off via hash commands/LUA and then piped to variables (imagine an alias that scraped notes into a database for posterity, etc.).
+ - Tick support.
+ - Gagging, redirection and custom information panels.
 
 ### Open Source Packages
 
