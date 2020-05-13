@@ -69,6 +69,15 @@ namespace Avalon.Timers
                     plugin.Tick();
                 }
 
+                // Tick commands if they're enabled.
+                if (App.Settings.ProfileSettings.EnableCommandsOnTick)
+                {
+                    if (!string.IsNullOrWhiteSpace(App.Settings.ProfileSettings.ExecuteCommandsOnTick))
+                    {
+                        App.MainWindow.Interp.Send(App.Settings.ProfileSettings.ExecuteCommandsOnTick, false, false);
+                    }
+                }
+
                 return;
             }
 

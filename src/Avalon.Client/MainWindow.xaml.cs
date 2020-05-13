@@ -1277,5 +1277,25 @@ namespace Avalon
                 }));
             }
         }
+
+        /// <summary>
+        /// Show the editor to enable/disable and change the commands to send on a tick.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemTickTimerCommands_Click(object sender, RoutedEventArgs e)
+        {
+            // Set the initial text for the editor.
+            var win = new TickCommandEditor();
+
+            // Startup position of the dialog should be in the center of the parent window.  The
+            // owner has to be set for this to work.
+            win.Owner = App.MainWindow;
+            win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+            // Show the Lua dialog.
+            var result = win.ShowDialog();
+        }
+
     }
 }

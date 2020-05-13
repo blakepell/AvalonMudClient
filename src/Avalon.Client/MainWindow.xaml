@@ -158,6 +158,11 @@
                             </MenuItem>
                             <MenuItem Header="Simulate Incoming Text" Click="MenuItemSimulateIncomingTextAsync_Click">
                             </MenuItem>
+                            <MenuItem Header="Tick Timer Commands" Click="MenuItemTickTimerCommands_Click">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon Symbol="Clock" />
+                                </MenuItem.Icon>
+                            </MenuItem>
                             <Separator />
                             <MenuItem Header="_Edit Global Lua File" Click="MenuItemEditGlobalLuaFile_Click">
                                 <MenuItem.Icon>

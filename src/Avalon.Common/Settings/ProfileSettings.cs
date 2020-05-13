@@ -88,10 +88,20 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public bool SaveSettingsOnExit { get; set; } = true;
 
-        [CategoryAttribute("Misc")]
+        [CategoryAttribute("TickTimer")]
         [DescriptionAttribute("Whether the game should sending a warning 5 seconds before a tick.")]
         [Browsable(true)]
         public bool EchoTickWarning { get; set; } = false;
+
+        [CategoryAttribute("TickTimer")]
+        [DescriptionAttribute("Commands to execute on tick.")]
+        [Browsable(true)]
+        public string ExecuteCommandsOnTick { get; set; } = "";
+
+        [CategoryAttribute("TickTimer")]
+        [DescriptionAttribute("Commands to execute on tick.")]
+        [Browsable(true)]
+        public bool EnableCommandsOnTick { get; set; } = false;
 
         [CategoryAttribute("Misc")]
         [DescriptionAttribute("Whether the game will insert a command if the user enters a command more than 15 times.")]
