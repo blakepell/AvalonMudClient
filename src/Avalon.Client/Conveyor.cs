@@ -710,12 +710,15 @@ namespace Avalon
                 {
                     case CustomTab.Tab1:
                         App.MainWindow.CustomTab1Label.Content = label;
+                        App.Settings.AvalonSettings.CustomTab1Label = label;
                         break;
                     case CustomTab.Tab2:
                         App.MainWindow.CustomTab2Label.Content = label;
+                        App.Settings.AvalonSettings.CustomTab2Label = label;
                         break;
                     case CustomTab.Tab3:
                         App.MainWindow.CustomTab3Label.Content = label;
+                        App.Settings.AvalonSettings.CustomTab3Label = label;
                         break;
                 }
             }));
