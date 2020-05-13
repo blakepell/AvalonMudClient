@@ -47,9 +47,12 @@ local dir = lua:RandomChoice({"north", "south"});
 |lua:FormatNumber|value (string)|Formats a number with commas.|
 |lua:FormatNumber|value (string), decimal places (int)|Formats a number with the specified number of decimal places.|
 |lua:ListAdd|(string) sourceList, (string) value, (optional char) delimiter = '\|'|Adds an item to a list.|
+|lua:ListAddStart|(string) sourceList, (string) value, (optional char) delimiter = '\|'|Adds a item to the beginning of a list.|
 |lua:ListAddIfNotExist|(string) sourceList, (string) value, (optional char) delimiter = '\|'|Adds an item to a list only if it does not exist.|
 |lua:ListRemove|(string) sourceList, (string) value, (optional char) delimiter = '\|'|Removes all items from a list that match.|
+|lua:ListRemove|(string) sourceList, (int) items, (optional char) delimiter = '\|')|Removes 1 to n items from the end of a list|
 |lua:ListExists|(string) sourceList, (string) value, (optional char) delimiter = '\|'|Whether or not an item exists in a list.|
+|lua:ListSort|(string) sourceList, (bool) ascending, (optional char) delimiter = '\|'|Sorts a list in ascending or descending order.|
 |global|None|Used to set global variables only global to Lua.|
 
 ## Lua Global Variables

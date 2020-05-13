@@ -431,6 +431,17 @@ namespace Avalon.Lua
         }
 
         /// <summary>
+        /// Adds an item to a list at the start.
+        /// </summary>
+        /// <param name="sourceList"></param>
+        /// <param name="value"></param>
+        /// <param name="delimiter"></param>
+        public string ListAddStart(string sourceList, string value, char delimiter = '|')
+        {
+            return $"{value}|{sourceList}".Trim('|');
+        }
+
+        /// <summary>
         /// Adds an item to a list only if it doesn't exist.  Duplicates
         /// </summary>
         /// <param name="sourceList"></param>
@@ -463,6 +474,26 @@ namespace Avalon.Lua
                 {
                     sb.AppendFormat("|{0}", value);
                 }
+            }
+
+            return sb.ToString().Trim('|');
+        }
+
+        /// <summary>
+        /// Removes 1 to n items from the end of a list.
+        /// </summary>
+        /// <param name="sourceList"></param>
+        /// <param name="value"></param>
+        /// <param name="delimiter"></param>
+        public string ListRemove(string sourceList, int items, char delimiter = '|')
+        {
+            var list = sourceList.Split(delimiter);            
+            var sb = new StringBuilder();
+            int keep = list.Count() - items;
+
+            for (int i = 0; i < keep; i++)
+            {
+                sb.AppendFormat("|{0}", list[i]);
             }
 
             return sb.ToString().Trim('|');
