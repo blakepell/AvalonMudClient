@@ -587,6 +587,13 @@ namespace Avalon.Controls
 
             if (index != -1)
             {
+                // If they start removing lines we have uncollapse and let things recollapse otherwise
+                // their will eventually be a crash because the collapsed lines are out of sync.
+                if (searchFor.Contains('\n'))
+                {
+                    _gagElementGenerator.UncollapseAll();
+                }
+
                 this.Document.Replace(index, searchFor.Length, replaceWith);
                 //this.Select(index, replacement.Length);
             }
@@ -609,6 +616,17 @@ namespace Avalon.Controls
             else
             {
                 index = this.Document.IndexOf(searchFor, 0, this.Document.TextLength, StringComparison.Ordinal);
+            }
+
+            // Uncollapse only once before the looping replacements.
+            if (index > -1)
+            {
+                // If they start removing lines we have uncollapse and let things recollapse otherwise
+                // their will eventually be a crash because the collapsed lines are out of sync.
+                if (searchFor.Contains('\n'))
+                {
+                    _gagElementGenerator.UncollapseAll();
+                }
             }
 
             while (index > -1)
