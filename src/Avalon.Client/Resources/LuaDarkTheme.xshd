@@ -49,6 +49,7 @@
         <Key word = "," />
         <Key word = "." />
         <Key word = ";" />
+        <Key word = ":" />
         <Key word = "(" />
         <Key word = ")" />
         <Key word = "[" />
@@ -95,7 +96,52 @@
         <Key word = "true" />
         <Key word = "until" />
         <Key word = "while" />
+        <Key word = "lua" />
+        <Key word = "global" />
       </KeyWords>
+
+      <KeyWords name ="ExtensionFunctions"
+                bold ="false"
+                italic = "false"
+                color="#DCDCAA">
+        <Key word = "Send" />
+        <Key word = "GetVariable" />
+        <Key word = "SetVariable" />
+        <Key word = "Echo" />
+        <Key word = "EchoEvent" />
+        <Key word = "Coalesce" />
+        <Key word = "GetTime" />
+        <Key word = "GetHour" />
+        <Key word = "GetMinute" />
+        <Key word = "GetSecond" />
+        <Key word = "GetMillisecond" />
+        <Key word = "Sleep" />
+        <Key word = "RandomNumber" />
+        <Key word = "RandomChoice" />
+        <Key word = "Guid" />
+        <Key word = "SetTitle" />
+        <Key word = "GetScrapedText" />
+        <Key word = "Contains" />
+        <Key word = "Trim" />
+        <Key word = "TrimStart" />
+        <Key word = "TrimEnd" />
+        <Key word = "Split" />
+        <Key word = "ArrayContains" />
+        <Key word = "ListAdd" />
+        <Key word = "ListAddStart" />
+        <Key word = "ListAddIfNotExist" />
+        <Key word = "ListRemove" />
+        <Key word = "ListExists" />
+        <Key word = "Replace" />
+        <Key word = "EnableGroup" />
+        <Key word = "DisableGroup" />
+        <Key word = "AddScheduledTask" />
+        <Key word = "AddBatchTask" />
+        <Key word = "StartBatch" />
+        <Key word = "ClearTasks" />
+        <Key word = "FormatNumber" />
+      </KeyWords>
+      
     </RuleSet>
   </RuleSets>
 </SyntaxDefinition>
