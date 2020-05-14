@@ -1,6 +1,11 @@
 ﻿using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Input;
 using System.Xml;
+using Avalon.Lua;
+using ICSharpCode.AvalonEdit;
+using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 
@@ -57,6 +62,8 @@ namespace Avalon
                             }
                         }
 
+                        this.StatusText = "Press [F1] for code snippits or type 'lua:' to see custom functions.";
+
                         break;
                 }
             }
@@ -69,11 +76,20 @@ namespace Avalon
         }
 
         /// <summary>
+        /// Used for autocompletion with Lua.
+        /// </summary>
+        CompletionWindow _completionWindow;
+
+        /// <summary>
         /// Constructor.
         /// </summary>
         public StringEditor()
         {
             InitializeComponent();
+
+            AvalonLuaEditor.TextArea.TextEntering += AvalonLuaEditor_TextEntering;
+            AvalonLuaEditor.TextArea.TextEntered += AvalonLuaEditor_TextEntered;
+            AvalonLuaEditor.Options.ConvertTabsToSpaces = true;
         }
 
         /// <summary>
@@ -101,6 +117,70 @@ namespace Avalon
             AvalonLuaEditor.Focus();
         }
 
+        private void AvalonLuaEditor_TextEntered(object sender, TextCompositionEventArgs e)
+        {
+            // Text colon or dot, find the word before it.
+            if (e.Text == "." || e.Text == ":")
+            {
+                string word = GetWordBefore(AvalonLuaEditor);
+
+                if (word == "lua")
+                {
+                    // Open code completion after the user has pressed dot:
+                    _completionWindow = new CompletionWindow(AvalonLuaEditor.TextArea);
+                    var data = _completionWindow.CompletionList.CompletionData;
+                    LuaCompletion.LoadCompletionData(data, word);
+                }
+
+                if (_completionWindow != null)
+                {
+                    _completionWindow.Show();
+                    _completionWindow.Closed += (sender, args) => _completionWindow = null;
+                }
+
+                //_completionWindow.PreviewTextInput += (sender, args) =>
+                //{
+                //    if (args.Text == "(")
+                //    {
+                //        _completionWindow.CompletionList.RequestInsertion(EventArgs.Empty);
+                //    }
+                //    var c = args.Text[args.Text.Length - 1];
+                //    args.Handled = !char.IsLetterOrDigit(c) && c != '_';
+                //};
+
+            }
+        }
+
+        private void AvalonLuaEditor_TextEntering(object sender, TextCompositionEventArgs e)
+        {
+            if (e.Text.Length > 0 && _completionWindow != null)
+            {
+                if (!char.IsLetterOrDigit(e.Text[0]))
+                {
+                    // Whenever a non-letter is typed while the completion window is open,
+                    // insert the currently selected element.
+                    _completionWindow.CompletionList.RequestInsertion(e);
+                }
+            }
+            // Do not set e.Handled=true.
+            // We still want to insert the character that was typed.
+        }
+
+        private void AvalonLuaEditor_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F1)
+            {
+                // Open code completion after the user has pressed dot:
+                _completionWindow = new CompletionWindow(AvalonLuaEditor.TextArea);
+                var data = _completionWindow.CompletionList.CompletionData;
+                LuaCompletion.LoadCompletionDataSnippits(data);
+
+                _completionWindow.Show();
+                _completionWindow.Closed += (sender, args) => _completionWindow = null;
+
+            }
+        }
+
         /// <summary>
         /// Code that is executed for the Cancel button.
         /// </summary>
@@ -121,6 +201,52 @@ namespace Avalon
         {
             this.DialogResult = true;
             this.Close();
+        }
+
+        /// <summary>
+        /// Gets the word before the caret.  This seems to work accidently.  Go through this when
+        /// new use cases come up if wonky behavior occurs.
+        /// </summary>
+        /// <param name="textEditor"></param>
+        public static string GetWordBefore(TextEditor textEditor)
+        {
+            var wordBeforeDot = string.Empty;
+            var caretPosition = textEditor.CaretOffset - 2;
+            var lineOffset = textEditor.Document.GetOffset(textEditor.Document.GetLocation(caretPosition));
+            string text = textEditor.Document.GetText(lineOffset, 1);
+
+            while (true)
+            {
+                if (text == null && text.CompareTo(' ') > 0)
+                {
+                    break;
+                }
+                if (Regex.IsMatch(text, @".*[^A-Za-z\. ]"))
+                {
+                    break;
+                }
+
+                if (text != "." && text != ":" && text != " ")
+                {
+                    wordBeforeDot = text + wordBeforeDot;
+                }
+
+                if (text == " ")
+                {
+                    break;
+                }
+
+                if (caretPosition == 0)
+                {
+                    break;
+                }
+
+                lineOffset = textEditor.Document.GetOffset(textEditor.Document.GetLocation(--caretPosition));
+
+                text = textEditor.Document.GetText(lineOffset, 1);
+            }
+
+            return wordBeforeDot;
         }
 
     }

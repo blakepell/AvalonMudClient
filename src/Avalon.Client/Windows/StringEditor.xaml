@@ -21,7 +21,7 @@
         <!-- 1 pixel left margin was so the left border of the window will render -->
         <avalonedit:TextEditor
             x:Name="AvalonLuaEditor" ShowLineNumbers="True" WordWrap="False"
-            Grid.Row="0" Grid.Column="0"
+            Grid.Row="0" Grid.Column="0" KeyDown="AvalonLuaEditor_KeyDown"
             FontFamily="Consolas" FontSize="10pt" IsReadOnly="False"
             Padding="0,0,0,0" Margin="1,0,0,0"
             Background="#1E1E1E" Foreground="#DCDCDC"
