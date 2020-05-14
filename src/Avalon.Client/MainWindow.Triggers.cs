@@ -169,8 +169,8 @@ namespace Avalon
                     if (item.HighlightLine)
                     {
                         // TODO - Allow the highlighted color to be set for each trigger.
-                        int start = GameTerminal.Document.Text.LastIndexOf(line.Text, StringComparison.Ordinal);
-                        GameTerminal.Document.Replace(start, line.Text.Length, $"{AnsiColors.DarkCyan}{line.Text}");
+                        int start = GameTerminal.Document.Text.LastIndexOf(line.FormattedText, StringComparison.Ordinal);
+                        GameTerminal.Document.Replace(start, line.FormattedText.Length, $"{AnsiColors.DarkCyan}{line.Text}");
                     }
 
                     // Only send if it has something in it.  Use the processed command.
