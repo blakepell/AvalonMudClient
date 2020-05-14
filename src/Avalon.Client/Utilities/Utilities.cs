@@ -49,7 +49,7 @@ namespace Avalon.Utilities
             sb.Replace("\x1B[1B", ""); // Down
             sb.Replace("\x1B[1C", ""); // Right
             sb.Replace("\x1B[1D", ""); // Left
-            sb.Replace("\x1B[5m", ""); // Blink
+            //sb.Replace("\x1B[5m", ""); // Blink
         }
 
         /// <summary>

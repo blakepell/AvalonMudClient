@@ -9,6 +9,8 @@ namespace Avalon.Common.Colors
         public static AnsiColor Transparent { get; } = new Transparent();
         public static AnsiColor Reverse { get; } = new Reverse();
         public static AnsiColor Underline { get; } = new Underline();
+        public static AnsiColor ClearScreen { get; } = new ClearScreen();
+        public static AnsiColor Blink { get; } = new Blink();
         public static AnsiColor Red { get; } = new Red();
         public static AnsiColor DarkRed { get; } = new DarkRed();
         public static AnsiColor Black { get; } = new Black();
@@ -29,8 +31,6 @@ namespace Avalon.Common.Colors
         public static AnsiColor Pink { get; } = new Pink();
         public static AnsiColor Brown { get; } = new Brown();
         public static AnsiColor Magenta { get; } = new Magenta();
-
-        public static AnsiColor ClearScreen { get; } = new ClearScreen();
 
         /// <summary>
         /// A List of all of the AnsiColor objects that are supported.
@@ -60,7 +60,8 @@ namespace Avalon.Common.Colors
                 new Brown(),
                 new Magenta(),
                 new Orange(),
-                new ClearScreen()
+                new ClearScreen(),
+                new Blink()
             };
         }
     }

@@ -61,14 +61,14 @@ namespace Avalon.Colors
         public static List<ColorMap> StyleMap = new List<ColorMap>
             {
                 new ColorMap { AnsiColor = AnsiColors.Reverse, Brush = Brushes.Transparent },
-                new ColorMap { AnsiColor = AnsiColors.Underline, Brush = Brushes.Transparent }
+                new ColorMap { AnsiColor = AnsiColors.Underline, Brush = Brushes.Transparent },
+                new ColorMap { AnsiColor = AnsiColors.Blink, Brush = Brushes.Transparent }
                 // Remove ANSI codes that deal with moving the cursor around and one's we aren't currently supporting.
                 //new ColorMap { Name = "Left", AnsiColorCode = "\x1B[1D", MudColorCode = "", Color = Brushes.Transparent },
                 //new ColorMap { Name = "Right", AnsiColorCode = "\x1B[1C", MudColorCode = "", Color = Brushes.Transparent },
                 //new ColorMap { Name = "Up", AnsiColorCode = "\x1B[1A", MudColorCode = "", Color = Brushes.Transparent },
                 //new ColorMap { Name = "Down", AnsiColorCode = "\x1B[1B", MudColorCode = "", Color = Brushes.Transparent },
                 //new ColorMap { Name = "Back", AnsiColorCode = "\x1B[1D", MudColorCode = "", Color = Brushes.Transparent },
-                //new ColorMap { Name = "Blink", AnsiColorCode = "\x1B[5m", MudColorCode = "", Color = Brushes.Transparent },
             };
 
         /// <summary>

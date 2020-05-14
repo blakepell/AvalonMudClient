@@ -7,6 +7,7 @@ using System;
 using System.Windows;
 using System.Windows.Media;
 using Avalon.Colors;
+using System.Windows.Media.Animation;
 
 namespace Avalon.Controls
 {
@@ -107,6 +108,34 @@ namespace Avalon.Controls
                             else if (color.AnsiColor is Underline)
                             {
                                 element.TextRunProperties.SetTextDecorations(TextDecorations.Underline);
+                            }
+                            else if (color.AnsiColor is Blink)
+                            {
+                                // The color animation of the pulse
+                                var da = new DoubleAnimation
+                                {
+                                    Duration = new Duration(TimeSpan.FromMilliseconds(500)),
+                                    From = 0,
+                                    To = 1,
+                                    AutoReverse = true
+                                    //RepeatBehavior = RepeatBehavior.Forever
+                                };
+                                
+                                var foreground = element.TextRunProperties.ForegroundBrush;
+                                var blinkForeground = foreground.Clone();
+                            
+                                element.TextRunProperties.SetForegroundBrush(blinkForeground);
+
+                                blinkForeground.BeginAnimation(SolidColorBrush.OpacityProperty, da);
+
+
+
+
+                                //if (!element.TextRunProperties.ForegroundBrush.IsFrozen)
+                                //{
+                                //    element.TextRunProperties.ForegroundBrush.BeginAnimation(SolidColorBrush.ColorProperty, ca);
+                                //    //element.TextRunProperties.TextDecorations.BeginAnimation(SolidColorBrush.OpacityProperty, da);
+                                //}
                             }
                         });
 
