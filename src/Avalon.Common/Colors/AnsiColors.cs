@@ -30,8 +30,6 @@ namespace Avalon.Common.Colors
         public static AnsiColor Brown { get; } = new Brown();
         public static AnsiColor Magenta { get; } = new Magenta();
 
-        public static AnsiColor ClearScreen { get; } = new ClearScreen();
-
         /// <summary>
         /// A List of all of the AnsiColor objects that are supported.
         /// </summary>
@@ -59,8 +57,7 @@ namespace Avalon.Common.Colors
                 new Pink(),
                 new Brown(),
                 new Magenta(),
-                new Orange(),
-                new ClearScreen()
+                new Orange()
             };
         }
     }

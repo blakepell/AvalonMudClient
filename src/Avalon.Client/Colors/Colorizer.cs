@@ -49,8 +49,7 @@ namespace Avalon.Colors
                 new ColorMap { AnsiColor = AnsiColors.Orange, Brush = Brushes.Orange },
                 new ColorMap { AnsiColor = AnsiColors.Pink, Brush = Brushes.HotPink },
                 new ColorMap { AnsiColor = AnsiColors.Brown, Brush = Brushes.Brown },
-                new ColorMap { AnsiColor = AnsiColors.Magenta, Brush = Brushes.MediumPurple },
-                new ColorMap { AnsiColor = AnsiColors.ClearScreen, Brush = Brushes.Transparent }
+                new ColorMap { AnsiColor = AnsiColors.Magenta, Brush = Brushes.MediumPurple }
             };
 
         /// <summary>
