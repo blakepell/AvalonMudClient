@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Avalon.Controls" xmlns:ui="http://schemas.modernwpf.com/2019"
+             xmlns:animations="clr-namespace:Avalon.Animations"
              mc:Ignorable="d">
     <UserControl.Resources>
         <DataTemplate x:Key="HorizontalBarTemplate">
@@ -28,20 +29,41 @@
             MinItemWidth="215"
             MinItemHeight="26"
             MinRowSpacing="0"
-            MinColumnSpacing="5" />                
+            MinColumnSpacing="5" />
     </UserControl.Resources>
     <Grid HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
-            <RowDefinition>
+            <RowDefinition x:Name="RowStatusBar">
                 <RowDefinition.Style>
                     <Style TargetType="{x:Type RowDefinition}">
-                        <Setter Property="Height" Value="0" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding StatusBarVisible, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="true">
-                                <Setter Property="Height" Value="25" />
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard Name="Open">
+                                        <Storyboard>
+                                            <animations:GridLengthAnimation
+                                                From="0" To="25" Duration="0:0:1"
+                                                Storyboard.TargetProperty="Height" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <RemoveStoryboard BeginStoryboardName="Open" />
+                                </DataTrigger.ExitActions>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding StatusBarVisible, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="false">
-                                <Setter Property="Height" Value="0" />
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard Name="Close">
+                                        <Storyboard>
+                                            <animations:GridLengthAnimation
+                                                From="25" To="0" Duration="0:0:1"
+                                                Storyboard.TargetProperty="Height" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <RemoveStoryboard BeginStoryboardName="Close" />
+                                </DataTrigger.ExitActions>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
