@@ -7,6 +7,10 @@ using System.Windows.Media;
 using Avalon.Colors;
 using Avalon.Common.Models;
 using System.Windows.Controls;
+using System;
+using ICSharpCode.AvalonEdit.Document;
+using ICSharpCode.AvalonEdit.Utils;
+using System.Linq;
 
 namespace Avalon.Controls
 {
@@ -18,6 +22,8 @@ namespace Avalon.Controls
     /// TODO - Copy override: https://stackoverflow.com/questions/47541080/capture-modify-paste-event-in-avalonedit
     /// https://web.archive.org/web/20190316163741/http://community.sharpdevelop.net/forums/t/15881.aspx
     /// https://web.archive.org/web/20160410073639/http://community.sharpdevelop.net/forums/p/13903/37261.aspx#37261
+    /// (Search Panel) myEditor.TextArea.DefaultInputHandler.NestedInputHandlers.Add(new SearchInputHandler(myEditor.TextArea));
+    /// SearchPanel.Install(XTBAvalonEditor);
     /// </remarks>
     public class AvalonTerminal : ICSharpCode.AvalonEdit.TextEditor
     {
@@ -405,6 +411,18 @@ namespace Avalon.Controls
         }
 
         /// <summary>
+        /// Scrolls to the specified index in the document if that index exists.
+        /// </summary>
+        /// <param name="index"></param>
+        public void ScrollToIndex(int index)
+        {
+            if (index >=0 && index < this.Document.TextLength)
+            {
+                this.ScrollToLine(this.Document.GetLocation(index).Line);
+            }
+        }
+
+        /// <summary>
         /// Whether or not the last line is visible on the screen.
         /// </summary>
         public bool IsLastLineVisible()
@@ -522,6 +540,135 @@ namespace Avalon.Controls
         {
             _gagElementGenerator.UncollapseAll();
             this.Text = "";
+        }
+
+        /// <summary>
+        /// Goes through the terminal backwards looking for a single instance to replace.
+        /// </summary>
+        /// <param name="searchFor"></param>
+        /// <param name="replaceWith"></param>
+        public void ReplaceLastInstance(string searchFor, string replaceWith)
+        {
+            int start = this.Document.LastIndexOf(searchFor, 0, this.Document.TextLength, StringComparison.Ordinal);
+
+            if (start == -1)
+            {
+                return;
+            }
+
+            // If they start removing lines we have uncollapse and let things recollapse otherwise
+            // their will eventually be a crash because the collapsed lines are out of sync.
+            if (searchFor.Contains('\n'))
+            {
+                _gagElementGenerator.UncollapseAll();
+            }
+            
+            this.Document.Replace(start, searchFor.Length, replaceWith);
+        }
+
+        /// <summary>
+        /// Replaces the first instance of one string with another.
+        /// </summary>
+        /// <param name="searchFor">The string to search for.</param>
+        /// <param name="replaceWith">The string to replace the search string with.</param>
+        /// <param name="selectedOnly">Selected only will search only the selected text.</param>
+        public void Replace(string searchFor, string replaceWith, bool selectedOnly)
+        {
+            int index;
+
+            if (selectedOnly)
+            {
+                index = this.Document.IndexOf(searchFor, this.SelectionStart, this.SelectionLength, StringComparison.Ordinal);
+            }
+            else
+            {
+                index = this.Document.IndexOf(searchFor, 0, this.Document.TextLength, StringComparison.Ordinal);
+            }
+
+            if (index != -1)
+            {
+                this.Document.Replace(index, searchFor.Length, replaceWith);
+                //this.Select(index, replacement.Length);
+            }
+        }
+
+        /// <summary>
+        /// Replaces all instancese of a string with another.
+        /// </summary>
+        /// <param name="searchFor">The string to search for.</param>
+        /// <param name="replacement">The string to replace the search string with.</param>
+        /// <param name="selectedOnly">Selected only will search only the selected text.</param>
+        public void ReplaceAll(string searchFor, string replacement, bool selectedOnly)
+        {
+            int index;
+
+            if (selectedOnly)
+            {
+                index = this.Document.IndexOf(searchFor, this.SelectionStart, this.SelectionLength, StringComparison.Ordinal);
+            }
+            else
+            {
+                index = this.Document.IndexOf(searchFor, 0, this.Document.TextLength, StringComparison.Ordinal);
+            }
+
+            while (index > -1)
+            {
+                if (selectedOnly)
+                {
+                    index = this.Document.IndexOf(searchFor, this.SelectionStart, this.SelectionLength, StringComparison.Ordinal);
+                }
+                else
+                {
+                    index = this.Document.IndexOf(searchFor, 0, this.Document.TextLength, StringComparison.Ordinal);
+                }
+
+                if (index != -1)
+                {
+                    this.Document.Replace(index, searchFor.Length, replacement);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Used to track the last find index.
+        /// </summary>
+        private int _lastFindIndex = 0;
+
+        /// <summary>
+        /// Finds the next occurance of a string
+        /// </summary>
+        /// <param name="searchFor"></param>
+        /// <param name="reset">Whether or not to reset the starting index.</param>
+        public void Find(string searchFor, bool reset = false)
+        {
+            if (reset)
+            {
+                _lastFindIndex = 0;
+            }
+            
+            if (string.IsNullOrEmpty(searchFor) || this.Document.TextLength == 0)
+            {
+                _lastFindIndex = 0;
+                return;
+            }
+
+            int index = this.Document.Text.IndexOf(searchFor, _lastFindIndex);
+
+            if (index != -1)
+            {                
+                // Select the text that we found
+                this.Select(index, searchFor.Length);
+
+                // Set the last found so we can start from there next time.
+                _lastFindIndex = index + searchFor.Length;
+
+                // Scroll the line where that exists into view.
+                this.ScrollToLine(this.Document.GetLocation(index).Line);
+            }
+            else
+            {
+                _lastFindIndex = 0;
+            }
         }
 
         /// <summary>
