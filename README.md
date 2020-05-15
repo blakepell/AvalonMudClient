@@ -4,7 +4,7 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
 
 [Screenshots](doc/Screenshots.md)
 
-![alt text](images/ClientTerminal.png "Main Terminal")
+![alt text](doc/images/ClientTerminal.png "Main Terminal")
 
 ### Documentation
 
