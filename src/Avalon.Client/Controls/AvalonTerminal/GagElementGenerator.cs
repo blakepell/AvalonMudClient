@@ -146,8 +146,6 @@ namespace Avalon.Controls
             return -1;
         }
 
-        private int counter = 0;
-
         public override VisualLineElement ConstructElement(int offset)
         {
             return new HiddenTextElement(CurrentContext.Document.GetLineByOffset(offset).TotalLength);
