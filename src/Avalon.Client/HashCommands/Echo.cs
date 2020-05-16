@@ -33,21 +33,7 @@ namespace Avalon.HashCommands
 
                     if (o.Timestamp)
                     {
-                        switch (App.Settings.AvalonSettings.TimestampFormat)
-                        {
-                            case Common.Settings.AvalonSettings.TimestampFormats.HoursMinutes:
-                                timeStamp = $"[{DateTime.Now.ToString("hh:mm tt")}]: ";
-                                break;
-                            case Common.Settings.AvalonSettings.TimestampFormats.HoursMinutesSeconds:
-                                timeStamp = $"[{DateTime.Now.ToString("hh:mm:ss tt")}]: ";
-                                break;
-                            case Common.Settings.AvalonSettings.TimestampFormats.OSDefault:
-                                timeStamp = $"[{DateTime.Now.ToString("g")}]: ";
-                                break;
-                            case Common.Settings.AvalonSettings.TimestampFormats.TwentyFourHour:
-                                timeStamp = $"[{DateTime.Now.ToString("HH:mm:ss")}]: ";
-                                break;
-                        }
+                        timeStamp = $"[{Utilities.Utilities.Timestamp()}]: ";
                     }
 
                     string text = $"{timeStamp}{o.Text}";

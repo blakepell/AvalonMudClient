@@ -168,7 +168,6 @@ namespace Avalon.Utilities
         /// <summary>
         /// Copies any plugins that were updated to the plugins folder.
         /// </summary>
-        /// <returns></returns>
         public static int UpdatePlugins()
         {
             var files = Directory.GetFiles(App.Settings.UpdateDirectory);
@@ -244,6 +243,26 @@ namespace Avalon.Utilities
         public static void Shell(string path, string arguments)
         {
             Process.Start(path, arguments);
+        }
+
+        /// <summary>
+        /// Returns a text time stamp in the format set in the user settings.
+        /// </summary>
+        public static string Timestamp()
+        {
+            switch (App.Settings.AvalonSettings.TimestampFormat)
+            {
+                case Common.Settings.AvalonSettings.TimestampFormats.HoursMinutes:
+                    return DateTime.Now.ToString("hh:mm tt");
+                case Common.Settings.AvalonSettings.TimestampFormats.HoursMinutesSeconds:
+                    return DateTime.Now.ToString("hh:mm:ss tt");
+                case Common.Settings.AvalonSettings.TimestampFormats.OSDefault:
+                    return DateTime.Now.ToString("g");
+                case Common.Settings.AvalonSettings.TimestampFormats.TwentyFourHour:
+                    return DateTime.Now.ToString("HH:mm:ss");
+                default:
+                    return DateTime.Now.ToString("hh:mm:ss tt");
+            }
         }
 
     }

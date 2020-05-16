@@ -62,31 +62,10 @@ namespace Avalon
                     // Check if we're supposed to move this line somewhere else.
                     if (item.MoveTo != TerminalTarget.None)
                     {
-                        string timeStamp;
-
-                        switch (App.Settings.AvalonSettings.TimestampFormat)
-                        {
-                            case Common.Settings.AvalonSettings.TimestampFormats.HoursMinutes:
-                                timeStamp = DateTime.Now.ToString("hh:mm tt");
-                                break;
-                            case Common.Settings.AvalonSettings.TimestampFormats.HoursMinutesSeconds:
-                                timeStamp = DateTime.Now.ToString("hh:mm:ss tt");
-                                break;
-                            case Common.Settings.AvalonSettings.TimestampFormats.OSDefault:
-                                timeStamp = DateTime.Now.ToString("g");
-                                break;
-                            case Common.Settings.AvalonSettings.TimestampFormats.TwentyFourHour:
-                                timeStamp = DateTime.Now.ToString("HH:mm:ss");
-                                break;
-                            default:
-                                timeStamp = DateTime.Now.ToString("hh:mm:ss tt");
-                                break;
-                        }
-
                         // Create a brand new line (not a shared reference) where this can be shown in the communication window.
                         var commLine = new Line
                         {
-                            FormattedText = $"[{timeStamp}]: {line.FormattedText}\r\n"
+                            FormattedText = $"[{Utilities.Utilities.Timestamp()}]: {line.FormattedText}\r\n"
                         };
 
                         if (item.MoveTo == TerminalTarget.Terminal1)
@@ -188,31 +167,10 @@ namespace Avalon
                     // Check if we're supposed to move this line somewhere else.
                     if (item.MoveTo != TerminalTarget.None)
                     {
-                        string timeStamp;
-
-                        switch (App.Settings.AvalonSettings.TimestampFormat)
-                        {
-                            case Common.Settings.AvalonSettings.TimestampFormats.HoursMinutes:
-                                timeStamp = DateTime.Now.ToString("hh:mm tt");
-                                break;
-                            case Common.Settings.AvalonSettings.TimestampFormats.HoursMinutesSeconds:
-                                timeStamp = DateTime.Now.ToString("hh:mm:ss tt");
-                                break;
-                            case Common.Settings.AvalonSettings.TimestampFormats.OSDefault:
-                                timeStamp = DateTime.Now.ToString("g");
-                                break;
-                            case Common.Settings.AvalonSettings.TimestampFormats.TwentyFourHour:
-                                timeStamp = DateTime.Now.ToString("HH:mm:ss");
-                                break;
-                            default:
-                                timeStamp = DateTime.Now.ToString("hh:mm:ss tt");
-                                break;
-                        }
-
                         // Create a brand new line (not a shared reference) where this can be shown in the communication window.
                         var commLine = new Line
                         {
-                            FormattedText = $"[{timeStamp}]: {line.FormattedText}\r\n"
+                            FormattedText = $"[{Utilities.Utilities.Timestamp()}]: {line.FormattedText}\r\n"
                         };
 
                         if (item.MoveTo == TerminalTarget.Terminal1)
