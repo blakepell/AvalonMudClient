@@ -29,6 +29,11 @@ namespace Avalon.Controls
         /// </summary>
         public Dictionary<int, CollapsedLineSection> CollapsedLineSections = new Dictionary<int, CollapsedLineSection>();
 
+        /// <summary>
+        /// Whether or not the gag is currently enabled.  It is important to reference the property for this
+        /// value when setting it unless you're looking to specifically not UncollapseAll() which is probably
+        /// a bad idea.
+        /// </summary>
         private bool _enabled = true;
 
         /// <summary>
@@ -95,7 +100,7 @@ namespace Avalon.Controls
 
                 return -1;
             }
-
+            
             var endLine = CurrentContext.VisualLine.LastDocumentLine;
             var segment = CurrentContext.GetText(startOffset, endLine.EndOffset - startOffset);
             
@@ -113,7 +118,7 @@ namespace Avalon.Controls
 
             // Create only one string that will pass multiple times into the trigger's IsMatch function.
             string text = _sb.ToString();
-
+            
             // TODO - Performance Will running this linq query every time get slow?  Do we need to manually add the gag triggers in only when updated?
             // Once a trigger is found that this thing basically gets out.  It might behoof us here to run the system triggers
             // first and maybe have a priority sequence so they can be run in a certain order.  The example being, the prompt
