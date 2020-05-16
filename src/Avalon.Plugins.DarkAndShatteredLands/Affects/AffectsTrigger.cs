@@ -14,6 +14,12 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
     /// A trigger to track affects, this will store the current state of them as well as provide
     /// methods to deal with sorting, etc.
     /// </summary>
+    /// <remarks>
+    /// TODO - Handle lower level that doesn't have modifies or duration.
+    /// You are affected by the following spells:
+    /// Spell: armor
+    /// Spell: bless
+    /// </remarks>
     public class AffectsTrigger : Trigger
     {
         /// <summary>
