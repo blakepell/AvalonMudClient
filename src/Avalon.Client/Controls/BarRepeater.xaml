@@ -53,7 +53,9 @@
         <StatusBar x:Name="StatusBarWindow" Grid.Row="0"
                    Background="DarkRed" Foreground="White"
                    BorderThickness="0,0,0,.9" BorderBrush="Gray">
-            <TextBlock x:Name="TextBlockStatus" Text="{Binding StatusText, RelativeSource={RelativeSource AncestorType=UserControl}}" TextWrapping="NoWrap"></TextBlock>
+            <TextBlock x:Name="TextBlockStatus" 
+                       FontFamily="Consolas" FontSize="13"
+                       Text="{Binding StatusText, RelativeSource={RelativeSource AncestorType=UserControl}}" TextWrapping="NoWrap"></TextBlock>
         </StatusBar>
 
         <ui:ItemsRepeaterScrollHost Grid.Row="1">
