@@ -465,6 +465,7 @@ namespace Avalon
 
             // Line numbers
             GameTerminal.ShowLineNumbers = App.Settings.AvalonSettings.ShowLineNumbersInGameTerminal;
+            GameBackBufferTerminal.ShowLineNumbers = App.Settings.AvalonSettings.ShowLineNumbersInGameTerminal;
 
             // Word wrap
             GameTerminal.WordWrap = App.Settings.AvalonSettings.WordWrapTerminals;
