@@ -161,6 +161,7 @@ namespace Avalon.Controls
                     if (span.IsNullEmptyOrWhiteSpace())
                     {
                         CollapsedLineSections.Add(endLine.PreviousLine.LineNumber, CurrentContext.TextView.CollapseLines(endLine, endLine));
+                        CurrentContext.TextView.Redraw(endLine.PreviousLine.Offset, endLine.PreviousLine.EndOffset - endLine.PreviousLine.Offset);
                     }
 
                     CollapsedLineSections.Add(endLine.LineNumber, CurrentContext.TextView.CollapseLines(endLine.NextLine, endLine.NextLine));
@@ -178,6 +179,7 @@ namespace Avalon.Controls
                     if (span.IsNullEmptyOrWhiteSpace())
                     {
                         CollapsedLineSections.Add(endLine.PreviousLine.LineNumber, CurrentContext.TextView.CollapseLines(endLine, endLine));
+                        CurrentContext.TextView.Redraw(endLine.PreviousLine.Offset, endLine.PreviousLine.EndOffset - endLine.PreviousLine.Offset);
                     }
 
                     CollapsedLineSections.Add(endLine.LineNumber, CurrentContext.TextView.CollapseLines(endLine.NextLine, endLine.NextLine));
