@@ -486,7 +486,7 @@ namespace Avalon.Controls
             }
 
             // Remove the line from the collapsed line section if it exists (before deleting it).
-            _gagElementGenerator.UncollapseLine(lineNumber);
+            _gagElementGenerator.UncollapseAfter(lineNumber);
             this.Document.Remove(line.Offset, line.TotalLength);
         }
 
@@ -502,7 +502,7 @@ namespace Avalon.Controls
         public void RemoveLine(int startLineNumber, int endLineNumber)
         {
             int length = 0;
-            int startPosition = 0;
+            int startOffset = 0;
 
             if (startLineNumber < 1)
             {
@@ -514,22 +514,24 @@ namespace Avalon.Controls
                 endLineNumber = this.LineCount;
             }
 
+            // Uncollapse all lines after the start line number.
+            _gagElementGenerator.UncollapseAfter(startLineNumber);
+
+            // Find the starting position/offset and the length to remove for the specified
+            // set of lines.
             for (int i = startLineNumber; i < endLineNumber; i++)
             {
                 var line = this.Document.GetLineByNumber(i);
 
                 if (i == startLineNumber)
                 {
-                    startPosition = line.Offset;
+                    startOffset = line.Offset;
                 }
 
                 length += line.TotalLength;
-
-                // Remove the line from the collapsed line section if it exists (before deleting it).
-                _gagElementGenerator.UncollapseLine(i);
             }
 
-            this.Document.Remove(startPosition, length);
+            this.Document.Remove(startOffset, length);
         }
 
         /// <summary>

@@ -71,7 +71,8 @@ namespace Avalon.Controls
         }
 
         /// <summary>
-        /// Uncollapses a single line.
+        /// Uncollapses a single line.  Note, if a line was removed from the document all subsequent lines need to
+        /// be Uncollapsed (as they have moved up and are no longer in sync).
         /// </summary>
         /// <param name="lineNumber"></param>
         public void UncollapseLine(int lineNumber)
@@ -80,6 +81,22 @@ namespace Avalon.Controls
             {
                 CollapsedLineSections[lineNumber].Uncollapse();
                 CollapsedLineSections.Remove(lineNumber);
+            }
+        }
+
+        /// <summary>
+        /// Uncollapses all lines after and including the line specified.
+        /// </summary>
+        /// <param name="lineNumber"></param>
+        public void UncollapseAfter(int lineNumber)
+        {
+            foreach (int key in CollapsedLineSections.Keys)
+            {
+                if (key >= lineNumber)
+                {
+                    CollapsedLineSections[key].Uncollapse();
+                    CollapsedLineSections.Remove(key);
+                }
             }
         }
 
@@ -106,7 +123,7 @@ namespace Avalon.Controls
             
             // If the line has already been collapsed, ignore it.  However, if a trigger changes this potentially would need
             // to be called again because it would have been collapsed by the old version.  But, this might be desirable.
-            if (endLine?.NextLine != null && CollapsedLineSections.ContainsKey(endLine.NextLine.LineNumber))
+            if (endLine?.NextLine != null && CollapsedLineSections.ContainsKey(endLine.LineNumber))
             {
                 return startOffset;
             }
@@ -118,11 +135,13 @@ namespace Avalon.Controls
 
             // Create only one string that will pass multiple times into the trigger's IsMatch function.
             string text = _sb.ToString();
-            
+
             // TODO - Performance Will running this linq query every time get slow?  Do we need to manually add the gag triggers in only when updated?
             // Once a trigger is found that this thing basically gets out.  It might behoof us here to run the system triggers
             // first and maybe have a priority sequence so they can be run in a certain order.  The example being, the prompt
             // will be gagged the most, it should run first and if it is, nothing else has to run here.
+            // Also of note, the documentation for CollapseLines indicates that "if you want a VisualLineElement to span from line N to line M, then you 
+            // need to collapse only the lines N+1 to M. Do not collapse line N itself (cause collapsing the next line looks weird at first read).
 
             // System Triggers moved to be first.
             foreach (var trigger in App.SystemTriggers.Where(x => x.Gag && x.Enabled))
@@ -131,7 +150,7 @@ namespace Avalon.Controls
                 // to get fired multiple times as the line is re-rendered on the screen.. that is -bad-).
                 if (trigger.IsMatch(text, true) && endLine?.NextLine != null)
                 {
-                    CollapsedLineSections.Add(endLine.NextLine.LineNumber, CurrentContext.TextView.CollapseLines(endLine.NextLine, endLine.NextLine));
+                    CollapsedLineSections.Add(endLine.LineNumber, CurrentContext.TextView.CollapseLines(endLine.NextLine, endLine.NextLine));
                     return startOffset;
                 }
             }
@@ -143,7 +162,7 @@ namespace Avalon.Controls
                 // to get fired multiple times as the line is re-rendered on the screen.. that is -bad-).
                 if (trigger.IsMatch(text, true) && endLine?.NextLine != null)
                 {
-                    CollapsedLineSections.Add(endLine.NextLine.LineNumber, CurrentContext.TextView.CollapseLines(endLine.NextLine, endLine.NextLine));
+                    CollapsedLineSections.Add(endLine.LineNumber, CurrentContext.TextView.CollapseLines(endLine.NextLine, endLine.NextLine));
                     return startOffset;
                 }
             }
