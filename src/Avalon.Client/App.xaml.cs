@@ -162,8 +162,22 @@ namespace Avalon
             {
                 System.Reflection.AssemblyName assemblyName = System.Reflection.Assembly.GetExecutingAssembly().GetName();
                 message = string.Format("Unhandled exception in {0} v{1}", assemblyName.Name, assemblyName.Version);
-                App.MainWindow.GameTerminal.ClearText();
-                App.MainWindow.GameBackBufferTerminal.ClearText();
+
+                // Try to clear the text boxes if it was an invalid operation from the avalon edit box.
+                if (exception is InvalidOperationException && source.Equals("ICSharpCode.AvalonEdit", StringComparison.OrdinalIgnoreCase))
+                {
+                    try
+                    {
+                        App.MainWindow.GameTerminal.ClearText();
+                    }
+                    catch { }
+
+                    try
+                    {
+                        App.MainWindow.GameBackBufferTerminal.ClearText();
+                    }
+                    catch { }
+                }
             }
             catch (Exception ex)
             {
