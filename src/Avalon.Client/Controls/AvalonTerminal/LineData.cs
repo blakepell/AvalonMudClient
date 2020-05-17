@@ -29,8 +29,11 @@ namespace Avalon.Controls
 
         public bool IsDeleted { get; set; }
 
+        public int LinesWithWrap { get; set; }
+
         public int Offset { get; set; }
 
         public int EndOffset { get; set; }
+
     }
 }

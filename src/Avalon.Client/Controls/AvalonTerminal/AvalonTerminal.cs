@@ -722,7 +722,8 @@ namespace Avalon.Controls
         public LineData LineData(int lineNumber)
         {
             var line = this.Document.GetLineByNumber(lineNumber);
-            
+            int linesWithWrap = this?.TextArea?.TextView?.VisualLines?.FirstOrDefault(x => x.FirstDocumentLine.LineNumber == lineNumber).TextLines.Count() ?? 1;
+
             var lineData = new LineData
             {
                 LineNumber = lineNumber,
@@ -730,7 +731,8 @@ namespace Avalon.Controls
                 IsGagged = _gagElementGenerator.CollapsedLineSections.ContainsKey(lineNumber),
                 Offset = line.Offset,
                 EndOffset = line.EndOffset,
-                IsDeleted = line.IsDeleted
+                IsDeleted = line.IsDeleted,
+                LinesWithWrap = linesWithWrap
             };
             
             lineData.IsEmptyOrWhitespace = string.IsNullOrWhiteSpace(lineData.Text);
