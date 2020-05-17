@@ -36,12 +36,15 @@ namespace Avalon.HashCommands
                                    args = o;
                                });
 
-            if (args.DelayMilliseconds > 0)
+            if (!string.IsNullOrWhiteSpace(args.Alias))
             {
-                await Task.Delay(args.DelayMilliseconds);
-            }
+                if (args.DelayMilliseconds > 0)
+                {
+                    await Task.Delay(args.DelayMilliseconds);
+                }
 
-            Interpreter.Send(args.Alias);
+                Interpreter.Send(args.Alias);
+            }
 
             // Display the help or error output from the parameter parsing.
             this.DisplayParserOutput(result);
@@ -55,7 +58,7 @@ namespace Avalon.HashCommands
             [Option('d', "delay", Required = false, HelpText = "The delay in milliseconds this command should wait before executing.")]
             public int DelayMilliseconds { get; set; }
 
-            [Value(0)]
+            [Value(0, Required = true)]
             public string Alias { get; set; }
         }
 
