@@ -105,6 +105,7 @@ end";
 
             this.Triggers.Add(new Trigger(@"^You feel yourself moving more quickly.$", "#partial-affect haste", "", true, ""));
             this.Triggers.Add(new Trigger(@"^You feel yourself slow down.$", "#remove-affect haste", "", true, ""));
+            this.Triggers.Add(new Trigger(@"^You feel yourself slowing down.", "#remove-affect haste", "", true, ""));
 
             this.Triggers.Add(new Trigger(@"^You feel less protected.$", "#remove-affect protection good;#remove-affect protection neutral;#remove-affect protection evil", "", true, ""));
             this.Triggers.Add(new Trigger(@"^Your protection disappears!$", "#remove-affect protection good;#remove-affect protection neutral;#remove-affect protection evil", "", true, ""));
