@@ -10,6 +10,9 @@ using System.ComponentModel;
 using Avalon.Windows;
 using System.Drawing.Design;
 using Avalon.Common.Plugins;
+using System;
+using System.Threading.Tasks;
+using Argus.Extensions;
 
 namespace Avalon
 {
@@ -88,8 +91,14 @@ namespace Avalon
                 // Adds the string editor to all strings.. but based on convention (or attribute) we'll 
                 // determine which string editor opens.
                 TypeDescriptor.AddAttributes(typeof(string), new EditorAttribute(typeof(StringPropertyEditor), typeof(UITypeEditor)));
+
+                // Setup our global exception handling if the setting is set for it.
+                if (App.Settings.AvalonSettings.GlobalExceptionHandlingEnabled)
+                {
+                    SetupExceptionHandling();
+                }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 // TODO - logging
                 MessageBox.Show($"A startup error occured: {ex.Message}");
@@ -117,6 +126,54 @@ namespace Avalon
             // Dispose of the Toast object which has a NotifyIcon which might potentially leave the
             // program in memory if not axed.
             Toast?.Dispose();
+        }
+
+        /// <summary>
+        /// Sets up global exception handling.
+        /// </summary>
+        private void SetupExceptionHandling()
+        {
+            AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+                LogUnhandledException((Exception)e.ExceptionObject, "AppDomain.CurrentDomain.UnhandledException");
+
+            DispatcherUnhandledException += (s, e) =>
+            {
+                LogUnhandledException(e.Exception, "Application.Current.DispatcherUnhandledException");
+                e.Handled = true;
+            };
+
+            TaskScheduler.UnobservedTaskException += (s, e) =>
+            {
+                LogUnhandledException(e.Exception, "TaskScheduler.UnobservedTaskException");
+                e.SetObserved();
+            };
+        }
+
+        /// <summary>
+        /// Global exception handler.  Can be disabled via setting.
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="source"></param>
+        private void LogUnhandledException(Exception exception, string source)
+        {
+            string message = $"Unhandled exception ({source})";
+
+            try
+            {
+                System.Reflection.AssemblyName assemblyName = System.Reflection.Assembly.GetExecutingAssembly().GetName();
+                message = string.Format("Unhandled exception in {0} v{1}", assemblyName.Name, assemblyName.Version);
+                App.MainWindow.GameTerminal.ClearText();
+                App.MainWindow.GameBackBufferTerminal.ClearText();
+            }
+            catch (Exception ex)
+            {
+                App.Conveyor.EchoLog("There was an exception in the unhandeled exception catch, did a kender code this?", LogType.Error);
+                App.Conveyor.EchoLog(ex.ToFormattedString(), LogType.Error);
+            }
+            finally
+            {
+                App.Conveyor.EchoLog($"Original unhandled exception: {exception.ToFormattedString()}", LogType.Error);
+            }
         }
 
     }

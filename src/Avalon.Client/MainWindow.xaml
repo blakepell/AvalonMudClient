@@ -219,7 +219,7 @@
                     </Menu>
 
                     <UniformGrid Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Columns="1">
-                        <controls:AvalonTerminal x:Name="GameBackBufferTerminal"
+                        <controls:AvalonTerminal x:Name="GameBackBufferTerminal" x:FieldModifier="public"
                             Visibility="Collapsed"
                             DockPanel.Dock="Top"
                             ShowLineNumbers="False" WordWrap="True"
@@ -235,7 +235,7 @@
                             PreviewKeyDown="GameTerminal_PreviewKeyDown">
                         </controls:AvalonTerminal>
 
-                        <controls:AvalonTerminal x:Name="GameTerminal"
+                        <controls:AvalonTerminal x:Name="GameTerminal" x:FieldModifier="public"
                             DockPanel.Dock="Bottom"
                             ShowLineNumbers="False" WordWrap="True"
                             FontFamily="Consolas" IsReadOnly="True"
