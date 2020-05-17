@@ -477,7 +477,7 @@ namespace Avalon.Controls
             {
                 return;
             }
-
+            
             var line = this.Document.GetLineByNumber(lineNumber);
 
             if (line == null)
@@ -688,6 +688,74 @@ namespace Avalon.Controls
             else
             {
                 _lastFindIndex = 0;
+            }
+        }
+
+        /// <summary>
+        /// Returns the text of the requested line.
+        /// </summary>
+        /// <param name="lineNumber"></param>
+        public string GetText(int lineNumber)
+        {                        
+            var line = this.Document.GetLineByNumber(lineNumber);            
+            return this.Document.GetText(line.Offset, line.Length);
+        }
+
+        /// <summary>
+        /// Gets the text at the requested offset for the requested length.  Shortcut for
+        /// Document.GetText.
+        /// </summary>
+        /// <param name="offset"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public string GetText(int offset, int length)
+        {
+            return this.Document.GetText(offset, length);
+        }
+
+        /// <summary>
+        /// Returns metadata about the current state of a line.  Note that if this is held
+        /// onto that it is not updated (it is a snapshot in time).
+        /// </summary>
+        /// <param name="lineNumber"></param>
+        /// <returns></returns>
+        public LineData LineData(int lineNumber)
+        {
+            var line = this.Document.GetLineByNumber(lineNumber);
+            
+            var lineData = new LineData
+            {
+                LineNumber = lineNumber,
+                Text = this.Document.GetText(line.Offset, line.Length),
+                IsGagged = _gagElementGenerator.CollapsedLineSections.ContainsKey(lineNumber),
+                Offset = line.Offset,
+                EndOffset = line.EndOffset,
+                IsDeleted = line.IsDeleted
+            };
+            
+            lineData.IsEmptyOrWhitespace = string.IsNullOrWhiteSpace(lineData.Text);
+            
+            return lineData;
+        }
+
+        /// <summary>
+        /// Returns the text of the last not empty line in the document.
+        /// </summary>
+        public string LastNonEmptyLine
+        {
+            get
+            {                                
+                string text = "";
+                int i = this.Document.LineCount;
+
+                while (string.IsNullOrEmpty(text) && i > 0)
+                {                    
+                    var line = this.Document.GetLineByNumber(i);                                        
+                    text = this.Document.GetText(line.Offset, line.Length);
+                    i--;
+                }
+
+                return text;
             }
         }
 
