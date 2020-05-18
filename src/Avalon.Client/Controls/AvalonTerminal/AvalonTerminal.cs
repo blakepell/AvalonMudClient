@@ -72,6 +72,25 @@ namespace Avalon.Controls
 
             // For custom key handling like trapping copy and paste.
             this.PreviewKeyDown += OnPreviewKeyDown;
+
+            this.SizeChanged += this.AvalonTerminal_SizeChanged;
+        }
+
+        /// <summary>
+        /// Code that needs to execute when the size of this terminal changes.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AvalonTerminal_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            // Since width is what affects word wrapping we're only concerned with it in terms
+            // of telling the terminal gags they need to recalculate.  We have to tell the calling
+            // control to uncollapse all the lines.
+            if (e.WidthChanged)
+            {
+                this.Gag.UncollapseAll();
+                this.TextArea.TextView.Redraw();
+            }
         }
 
         /// <summary>
@@ -384,6 +403,17 @@ namespace Avalon.Controls
             {                
                 this.ScrollToLastLine();
             }
+        }
+
+        /// <summary>
+        /// Uncollapses all of the gagged lines and redraws the visual lines on the screen.  This
+        /// might be required when certain events are triggered (word wrap changing, width changing
+        /// or properties on the this control).
+        /// </summary>
+        public void RedrawLines()
+        {
+            this.Gag.UncollapseAll();
+            this.TextArea.TextView.Redraw();
         }
 
         /// <summary>
