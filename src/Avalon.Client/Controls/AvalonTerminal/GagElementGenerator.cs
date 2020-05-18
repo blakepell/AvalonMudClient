@@ -152,17 +152,23 @@ namespace Avalon.Controls
                 // to get fired multiple times as the line is re-rendered on the screen.. that is -bad-).
                 if (trigger.IsMatch(text, true) && endLine?.NextLine != null)
                 {
-                    // Check to see if the previous line was blank, if so, gag it.  By manually adding the previous blank line
-                    // to our stored gag list it will short circuit when this is called again thinking it was gagged.  We will
-                    // need to force a redraw to invalidate the lines (I believe).
-                    var span = CurrentContext.GetText(endLine.PreviousLine.Offset, endLine.PreviousLine.EndOffset - endLine.PreviousLine.Offset).Text.AsSpan();
+                    //// Check to see if the previous line was blank, if so, gag it.  By manually adding the previous blank line
+                    //// to our stored gag list it will short circuit when this is called again thinking it was gagged.  We will
+                    //// need to force a redraw to invalidate the lines (I believe).
+                    //var span = CurrentContext.GetText(endLine.PreviousLine.Offset, endLine.PreviousLine.EndOffset - endLine.PreviousLine.Offset).Text.AsSpan();
 
-                    // This line is gagged, should the previous line be gagged also to mitigate whitespace.
-                    if (span.IsNullEmptyOrWhiteSpace())
-                    {
-                        CollapsedLineSections.Add(endLine.PreviousLine.LineNumber, CurrentContext.TextView.CollapseLines(endLine, endLine));
-                        CurrentContext.TextView.Redraw(endLine.PreviousLine.Offset, endLine.PreviousLine.EndOffset - endLine.PreviousLine.Offset);
-                    }
+                    //// This line is gagged, should the previous line be gagged also to mitigate whitespace.
+                    //if (span.IsNullEmptyOrWhiteSpace())
+                    //{
+                    //    if (!CollapsedLineSections.ContainsKey(endLine.PreviousLine.LineNumber))
+                    //    {
+                    //        CollapsedLineSections.Add(endLine.PreviousLine.LineNumber, CurrentContext.TextView.CollapseLines(endLine, endLine));
+                    //    }
+
+                    //    CurrentContext.TextView.Redraw();
+                    //    //CurrentContext.TextView.EnsureVisualLines();
+                    //    //CurrentContext.TextView.Redraw(endLine.PreviousLine.Offset, endLine.PreviousLine.EndOffset - endLine.PreviousLine.Offset);
+                    //}
 
                     CollapsedLineSections.Add(endLine.LineNumber, CurrentContext.TextView.CollapseLines(endLine.NextLine, endLine.NextLine));
                     return startOffset;
@@ -174,13 +180,18 @@ namespace Avalon.Controls
             {
                 if (trigger.IsMatch(text, true) && endLine?.NextLine != null)
                 {
-                    var span = CurrentContext.GetText(endLine.PreviousLine.Offset, endLine.PreviousLine.EndOffset - endLine.PreviousLine.Offset).Text.AsSpan();
+                    //var span = CurrentContext.GetText(endLine.PreviousLine.Offset, endLine.PreviousLine.EndOffset - endLine.PreviousLine.Offset).Text.AsSpan();
 
-                    if (span.IsNullEmptyOrWhiteSpace())
-                    {
-                        CollapsedLineSections.Add(endLine.PreviousLine.LineNumber, CurrentContext.TextView.CollapseLines(endLine, endLine));
-                        CurrentContext.TextView.Redraw(endLine.PreviousLine.Offset, endLine.PreviousLine.EndOffset - endLine.PreviousLine.Offset);
-                    }
+                    //if (span.IsNullEmptyOrWhiteSpace())
+                    //{
+                    //    if (!CollapsedLineSections.ContainsKey(endLine.PreviousLine.LineNumber))
+                    //    {
+                    //        CollapsedLineSections.Add(endLine.PreviousLine.LineNumber, CurrentContext.TextView.CollapseLines(endLine, endLine));
+                    //    }
+
+                    //    CurrentContext.TextView.Redraw();
+                    //    //CurrentContext.TextView.Redraw(endLine.PreviousLine.Offset, endLine.PreviousLine.EndOffset - endLine.PreviousLine.Offset);
+                    //}
 
                     CollapsedLineSections.Add(endLine.LineNumber, CurrentContext.TextView.CollapseLines(endLine.NextLine, endLine.NextLine));
                     return startOffset;
