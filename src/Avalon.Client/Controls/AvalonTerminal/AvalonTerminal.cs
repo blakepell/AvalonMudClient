@@ -73,7 +73,38 @@ namespace Avalon.Controls
             // For custom key handling like trapping copy and paste.
             this.PreviewKeyDown += OnPreviewKeyDown;
 
+            // To handle code for when the size of the control changes (namingly, the width).
             this.SizeChanged += this.AvalonTerminal_SizeChanged;
+
+            // Find out if we're wrapped.
+            this.TextArea.TextView.VisualLineConstructionStarting += this.TextView_VisualLineConstructionStarting;            
+        }
+
+        /// <summary>
+        /// Code to execute when the visual lines begin construction (I think this happens just before).
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TextView_VisualLineConstructionStarting(object sender, ICSharpCode.AvalonEdit.Rendering.VisualLineConstructionStartEventArgs e)
+        {
+            if (this.TextArea.TextView.VisualLinesValid && this.TextArea.TextView.VisualLines.Any())
+            {
+                foreach (var item in this.TextArea.TextView.VisualLines)
+                {
+                    // If it's more than one line AND it's not gagged (very important).
+                    if (item.TextLines.Count > 1 && !this.Gag.CollapsedLineSections.ContainsKey(item.FirstDocumentLine.LineNumber))
+                    {
+                        this.HasVisibleWrappedLines = true;
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                return;
+            }
+
+            this.HasVisibleWrappedLines = false;
         }
 
         /// <summary>
@@ -417,20 +448,29 @@ namespace Avalon.Controls
         }
 
         /// <summary>
-        /// Similar functionality to ScrollToEnd but considerably more efficient.  This scrolls with ScrollTo.
-        /// ScrollToLastLine with the vertical offset overload is even more efficient but will not scroll all
-        /// the way down in cases where there is word wrapping occuring.
+        /// Scrolls to the last line.  If there are any wrapped lines on the screen this will do a less efficient
+        /// but certain scroll to the bottom, if there are no wrapped lines it will use the more efficient
+        /// ScrollToVerticalOffset (that only works right when there aren't wrapped lines.).  The determination
+        /// on whether something is wrapped happens at the time text is added to the document (which is fine
+        /// for us because we're concerned with what will be at the bottom of the terminal).
         /// </summary>
         public void ScrollToLastLine()
         {
-            //this.ScrollToVerticalOffset(this.TextArea.TextView.GetVisualTopByDocumentLine(this.LineCount));
-            this.ScrollTo(this.LineCount, 0);
+            if (this.HasVisibleWrappedLines)
+            {
+                this.ScrollTo(this.LineCount, 0);
+            }
+            else
+            {
+                this.ScrollToVerticalOffset(this.TextArea.TextView.GetVisualTopByDocumentLine(this.LineCount));
+            }
         }
 
         /// <summary>
         /// Scrolls to the end of the terminal by the vertical offset.  This is the most efficient way to scroll
         /// but sometimes does not scroll all the way to the bottom when wrapping has occured.
         /// </summary>
+        /// <param name="useVerticalOffset">Use the vertical offset is much faster but doesn't always work when there are lines that are wrapped.</param>
         public void ScrollToLastLine(bool useVerticalOffset = false)
         {
             if (useVerticalOffset)
@@ -793,6 +833,11 @@ namespace Avalon.Controls
                 return text;
             }
         }
+
+        /// <summary>
+        /// Whether the currently visible lines have any wrapped lines.
+        /// </summary>
+        public bool HasVisibleWrappedLines { get; set; } = false;
 
         /// <summary>
         /// Whether or not the gags are enabled on this instance of the terminal.
