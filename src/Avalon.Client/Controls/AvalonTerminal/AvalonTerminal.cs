@@ -722,7 +722,7 @@ namespace Avalon.Controls
         public LineData LineData(int lineNumber)
         {
             var line = this.Document.GetLineByNumber(lineNumber);
-            int linesWithWrap = this?.TextArea?.TextView?.VisualLines?.FirstOrDefault(x => x.FirstDocumentLine.LineNumber == lineNumber).TextLines.Count() ?? 1;
+            int linesWithWrap = this.TextArea.TextView.VisualLines.FirstOrDefault(x => x.FirstDocumentLine.LineNumber == lineNumber)?.TextLines.Count ?? 1;
 
             var lineData = new LineData
             {
