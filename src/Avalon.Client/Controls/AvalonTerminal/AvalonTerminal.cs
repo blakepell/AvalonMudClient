@@ -45,7 +45,10 @@ namespace Avalon.Controls
         /// </summary>
         private readonly Regex _lastColorRegEx = new Regex(@"\x1B\[[^@-~]*[@-~]", RegexOptions.RightToLeft | RegexOptions.Compiled);
 
-        private readonly GagElementGenerator _gagElementGenerator;
+        /// <summary>
+        /// Gag element generator.
+        /// </summary>
+        public GagElementGenerator Gag { get; private set; }
 
         /// <summary>
         /// Constructor
@@ -64,8 +67,8 @@ namespace Avalon.Controls
             // Setup our custom line and element transformers.
             this.TextArea.TextView.LineTransformers.Add(new AnsiColorizer());
 
-            _gagElementGenerator = new GagElementGenerator();
-            this.TextArea.TextView.ElementGenerators.Add(_gagElementGenerator);
+            this.Gag = new GagElementGenerator();
+            this.TextArea.TextView.ElementGenerators.Add(this.Gag);
 
             // For custom key handling like trapping copy and paste.
             this.PreviewKeyDown += OnPreviewKeyDown;
@@ -486,7 +489,7 @@ namespace Avalon.Controls
             }
 
             // Remove the line from the collapsed line section if it exists (before deleting it).
-            _gagElementGenerator.UncollapseAfter(lineNumber);
+            this.Gag.UncollapseAfter(lineNumber);
             this.Document.Remove(line.Offset, line.TotalLength);
         }
 
@@ -515,7 +518,7 @@ namespace Avalon.Controls
             }
 
             // Uncollapse all lines after the start line number.
-            _gagElementGenerator.UncollapseAfter(startLineNumber);
+            this.Gag.UncollapseAfter(startLineNumber);
 
             // Find the starting position/offset and the length to remove for the specified
             // set of lines.
@@ -540,7 +543,7 @@ namespace Avalon.Controls
         /// </summary>
         public void ClearText()
         {
-            _gagElementGenerator.UncollapseAll();
+            this.Gag.UncollapseAll();
             this.Text = "";
         }
 
@@ -562,7 +565,7 @@ namespace Avalon.Controls
             // their will eventually be a crash because the collapsed lines are out of sync.
             if (searchFor.Contains('\n'))
             {
-                _gagElementGenerator.UncollapseAll();
+                this.Gag.UncollapseAll();
             }
             
             this.Document.Replace(start, searchFor.Length, replaceWith);
@@ -593,7 +596,7 @@ namespace Avalon.Controls
                 // their will eventually be a crash because the collapsed lines are out of sync.
                 if (searchFor.Contains('\n'))
                 {
-                    _gagElementGenerator.UncollapseAll();
+                    this.Gag.UncollapseAll();
                 }
 
                 this.Document.Replace(index, searchFor.Length, replaceWith);
@@ -627,7 +630,7 @@ namespace Avalon.Controls
                 // their will eventually be a crash because the collapsed lines are out of sync.
                 if (searchFor.Contains('\n'))
                 {
-                    _gagElementGenerator.UncollapseAll();
+                    this.Gag.UncollapseAll();
                 }
             }
 
@@ -728,7 +731,7 @@ namespace Avalon.Controls
             {
                 LineNumber = lineNumber,
                 Text = this.Document.GetText(line.Offset, line.Length),
-                IsGagged = _gagElementGenerator.CollapsedLineSections.ContainsKey(lineNumber),
+                IsGagged = this.Gag.CollapsedLineSections.ContainsKey(lineNumber),
                 Offset = line.Offset,
                 EndOffset = line.EndOffset,
                 IsDeleted = line.IsDeleted,
@@ -766,8 +769,8 @@ namespace Avalon.Controls
         /// </summary>
         public bool GagEnabled
         {
-            get => _gagElementGenerator.Enabled;
-            set => _gagElementGenerator.Enabled = value;
+            get => this.Gag.Enabled;
+            set => this.Gag.Enabled = value;
         }
 
     }
