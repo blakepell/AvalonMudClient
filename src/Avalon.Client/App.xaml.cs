@@ -13,6 +13,7 @@ using Avalon.Common.Plugins;
 using System;
 using System.Threading.Tasks;
 using Argus.Extensions;
+using System.Text;
 
 namespace Avalon
 {
@@ -156,38 +157,20 @@ namespace Avalon
         /// <param name="source"></param>
         private void LogUnhandledException(Exception exception, string source)
         {
-            string message = $"Unhandled exception ({source})";
+            var sb = new StringBuilder();
+            sb.AppendLine($"Unhandled exception ({source})");
+            string logFile = Path.Join(App.Settings.AppDataDirectory, "CrashLog.txt");
 
             try
             {
                 System.Reflection.AssemblyName assemblyName = System.Reflection.Assembly.GetExecutingAssembly().GetName();
-                message = string.Format("Unhandled exception in {0} v{1}", assemblyName.Name, assemblyName.Version);
+                sb.AppendFormat("Unhandled exception in {0} v{1}\r\n", assemblyName.Name, assemblyName.Version);
+                sb.AppendLine(exception.ToFormattedString());
+                File.WriteAllText(logFile, sb.ToString(), Encoding.UTF8);
+            }
+            catch { }
 
-                // Try to clear the text boxes if it was an invalid operation from the avalon edit box.
-                if (exception is InvalidOperationException && source.Equals("ICSharpCode.AvalonEdit", StringComparison.OrdinalIgnoreCase))
-                {
-                    try
-                    {
-                        App.MainWindow.GameTerminal.ClearText();
-                    }
-                    catch { }
-
-                    try
-                    {
-                        App.MainWindow.GameBackBufferTerminal.ClearText();
-                    }
-                    catch { }
-                }
-            }
-            catch (Exception ex)
-            {
-                App.Conveyor.EchoLog("There was an exception in the unhandeled exception catch, did a kender code this?", LogType.Error);
-                App.Conveyor.EchoLog(ex.ToFormattedString(), LogType.Error);
-            }
-            finally
-            {
-                App.Conveyor.EchoLog($"Original unhandled exception: {exception.ToFormattedString()}", LogType.Error);
-            }
+            Environment.Exit(8);
         }
 
     }
