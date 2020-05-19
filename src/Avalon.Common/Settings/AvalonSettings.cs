@@ -169,7 +169,7 @@ namespace Avalon.Common.Settings
         [CategoryAttribute("Error Handling and Reporting")]
         [DescriptionAttribute("Whether or not global exceptions should be handled.  Note: This requires a reboot of the mud client to take effect.")]
         [Browsable(true)]
-        public bool GlobalExceptionHandlingEnabled { get; set; } = true;
+        public bool GlobalExceptionHandlingEnabled { get; set; } = false;
 
     }
 }
