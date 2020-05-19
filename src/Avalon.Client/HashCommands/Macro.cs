@@ -21,7 +21,7 @@ namespace Avalon.HashCommands
 
         public override void Execute()
         {            
-            var macro = App.Settings.ProfileSettings.MacroList.FirstOrDefault(x => x.KeyDescription.ToString() == this.Parameters);
+            var macro = App.Settings.ProfileSettings.MacroList.FirstOrDefault(x => x.KeyDescription == this.Parameters);
 
             if (macro == null)
             {
