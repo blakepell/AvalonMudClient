@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.0.1" />
-    <PackageReference Include="ModernWpfUI" Version="0.8.2" />
+    <PackageReference Include="ModernWpfUI" Version="0.9.0-preview.200515.2" />
   </ItemGroup>
 
   <ItemGroup>
