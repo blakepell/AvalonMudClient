@@ -12,8 +12,8 @@
     <RootNamespace>Avalon</RootNamespace>
     <AssemblyName>Avalon</AssemblyName>
     <ApplicationIcon>Sword.ico</ApplicationIcon>
-    <Version>2020.5.15.1</Version>
-    <AssemblyVersion>2020.5.15.1</AssemblyVersion>
+    <Version>2020.5.20.1</Version>
+    <AssemblyVersion>2020.5.20.1</AssemblyVersion>
     <FileVersion>2020.5.15.1</FileVersion>
     <LangVersion>8.0</LangVersion>
     <Product>Avalon Mud Client</Product>
