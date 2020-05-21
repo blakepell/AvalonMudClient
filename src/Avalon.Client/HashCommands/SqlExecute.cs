@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Argus.Extensions;
 using Avalon.Common.Interfaces;
+using CommandLine;
 using Microsoft.Data.Sqlite;
 
 namespace Avalon.HashCommands
@@ -46,31 +47,68 @@ namespace Avalon.HashCommands
 
             if (this.Parameters.IsNullOrEmptyOrWhiteSpace())
             {
-                Interpreter.Conveyor.EchoLog("Syntax: #sql-execute <SQL statement>", Common.Models.LogType.Information);
+                Interpreter.Conveyor.EchoLog("Syntax: #sql-execute <SQL statement> <parameters>", Common.Models.LogType.Information);
                 return;
             }
 
-            try
-            {
-                // This allow the user to run arbitrary SQL from a trigger or alias.  It is not parameterized due to
-                // the nature of how the user will input it.  Developer mode must be turned on to use this hash command.
-                await using (var conn = new SqliteConnection($"Data Source={App.Settings.ProfileSettings.SqliteDatabase}"))
+            var result = Parser.Default.ParseArguments<Arguments>(CreateArgs(this.Parameters))
+                .WithParsed(async o =>
                 {
-                    await conn.OpenAsync();
-
-                    await using (var cmd = conn.CreateCommand())
+                    try
                     {
-                        cmd.CommandText = this.Parameters;
-                        await cmd.ExecuteNonQueryAsync();
-                    }
-                }
+                        // This allow the user to run arbitrary SQL from a trigger or alias.  It is not parameterized due to
+                        // the nature of how the user will input it.  Developer mode must be turned on to use this hash command.
+                        await using (var conn = new SqliteConnection($"Data Source={App.Settings.ProfileSettings.SqliteDatabase}"))
+                        {
+                            await conn.OpenAsync();
 
-            }
-            catch (Exception ex)
-            {
-                this.Interpreter.Conveyor.EchoLog(ex.Message, Common.Models.LogType.Error);
-            }
+                            await using (var cmd = conn.CreateCommand())
+                            {
+                                cmd.CommandText = o.Sql;
+
+                                if (!string.IsNullOrWhiteSpace(o.Parameter1))
+                                {
+                                    cmd.AddWithValue("@1", o.Parameter1);
+                                }
+                                
+                                if (!string.IsNullOrWhiteSpace(o.Parameter2))
+                                {
+                                    cmd.AddWithValue("@2", o.Parameter2);
+                                }
+
+                                await cmd.ExecuteNonQueryAsync();
+                            }
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        this.Interpreter.Conveyor.EchoLog(ex.Message, Common.Models.LogType.Error);
+                    }
+
+                });
+
+            // Display the help or error output from the parameter parsing.
+            this.DisplayParserOutput(result);
+
 
         }
+
+        /// <summary>
+        /// The supported command line arguments.
+        /// </summary>
+        public class Arguments
+        {
+            [Value(0, Required = true, HelpText = "The SQL to execute.")]
+            public string Sql { get; set; } = "";
+            
+            [Value(1, Required = false, HelpText = "Parameter 1")]
+            public string Parameter1 { get; set; } = "";
+
+            [Value(2, Required = false, HelpText = "Parameter 2")]
+            public string Parameter2 { get; set; } = "";
+
+        }
+
     }
 }
