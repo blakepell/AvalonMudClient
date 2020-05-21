@@ -76,6 +76,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controls\ListManager\" />
     <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 
@@ -90,6 +91,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\MacroEditWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\ListManagerWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\SettingsWindow.xaml">

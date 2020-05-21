@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="Avalon.Controls.ListManager"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Avalon.Controls"
+             xmlns:ui="http://schemas.modernwpf.com/2019"
+             x:Name="ListManagerControl"
+             ui:ThemeManager.RequestedTheme="Dark" 
+             mc:Ignorable="d"
+             Loaded="ListManagerControl_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="75"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
+        <TextBox x:Name="TextBoxAdd" Margin="5"
+                 ui:ControlHelper.CornerRadius="0"
+                 Grid.Row="0" Grid.Column="0"
+                 KeyDown="TextBoxAdd_KeyDown"></TextBox>
+        <Button x:Name="ButtonAdd"
+            Grid.Row="0" Grid.Column="1"
+            ui:ControlHelper.CornerRadius="0"
+            Content="Add Item" HorizontalAlignment="Right" Height="40" Width="75" Margin="0,0,5,0"
+            Click="ButtonAdd_Click"></Button>
+
+        <ListBox x:Name="ListItems" Background="#131313" 
+                 BorderThickness="1" BorderBrush="Gray"
+                 Grid.Row="1" Grid.ColumnSpan="2" 
+                 Margin="5"
+                 ui:ControlHelper.CornerRadius="0"
+                 ScrollViewer.VerticalScrollBarVisibility="Visible"
+                 KeyDown="ListItems_KeyDown">
+        </ListBox>
+    </Grid>
+</UserControl>
