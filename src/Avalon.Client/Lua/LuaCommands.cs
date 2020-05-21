@@ -1,4 +1,5 @@
 ﻿using Argus.Extensions;
+using Avalon.Colors;
 using Avalon.Common.Colors;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
@@ -110,6 +111,38 @@ namespace Avalon.Lua
                     IgnoreLastColor = true
                 };
 
+                _interpreter.Conveyor.EchoText(line, TerminalTarget.Main);
+            }));
+        }
+
+        /// <summary>
+        /// Echos text to the main terminal.
+        /// </summary>
+        /// <param name="msg"></param>
+        public void Echo(string msg, string color, bool reverse)
+        {
+            if (msg == null)
+            {
+                return;
+            }
+
+            if (color == null)
+            {
+                color = "Cyan";
+            }
+
+            var foreground = Colorizer.ColorMapByName(color)?.AnsiColor ?? AnsiColors.Cyan;
+
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                var line = new Line
+                {
+                    FormattedText = $"{msg}\r\n",
+                    ForegroundColor = foreground,
+                    ReverseColors = reverse,
+                    IgnoreLastColor = true
+                };
+                
                 _interpreter.Conveyor.EchoText(line, TerminalTarget.Main);
             }));
         }
