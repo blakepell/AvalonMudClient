@@ -71,6 +71,7 @@ Hash commands that reside in the main project will be general purpose.  Plugins 
 |#update-info-bar|Updates the info bar with the current values of it's underlaying model.|
 |#version|Echos the version of the Avalon Mud Client|
 |#walk|Fast walks a given path|
+|#window|Allows the caller to set the main windows height/width, left/right, title, center the window on the screen or echo window information.|
 
 ## DSL Plugin Hash Commands
 
