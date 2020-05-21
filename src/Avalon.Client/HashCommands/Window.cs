@@ -19,6 +19,13 @@ namespace Avalon.HashCommands
 
         public override void Execute()
         {
+            // If no parameters echo the help.
+            if (string.IsNullOrWhiteSpace(this.Parameters))
+            {
+                this.Interpreter.Send("#window --help");
+                return;
+            }
+
             // Parse the arguments and append to the file.
             var result = Parser.Default.ParseArguments<Arguments>(CreateArgs(this.Parameters))
                 .WithParsed(o =>
