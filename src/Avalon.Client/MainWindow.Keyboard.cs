@@ -27,7 +27,17 @@ namespace Avalon
             {
                 if ((int)e.Key == item.Key)
                 {
-                    Interp.Send(item.Command, false, false);
+                    // If they're recording commands then we are going to add it to the input history, because
+                    // those commands might be directions.
+                    if (!Interp.IsRecordingCommands)
+                    {
+                        Interp.Send(item.Command, false, false);
+                    }
+                    else
+                    {
+                        Interp.Send(item.Command, false, true);
+                    }
+
                     TextInput.Editor.Focus();
                     e.Handled = true;
                     return;

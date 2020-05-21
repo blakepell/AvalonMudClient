@@ -303,6 +303,13 @@ namespace Avalon
         /// <param name="cmd"></param>
         public void AddInputHistory(string cmd)
         {
+            // Tracking all commands that make it here because they are recording them.  This will track -everything-, they can
+            // sort out the results as they see fit then.
+            if (this.IsRecordingCommands)
+            {
+                this.RecordedCommands.Add(cmd);
+            }
+
             // Add the command to the history if it wasn't a blank return
             if (cmd.Length > 0)
             {
@@ -512,6 +519,16 @@ namespace Avalon
         /// A class to handle executing Lua scripts.
         /// </summary>
         public LuaCaller LuaCaller { get; set; }
+
+        /// <summary>
+        /// Whether or not the commands should be recorded into 
+        /// </summary>
+        public bool IsRecordingCommands { get; set; } = false;
+
+        /// <summary>
+        /// Commands that have been recorded
+        /// </summary>
+        public List<string> RecordedCommands { get; set; } = new List<string>();
 
     }
 

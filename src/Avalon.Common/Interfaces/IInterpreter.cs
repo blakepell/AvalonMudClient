@@ -121,5 +121,16 @@ namespace Avalon.Common.Interfaces
         /// The Conveyor class that can be used to interact with the UI.
         /// </summary>
         IConveyor Conveyor { get; set; }
+
+        /// <summary>
+        /// Whether or not the commands should be recorded into 
+        /// </summary>
+        bool IsRecordingCommands { get; set; }
+
+        /// <summary>
+        /// Commands that have been recorded
+        /// </summary>
+        List<string> RecordedCommands { get; set; }
+
     }
 }
