@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Settings;
 using Avalon.Common.Triggers;
@@ -35,6 +36,8 @@ namespace Avalon.Common.Plugins
         public List<object> MenuItems { get; set; }
 
         public bool Initialized { get; set; } = false;
+
+        public Dictionary<string, Type> LuaCommands { get; set; }  = new Dictionary<string, Type>();
 
     }
 }

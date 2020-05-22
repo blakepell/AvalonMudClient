@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Avalon.Common.Settings;
 using Avalon.Common.Triggers;
 
@@ -67,6 +68,12 @@ namespace Avalon.Common.Interfaces
         /// The Conveyor so that the plugin can interact with the UI.
         /// </summary>
         IConveyor Conveyor { get; set; }
+        
+        /// <summary>
+        /// The prefix and Type for commands that should be exposed to Lua.  Each class will need it's own
+        /// prefix/namespace when registered with Lua.
+        /// </summary>
+        Dictionary<string, Type> LuaCommands { get; set; }
 
         /// <summary>
         /// Whether or not the plugin is currently initialized.

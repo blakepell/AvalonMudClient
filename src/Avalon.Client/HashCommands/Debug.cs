@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Argus.Extensions;
 using Avalon.Common.Interfaces;
 
 namespace Avalon.HashCommands
@@ -19,8 +20,8 @@ namespace Avalon.HashCommands
 
         public override void Execute()
         {
-            this.Interpreter.Conveyor.ProgressBarRepeaterStatusVisible = !this.Interpreter.Conveyor.ProgressBarRepeaterStatusVisible;
-            this.Interpreter.Conveyor.ProgressBarRepeaterStatusText = Guid.NewGuid().ToString();
+            this.Interpreter.IsRecordingCommands = true;
+            this.Interpreter.Conveyor.EchoText(this.Interpreter.RecordedCommands.ToDelimitedString(";"));
         }
 
     }

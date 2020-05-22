@@ -30,6 +30,10 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             this.Conveyor.SetCustomTabVisible(CustomTab.Tab2, true);
             this.Conveyor.SetCustomTabLabel(CustomTab.Tab2, "OOC");
 
+            // Only using this to get the type.       
+            Type t = Type.GetType("Avalon.Plugins.DarkAndShatteredLands.Lua.DslLuaCommands, Avalon.Plugins.DarkAndShatteredLands");
+            this.LuaCommands.Add("dsl", t);
+
             this.Initialized = true;
         }
 

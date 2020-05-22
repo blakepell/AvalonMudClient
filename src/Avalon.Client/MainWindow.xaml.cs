@@ -32,7 +32,7 @@ namespace Avalon
         public MainWindow()
         {
             InitializeComponent();
-            
+
             // Set the global reference.
             App.MainWindow = this;
         }
@@ -407,6 +407,18 @@ namespace Avalon
                             // Add it to the list of HashCommands.
                             Interp.HashCommands.Add(item);
                         }
+                    }
+
+                    // Add any custom Lua commands if everything is setup correctly for them.
+                    foreach (var item in plugin.LuaCommands)
+                    {
+                        if (item.Key == null || item.Value == null)
+                        {
+                            App.Conveyor.EchoLog($"Null LuaCommand from {plugin.IpAddress}", LogType.Error);
+                            continue;
+                        }
+
+                        Interp.LuaCaller.RegisterType(item.Value, item.Key);
                     }
 
                     App.Conveyor.EchoLog($"Plugins Loaded For: {plugin.IpAddress}", LogType.Success);

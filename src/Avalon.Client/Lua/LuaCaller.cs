@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Threading;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
@@ -41,6 +43,34 @@ namespace Avalon.Lua
         }
 
         /// <summary>
+        /// The currently/dynamically loaded CLR types that can be exposed to Lua, probably
+        /// through plugins.
+        /// </summary>
+        private Dictionary<string, Type> _clrTypes = new Dictionary<string, Type>();
+
+        /// <summary>
+        /// Register a CLR type for use with Lua.
+        /// </summary>
+        /// <param name="o"></param>
+        /// <param name="prefix"></param>
+        public void RegisterType(Type t, string prefix)
+        {
+            if (!_clrTypes.ContainsKey(prefix))
+            {
+                UserData.RegisterType(t);
+                _clrTypes.Add(prefix, t);
+            }
+        }    
+
+        /// <summary>
+        /// Clears the custom loaded types from LuaCaller.RegisterType.
+        /// </summary>
+        public void ClearTypes()
+        {
+            _clrTypes.Clear();
+        }
+
+        /// <summary>
         /// Executes a Lua script synchronously.
         /// </summary>
         /// <param name="luaCode"></param>
@@ -62,6 +92,18 @@ namespace Avalon.Lua
                 // Create a UserData, again, explicitly.
                 var luaCmd = UserData.Create(new LuaCommands(_interpreter, _random));
                 lua.Globals.Set("lua", luaCmd);
+
+                // Dynamic types from plugins.
+                foreach (var item in _clrTypes)
+                {
+                    // Set the actual class that has the Lua commands.
+                    var instance = Activator.CreateInstance(item.Value) as ILuaCommand;
+                    instance.Interpreter = _interpreter;
+
+                    // Add it in.
+                    var instanceLua = UserData.Create(instance);
+                    lua.Globals.Set(item.Key, instanceLua);
+                }
 
                 // Set the global variables that are specifically only available in Lua.
                 lua.Globals["global"] = _luaGlobalVariables;
@@ -134,6 +176,18 @@ namespace Avalon.Lua
                     // Custom Lua Commands
                     var luaCmd = UserData.Create(new LuaCommands(_interpreter, _random));
                     lua.Globals.Set("lua", luaCmd);
+
+                    // Dynamic types from plugins.
+                    foreach (var item in _clrTypes)
+                    {
+                        // Set the actual class that has the Lua commands.
+                        var instance = Activator.CreateInstance(item.Value) as ILuaCommand;
+                        instance.Interpreter = _interpreter;
+
+                        // Add it in.
+                        var instanceLua = UserData.Create(instance);
+                        lua.Globals.Set(item.Key, instanceLua);
+                    }
 
                     // Set the global variables that are specifically only available in Lua.
                     lua.Globals["global"] = _luaGlobalVariables;
