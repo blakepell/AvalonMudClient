@@ -1070,8 +1070,8 @@ namespace Avalon
         public void ResetGridState()
         {
             Row1.Height = new GridLength(0, GridUnitType.Auto);
-            Row2.Height = new GridLength(3.0, GridUnitType.Star);
-            Row3.Height = new GridLength(7.0, GridUnitType.Star);
+            Row2.Height = new GridLength(7.0, GridUnitType.Star);
+            Row3.Height = new GridLength(3.0, GridUnitType.Star);
             Row4.Height = new GridLength(1.0, GridUnitType.Auto);
             Row5.Height = new GridLength(1.0, GridUnitType.Auto);
             Col1.Width = new GridLength(55.0, GridUnitType.Star);
