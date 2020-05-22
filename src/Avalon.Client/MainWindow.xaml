@@ -82,7 +82,7 @@
                         <ColumnDefinition Width="45*" x:Name="Col2"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
 
-                    <Menu x:Name="MenuGame" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="0,0,0,1" Background="#171717">
+                    <Menu x:Name="MenuGame" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="0,0,0,.9" Background="#171717">
                         <MenuItem Header="_File">
                             <MenuItem x:Name="MenuNetworkButton" Header="Connect" Click="NetworkButton_Click">
                                 <MenuItem.Icon>
@@ -252,7 +252,7 @@
 
                     <Border x:Name="Panel2" x:FieldModifier="public"
                             Grid.Row="1" Grid.Column="1"
-                            Margin="0" BorderThickness=".9,.9,0,0" BorderBrush="Gray">
+                            Margin="0" BorderThickness=".9,0,0,0" BorderBrush="Gray">
                         <controls:TabControlEx x:Name="TabCustom" Margin="0,0,0,0" SelectionChanged="TabCustom_SelectionChanged">
                             <TabControl.Resources>
                                 <ResourceDictionary>
@@ -323,7 +323,7 @@
 
                     <Border x:Name="Panel1" x:FieldModifier="public" 
                             Grid.Row="2" Grid.Column="1"
-                            Margin="0" Padding="0" BorderThickness=".9,0,0,0" BorderBrush="Gray">
+                            Margin="0" Padding="0" BorderThickness=".9,.9,0,0" BorderBrush="Gray">
                         <controls:BarRepeater x:Name="BarRepeater" x:FieldModifier="public" Margin="0,0,0,0"></controls:BarRepeater>
                     </Border>
 
