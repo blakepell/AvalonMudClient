@@ -62,7 +62,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             this.Triggers.Add(new Trigger(@"^(personal> )?Keep Lord clans '(.*) is invading (.*)!'", "", "", true, "16f9a412-a6ef-4b5d-a2b7-4dd36f117416", TerminalTarget.Terminal1, false));
 
             // Login, find out who the player is and put it into a variable.  Run whoami and then score to scrap initial info.
-            this.Triggers.Add(new Trigger(@"^Welcome to DSL! DSL Loves You! Other muds think you are ugly, they said so", "whoami;score;#set-prompt"));
+            this.Triggers.Add(new Trigger(@"^Welcome to DSL! DSL Loves You! Other muds think you are ugly, they said so", "whoami;score;aff;#set-prompt"));
 
             // Re-enable the whois trigger which will disable itself when run again.
             this.Triggers.Add(new Trigger(@"Reconnecting. Type replay to see missed tells.", "#trigger -i 0000f3e4-9ab9-4f52-9e29-0ba6d88348a6 -e;whoami;score"));
@@ -158,6 +158,8 @@ end";
             this.HashCommands.Add(new HashCommands.ScanAll());
             this.HashCommands.Add(new HashCommands.RemoveAffect(_affectsTrigger));
             this.HashCommands.Add(new HashCommands.PartialAffect(_affectsTrigger));
+            this.HashCommands.Add(new HashCommands.IfNotAffected(_affectsTrigger));
+            this.HashCommands.Add(new HashCommands.IfAffected(_affectsTrigger));
             this.HashCommands.Add(new HashCommands.DslVersion());
             this.HashCommands.Add(new HashCommands.Edit());
             this.HashCommands.Add(new HashCommands.ConCard());
