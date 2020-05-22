@@ -512,6 +512,23 @@ namespace Avalon
         }
 
         /// <summary>
+        /// Returns a trigger for the specified id.  If no trigger is found a null is returned.
+        /// </summary>
+        /// <param name="id"></param>
+        public ITrigger FindTrigger(string id)
+        {
+            ITrigger trigger = App.Settings.ProfileSettings.TriggerList.FirstOrDefault(x => x.Identifier.Equals(id, StringComparison.Ordinal));
+
+            // If the trigger is null, go through the system triggers.
+            if (trigger == null)
+            {
+                trigger = App.SystemTriggers.FirstOrDefault(x => x.Identifier.Equals(id, StringComparison.Ordinal));
+            }
+
+            return trigger;
+        }
+
+        /// <summary>
         /// Imports a JSON package into the currently loaded profile.
         /// </summary>
         /// <param name="json"></param>
