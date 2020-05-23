@@ -23,16 +23,13 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             this.LoadMenu();
             this.LoadHashCommands();
             this.ResetVariables();
+            this.LoadLuaCommands();
 
             this.Conveyor.SetCustomTabVisible(CustomTab.Tab1, true);
             this.Conveyor.SetCustomTabLabel(CustomTab.Tab1, "In Character");
 
             this.Conveyor.SetCustomTabVisible(CustomTab.Tab2, true);
             this.Conveyor.SetCustomTabLabel(CustomTab.Tab2, "OOC");
-
-            // Only using this to get the type.       
-            Type t = Type.GetType("Avalon.Plugins.DarkAndShatteredLands.Lua.DslLuaCommands, Avalon.Plugins.DarkAndShatteredLands");
-            this.LuaCommands.Add("dsl", t);
 
             this.Initialized = true;
         }
@@ -152,6 +149,21 @@ end";
             var rd = new System.Windows.ResourceDictionary();
             rd.Source = new Uri("/Avalon.Plugins.DarkAndShatteredLands;component/Menu/DslMenuItem.xaml", UriKind.Relative);
             this.MenuItems.Add(rd);
+        }
+
+        /// <summary>
+        /// Loads any custom CLR functions we'll pass to Lua.
+        /// </summary>
+        public void LoadLuaCommands()
+        {
+            // Only using this to get the type.       
+            if (this.LuaCommands.Count > 0)
+            {
+                return;
+            }
+
+            Type t = Type.GetType("Avalon.Plugins.DarkAndShatteredLands.Lua.DslLuaCommands, Avalon.Plugins.DarkAndShatteredLands");
+            this.LuaCommands.Add("dsl", t);
         }
 
         /// <summary>
