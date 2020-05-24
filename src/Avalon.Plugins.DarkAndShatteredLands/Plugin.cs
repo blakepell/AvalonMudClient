@@ -176,6 +176,7 @@ end";
             this.HashCommands.Add(new HashCommands.PartialAffect(_affectsTrigger));
             this.HashCommands.Add(new HashCommands.IfNotAffected(_affectsTrigger));
             this.HashCommands.Add(new HashCommands.IfAffected(_affectsTrigger));
+            this.HashCommands.Add(new HashCommands.OpenAll());
             this.HashCommands.Add(new HashCommands.DslVersion());
             this.HashCommands.Add(new HashCommands.Edit());
             this.HashCommands.Add(new HashCommands.ConCard());
