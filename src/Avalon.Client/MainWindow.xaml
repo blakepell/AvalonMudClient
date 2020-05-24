@@ -50,10 +50,12 @@
     </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="local:MainWindow.LoadPlugin" Executed="MenuItemManuallyLoadPlugin_Click" />
+        <CommandBinding Command="local:MainWindow.EditLastItem" Executed="MenuItemOpenLastEdittedAliasOrTrigger_Click" />
         <CommandBinding Command="local:MainWindow.SelectElement" Executed="SelectElementInternal" />
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Command="local:MainWindow.LoadPlugin" Key="P" Modifiers="Ctrl+Alt" />
+        <KeyBinding Command="local:MainWindow.EditLastItem" Key="L" Modifiers="Ctrl+Alt" />
         <KeyBinding Command="local:MainWindow.SelectElement" Key="D1" Modifiers="Ctrl" CommandParameter="CustomTab1" />
         <KeyBinding Command="local:MainWindow.SelectElement" Key="D2" Modifiers="Ctrl" CommandParameter="CustomTab2" />
         <KeyBinding Command="local:MainWindow.SelectElement" Key="D3" Modifiers="Ctrl" CommandParameter="CustomTab3" />
@@ -137,6 +139,12 @@
                             <MenuItem Header="E_xit" x:Name="ButtonExit" Click="ButtonExit_OnClick" />
                         </MenuItem>
                         <MenuItem Header="_View">
+                            <MenuItem Header="Open Last Editted Alias or Trigger" Click="MenuItemOpenLastEdittedAliasOrTrigger_Click" InputGestureText="Ctrl+Alt+L">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon Symbol="BackToWindow" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator />
                             <MenuItem Header="Reset Layout" Click="MenuItemResetLayout_Click">
                                 <MenuItem.Icon>
                                     <ui:SymbolIcon Symbol="Undo" />

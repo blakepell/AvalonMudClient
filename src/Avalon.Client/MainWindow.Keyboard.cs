@@ -284,6 +284,11 @@ namespace Avalon
         public static readonly RoutedUICommand SelectElement = new RoutedUICommand("SelectElement", "SelectElement", typeof(MainWindow));
 
         /// <summary>
+        /// For handling executing the edit last item via a hot-key.
+        /// </summary>
+        public static readonly RoutedUICommand EditLastItem = new RoutedUICommand("EditLastItem", "EditLastItem", typeof(MainWindow));
+
+        /// <summary>
         /// Handler to select an element.
         /// </summary>
         private void SelectElementInternal(object sender, ExecutedRoutedEventArgs e)

@@ -207,13 +207,17 @@ namespace Avalon.Controls
             // Show what trigger is being edited in the status bar of the string editor window.
             win.StatusText = $"Trigger: {trigger.Pattern}";
 
-            // Show the Lua dialog.
-            var result = win.ShowDialog();
+            // Save the last item and type so the Control+Alt+L alias can re-open it.
+            App.InstanceGlobals.LastEdittedId = trigger.Identifier;
+            App.InstanceGlobals.LastEditted = InstanceGlobals.EditItem.Trigger;
 
             // Startup position of the dialog should be in the center of the parent window.  The
             // owner has to be set for this to work.
             win.Owner = App.MainWindow;
             win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+            // Show the Lua dialog.
+            var result = win.ShowDialog();
 
             // If the result
             if (result != null && result.Value)

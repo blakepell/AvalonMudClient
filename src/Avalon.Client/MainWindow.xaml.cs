@@ -1310,5 +1310,99 @@ namespace Avalon
             var result = win.ShowDialog();
         }
 
+        private async void MenuItemOpenLastEdittedAliasOrTrigger_Click(object sender, RoutedEventArgs e)
+        {
+            if (App.InstanceGlobals.LastEditted == InstanceGlobals.EditItem.None)
+            {
+                await this.MsgBox("No triggers or aliases have been editted this session.", "Edit Last Alias or Trigger");
+                return;
+            }
+
+            if (App.InstanceGlobals.LastEditted == InstanceGlobals.EditItem.Alias)
+            {
+                // Get the alias from the current line.
+                var alias = App.Settings.ProfileSettings.AliasList.FirstOrDefault(x => x.AliasExpression.Equals(App.InstanceGlobals.LastEdittedId, StringComparison.OrdinalIgnoreCase));
+
+                // Hmm, no alias.. gracefully exit.
+                if (alias == null)
+                {
+                    await this.MsgBox("No alias you wish to edit could not be found or no longer existts.", "Edit Last Alias or Trigger");
+                    return;
+                }
+
+                // Set the initial text for the editor.
+                var win = new StringEditor
+                {
+                    Text = alias.Command
+                };
+
+                // Set the initial type for highlighting.
+                if (alias.IsLua)
+                {
+                    win.EditorMode = StringEditor.EditorType.Lua;
+                }
+
+                // Show what alias is being edited in the status bar of the string editor window.
+                win.StatusText = $"Alias: {alias.AliasExpression}";
+
+                // Startup position of the dialog should be in the center of the parent window.  The
+                // owner has to be set for this to work.
+                win.Owner = App.MainWindow;
+                win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+                // Show the Lua dialog.
+                var result = win.ShowDialog();
+
+                // If the result
+                if (result != null && result.Value)
+                {
+                    alias.Command = win.Text;
+                }
+
+            }
+            else if (App.InstanceGlobals.LastEditted == InstanceGlobals.EditItem.Trigger)
+            {
+                // Get the Trigger from the current line.
+                var trigger = App.Settings.ProfileSettings.TriggerList.FirstOrDefault(x => x.Identifier.Equals(App.InstanceGlobals.LastEdittedId, StringComparison.OrdinalIgnoreCase));
+
+                // Hmm, no Trigger.. gracefully exit.
+                if (trigger == null)
+                {
+                    await this.MsgBox("No trigger you wish to edit could not be found or no longer existts.", "Edit Last Alias or Trigger");
+                    return;
+                }
+
+                // Set the initial text for the editor.
+                var win = new StringEditor
+                {
+                    Text = trigger.Command
+                };
+
+                if (trigger.IsLua)
+                {
+                    win.EditorMode = StringEditor.EditorType.Lua;
+                }
+
+                // Show what trigger is being edited in the status bar of the string editor window.
+                win.StatusText = $"Trigger: {trigger.Pattern}";
+
+                // Startup position of the dialog should be in the center of the parent window.  The
+                // owner has to be set for this to work.
+                win.Owner = App.MainWindow;
+                win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+                // Show the Lua dialog.
+                var result = win.ShowDialog();
+
+                // If the result
+                if (result != null && result.Value)
+                {
+                    trigger.Command = win.Text;
+                }
+
+            }
+
+        }
+
     }
 }

@@ -56,6 +56,12 @@ namespace Avalon
         public static Toast Toast { get; set; } = new Toast();
 
         /// <summary>
+        /// Global variables that are specific to this instance and not persisted across boots of
+        /// the mud client.
+        /// </summary>
+        internal static InstanceGlobals InstanceGlobals { get; set; } = new InstanceGlobals();
+
+        /// <summary>
         /// An override to force skipping a save on exit in case someone borked their settings up.
         /// </summary>
         internal static bool SkipSaveOnExit { get; set; } = false;
