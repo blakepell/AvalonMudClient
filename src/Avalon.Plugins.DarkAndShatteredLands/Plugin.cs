@@ -1,7 +1,9 @@
 ﻿using Avalon.Common.Models;
 using Avalon.Common.Triggers;
 using Avalon.Plugins.DarkAndShatteredLands.Affects;
+using Microsoft.Data.Sqlite;
 using System;
+using System.Collections.Generic;
 
 namespace Avalon.Plugins.DarkAndShatteredLands
 {
@@ -24,6 +26,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             this.LoadHashCommands();
             this.ResetVariables();
             this.LoadLuaCommands();
+            this.CreateDbTables();
 
             this.Conveyor.SetCustomTabVisible(CustomTab.Tab1, true);
             this.Conveyor.SetCustomTabLabel(CustomTab.Tab1, "In Character");
@@ -45,7 +48,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             }
 
             // IC Channels: Clan gossip, clan, gossip, ask, answer, kingdom, group tells, tells, auction, pray, grats, quest (quote at the end)
-            this.Triggers.Add(new Trigger(@"^[\a]?(\[ .* \] )?([\w'-]+|The ghost of [\w'-]+|\(An Imm\)|\(Imm\) [\w'-]+|\(Wizi@\d\d\) \(Imm\) [\w'-]+) (\bclan gossip(s?)\b|\bclan(s?)\b|\bgossip(s?)\b|\bask(s?)\b|\banswers(s?)\b|\btell(s?)\b|\bBloodbath(s?)\b|\bpray(s?)\b|\bgrats\b|\bauction(s?)\b|\bquest(s?)\b|\bradio(s?)\b|\bimm(s?)\b).*'$", "", "", true, "8b0bc970-08de-498e-9866-8e1aec458c08", TerminalTarget.Terminal1, true));            
+            this.Triggers.Add(new Trigger(@"^[\a]?(\[ .* \] )?([\w'-]+|The ghost of [\w'-]+|\(An Imm\)|\(Imm\) [\w'-]+|\(Wizi@\d\d\) \(Imm\) [\w'-]+) (\bclan gossip(s?)\b|\bclan(s?)\b|\bgossip(s?)\b|\bask(s?)\b|\banswers(s?)\b|\btell(s?)\b|\bBloodbath(s?)\b|\bpray(s?)\b|\bgrats\b|\bauction(s?)\b|\bquest(s?)\b|\bradio(s?)\b|\bimm(s?)\b).*'$", "", "", true, "8b0bc970-08de-498e-9866-8e1aec458c08", TerminalTarget.Terminal1, true));
             this.Triggers.Add(new Trigger(@"^[\a]?(\[ .* \] )?(?!.*OOC).*Kingdom: .*$", "", "", true, "1dcf2580-da86-45b5-880f-36f9468891c1", TerminalTarget.Terminal1, true));
             this.Triggers.Add(new Trigger(@"\((Admin|Coder)\) \(Imm\) [\w'-]+:", "", "", true, "b5c8f16b-31d1-48e9-a895-fda1be732051", TerminalTarget.Terminal1, true));
 
@@ -86,7 +89,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands
 local clan = lua:GetVariable(""Clan"")
 
 if clan ~= nil and clan ~= """" and clan ~= ""Loner"" and clan ~= ""Renegade"" and clan ~= ""Dragon"" and clan ~= ""Angel"" and clan ~= ""Balanx"" and clan ~= ""Demon"" then
-    lua:Send(""cinfo "" ..clan)
+	lua:Send(""cinfo "" ..clan)
 end";
 
             this.Triggers.Add(t);
@@ -209,6 +212,35 @@ end";
             this.Conveyor.SetVariable("PKPLevel", "0");
             this.Conveyor.SetVariable("Level", "1");
             this.Conveyor.SetVariable("Class", "");
+        }
+
+        /// <summary>
+        /// Creates any database tables that we add custom triggers for.
+        /// </summary>
+        public async void CreateDbTables()
+        {
+            await using (var conn = new SqliteConnection($"Data Source={this.ProfileSettings.SqliteDatabase}"))
+            {
+                await conn.OpenAsync();
+
+                await using (var cmd = conn.CreateCommand())
+                {
+                    var list = new List<string>();
+                    list.Add(@"
+								CREATE TABLE IF NOT EXISTS skills (
+									player_name TEXT NOT NULL,
+									skill_name TEXT NOT NULL,
+									value INT,
+									PRIMARY KEY (player_name, skill_name)
+								);");
+
+                    foreach (string sql in list)
+                    {
+                        cmd.CommandText = sql;
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+                }
+            }
         }
 
     }
