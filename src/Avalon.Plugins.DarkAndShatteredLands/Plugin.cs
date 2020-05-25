@@ -1,4 +1,5 @@
-﻿using Avalon.Common.Models;
+﻿using Argus.Extensions;
+using Avalon.Common.Models;
 using Avalon.Common.Triggers;
 using Avalon.Plugins.DarkAndShatteredLands.Affects;
 using Microsoft.Data.Sqlite;
@@ -21,12 +22,20 @@ namespace Avalon.Plugins.DarkAndShatteredLands
         {
             this.Conveyor.Title = "Dark and Shattered Lands";
 
-            this.LoadTriggers();
-            this.LoadMenu();
-            this.LoadHashCommands();
-            this.ResetVariables();
-            this.LoadLuaCommands();
-            this.CreateDbTables();
+            try
+            {
+                this.LoadTriggers();
+                this.LoadMenu();
+                this.LoadHashCommands();
+                this.ResetVariables();
+                this.LoadLuaCommands();
+                this.CreateDbTables();
+            }
+            catch (Exception ex)
+            {
+                this.Conveyor.EchoLog("An error occurred in the DSL plugin Initialize method.", LogType.Error);
+                this.Conveyor.EchoLog(ex.ToFormattedString(), LogType.Error);
+            }
 
             this.Conveyor.SetCustomTabVisible(CustomTab.Tab1, true);
             this.Conveyor.SetCustomTabLabel(CustomTab.Tab1, "In Character");
