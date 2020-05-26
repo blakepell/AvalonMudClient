@@ -30,6 +30,47 @@ namespace Avalon.HashCommands
             var result = Parser.Default.ParseArguments<Arguments>(CreateArgs(this.Parameters))
                 .WithParsed(o =>
                 {
+                    // First, new window handling.
+                    if (o.NewWindow)
+                    {
+                        if (string.IsNullOrWhiteSpace(o.Name))
+                        {
+                            this.Interpreter.Conveyor.EchoLog("You must specify the 'name' switch with -x or --name when creating a new terminal window.", Common.Models.LogType.Error);
+                            return;
+                        }
+
+                        var win = new TerminalWindow();
+                        win.Name = o.Name;
+
+                        if (o.Left >= 0)
+                        {
+                            win.Left = o.Left;
+                        }
+
+                        if (o.Top >= 0)
+                        {
+                            win.Top = o.Top;
+                        }
+
+                        if (o.Height > 0)
+                        {
+                            win.Height = 0;
+                        }
+
+                        if (o.Width > 0)
+                        {
+                            win.Width = 0;
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(o.Title))
+                        {
+                            win.Title = o.Title;
+                        }
+
+                        win.Show();
+
+                    }
+
                     if (o.Info)
                     {
                         this.Interpreter.Conveyor.EchoText($"Width = {App.MainWindow.Width},  Height = {App.MainWindow.Height}");
@@ -103,6 +144,12 @@ namespace Avalon.HashCommands
 
             [Option("title", Required = false, HelpText = "The title of the window.")]
             public string Title { get; set; }
+
+            [Option('n', "new", Required = false, HelpText = "Spawns a new terminal window and applies the additional settings to that window.")]
+            public bool NewWindow { get; set; } = false;
+
+            [Option('x', "name", Required = false, HelpText = "The name of the of the new terminal window that is required to echo to it.")]
+            public string Name { get; set; }
 
         }
 
