@@ -39,7 +39,7 @@ Hash commands that reside in the main project will be general purpose.  Plugins 
 |#clear|Clears the terminal window or any of the specified panels that contain text.|
 |#cmd-list|Lists all of the available hash commands.|
 |#disable|Global disables of all triggers or all aliases.|
-|#echo|Echos text to the terminal.|
+|#echo|Echos text to the terminal.  Supports ANSI colors in Lopes style format.  e.g. {R = Red|
 |#echo-event|Echos and event the default or any specified terminal.|
 |#enable|Global enable or aliases or triggers.|
 |#end|Exits the application|
@@ -71,7 +71,7 @@ Hash commands that reside in the main project will be general purpose.  Plugins 
 |#update-info-bar|Updates the info bar with the current values of it's underlaying model.|
 |#version|Echos the version of the Avalon Mud Client|
 |#walk|Fast walks a given path|
-|#window|Allows the caller to set the main windows height/width, left/right, title, center the window on the screen or echo window information.|
+|#window|Allows the caller to set the main windows height/width, left/right, title, center the window on the screen or echo window information.  The caller may also create new terminal windows with this command that can be written to.|
 
 ## DSL Plugin Hash Commands
 
@@ -82,6 +82,7 @@ Hash commands that reside in the main project will be general purpose.  Plugins 
 |#online|Retrieves who is playing the game as per the dsl-mud.org web-site.|
 |#con-card|Checks on the status of a submitted con card.|
 |#scan-all|Scans in the directions that are available from the current room.|
-|#wiki|Starts a browser and runs a search on the DSL Wiki|
-|#remove-affect|Removes an affect by name from the current affects list|
-|#partial-affect|Adds or updates an affect whose duration or modifiers aren't known|
+|#wiki|Starts a browser and runs a search on the DSL Wiki.|
+|#remove-affect|Removes an affect by name from the current affects list.|
+|#partial-affect|Adds or updates an affect whose duration or modifiers aren't known.|
+|#open-all|Attempts to open doors in all directions.|

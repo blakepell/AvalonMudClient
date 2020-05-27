@@ -22,6 +22,7 @@
 4. If you download any shared triggers and aliases and make changes to them you can use the `Lock` feature to lock them.  You will still be able to manually update them but auto-updates will skip these.  This means you can alter the stock triggers and make sure your changes are the ones that stay (but also be able to update the rest of them).
 5. To add a new record in the `Aliases`, `Triggers` or `Directions` tab scroll to the bottom of the grid and begin adding in the last row.  Note: In the future we will also have custom entry forms that will be more robust.
 6. If you have a large amount of text to to the game, like a note, you can use the `Tools->Send Text to Game`.  This will send your text line by line with a small pause in between each line to prevent disconnections in the case where some muds disconnect you for spamming too many commands at once (which is common Diku muds).
+7. If the `#echo` hash command is used to echo to a terminal, it can be coupled with supported [color codes](./MudColorCodes.md) in Lopes format.
 
 ### Built in Hot Keys
 
@@ -29,3 +30,4 @@
 2. `Control+1`, `Control+2`, `Control+3` will jump to each of the custom tabs.
 3. `Page Up` and `Page Down` will activate and scroll through the back buffer when the input box is active.
 4. `Escape` will clear the input box as well as close the back buffer.
+5. `Control+Alt+L` will open the editor for the last trigger or alias you edited.
