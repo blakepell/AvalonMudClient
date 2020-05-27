@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using Avalon.Common.Colors;
 using Avalon.Common.Models;
@@ -33,6 +34,10 @@ namespace Avalon.Common.Interfaces
         void EchoText(string text, TerminalTarget target);
 
         void EchoText(Line line, TerminalTarget target);
+
+        void EchoText(string text, string windowName);
+
+        void EchoText(Line line, string windowName);
 
         void EchoLog(string text, LogType type);
 
@@ -91,5 +96,7 @@ namespace Avalon.Common.Interfaces
         bool ProgressBarRepeaterStatusVisible { get; set; }
 
         WindowPosition GetWindowPosition { get; }
+
+        List<ITerminalWindow> TerminalWindowList { get; set; }
     }
 }

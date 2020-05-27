@@ -1,4 +1,5 @@
-﻿using Avalon.Common.Models;
+﻿using Avalon.Common.Interfaces;
+using Avalon.Common.Models;
 using System.Windows;
 
 namespace Avalon
@@ -6,7 +7,7 @@ namespace Avalon
     /// <summary>
     /// A simple Lua highlighted text editor for use with editing Lua scripts.
     /// </summary>
-    public partial class TerminalWindow : Window
+    public partial class TerminalWindow : Window, ITerminalWindow
     {
         /// <summary>
         /// The value of the Lua text editor.
@@ -42,6 +43,17 @@ namespace Avalon
         private void TerminalWindowWindow_Loaded(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        /// <summary>
+        /// Fires when the window is closed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TerminalWindowWindow_Closed(object sender, System.EventArgs e)
+        {
+            // Remove this specific window from the shared Conveyor's window list.
+            App.Conveyor.TerminalWindowList.Remove(this);
         }
 
         /// <summary>

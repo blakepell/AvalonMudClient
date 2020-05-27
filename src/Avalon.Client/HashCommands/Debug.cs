@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Accessibility;
 using Argus.Extensions;
 using Avalon.Common.Interfaces;
 
@@ -20,8 +21,7 @@ namespace Avalon.HashCommands
 
         public override void Execute()
         {
-            this.Interpreter.IsRecordingCommands = true;
-            this.Interpreter.Conveyor.EchoText(this.Interpreter.RecordedCommands.ToDelimitedString(";"));
+            this.Interpreter.Conveyor.EchoText("Hello, this is some text from the game probably.", "testWin");
         }
 
     }

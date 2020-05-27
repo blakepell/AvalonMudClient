@@ -67,6 +67,9 @@ namespace Avalon.HashCommands
                             win.Title = o.Title;
                         }
 
+                        // Add the terminal window to our list.
+                        this.Interpreter.Conveyor.TerminalWindowList.Add(win);
+
                         win.Show();
 
                     }

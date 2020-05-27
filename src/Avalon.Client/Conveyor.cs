@@ -10,6 +10,7 @@ using Avalon.Extensions;
 using Avalon.Common.Models;
 using System.Threading.Tasks;
 using Avalon.Colors;
+using System.Collections.Generic;
 
 namespace Avalon
 {
@@ -742,6 +743,40 @@ namespace Avalon
         }
 
         /// <summary>
+        /// Echos text to the specified user spawned terminal window if it exists.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="windowName"></param>
+        public void EchoText(string text, string windowName)
+        {
+            var win = this.TerminalWindowList.FirstOrDefault(x => x.Name.Equals(windowName, StringComparison.Ordinal));
+            
+            if (win == null)
+            {
+                return;
+            }
+
+            win.AppendText(text);
+        }
+
+        /// <summary>
+        /// Echos a line to the specified user spawned terminal window if it exists.
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="windowName"></param>
+        public void EchoText(Line line, string windowName)
+        {
+            var win = this.TerminalWindowList.FirstOrDefault(x => x.Name.Equals(windowName, StringComparison.Ordinal));
+
+            if (win == null)
+            {
+                return;
+            }
+
+            win.AppendText(line);
+        }
+
+        /// <summary>
         /// Returns information about the current WindowPosition.
         /// </summary>
         public WindowPosition GetWindowPosition
@@ -827,7 +862,13 @@ namespace Avalon
 
         /// <summary>
         /// Retuns the client settings that are specific to the workstation
-        /// </summary>
+        /// </summary>        
         public AvalonSettings ClientSettings => App.Settings.AvalonSettings;
+
+        /// <summary>
+        /// A list of user spawned terminal windows that can be written to.
+        /// </summary>
+        public List<ITerminalWindow> TerminalWindowList { get; set; } = new List<ITerminalWindow>();
+
     }
 }
