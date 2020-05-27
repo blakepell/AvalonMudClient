@@ -1,5 +1,6 @@
 ﻿using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
+using System.Text;
 using System.Windows;
 
 namespace Avalon
@@ -72,6 +73,15 @@ namespace Avalon
         public void AppendText(Line line)
         {
             Terminal.Append(line);
+        }
+
+        /// <summary>
+        /// Appends a StringBuilder to the terminal.
+        /// </summary>
+        /// <param name="sb"></param>
+        public void AppendText(StringBuilder sb)
+        {
+            Terminal.Append(sb, true);
         }
 
     }

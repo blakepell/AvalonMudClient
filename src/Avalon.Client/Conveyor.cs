@@ -253,6 +253,50 @@ namespace Avalon
         }
 
         /// <summary>
+        /// Echos text to the specified user spawned terminal window if it exists.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="windowName"></param>
+        public void EchoText(string text, string windowName)
+        {
+            var win = this.TerminalWindowList.FirstOrDefault(x => x.Name.Equals(windowName, StringComparison.Ordinal));
+
+            if (win == null)
+            {
+                this.EchoLog($"The window '{windowName}' was not found.", LogType.Warning);
+                return;
+            }
+
+            var sb = Argus.Memory.StringBuilderPool.Take(text);
+            Colorizer.MudToAnsiColorCodes(sb);
+            win.AppendText(sb);
+            Argus.Memory.StringBuilderPool.Return(sb);
+        }
+
+        /// <summary>
+        /// Echos a line to the specified user spawned terminal window if it exists.
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="windowName"></param>
+        public void EchoText(Line line, string windowName)
+        {
+            var win = this.TerminalWindowList.FirstOrDefault(x => x.Name.Equals(windowName, StringComparison.Ordinal));
+            
+            if (win == null)
+            {
+                this.EchoLog($"The window '{windowName}' was not found.", LogType.Warning);
+                return;
+            }
+
+            var sb = Argus.Memory.StringBuilderPool.Take(line.FormattedText);
+            Colorizer.MudToAnsiColorCodes(sb);
+            line.FormattedText = sb.ToString();
+            Argus.Memory.StringBuilderPool.Return(sb);
+
+            win.AppendText(line);
+        }
+
+        /// <summary>
         /// Echos a log line to the terminal.
         /// </summary>
         /// <param name="text"></param>
@@ -740,40 +784,6 @@ namespace Avalon
                         break;
                 }
             }));
-        }
-
-        /// <summary>
-        /// Echos text to the specified user spawned terminal window if it exists.
-        /// </summary>
-        /// <param name="text"></param>
-        /// <param name="windowName"></param>
-        public void EchoText(string text, string windowName)
-        {
-            var win = this.TerminalWindowList.FirstOrDefault(x => x.Name.Equals(windowName, StringComparison.Ordinal));
-            
-            if (win == null)
-            {
-                return;
-            }
-
-            win.AppendText(text);
-        }
-
-        /// <summary>
-        /// Echos a line to the specified user spawned terminal window if it exists.
-        /// </summary>
-        /// <param name="line"></param>
-        /// <param name="windowName"></param>
-        public void EchoText(Line line, string windowName)
-        {
-            var win = this.TerminalWindowList.FirstOrDefault(x => x.Name.Equals(windowName, StringComparison.Ordinal));
-
-            if (win == null)
-            {
-                return;
-            }
-
-            win.AppendText(line);
         }
 
         /// <summary>

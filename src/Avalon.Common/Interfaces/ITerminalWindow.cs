@@ -1,4 +1,5 @@
 ﻿using Avalon.Common.Models;
+using System.Text;
 
 namespace Avalon.Common.Interfaces
 {
@@ -18,6 +19,12 @@ namespace Avalon.Common.Interfaces
         /// </summary>
         /// <param name="line"></param>
         void AppendText(Line line);
+
+        /// <summary>
+        /// Appends a StringBuilder to the terminal.
+        /// </summary>
+        /// <param name="sb"></param>
+        void AppendText(StringBuilder sb);
 
         /// <summary>
         /// Shows the window.

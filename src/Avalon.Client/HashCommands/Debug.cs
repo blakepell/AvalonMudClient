@@ -21,7 +21,7 @@ namespace Avalon.HashCommands
 
         public override void Execute()
         {
-            this.Interpreter.Conveyor.EchoText("Hello, this is some text from the game probably.", "testWin");
+            this.Interpreter.Conveyor.EchoText("{RRed{x {rRed{x {BBlue{x {bBlue{x {CCyan{x {cCyan{x {GGreen{x {gGreen{x", "testWin");
         }
 
     }

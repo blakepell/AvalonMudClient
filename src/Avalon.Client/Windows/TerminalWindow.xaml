@@ -26,7 +26,7 @@
             x:Name="Terminal" ShowLineNumbers="False" WordWrap="True" GagEnabled="False"
             Grid.Row="0" Grid.Column="0"
             FontFamily="Consolas" IsReadOnly="True"
-            Background="Black" Foreground="LightGray" Opacity="0.5"
+            Background="Black" Foreground="LightGray" Opacity="1"
             Padding="10,0,20,0"
             FontSize="13"                                 
             ScrollViewer.PanningMode="VerticalOnly">
