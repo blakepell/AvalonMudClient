@@ -81,21 +81,14 @@ namespace Avalon.Common.Interfaces
         void EchoText(string text, AnsiColor foregroundColor);
 
         /// <summary>
-        /// Tells the implementing window or form that it needs to echo some text to it's terminal.
-        /// </summary>
-        /// <param name="text"></param>
-        /// <param name="foregroundColor"></param>
-        /// <param name="reverseColors"></param>
-        void EchoText(string text, AnsiColor foregroundColor, bool reverseColors);
-
-        /// <summary>
         /// Tells the implementing window or form that it needs to echo some text to a specific terminal.
         /// </summary>
         /// <param name="text"></param>
         /// <param name="foregroundColor"></param>
         /// <param name="reverseColors"></param>
         /// <param name="terminal"></param>
-        void EchoText(string text, AnsiColor foregroundColor, bool reverseColors, TerminalTarget terminal);
+        /// <param name="processMudColors"></param>
+        void EchoText(string text, AnsiColor foregroundColor, bool reverseColors, TerminalTarget terminal, bool processMudColors);
 
         /// <summary>
         /// Event handler when the interpreter needs to send data to echo on the client.

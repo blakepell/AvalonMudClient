@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Avalon.Colors;
 
 namespace Avalon
 {
@@ -399,6 +400,9 @@ namespace Avalon
         /// <param name="text"></param>
         public void EchoText(string text)
         {
+            var sb = Argus.Memory.StringBuilderPool.Take(text);
+            Colorizer.MudToAnsiColorCodes(sb);
+
             var e = new EchoEventArgs
             {
                 Text = $"{text}\r\n",
@@ -406,6 +410,8 @@ namespace Avalon
                 ForegroundColor = AnsiColors.Default,
                 Terminal = TerminalTarget.Main
             };
+
+            Argus.Memory.StringBuilderPool.Return(sb);
 
             this.OnEcho(e);
         }
@@ -434,37 +440,27 @@ namespace Avalon
         /// <param name="text"></param>
         /// <param name="foregroundColor"></param>
         /// <param name="reverseColors"></param>
-        public void EchoText(string text, AnsiColor foregroundColor, bool reverseColors)
-        {
-            var e = new EchoEventArgs
-            {
-                Text = $"{text}\r\n",
-                UseDefaultColors = false,
-                ForegroundColor = foregroundColor,
-                ReverseColors = reverseColors,
-                Terminal = TerminalTarget.Main
-            };
-
-            this.OnEcho(e);
-        }
-
-        /// <summary>
-        /// Tells the implementing window or form that it needs to echo some text to it's terminal.
-        /// </summary>
-        /// <param name="text"></param>
-        /// <param name="foregroundColor"></param>
-        /// <param name="reverseColors"></param>
         /// <param name="terminal">The terminal that the main window should try to echo to.</param>
-        public void EchoText(string text, AnsiColor foregroundColor, bool reverseColors, TerminalTarget terminal)
+        /// <param name="processMudColors">Whether or not the mud color codes prefixed with an '{' should be processed into color.</param>
+        public void EchoText(string text, AnsiColor foregroundColor, bool reverseColors, TerminalTarget terminal, bool processMudColors)
         {
+            var sb = Argus.Memory.StringBuilderPool.Take(text);
+
+            if (processMudColors)
+            {
+                Colorizer.MudToAnsiColorCodes(sb);
+            }
+
             var e = new EchoEventArgs
             {
-                Text = $"{text}\r\n",
+                Text = $"{sb}\r\n",
                 UseDefaultColors = false,
                 ForegroundColor = foregroundColor,
                 ReverseColors = reverseColors,
                 Terminal = terminal
             };
+
+            Argus.Memory.StringBuilderPool.Return(sb);
 
             this.OnEcho(e);
         }

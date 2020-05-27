@@ -95,11 +95,11 @@ namespace Avalon.HashCommands
                     // This is the default echo implementation.
                     if (foregroundColor != null)
                     {
-                        Interpreter.EchoText(text, foregroundColor.AnsiColor, o.Reverse, o.Terminal);
+                        Interpreter.EchoText(text, foregroundColor.AnsiColor, o.Reverse, o.Terminal, false);
                     }
                     else
                     {
-                        Interpreter.EchoText($"{text}", AnsiColors.Default, false, o.Terminal);
+                        Interpreter.EchoText($"{text}", AnsiColors.Default, false, o.Terminal, true);
                     }
 
                 });

@@ -1,4 +1,6 @@
-﻿namespace Avalon.Common.Colors
+﻿using System;
+
+namespace Avalon.Common.Colors
 {
 
     /// <summary>
@@ -11,6 +13,11 @@
         public override string ToString()
         {
             return this.AnsiCode;
+        }
+
+        public ReadOnlySpan<char> AsSpan()
+        {
+            return this.AnsiCode.AsSpan();
         }
 
         public abstract string AnsiCode { get; }

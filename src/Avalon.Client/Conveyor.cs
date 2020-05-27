@@ -179,6 +179,11 @@ namespace Avalon
         /// <param name="target"></param>
         public void EchoText(Line line, TerminalTarget target)
         {
+            var sb = Argus.Memory.StringBuilderPool.Take(line.FormattedText);
+            Colorizer.MudToAnsiColorCodes(sb);
+            line.FormattedText = sb.ToString();
+            Argus.Memory.StringBuilderPool.Return(sb);
+
             switch (target)
             {
                 case TerminalTarget.None:
