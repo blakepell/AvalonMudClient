@@ -1,5 +1,7 @@
 ﻿using Avalon.Common.Interfaces;
 using CommandLine;
+using System;
+using System.Linq;
 
 namespace Avalon.HashCommands
 {
@@ -30,55 +32,77 @@ namespace Avalon.HashCommands
             var result = Parser.Default.ParseArguments<Arguments>(CreateArgs(this.Parameters))
                 .WithParsed(o =>
                 {
-                    // First, new window handling.
-                    if (o.NewWindow)
+                    if (!string.IsNullOrWhiteSpace(o.Name))
                     {
-                        if (string.IsNullOrWhiteSpace(o.Name))
+                        // This case is if they specified a window that might exist, we'll find it, edit that.
+                        var win = this.Interpreter.Conveyor.TerminalWindowList.FirstOrDefault(x => x.Name.Equals(o.Name, StringComparison.Ordinal));
+
+                        if (win == null && o.Close)
                         {
-                            this.Interpreter.Conveyor.EchoLog("You must specify the 'name' switch with -x or --name when creating a new terminal window.", Common.Models.LogType.Error);
+                            // Window wasn't found, but close was specified, just exit.
                             return;
                         }
-
-                        var win = new TerminalWindow();
-                        win.Name = o.Name;
-
-                        if (o.Left >= 0)
+                        else if (win == null)
                         {
-                            win.Left = o.Left;
+                            // Window wasn't found, create it.
+                            win = new TerminalWindow();
+                            win.Name = o.Name;
+
+                            // Add the terminal window to our list.
+                            this.Interpreter.Conveyor.TerminalWindowList.Add(win);
+                        }
+                        else
+                        {
+                            // It existed at this point, but let's see if it was supposed to be closed.  Closing
+                            // will trigger the Closed event on the Window which will remove the Window from the
+                            // shared list of ITerminalWindows on the Conveyor.
+                            if (o.Close)
+                            {
+                                win.Close();
+                                return;
+                            }
                         }
 
-                        if (o.Top >= 0)
-                        {
-                            win.Top = o.Top;
-                        }
-
-                        if (o.Height > 0)
-                        {
-                            win.Height = 0;
-                        }
-
-                        if (o.Width > 0)
-                        {
-                            win.Width = 0;
-                        }
-
-                        if (!string.IsNullOrWhiteSpace(o.Title))
-                        {
-                            win.Title = o.Title;
-                        }
-
-                        // Add the terminal window to our list.
-                        this.Interpreter.Conveyor.TerminalWindowList.Add(win);
+                        SetWindowProperties(win, o);
 
                         win.Show();
 
+                        return;
+                    }
+                    
+                    if (o.List)
+                    {
+                        // List info about all of the active windows.
+                        if (this.Interpreter.Conveyor.TerminalWindowList.Count == 0)
+                        {
+                            this.Interpreter.Conveyor.EchoLog($"No user created terminal windows currently exist.", Common.Models.LogType.Information);
+                            return;
+                        }
+
+                        var sb = Argus.Memory.StringBuilderPool.Take();
+                        int i = 0;
+
+                        sb.AppendLine("\r\nWindow Name");
+                        sb.AppendLine("----------------------------------------------------");
+
+                        foreach (var win in this.Interpreter.Conveyor.TerminalWindowList)
+                        {
+                            i++;
+                            sb.AppendLine($"{i}.) {win.Name}");
+                        }
+
+                        this.Interpreter.Conveyor.EchoText(sb.ToString());
+
+                        Argus.Memory.StringBuilderPool.Return(sb);
+
+                        return;
                     }
 
+                    // Main window handling
                     if (o.Info)
                     {
                         this.Interpreter.Conveyor.EchoText($"Width = {App.MainWindow.Width},  Height = {App.MainWindow.Height}");
                         this.Interpreter.Conveyor.EchoText($"Left = {App.MainWindow.Left},  Height = {App.MainWindow.Top}");
-
                     }
 
                     if (o.Height > 0)
@@ -122,6 +146,45 @@ namespace Avalon.HashCommands
         }
 
         /// <summary>
+        /// Shared method to set the properties of an ITerminalWindow from a set of arguments.  Note,
+        /// this will set everything but the Name.
+        /// </summary>
+        /// <param name="win"></param>
+        /// <param name="args"></param>
+        private void SetWindowProperties(ITerminalWindow win, Arguments args)
+        {
+            if (args.Left >= 0)
+            {
+                win.Left = args.Left;
+            }
+
+            if (args.Top >= 0)
+            {
+                win.Top = args.Top;
+            }
+
+            if (args.Height > 0)
+            {
+                win.Height = args.Height;
+            }
+
+            if (args.Width > 0)
+            {
+                win.Width = args.Width;
+            }
+
+            if (!string.IsNullOrWhiteSpace(args.Title))
+            {
+                win.Title = args.Title;
+            }
+
+            if (!string.IsNullOrWhiteSpace(args.Status))
+            {
+                win.StatusText = args.Status;
+            }
+        }
+
+        /// <summary>
         /// The supported command line arguments for this hash command.
         /// </summary>
         public class Arguments
@@ -129,6 +192,9 @@ namespace Avalon.HashCommands
 
             [Option('c', "center", Required = false, HelpText = "Centers the window in the middle of the current screen.")]
             public bool Center { get; set; }
+
+            [Option("close", Required = false, HelpText = "Closes the window if found of the window specified with the --name switch.")]
+            public bool Close { get; set; } = false;
 
             [Option('h', "height", Required = false, HelpText = "The height of the window.")]
             public int Height { get; set; } = 0;
@@ -148,11 +214,14 @@ namespace Avalon.HashCommands
             [Option("title", Required = false, HelpText = "The title of the window.")]
             public string Title { get; set; }
 
-            [Option('n', "new", Required = false, HelpText = "Spawns a new terminal window and applies the additional settings to that window.")]
-            public bool NewWindow { get; set; } = false;
+            [Option("list", Required = false, HelpText = "Will list all of the active user created windows and their names.")]
+            public bool List { get; set; } = false;
 
-            [Option('x', "name", Required = false, HelpText = "The name of the of the new terminal window that is required to echo to it.")]
-            public string Name { get; set; }
+            [Option("status", Required = false, HelpText = "Sets the text on the status bar of the window.")]
+            public string Status { get; set; }
+
+            [Option('n', "name", Required = false, HelpText = "The name of the of the new terminal window that is required to echo to it.")]
+            public string Name { get; set; } = "";
 
         }
 

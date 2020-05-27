@@ -32,6 +32,11 @@ namespace Avalon.Common.Interfaces
         void Show();
 
         /// <summary>
+        /// Closes down the window.
+        /// </summary>
+        void Close();
+
+        /// <summary>
         /// The name of the window.
         /// </summary>
         string Name { get; set; }
