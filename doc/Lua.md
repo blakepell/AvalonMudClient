@@ -8,6 +8,10 @@ Avalon has built in additional support to the Lua environment to allow for ease 
 
 In Avalon Lua, each script is run in it's own container seperate from other Lua scripts that might be running.  The Lua script can interact with the general environment in a few ways.  First, a `globals` namespace has been provided where global Lua variables can be stored and shared between scripts.  These globals do not persist beyond the process (e.g. they are cleared when the mud client is shut down).  Second, Lua can make calls to store mud client global variables via `lua:SetVariable` and `lua:GetVariable`.  These variables DO persist beyond the process and will be available when the mud client next starts (they are saved in the profile's json file).  Finally, a `lua` namespace with helper functions have been provided.  These functions service two purposes, to make Lua scripting easier and more robust and to interact with the mud client's UI (to do this such as change the windows title, set and get variables, send commands or echo to the terminal window, make database calls, etc.).
 
+Avalon Lua Tips:
+
+- [Lua Tips](LuaTips.md)
+
 Avalon Lua Extensions:
 
 - [Lua Extensions](LuaExtensions.md)
