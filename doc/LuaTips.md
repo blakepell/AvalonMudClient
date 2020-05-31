@@ -23,3 +23,9 @@ make this easy for you `lua.Sleep` has been provided as a way for you to pause y
 of anything else in the mud client.  `lua.Sleep` accepts milliseconds for the parameter.  This is handy for cases when
 you're running a looped action that must continue for a long time but might be waiting for input from the game.  In order
 to interact with the loop you can use Lua global variable that are set from other commands.
+
+### Debugging Information
+
+The `#lua-debug` has command has been provided as a way to obtain info about the state of the current Lua environment.  It
+can provide stats on the number of active scripts running, the total number of scripts run and a current list of all of
+the global variables that are currently set.
