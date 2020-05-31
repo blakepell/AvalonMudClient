@@ -1,8 +1,4 @@
-﻿using System;
-using Avalon.Common.Interfaces;
-using Avalon.Common.Models;
-using Avalon.Lua;
-using MoonSharp.Interpreter;
+﻿using Avalon.Common.Interfaces;
 
 namespace Avalon.HashCommands
 {
@@ -11,14 +7,7 @@ namespace Avalon.HashCommands
         public LuaSync(IInterpreter interp) : base(interp)
         {
             this.IsAsync = false;
-            _random = new Random();
         }
-
-        /// <summary>
-        /// Single static Random object that will need to be locked between usages.  Calls to _random
-        /// should be locked for thread safety as Random is not thread safe.
-        /// </summary>
-        private static Random _random;
 
         public override string Name { get; } = "#lua-sync";
 
@@ -26,7 +15,7 @@ namespace Avalon.HashCommands
 
         public override void Execute()
         {
-            var lua = new LuaCaller(this.Interpreter);
+            var lua = ((Interpreter)this.Interpreter).LuaCaller;
             lua.Execute(Parameters);
         }
     }
