@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Documents;
 using System.Windows.Threading;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
@@ -20,10 +19,11 @@ namespace Avalon.Lua
         /// </summary>
         private IInterpreter _interpreter;
 
+
         /// <summary>
         /// Global variables available to Lua that are shared across all of our Lua sessions.
         /// </summary>
-        private LuaGlobalVariables _luaGlobalVariables;
+        public LuaGlobalVariables LuaGlobalVariables { get; private set; }
 
         /// <summary>
         /// Single static Random object that will need to be locked between usages.  Calls to _random
@@ -32,14 +32,29 @@ namespace Avalon.Lua
         private static Random _random;
 
         /// <summary>
+        /// A object to use for locking.
+        /// </summary>
+        private object _lockObject = new object();
+
+        /// <summary>
+        /// A counter of the number of Lua scripts that are actively executing.
+        /// </summary>
+        public int ActiveLuaScripts { get; set; } = 0;
+
+        /// <summary>
+        /// The number of Lua scripts that have been executed in this session.
+        /// </summary>
+        public int LuaScriptsRun { get; set; } = 0;
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="interp"></param>
         public LuaCaller(IInterpreter interp)
         {
             _interpreter = interp;
-            _luaGlobalVariables = new LuaGlobalVariables();
             _random = new Random();
+            this.LuaGlobalVariables = new LuaGlobalVariables();
         }
 
         /// <summary>
@@ -83,6 +98,12 @@ namespace Avalon.Lua
 
             try
             {
+                lock (_lockObject)
+                {
+                    this.ActiveLuaScripts++;
+                    this.LuaScriptsRun++;
+                }
+
                 // Setup Lua
                 var lua = new Script();
                 lua.Options.CheckThreadAccess = false;
@@ -106,7 +127,7 @@ namespace Avalon.Lua
                 }
 
                 // Set the global variables that are specifically only available in Lua.
-                lua.Globals["global"] = _luaGlobalVariables;
+                lua.Globals["global"] = this.LuaGlobalVariables;
 
                 // If there is a Lua global shared set of code run it, try catch it in case there
                 // is a problem with it, we don't want it to interfere with everything if there is
@@ -150,6 +171,13 @@ namespace Avalon.Lua
                     _interpreter.Conveyor.EchoLog(ex.Message, LogType.Error);
                 }
             }
+            finally
+            {
+                lock (_lockObject)
+                {
+                    this.ActiveLuaScripts--;
+                }
+            }
         }
 
         /// <summary>
@@ -167,6 +195,12 @@ namespace Avalon.Lua
             {
                 try
                 {
+                    lock (_lockObject)
+                    {
+                        this.ActiveLuaScripts++;
+                        this.LuaScriptsRun++;
+                    }
+
                     // Setup Lua
                     var lua = new Script();
                     lua.Options.CheckThreadAccess = false;
@@ -190,7 +224,7 @@ namespace Avalon.Lua
                     }
 
                     // Set the global variables that are specifically only available in Lua.
-                    lua.Globals["global"] = _luaGlobalVariables;
+                    lua.Globals["global"] = this.LuaGlobalVariables;
 
                     // If there is a Lua global shared set of code run it, try catch it in case there
                     // is a problem with it, we don't want it to interfere with everything if there is
@@ -234,6 +268,13 @@ namespace Avalon.Lua
                     {
                         _interpreter.Send("~", true, false);
                         _interpreter.Conveyor.EchoLog(ex.Message, LogType.Error);
+                    }
+                }
+                finally
+                {
+                    lock (_lockObject)
+                    {
+                        this.ActiveLuaScripts--;
                     }
                 }
             }), DispatcherPriority.Normal);
