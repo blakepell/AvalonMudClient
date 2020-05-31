@@ -1062,7 +1062,7 @@ namespace Avalon
             win.SaveButtonVisible = false;
 
             // Show the Lua dialog.
-            win.ShowDialog();
+            win.Show();
         }
 
         /// <summary>
