@@ -45,9 +45,8 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
  - Tick support.
  - Gagging, redirection and custom information panels.
  - Regular Expression tester.
- - 
 
-### Open Source Packages
+### Open Source Libraries used in Avalon
 
  - [AvalonEdit](https://github.com/icsharpcode/AvalonEdit) (MIT)
  - [ModernWpfUI](https://github.com/Kinnara/ModernWpf) (MIT)
@@ -64,18 +63,13 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
  - The ability to easy search for community based triggers, aliases and scripts for import.
  - Additional Hash Commands and Lua extensions.
  - Documentation
- - Publish binary for initial alpha release (self contained EXE)
  - Ensure touch screen scrolling is smooth on all termianls and controls.
- - Figure out the best deployment mechanism or subsets of deployment mechanisms.
  - Plugin support for a Dark and Shattered Lands (dsl-mud.org) with a deployment that is completely setup to play from the first run (a custom tailored deployment that just works without a cumbersome setup process for new players).
  - Timers (there is a tick timer built in and some hash commands like alias support a delay flag which is effectivly a one time timer to fire a command after a specified amount of time.
 
 ### Long Term Road-map
 
- - The UI is already 4K/high resolution friendly.  Provide additional layouts for high resolution monitors that surface more content areas the user can pipe data or import plugins into.
  - Publish this app on the Windows Store free of charge.
- - Use the shared components to start a Xamarin forms project that can be deployed to Android/iOS as well as Avalonia for an OSX deployment.
- - Any controls are of general use and are stable will be abstracted will be housed as their own project so that they can be submitted to NuGet.  An example of this is the SQLite query control which is in development and can be provided as a general WPF control.  The control offers the ability to open a sqlite database, see it's schema (tables/views) and then query the data with syntax highlighting for the SQL and a DataGrid for the output (which will have exporting and importing abilities that can be turned on and off).
  
 ### License
  
