@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Windows;
+using System.Windows.Data;
 using System.Windows.Media;
 
 namespace Avalon.Utilities
@@ -263,6 +265,32 @@ namespace Avalon.Utilities
                 default:
                     return DateTime.Now.ToString("hh:mm:ss tt");
             }
+        }
+
+        /// <summary>
+        /// Sets up a PropertyChanged binding.
+        /// </summary>
+        /// <param name="o">The source object with the property that should be bound.</param>
+        /// <param name="propertyName">The name of the property on the source object.</param>
+        /// <param name="depObj">The name of the DependencyObject, usually the control.</param>
+        /// <param name="depProp">The DependencyProperty on the control.</param>
+        public static void SetBinding(object o, string propertyName, DependencyObject depObj, DependencyProperty depProp, IValueConverter converter = null)
+        {
+            var binding = new Binding
+            {
+                Source = o,
+                Path = new PropertyPath(propertyName),
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            };
+
+            if (converter != null)
+            {
+                binding.Converter = converter;
+            }
+
+            BindingOperations.ClearAllBindings(depObj);
+            BindingOperations.SetBinding(depObj, depProp, binding);
         }
 
     }

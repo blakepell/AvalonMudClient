@@ -21,6 +21,7 @@ using System.Windows.Media;
 using System.Windows.Input;
 using Avalon.Extensions;
 using ModernWpf;
+using System.Windows.Data;
 
 namespace Avalon
 {
@@ -215,6 +216,9 @@ namespace Avalon
 
                 // Update any UI settings
                 UpdateUISettings();
+
+                // Setup any custom binding that has to happen via code.
+                this.SetupBinding();
 
                 // Auto connect to the game if the setting is set.
                 if (App.Settings.ProfileSettings.AutoConnect)
@@ -498,9 +502,7 @@ namespace Avalon
             CustomTab3Label.Content = App.Settings.AvalonSettings.CustomTab3Label;
             CustomTab3.Visibility = App.Settings.AvalonSettings.CustomTab3Visible.ToVisibleOrCollapse();
 
-            // Quick toggles
-            ButtonTriggersEnabled.IsChecked = App.Settings.ProfileSettings.TriggersEnabled;
-            ButtonAliasesEnabled.IsChecked = App.Settings.ProfileSettings.AliasesEnabled;
+            // Quick toggles (some are set via binding)
             ButtonCustomTab1Visible.IsChecked = App.Settings.AvalonSettings.CustomTab1Visible;
             ButtonCustomTab2Visible.IsChecked = App.Settings.AvalonSettings.CustomTab2Visible;
             ButtonCustomTab3Visible.IsChecked = App.Settings.AvalonSettings.CustomTab3Visible;
@@ -510,6 +512,29 @@ namespace Avalon
 
             // Grid Layout
             LoadGridState();
+        }
+
+        /// <summary>
+        /// Setup any bindings that have to happen in the code.
+        /// </summary>
+        /// <remarks>
+        /// I'm sure this isn't the best way to do the binding but it was finicky via the XAML getting it bound
+        /// to an item model object.
+        /// </remarks>
+        public void SetupBinding()
+        {
+            var boolToCollapsedConverter = new BooleanToVisibilityConverter();
+
+            // Manually setup the bindings.  I couldn't get it to work in the Xaml because the 
+            // AppSettings gets replaced after this control is loaded.
+            Utilities.Utilities.SetBinding(App.Settings.ProfileSettings, "AliasesEnabled", ButtonAliasesEnabled, CheckBox.IsCheckedProperty);
+            Utilities.Utilities.SetBinding(App.Settings.ProfileSettings, "TriggersEnabled", ButtonTriggersEnabled, CheckBox.IsCheckedProperty);
+            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab1Visible", ButtonCustomTab1Visible, CheckBox.IsCheckedProperty);
+            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab1Visible", CustomTab1, TabItemEx.VisibilityProperty, boolToCollapsedConverter);
+            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab2Visible", ButtonCustomTab2Visible, CheckBox.IsCheckedProperty);
+            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab2Visible", CustomTab2, TabItemEx.VisibilityProperty, boolToCollapsedConverter);
+            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab3Visible", ButtonCustomTab3Visible, CheckBox.IsCheckedProperty);
+            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab3Visible", CustomTab3, TabItemEx.VisibilityProperty, boolToCollapsedConverter);
         }
 
         /// <summary>
@@ -587,11 +612,6 @@ namespace Avalon
                 {
                     // In order to get the focus in this instance an UpdateLayout() call has to be called first.
                     UpdateLayout();
-
-                    // TODO: Make this work with binding
-                    // In case the aliases or triggers changed enabled state.
-                    ButtonAliasesEnabled.IsChecked = App.Settings.ProfileSettings.AliasesEnabled;
-                    ButtonTriggersEnabled.IsChecked = App.Settings.ProfileSettings.TriggersEnabled;
 
                     // This is a little bit of a hack.. terminals stop auto scrolling for some reason when
                     // another tab is active.
@@ -1416,22 +1436,6 @@ namespace Avalon
 
             }
 
-        }
-
-        /// <summary>
-        /// Saves the quick toggle options from the command bar menu to the proper settings locations.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ButtonSaveQuickOptions_Click(object sender, RoutedEventArgs e)
-        {
-            App.Settings.ProfileSettings.TriggersEnabled = ButtonTriggersEnabled.IsChecked ?? false;
-            App.Settings.ProfileSettings.AliasesEnabled = ButtonAliasesEnabled.IsChecked ?? false;
-            App.Settings.AvalonSettings.CustomTab1Visible = ButtonCustomTab1Visible.IsChecked ?? false;
-            App.Settings.AvalonSettings.CustomTab2Visible = ButtonCustomTab2Visible.IsChecked ?? false;
-            App.Settings.AvalonSettings.CustomTab3Visible = ButtonCustomTab3Visible.IsChecked ?? false;
-
-            UpdateUISettings();
         }
     }
 }

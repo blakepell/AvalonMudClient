@@ -229,12 +229,12 @@
                     <ui:CommandBar x:Name="PrimaryCommandBar" Grid.Row="0" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,0,.9" Background="#171717">
                         <!--<ui:AppBarButton x:Name="ButtonAdd" Icon="Add" Label="Add" />-->
                         <ui:CommandBar.SecondaryCommands>
-                            <ui:AppBarToggleButton x:Name="ButtonAliasesEnabled" Icon="Shuffle" Label="Aliases Enabled" Click="ButtonSaveQuickOptions_Click" />
-                            <ui:AppBarToggleButton x:Name="ButtonTriggersEnabled" Icon="Directions" Label="Triggers Enabled" Click="ButtonSaveQuickOptions_Click"></ui:AppBarToggleButton>
+                            <ui:AppBarToggleButton x:Name="ButtonAliasesEnabled" Icon="Shuffle" Label="Aliases Enabled" />
+                            <ui:AppBarToggleButton x:Name="ButtonTriggersEnabled" Icon="Directions" Label="Triggers Enabled"></ui:AppBarToggleButton>
                             <ui:AppBarSeparator />
-                            <ui:AppBarToggleButton x:Name="ButtonCustomTab1Visible" Icon="PreviewLink" Label="Custom Tab 1 Visible" Click="ButtonSaveQuickOptions_Click"></ui:AppBarToggleButton>
-                            <ui:AppBarToggleButton x:Name="ButtonCustomTab2Visible" Icon="PreviewLink" Label="Custom Tab 2 Visible" Click="ButtonSaveQuickOptions_Click"></ui:AppBarToggleButton>
-                            <ui:AppBarToggleButton x:Name="ButtonCustomTab3Visible" Icon="PreviewLink" Label="Custom Tab 3 Visible" Click="ButtonSaveQuickOptions_Click"></ui:AppBarToggleButton>
+                            <ui:AppBarToggleButton x:Name="ButtonCustomTab1Visible" Icon="PreviewLink" Label="Custom Tab 1 Visible"></ui:AppBarToggleButton>
+                            <ui:AppBarToggleButton x:Name="ButtonCustomTab2Visible" Icon="PreviewLink" Label="Custom Tab 2 Visible"></ui:AppBarToggleButton>
+                            <ui:AppBarToggleButton x:Name="ButtonCustomTab3Visible" Icon="PreviewLink" Label="Custom Tab 3 Visible"></ui:AppBarToggleButton>
                         </ui:CommandBar.SecondaryCommands>
                     </ui:CommandBar>
 
