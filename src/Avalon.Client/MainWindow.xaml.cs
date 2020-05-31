@@ -76,7 +76,6 @@ namespace Avalon
         public static readonly DependencyProperty SpellCheckEnabledProperty =
             DependencyProperty.Register("SpellCheckEnabled", typeof(bool), typeof(MainWindow), new PropertyMetadata(true));
 
-
         /// <summary>
         /// Window initialization.  This occurs before the Loaded event.  We'll set the initial
         /// window positioning here before the UI is shown.
@@ -493,11 +492,21 @@ namespace Avalon
 
             // Custom tabs (Might be overriden by plugins)
             CustomTab1Label.Content = App.Settings.AvalonSettings.CustomTab1Label;
-            CustomTab1.Visibility = App.Settings.AvalonSettings.CustomTab1Visible.ToVisibleOrHidden();
+            CustomTab1.Visibility = App.Settings.AvalonSettings.CustomTab1Visible.ToVisibleOrCollapse();
             CustomTab2Label.Content = App.Settings.AvalonSettings.CustomTab2Label;
-            CustomTab2.Visibility = App.Settings.AvalonSettings.CustomTab2Visible.ToVisibleOrHidden();
+            CustomTab2.Visibility = App.Settings.AvalonSettings.CustomTab2Visible.ToVisibleOrCollapse();
             CustomTab3Label.Content = App.Settings.AvalonSettings.CustomTab3Label;
-            CustomTab3.Visibility = App.Settings.AvalonSettings.CustomTab3Visible.ToVisibleOrHidden();
+            CustomTab3.Visibility = App.Settings.AvalonSettings.CustomTab3Visible.ToVisibleOrCollapse();
+
+            // Quick toggles
+            ButtonTriggersEnabled.IsChecked = App.Settings.ProfileSettings.TriggersEnabled;
+            ButtonAliasesEnabled.IsChecked = App.Settings.ProfileSettings.AliasesEnabled;
+            ButtonCustomTab1Visible.IsChecked = App.Settings.AvalonSettings.CustomTab1Visible;
+            ButtonCustomTab2Visible.IsChecked = App.Settings.AvalonSettings.CustomTab2Visible;
+            ButtonCustomTab3Visible.IsChecked = App.Settings.AvalonSettings.CustomTab3Visible;
+            ButtonCustomTab1Visible.Label = App.Settings.AvalonSettings.CustomTab1Label;
+            ButtonCustomTab2Visible.Label = App.Settings.AvalonSettings.CustomTab2Label;
+            ButtonCustomTab3Visible.Label = App.Settings.AvalonSettings.CustomTab3Label;
 
             // Grid Layout
             LoadGridState();
@@ -578,6 +587,11 @@ namespace Avalon
                 {
                     // In order to get the focus in this instance an UpdateLayout() call has to be called first.
                     UpdateLayout();
+
+                    // TODO: Make this work with binding
+                    // In case the aliases or triggers changed enabled state.
+                    ButtonAliasesEnabled.IsChecked = App.Settings.ProfileSettings.AliasesEnabled;
+                    ButtonTriggersEnabled.IsChecked = App.Settings.ProfileSettings.TriggersEnabled;
 
                     // This is a little bit of a hack.. terminals stop auto scrolling for some reason when
                     // another tab is active.
@@ -1404,5 +1418,20 @@ namespace Avalon
 
         }
 
+        /// <summary>
+        /// Saves the quick toggle options from the command bar menu to the proper settings locations.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonSaveQuickOptions_Click(object sender, RoutedEventArgs e)
+        {
+            App.Settings.ProfileSettings.TriggersEnabled = ButtonTriggersEnabled.IsChecked ?? false;
+            App.Settings.ProfileSettings.AliasesEnabled = ButtonAliasesEnabled.IsChecked ?? false;
+            App.Settings.AvalonSettings.CustomTab1Visible = ButtonCustomTab1Visible.IsChecked ?? false;
+            App.Settings.AvalonSettings.CustomTab2Visible = ButtonCustomTab2Visible.IsChecked ?? false;
+            App.Settings.AvalonSettings.CustomTab3Visible = ButtonCustomTab3Visible.IsChecked ?? false;
+
+            UpdateUISettings();
+        }
     }
 }

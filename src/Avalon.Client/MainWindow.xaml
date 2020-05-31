@@ -84,7 +84,7 @@
                         <ColumnDefinition Width="45*" x:Name="Col2"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
 
-                    <Menu x:Name="MenuGame" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="0,0,0,.9" Background="#171717">
+                    <Menu x:Name="MenuGame" Grid.Row="0" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,0,.9" Background="#171717">
                         <MenuItem Header="_File">
                             <MenuItem x:Name="MenuNetworkButton" Header="Connect" Click="NetworkButton_Click">
                                 <MenuItem.Icon>
@@ -225,6 +225,18 @@
                             </MenuItem>
                         </MenuItem>
                     </Menu>
+
+                    <ui:CommandBar x:Name="PrimaryCommandBar" Grid.Row="0" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,0,.9" Background="#171717">
+                        <!--<ui:AppBarButton x:Name="ButtonAdd" Icon="Add" Label="Add" />-->
+                        <ui:CommandBar.SecondaryCommands>
+                            <ui:AppBarToggleButton x:Name="ButtonAliasesEnabled" Icon="Shuffle" Label="Aliases Enabled" Click="ButtonSaveQuickOptions_Click" />
+                            <ui:AppBarToggleButton x:Name="ButtonTriggersEnabled" Icon="Directions" Label="Triggers Enabled" Click="ButtonSaveQuickOptions_Click"></ui:AppBarToggleButton>
+                            <ui:AppBarSeparator />
+                            <ui:AppBarToggleButton x:Name="ButtonCustomTab1Visible" Icon="PreviewLink" Label="Custom Tab 1 Visible" Click="ButtonSaveQuickOptions_Click"></ui:AppBarToggleButton>
+                            <ui:AppBarToggleButton x:Name="ButtonCustomTab2Visible" Icon="PreviewLink" Label="Custom Tab 2 Visible" Click="ButtonSaveQuickOptions_Click"></ui:AppBarToggleButton>
+                            <ui:AppBarToggleButton x:Name="ButtonCustomTab3Visible" Icon="PreviewLink" Label="Custom Tab 3 Visible" Click="ButtonSaveQuickOptions_Click"></ui:AppBarToggleButton>
+                        </ui:CommandBar.SecondaryCommands>
+                    </ui:CommandBar>
 
                     <UniformGrid Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Columns="1">
                         <controls:AvalonTerminal x:Name="GameBackBufferTerminal" x:FieldModifier="public"
