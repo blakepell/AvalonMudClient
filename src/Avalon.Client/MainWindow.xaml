@@ -39,7 +39,11 @@
                 </MenuItem.Icon>
             </MenuItem>
             <Separator />
-            <MenuItem Header="Test Selection in Regular Expression Tester" Click="MenuItemTestSelectionRegEx_Click" />
+            <MenuItem Header="Test Selection in Regular Expression Tester" Click="MenuItemTestSelectionRegEx_Click">
+                <MenuItem.Icon>
+                    <ui:SymbolIcon Symbol="Accept" />
+                </MenuItem.Icon>
+            </MenuItem>
             <Separator />
             <MenuItem Header="Clear Terminal" Click="AvalonTerminalContextMenuClear_OnClick">
                 <MenuItem.Icon>
