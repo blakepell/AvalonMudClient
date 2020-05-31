@@ -289,6 +289,11 @@ namespace Avalon
         public static readonly RoutedUICommand EditLastItem = new RoutedUICommand("EditLastItem", "EditLastItem", typeof(MainWindow));
 
         /// <summary>
+        /// For handling making the terminal font sizes larger and smaller via a hot-key.
+        /// </summary>
+        public static readonly RoutedUICommand FontSizeChange = new RoutedUICommand("FontSizeChange", "FontSizeChange", typeof(MainWindow));
+
+        /// <summary>
         /// Handler to select an element.
         /// </summary>
         private void SelectElementInternal(object sender, ExecutedRoutedEventArgs e)
@@ -299,6 +304,33 @@ namespace Avalon
             {
                 ((TabItemEx)element).IsSelected = true;
             }
+        }
+
+        /// <summary>
+        /// Changes the terminal font size making it one larger or one smaller.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ChangeTerminalFontSize(object sender, ExecutedRoutedEventArgs e)
+        {
+            var param = (string)e.Parameter;
+
+            if (param.Equals("+", System.StringComparison.OrdinalIgnoreCase))
+            {
+                if (App.Settings.AvalonSettings.TerminalFontSize < 72)
+                {
+                    App.Settings.AvalonSettings.TerminalFontSize++;
+                }
+            }
+            else if (param.Equals("-", System.StringComparison.OrdinalIgnoreCase))
+            {
+                if (App.Settings.AvalonSettings.TerminalFontSize > 8)
+                {
+                    App.Settings.AvalonSettings.TerminalFontSize--;
+                }
+            }
+
+            UpdateUISettings();
         }
 
     }

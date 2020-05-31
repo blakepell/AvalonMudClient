@@ -1435,7 +1435,6 @@ namespace Avalon
                 }
 
             }
-
         }
     }
 }
