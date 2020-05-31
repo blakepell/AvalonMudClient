@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -30,21 +31,33 @@ namespace Avalon
         /// <param name="e"></param>
         private void AvalonTerminalContextMenuCopy_OnClick(object sender, RoutedEventArgs e)
         {
-            var item = sender as MenuItem;
-            var cm = (ContextMenu)item?.Parent;
-            var popup = (Popup)cm?.Parent;
-
-            var terminal = popup?.PlacementTarget as AvalonTerminal;
-
-            if (terminal == null)
+            try
             {
-                return;
-            }
+                var item = sender as MenuItem;
+                var cm = (ContextMenu)item?.Parent;
+                var popup = (Popup)cm?.Parent;
 
-            // Remove any ANSI codes from the selected text.
-            var sb = new StringBuilder(terminal.SelectedText);
-            Colorizer.RemoveAllAnsiCodes(sb);
-            Clipboard.SetText(sb.ToString());
+                var terminal = popup?.PlacementTarget as AvalonTerminal;
+
+                if (terminal == null)
+                {
+                    return;
+                }
+
+                // Remove any ANSI codes from the selected text.
+                var sb = new StringBuilder(terminal.SelectedText);
+                Colorizer.RemoveAllAnsiCodes(sb);
+                Clipboard.SetText(sb.ToString());
+            }
+            catch (Exception ex)
+            {
+                this.Interp.Conveyor.EchoLog(ex.Message, Common.Models.LogType.Error);
+
+                if (!string.IsNullOrWhiteSpace(ex.StackTrace))
+                {
+                    this.Interp.Conveyor.EchoLog(ex.StackTrace, Common.Models.LogType.Error);
+                }
+            }
         }
 
         /// <summary>
@@ -55,21 +68,33 @@ namespace Avalon
         /// <param name="e"></param>
         private void AvalonTerminalContextMenuCopyWithMudColors_OnClick(object sender, RoutedEventArgs e)
         {
-            var item = sender as MenuItem;
-            var cm = (ContextMenu)item?.Parent;
-            var popup = (Popup)cm?.Parent;
-
-            var terminal = popup?.PlacementTarget as AvalonTerminal;
-
-            if (terminal == null)
+            try
             {
-                return;
-            }
+                var item = sender as MenuItem;
+                var cm = (ContextMenu)item?.Parent;
+                var popup = (Popup)cm?.Parent;
 
-            // Remove any ANSI codes from the selected text.
-            var sb = new StringBuilder(terminal.SelectedText);
-            Colorizer.AnsiToMudColorCodes(sb);
-            Clipboard.SetText(sb.ToString());
+                var terminal = popup?.PlacementTarget as AvalonTerminal;
+
+                if (terminal == null)
+                {
+                    return;
+                }
+
+                // Remove any ANSI codes from the selected text.
+                var sb = new StringBuilder(terminal.SelectedText);
+                Colorizer.AnsiToMudColorCodes(sb);
+                Clipboard.SetText(sb.ToString());
+            }
+            catch (Exception ex)
+            {
+                this.Interp.Conveyor.EchoLog(ex.Message, Common.Models.LogType.Error);
+
+                if (!string.IsNullOrWhiteSpace(ex.StackTrace))
+                {
+                    this.Interp.Conveyor.EchoLog(ex.StackTrace, Common.Models.LogType.Error);
+                }
+            }
         }
 
         /// <summary>
@@ -79,18 +104,30 @@ namespace Avalon
         /// <param name="e"></param>
         private void AvalonTerminalContextMenuClear_OnClick(object sender, RoutedEventArgs e)
         {
-            var item = sender as MenuItem;
-            var cm = (ContextMenu)item?.Parent;
-            var popup = (Popup)cm?.Parent;
-
-            var terminal = popup?.PlacementTarget as AvalonTerminal;
-
-            if (terminal == null)
+            try
             {
-                return;
-            }
+                var item = sender as MenuItem;
+                var cm = (ContextMenu)item?.Parent;
+                var popup = (Popup)cm?.Parent;
 
-            terminal.ClearText();
+                var terminal = popup?.PlacementTarget as AvalonTerminal;
+
+                if (terminal == null)
+                {
+                    return;
+                }
+
+                terminal.ClearText();
+            }
+            catch (Exception ex)
+            {
+                this.Interp.Conveyor.EchoLog(ex.Message, Common.Models.LogType.Error);
+
+                if (!string.IsNullOrWhiteSpace(ex.StackTrace))
+                {
+                    this.Interp.Conveyor.EchoLog(ex.StackTrace, Common.Models.LogType.Error);
+                }
+            }
         }
 
         /// <summary>
@@ -100,34 +137,46 @@ namespace Avalon
         /// <param name="e"></param>
         private void MenuItemTestSelectionRegEx_Click(object sender, RoutedEventArgs e)
         {
-            var item = sender as MenuItem;
-            var cm = (ContextMenu)item?.Parent;
-            var popup = (Popup)cm?.Parent;
-
-            var terminal = popup?.PlacementTarget as AvalonTerminal;
-
-            if (terminal == null)
+            try
             {
-                return;
+                var item = sender as MenuItem;
+                var cm = (ContextMenu)item?.Parent;
+                var popup = (Popup)cm?.Parent;
+
+                var terminal = popup?.PlacementTarget as AvalonTerminal;
+
+                if (terminal == null)
+                {
+                    return;
+                }
+
+                // Set the initial text for the editor.
+                var win = new RegexTestWindow();
+
+                // Startup position of the dialog should be in the center of the parent window.  The
+                // owner has to be set for this to work.
+                win.Owner = App.MainWindow;
+                win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                win.CancelButtonText = "Close";
+                win.SaveButtonVisible = false;
+
+                // Remove any ANSI codes from the selected text.
+                var sb = new StringBuilder(terminal.SelectedText);
+                Colorizer.RemoveAllAnsiCodes(sb);
+                win.Pattern = sb.ToString();
+
+                // Show the Lua dialog.
+                win.ShowDialog();
             }
+            catch (Exception ex)
+            {
+                this.Interp.Conveyor.EchoLog(ex.Message, Common.Models.LogType.Error);
 
-            // Set the initial text for the editor.
-            var win = new RegexTestWindow();
-
-            // Startup position of the dialog should be in the center of the parent window.  The
-            // owner has to be set for this to work.
-            win.Owner = App.MainWindow;
-            win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            win.CancelButtonText = "Close";
-            win.SaveButtonVisible = false;
-
-            // Remove any ANSI codes from the selected text.
-            var sb = new StringBuilder(terminal.SelectedText);
-            Colorizer.RemoveAllAnsiCodes(sb);
-            win.Pattern = sb.ToString();
-
-            // Show the Lua dialog.
-            win.ShowDialog();
+                if (!string.IsNullOrWhiteSpace(ex.StackTrace))
+                {
+                    this.Interp.Conveyor.EchoLog(ex.StackTrace, Common.Models.LogType.Error);
+                }
+            }
         }
 
     }
