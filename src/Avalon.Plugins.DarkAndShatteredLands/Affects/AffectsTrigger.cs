@@ -77,7 +77,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
 
             foreach (var affect in this.Affects)
             {
-                this.Conveyor.ProgressBarRepeaterAdd(affect.Name, affect.Duration < 0 ? 50 : affect.Duration + 1, 50, affect.Display());
+                this.Conveyor.ProgressBarRepeaterAdd(affect.Name, affect.Duration < 0 ? 50 : affect.Duration + 1, 50, affect.Display(), $"c '{affect.Name}'");
             }
 
             // Critical spells found

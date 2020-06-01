@@ -67,6 +67,36 @@ namespace Avalon.Controls
         }
 
         /// <summary>
+        /// Adds an item into the progress bar repeater list.  If a key exists it's value
+        /// and text will be updated.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="maximum"></param>
+        /// <param name="text"></param>
+        /// <param name="key"></param>
+        /// <param name="command"></param>
+        public void Add(int value, int maximum, string text, string key, string command)
+        {
+            // Let's try an add or update.
+            var bar = this.BarItems.FirstOrDefault(x => x.Key == key);
+
+            if (bar == null)
+            {
+                // New
+                this.BarItems.Add(new Bar(value, maximum, text, key, command));
+            }
+            else
+            {
+                // Update
+                bar.Text = text;
+                bar.Value = value;
+                bar.Command = command;
+            }
+
+            this.scrollViewer.ScrollToEnd();
+        }
+
+        /// <summary>
         /// Removes at item from the BarRepeater.
         /// </summary>
         /// <param name="key"></param>
@@ -78,6 +108,40 @@ namespace Avalon.Controls
                 {
                     this.BarItems.RemoveAt(i);
                 }
+            }
+        }
+
+        /// <summary>
+        /// If this is enabled and a command has been set in the Tag then send it to the mud.  This will allow
+        /// people to execute commands from progress bar items.  In the case of a Diku/ROM style mud this might
+        /// manifest as recasting a spell that was close to wearing off.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TextBlock_PreviewMouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (!this.EnableMouseClick)
+            {
+                return;
+            }
+
+            try
+            {
+                var tb = e.OriginalSource as TextBlock;
+
+                if (tb.Tag == null)
+                {
+                    return;
+                }
+
+                string cmd = (string)tb.Tag;
+
+                App.MainWindow.Interp.Send(cmd);
+            }
+            catch (Exception ex)
+            {
+                App.Conveyor.EchoLog(ex.Message, Common.Models.LogType.Error);
+                App.Conveyor.EchoLog(ex?.StackTrace ?? "Stack trace was empty.", Common.Models.LogType.Error);
             }
         }
 
@@ -122,6 +186,20 @@ namespace Avalon.Controls
             DependencyProperty.Register("StatusBarVisible", typeof(bool), typeof(BarRepeater), new PropertyMetadata(false));
 
         /// <summary>
+        /// Whether handling the mouse click event is enabled.
+        /// </summary>
+        public bool EnableMouseClick
+        {
+            get { return (bool)GetValue(EnableMouseClickProperty); }
+            set { SetValue(EnableMouseClickProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for EnableMouseClick.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty EnableMouseClickProperty =
+            DependencyProperty.Register("EnableMouseClick", typeof(bool), typeof(BarRepeater), new PropertyMetadata(false));
+
+
+        /// <summary>
         /// A colored progress bar.
         /// </summary>
         public class Bar : INotifyPropertyChanged
@@ -147,6 +225,22 @@ namespace Avalon.Controls
                 this.Text = text;
                 this.Maximum = maximum;
                 this.Key = key;
+            }
+
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="value"></param>
+            /// <param name="maximum"></param>
+            /// <param name="text"></param>
+            /// <param name="key"></param>
+            public Bar(int value, int maximum, string text, string key, string command)
+            {
+                this.Value = value;
+                this.Text = text;
+                this.Maximum = maximum;
+                this.Key = key;
+                this.Command = command;
             }
 
             /// <summary>
@@ -241,6 +335,24 @@ namespace Avalon.Controls
                 }
             }
 
+            private string _command = "";
+
+            /// <summary>
+            /// Command to send to the game if the control supports the mouse clicks being enabled.
+            /// </summary>
+            public string Command
+            { 
+                get
+                {
+                    return _command;
+                }
+                set
+                {
+                    _command = value;
+                    OnPropertyChanged("Command");
+                }
+            }
+
             protected virtual async void OnPropertyChanged(string propertyName)
             {
                 var e = new PropertyChangedEventArgs(propertyName);
@@ -248,8 +360,6 @@ namespace Avalon.Controls
             }
 
             public event PropertyChangedEventHandler PropertyChanged;
-
-
         }
 
     }

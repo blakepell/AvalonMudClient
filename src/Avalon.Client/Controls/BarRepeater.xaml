@@ -9,7 +9,7 @@
         <DataTemplate x:Key="HorizontalBarTemplate">
             <Grid>
                 <ui:ProgressBar Maximum="{Binding Path=Maximum, Mode=OneWay}" Value="{Binding Path=Value, Mode=OneWay}" ui:CornerRadius="0" 
-                                Background="#171717" Foreground="{Binding Path=Background, Mode=OneWay}" IsIndeterminate="False" 
+                                Background="#171717" Foreground="{Binding Path=Background, Mode=OneWay}" IsIndeterminate="False"
                                 Height="20" Width="250"></ui:ProgressBar>
                 <TextBlock Text="{Binding Path=Text}" 
                            FontFamily="Consolas"
@@ -17,6 +17,8 @@
                            Foreground="White" 
                            HorizontalAlignment="Left" VerticalAlignment="Center"
                            Margin="10,0,0,0"
+                           Tag="{Binding Path=Command}"
+                           PreviewMouseLeftButtonUp="TextBlock_PreviewMouseLeftButtonUp"
                            />
             </Grid>
         </DataTemplate>

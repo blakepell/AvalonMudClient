@@ -684,15 +684,6 @@ namespace Avalon
         }
 
         /// <summary>
-        /// Clears a progress bar with the specified name if it's found.
-        /// </summary>
-        /// <param name="progressBarName"></param>
-        public void ProgressBarRepeaterClear(string progressBarName)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Adds an item to the default progress bar repeater.  If the key exists it will be updated.
         /// </summary>
         /// <param name="key"></param>
@@ -703,20 +694,16 @@ namespace Avalon
         {
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
-                App.MainWindow.BarRepeater.Add(value, maximum, text, key);
+              App.MainWindow.BarRepeater.Add(value, maximum, text, key);
             }));
         }
 
-        /// <summary>
-        /// Adds an item to the default progress bar repeater if it's found.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="maximum"></param>
-        /// <param name="text"></param>
-        /// <param name="progressBarName"></param>
-        public void ProgressBarRepeaterAdd(string key, int value, int maximum, string text, string progressBarName)
+        public void ProgressBarRepeaterAdd(string key, int value, int maximum, string text, string command)
         {
-            throw new NotImplementedException();
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                App.MainWindow.BarRepeater.Add(value, maximum, text, key, command);
+            }));
         }
 
         /// <summary>
@@ -729,15 +716,6 @@ namespace Avalon
             {
                 App.MainWindow.BarRepeater.Remove(key);
             }));
-        }
-
-        /// <summary>
-        /// Removes at item from the default progress bar repeater if it's found.
-        /// </summary>
-        /// <param name="key"></param>
-        public void ProgressBarRemove(string key, string progressBarName)
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>

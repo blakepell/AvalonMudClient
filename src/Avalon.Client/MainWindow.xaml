@@ -362,7 +362,9 @@
                     <Border x:Name="Panel1" x:FieldModifier="public" 
                             Grid.Row="2" Grid.Column="1"
                             Margin="0" Padding="0" BorderThickness=".9,.9,0,0" BorderBrush="Gray">
-                        <controls:BarRepeater x:Name="BarRepeater" x:FieldModifier="public" Margin="0,0,0,0"></controls:BarRepeater>
+                        <controls:BarRepeater x:Name="BarRepeater" x:FieldModifier="public" 
+                                              Margin="0,0,0,0" EnableMouseClick="True"
+                                              ></controls:BarRepeater>
                     </Border>
 
                     <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="0,.9,0,0">

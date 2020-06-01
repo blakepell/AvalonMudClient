@@ -79,13 +79,9 @@ namespace Avalon.Common.Interfaces
 
         void ProgressBarRepeaterAdd(string key, int value, int maximum, string text);
 
-        void ProgressBarRepeaterClear(string progressBarName);
-
-        void ProgressBarRepeaterAdd(string key, int value, int maximum, string text, string progressBarName);
+        void ProgressBarRepeaterAdd(string key, int value, int maximum, string text, string command);
 
         void ProgressBarRemove(string key);
-
-        void ProgressBarRemove(string key, string progressBarName);
 
         void SetCustomTabVisible(CustomTab tab, bool visible);
 
