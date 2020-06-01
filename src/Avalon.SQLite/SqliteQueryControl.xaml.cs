@@ -123,12 +123,17 @@ namespace Avalon.Sqlite
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void QueryControl_KeyDownAsync(object sender, System.Windows.Input.KeyEventArgs e)
+        private async void QueryControl_KeyDownAsync(object sender, KeyEventArgs e)
         {
-            if (e.Key == System.Windows.Input.Key.F5)
+            if (e.Key == Key.F5)
             {
+                // ExecuteQuery() will handle closing autocompletion since it's called from multiple paths.
                 await ExecuteQuery();
                 e.Handled = true;
+            }
+            else if (e.Key == Key.Escape)
+            {
+                _completionWindow?.Close();
             }
         }
 
@@ -156,6 +161,9 @@ namespace Avalon.Sqlite
 
             try
             {
+                // Close the auto complete window box if its open.
+                _completionWindow?.Close();
+
                 // Get rid of anything in the current DataTable.
                 if (this.DataTable != null)
                 {
