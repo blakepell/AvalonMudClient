@@ -73,10 +73,17 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
         private void PopulateKnownAffects()
         {
             this.AffectToCommands.Add("sneak", new AffectCommand("sneak", "sneak", false));
-            this.AffectToCommands.Add("veil of misery", new AffectCommand("sneak", "", true));
+            this.AffectToCommands.Add("veil of misery", new AffectCommand("veil of misery", "", true));
             this.AffectToCommands.Add("thorn aura", new AffectCommand("sneak", "", true));
             this.AffectToCommands.Add("purgatory", new AffectCommand("purgatory", "", true));
             this.AffectToCommands.Add("citadel", new AffectCommand("citadel", "", true));
+            this.AffectToCommands.Add("curse", new AffectCommand("curse", "", true));
+            this.AffectToCommands.Add("blind", new AffectCommand("blind", "", true));
+            this.AffectToCommands.Add("slow", new AffectCommand("slow", "", true));
+            this.AffectToCommands.Add("plague", new AffectCommand("plague", "", true));
+            this.AffectToCommands.Add("poison", new AffectCommand("poison", "", true));
+            this.AffectToCommands.Add("weaken", new AffectCommand("weaken", "", true));
+            this.AffectToCommands.Add("charm", new AffectCommand("charm", "", true));
         }
 
         /// <summary>
