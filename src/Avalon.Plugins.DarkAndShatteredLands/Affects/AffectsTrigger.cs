@@ -28,12 +28,18 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
         [JsonIgnore]
         public List<Affect> Affects { get; set; }
 
+        /// <summary>
+        /// Known affects that have commands different than casting.
+        /// </summary>
+        public Dictionary<string, AffectCommand> AffectToCommands { get; set; } = new Dictionary<string, AffectCommand>();
+
         public AffectsTrigger()
         {
             this.Pattern = @"^Spell: ([\w\s]+): modifies ([\w\s]+) by ([-+]?\d*) for (\d+) ([\w\s]+) *(.+)$";
             this.IsSilent = true;
             this.Identifier = "c40f9237-7753-4357-84a5-8e7d789853ed";
             this.Affects = new List<Affect>();
+            this.PopulateKnownAffects();
         }
 
         public override string Command => "";
@@ -62,6 +68,18 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
         }
 
         /// <summary>
+        /// Populates affects to command dictionary.
+        /// </summary>
+        private void PopulateKnownAffects()
+        {
+            this.AffectToCommands.Add("sneak", new AffectCommand("sneak", "sneak", false));
+            this.AffectToCommands.Add("veil of misery", new AffectCommand("sneak", "", true));
+            this.AffectToCommands.Add("thorn aura", new AffectCommand("sneak", "", true));
+            this.AffectToCommands.Add("purgatory", new AffectCommand("purgatory", "", true));
+            this.AffectToCommands.Add("citadel", new AffectCommand("citadel", "", true));
+        }
+
+        /// <summary>
         /// Updates the mud client's UI.
         /// </summary>
         public void UpdateUI()
@@ -77,7 +95,16 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
 
             foreach (var affect in this.Affects)
             {
-                this.Conveyor.ProgressBarRepeaterAdd(affect.Name, affect.Duration < 0 ? 50 : affect.Duration + 1, 50, affect.Display(), $"c '{affect.Name}'");
+                // We have a command that's not the default trying to cast (or is nothing and should be ignored).
+                if (this.AffectToCommands.ContainsKey(affect.Name) && !this.AffectToCommands[affect.Name].IgnoreCommand)
+                {
+                    this.Conveyor.ProgressBarRepeaterAdd(affect.Name, affect.Duration < 0 ? 50 : affect.Duration + 1, 50, affect.Display(), this.AffectToCommands[affect.Name].Command);
+                }
+                else
+                {
+                    // Default, try to cast.
+                    this.Conveyor.ProgressBarRepeaterAdd(affect.Name, affect.Duration < 0 ? 50 : affect.Duration + 1, 50, affect.Display(), $"c '{affect.Name}'");
+                }
             }
 
             // Critical spells found
