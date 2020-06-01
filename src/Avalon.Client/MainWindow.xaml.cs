@@ -217,9 +217,6 @@ namespace Avalon
                 // Update any UI settings
                 UpdateUISettings();
 
-                // Setup any custom binding that has to happen via code.
-                this.SetupBinding();
-
                 // Auto connect to the game if the setting is set.
                 if (App.Settings.ProfileSettings.AutoConnect)
                 {
@@ -253,6 +250,10 @@ namespace Avalon
             try
             {
                 App.Settings.LoadSettings(fileName);
+
+                // Setup any custom binding that has to happen via code.  This must happen after the
+                // profile is loaded if it comes from code.
+                this.SetupBinding();
 
                 this.Title = string.IsNullOrWhiteSpace(App.Settings.ProfileSettings.WindowTitle)
                     ? "Avalon Mud Client"
