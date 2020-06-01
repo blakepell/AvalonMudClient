@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Windows;
 using Accessibility;
 using Argus.Extensions;
@@ -21,7 +22,22 @@ namespace Avalon.HashCommands
 
         public override void Execute()
         {
-            this.Interpreter.Conveyor.EchoText("{RRed{x {rRed{x {BBlue{x {bBlue{x {CCyan{x {cCyan{x {GGreen{x {gGreen{x", "testWin");
+            this.Interpreter.IsRecordingCommands = !this.Interpreter.IsRecordingCommands;
+            this.Interpreter.Conveyor.EchoLog($"Recording: {this.Interpreter.IsRecordingCommands}", Common.Models.LogType.Debug);
+
+            var sb = new StringBuilder();
+
+            foreach (string item in this.Interpreter.RecordedCommands)
+            {
+                sb.AppendFormat("'{0}',", item);
+            }
+
+            if (!this.Interpreter.IsRecordingCommands)
+            {
+                this.Interpreter.Send("#window -n cmds");
+                this.Interpreter.Send("#echo -w \"cmds\" " + sb.ToString());
+            }
+
         }
 
     }
