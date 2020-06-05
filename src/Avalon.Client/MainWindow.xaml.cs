@@ -1437,5 +1437,15 @@ namespace Avalon
 
             }
         }
+
+        /// <summary>
+        /// Allows the user to change their current character.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemChangeCharacter_Click(object sender, RoutedEventArgs e)
+        {
+            this.Interp.Conveyor.InputBoxToVariable("What is your current character name that is logged in?", "Set Character Name", "Character");
+        }
     }
 }

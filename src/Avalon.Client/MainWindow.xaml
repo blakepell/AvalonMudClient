@@ -156,6 +156,13 @@
                             <MenuItem Header="Exit Without Save" x:Name="ButtonExitWithoutSave" Click="ButtonExitWithoutSave_OnClickAsync" />
                             <MenuItem Header="E_xit" x:Name="ButtonExit" Click="ButtonExit_OnClick" />
                         </MenuItem>
+                        <MenuItem Header="_Edit">
+                            <MenuItem Header="Change Character" Click="MenuItemChangeCharacter_Click">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon Symbol="OtherUser" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </MenuItem>
                         <MenuItem Header="_View">
                             <MenuItem Header="Open Last Editted Alias or Trigger" Click="MenuItemOpenLastEdittedAliasOrTrigger_Click" InputGestureText="Ctrl+Alt+L">
                                 <MenuItem.Icon>
