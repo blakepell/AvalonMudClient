@@ -48,6 +48,7 @@ Hash commands that reside in the main project will be general purpose.  Plugins 
 |#get|Gets a global variable value|
 |#group-disable|Disables an entire group of aliases and triggers|
 |#group-enable|Enables an entire group of aliases and triggers|
+|#is-connected|Whether the client has an active TCP/IP connection open.|
 |#line-count|Shows the number of lines in the terminal window|
 |#lua|Executes Lua asynchronously.|
 |#lua-debug|Provides debugging information about the current Lua environment.|
