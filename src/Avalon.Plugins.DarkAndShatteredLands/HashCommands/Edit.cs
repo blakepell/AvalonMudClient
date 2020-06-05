@@ -50,7 +50,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands.HashCommands
             using (var reader = new StringReader(this.Interpreter.Conveyor.Scrape.ToString()))
             {
                 string line;
-                while ((line = reader.ReadLine()) != null)
+                while ((line = await reader.ReadLineAsync()) != null)
                 {
                     if (line.StartsWith("Code:") || line.StartsWith("Vnum:") || line.StartsWith("<"))
                     {

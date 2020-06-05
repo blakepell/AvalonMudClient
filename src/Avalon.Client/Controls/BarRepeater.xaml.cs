@@ -168,7 +168,7 @@ namespace Avalon.Controls
 
         // Using a DependencyProperty as the backing store for WarningText.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty StatusTextProperty =
-            DependencyProperty.Register("StatusText", typeof(string), typeof(BarRepeater), new PropertyMetadata(""));
+            DependencyProperty.Register(nameof(StatusText), typeof(string), typeof(BarRepeater), new PropertyMetadata(""));
 
         /// <summary>
         /// Whether or not the status bar should show.
@@ -183,7 +183,7 @@ namespace Avalon.Controls
         }
 
         public static readonly DependencyProperty StatusBarVisibleProperty =
-            DependencyProperty.Register("StatusBarVisible", typeof(bool), typeof(BarRepeater), new PropertyMetadata(false));
+            DependencyProperty.Register(nameof(StatusBarVisible), typeof(bool), typeof(BarRepeater), new PropertyMetadata(false));
 
         /// <summary>
         /// Whether handling the mouse click event is enabled.
@@ -196,8 +196,7 @@ namespace Avalon.Controls
 
         // Using a DependencyProperty as the backing store for EnableMouseClick.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty EnableMouseClickProperty =
-            DependencyProperty.Register("EnableMouseClick", typeof(bool), typeof(BarRepeater), new PropertyMetadata(false));
-
+            DependencyProperty.Register(nameof(EnableMouseClick), typeof(bool), typeof(BarRepeater), new PropertyMetadata(false));
 
         /// <summary>
         /// A colored progress bar.

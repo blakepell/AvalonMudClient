@@ -269,7 +269,7 @@ namespace Avalon.Sqlite
                     view.Fields = ieFields.ToList();
                 }
 
-                conn.Close();
+                await conn.CloseAsync();
             }
 
             this.Schema = schema;

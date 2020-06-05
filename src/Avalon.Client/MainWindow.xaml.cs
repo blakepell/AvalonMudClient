@@ -75,7 +75,7 @@ namespace Avalon
 
         // Using a DependencyProperty as the backing store for SpellCheckEnabled.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SpellCheckEnabledProperty =
-            DependencyProperty.Register("SpellCheckEnabled", typeof(bool), typeof(MainWindow), new PropertyMetadata(true));
+            DependencyProperty.Register(nameof(SpellCheckEnabled), typeof(bool), typeof(MainWindow), new PropertyMetadata(true));
 
         /// <summary>
         /// Window initialization.  This occurs before the Loaded event.  We'll set the initial

@@ -23,7 +23,7 @@ namespace Avalon.Controls
         }
 
         public static readonly DependencyProperty HealthProperty = DependencyProperty.Register(
-            "Health", typeof(int), typeof(InfoBar), new PropertyMetadata(default(int)));
+            nameof(Health), typeof(int), typeof(InfoBar), new PropertyMetadata(default(int)));
 
         public int Health
         {
@@ -36,7 +36,7 @@ namespace Avalon.Controls
         }
 
         public static readonly DependencyProperty MaxHealthProperty = DependencyProperty.Register(
-            "MaxHealth", typeof(int), typeof(InfoBar), new PropertyMetadata(default(int)));
+            nameof(MaxHealth), typeof(int), typeof(InfoBar), new PropertyMetadata(default(int)));
 
         public int MaxHealth
         {
@@ -45,7 +45,7 @@ namespace Avalon.Controls
         }
 
         public static readonly DependencyProperty HealthColorBrushProperty = DependencyProperty.Register(
-            "HealthColorBrush", typeof(SolidColorBrush), typeof(InfoBar), new PropertyMetadata(Brushes.White));
+            nameof(HealthColorBrush), typeof(SolidColorBrush), typeof(InfoBar), new PropertyMetadata(Brushes.White));
 
         public SolidColorBrush HealthColorBrush
         {
@@ -54,7 +54,7 @@ namespace Avalon.Controls
         }
 
         public static readonly DependencyProperty ManaProperty = DependencyProperty.Register(
-            "Mana", typeof(int), typeof(InfoBar), new PropertyMetadata(default(int)));
+            nameof(Mana), typeof(int), typeof(InfoBar), new PropertyMetadata(default(int)));
 
         public int Mana
         {
@@ -68,7 +68,7 @@ namespace Avalon.Controls
 
 
         public static readonly DependencyProperty MaxManaProperty = DependencyProperty.Register(
-            "MaxMana", typeof(int), typeof(InfoBar), new PropertyMetadata(default(int)));
+            nameof(MaxMana), typeof(int), typeof(InfoBar), new PropertyMetadata(default(int)));
 
         public int MaxMana
         {
@@ -77,7 +77,7 @@ namespace Avalon.Controls
         }
 
         public static readonly DependencyProperty ManaColorBrushProperty = DependencyProperty.Register(
-            "ManaColorBrush", typeof(SolidColorBrush), typeof(InfoBar), new PropertyMetadata(Brushes.White));
+            nameof(ManaColorBrush), typeof(SolidColorBrush), typeof(InfoBar), new PropertyMetadata(Brushes.White));
 
         public SolidColorBrush ManaColorBrush
         {
@@ -87,7 +87,7 @@ namespace Avalon.Controls
 
 
         public static readonly DependencyProperty MoveProperty = DependencyProperty.Register(
-            "Move", typeof(int), typeof(InfoBar), new PropertyMetadata(default(int)));
+            nameof(Move), typeof(int), typeof(InfoBar), new PropertyMetadata(default(int)));
 
         public int Move
         {
@@ -100,7 +100,7 @@ namespace Avalon.Controls
         }
 
         public static readonly DependencyProperty MaxMoveProperty = DependencyProperty.Register(
-            "MaxMove", typeof(int), typeof(InfoBar), new PropertyMetadata(default(int)));
+            nameof(MaxMove), typeof(int), typeof(InfoBar), new PropertyMetadata(default(int)));
 
         public int MaxMove
         {
@@ -109,7 +109,7 @@ namespace Avalon.Controls
         }
 
         public static readonly DependencyProperty MoveColorBrushProperty = DependencyProperty.Register(
-            "MoveColorBrush", typeof(SolidColorBrush), typeof(InfoBar), new PropertyMetadata(Brushes.White));
+            nameof(MoveColorBrush), typeof(SolidColorBrush), typeof(InfoBar), new PropertyMetadata(Brushes.White));
 
         public SolidColorBrush MoveColorBrush
         {
@@ -118,7 +118,7 @@ namespace Avalon.Controls
         }
 
         public static readonly DependencyProperty StanceProperty = DependencyProperty.Register(
-            "Stance", typeof(string), typeof(InfoBar), new PropertyMetadata("Unknown"));
+            nameof(Stance), typeof(string), typeof(InfoBar), new PropertyMetadata("Unknown"));
 
         public string Stance
         {
@@ -127,7 +127,7 @@ namespace Avalon.Controls
         }
 
         public static readonly DependencyProperty WimpyProperty = DependencyProperty.Register(
-            "Wimpy", typeof(int), typeof(InfoBar), new PropertyMetadata(default(int)));
+            nameof(Wimpy), typeof(int), typeof(InfoBar), new PropertyMetadata(default(int)));
 
         public int Wimpy
         {
@@ -136,7 +136,7 @@ namespace Avalon.Controls
         }
 
         public static readonly DependencyProperty TickTimerProperty = DependencyProperty.Register(
-            "TickTimer", typeof(int), typeof(InfoBar), new PropertyMetadata(default(int)));
+            nameof(TickTimer), typeof(int), typeof(InfoBar), new PropertyMetadata(default(int)));
 
         public int TickTimer
         {
@@ -157,7 +157,7 @@ namespace Avalon.Controls
         }
 
         public static readonly DependencyProperty TickColorBrushProperty = DependencyProperty.Register(
-            "TickColorBrush", typeof(SolidColorBrush), typeof(InfoBar), new PropertyMetadata(Brushes.DarkGray));
+            nameof(TickColorBrush), typeof(SolidColorBrush), typeof(InfoBar), new PropertyMetadata(Brushes.DarkGray));
 
         public SolidColorBrush TickColorBrush
         {
@@ -166,7 +166,7 @@ namespace Avalon.Controls
         }
 
         public static readonly DependencyProperty ExitsProperty = DependencyProperty.Register(
-            "Exits", typeof(string), typeof(InfoBar), new PropertyMetadata("None"));
+            nameof(Exits), typeof(string), typeof(InfoBar), new PropertyMetadata("None"));
 
         public string Exits
         {
@@ -175,7 +175,7 @@ namespace Avalon.Controls
         }
 
         public static readonly DependencyProperty RoomProperty = DependencyProperty.Register(
-            "Room", typeof(string), typeof(InfoBar), new PropertyMetadata("Limbo"));
+            nameof(Room), typeof(string), typeof(InfoBar), new PropertyMetadata("Limbo"));
 
         public string Room
         {
@@ -184,7 +184,7 @@ namespace Avalon.Controls
         }
 
         public static readonly DependencyProperty TimeProperty = DependencyProperty.Register(
-            "Time", typeof(string), typeof(InfoBar), new PropertyMetadata("12am"));
+            nameof(Time), typeof(string), typeof(InfoBar), new PropertyMetadata("12am"));
 
         public string Time
         {
@@ -193,7 +193,7 @@ namespace Avalon.Controls
         }
 
         public static readonly DependencyProperty TargetProperty = DependencyProperty.Register(
-            "Target", typeof(string), typeof(InfoBar), new PropertyMetadata("Nobody"));
+            nameof(Target), typeof(string), typeof(InfoBar), new PropertyMetadata("Nobody"));
 
         public string Target
         {
@@ -220,7 +220,7 @@ namespace Avalon.Controls
         }
 
         public static readonly DependencyProperty TargetColorBrushProperty = DependencyProperty.Register(
-            "TargetColorBrush", typeof(SolidColorBrush), typeof(InfoBar), new PropertyMetadata(Brushes.DarkGray));
+            nameof(TargetColorBrush), typeof(SolidColorBrush), typeof(InfoBar), new PropertyMetadata(Brushes.DarkGray));
 
         public SolidColorBrush TargetColorBrush
         {

@@ -20,7 +20,7 @@ namespace Avalon.Controls
         }
 
         public static readonly DependencyProperty IsConnectedProperty =
-            DependencyProperty.Register("IsConnected", typeof(bool), typeof(TabControlEx), new PropertyMetadata(false));
+            DependencyProperty.Register(nameof(IsConnected), typeof(bool), typeof(TabControlEx), new PropertyMetadata(false));
 
 
         public static readonly RoutedEvent NetworkButtonClickEvent =

@@ -5,7 +5,7 @@ namespace Avalon.Controls.AutoCompleteTextBox
 {
     public class BindingEvaluator : FrameworkElement
     {
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(string),
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value), typeof(string),
             typeof(BindingEvaluator), new FrameworkPropertyMetadata(string.Empty));
 
         public BindingEvaluator(Binding binding)
