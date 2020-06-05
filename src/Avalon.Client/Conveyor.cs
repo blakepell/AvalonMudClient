@@ -640,6 +640,13 @@ namespace Avalon
                 Caption = caption
             };
 
+            string value = this.GetVariable(variable);
+
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                win.Text = value;
+            }
+
             var result = await win.ShowAsync();
 
             if (result == ModernWpf.Controls.ContentDialogResult.Primary)
