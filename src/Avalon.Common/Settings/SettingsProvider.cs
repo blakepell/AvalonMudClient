@@ -115,8 +115,9 @@ namespace Avalon.Common.Settings
                     // Reset the file
                     File.WriteAllText(this.AvalonSettingsFile, JsonConvert.SerializeObject(this.AvalonSettings, Formatting.Indented));
                 }
-                catch (Exception ex)
+                catch
                 {
+                    // TODO - Error handling
                     // Something else went wrong so ya know.. guess we'll hang with the default settings like it's a brand new install.
                 }
             }
