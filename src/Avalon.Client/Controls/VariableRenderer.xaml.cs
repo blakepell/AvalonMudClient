@@ -35,27 +35,24 @@ namespace Avalon.Controls
 
                 if (item.DisplayLabel)
                 {
+                    // 1,-15
                     if (string.IsNullOrWhiteSpace(item.Label))
                     {
-                        _sb.Append(item.Key.AsSpan());
-                        _sb.Append(": {x");
+                        _sb.AppendFormat("{0,-8}:{{x ", item.Key);
                     }
                     else
                     {
-                        _sb.Append(item.Label.AsSpan());
-                        _sb.Append(": {x");
+                        _sb.AppendFormat("{0,-8}:{{x ", item.Label);
                     }
                 }
 
                 if (string.IsNullOrWhiteSpace(item.Value))
                 {
-                    _sb.Append(item.Value.AsSpan());
-                    _sb.Append("N/A{W]{x ");
+                    _sb.AppendFormat("{{W{0,-8}{{W]{{x", "N/A");
                 }
                 else
                 {
-                    _sb.Append(item.Value.AsSpan());
-                    _sb.Append("{W]{x ");
+                    _sb.AppendFormat("{{W{0,-8}{{W]{{x", item.Value);
                 }
             }
             
