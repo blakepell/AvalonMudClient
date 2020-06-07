@@ -26,13 +26,10 @@ namespace Avalon.HashCommands
                 App.MainWindow.InfoBar.Mana = int.Parse(this.Interpreter.Conveyor.GetVariable("Mana"));
                 App.MainWindow.InfoBar.MaxMove = int.Parse(this.Interpreter.Conveyor.GetVariable("MaxMove"));
                 App.MainWindow.InfoBar.Move = int.Parse(this.Interpreter.Conveyor.GetVariable("Move"));
-                App.MainWindow.InfoBar.Wimpy = int.Parse(this.Interpreter.Conveyor.GetVariable("Wimpy"));
                 App.MainWindow.InfoBar.Stance = this.Interpreter.Conveyor.GetVariable("Stance");
                 App.MainWindow.InfoBar.Room = this.Interpreter.Conveyor.GetVariable("Room");
                 App.MainWindow.InfoBar.Exits = this.Interpreter.Conveyor.GetVariable("ExitsShort");
-                App.MainWindow.InfoBar.Time = this.Interpreter.Conveyor.GetVariable("GameTime");
-                App.MainWindow.InfoBar.Target = this.Interpreter.Conveyor.GetVariable("Target").Trim();
-
+                App.MainWindow.VariableRenderer.Refresh();
             }
             catch (Exception ex)
             {

@@ -397,7 +397,7 @@
 
                     <Border Grid.Row="3" Grid.Column="1" Grid.RowSpan="2"
                             Background="#171717" BorderThickness="0,.9,0,0" BorderBrush="Gray">
-                        <controls:VariableRenderer x:Name="VariableRenderer" Height="60" />
+                        <controls:VariableRenderer x:Name="VariableRenderer" x:FieldModifier="public" Height="60" />
                     </Border>
 
                     <!-- Vertical Splitter -->

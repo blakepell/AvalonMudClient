@@ -126,15 +126,6 @@ namespace Avalon.Controls
             set => SetValue(StanceProperty, value);
         }
 
-        public static readonly DependencyProperty WimpyProperty = DependencyProperty.Register(
-            nameof(Wimpy), typeof(int), typeof(InfoBar), new PropertyMetadata(default(int)));
-
-        public int Wimpy
-        {
-            get => (int)GetValue(WimpyProperty);
-            set => SetValue(WimpyProperty, value);
-        }
-
         public static readonly DependencyProperty TickTimerProperty = DependencyProperty.Register(
             nameof(TickTimer), typeof(int), typeof(InfoBar), new PropertyMetadata(default(int)));
 
@@ -182,52 +173,6 @@ namespace Avalon.Controls
             get => (string)GetValue(RoomProperty);
             set => SetValue(RoomProperty, value);
         }
-
-        public static readonly DependencyProperty TimeProperty = DependencyProperty.Register(
-            nameof(Time), typeof(string), typeof(InfoBar), new PropertyMetadata("12am"));
-
-        public string Time
-        {
-            get => (string)GetValue(TimeProperty);
-            set => SetValue(TimeProperty, value);
-        }
-
-        public static readonly DependencyProperty TargetProperty = DependencyProperty.Register(
-            nameof(Target), typeof(string), typeof(InfoBar), new PropertyMetadata("Nobody"));
-
-        public string Target
-        {
-            get => (string)GetValue(TargetProperty);
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    value = "Nobody";
-                }
-
-                this.SetValue(TargetProperty, value);
-
-                if (value == "Nobody")
-                {
-                    this.SetValue(TargetColorBrushProperty, Brushes.DarkGray);
-                }
-                else
-                {
-                    this.SetValue(TargetColorBrushProperty, Brushes.Red);
-                }
-
-            }
-        }
-
-        public static readonly DependencyProperty TargetColorBrushProperty = DependencyProperty.Register(
-            nameof(TargetColorBrush), typeof(SolidColorBrush), typeof(InfoBar), new PropertyMetadata(Brushes.DarkGray));
-
-        public SolidColorBrush TargetColorBrush
-        {
-            get => (SolidColorBrush)GetValue(TargetColorBrushProperty);
-            set => SetValue(TickColorBrushProperty, value);
-        }
-
 
     }
 }

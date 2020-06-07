@@ -28,8 +28,6 @@
             <TextBlock Text="(" Foreground="White" Style="{StaticResource TextBlockStyle}"></TextBlock>
             <TextBlock Text="Stance:" Foreground="DarkGray" Margin="0,0,3,0" Style="{StaticResource TextBlockStyle}"></TextBlock>
             <TextBlock Foreground="DarkGray" Text="{Binding Stance}" Style="{StaticResource TextBlockStyle}" />
-            <TextBlock Text="@" Style="{StaticResource TextBlockStyle}" Foreground="DarkGray"></TextBlock>
-            <TextBlock Foreground="DarkGray" Text="{Binding Wimpy}" Style="{StaticResource TextBlockStyle}" />
             <TextBlock Text=")" Foreground="White" Margin="0,0,5,0" Style="{StaticResource TextBlockStyle}"></TextBlock>
 
             <TextBlock Text="(" Foreground="White" Style="{StaticResource TextBlockStyle}"></TextBlock>
@@ -43,16 +41,6 @@
             <TextBlock Text="[Tick:" Foreground="White" Style="{StaticResource TextBlockStyle}"></TextBlock>
             <TextBlock Text="" Foreground="DarkGray" Margin="0,0,3,0" Style="{StaticResource TextBlockStyle}"></TextBlock>
             <TextBlock Text="{Binding TickTimer}" Style="{StaticResource TextBlockStyle}" Foreground="{Binding TickColorBrush, Mode=OneWay}" />
-            <TextBlock Text="]" Foreground="White" Margin="0,0,5,0" Style="{StaticResource TextBlockStyle}"></TextBlock>
-
-            <TextBlock Text="[Target:" Foreground="White" Style="{StaticResource TextBlockStyle}"></TextBlock>
-            <TextBlock Text="" Foreground="DarkGray" Margin="0,0,3,0" Style="{StaticResource TextBlockStyle}"></TextBlock>
-            <TextBlock Text="{Binding Target}" Foreground="{Binding TargetColorBrush}"  Style="{StaticResource TextBlockStyle}" />
-            <TextBlock Text="]" Foreground="White" Margin="0,0,5,0" Style="{StaticResource TextBlockStyle}"></TextBlock>
-
-            <TextBlock Text="[" Foreground="White" Style="{StaticResource TextBlockStyle}"></TextBlock>
-            <TextBlock Text="" Foreground="DarkGray" Style="{StaticResource TextBlockStyle}"></TextBlock>
-            <TextBlock Foreground="DarkGray" Text="{Binding Time}"  Style="{StaticResource TextBlockStyle}" />
             <TextBlock Text="]" Foreground="White" Margin="0,0,5,0" Style="{StaticResource TextBlockStyle}"></TextBlock>
         </StackPanel>
     </Grid>

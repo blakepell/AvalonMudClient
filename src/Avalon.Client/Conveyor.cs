@@ -442,7 +442,7 @@ namespace Avalon
         /// <returns></returns>
         public string GetGameTime()
         {
-            return App.MainWindow.InfoBar.Time;
+            return GetVariable("GameTime");
         }
 
         /// <summary>
