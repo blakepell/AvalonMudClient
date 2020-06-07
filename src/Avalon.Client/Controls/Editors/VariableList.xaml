@@ -42,6 +42,10 @@
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Key" Binding="{Binding Key,UpdateSourceTrigger=PropertyChanged}" Width="40*" />
                 <DataGridTextColumn Header="Value" Binding="{Binding Value,UpdateSourceTrigger=PropertyChanged}" Width="40*" />
+                <DataGridCheckBoxColumn Header="Visible" Binding="{Binding IsVisible,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
+                <DataGridCheckBoxColumn Header="Display Label" Binding="{Binding DisplayLabel,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
+                <DataGridTextColumn Header="Label" Binding="{Binding Label,UpdateSourceTrigger=PropertyChanged}" Width="40*" />
+                <DataGridTextColumn Header="Display Order" Binding="{Binding DisplayOrder,UpdateSourceTrigger=PropertyChanged}" Width="40*" />
                 <DataGridTextColumn Header="Character" Binding="{Binding Character,UpdateSourceTrigger=PropertyChanged}" Width="20*" />
             </DataGrid.Columns>
         </DataGrid>
