@@ -437,6 +437,44 @@ namespace Avalon.Controls
         }
 
         /// <summary>
+        /// Appends ANSI color coded text to the terminal (via the mud color codes).
+        /// </summary>
+        /// <param name="text"></param>
+        public void AppendAnsi(string text)
+        {
+            var line = new Line
+            {
+                IgnoreLastColor = false,
+                ForegroundColor = AnsiColors.Default
+            };
+
+            var sb = Argus.Memory.StringBuilderPool.Take(text);
+            Colorizer.MudToAnsiColorCodes(sb);
+            line.FormattedText = sb.ToString();
+            Argus.Memory.StringBuilderPool.Return(sb);
+
+            Append(line);
+        }
+
+        /// <summary>
+        /// Appends ANSI color coded text to the terminal (via the mud color codes).
+        /// </summary>
+        /// <param name="sb"></param>
+        public void AppendAnsi(StringBuilder sb)
+        {
+            var line = new Line
+            {
+                IgnoreLastColor = false,
+                ForegroundColor = AnsiColors.Default
+            };
+
+            Colorizer.MudToAnsiColorCodes(sb);
+            line.FormattedText = sb.ToString();
+
+            Append(line);
+        }
+
+        /// <summary>
         /// Uncollapses all of the gagged lines and redraws the visual lines on the screen.  This
         /// might be required when certain events are triggered (word wrap changing, width changing
         /// or properties on the this control).
