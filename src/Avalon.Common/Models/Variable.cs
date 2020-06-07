@@ -45,7 +45,95 @@ namespace Avalon.Common.Models
             }
         }
 
-        public string Character { get; set; } = "";
+        private string _character = "";
+        public string Character
+        { 
+            get
+            {
+                return _character;
+            }
+            set
+            {
+                _character = value;
+                OnPropertyChanged("Character");
+            }            
+        }
+
+        private bool _isVisible = false;
+
+        public bool IsVisible
+        {
+            get
+            {
+                return _isVisible;
+            }
+
+            set
+            {
+                if (value != _isVisible)
+                {
+                    _isVisible = value;
+                    OnPropertyChanged(nameof(this.IsVisible));
+                }
+            }
+        }
+
+        private int _displayOrder = 0;
+
+        public int DisplayOrder
+        {
+            get
+            {
+                return _displayOrder;
+            }
+
+            set
+            {
+                if (value != _displayOrder)
+                {
+                    _displayOrder = value;
+                    OnPropertyChanged(nameof(this.DisplayOrder));
+                }
+            }
+        }
+
+        private bool _displayLabel = true;
+
+        public bool DisplayLabel
+        {
+            get
+            {
+                return _displayLabel;
+            }
+
+            set
+            {
+                if (value != _displayLabel)
+                {
+                    _displayLabel = value;
+                    OnPropertyChanged(nameof(this.DisplayLabel));
+                }
+            }
+        }
+
+        private string _label = "";
+
+        public string Label
+        {
+            get
+            {
+                return _label;
+            }
+
+            set
+            {
+                if (value != _label)
+                {
+                    _label = value;
+                    OnPropertyChanged(nameof(this.Label));
+                }
+            }
+        }
 
         protected virtual async void OnPropertyChanged(string propertyName)
         {
