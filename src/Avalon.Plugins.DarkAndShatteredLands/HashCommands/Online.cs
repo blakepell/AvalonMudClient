@@ -53,6 +53,18 @@ namespace Avalon.Plugins.DarkAndShatteredLands.HashCommands
                 html = html.HtmlDecode();
                 string buf = Between(html, "<font face=\"Verdana\" size=\"5\">Players Online</font>", "The most we've ever had on was");
                 buf = Argus.Data.Formatting.StripHtml2(buf);
+                buf = buf.Replace("[ Bloodlust ]", "[ {rBloodlust{x ]");
+                buf = buf.Replace("[ White Robes ]", "[ {WWhite Robes{x ]");
+                buf = buf.Replace("[ Red Robes ]", "[ {RRed Robes{x ]");
+                buf = buf.Replace("[ Black Robes ]", "[ {DBlack Robes{x ]");
+                buf = buf.Replace("[ Shalonesti ]", "[ {gShalonesti{x ]");
+                buf = buf.Replace("[ Wargar ]", "[ {CWargar{x ]");
+                buf = buf.Replace("[ Justice ]", "[ {bJustice{x ]");
+                buf = buf.Replace("[ Knighthood ]", "[ {BKnighthood{x ]");
+                buf = buf.Replace("[ Shadow ]", "[ {wShadow{x ]");
+                buf = buf.Replace("[ Chaos ]", "[ {DChaos{x ]");
+                buf = buf.Replace("[ Slayers ]", "[ {YSlayers{x ]");
+                buf = buf.Replace("(WANTED)", "({RWANTED{x)");
 
                 this.Interpreter.Conveyor.EchoText($"{buf}\r\n");
             }
