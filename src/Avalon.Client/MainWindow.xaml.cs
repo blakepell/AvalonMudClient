@@ -255,6 +255,9 @@ namespace Avalon
                 // profile is loaded if it comes from code.
                 this.SetupBinding();
 
+                // Any manually references that should occur.
+                VariableRepeater.Bind();
+
                 this.Title = string.IsNullOrWhiteSpace(App.Settings.ProfileSettings.WindowTitle)
                     ? "Avalon Mud Client"
                     : App.Settings.ProfileSettings.WindowTitle;

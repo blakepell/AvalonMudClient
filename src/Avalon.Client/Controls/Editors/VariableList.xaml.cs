@@ -83,6 +83,16 @@ namespace Avalon.Controls
         }
 
         /// <summary>
+        /// A element has been updated.  Update the UI.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DataList_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            App.MainWindow.VariableRepeater.Bind();
+        }
+
+        /// <summary>
         /// The typing delay timer's tick that will refresh the filter after 300ms.
         /// </summary>
         /// <param name="sender"></param>

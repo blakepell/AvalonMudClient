@@ -1,4 +1,5 @@
-﻿using Avalon.Common.Interfaces;
+﻿using Argus.Extensions;
+using Avalon.Common.Interfaces;
 using System.ComponentModel;
 
 namespace Avalon.Common.Models
@@ -129,8 +130,29 @@ namespace Avalon.Common.Models
             {
                 if (value != _label)
                 {
+                    // Update both the label, and send a notice that the formatted label has
+                    // changed as well.
                     _label = value;
                     OnPropertyChanged(nameof(this.Label));
+                    OnPropertyChanged(nameof(this.FormattedLabel));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Used to properly format the label, choosing the label property or if it doesn't exist the key.
+        /// </summary>
+        public string FormattedLabel
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(this.Label) && _displayLabel)
+                {
+                    return $"{this.Label}:";
+                }
+                else
+                {
+                    return $"{this.Key}:";
                 }
             }
         }

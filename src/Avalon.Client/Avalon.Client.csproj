@@ -39,6 +39,9 @@
 
   <!--Custom nesting for the partial classes of the MainWindow we're using or isolate pieces of code -->
   <ItemGroup>
+    <Compile Update="Controls\VariableRepeater.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="MainWindow.Keyboard.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -87,6 +90,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Controls\VariableRepeater.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Resources\TabControlStylesSlim.xaml">
       <SubType>Designer</SubType>
     </Page>

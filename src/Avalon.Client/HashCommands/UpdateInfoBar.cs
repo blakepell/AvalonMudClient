@@ -29,7 +29,6 @@ namespace Avalon.HashCommands
                 App.MainWindow.InfoBar.Stance = this.Interpreter.Conveyor.GetVariable("Stance");
                 App.MainWindow.InfoBar.Room = this.Interpreter.Conveyor.GetVariable("Room");
                 App.MainWindow.InfoBar.Exits = this.Interpreter.Conveyor.GetVariable("ExitsShort");
-                App.MainWindow.VariableRenderer.Refresh();
             }
             catch (Exception ex)
             {

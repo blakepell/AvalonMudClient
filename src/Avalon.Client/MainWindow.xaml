@@ -373,13 +373,13 @@
                                               Margin="0,0,0,0" EnableMouseClick="True"
                                               ></controls:BarRepeater>
                     </Border>
-
+                    
                     <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" BorderBrush="Gray" BorderThickness="0,.9,0,0">
                         <controls:InfoBar x:Name="InfoBar" x:FieldModifier="public" Background="#171717"></controls:InfoBar>
                     </Border>
 
                     <editors:AutoCompleteTextBox x:Name="TextInput" Delay="300"
-                                                  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1"
+                                                  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1"                                                    
                                                   ui:ControlHelper.CornerRadius="0"
                                                   Text=""
                                                   Style="{StaticResource MaterialAutoCompleteTextBox}"
@@ -395,9 +395,9 @@
                         </editors:AutoCompleteTextBox.SelectedItem>
                     </editors:AutoCompleteTextBox>
 
-                    <Border Grid.Row="3" Grid.Column="1" Grid.RowSpan="2"
-                            Background="#171717" BorderThickness="0,.9,0,0" BorderBrush="Gray">
-                        <controls:VariableRenderer x:Name="VariableRenderer" x:FieldModifier="public" Height="60" />
+                    <Border x:Name="VariableRepeaterBorder" Grid.Row="3" Grid.Column="1" Grid.RowSpan="2"
+                            Background="#171717" BorderThickness=".9,.9,0,0" BorderBrush="Gray">
+                        <controls:VariableRepeater x:Name="VariableRepeater" x:FieldModifier="public" Height="60" />
                     </Border>
 
                     <!-- Vertical Splitter -->
