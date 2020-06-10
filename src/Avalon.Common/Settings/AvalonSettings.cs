@@ -10,7 +10,7 @@ namespace Avalon.Common.Settings
     /// the other settings.  We're going to try to keep things simple and have no overlap or cascading
     /// properties.
     /// </summary>
-    public class AvalonSettings
+    public class AvalonSettings : INotifyPropertyChanged
     {
         /// <summary>
         /// The overridden save directory if one exists.
@@ -125,36 +125,160 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public bool WordWrapTerminals { get; set; } = true;
 
+
+        private bool _variableRepeaterVisible = true;
+
+        [CategoryAttribute("UI")]
+        [DescriptionAttribute("If the variables repeater is visible on the main game tab.  The variable repeater will show variables that are defined as visible in the order their defined on in the variables tab.")]
+        [Browsable(true)]
+        public bool VariableRepeaterVisible
+        {
+            get
+            {
+                return _variableRepeaterVisible;
+            }
+
+            set
+            {
+                if (value != _variableRepeaterVisible)
+                {
+                    _variableRepeaterVisible = value;
+                    OnPropertyChanged(nameof(this.VariableRepeaterVisible));
+                }
+            }
+        }
+
+        private string _customTab1Label = "Untitled 1";
+
         [CategoryAttribute("UI")]
         [DescriptionAttribute("The header name of custom tab 1.")]
         [Browsable(true)]
-        public string CustomTab1Label { get; set; } = "Untitled 1";
+        public string CustomTab1Label
+        {
+            get
+            {
+                return _customTab1Label;
+            }
+
+            set
+            {
+                if (value != _customTab1Label)
+                {
+                    _customTab1Label = value;
+                    OnPropertyChanged(nameof(this.CustomTab1Label));
+                }
+            }
+        }
+
+        private bool _customTab1Visible = true;
 
         [CategoryAttribute("UI")]
         [DescriptionAttribute("Whether custom tab 1 is visible or not.")]
         [Browsable(true)]
-        public bool CustomTab1Visible { get; set; } = true;
+        public bool CustomTab1Visible
+        {
+            get
+            {
+                return _customTab1Visible;
+            }
+
+            set
+            {
+                if (value != _customTab1Visible)
+                {
+                    _customTab1Visible = value;
+                    OnPropertyChanged(nameof(this.CustomTab1Visible));
+                }
+            }
+        }
+
+        private string _customTab2Label = "Untitled 2";
 
         [CategoryAttribute("UI")]
         [DescriptionAttribute("The header name of custom tab 2.")]
         [Browsable(true)]
-        public string CustomTab2Label { get; set; } = "Untitled 2";
+        public string CustomTab2Label
+        {
+            get
+            {
+                return _customTab2Label;
+            }
+
+            set
+            {
+                if (value != _customTab2Label)
+                {
+                    _customTab2Label = value;
+                    OnPropertyChanged(nameof(this.CustomTab2Label));
+                }
+            }
+        }
+
+        private bool _customTab2Visible = true;
 
         [CategoryAttribute("UI")]
         [DescriptionAttribute("Whether custom tab 2 is visible or not.")]
         [Browsable(true)]
-        public bool CustomTab2Visible { get; set; } = true;
+        public bool CustomTab2Visible
+        {
+            get
+            {
+                return _customTab2Visible;
+            }
+
+            set
+            {
+                if (value != _customTab2Visible)
+                {
+                    _customTab2Visible = value;
+                    OnPropertyChanged(nameof(this.CustomTab2Visible));
+                }
+            }
+        }
+
+        private string _customTab3Label = "Untitled 3";
 
         [CategoryAttribute("UI")]
         [DescriptionAttribute("The header name of custom tab 3.")]
         [Browsable(true)]
-        public string CustomTab3Label { get; set; } = "Custom Tab 3";
+        public string CustomTab3Label
+        {
+            get
+            {
+                return _customTab3Label;
+            }
+
+            set
+            {
+                if (value != _customTab3Label)
+                {
+                    _customTab3Label = value;
+                    OnPropertyChanged(nameof(this.CustomTab3Label));
+                }
+            }
+        }
+
+        private bool _customTab3Visible = false;
 
         [CategoryAttribute("UI")]
-        [DescriptionAttribute("Whether custom tab 2 is visible or not.")]
+        [DescriptionAttribute("Whether custom tab 3 is visible or not.")]
         [Browsable(true)]
-        public bool CustomTab3Visible { get; set; } = false;
+        public bool CustomTab3Visible
+        {
+            get
+            {
+                return _customTab3Visible;
+            }
 
+            set
+            {
+                if (value != _customTab3Visible)
+                {
+                    _customTab3Visible = value;
+                    OnPropertyChanged(nameof(this.CustomTab3Visible));
+                }
+            }
+        }
 
         [CategoryAttribute("Security")]
         [DescriptionAttribute("The ability to start programs on the computer via #shell or lua:shell.")]
@@ -170,6 +294,14 @@ namespace Avalon.Common.Settings
         [DescriptionAttribute("Whether or not global exceptions should be handled.  Note: This requires a reboot of the mud client to take effect.")]
         [Browsable(true)]
         public bool GlobalExceptionHandlingEnabled { get; set; } = false;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            var e = new PropertyChangedEventArgs(propertyName);
+            PropertyChanged?.Invoke(this, e);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
     }
 }

@@ -498,22 +498,6 @@ namespace Avalon
             Terminal2.ScrollToLastLine();
             Terminal3.ScrollToLastLine();
 
-            // Custom tabs (Might be overriden by plugins)
-            CustomTab1Label.Content = App.Settings.AvalonSettings.CustomTab1Label;
-            CustomTab1.Visibility = App.Settings.AvalonSettings.CustomTab1Visible.ToVisibleOrCollapse();
-            CustomTab2Label.Content = App.Settings.AvalonSettings.CustomTab2Label;
-            CustomTab2.Visibility = App.Settings.AvalonSettings.CustomTab2Visible.ToVisibleOrCollapse();
-            CustomTab3Label.Content = App.Settings.AvalonSettings.CustomTab3Label;
-            CustomTab3.Visibility = App.Settings.AvalonSettings.CustomTab3Visible.ToVisibleOrCollapse();
-
-            // Quick toggles (some are set via binding)
-            ButtonCustomTab1Visible.IsChecked = App.Settings.AvalonSettings.CustomTab1Visible;
-            ButtonCustomTab2Visible.IsChecked = App.Settings.AvalonSettings.CustomTab2Visible;
-            ButtonCustomTab3Visible.IsChecked = App.Settings.AvalonSettings.CustomTab3Visible;
-            ButtonCustomTab1Visible.Label = App.Settings.AvalonSettings.CustomTab1Label;
-            ButtonCustomTab2Visible.Label = App.Settings.AvalonSettings.CustomTab2Label;
-            ButtonCustomTab3Visible.Label = App.Settings.AvalonSettings.CustomTab3Label;
-
             // Grid Layout
             LoadGridState();
         }
@@ -533,12 +517,24 @@ namespace Avalon
             // AppSettings gets replaced after this control is loaded.
             Utilities.Utilities.SetBinding(App.Settings.ProfileSettings, "AliasesEnabled", ButtonAliasesEnabled, CheckBox.IsCheckedProperty);
             Utilities.Utilities.SetBinding(App.Settings.ProfileSettings, "TriggersEnabled", ButtonTriggersEnabled, CheckBox.IsCheckedProperty);
-            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab1Visible", ButtonCustomTab1Visible, CheckBox.IsCheckedProperty);
+            
+            // Custom Tab 1 + Quick Toggle Bar
             Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab1Visible", CustomTab1, TabItemEx.VisibilityProperty, boolToCollapsedConverter);
-            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab2Visible", ButtonCustomTab2Visible, CheckBox.IsCheckedProperty);
+            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab1Label", CustomTab1Label, Label.ContentProperty);
+            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab1Visible", ButtonCustomTab1Visible, CheckBox.IsCheckedProperty);
+            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab1Label", ButtonCustomTab1Visible, AppBarToggleButton.LabelProperty);
+
+            // Custom Tab 2 + Quick Toggle Bar
             Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab2Visible", CustomTab2, TabItemEx.VisibilityProperty, boolToCollapsedConverter);
-            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab3Visible", ButtonCustomTab3Visible, CheckBox.IsCheckedProperty);
+            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab2Label", CustomTab2Label, Label.ContentProperty);
+            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab2Visible", ButtonCustomTab2Visible, CheckBox.IsCheckedProperty);
+            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab2Label", ButtonCustomTab2Visible, AppBarToggleButton.LabelProperty);
+
+            // Custom Tab 3 + Quick Toggle Bar
             Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab3Visible", CustomTab3, TabItemEx.VisibilityProperty, boolToCollapsedConverter);
+            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab3Label", CustomTab3Label, Label.ContentProperty);
+            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab3Visible", ButtonCustomTab3Visible, CheckBox.IsCheckedProperty);
+            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab3Label", ButtonCustomTab3Visible, AppBarToggleButton.LabelProperty);
         }
 
         /// <summary>

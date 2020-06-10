@@ -289,7 +289,10 @@ namespace Avalon.Utilities
                 binding.Converter = converter;
             }
 
-            BindingOperations.ClearAllBindings(depObj);
+            // Clear the binding object for just this object and property.
+            BindingOperations.ClearBinding(depObj, depProp);
+
+            // Set the binding anew.
             BindingOperations.SetBinding(depObj, depProp, binding);
         }
 
