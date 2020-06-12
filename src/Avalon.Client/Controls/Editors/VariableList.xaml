@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Avalon.Controls"
              xmlns:ui="http://schemas.modernwpf.com/2019"
              xmlns:avalon="clr-namespace:Avalon"
+             xmlns:sys="clr-namespace:System;assembly=System.Runtime"
              mc:Ignorable="d" ui:ThemeManager.RequestedTheme="Dark" 
              d:DesignHeight="450" d:DesignWidth="800"
              IsVisibleChanged="UserControl_IsVisibleChanged">
@@ -33,6 +34,29 @@
                   AutoGenerateColumns="False"
                   GridLinesVisibility="All"
                   CellEditEnding="DataList_CellEditEnding">
+            <DataGrid.Resources>
+                <x:Array x:Key="ColorList" Type="sys:String">
+                    <sys:String>Cyan</sys:String>
+                    <sys:String>Dark Dyan</sys:String>
+                    <sys:String>Green</sys:String>
+                    <sys:String>Dark Green</sys:String>
+                    <sys:String>White</sys:String>
+                    <sys:String>Light Gray</sys:String>
+                    <sys:String>Dark Gray</sys:String>
+                    <sys:String>Red</sys:String>
+                    <sys:String>Dark Red</sys:String>
+                    <sys:String>Blue</sys:String>
+                    <sys:String>Dark Blue</sys:String>
+                    <sys:String>Yellow</sys:String>
+                    <sys:String>Dark Yellow</sys:String>
+                    <sys:String>Purple </sys:String>
+                    <sys:String>Dark Purple</sys:String>
+                    <sys:String>Orange</sys:String>
+                    <sys:String>Pink</sys:String>
+                    <sys:String>Brown</sys:String>
+                    <sys:String>Magenta</sys:String>
+                </x:Array>
+            </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
@@ -46,6 +70,8 @@
                 <DataGridCheckBoxColumn Header="Visible" Binding="{Binding IsVisible,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
                 <DataGridTextColumn Header="Label" Binding="{Binding Label,UpdateSourceTrigger=PropertyChanged}" Width="40*" />
                 <DataGridTextColumn Header="Display Order" Binding="{Binding DisplayOrder,UpdateSourceTrigger=PropertyChanged}" Width="40*" />
+                <DataGridComboBoxColumn Header="Foreground Color" SelectedItemBinding="{Binding ForegroundColor,UpdateSourceTrigger=PropertyChanged}" ItemsSource="{StaticResource ColorList}" Width="40*">
+                </DataGridComboBoxColumn>
                 <DataGridTextColumn Header="Character" Binding="{Binding Character,UpdateSourceTrigger=PropertyChanged}" Width="20*" />
             </DataGrid.Columns>
         </DataGrid>

@@ -36,5 +36,11 @@ namespace Avalon.Common.Interfaces
         /// </summary>
         string Label { get; set; }
 
+        /// <summary>
+        /// The friendly name of the color to lookup that the variable should be displayed in.
+        /// </summary>
+        string ForegroundColor { get; set; }
+
+
     }
 }

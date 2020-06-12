@@ -3,9 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Avalon.Controls" xmlns:ui="http://schemas.modernwpf.com/2019"
+             xmlns:local="clr-namespace:Avalon.Controls" xmlns:ui="http://schemas.modernwpf.com/2019" 
+             xmlns:convert="clr-namespace:Avalon.Converters"
              mc:Ignorable="d">
     <UserControl.Resources>
+        <convert:AnsiColorToBrushConverter x:Key="ColorConverter" />
+        <convert:VariableDisplayConverter x:Key="VariableDisplayConverter" />
         <DataTemplate x:Key="HorizontalBarTemplate">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{Binding Path=FormattedLabel}"
@@ -15,10 +18,10 @@
                            HorizontalAlignment="Left" VerticalAlignment="Center"
                            Margin="5,5,5,0"                                                      
                            />
-                <TextBlock Text="{Binding Path=Value}" 
+                <TextBlock Text="{Binding Path=Value, Converter={StaticResource VariableDisplayConverter}}" 
                            FontFamily="Consolas"
                            FontSize="14" Height="20"
-                           Foreground="Cyan" 
+                           Foreground="{Binding Path=Self, Converter={StaticResource ColorConverter}, UpdateSourceTrigger=PropertyChanged}" 
                            HorizontalAlignment="Left" VerticalAlignment="Center"
                            Margin="0,5,0,0"
                            />

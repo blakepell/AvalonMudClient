@@ -1,5 +1,7 @@
 ﻿using Argus.Extensions;
 using Avalon.Common.Interfaces;
+using Newtonsoft.Json;
+using System;
 using System.ComponentModel;
 
 namespace Avalon.Common.Models
@@ -43,6 +45,9 @@ namespace Avalon.Common.Models
             {
                 _value = value;
                 OnPropertyChanged("Value");
+
+                // Also notify that the object itself has changed for bindings to update.
+                OnPropertyChanged("Self");
             }
         }
 
@@ -135,6 +140,42 @@ namespace Avalon.Common.Models
                 {
                     return $"{this.Key}:";
                 }
+            }
+        }
+
+        private string _foregroundColor;
+
+        /// <summary>
+        /// The foreground color that the variable should be displayed in.
+        /// </summary>
+        public string ForegroundColor
+        {
+            get
+            {
+                return _foregroundColor;
+            }
+
+            set
+            {
+                if (value != _foregroundColor)
+                {
+                    _foregroundColor = value;
+                    OnPropertyChanged(nameof(this.ForegroundColor));
+                }
+            }
+        }
+
+        /// <summary>
+        /// A self reference used to ease binding scenario.  This property will be marked as
+        /// changed when the value of the object changes.  This must be ignored in serialization
+        /// scenarios or it will endlessly loop.
+        /// </summary>
+        [JsonIgnore]
+        public Variable Self
+        {
+            get
+            {
+                return this;
             }
         }
 

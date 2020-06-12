@@ -532,7 +532,9 @@ namespace Avalon
 
             // Variable Repeater
             Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "VariableRepeaterVisible", VariableRepeater, UserControl.VisibilityProperty, boolToCollapsedConverter);
+            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "VariableRepeaterVisible", VariableRepeaterBorder, Border.VisibilityProperty, boolToCollapsedConverter);
             Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "VariableRepeaterVisible", ButtonVariableRepeaterVisible, CheckBox.IsCheckedProperty);
+
         }
 
         /// <summary>
