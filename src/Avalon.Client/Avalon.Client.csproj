@@ -79,7 +79,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controls\ListManager\" />
     <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 

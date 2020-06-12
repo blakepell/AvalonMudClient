@@ -24,9 +24,6 @@
                            />
             </StackPanel>
         </DataTemplate>
-        <ui:StackLayout x:Key="HorizontalStackLayout"
-                        Orientation="Vertical"
-                        Spacing="4" />
         <ui:UniformGridLayout
             x:Key="UniformGridLayout"
             MinItemWidth="150"
@@ -34,12 +31,7 @@
             MinRowSpacing="0"
             MinColumnSpacing="5" />
     </UserControl.Resources>
-    <Grid HorizontalAlignment="Stretch">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
-
-        <ui:ItemsRepeaterScrollHost Grid.Row="1">
+    <ui:ItemsRepeaterScrollHost Grid.Row="1" HorizontalAlignment="Stretch">
             <ScrollViewer x:Name="scrollViewer" HorizontalScrollBarVisibility="Disabled">
                 <ui:ItemsRepeater x:Name="repeater" Margin="0,0,0,0" HorizontalAlignment="Left"
                                 Layout="{StaticResource UniformGridLayout}"
@@ -47,5 +39,4 @@
                 </ui:ItemsRepeater>
             </ScrollViewer>
         </ui:ItemsRepeaterScrollHost>
-    </Grid>
 </UserControl>

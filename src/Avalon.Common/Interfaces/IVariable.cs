@@ -32,12 +32,6 @@ namespace Avalon.Common.Interfaces
         int DisplayOrder { get; set; }
 
         /// <summary>
-        /// Whether or not the Key should be displayed as the caption on any controls that dynamically
-        /// disable variables.  This is considered to be a hint.
-        /// </summary>
-        bool DisplayLabel { get; set; }
-
-        /// <summary>
         /// The label to display, if this is blank the key should be used.
         /// </summary>
         string Label { get; set; }

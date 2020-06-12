@@ -98,25 +98,6 @@ namespace Avalon.Common.Models
             }
         }
 
-        private bool _displayLabel = true;
-
-        public bool DisplayLabel
-        {
-            get
-            {
-                return _displayLabel;
-            }
-
-            set
-            {
-                if (value != _displayLabel)
-                {
-                    _displayLabel = value;
-                    OnPropertyChanged(nameof(this.DisplayLabel));
-                }
-            }
-        }
-
         private string _label = "";
 
         public string Label
@@ -146,7 +127,7 @@ namespace Avalon.Common.Models
         {
             get
             {
-                if (!string.IsNullOrWhiteSpace(this.Label) && _displayLabel)
+                if (!string.IsNullOrWhiteSpace(this.Label))
                 {
                     return $"{this.Label}:";
                 }

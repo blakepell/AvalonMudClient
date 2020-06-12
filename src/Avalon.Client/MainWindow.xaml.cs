@@ -437,8 +437,8 @@ namespace Avalon
         }
 
         /// <summary>
-        /// Updates any dependency properties with the value from the settings.  Notably this will be called
-        /// from the settings dialog when it closes.
+        /// Updates any properties that need to be updated after the settings are updated.  This deals primarily
+        /// with properties that aren't bound through depedency properties.
         /// </summary>
         public void UpdateUISettings()
         {
@@ -473,15 +473,6 @@ namespace Avalon
 
             this.SpellCheckEnabled = App.Settings.ProfileSettings.SpellChecking;
 
-            if (App.Settings.AvalonSettings.DeveloperMode)
-            {
-                this.MenuItemDeveloperTools.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                this.MenuItemDeveloperTools.Visibility = Visibility.Collapsed;
-            }
-
             // Line numbers
             GameTerminal.ShowLineNumbers = App.Settings.AvalonSettings.ShowLineNumbersInGameTerminal;
             GameBackBufferTerminal.ShowLineNumbers = App.Settings.AvalonSettings.ShowLineNumbersInGameTerminal;
@@ -506,12 +497,15 @@ namespace Avalon
         /// Setup any bindings that have to happen in the code.
         /// </summary>
         /// <remarks>
-        /// I'm sure this isn't the best way to do the binding but it was finicky via the XAML getting it bound
-        /// to an item model object.
+        /// We're binding in code because some of these objects can be loaded and reloaded and when that happens
+        /// the binding needs to be reset.
         /// </remarks>
         public void SetupBinding()
         {
             var boolToCollapsedConverter = new BooleanToVisibilityConverter();
+
+            // Developer Tools
+            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "DeveloperMode", MenuItemDeveloperTools, MenuItem.VisibilityProperty, boolToCollapsedConverter);
 
             // Manually setup the bindings.  I couldn't get it to work in the Xaml because the 
             // AppSettings gets replaced after this control is loaded.
@@ -535,6 +529,10 @@ namespace Avalon
             Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab3Label", CustomTab3Label, Label.ContentProperty);
             Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab3Visible", ButtonCustomTab3Visible, CheckBox.IsCheckedProperty);
             Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab3Label", ButtonCustomTab3Visible, AppBarToggleButton.LabelProperty);
+
+            // Variable Repeater
+            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "VariableRepeaterVisible", VariableRepeater, UserControl.VisibilityProperty, boolToCollapsedConverter);
+            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "VariableRepeaterVisible", ButtonVariableRepeaterVisible, CheckBox.IsCheckedProperty);
         }
 
         /// <summary>
@@ -1118,8 +1116,9 @@ namespace Avalon
             Row1.Height = new GridLength(0, GridUnitType.Auto);
             Row2.Height = new GridLength(7.0, GridUnitType.Star);
             Row3.Height = new GridLength(3.0, GridUnitType.Star);
-            Row4.Height = new GridLength(1.0, GridUnitType.Auto);
+            Row4.Height = new GridLength(0.0, GridUnitType.Pixel);
             Row5.Height = new GridLength(1.0, GridUnitType.Auto);
+            Row6.Height = new GridLength(1.0, GridUnitType.Auto);
             Col1.Width = new GridLength(55.0, GridUnitType.Star);
             Col2.Width = new GridLength(45.0, GridUnitType.Star);
         }

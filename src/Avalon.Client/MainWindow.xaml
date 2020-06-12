@@ -92,10 +92,11 @@
                 <Grid x:Name="GridGame" Margin="-3">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" x:Name="Row1"></RowDefinition>
-                        <RowDefinition Height="30*" x:Name="Row2"></RowDefinition>
-                        <RowDefinition Height="70*" x:Name="Row3"></RowDefinition>
-                        <RowDefinition Height="Auto" x:Name="Row4"></RowDefinition>
+                        <RowDefinition Height="70*" x:Name="Row2"></RowDefinition>
+                        <RowDefinition Height="30*" x:Name="Row3"></RowDefinition>
+                        <RowDefinition Height="0" x:Name="Row4"></RowDefinition>
                         <RowDefinition Height="Auto" x:Name="Row5"></RowDefinition>
+                        <RowDefinition Height="Auto" x:Name="Row6"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="55*" x:Name="Col1"></ColumnDefinition>
@@ -257,13 +258,15 @@
                             <ui:AppBarToggleButton x:Name="ButtonAliasesEnabled" Icon="Shuffle" Label="Aliases Enabled" />
                             <ui:AppBarToggleButton x:Name="ButtonTriggersEnabled" Icon="Directions" Label="Triggers Enabled"></ui:AppBarToggleButton>
                             <ui:AppBarSeparator />
+                            <ui:AppBarToggleButton x:Name="ButtonVariableRepeaterVisible" Icon="Account" Label="Variable Repeater Visible"></ui:AppBarToggleButton>
+                            <ui:AppBarSeparator />
                             <ui:AppBarToggleButton x:Name="ButtonCustomTab1Visible" Icon="PreviewLink" Label="Custom Tab 1 Visible"></ui:AppBarToggleButton>
                             <ui:AppBarToggleButton x:Name="ButtonCustomTab2Visible" Icon="PreviewLink" Label="Custom Tab 2 Visible"></ui:AppBarToggleButton>
                             <ui:AppBarToggleButton x:Name="ButtonCustomTab3Visible" Icon="PreviewLink" Label="Custom Tab 3 Visible"></ui:AppBarToggleButton>
                         </ui:CommandBar.SecondaryCommands>
                     </ui:CommandBar>
 
-                    <UniformGrid Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Columns="1">
+                    <UniformGrid Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Columns="1">
                         <controls:AvalonTerminal x:Name="GameBackBufferTerminal" x:FieldModifier="public"
                             Visibility="Collapsed"
                             DockPanel.Dock="Top"
@@ -295,8 +298,8 @@
                         </controls:AvalonTerminal>
                     </UniformGrid>
 
-                    <Border x:Name="Panel2" x:FieldModifier="public"
-                            Grid.Row="1" Grid.Column="1"
+                    <Border x:Name="Panel2" Grid.Row="1" Grid.Column="1" 
+                            x:FieldModifier="public"
                             Margin="0" BorderThickness=".9,0,0,0" BorderBrush="Gray">
                         <controls:TabControlEx x:Name="TabCustom" Margin="0,0,0,0" SelectionChanged="TabCustom_SelectionChanged">
                             <TabControl.Resources>
@@ -366,20 +369,27 @@
                         </controls:TabControlEx>
                     </Border>
 
-                    <Border x:Name="Panel1" x:FieldModifier="public" 
-                            Grid.Row="2" Grid.Column="1"
+                    <Border x:Name="Panel1" Grid.Row="2" Grid.Column="1"
+                            x:FieldModifier="public" 
                             Margin="0" Padding="0" BorderThickness=".9,.9,0,0" BorderBrush="Gray">
                         <controls:BarRepeater x:Name="BarRepeater" x:FieldModifier="public" 
                                               Margin="0,0,0,0" EnableMouseClick="True"
                                               ></controls:BarRepeater>
                     </Border>
-                    
-                    <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" BorderBrush="Gray" BorderThickness="0,.9,0,0">
+                   
+                    <Border x:Name="VariableRepeaterBorder"
+                            Grid.Row="3" Grid.RowSpan="3" Grid.Column="1"
+                            Background="#171717" BorderThickness=".9,.9,0,0" BorderBrush="Gray">
+                        <controls:VariableRepeater x:Name="VariableRepeater" x:FieldModifier="public" />
+                    </Border>
+                   
+                    <Border Background="Blue" Grid.Row="4" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,.9,0,0">
                         <controls:InfoBar x:Name="InfoBar" x:FieldModifier="public" Background="#171717"></controls:InfoBar>
                     </Border>
 
-                    <editors:AutoCompleteTextBox x:Name="TextInput" Delay="300"
-                                                  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1"                                                    
+                    <Border Background="Green" Grid.Row="5" Grid.Column="0">
+                        <editors:AutoCompleteTextBox x:Name="TextInput" Delay="300"
+                                                  VerticalAlignment="Bottom"                                                  
                                                   ui:ControlHelper.CornerRadius="0"
                                                   Text=""
                                                   Style="{StaticResource MaterialAutoCompleteTextBox}"
@@ -389,15 +399,12 @@
                                                   SpellCheckEnabled="{Binding Path=SpellCheckEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
                                                   Provider="{StaticResource ResourceKey=AutoCompleteCommandProvider}"
                                                   ItemTemplate="{StaticResource ResourceKey=AutoCompleteCommandTemplate}">
-                        <editors:AutoCompleteTextBox.SelectedItem>
-                            <Binding Path="SelectedCommand" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="False">
-                            </Binding>
-                        </editors:AutoCompleteTextBox.SelectedItem>
-                    </editors:AutoCompleteTextBox>
+                            <editors:AutoCompleteTextBox.SelectedItem>
+                                <Binding Path="SelectedCommand" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="False">
+                                </Binding>
+                            </editors:AutoCompleteTextBox.SelectedItem>
+                        </editors:AutoCompleteTextBox>
 
-                    <Border x:Name="VariableRepeaterBorder" Grid.Row="3" Grid.Column="1" Grid.RowSpan="2"
-                            Background="#171717" BorderThickness=".9,.9,0,0" BorderBrush="Gray">
-                        <controls:VariableRepeater x:Name="VariableRepeater" x:FieldModifier="public" Height="60" />
                     </Border>
 
                     <!-- Vertical Splitter -->

@@ -58,11 +58,27 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public bool BackBufferEnabled { get; set; } = true;
 
+        private bool _developerMode = false;
+
         [CategoryAttribute("Security")]
         [DescriptionAttribute("Whether features that might implicate security are turned on.  These generally allow an expert to run commands a normal player shouldn't run.")]
         [Browsable(true)]
-        public bool DeveloperMode { get; set; } = false;
+        public bool DeveloperMode
+        {
+            get
+            {
+                return _developerMode;
+            }
 
+            set
+            {
+                if (value != _developerMode)
+                {
+                    _developerMode = value;
+                    OnPropertyChanged(nameof(this.DeveloperMode));
+                }
+            }
+        }
 
         [CategoryAttribute("UI")]
         [DescriptionAttribute("The font size that should be used in the terminal panels.")]
