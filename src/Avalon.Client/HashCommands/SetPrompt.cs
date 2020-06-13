@@ -18,7 +18,7 @@ namespace Avalon.HashCommands
 
         public override void Execute()
         {
-            Interpreter.Send("prompt <%h/%Hhp %m/%Mm %v/%Vmv (%y|%S) ({g%r{x) ({C%e{x) %X %t>%c");
+            Interpreter.Send("prompt <%h/%Hhp %m/%Mm %v/%Vmv (%y|%S) ({g%r{x) ({C%e{x) %X %g %s %q %l %o %O %t>%c");
         }
 
     }

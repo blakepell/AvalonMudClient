@@ -98,7 +98,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands
 local clan = lua:GetVariable(""Clan"")
 
 if clan ~= nil and clan ~= """" and clan ~= ""Loner"" and clan ~= ""Renegade"" and clan ~= ""Dragon"" and clan ~= ""Angel"" and clan ~= ""Balanx"" and clan ~= ""Demon"" then
-	lua:Send(""cinfo "" ..clan)
+	lua:Send(""cinfo "" .. clan)
 end";
 
             this.Triggers.Add(t);
@@ -208,7 +208,7 @@ end";
             this.Conveyor.SetVariable("MaxMana", "0");
             this.Conveyor.SetVariable("Move", "0");
             this.Conveyor.SetVariable("MaxMove", "0");
-            this.Conveyor.SetVariable("Target", "Nobody");
+            this.Conveyor.SetVariable("Target", "n/a");
             this.Conveyor.SetVariable("Room", "Limbo");
             this.Conveyor.SetVariable("Area", "Unknown");
             this.Conveyor.SetVariable("Exits", "none");
