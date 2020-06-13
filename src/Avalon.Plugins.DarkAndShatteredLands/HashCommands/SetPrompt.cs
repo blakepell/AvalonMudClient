@@ -1,6 +1,7 @@
 ﻿using Avalon.Common.Interfaces;
+using Avalon.HashCommands;
 
-namespace Avalon.HashCommands
+namespace Avalon.Plugins.DarkAndShatteredLands.HashCommands
 {
 
     /// <summary>
@@ -10,6 +11,11 @@ namespace Avalon.HashCommands
     {
         public SetPrompt(IInterpreter interp) : base (interp)
         {
+        }
+
+        public SetPrompt()
+        {
+
         }
 
         public override string Name { get; } = "#set-prompt";
