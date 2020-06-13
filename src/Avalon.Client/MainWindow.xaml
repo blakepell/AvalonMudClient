@@ -258,7 +258,7 @@
                             <ui:AppBarToggleButton x:Name="ButtonAliasesEnabled" Icon="Shuffle" Label="Aliases Enabled" />
                             <ui:AppBarToggleButton x:Name="ButtonTriggersEnabled" Icon="Directions" Label="Triggers Enabled"></ui:AppBarToggleButton>
                             <ui:AppBarSeparator />
-                            <ui:AppBarToggleButton x:Name="ButtonVariableRepeaterVisible" Icon="Account" Label="Variable Repeater Visible"></ui:AppBarToggleButton>
+                            <ui:AppBarToggleButton x:Name="ButtonVariableRepeaterVisible" Icon="Account" Label="Variable Repeater Visible" Click="ButtonVariableRepeaterVisible_Click"></ui:AppBarToggleButton>
                             <ui:AppBarSeparator />
                             <ui:AppBarToggleButton x:Name="ButtonCustomTab1Visible" Icon="PreviewLink" Label="Custom Tab 1 Visible"></ui:AppBarToggleButton>
                             <ui:AppBarToggleButton x:Name="ButtonCustomTab2Visible" Icon="PreviewLink" Label="Custom Tab 2 Visible"></ui:AppBarToggleButton>
@@ -383,11 +383,11 @@
                         <controls:VariableRepeater x:Name="VariableRepeater" x:FieldModifier="public" />
                     </Border>
                    
-                    <Border Background="Blue" Grid.Row="4" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,.9,0,0">
+                    <Border x:Name="BorderInfoBar" Grid.Row="4" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,.9,0,0">
                         <controls:InfoBar x:Name="InfoBar" x:FieldModifier="public" Background="#171717"></controls:InfoBar>
                     </Border>
 
-                    <Border Background="Green" Grid.Row="5" Grid.Column="0">
+                    <Border x:Name="BorderTextInput" Grid.Row="5" Grid.Column="0">
                         <editors:AutoCompleteTextBox x:Name="TextInput" Delay="300"
                                                   VerticalAlignment="Bottom"                                                  
                                                   ui:ControlHelper.CornerRadius="0"

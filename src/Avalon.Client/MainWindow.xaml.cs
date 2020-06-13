@@ -1123,6 +1123,11 @@ namespace Avalon
             Row6.Height = new GridLength(1.0, GridUnitType.Auto);
             Col1.Width = new GridLength(55.0, GridUnitType.Star);
             Col2.Width = new GridLength(45.0, GridUnitType.Star);
+
+            // Make the variable repeater visible.
+            ButtonVariableRepeaterVisible.IsChecked = true;
+            ButtonVariableRepeaterVisible_Click(null, null);
+
         }
 
         /// <summary>
@@ -1446,6 +1451,27 @@ namespace Avalon
         private void MenuItemChangeCharacter_Click(object sender, RoutedEventArgs e)
         {
             this.Interp.Conveyor.InputBoxToVariable("What is your current character name that is logged in?", "Set Character Name", "Character");
+        }
+
+        /// <summary>
+        /// If the variable bar is supressed update the layout of other row/columns.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonVariableRepeaterVisible_Click(object sender, RoutedEventArgs e)
+        {
+            if (ButtonVariableRepeaterVisible.IsChecked == true)
+            {
+                Grid.SetRowSpan(VariableRepeaterBorder, 3);
+                Grid.SetColumnSpan(BorderInfoBar, 1);
+                Grid.SetColumnSpan(BorderTextInput, 1);
+            }
+            else
+            {
+                Grid.SetRowSpan(VariableRepeaterBorder, 1);
+                Grid.SetColumnSpan(BorderInfoBar, 2);
+                Grid.SetColumnSpan(BorderTextInput, 2);
+            }
         }
     }
 }
