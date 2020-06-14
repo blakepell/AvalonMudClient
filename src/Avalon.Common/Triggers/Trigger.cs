@@ -258,30 +258,115 @@ namespace Avalon.Common.Triggers
             }
         }
 
+        private bool _isSilent = false;
+
         /// <summary>
         /// Whether the triggers output should be silent (not echo to the main terminal).
         /// </summary>
-        public bool IsSilent { get; set; } = false;
+        public bool IsSilent
+        {
+            get
+            {
+                return _isSilent;
+            }
+
+            set
+            {
+                if (value != _isSilent)
+                {
+                    _isSilent = value;
+                    OnPropertyChanged(nameof(this.IsSilent));
+                }
+            }
+        }
+
+        private bool _isLua = false;
 
         /// <summary>
         /// Whether the command should be executed as a Lua script.
         /// </summary>
-        public bool IsLua { get; set; } = false;
+        public bool IsLua
+        {
+            get
+            {
+                return _isLua;
+            }
+
+            set
+            {
+                if (value != _isLua)
+                {
+                    _isLua = value;
+                    OnPropertyChanged(nameof(this.IsLua));
+                }
+            }
+        }
+
+        private bool _plugin = false;
 
         /// <summary>
         /// Indicates whether a trigger was loaded from a plugin or not.
         /// </summary>
-        public bool Plugin { get; set; } = false;
+        public bool Plugin
+        {
+            get
+            {
+                return _plugin;
+            }
+
+            set
+            {
+                if (value != _plugin)
+                {
+                    _plugin = value;
+                    OnPropertyChanged(nameof(this.Plugin));
+                }
+            }
+        }
+
+        private bool _disableAfterTriggered = false;
 
         /// <summary>
         /// If set to true will disable the trigger after it fires.
         /// </summary>
-        public bool DisableAfterTriggered { get; set; } = false;
+        public bool DisableAfterTriggered
+        {
+            get
+            {
+                return _disableAfterTriggered;
+            }
+
+            set
+            {
+                if (value != _disableAfterTriggered)
+                {
+                    _disableAfterTriggered = value;
+                    OnPropertyChanged(nameof(this.DisableAfterTriggered));
+                }
+            }
+        }
+
+        private bool _lock = false;
 
         /// <summary>
         /// Whether the trigger is locked.  This will stop a trigger from being auto-updated in a package.
         /// </summary>
-        public bool Lock { get; set; } = false;
+        public bool Lock
+        {
+            get
+            {
+                return _lock;
+            }
+
+            set
+            {
+                if (value != _lock)
+                {
+                    _lock = value;
+                    OnPropertyChanged(nameof(this.Lock));
+                }
+            }
+        }
 
         /// <summary>
         /// The date/time the trigger last fired successfully.  This can be useful in tracking down
@@ -323,14 +408,65 @@ namespace Avalon.Common.Triggers
             }
         }
 
-        public bool Gag { get; set; } = false;
+        private bool _gag = false;
+
+        public bool Gag
+        {
+            get
+            {
+                return _gag;
+            }
+
+            set
+            {
+                if (value != _gag)
+                {
+                    _gag = value;
+                    OnPropertyChanged(nameof(this.Gag));
+                }
+            }
+        }
+
+        private TerminalTarget _moveTo = TerminalTarget.None;
 
         /// <summary>
         /// What terminal window to move the triggered line to.
         /// </summary>
-        public TerminalTarget MoveTo { get; set; } = TerminalTarget.None;
+        public TerminalTarget MoveTo
+        {
+            get
+            {
+                return _moveTo;
+            }
 
-        public bool HighlightLine { get; set; } = false;
+            set
+            {
+                if (value != _moveTo)
+                {
+                    _moveTo = value;
+                    OnPropertyChanged(nameof(this.MoveTo));
+                }
+            }
+        }
+
+        private bool _highlightLine = false;
+
+        public bool HighlightLine
+        {
+            get
+            {
+                return _highlightLine;
+            }
+
+            set
+            {
+                if (value != _highlightLine)
+                {
+                    _highlightLine = value;
+                    OnPropertyChanged(nameof(this.HighlightLine));
+                }
+            }
+        }
 
         /// <summary>
         /// A Conveyor so the trigger can interact with the UI if it's a CLR trigger.

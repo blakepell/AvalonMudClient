@@ -22,6 +22,7 @@ using System.Windows.Input;
 using Avalon.Extensions;
 using ModernWpf;
 using System.Windows.Data;
+using Argus.Extensions;
 
 namespace Avalon
 {
@@ -1412,34 +1413,22 @@ namespace Avalon
                     return;
                 }
 
-                // Set the initial text for the editor.
-                var win = new StringEditor
-                {
-                    Text = trigger.Command
-                };
-
-                if (trigger.IsLua)
-                {
-                    win.EditorMode = StringEditor.EditorType.Lua;
-                }
+                // Set the initial trigger for the editor.
+                var win = new TriggerEditorWindow(trigger);
 
                 // Show what trigger is being edited in the status bar of the string editor window.
-                win.StatusText = $"Trigger: {trigger.Pattern}";
+                win.StatusText = $"This trigger has fired {trigger.Count.ToString().FormatIfNumber(0)} times.";
+
+                // Save the last item and type so the Control+Alt+L alias can re-open it.
+                App.InstanceGlobals.LastEdittedId = trigger.Identifier;
+                App.InstanceGlobals.LastEditted = InstanceGlobals.EditItem.Trigger;
 
                 // Startup position of the dialog should be in the center of the parent window.  The
                 // owner has to be set for this to work.
-                win.Owner = App.MainWindow;
-                win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                win.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
-                // Show the Lua dialog.
-                var result = win.ShowDialog();
-
-                // If the result
-                if (result != null && result.Value)
-                {
-                    trigger.Command = win.Text;
-                }
-
+                // Show the Trigger editor window.
+                win.Show();
             }
         }
 
