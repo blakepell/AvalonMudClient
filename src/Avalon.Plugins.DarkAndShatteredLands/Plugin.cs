@@ -5,6 +5,7 @@ using Avalon.Plugins.DarkAndShatteredLands.Affects;
 using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Avalon.Plugins.DarkAndShatteredLands
 {
@@ -55,6 +56,17 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             {
                 return;
             }
+
+            // If a prompt is hard coded in the users triggers with OUR id, remove is legacy, remove it.  This will make sure this IS the correct prompt.
+            var removePrompt = this.ProfileSettings.TriggerList.FirstOrDefault(x => x.Identifier.Equals("1b8a50c4-ab92-48a8-8527-21331791f33d", StringComparison.OrdinalIgnoreCase));
+
+            if (removePrompt != null)
+            {
+                this.ProfileSettings.TriggerList.Remove(removePrompt);
+            }
+
+            // Now, add our prompt in that is set via #set-prompt.
+            this.Triggers.Add(new Trigger(@"^\<(?<Health>\d+)/(?<MaxHealth>\d+)hp (?<Mana>\d+)/(?<MaxMana>\d+)m (?<Move>\d+)/(?<MaxMove>\d+)mv \((?<Wimpy>\d+)\|(?<Stance>\w+)\) \((?<Room>.*?)\) \((?<ExitsShort>.*?)\) (?<ExpTnl>.*?) (?<GameTime>.*?)\>", "#update-info-bar", "", true, "1b8a50c4-ab92-48a8-8527-21331791f33d", TerminalTarget.None, true));
 
             // IC Channels: Clan gossip, clan, gossip, ask, answer, kingdom, group tells, tells, auction, pray, grats, quest (quote at the end)
             this.Triggers.Add(new Trigger(@"^[\a]?(\[ .* \] )?([\w'-]+|The ghost of [\w'-]+|\(An Imm\)|\(Imm\) [\w'-]+|\(Wizi@\d\d\) \(Imm\) [\w'-]+) (\bclan gossip(s?)\b|\bclan(s?)\b|\bgossip(s?)\b|\bask(s?)\b|\banswers(s?)\b|\btell(s?)\b|\bBloodbath(s?)\b|\bpray(s?)\b|\bgrats\b|\bauction(s?)\b|\bquest(s?)\b|\bradio(s?)\b|\bimm(s?)\b).*'$", "", "", true, "8b0bc970-08de-498e-9866-8e1aec458c08", TerminalTarget.Terminal1, true));
