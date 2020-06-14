@@ -1,6 +1,8 @@
-﻿using Avalon.Common.Models;
+﻿using Avalon.Colors;
+using Avalon.Common.Models;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Windows;
 using Trigger = Avalon.Common.Triggers.Trigger;
 
@@ -152,6 +154,39 @@ namespace Avalon
             if (result != null && result.Value)
             {
                 TextCommand.Text = win.Text;
+            }
+        }
+
+        private void ButtonTest_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Set the initial text for the editor.
+                var win = new RegexTestWindow();
+
+                // Startup position of the dialog should be in the center of the parent window.  The
+                // owner has to be set for this to work.
+                win.Owner = this;
+                win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                win.CancelButtonText = "Close";
+                win.SaveButtonVisible = true;
+
+                // Remove any ANSI codes from the selected text.
+                var sb = new StringBuilder(TextPattern.Text);
+                Colorizer.RemoveAllAnsiCodes(sb);
+                win.Pattern = sb.ToString();
+
+                // Show the dialog.
+                var result = win.ShowDialog() ?? false;
+
+                if (result)
+                {
+                    this.TextPattern.Text = win.TextBoxRegexPattern.Text;
+                }
+            }
+            catch (Exception ex)
+            {
+                this.StatusText = $"Error: {ex.Message}";
             }
         }
     }

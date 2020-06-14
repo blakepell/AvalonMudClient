@@ -23,13 +23,16 @@
             <ui:SimpleStackPanel Orientation="Vertical">
                 <ui:SimpleStackPanel Orientation="Vertical">
                     <Label FontSize="14" Margin="0,0,0,5">Pattern:</Label>
-                    <TextBox x:Name="TextPattern" ui:ControlHelper.CornerRadius="0"></TextBox>
+                    <DockPanel Margin="0,5,0,0" LastChildFill="True" Height="32">
+                        <Button x:Name="ButtonTest" Content="Test" Click="ButtonTest_Click" ui:ControlHelper.CornerRadius="0"></Button>
+                        <TextBox x:Name="TextPattern" ui:ControlHelper.CornerRadius="0" Height="32"></TextBox>
+                    </DockPanel>
                 </ui:SimpleStackPanel>
 
                 <ui:SimpleStackPanel Orientation="Vertical" Margin="0,5,0,0">
                     <Label FontSize="14" Margin="0,0,0,5">Command:</Label>
                     <DockPanel Margin="0,5,0,0" LastChildFill="True" Height="32">
-                        <Button x:Name="ButtonEdit" Content="Edit" Click="ButtonEdit_Click" ui:ControlHelper.CornerRadius="0" VerticalContentAlignment="Bottom"></Button>
+                        <Button x:Name="ButtonEdit" Content="Edit" Click="ButtonEdit_Click" ui:ControlHelper.CornerRadius="0"></Button>
                         <TextBox x:Name="TextCommand" ui:ControlHelper.CornerRadius="0" Height="32"></TextBox>
                     </DockPanel>
                 </ui:SimpleStackPanel>
