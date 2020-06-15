@@ -66,7 +66,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             }
 
             // Now, add our prompt in that is set via #set-prompt.
-            this.Triggers.Add(new Trigger(@"^\<(?<Health>\d+)/(?<MaxHealth>\d+)hp (?<Mana>\d+)/(?<MaxMana>\d+)m (?<Move>\d+)/(?<MaxMove>\d+)mv \((?<Wimpy>\d+)\|(?<Stance>\w+)\) \((?<Room>.*?)\) \((?<ExitsShort>.*?)\) (?<ExpTnl>.*?) (?<Gold>.*?) (?<Silver>.*?) (?<QuestPoints>.*?) (?<Language>.*?) (?<Weight>.*?) (?<MaxWeight>.*?) (?<GameTime>.*?)\>", "#update-info-bar", "", true, "1b8a50c4-ab92-48a8-8527-21331791f33d", TerminalTarget.None, true));
+            this.Triggers.Add(new Trigger(@"^(\[Quiet\] )?\<(?<Health>\d+)/(?<MaxHealth>\d+)hp (?<Mana>\d+)/(?<MaxMana>\d+)m (?<Move>\d+)/(?<MaxMove>\d+)mv \((?<Wimpy>\d+)\|(?<Stance>\w+)\) \((?<Room>.*?)\) \((?<ExitsShort>.*?)\) (?<ExpTnl>.*?) (?<Gold>.*?) (?<Silver>.*?) (?<QuestPoints>.*?) (?<Language>.*?) (?<Weight>.*?) (?<MaxWeight>.*?) (?<GameTime>.*?)\>", "#update-info-bar", "", true, "1b8a50c4-ab92-48a8-8527-21331791f33d", TerminalTarget.None, true));
 
             // IC Channels: Clan gossip, clan, gossip, ask, answer, kingdom, group tells, tells, auction, pray, grats, quest (quote at the end)
             this.Triggers.Add(new Trigger(@"^[\a]?(\[ .* \] )?([\w'-]+|The ghost of [\w'-]+|\(An Imm\)|\(Imm\) [\w'-]+|\(Wizi@\d\d\) \(Imm\) [\w'-]+) (\bclan gossip(s?)\b|\bclan(s?)\b|\bgossip(s?)\b|\bask(s?)\b|\banswers(s?)\b|\btell(s?)\b|\bBloodbath(s?)\b|\bpray(s?)\b|\bgrats\b|\bauction(s?)\b|\bquest(s?)\b|\bradio(s?)\b|\bimm(s?)\b).*'$", "", "", true, "8b0bc970-08de-498e-9866-8e1aec458c08", TerminalTarget.Terminal1, true));
