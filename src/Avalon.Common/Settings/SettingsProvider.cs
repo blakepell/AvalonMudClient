@@ -3,6 +3,7 @@ using Avalon.Common.Models;
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace Avalon.Common.Settings
 {
@@ -243,8 +244,8 @@ namespace Avalon.Common.Settings
             // An alias must be unique by it's expression.
             foreach (var alias in settings.AliasList)
             {
-                // Skip any locked items
-                if (alias.Lock)
+                // Skip any locked items that exist AND are locked.
+                if (this.ProfileSettings.AliasList.Any(profileAlias => profileAlias.AliasExpression.Equals(alias.AliasExpression, StringComparison.OrdinalIgnoreCase) && profileAlias.Lock))
                 {
                     continue;
                 }
@@ -254,7 +255,7 @@ namespace Avalon.Common.Settings
                 // Go through all of the aliases and see if this one already exists.
                 for (int i = this.ProfileSettings.AliasList.Count - 1; i >= 0; i--)
                 {
-                    if (this.ProfileSettings.AliasList[i].AliasExpression == alias.AliasExpression)
+                    if (this.ProfileSettings.AliasList[i].AliasExpression.Equals(alias.AliasExpression, StringComparison.OrdinalIgnoreCase))
                     {
                         // Save the count we're going to preserve it.
                         count = this.ProfileSettings.AliasList[i].Count;
@@ -273,12 +274,12 @@ namespace Avalon.Common.Settings
             // A trigger must be unique by it's expression.
             foreach (var trigger in settings.TriggerList)
             {
-                // Skip any locked items
-                if (trigger.Lock)
+                // Skip any locked items that exist AND are locked.
+                if (this.ProfileSettings.TriggerList.Any(profileTrigger => profileTrigger.Identifier.Equals(trigger.Identifier, StringComparison.OrdinalIgnoreCase) && profileTrigger.Lock))
                 {
                     continue;
                 }
-
+                
                 int count = 0;
 
                 // Go through all of the triggers and see if this one already exists.
@@ -309,8 +310,10 @@ namespace Avalon.Common.Settings
             // A direction must be unique by it's name and starting room.
             foreach (var direction in settings.DirectionList)
             {
-                // Skip any locked items
-                if (direction.Lock)
+                // Skip any locked items that exist AND are locked.
+                if (this.ProfileSettings.DirectionList.Any(profileDirection => profileDirection.Name.Equals(direction.Name, StringComparison.OrdinalIgnoreCase) 
+                                                                                && profileDirection.StartingRoom.Equals(direction.StartingRoom, StringComparison.OrdinalIgnoreCase)
+                                                                                && profileDirection.Lock))
                 {
                     continue;
                 }
