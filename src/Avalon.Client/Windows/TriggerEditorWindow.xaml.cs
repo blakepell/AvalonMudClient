@@ -171,10 +171,11 @@ namespace Avalon
                 win.CancelButtonText = "Close";
                 win.SaveButtonVisible = true;
 
-                // Remove any ANSI codes from the selected text.
+                // Remove any ANSI codes from the selected text, then escape the pattern.
                 var sb = new StringBuilder(TextPattern.Text);
                 Colorizer.RemoveAllAnsiCodes(sb);
                 win.Pattern = sb.ToString();
+                win.EscapePattern();
 
                 // Show the dialog.
                 var result = win.ShowDialog() ?? false;

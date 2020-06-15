@@ -145,6 +145,26 @@ namespace Avalon.Extensions
         }
 
         /// <summary>
+        /// Sets the text in a RichTextBox.
+        /// </summary>
+        /// <param name="rtb"></param>
+        /// <param name="text"></param>
+        public static void SetText(this RichTextBox rtb, string text)
+        {
+            rtb.Document.Blocks.Clear();
+            rtb.Document.Blocks.Add(new Paragraph(new Run(text)));
+        }
+
+        /// <summary>
+        /// Gets the text from a RichTextBox.
+        /// </summary>
+        /// <param name="rtb"></param>
+        public static string GetText(this RichTextBox rtb)
+        {
+            return new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd).Text;
+        }
+
+        /// <summary>
         /// Clears all properties/formatting in the RichTextBox.
         /// </summary>
         /// <param name="rtb"></param>

@@ -195,6 +195,14 @@ namespace Avalon
             }
         }
 
+        /// <summary>
+        /// Attempts to escape a RegEx Pattern.
+        /// </summary>
+        public void EscapePattern()
+        {
+            this.Pattern = Regex.Escape(this.Pattern);
+        }
+
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (_highlighting)

@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using Avalon.Colors;
 using Avalon.Controls;
+using Avalon.Extensions;
 
 namespace Avalon
 {
@@ -164,6 +165,8 @@ namespace Avalon
                 var sb = new StringBuilder(terminal.SelectedText);
                 Colorizer.RemoveAllAnsiCodes(sb);
                 win.Pattern = sb.ToString();
+                win.EscapePattern();
+                win.TextBoxTest1.SetText(sb.ToString());
 
                 // Show the Lua dialog.
                 win.ShowDialog();
