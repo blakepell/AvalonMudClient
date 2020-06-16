@@ -16,6 +16,8 @@ local dir = lua:RandomChoice({"north", "south"});
 |lua:Echo|(string) text|Echos text to the terminal window.|
 |lua:Echo|(string) msg, (string color), (bool) reverse|Echos text to the terminal window in a given color.|
 |lua:EchoEvent|(string) text|Echos text to the terminal window.|
+|lua:EchoWindow|(string) windowName, (string) text|Appends text to a pop up terminal window.  The window must already exist with the specified name.|
+|lua:ClearWindow|(string) windowName|Clears the text in a popup terminal window of the same name.|
 |lua:Coalesce|Value one (string), Value two (string)|Returns the first non null and non empty value.|
 |lua:GetTime|None|Gets the current time in HH:MM:SS format|
 |lua:GetHour|None|Gets the current hour.|

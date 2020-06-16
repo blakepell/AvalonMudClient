@@ -20,6 +20,8 @@ namespace Avalon.Lua
                 data.Add(new LuaCompletionData("SetVariable", "Sets a variable that is shared with the entire mud client."));
                 data.Add(new LuaCompletionData("Echo", "Echos text to the game terminal."));
                 data.Add(new LuaCompletionData("EchoEvent", "Echos a highlighted set of text to the game terminal."));
+                data.Add(new LuaCompletionData("EchoWindow", "Echos to a specified custom window.  This operation appends text by default."));
+                data.Add(new LuaCompletionData("ClearWindow", "Clears any text in the terminal of a custom window."));
                 data.Add(new LuaCompletionData("Coalesce", "Returns the first non null and non empty value from the list"));
                 data.Add(new LuaCompletionData("GetTime", "Gets the current time."));
                 data.Add(new LuaCompletionData("GetMinute", "Gets the current minute."));

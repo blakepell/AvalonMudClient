@@ -142,7 +142,7 @@ namespace Avalon.Lua
                     ReverseColors = reverse,
                     IgnoreLastColor = true
                 };
-                
+
                 _interpreter.Conveyor.EchoText(line, TerminalTarget.Main);
             }));
         }
@@ -170,6 +170,66 @@ namespace Avalon.Lua
 
                 _interpreter.Conveyor.EchoText(line, TerminalTarget.Main);
             }));
+        }
+
+        /// <summary>
+        /// Echos text to a custom window.  The append parameter is true by default but if made
+        /// false this will clear the text in the window first.
+        /// </summary>
+        /// <param name="windowName"></param>
+        /// <param name="text"></param>
+        /// <param name="append"></param>
+        public void EchoWindow(string windowName, string text)
+        {
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                // This case is if they specified a window that might exist, we'll find it, edit that.
+                var win = _interpreter.Conveyor.TerminalWindowList.FirstOrDefault(x => x.Name.Equals(windowName, StringComparison.Ordinal));
+
+                if (win == null)
+                {
+                    return;
+                }
+                else
+                {
+                    var sb = Argus.Memory.StringBuilderPool.Take(text);
+                    Colorizer.MudToAnsiColorCodes(sb);
+
+                    var line = new Line
+                    {
+                        FormattedText = sb.ToString(),
+                        ForegroundColor = AnsiColors.Default,
+                        ReverseColors = false
+                    };
+
+                    win.AppendText(line);
+
+                    Argus.Memory.StringBuilderPool.Return(sb);
+                }
+            }));
+        }
+
+        /// <summary>
+        /// Clears the text in a terminal of a specified window name.
+        /// </summary>
+        /// <param name="windowName"></param>
+        public void ClearWindow(string windowName)
+        {
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                // This case is if they specified a window that might exist, we'll find it, edit that.
+                var win = _interpreter.Conveyor.TerminalWindowList.FirstOrDefault(x => x.Name.Equals(windowName, StringComparison.Ordinal));
+
+                if (win == null)
+                {
+                    return;
+                }
+                else
+                {
+                    win.Text = "";
+                }
+            }));
+
         }
 
         /// <summary>
@@ -520,7 +580,7 @@ namespace Avalon.Lua
         /// <param name="delimiter"></param>
         public string ListRemove(string sourceList, int items, char delimiter = '|')
         {
-            var list = sourceList.Split(delimiter);            
+            var list = sourceList.Split(delimiter);
             var sb = new StringBuilder();
             int keep = list.Count() - items;
 
