@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="Avalon.Controls.Compass"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" Height="100" Width="100"
+             >
+    <Canvas x:Name="Canvas1" Height="100" Width="100">
+        <Ellipse x:Name="Ellipse1" Width="100" Height="100" Stroke="{Binding EllipseBorderColor}" Fill="{Binding EllipseFillColor}">
+            <Ellipse.RenderTransform>
+                <TranslateTransform X="0" Y="0" />
+            </Ellipse.RenderTransform>
+        </Ellipse>
+        <Canvas x:Name="CanvasLine">
+            <Line x:Name="Line1" X1="50" Y1="0" X2="50" Y2="50" Stroke="{Binding NeedleColor}" />
+            <Canvas.RenderTransform>
+                <RotateTransform Angle="{Binding Angle}" CenterX="50" CenterY="50" x:Name="Rotation" />
+            </Canvas.RenderTransform>
+        </Canvas>
+
+        <Label x:Name="LabelDirection" Content="N"
+            HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center"
+            Foreground="{Binding LabelForegroundColor}" Visibility="{Binding LabelVisible}"
+            Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType=Canvas}}"
+            Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource AncestorType=Canvas}}" />
+    </Canvas>
+</UserControl>
