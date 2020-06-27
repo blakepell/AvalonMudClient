@@ -1120,8 +1120,8 @@ namespace Avalon
             Row2.Height = new GridLength(7.0, GridUnitType.Star);
             Row3.Height = new GridLength(3.0, GridUnitType.Star);
             Row4.Height = new GridLength(0.0, GridUnitType.Pixel);
-            Row5.Height = new GridLength(1.0, GridUnitType.Auto);
-            Row6.Height = new GridLength(1.0, GridUnitType.Auto);
+            Row5.Height = new GridLength(30.0, GridUnitType.Pixel);
+            Row6.Height = new GridLength(32.0, GridUnitType.Pixel);
             Col1.Width = new GridLength(55.0, GridUnitType.Star);
             Col2.Width = new GridLength(45.0, GridUnitType.Star);
 

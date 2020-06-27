@@ -95,8 +95,8 @@
                         <RowDefinition Height="70*" x:Name="Row2"></RowDefinition>
                         <RowDefinition Height="30*" x:Name="Row3"></RowDefinition>
                         <RowDefinition Height="0" x:Name="Row4"></RowDefinition>
-                        <RowDefinition Height="Auto" x:Name="Row5"></RowDefinition>
-                        <RowDefinition Height="Auto" x:Name="Row6"></RowDefinition>
+                        <RowDefinition Height="30" x:Name="Row5"></RowDefinition>
+                        <RowDefinition Height="32" x:Name="Row6"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="55*" x:Name="Col1"></ColumnDefinition>
@@ -323,6 +323,7 @@
                                     Background="Black" Foreground="LightGray"
                                     FontSize="10pt"
                                     ScrollViewer.PanningMode="VerticalOnly"
+                                    VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible"
                                     ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
                                     ScrollViewer.ScrollChanged="CommTerminal_ScrollChanged"
                                     KeyDown="Terminal_OnKeyDown">
@@ -376,9 +377,8 @@
                                               Margin="0,0,0,0" EnableMouseClick="True"
                                               ></controls:BarRepeater>
                     </Border>
-                   
-                    <Border x:Name="VariableRepeaterBorder"
-                            Grid.Row="3" Grid.RowSpan="3" Grid.Column="1"
+
+                    <Border x:Name="VariableRepeaterBorder" Grid.Row="3" Grid.RowSpan="3" Grid.Column="1"                            
                             Background="#171717" BorderThickness=".9,.9,0,0" BorderBrush="Gray">
                         <controls:VariableRepeater x:Name="VariableRepeater" x:FieldModifier="public" />
                     </Border>
@@ -421,6 +421,15 @@
                                   Background="Transparent" 
                                   ShowsPreview="True"
                                   Height="3" />
+
+                    <!-- Horizontal Splitter -->
+                    <GridSplitter Grid.Row="2" Grid.Column="1"
+                                  ResizeDirection="Rows"
+                                  HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+                                  Background="Transparent" 
+                                  ShowsPreview="True"
+                                  Height="3" />
+
 
                 </Grid>
             </controls:TabItemEx>
