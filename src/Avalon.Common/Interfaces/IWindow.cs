@@ -1,0 +1,55 @@
+﻿namespace Avalon.Common.Interfaces
+{
+    /// <summary>
+    /// Represents a basic window from which other window types can implement/inherit from.
+    /// </summary>
+    public interface IWindow
+    {
+        /// <summary>
+        /// Shows the window.
+        /// </summary>
+        void Show();
+
+        /// <summary>
+        /// Closes down the window.
+        /// </summary>
+        void Close();
+
+        /// <summary>
+        /// The name of the window.
+        /// </summary>
+        string Name { get; set; }
+
+
+        /// <summary>
+        /// The title of the window.
+        /// </summary>
+        string Title { get; set; }
+
+        /// <summary>
+        /// The topmost screen pixel the form should be placed at.
+        /// </summary>
+        double Top { get; set; }
+
+        /// <summary>
+        /// The leftmost screen pixel the form should be placed at.
+        /// </summary>
+        double Left { get; set; }
+
+        /// <summary>
+        /// The width in pixels of the form.
+        /// </summary>
+        double Width { get; set; }
+
+        /// <summary>
+        /// The height in pixels of the form.
+        /// </summary>
+        double Height { get; set; }
+
+        /// <summary>
+        /// The text for the status bar of the terminal window.
+        /// </summary>
+        string StatusText { get; set; }
+
+    }
+}
