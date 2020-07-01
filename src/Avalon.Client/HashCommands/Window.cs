@@ -35,8 +35,8 @@ namespace Avalon.HashCommands
                     if (!string.IsNullOrWhiteSpace(o.Name))
                     {
                         // This case is if they specified a window that might exist, we'll find it, edit that.
-                        var win = this.Interpreter.Conveyor.TerminalWindowList.FirstOrDefault(x => x.Name.Equals(o.Name, StringComparison.Ordinal));
-
+                        var win = this.Interpreter.Conveyor.WindowList.FirstOrDefault(x => x.Name.Equals(o.Name, StringComparison.Ordinal));
+                        
                         if (win == null && o.Close)
                         {
                             // Window wasn't found, but close was specified, just exit.
@@ -49,7 +49,7 @@ namespace Avalon.HashCommands
                             win.Name = o.Name;
 
                             // Add the terminal window to our list.
-                            this.Interpreter.Conveyor.TerminalWindowList.Add(win);
+                            this.Interpreter.Conveyor.WindowList.Add(win);
                         }
                         else
                         {
@@ -73,7 +73,7 @@ namespace Avalon.HashCommands
                     if (o.List)
                     {
                         // List info about all of the active windows.
-                        if (this.Interpreter.Conveyor.TerminalWindowList.Count == 0)
+                        if (this.Interpreter.Conveyor.WindowList.Count == 0)
                         {
                             this.Interpreter.Conveyor.EchoLog($"No user created terminal windows currently exist.", Common.Models.LogType.Information);
                             return;
@@ -85,7 +85,7 @@ namespace Avalon.HashCommands
                         sb.AppendLine("\r\nWindow Name");
                         sb.AppendLine("----------------------------------------------------");
 
-                        foreach (var win in this.Interpreter.Conveyor.TerminalWindowList)
+                        foreach (var win in this.Interpreter.Conveyor.WindowList)
                         {
                             i++;
                             sb.AppendLine($"{i}.) {win.Name}");
@@ -151,7 +151,7 @@ namespace Avalon.HashCommands
         /// </summary>
         /// <param name="win"></param>
         /// <param name="args"></param>
-        private void SetWindowProperties(ITerminalWindow win, Arguments args)
+        private void SetWindowProperties(IWindow win, Arguments args)
         {
             if (args.Left >= 0)
             {

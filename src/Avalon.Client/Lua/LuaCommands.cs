@@ -184,7 +184,7 @@ namespace Avalon.Lua
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 // This case is if they specified a window that might exist, we'll find it, edit that.
-                var win = _interpreter.Conveyor.TerminalWindowList.FirstOrDefault(x => x.Name.Equals(windowName, StringComparison.Ordinal));
+                var win = _interpreter.Conveyor.WindowList.FirstOrDefault(x => x.WindowType == WindowType.TerminalWindow && x.Name.Equals(windowName, StringComparison.Ordinal)) as TerminalWindow;
 
                 if (win == null)
                 {
@@ -218,7 +218,7 @@ namespace Avalon.Lua
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 // This case is if they specified a window that might exist, we'll find it, edit that.
-                var win = _interpreter.Conveyor.TerminalWindowList.FirstOrDefault(x => x.Name.Equals(windowName, StringComparison.Ordinal));
+                var win = _interpreter.Conveyor.WindowList.FirstOrDefault(x => x.WindowType == WindowType.TerminalWindow && x.Name.Equals(windowName, StringComparison.Ordinal)) as TerminalWindow;
 
                 if (win == null)
                 {

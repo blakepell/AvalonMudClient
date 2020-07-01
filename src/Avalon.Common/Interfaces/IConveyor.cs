@@ -93,6 +93,6 @@ namespace Avalon.Common.Interfaces
 
         WindowPosition GetWindowPosition { get; }
 
-        List<ITerminalWindow> TerminalWindowList { get; set; }
+        List<IWindow> WindowList { get; set; }
     }
 }

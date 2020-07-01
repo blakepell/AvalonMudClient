@@ -264,7 +264,7 @@ namespace Avalon
         /// <param name="windowName"></param>
         public void EchoText(string text, string windowName)
         {
-            var win = this.TerminalWindowList.FirstOrDefault(x => x.Name.Equals(windowName, StringComparison.Ordinal));
+            var win = this.WindowList.FirstOrDefault(x => x.WindowType == WindowType.TerminalWindow && x.Name.Equals(windowName, StringComparison.Ordinal)) as TerminalWindow;
 
             if (win == null)
             {
@@ -285,8 +285,8 @@ namespace Avalon
         /// <param name="windowName"></param>
         public void EchoText(Line line, string windowName)
         {
-            var win = this.TerminalWindowList.FirstOrDefault(x => x.Name.Equals(windowName, StringComparison.Ordinal));
-            
+            var win = this.WindowList.FirstOrDefault(x => x.WindowType == WindowType.TerminalWindow && x.Name.Equals(windowName, StringComparison.Ordinal)) as TerminalWindow;
+
             if (win == null)
             {
                 this.EchoLog($"The window '{windowName}' was not found.", LogType.Warning);
@@ -866,9 +866,9 @@ namespace Avalon
         public AvalonSettings ClientSettings => App.Settings.AvalonSettings;
 
         /// <summary>
-        /// A list of user spawned terminal windows that can be written to.
+        /// A list of user spawned windows.  These can represent any number of <see cref="WindowType"/> objects.
         /// </summary>
-        public List<ITerminalWindow> TerminalWindowList { get; set; } = new List<ITerminalWindow>();
+        public List<IWindow> WindowList { get; set; } = new List<IWindow>();
 
     }
 }

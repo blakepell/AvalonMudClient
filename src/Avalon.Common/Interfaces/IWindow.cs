@@ -1,4 +1,6 @@
-﻿namespace Avalon.Common.Interfaces
+﻿using Avalon.Common.Models;
+
+namespace Avalon.Common.Interfaces
 {
     /// <summary>
     /// Represents a basic window from which other window types can implement/inherit from.
@@ -50,6 +52,11 @@
         /// The text for the status bar of the terminal window.
         /// </summary>
         string StatusText { get; set; }
+
+        /// <summary>
+        /// The type of window that this represents.
+        /// </summary>
+        WindowType WindowType { get; set; }
 
     }
 }

@@ -18,10 +18,6 @@ using Avalon.Common.Plugins;
 using ModernWpf.Controls;
 using System.Diagnostics;
 using System.Windows.Media;
-using System.Windows.Input;
-using Avalon.Extensions;
-using ModernWpf;
-using System.Windows.Data;
 using Argus.Extensions;
 
 namespace Avalon
@@ -63,7 +59,6 @@ namespace Avalon
         /// A queue of commands that can be executed as a batch in the order they are added.
         /// </summary>
         public BatchTasks BatchTasks;
-
 
         /// <summary>
         /// Whether spell checking is currently enabled.

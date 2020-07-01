@@ -42,7 +42,7 @@ namespace Avalon.HashCommands
                     if (!string.IsNullOrWhiteSpace(o.WindowName))
                     {
                         // This case is if they specified a window that might exist, we'll find it, edit that.
-                        var win = this.Interpreter.Conveyor.TerminalWindowList.FirstOrDefault(x => x.Name.Equals(o.WindowName, StringComparison.Ordinal));
+                        var win = this.Interpreter.Conveyor.WindowList.FirstOrDefault(x => x.WindowType == WindowType.TerminalWindow && x.Name.Equals(o.WindowName, StringComparison.Ordinal)) as TerminalWindow;
 
                         if (win == null)
                         {

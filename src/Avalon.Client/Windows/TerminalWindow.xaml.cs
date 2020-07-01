@@ -29,6 +29,11 @@ namespace Avalon
         }
 
         /// <summary>
+        /// The window type.
+        /// </summary>
+        public WindowType WindowType { get; set; } = WindowType.TerminalWindow;
+
+        /// <summary>
         /// Constructor.
         /// </summary>
         public TerminalWindow()
@@ -54,7 +59,7 @@ namespace Avalon
         private void TerminalWindowWindow_Closed(object sender, System.EventArgs e)
         {
             // Remove this specific window from the shared Conveyor's window list.
-            App.Conveyor.TerminalWindowList.Remove(this);
+            App.Conveyor.WindowList.Remove(this);
         }
 
         /// <summary>
