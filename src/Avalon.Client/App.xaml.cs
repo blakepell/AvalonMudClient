@@ -98,7 +98,7 @@ namespace Avalon
                 // Adds the string editor to all strings.. but based on convention (or attribute) we'll 
                 // determine which string editor opens.
                 TypeDescriptor.AddAttributes(typeof(string), new EditorAttribute(typeof(StringPropertyEditor), typeof(UITypeEditor)));
-
+                
                 // Setup our global exception handling if the setting is set for it.
                 if (App.Settings.AvalonSettings.GlobalExceptionHandlingEnabled)
                 {

@@ -662,6 +662,8 @@ namespace Avalon.Controls
         /// <param name="replaceWith"></param>
         public void ReplaceLastInstance(string searchFor, string replaceWith)
         {
+            // First, search for any instance so we know if we should continue with the
+            // extra code we need to run.
             int start = this.Document.LastIndexOf(searchFor, 0, this.Document.TextLength, StringComparison.Ordinal);
 
             if (start == -1)

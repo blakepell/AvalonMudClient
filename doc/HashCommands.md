@@ -57,6 +57,9 @@ Hash commands that reside in the main project will be general purpose.  Plugins 
 |#pulse|Pulses the input text box a color like a heart beat.|
 |#recent-triggers|Will show you the recent triggers that have fired and the date/time they fired on.|
 |#repeat|Will repeat a command 'n' number of times. @counter and @index can be used to send the iteration you're on to the command executed.|
+|#replace|Replaces all occurances of specified text in a terminal with another piece of text.  This can be a long operation if the terminal window has a large portion of data.  Consider #replace-first and #replace-last where possible.|
+|#replace-first|Replaces the first occurance of specified text in a terminal with another piece of text.|
+|#replace-last|Replaces the last occurance of specified text in a terminal with another piece of text.|
 |#save|Saves your profile.|
 |#scrape|Turns screen scraping on or off.|
 |#scroll-to-end|Scrolls the terminal buffer to the last line.|
