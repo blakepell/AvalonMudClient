@@ -37,6 +37,7 @@ Hash commands that reside in the main project will be general purpose.  Plugins 
 |#append-to-file|Appends text to a specified file.|
 |#beep|Makes a beep sound with one of a set of OS specified beeps.|
 |#clear|Clears the terminal window or any of the specified panels that contain text.|
+|#compass|Shows a compass window and allows for setting the direction of the needle.|
 |#cmd-list|Lists all of the available hash commands.|
 |#disable|Global disables of all triggers or all aliases.|
 |#echo|Echos text to the terminal.  Supports ANSI colors in Lopes style format.  e.g. {R = Red|

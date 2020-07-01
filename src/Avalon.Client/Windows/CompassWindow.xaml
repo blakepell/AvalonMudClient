@@ -1,0 +1,31 @@
+﻿<Window x:Class="Avalon.CompassWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Avalon"
+        mc:Ignorable="d"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True" 
+        x:Name="CompassWindowWindow" TextOptions.TextFormattingMode="Ideal"
+        ui:TitleBar.Background="#2D2D30" BorderBrush="#007ACC"
+        xmlns:controls="clr-namespace:Avalon.Controls"
+        AllowsTransparency="False" WindowStyle="None"
+        Title="Compass" Height="275" Width="275" Closed="CompassWindow_Closed">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <!-- 1 pixel left margin was so the left border of the window will render -->
+        <controls:Compass x:Name="CompassControl" Grid.Row="0" Grid.Column="0"
+                          Height="200" Width="200" FontSize="32"></controls:Compass>
+
+        <DockPanel Grid.Row="1">
+            <StatusBar Background="#007ACC" Foreground="White">
+                <TextBlock x:Name="TextBlockStatus" Text="" TextWrapping="NoWrap"></TextBlock>
+            </StatusBar>
+        </DockPanel>
+    </Grid>
+</Window>
