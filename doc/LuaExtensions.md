@@ -56,6 +56,9 @@ local dir = lua:RandomChoice({"north", "south"});
 |lua:ListRemove|(string) sourceList, (int) items, (optional char) delimiter = '\|')|Removes 1 to n items from the end of a list|
 |lua:ListExists|(string) sourceList, (string) value, (optional char) delimiter = '\|'|Whether or not an item exists in a list.|
 |lua:ListSort|(string) sourceList, (bool) ascending, (optional char) delimiter = '\|'|Sorts a list in ascending or descending order.|
+|lua:LastNonEmptyLine|None|Gets the last non empty line.|
+|lua:LastLines|(int) numberToTake|Returns the requested number of lines from the end of the game terminall as a string array from oldest to newest.|
+|lua:LastLines|(int) numberToTake, (bool)reverseOrder|Returns the requested number of lines from the end of the game terminal as a string array.  `reverseOrder` being true will return the list in newest to oldest order, false will return oldest to newest.|
 |global|None|Used to set global variables only global to Lua.|
 
 ## Lua Global Variables

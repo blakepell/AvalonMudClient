@@ -59,7 +59,6 @@ namespace Avalon.HashCommands
                     }
 
                     term.ReplaceLastInstance(o.SearchText, o.ReplaceWith);
-
                 });
            
             // Display the help or error output from the parameter parsing.

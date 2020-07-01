@@ -4,10 +4,13 @@ using Avalon.Common.Colors;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
 using System;
+using System.Collections.Generic;
+using System.DirectoryServices;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
 
 namespace Avalon.Lua
 {
@@ -719,6 +722,69 @@ namespace Avalon.Lua
             }
 
             return value.FormatIfNumber(decimalPlaces);
+        }
+
+        /// <summary>
+        /// Returns the last non-empty line in the game terminal.
+        /// </summary>
+        public string LastNonEmptyLine()
+        {
+            string buf = "";
+
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                buf = App.MainWindow.GameTerminal.LastNonEmptyLine;
+            }));
+
+            return buf ?? "";
+        }
+
+        /// <summary>
+        /// Returns a string array of the requested number of last lines from the game terminal.
+        /// </summary>
+        /// <param name="numberToTake"></param>
+        public string[] LastLines(int numberToTake)
+        {
+            return LastLines(numberToTake, true);
+        }
+
+        /// <summary>
+        /// Returns a string array of the requested number of last lines from the game terminal.
+        /// </summary>
+        /// <param name="numberToTake"></param>
+        /// <param name="reverseOrder">Whether the order of the array should be reversed.  True will return oldest line to newest, False will be newest to oldest.</param>
+        public string[] LastLines(int numberToTake, bool reverseOrder)
+        {
+            var list = new List<string>();
+
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                string text = "";
+                int i = App.MainWindow.GameTerminal.Document.LineCount;
+                int taken = 0;
+
+                while (string.IsNullOrEmpty(text) && i > 0)
+                {
+                    var line = App.MainWindow.GameTerminal.Document.GetLineByNumber(i);
+                    list.Add(App.MainWindow.GameTerminal.Document.GetText(line.Offset, line.Length));
+
+                    i--;
+                    taken++;
+
+                    // Once we've statisfied the number of lines to get, exit the loop.
+                    if (taken == numberToTake)
+                    {
+                        break;
+                    }
+                }
+            }));
+
+            if (reverseOrder)
+            {
+                list.Reverse();
+            }
+
+            return list.ToArray();
         }
 
         private IInterpreter _interpreter;

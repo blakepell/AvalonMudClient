@@ -1,5 +1,6 @@
 ﻿using ICSharpCode.AvalonEdit.CodeCompletion;
 using System.Collections.Generic;
+using System.Data;
 
 namespace Avalon.Lua
 {
@@ -39,6 +40,8 @@ namespace Avalon.Lua
                 data.Add(new LuaCompletionData("TrimEnd", "Trims whitespace off the end of a string.  With a parameter will trim the specified parameter."));
                 data.Add(new LuaCompletionData("Split", "Splits the specified string with a delimiter providing an array returned."));
                 data.Add(new LuaCompletionData("ArrayContains", "Whether or not an array contains an element."));
+                data.Add(new LuaCompletionData("LastNonEmptyLine", "Returns the text of the last non empty line in the main game terminal."));
+                data.Add(new LuaCompletionData("LastLines", "Returns the requested number of lines from the end of the game termianl as a string array.  Specifying a second boolean parameter will determine if the returned list is returned in reverse order."));
                 data.Add(new LuaCompletionData("ListAdd", "Adds an item to a list."));
                 data.Add(new LuaCompletionData("ListAddStart", "Adds an item to the start of a list."));
                 data.Add(new LuaCompletionData("ListAddIfNotExist", "Adds an item to the end of a list if that item doesn't already exist."));
@@ -59,7 +62,6 @@ namespace Avalon.Lua
             data.Add(new LuaCompletionData("Scheduled Tasks", "A snippit to show how to use scheduled tasks", ""));
             data.Add(new LuaCompletionData("For Loop", "A snippit to show how to use scheduled tasks", ""));
             data.Add(new LuaCompletionData("For Loop Pairs", "A snippit to show how to use scheduled tasks", ""));
-
         }
 
     }
