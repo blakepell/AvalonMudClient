@@ -433,7 +433,7 @@
 
                 </Grid>
             </controls:TabItemEx>
-            <controls:TabItemEx x:Name="TabAliases"  Header="Aliases" Icon="Shuffle" ui:ControlHelper.CornerRadius="0">
+            <controls:TabItemEx x:Name="TabAliases" Header="Aliases" Icon="Shuffle" ui:ControlHelper.CornerRadius="0">
                 <controls:AliasList x:Name="AliasList"></controls:AliasList>
             </controls:TabItemEx>
             <controls:TabItemEx x:Name="TabTriggers" Header="Triggers" Icon="Directions" ui:ControlHelper.CornerRadius="0">

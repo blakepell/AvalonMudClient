@@ -54,12 +54,12 @@
                         <Border 
                             Name="Border" 
                             Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
-                            BorderThickness="0,.9,0,0"
-                            CornerRadius="0" 
+                            BorderThickness="0,0,0,0"
+                            CornerRadius="0" Background="#111111"
                             KeyboardNavigation.TabNavigation="Local"
                             KeyboardNavigation.DirectionalNavigation="Contained"
                             KeyboardNavigation.TabIndex="2">
-                            <ContentPresenter 
+                            <ContentPresenter
                                 Name="PART_SelectedContentHost"
                                 Margin="4,2,4,4"
                                 ContentSource="SelectedContent" />
