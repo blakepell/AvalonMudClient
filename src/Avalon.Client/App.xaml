@@ -34,6 +34,7 @@
                     </ui:ThemeResources.ThemeDictionaries>
                 </ui:ThemeResources>
                 <ui:XamlControlsResources />
+                <ResourceDictionary Source="/Avalon;component/Controls/SearchBox/SearchBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
