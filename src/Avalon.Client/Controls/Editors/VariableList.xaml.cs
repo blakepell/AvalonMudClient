@@ -33,6 +33,14 @@ namespace Avalon.Controls
         }
 
         /// <summary>
+        /// Sets the focus onto the filter text box.
+        /// </summary>
+        public void FocusFilter()
+        {
+            TextFilter.Focus();
+        }
+
+        /// <summary>
         /// This will effectively load the list data into the DataGrid the first time it's shown to the user.
         /// </summary>
         /// <param name="sender"></param>

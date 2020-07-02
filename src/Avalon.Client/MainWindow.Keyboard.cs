@@ -294,6 +294,11 @@ namespace Avalon
         public static readonly RoutedUICommand FontSizeChange = new RoutedUICommand("FontSizeChange", "FontSizeChange", typeof(MainWindow));
 
         /// <summary>
+        /// For handling find requests, will behave different depending on the tab selected.
+        /// </summary>
+        public static readonly RoutedUICommand Find = new RoutedUICommand("Find", "Find", typeof(MainWindow));
+
+        /// <summary>
         /// Handler to select an element.
         /// </summary>
         private void SelectElementInternal(object sender, ExecutedRoutedEventArgs e)
@@ -331,6 +336,43 @@ namespace Avalon
             }
 
             UpdateUISettings();
+        }
+
+        /// <summary>
+        /// Executes the default code for Finding depending on what context has the focus.
+        /// </summary>
+        private void FindInternal(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (TabAliases.IsSelected)
+            {
+                AliasList.FocusFilter();
+                return;
+            }
+
+            if (TabTriggers.IsSelected)
+            {
+                TriggersList.FocusFilter();
+                return;
+            }
+
+            if (TabMacros.IsSelected)
+            {
+                MacroList.FocusFilter();
+                return;
+            }
+
+            if (TabVariables.IsSelected)
+            {
+                VariableList.FocusFilter();
+                return;
+            }
+
+            if (TabDirections.IsSelected)
+            {
+                DirectionList.FocusFilter();
+                return;
+            }
+
         }
 
     }

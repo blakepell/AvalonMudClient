@@ -68,6 +68,7 @@
         <CommandBinding Command="local:MainWindow.EditLastItem" Executed="MenuItemOpenLastEdittedAliasOrTrigger_Click" />
         <CommandBinding Command="local:MainWindow.SelectElement" Executed="SelectElementInternal" />
         <CommandBinding Command="local:MainWindow.FontSizeChange" Executed="ChangeTerminalFontSize" />
+        <CommandBinding Command="local:MainWindow.Find" Executed="FindInternal" />
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Command="local:MainWindow.LoadPlugin" Key="P" Modifiers="Ctrl+Alt" />
@@ -77,6 +78,7 @@
         <KeyBinding Command="local:MainWindow.SelectElement" Key="D3" Modifiers="Ctrl" CommandParameter="CustomTab3" />
         <KeyBinding Command="local:MainWindow.FontSizeChange" Key="OemPlus" Modifiers="Ctrl" CommandParameter="+" />
         <KeyBinding Command="local:MainWindow.FontSizeChange" Key="OemMinus" Modifiers="Ctrl" CommandParameter="-" />
+        <KeyBinding Command="local:MainWindow.Find" Key="F" Modifiers="Ctrl" />
     </Window.InputBindings>
     <Grid>
         <controls:TabControlEx x:Name="TabMain" SelectionChanged="TabControl_SelectionChanged">
