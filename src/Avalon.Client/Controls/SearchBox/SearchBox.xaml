@@ -26,13 +26,13 @@
                                 Width="28" Height="28" Background="#222222"
                                 >
                             <Grid>
-                                <ui:SymbolIcon Symbol="Zoom" 
-                                    x:Name="PART_SearchIconGlass" 
+                                <ui:FontIcon x:Name="PART_SearchIconGlass" 
                                     HorizontalAlignment="Center" 
                                     VerticalAlignment="Center" 
                                     Foreground="#5E5E5E"                                                                                   
-                                    Opacity="1">
-                                    <ui:SymbolIcon.Style>
+                                    Opacity="1" FontSize="16"
+                                    FontFamily="Segoe MDL2 Assets" Glyph="&#xE71E;">
+                                    <ui:FontIcon.Style>
                                         <Style>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding HasText, RelativeSource={RelativeSource TemplatedParent}}" Value="true">
@@ -54,16 +54,16 @@
                                                     </DataTrigger.ExitActions>
                                                 </DataTrigger>
                                             </Style.Triggers>
-                                        </Style>                                        
-                                    </ui:SymbolIcon.Style>
-                                </ui:SymbolIcon>
-                                <ui:SymbolIcon Symbol="Clear" 
+                                        </Style>
+                                    </ui:FontIcon.Style>
+                                </ui:FontIcon>
+                                <ui:FontIcon Glyph="&#xE894;"
                                     x:Name="PART_SearchIconCross" 
                                     HorizontalAlignment="Center" 
                                     VerticalAlignment="Center" 
                                     Foreground="#E2E2E2"
                                     Opacity="0">
-                                    <ui:SymbolIcon.Style>
+                                    <ui:FontIcon.Style>
                                         <Style>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding HasText, RelativeSource={RelativeSource TemplatedParent}}" Value="true">
@@ -86,8 +86,8 @@
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </ui:SymbolIcon.Style>
-                                </ui:SymbolIcon>
+                                    </ui:FontIcon.Style>
+                                </ui:FontIcon>
                             </Grid>
                         </Border>
                         <ScrollViewer x:Name="PART_ContentHost" Panel.ZIndex="1" 
