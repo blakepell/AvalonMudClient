@@ -36,7 +36,12 @@ namespace Avalon.Controls
         /// </summary>
         public void FocusFilter()
         {
-            TextFilter.Focus();
+            Dispatcher.BeginInvoke(
+                DispatcherPriority.ContextIdle,
+                new Action(delegate ()
+                {
+                    TextFilter.Focus();
+                }));
         }
 
         /// <summary>
@@ -46,6 +51,11 @@ namespace Avalon.Controls
         /// <param name="e"></param>
         private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            if ((bool)e.NewValue)
+            {
+                this.FocusFilter();
+            }
+
             // Fix the descriptions on any macros in case they get borked up.
             this.FixMacros();
 

@@ -3,6 +3,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace Avalon.Controls
@@ -45,7 +46,12 @@ namespace Avalon.Controls
         /// </summary>
         public void FocusFilter()
         {
-            TextFilter.Focus();
+            Dispatcher.BeginInvoke(
+                DispatcherPriority.ContextIdle,
+                new Action(delegate ()
+                {
+                    TextFilter.Focus();
+                }));
         }
 
         /// <summary>
@@ -55,6 +61,11 @@ namespace Avalon.Controls
         /// <param name="e"></param>
         private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            if ((bool)e.NewValue)
+            {
+                this.FocusFilter();
+            }
+
             // Load the alias list the first time that it's requested.
             if (DataList.ItemsSource == null)
             {

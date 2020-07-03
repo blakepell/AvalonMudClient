@@ -37,7 +37,12 @@ namespace Avalon.Controls
         /// </summary>
         public void FocusFilter()
         {
-            TextFilter.Focus();
+            Dispatcher.BeginInvoke(
+                DispatcherPriority.ContextIdle,
+                new Action(delegate ()
+                {
+                    TextFilter.Focus();
+                }));
         }
 
         /// <summary>
@@ -47,6 +52,11 @@ namespace Avalon.Controls
         /// <param name="e"></param>
         private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            if ((bool)e.NewValue)
+            {
+                this.FocusFilter();
+            }
+
             // Load the variable list the first time that it's requested.
             if (DataList.ItemsSource == null)
             {
