@@ -82,7 +82,6 @@ namespace Avalon.Network
         /// <param name="socks4ProxyHost"></param>
         /// <param name="socks4ProxyPort"></param>
         /// <param name="socks4ProxyUser"></param>
-        /// <returns></returns>
         public async Task Connect(string socks4ProxyHost, int socks4ProxyPort, string socks4ProxyUser)
         {
             if (_tcpClient != null)
@@ -95,7 +94,7 @@ namespace Avalon.Network
 
             // Simple implementation of http://en.wikipedia.org/wiki/SOCKS#SOCKS4
             // Similar to http://biko.codeplex.com/
-            byte[] hostAddress = Dns.GetHostAddresses(_host).First().GetAddressBytes();
+            byte[] hostAddress = (await Dns.GetHostAddressesAsync(_host)).First().GetAddressBytes();
             byte[] hostPort = new byte[2]; // 16-bit number
             hostPort[0] = Convert.ToByte(_port / 256);
             hostPort[1] = Convert.ToByte(_port % 256);

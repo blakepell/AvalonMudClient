@@ -25,7 +25,7 @@ namespace Avalon.HashCommands
 
         public override void Execute()
         {
-            WindowInteropHelper wih = new WindowInteropHelper(App.MainWindow);
+            var wih = new WindowInteropHelper(App.MainWindow);
             FlashWindow(wih.Handle, true);
         }
 

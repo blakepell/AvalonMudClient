@@ -236,7 +236,7 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
         /// <param name="durationMilliseconds"></param>
         public async void Pulse(Color color, int durationMilliseconds = 1000)
         {
-            await Editor.Pulse(BackgroundProperty, color, durationMilliseconds);
+            await Editor.Pulse(color, durationMilliseconds);
         }
 
         public static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -502,8 +502,10 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
                 _filter = searchText;
                 _actb.IsLoading = true;
                 _actb.ItemsSelector.ItemsSource = null;
+
                 ParameterizedThreadStart thInfo = GetSuggestionsAsync;
-                Thread th = new Thread(thInfo);
+                var th = new Thread(thInfo);
+
                 th.Start(new object[] {
                 searchText,
                 _actb.Provider

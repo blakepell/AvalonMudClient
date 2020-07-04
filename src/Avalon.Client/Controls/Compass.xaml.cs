@@ -267,7 +267,7 @@ namespace Avalon.Controls
         }
 
         public static readonly DependencyProperty AngleProperty =
-            DependencyProperty.Register("Angle", typeof(double), typeof(Compass), new PropertyMetadata(0.0, new PropertyChangedCallback(AngleChanged)));
+            DependencyProperty.Register(nameof(Angle), typeof(double), typeof(Compass), new PropertyMetadata(0.0, new PropertyChangedCallback(AngleChanged)));
 
         /// <summary>
         /// Performs animation when the Angle property changes.
@@ -323,7 +323,7 @@ namespace Avalon.Controls
         }
 
         public static readonly DependencyProperty EllipseFillColorProperty =
-            DependencyProperty.Register("EllipseFillColor", typeof(SolidColorBrush), typeof(Compass), new PropertyMetadata(Brushes.Black));
+            DependencyProperty.Register(nameof(EllipseFillColor), typeof(SolidColorBrush), typeof(Compass), new PropertyMetadata(Brushes.Black));
 
         /// <summary>
         /// The border color of the compass.
@@ -335,7 +335,7 @@ namespace Avalon.Controls
         }
 
         public static readonly DependencyProperty EllipseBorderColorProperty =
-            DependencyProperty.Register("EllipseBorderColor", typeof(SolidColorBrush), typeof(Compass), new PropertyMetadata(Brushes.Gray));
+            DependencyProperty.Register(nameof(EllipseBorderColor), typeof(SolidColorBrush), typeof(Compass), new PropertyMetadata(Brushes.Gray));
 
         /// <summary>
         /// The color of the directional needle.
@@ -347,7 +347,7 @@ namespace Avalon.Controls
         }
 
         public static readonly DependencyProperty NeedleColorProperty =
-            DependencyProperty.Register("NeedleColor", typeof(SolidColorBrush), typeof(Compass), new PropertyMetadata(Brushes.Red));
+            DependencyProperty.Register(nameof(NeedleColor), typeof(SolidColorBrush), typeof(Compass), new PropertyMetadata(Brushes.Red));
 
 
 
@@ -361,7 +361,7 @@ namespace Avalon.Controls
         }
 
         public static readonly DependencyProperty LabelVisibleProperty =
-            DependencyProperty.Register("LabelVisible", typeof(Visibility), typeof(Compass), new PropertyMetadata(Visibility.Visible));
+            DependencyProperty.Register(nameof(LabelVisible), typeof(Visibility), typeof(Compass), new PropertyMetadata(Visibility.Visible));
 
 
         /// <summary>
@@ -374,7 +374,7 @@ namespace Avalon.Controls
         }
 
         public static readonly DependencyProperty LabelForegroundColorProperty =
-            DependencyProperty.Register("LabelForegroundColor", typeof(SolidColorBrush), typeof(SolidColorBrush), new PropertyMetadata(Brushes.White));
+            DependencyProperty.Register(nameof(LabelForegroundColor), typeof(SolidColorBrush), typeof(SolidColorBrush), new PropertyMetadata(Brushes.White));
 
         /// <summary>
         /// The duration the animation should take.

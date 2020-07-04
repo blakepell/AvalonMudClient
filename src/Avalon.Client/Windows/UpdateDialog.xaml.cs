@@ -148,7 +148,7 @@ namespace Avalon
                 // Get any plugins first
                 foreach (string item in plugins)
                 {
-                    using (var response = http.GetAsync(item, HttpCompletionOption.ResponseHeadersRead).Result)
+                    using (var response = await http.GetAsync(item, HttpCompletionOption.ResponseHeadersRead))
                     {
                         string pluginName = Argus.IO.FileSystemUtilities.ExtractFileName(item);
                         string pluginSavePath = Path.Combine(App.Settings.UpdateDirectory, pluginName);
@@ -188,7 +188,7 @@ namespace Avalon
                 }
 
                 // Now, get the full installer.
-                using (var response = http.GetAsync(downloadUrl, HttpCompletionOption.ResponseHeadersRead).Result)
+                using (var response = await http.GetAsync(downloadUrl, HttpCompletionOption.ResponseHeadersRead))
                 {
                     response.EnsureSuccessStatusCode();
 
@@ -282,7 +282,7 @@ namespace Avalon
                 // Get any plugins first
                 foreach (string item in plugins)
                 {
-                    using (var response = http.GetAsync(item, HttpCompletionOption.ResponseHeadersRead).Result)
+                    using (var response = await http.GetAsync(item, HttpCompletionOption.ResponseHeadersRead))
                     {
                         string pluginName = Argus.IO.FileSystemUtilities.ExtractFileName(item);
                         string pluginSavePath = Path.Combine(App.Settings.UpdateDirectory, pluginName);
