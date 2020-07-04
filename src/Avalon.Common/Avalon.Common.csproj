@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Argus.Core" Version="2020.3.31.1" />
+    <PackageReference Include="Argus.Core" Version="2020.7.4.1" />
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
   </ItemGroup>
 
