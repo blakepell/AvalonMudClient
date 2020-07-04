@@ -293,7 +293,13 @@ namespace Avalon.Extensions
             return index;
         }
 
-        public static async Task Pulse(this Control c, DependencyProperty dp, Color color, int durationMilliseconds)
+        /// <summary>
+        /// Pulses the <see cref="Control.Background"/> property a specified color.
+        /// </summary>
+        /// <param name="c"></param>
+        /// <param name="color"></param>
+        /// <param name="durationMilliseconds"></param>
+        public static async Task Pulse(this Control c, Color color, int durationMilliseconds)
         {
             var tcs = new TaskCompletionSource<bool>();
 
