@@ -222,7 +222,7 @@ namespace Avalon
                     // tried to use an alias but they're disabled.
                     if (!App.Settings.ProfileSettings.AliasesEnabled)
                     {
-                        EchoText($"--> Alias found but aliases are globally disabled.", AnsiColors.Red);
+                        EchoText($"--> Alias found for '{alias.AliasExpression ?? "null"}' but aliases are globally disabled.", AnsiColors.Red);
                         list.Add(item);
                         continue;
                     }
