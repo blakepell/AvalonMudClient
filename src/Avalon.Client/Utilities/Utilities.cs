@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Data;
@@ -80,9 +81,8 @@ namespace Avalon.Utilities
         /// <summary>
         /// Processes a speedwalk command into a set of commands.
         /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        public static string Speedwalk(string input)
+        /// <param name="leaveParens">Whether or not to leave parenthesis around commands.  The default value is false.</param>
+        public static string Speedwalk(string input, bool leaveParens = false)
         {
             if (string.IsNullOrWhiteSpace(input))
             {
@@ -157,7 +157,10 @@ namespace Avalon.Utilities
                 }
 
                 // Now that the command has been properly placed, remove any parents.
-                sb.Replace("(", "").Replace(")", "");
+                if (!leaveParens)
+                {
+                    sb.Replace("(", "").Replace(")", "");
+                }
 
                 return sb.ToString();
             }
@@ -165,6 +168,125 @@ namespace Avalon.Utilities
             {
                 Argus.Memory.StringBuilderPool.Return(sb);
             }            
+        }
+
+        /// <summary>
+        /// Reverses a speedwalk path.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="leaveParens">Whether or not to leave parenthesis around commands.  The default value is false.</param>
+        public static string SpeedwalkReverse(string input, bool leaveParens = false)
+        {
+            if (string.IsNullOrWhiteSpace(input))                
+            {
+                return "";
+            }
+
+            var forwardList = new List<string>()
+            {
+                "n", "e", "s", "w", "u", "d", "nw", "ne", "sw", "se"
+            };
+
+            var reverseList = new List<string>()
+            {
+                "s", "w", "n", "e", "d", "u", "se", "sw", "ne", "nw"
+            };
+
+            var sb = Argus.Memory.StringBuilderPool.Take();
+
+            // Make it so they're all busted out.
+            string forwardPath = Speedwalk(input, true);
+
+            // Now, reverse that.
+            var path = forwardPath.Split(';').Reverse().ToList();
+
+            for (int i = 0; i < path.Count; i++)
+            {
+                // Swap the reverse direction in
+                int pos = forwardList.IndexOf(path[i]);
+
+                if (pos == -1)
+                {
+                    continue;
+                }
+
+                path[i] = reverseList[pos];
+            }
+
+            // This will be each individual step (or a number in the same direction)
+            foreach (string step in path)
+            {
+                if (step.ContainsNumber())
+                {
+                    string stepsStr = "";
+                    string direction = "";
+
+                    // Pluck the number off the front (e.g. 4n)
+                    foreach (char c in step)
+                    {
+                        if (char.IsNumber(c))
+                        {
+                            stepsStr += c;
+                        }
+                        else
+                        {
+                            direction += c;
+                        }
+                    }
+
+                    // The number of steps to repeat this specific step
+                    int steps = int.Parse(stepsStr);
+
+                    for (int i = 1; i <= steps; i++)
+                    {
+                        sb.Append(direction);
+                        sb.Append(';');
+                    }
+
+                }
+                else
+                {
+                    // No number, put it in verbatim.
+                    sb.Append(step);
+                    sb.Append(';');
+                }
+
+            }
+
+            sb.TrimEnd(';');
+
+            if (!leaveParens)
+            {
+                // Finally, look for parens and turn semi-colons in between there into spaces.  This might be hacky but should
+                // allow for commands in the middle of our directions as long as they're surrounded by ().
+                bool on = false;
+
+                for (int i = 0; i < sb.Length; i++)
+                {
+                    if (sb[i] == '(')
+                    {
+                        on = true;
+                    }
+                    else if (sb[i] == ')')
+                    {
+                        on = false;
+                    }
+
+                    if (on == true && sb[i] == ';')
+                    {
+                        sb[i] = ' ';
+                    }
+                }
+
+                // Now that the command has been properly placed, remove any parens.
+                sb.Replace("(", "").Replace(")", "");
+            }
+            else
+            {
+                sb.Replace(";", " ");
+            }
+
+            return sb.ToString();
         }
 
         /// <summary>

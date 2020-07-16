@@ -194,5 +194,31 @@ namespace Avalon.Controls
             // A direction has been edited possibly, go ahead and refresh the auto complete entries.
             App.MainWindow.RefreshAutoCompleteEntries();
         }
+
+        /// <summary>
+        /// Creates a new direction with the reverse direction of the one selected.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CreateReverseMenuItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            // Get the direction from the current line.
+            var direction = ((FrameworkElement)sender).DataContext as Direction;
+
+            // Hmm, no direction.. gracefully exit.
+            if (direction == null)
+            {
+                return;
+            }
+
+            string rev = Utilities.Utilities.SpeedwalkReverse(direction.Speedwalk, true);
+
+            var dir = new Direction();
+            dir.StartingRoom = direction.Name;
+            dir.Name = direction.StartingRoom;
+            dir.Speedwalk = rev;
+
+            App.Settings.ProfileSettings.DirectionList.Add(dir);
+        }
     }
 }

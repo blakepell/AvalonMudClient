@@ -9,6 +9,18 @@
              mc:Ignorable="d" ui:ThemeManager.RequestedTheme="Dark" 
              d:DesignHeight="450" d:DesignWidth="800"
              IsVisibleChanged="UserControl_IsVisibleChanged">
+    <UserControl.Resources>
+        <ContextMenu x:Key="RowMenu" x:Shared="true" ui:ControlHelper.CornerRadius="0">
+            <MenuItem Header="Create Reverse Direction" Click="CreateReverseMenuItem_OnClick">
+                <MenuItem.Icon>
+                    <ui:SymbolIcon Symbol="Switch" />
+                </MenuItem.Icon>
+            </MenuItem>
+        </ContextMenu>
+        <Style x:Key="DefaultRowStyle" TargetType="{x:Type DataGridRow}" BasedOn="{ui:StaticResource ResourceKey=DefaultDataGridRowStyle}">
+            <Setter Property="ContextMenu" Value="{StaticResource RowMenu}" />
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -35,6 +47,7 @@
                   CanUserAddRows="True"
                   AutoGenerateColumns="False"
                   GridLinesVisibility="All"
+                  RowStyle="{StaticResource DefaultRowStyle}"
                   CellEditEnding="DataList_OnCellEditEnding">
             <DataGrid.Resources>
                 <ResourceDictionary>
