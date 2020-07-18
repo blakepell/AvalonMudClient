@@ -58,7 +58,11 @@ namespace Avalon
 
         public string PrimaryButtonText { get; set; } = "Ok";
 
+        public Visibility PrimaryButtonVisibility { get; set; }
+
         public string SecondaryButtonText { get; set; } = "Cancel";
+
+        public Visibility SecondaryButtonVisibility { get; set; }
 
         public bool BlurParent { get; private set; } = false;
 
