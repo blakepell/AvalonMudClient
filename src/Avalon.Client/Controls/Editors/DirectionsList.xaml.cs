@@ -5,13 +5,14 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Threading;
 using MoonSharp.Interpreter.Loaders;
+using Avalon.Common.Interfaces;
 
 namespace Avalon.Controls
 {
     /// <summary>
     /// Interaction logic for the DirectionList editor.
     /// </summary>
-    public partial class DirectionList : UserControl
+    public partial class DirectionList : UserControl, IShellControl
     {
 
         /// <summary>
@@ -220,5 +221,16 @@ namespace Avalon.Controls
 
             App.Settings.ProfileSettings.DirectionList.Add(dir);
         }
+
+        public void PrimaryButtonClick()
+        {
+            // Do nothing.
+        }
+
+        public void SecondaryButtonClick()
+        {
+            // Do nothing.
+        }
+
     }
 }

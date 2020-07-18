@@ -25,10 +25,26 @@ namespace Avalon.HashCommands
 
         public override void Execute()
         {
-            var win = new Avalon.Shell(new VariableList(), App.MainWindow);
-            win.HeaderTitle = "Variables";
-            win.HeaderIcon = ModernWpf.Controls.Symbol.Account;
-            win.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            //var win = new Avalon.Shell(new VariableList(), App.MainWindow)
+            //{
+            //    HeaderTitle = "Variables",
+            //    HeaderIcon = ModernWpf.Controls.Symbol.Account,
+            //    Width = App.MainWindow.Width * .85,
+            //    Height = App.MainWindow.Height * .85,
+            //    Left = App.MainWindow.Left + (App.MainWindow.Width - (App.MainWindow.Width * .85)) / 2,
+            //    Top = App.MainWindow.Top + (App.MainWindow.Height - (App.MainWindow.Height * .85)) / 2,
+            //    WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            //    SecondaryButtonVisibility = Visibility.Collapsed
+            //};
+
+            var win = new Avalon.Shell(new VariableList(), null)
+            {
+                HeaderTitle = "Variables",
+                HeaderIcon = ModernWpf.Controls.Symbol.Account,
+                SecondaryButtonVisibility = Visibility.Collapsed
+            };
+
+            win.SetSizeAndPosition(.85);
             win.Show();
 
             //App.MainWindow.VariableRepeater.Bind();

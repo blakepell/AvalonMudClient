@@ -19,6 +19,7 @@ using ModernWpf.Controls;
 using System.Diagnostics;
 using System.Windows.Media;
 using Argus.Extensions;
+using Avalon.Sqlite;
 
 namespace Avalon
 {
@@ -259,23 +260,6 @@ namespace Avalon
                     : App.Settings.ProfileSettings.WindowTitle;
 
                 App.Conveyor.EchoLog($"Settings Loaded: {fileName}", LogType.Success);
-
-                // Setup the database control.            
-                try
-                {
-                    if (App.Settings.AvalonSettings.DeveloperMode)
-                    {
-                        App.Conveyor.EchoLog($"Initializing SQLite Database: {App.Settings.ProfileSettings.SqliteDatabase}", LogType.Information);
-                    }
-
-                    SqliteQueryControl.ConnectionString = $"Data Source={App.Settings.ProfileSettings.SqliteDatabase}";
-                    await SqliteQueryControl.RefreshSchema();
-                }
-                catch (Exception ex)
-                {
-                    App.Conveyor.EchoLog(ex.Message, LogType.Error);
-                }
-
             }
             catch (Exception ex)
             {
@@ -1456,6 +1440,98 @@ namespace Avalon
                 Grid.SetColumnSpan(BorderInfoBar, 2);
                 Grid.SetColumnSpan(BorderTextInput, 2);
             }
+        }
+
+        private async void MenuShellWindow_Click(object sender, RoutedEventArgs e)
+        {
+            var menuItem = e.Source as MenuItem;
+            
+            if (menuItem.Tag.ToString() == "Variables")
+            {
+                var win = new Shell(new VariableList(), null)
+                {
+                    HeaderTitle = "Variables",
+                    HeaderIcon = Symbol.Account,
+                    SecondaryButtonVisibility = Visibility.Collapsed
+                };
+
+                win.SetSizeAndPosition(.85);
+                win.Show();
+            }
+            else if (menuItem.Tag.ToString() == "Aliases")
+            {
+                var win = new Shell(new AliasList(), null)
+                {
+                    HeaderTitle = "Aliases",
+                    HeaderIcon = Symbol.Account,
+                    SecondaryButtonVisibility = Visibility.Collapsed
+                };
+
+                win.SetSizeAndPosition(.85);
+                win.Show();
+            }
+            else if (menuItem.Tag.ToString() == "Macros")
+            {
+                var win = new Shell(new MacroList(), null)
+                {
+                    HeaderTitle = "Macros",
+                    HeaderIcon = Symbol.Keyboard,
+                    SecondaryButtonVisibility = Visibility.Collapsed
+                };
+
+                win.SetSizeAndPosition(.85);
+                win.Show();
+            }
+            else if (menuItem.Tag.ToString() == "Triggers")
+            {
+                var win = new Shell(new TriggerList(), null)
+                {
+                    HeaderTitle = "Triggers",
+                    HeaderIcon = Symbol.Directions,
+                    SecondaryButtonVisibility = Visibility.Collapsed
+                };
+
+                win.SetSizeAndPosition(.85);
+                win.Show();
+            }
+            else if (menuItem.Tag.ToString() == "Directions")
+            {
+                var win = new Shell(new DirectionList(), null)
+                {
+                    HeaderTitle = "Directions",
+                    HeaderIcon = Symbol.Map,
+                    SecondaryButtonVisibility = Visibility.Collapsed
+                };
+
+                win.SetSizeAndPosition(.85);
+                win.Show();
+            }
+            else if (menuItem.Tag.ToString() == "Database")
+            {
+                try
+                {
+                    // Setup the database control.            
+                    var ctrl = new SqliteQueryControl();
+                    ctrl.ConnectionString = $"Data Source={App.Settings.ProfileSettings.SqliteDatabase}";
+                    await ctrl.RefreshSchema();
+
+                    var win = new Shell(ctrl, this)
+                    {
+                        HeaderTitle = "Database Query Editor",
+                        HeaderIcon = Symbol.Tag,
+                        SecondaryButtonVisibility = Visibility.Collapsed
+                    };
+
+                    win.SetSizeAndPosition(.85);
+
+                    this.ShowDialog(win);
+                }
+                catch (Exception ex)
+                {
+                    this.Interp.Conveyor.EchoLog(ex.Message, LogType.Error);
+                }
+            }
+
         }
     }
 }

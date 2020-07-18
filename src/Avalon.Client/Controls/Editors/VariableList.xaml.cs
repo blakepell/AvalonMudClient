@@ -1,4 +1,5 @@
-﻿using Avalon.Common.Models;
+﻿using Avalon.Common.Interfaces;
+using Avalon.Common.Models;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,7 +11,7 @@ namespace Avalon.Controls
     /// <summary>
     /// Interaction logic for the VariableList editor.
     /// </summary>
-    public partial class VariableList : UserControl
+    public partial class VariableList : UserControl, IShellControl
     {
 
         /// <summary>
@@ -191,6 +192,16 @@ namespace Avalon.Controls
             {
                 variable.Value = win.Text;
             }
+        }
+
+        public void PrimaryButtonClick()
+        {
+            // Do nothing.
+        }
+
+        public void SecondaryButtonClick()
+        {
+            // Do nothing.
         }
 
     }

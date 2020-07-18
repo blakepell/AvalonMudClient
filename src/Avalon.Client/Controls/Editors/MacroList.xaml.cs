@@ -1,4 +1,5 @@
-﻿using Avalon.Common.Models;
+﻿using Avalon.Common.Interfaces;
+using Avalon.Common.Models;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,7 +11,7 @@ namespace Avalon.Controls
     /// <summary>
     /// Interaction logic for the MacroList editor.
     /// </summary>
-    public partial class MacroList : UserControl
+    public partial class MacroList : UserControl, IShellControl
     {
 
         /// <summary>
@@ -233,5 +234,16 @@ namespace Avalon.Controls
             // Show the string dialog
             var result = win.ShowDialog();
         }
+
+        public void PrimaryButtonClick()
+        {
+            // Do nothing.
+        }
+
+        public void SecondaryButtonClick()
+        {
+            // Do nothing.
+        }
+
     }
 }

@@ -165,6 +165,32 @@
                                     <ui:SymbolIcon Symbol="OtherUser" />
                                 </MenuItem.Icon>
                             </MenuItem>
+                            <Separator />
+                            <MenuItem Header="Edit _Aliases" Click="MenuShellWindow_Click" Tag="Aliases">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon Symbol="Shuffle" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Edit _Directions" Click="MenuShellWindow_Click" Tag="Directions">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon Symbol="Map" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Edit _Macros" Click="MenuShellWindow_Click" Tag="Macros">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon Symbol="Keyboard" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Edit _Triggers" Click="MenuShellWindow_Click" Tag="Triggers">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon Symbol="Directions" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Edit _Variables" Click="MenuShellWindow_Click" Tag="Variables">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon Symbol="Account" />
+                                </MenuItem.Icon>
+                            </MenuItem>
                         </MenuItem>
                         <MenuItem Header="_View">
                             <MenuItem Header="Open Last Editted Alias or Trigger" Click="MenuItemOpenLastEdittedAliasOrTrigger_Click" InputGestureText="Ctrl+Alt+L">
@@ -209,6 +235,12 @@
                             <MenuItem Header="Regular Expression Tester" Click="MenuItemRegexTester_Click">
                                 <MenuItem.Icon>
                                     <ui:SymbolIcon Symbol="Accept" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator />
+                            <MenuItem Header="Database Query Editor" Click="MenuShellWindow_Click" Tag="Database">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon Symbol="Tag" />
                                 </MenuItem.Icon>
                             </MenuItem>
                             <Separator />
@@ -449,9 +481,6 @@
             </controls:TabItemEx>
             <controls:TabItemEx x:Name="TabVariables" Header="Variables" Icon="Account" ui:ControlHelper.CornerRadius="0">
                 <controls:VariableList x:Name="VariableList"></controls:VariableList>
-            </controls:TabItemEx>
-            <controls:TabItemEx x:Name="TabDatabase" Header="Database" Icon="Tag" ui:ControlHelper.CornerRadius="0">
-                <sqlite:SqliteQueryControl x:Name="SqliteQueryControl"></sqlite:SqliteQueryControl>
             </controls:TabItemEx>
         </controls:TabControlEx>
     </Grid>

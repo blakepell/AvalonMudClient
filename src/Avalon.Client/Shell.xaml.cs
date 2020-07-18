@@ -12,6 +12,7 @@ using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Argus.Extensions;
+using Avalon.Common.Interfaces;
 using Avalon.Extensions;
 using ModernWpf.Controls;
 
@@ -129,6 +130,13 @@ namespace Avalon
                 this.DialogResult = false;
             }
 
+            IShellControl control = this.Container?.Content as IShellControl;
+
+            if (control != null)
+            {
+                control.SecondaryButtonClick();
+            }
+
             this.Close();
         }
 
@@ -144,7 +152,27 @@ namespace Avalon
                 this.DialogResult = true;
             }
 
+            IShellControl control = this.Container?.Content as IShellControl;
+
+            if (control != null)
+            {
+                control.PrimaryButtonClick();
+            }
+
             this.Close();
+        }
+
+        /// <summary>
+        /// Sets the position in the center of the MainWindow and also makes it a proportion of it's size.
+        /// </summary>
+        /// <param name="percent">A percent as represented between 0 and 1.</param>
+        public void SetSizeAndPosition(double percent)
+        {
+
+            this.Width = App.MainWindow.Width * percent;
+            this.Height = App.MainWindow.Height * percent;
+            this.Left = App.MainWindow.Left + (App.MainWindow.Width - (App.MainWindow.Width * percent)) / 2;
+            this.Top = App.MainWindow.Top + (App.MainWindow.Height - (App.MainWindow.Height * percent)) / 2;
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using Avalon.Common.Models;
+﻿using Avalon.Common.Interfaces;
+using Avalon.Common.Models;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,7 +12,7 @@ namespace Avalon.Controls
     /// <summary>
     /// Interaction logic for the AliasList editor.
     /// </summary>
-    public partial class AliasList : UserControl
+    public partial class AliasList : UserControl, IShellControl
     {
         /// <summary>
         /// Provided because of binding.
@@ -225,6 +226,16 @@ namespace Avalon.Controls
             {
                 alias.Command = win.Text;
             }
+        }
+
+        public void PrimaryButtonClick()
+        {
+            // Do nothing.
+        }
+
+        public void SecondaryButtonClick()
+        {
+            // Do nothing.
         }
 
     }

@@ -4,13 +4,14 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Threading;
 using Argus.Extensions;
+using Avalon.Common.Interfaces;
 
 namespace Avalon.Controls
 {
     /// <summary>
     /// Interaction logic for the TriggerList editor.
     /// </summary>
-    public partial class TriggerList : UserControl
+    public partial class TriggerList : UserControl, IShellControl
     {
         /// <summary>
         /// Provided because of binding.
@@ -250,5 +251,16 @@ namespace Avalon.Controls
                 trigger.Conveyor = App.Conveyor;
             }
         }
+
+        public void PrimaryButtonClick()
+        {
+            // Do nothing.
+        }
+
+        public void SecondaryButtonClick()
+        {
+            // Do nothing.
+        }
+
     }
 }

@@ -97,6 +97,16 @@ namespace Avalon.Sqlite
         }
 
         /// <summary>
+        /// Loaded event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void QueryControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            SqlEditor.Focus();
+        }
+
+        /// <summary>
         /// Executes the query.
         /// </summary>
         /// <param name="sender"></param>
