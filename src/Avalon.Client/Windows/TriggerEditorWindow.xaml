@@ -93,8 +93,12 @@
             <DockPanel DockPanel.Dock="Top">
                 <DockPanel HorizontalAlignment="Stretch">
                     <!--<CheckBox x:Name="CheckBoxEnabled" DockPanel.Dock="Left" Margin="5,0,0,0">Enabled</CheckBox>-->
-                    <Button ui:ControlHelper.CornerRadius="0" Margin="5,10,5,10" Width="100" x:Name="ButtonSave" Click="ButtonSave_OnClick" DockPanel.Dock="Right" HorizontalAlignment="Right">Save</Button>
-                    <Button ui:ControlHelper.CornerRadius="0" Margin="5,10,5,10" Width="100" x:Name="ButtonCancel" Click="ButtonCancel_OnClick" DockPanel.Dock="Right" HorizontalAlignment="Right">Cancel</Button>
+                    <Button Margin="5,10,5,10" Width="100" 
+                            Style="{DynamicResource RegularButtonAccent}"                   
+                            x:Name="ButtonSave" Click="ButtonSave_OnClick" DockPanel.Dock="Right" HorizontalAlignment="Right">Save</Button>
+                    <Button Margin="5,10,5,10" Width="100"
+                            Style="{DynamicResource RegularButton}"                                               
+                            x:Name="ButtonCancel" Click="ButtonCancel_OnClick" DockPanel.Dock="Right" HorizontalAlignment="Right">Cancel</Button>
                 </DockPanel>
             </DockPanel>
             <StatusBar Background="#007ACC" Foreground="White" DockPanel.Dock="Bottom">

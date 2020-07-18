@@ -11,12 +11,12 @@
         ui:TitleBar.Background="#1E1E1E" Background="#2D2D30" BorderBrush="#007ACC"
         mc:Ignorable="d"
         Loaded="SettingsWindow_OnLoaded"
-        Title="Profile Settings" Height="550" Width="600">
+        Title="Profile Settings" Height="600" Width="600">
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="64"></RowDefinition>
+                <RowDefinition Height="68"></RowDefinition>
             </Grid.RowDefinitions>
 
             <controls:TabControlEx x:Name="TabSettings" 
@@ -43,9 +43,21 @@
 
             <DockPanel Grid.Row="1">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Top">
-                    <Button ui:ControlHelper.CornerRadius="0" Margin="5,5,5,5" Width="100" x:Name="ButtonClose" Click="ButtonClose_OnClick">Close</Button>
+                    <Button Margin="5,5,5,10" Width="100" x:Name="ButtonClose" 
+                            Style="{DynamicResource RegularButtonAccent}"
+                            Click="ButtonClose_OnClick">Close</Button>
                 </StackPanel>
-                <StatusBar Background="#007ACC" Foreground="White">
+                <StatusBar Foreground="White" Height="25">
+                        <StatusBar.Style>
+                            <Style TargetType="{x:Type StatusBar}">
+                                <Setter Property="Background" Value="#007ACC"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=IsActive,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False">
+                                    <Setter Property="Background" Value="#555555"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StatusBar.Style>
                     <TextBlock x:Name="TextSettingsFilename"></TextBlock>
                 </StatusBar>
             </DockPanel>

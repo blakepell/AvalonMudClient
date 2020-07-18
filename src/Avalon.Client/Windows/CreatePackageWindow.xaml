@@ -39,8 +39,12 @@
         
         <DockPanel Grid.Row="1">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Top">
-                <Button ui:ControlHelper.CornerRadius="0" Margin="5,10,5,10" Width="100" x:Name="ButtonCancel" Click="ButtonCancel_Click">Cancel</Button>
-                <Button ui:ControlHelper.CornerRadius="0" Margin="5,10,5,10" Width="100" x:Name="ButtonCreate" Click="ButtonCreate_Click">Create</Button>
+                <Button Margin="5,10,5,10" Width="100"
+                        Style="{DynamicResource RegularButton}"
+                        x:Name="ButtonCancel" Click="ButtonCancel_Click">Cancel</Button>
+                <Button Margin="5,10,5,10" Width="100"
+                        Style="{DynamicResource RegularButtonAccent}" 
+                        x:Name="ButtonCreate" Click="ButtonCreate_Click">Create</Button>
             </StackPanel>
             <StatusBar Background="#007ACC" Foreground="White">
                 <TextBlock x:Name="TextBlockStatus" Text="Use Ctrl and a mouse click to select multiple items." TextWrapping="NoWrap"></TextBlock>

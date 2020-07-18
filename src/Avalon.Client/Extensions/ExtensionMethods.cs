@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Media;
 using System.Threading.Tasks;
 using System.Windows.Media.Animation;
+using System.Reflection;
 
 namespace Avalon.Extensions
 {
@@ -49,6 +50,15 @@ namespace Avalon.Extensions
             {
                 return Visibility.Hidden;
             }
+        }
+
+        /// <summary>
+        /// Whether or not the current Window is being shown as a modal.
+        /// </summary>
+        /// <param name="window"></param>
+        public static bool IsModal(this Window window)
+        {
+            return (bool)typeof(Window).GetField("_showingAsDialog", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(window);
         }
 
         /// <summary>

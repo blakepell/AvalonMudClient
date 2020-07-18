@@ -32,8 +32,12 @@
 
         <DockPanel Grid.Row="1">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Top">
-                <Button ui:ControlHelper.CornerRadius="0" Margin="5,10,5,10" Width="100" x:Name="ButtonCancel" Click="ButtonCancel_OnClick">Cancel</Button>
-                <Button ui:ControlHelper.CornerRadius="0" Margin="5,10,5,10" Width="100" x:Name="ButtonSave" Click="ButtonSave_OnClick" Visibility="{Binding SaveButtonVisible}">Save</Button>
+                <Button Margin="5,10,5,10" Width="100" x:Name="ButtonCancel"
+                        Style="{DynamicResource RegularButton}"
+                        Click="ButtonCancel_OnClick">Cancel</Button>
+                <Button Margin="5,10,5,10" Width="100" x:Name="ButtonSave" 
+                        Style="{DynamicResource RegularButtonAccent}"                        
+                        Click="ButtonSave_OnClick" Visibility="{Binding SaveButtonVisible}">Save</Button>
             </StackPanel>
             <StatusBar x:Name="StatusBarWindow" Background="#007ACC" Foreground="White">
                 <TextBlock x:Name="TextBlockStatus" Text="" TextWrapping="NoWrap"></TextBlock>

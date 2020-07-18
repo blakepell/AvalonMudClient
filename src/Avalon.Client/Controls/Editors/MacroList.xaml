@@ -16,8 +16,8 @@
         </Grid.RowDefinitions>
 
         <DockPanel Grid.Row="0">
-            <Button x:Name="ButtonNewMacro" Click="ButtonNewMacro_Click" 
-                    ui:ControlHelper.CornerRadius="0" Margin="5,10,5,10" Width="100">New Macro</Button>
+            <Button x:Name="ButtonNewMacro" Click="ButtonNewMacro_Click" Style="{DynamicResource RegularButtonAccent}" 
+                    Margin="5,10,5,10" Width="100">New Macro</Button>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right">
                 <Grid Margin="0,10,5,10">

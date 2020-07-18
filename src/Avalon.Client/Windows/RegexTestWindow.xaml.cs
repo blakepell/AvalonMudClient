@@ -1,6 +1,7 @@
 ﻿using Avalon.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -134,7 +135,11 @@ namespace Avalon
         /// <param name="e"></param>
         private void ButtonCancel_OnClick(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = false;
+            if (this.IsModal())
+            {
+                this.DialogResult = false;
+            }
+
             this.Close();
         }
 
