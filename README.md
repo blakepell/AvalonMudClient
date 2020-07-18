@@ -10,7 +10,7 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
 
 - [Quick Tips for Getting Started](doc/QuickTips.md)
 - [FAQ](doc/FAQ.md)
-- Aliases
+- [Aliases](doc/Aliases.md)
 - [Hash Commands](doc/HashCommands.md)
 - [Lua](doc/Lua.md)
   - [Lua Overview](doc/Lua.md)
@@ -70,9 +70,17 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
 ### Long Term Road-map
 
  - Publish this app on the Windows Store free of charge.
- 
+
+### Brief commentary
+
+I've been in the mud community since the mid 1990's, when I began with playing muds I briefly started on a mud called Moosehead Sled which is of note in MUD history as it served as a beta site for the ROM 2.3 codebase.  Shortly after I began playing a mud called Dark and Shattered Lands (dsl-mud.org) which I also coded for from the end of 1998 until sometime in 2004.  It is the mud I consider home where I have made many wonderful friends some of which I've known for over 20 years now.  After 10 years of not playing any MUD I came back in 2014.  That noted, my goal is to code this client in a way that it can be used for all MUDS/MUSH/MUCK games but in practice I use it for play on dsl-mud.org which is a Diku/Merc/ROM derivative mud.  The examples that I provide in regards to plugins, packages etc. will be centered around that game but should be applicable anywhere.
+
+I welcome requests, suggestions, feature requests, bug reports, etc. but this is not the venue to have dialog about the game that I play which is often used as the example I provide.  The mudding community is passionate about the games they play I don't intend to get into conversation about the pros and cons of any specific mud or how they are administered unless it's about how this client interacts with them.  I don't say that to be rude but to point out that there are better venues for those conversations and this is not that venue.  For me, this client is a labor of love and I hope that other folks can find find it useful.
+
+### Recognition / Thank you to testers
+
+[Thank You](/doc/Thanks.md)
+
 ### License
  
- The Avalon Mud Client is being released under a modified MIT license with an additional clause
- requiring credit to the original author (me).  E.g. this means the license should be flexible enough
- to do what you need to do with it.
+ The Avalon Mud Client is being released under a modified MIT license with an additional clause requiring credit to the original author (me).  E.g. this means the license should be flexible enough to do what you need to do with it.
