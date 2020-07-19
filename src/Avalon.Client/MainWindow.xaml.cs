@@ -1442,6 +1442,11 @@ namespace Avalon
             }
         }
 
+        /// <summary>
+        /// Event used from menus to shell any number of Shell based UserControls into windows.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void MenuShellWindow_Click(object sender, RoutedEventArgs e)
         {
             var menuItem = e.Source as MenuItem;
