@@ -37,6 +37,7 @@
                 <ui:XamlControlsResources />
                 <ResourceDictionary Source="/Avalon;component/Controls/SearchBox/SearchBox.xaml" />
                 <ResourceDictionary Source="/Avalon;component/Resources/Buttons.xaml" />
+                <ResourceDictionary Source="/Avalon;component/Resources/Geometries.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

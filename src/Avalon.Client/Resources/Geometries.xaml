@@ -1,0 +1,19 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!-- Window buttons -->
+    <Geometry x:Key="MiniPlayer">F1M0,0L0,10 6,10 6,3 10,3 10,0 0,0 0,1 9,1 9,3 6,3 6,9 1,9 1,1 M5,3L5,13 13,13 13,3 5,3 5,4 12,4 12,12 6,12 6,4z</Geometry>
+    <Geometry x:Key="Minimize">F1M0,3L10,3 9,2 0,2z</Geometry>
+    <Geometry x:Key="Restore">F1M0,2L0,10 8,10 8,2 0,2 0,3 7,3 7,9 1,9 1,3 M2,0L2,3 8,3 8,8 10,8 10,0 2,0 2,1 9,1 9,7 8,7 8,3 3,3 3,1z</Geometry>
+    <Geometry x:Key="Maximize">F1M0,0L0,10 10,10 10,0 0,0 0,1 9,1 9,9 1,9 1,1z</Geometry>
+    <Geometry x:Key="Close">F1M0.6,0L10,9.4 9.4,10 0,0.6 0.6,0 M9.4,0L10,0.6 0.6,10 0,9.4 9.4,0z</Geometry>
+    <GeometryGroup x:Key="Sword">
+        <PathGeometry>
+            M1126 1232 l-139 -47 -308 -337 -308 -337 43 -27 c24 -15 55 -46 70 -70 l27 -43 337 308 337 308 44 134 c24 74 46 140 48 147 7 17 6 16 -151 -36z
+        </PathGeometry>
+        <PathGeometry>
+            M159 554 l-33 -34 66 -68 67 -67 -75 -94 c-57 -73 -83 -98 -112 -107 -76 -27 -97 -101 -43 -155 54 -54 128 -33 155 43 9 29 34 55 107 112 l94 75 68 -67 67 -67 34 35 34 35 -83 115 c-77 107 -90 121 -198 197 l-115 81 -33 -34z
+        </PathGeometry>
+    </GeometryGroup>
+</ResourceDictionary>
