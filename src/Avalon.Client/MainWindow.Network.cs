@@ -19,31 +19,6 @@ namespace Avalon
     {
 
         /// <summary>
-        /// Event for when the network button is clicked.
-        /// </summary>
-        /// <param name="o"></param>
-        /// <param name="args"></param>
-        private void NetworkButton_Click(object o, RoutedEventArgs args)
-        {
-            try
-            {
-                if (TabMain.IsConnected == false)
-                {
-                    Connect();
-                }
-                else
-                {
-                    Disconnect();
-                }
-            }
-            catch (Exception ex)
-            {
-                this.Interp.Conveyor.EchoLog($"Network Failure: {ex.Message}", LogType.Error);
-            }
-
-        }
-
-        /// <summary>
         /// Connects to the server for the profile that is currently loaded.
         /// </summary>
         public void Connect()
@@ -53,7 +28,7 @@ namespace Avalon
 
             // Connect, then put the focus into the input text box.
             Interp.Connect(HandleLineReceived, this.HandleDataReceived, HandleConnectionClosed);
-            TabMain.IsConnected = true;
+            TitleBar.IsConnected = true;
             MenuNetworkButton.Header = "Disconnect";
             TextInput.Focus();
 
@@ -70,8 +45,6 @@ namespace Avalon
                     {
                         await Interp.Send(App.Settings.ProfileSettings.OnConnect);
                     }));
-
-                    return;
                 });
             }
         }
@@ -82,8 +55,32 @@ namespace Avalon
         public void Disconnect()
         {
             Interp.Disconnect();
-            TabMain.IsConnected = false;
+            TitleBar.IsConnected = false;
             MenuNetworkButton.Header = "Connect";
+        }
+
+        /// <summary>
+        /// Connects or disconnects the mud client.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuNetworkButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (TitleBar.IsConnected == false)
+                {
+                    App.MainWindow.Connect();
+                }
+                else
+                {
+                    App.MainWindow.Disconnect();
+                }
+            }
+            catch (Exception ex)
+            {
+                App.MainWindow.Interp.Conveyor.EchoLog($"Network Failure: {ex.Message}", LogType.Error);
+            }
         }
 
         /// <summary>
@@ -93,7 +90,7 @@ namespace Avalon
         /// <param name="e"></param>
         public void HandleConnectionClosed(object sender, EventArgs e)
         {
-            TabMain.IsConnected = false;
+            TitleBar.IsConnected = false;
             App.Conveyor.EchoLog($"Disconnected: {DateTime.Now}", LogType.Warning);
             Interp.Telnet = null;
         }

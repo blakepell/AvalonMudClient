@@ -92,6 +92,9 @@
     <Page Update="Controls\VariableRepeater.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Controls\WindowTitleBar.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Resources\TabControlStylesSlim.xaml">
       <SubType>Designer</SubType>
     </Page>

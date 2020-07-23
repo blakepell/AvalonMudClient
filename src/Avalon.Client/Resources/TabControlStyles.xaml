@@ -13,8 +13,6 @@
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="50" />
-                            <ColumnDefinition Width="50" />
                         </Grid.ColumnDefinitions>
                         <TabPanel 
                             Name="HeaderPanel"
@@ -24,33 +22,6 @@
                             IsItemsHost="True"
                             KeyboardNavigation.TabIndex="1"
                             Background="#222222" />
-                        <Button
-                            Name="NetworkButton"
-                            Grid.Row="0" Grid.Column="1" 
-                            Width="50" Margin="0,0,0,0" 
-                            Background="#222222"
-                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                            ui:ControlHelper.CornerRadius="0">
-                            <Viewbox Height="16"
-                                     Width="16" 
-                                     Margin="0,0,0,0">
-                                <ui:SymbolIcon Name="NetworkSymbol" Foreground="Red" Symbol="DisconnectDrive" />
-                            </Viewbox>
-                        </Button>
-                        <Button
-                            Name="SettingsButton"
-                            Grid.Row="0" Grid.Column="2" 
-                            Width="50" Margin="0,0,0,0" 
-                            Background="#222222"
-                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                            ui:ControlHelper.CornerRadius="0">
-                            <Viewbox Height="16"
-                                     Width="16" 
-                                     Margin="0,0,0,0">
-                                <ui:SymbolIcon Name="SettingsSymbol" Foreground="LightGray" Symbol="Setting" />
-                            </Viewbox>
-                        </Button>
-                        <!-- The .9 is weird on the border thickness but fixes a weird double pixel border on 4k monitors -->
                         <Border 
                             Name="Border" 
                             Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
@@ -65,43 +36,6 @@
                                 ContentSource="SelectedContent" />
                         </Border>
                     </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsConnected" Value="True">
-
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="NetworkSymbol" 
-                                                          Storyboard.TargetProperty="Foreground.Color"
-                                                          From="Red" To="Gray" Duration="0:0:0.5" />
-                                        <Storyboard BeginTime="0:0:0.5">
-                                            <ColorAnimation Storyboard.TargetName="NetworkSymbol" 
-                                                          Storyboard.TargetProperty="Foreground.Color"
-                                                          From="Gray" To="Green" Duration="0:0:0.5" />
-                                        </Storyboard>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="NetworkSymbol" 
-                                                          Storyboard.TargetProperty="Foreground.Color"
-                                                          From="Green" To="Gray" Duration="0:0:0.5" />
-                                        <Storyboard BeginTime="0:0:0.5">
-                                            <ColorAnimation Storyboard.TargetName="NetworkSymbol" 
-                                                          Storyboard.TargetProperty="Foreground.Color"
-                                                          From="Gray" To="Red" Duration="0:0:0.5" />
-                                        </Storyboard>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.ExitActions>
-                            <Setter TargetName="NetworkSymbol" Property="Symbol" Value="MapDrive" />
-                        </Trigger>
-                        <Trigger Property="IsConnected" Value="False">
-                            <Setter TargetName="NetworkSymbol" Property="Symbol" Value="DisconnectDrive" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

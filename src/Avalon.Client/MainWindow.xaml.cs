@@ -182,8 +182,6 @@ namespace Avalon
 
                 // Wire up any events that have to be wired up through code.
                 TextInput.Editor.PreviewKeyDown += this.Editor_PreviewKeyDown;
-                AddHandler(TabControlEx.NetworkButtonClickEvent, new RoutedEventHandler(NetworkButton_Click));
-                AddHandler(TabControlEx.SettingsButtonClickEvent, new RoutedEventHandler(SettingsButton_Click));
 
                 // Pass the necessary reference from this page to the Interpreter.
                 Interp = new Interpreter(App.Conveyor);
@@ -217,7 +215,7 @@ namespace Avalon
                 // Auto connect to the game if the setting is set.
                 if (App.Settings.ProfileSettings.AutoConnect)
                 {
-                    NetworkButton_Click(null, null);
+                    this.Connect();
                 }
 
                 // Is there an auto execute command or set of commands to run?
@@ -255,9 +253,13 @@ namespace Avalon
                 // Any manually references that should occur.
                 VariableRepeater.Bind();
 
+                // The real title bar that Windows will show in the task bar.
                 this.Title = string.IsNullOrWhiteSpace(App.Settings.ProfileSettings.WindowTitle)
                     ? "Avalon Mud Client"
                     : App.Settings.ProfileSettings.WindowTitle;
+                
+                // The title on the window chrome that we set.
+                TitleBar.Title = this.Title;
 
                 App.Conveyor.EchoLog($"Settings Loaded: {fileName}", LogType.Success);
             }
@@ -565,17 +567,6 @@ namespace Avalon
 
                     return window.ShowDialog();
                 }));
-        }
-
-        /// <summary>
-        /// Event for when the settings button is clicked.
-        /// </summary>
-        /// <param name="o"></param>
-        /// <param name="args"></param>
-        private void SettingsButton_Click(object o, RoutedEventArgs args)
-        {
-            var win = new SettingsWindow();
-            this.ShowDialog(win);
         }
 
         /// <summary>
@@ -1538,5 +1529,6 @@ namespace Avalon
             }
 
         }
+
     }
 }

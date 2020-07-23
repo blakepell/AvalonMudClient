@@ -11,7 +11,7 @@
         xmlns:providers="clr-namespace:Avalon.Controls.AutoCompleteTextBox"
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:sqlite="clr-namespace:Avalon.Sqlite;assembly=Avalon.Sqlite"
-        ui:WindowHelper.UseModernWindowStyle="True" 
+        ui:WindowHelper.UseModernWindowStyle="False" 
         x:Name="mainPage" TextOptions.TextFormattingMode="Ideal"
         ui:TitleBar.Background="#1E1E1E"
         Loaded="MainWindow_Loaded"
@@ -19,6 +19,7 @@
         UseLayoutRounding="True" SnapsToDevicePixels="True"
         PreviewKeyDown="MainWindow_OnPreviewKeyDown"
         Activated="MainWindow_Activated"
+        ResizeMode="CanResize" AllowsTransparency="True" WindowStyle="None" BorderThickness=".9" BorderBrush="Gray" Style="{DynamicResource WindowChrome}"
         >
     <Window.Resources>
         <providers:AutoCompleteCommandProvider x:Key="AutoCompleteCommandProvider"/>
@@ -62,6 +63,13 @@
                 </MenuItem.Icon>
             </MenuItem>
         </ContextMenu>
+        <Style x:Key="WindowChrome">
+            <Setter Property="WindowChrome.WindowChrome">
+                <Setter.Value>
+                    <WindowChrome ResizeBorderThickness="3"/>
+                </Setter.Value>
+            </Setter>
+        </Style>        
     </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="local:MainWindow.LoadPlugin" Executed="MenuItemManuallyLoadPlugin_Click" />
@@ -81,227 +89,248 @@
         <KeyBinding Command="local:MainWindow.Find" Key="F" Modifiers="Ctrl" />
     </Window.InputBindings>
     <Grid>
-        <controls:TabControlEx x:Name="TabMain" SelectionChanged="TabControl_SelectionChanged">
-            <TabControl.Resources>
-                <ResourceDictionary>
-                    <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="/Resources/TabControlStyles.xaml" />
-                        <ResourceDictionary Source="/Controls/AutoCompleteTextBox/AutoCompleteStyles.xaml" />
-                    </ResourceDictionary.MergedDictionaries>
-                </ResourceDictionary>
-            </TabControl.Resources>
-            <controls:TabItemEx x:Name="TabGame" Header="Game" Icon="Home" ui:ControlHelper.CornerRadius="0">
-                <Grid x:Name="GridGame" Margin="-3">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" x:Name="Row1"></RowDefinition>
-                        <RowDefinition Height="70*" x:Name="Row2"></RowDefinition>
-                        <RowDefinition Height="30*" x:Name="Row3"></RowDefinition>
-                        <RowDefinition Height="0" x:Name="Row4"></RowDefinition>
-                        <RowDefinition Height="30" x:Name="Row5"></RowDefinition>
-                        <RowDefinition Height="32" x:Name="Row6"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="55*" x:Name="Col1"></ColumnDefinition>
-                        <ColumnDefinition Width="45*" x:Name="Col2"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <!-- The title bar of the Window -->
+        <controls:WindowTitleBar x:Name="TitleBar" Grid.Row="0" HorizontalAlignment="Stretch"></controls:WindowTitleBar>
 
-                    <Menu x:Name="MenuGame" Grid.Row="0" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,0,.9" Background="#171717">
-                        <MenuItem Header="_File">
-                            <MenuItem x:Name="MenuNetworkButton" Header="Connect" Click="NetworkButton_Click">
-                                <MenuItem.Icon>
-                                    <ui:SymbolIcon Symbol="MapDrive"></ui:SymbolIcon>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <Separator />
-                            <MenuItem Header="Create Package" Click="MenuItemCreatePackage_Click">
-                                <MenuItem.Icon>
-                                    <ui:SymbolIcon Symbol="NewWindow"></ui:SymbolIcon>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <Separator />
-                            <MenuItem Header="Storage Folders">
-                                <MenuItem.Icon>
-                                    <ui:FontIcon Glyph="&#xED25;" />
-                                </MenuItem.Icon>
-                                <MenuItem Header="Open Settings Folder" Click="MenuItemOpenSettingsFolderAsync_Click">
+        <ui:SplitView x:Name="SplitViewMain" x:FieldModifier="public"
+            Grid.Row="1"
+            PaneBackground="#171717"
+            IsPaneOpen="False"
+            OpenPaneLength="300"
+            CompactPaneLength="300"
+            DisplayMode="Overlay"
+            IsTabStop="False">
+            <ui:SplitView.Pane>
+                <Grid>
+                    <Label Content="Hi, stuff goes here." />
+                </Grid>
+            </ui:SplitView.Pane>
+            <!-- This is the main tab view and mud client stuff -->
+            <controls:TabControlEx x:Name="TabMain" SelectionChanged="TabControl_SelectionChanged">
+                <TabControl.Resources>
+                    <ResourceDictionary>
+                        <ResourceDictionary.MergedDictionaries>
+                            <ResourceDictionary Source="/Resources/TabControlStyles.xaml" />
+                            <ResourceDictionary Source="/Controls/AutoCompleteTextBox/AutoCompleteStyles.xaml" />
+                        </ResourceDictionary.MergedDictionaries>
+                    </ResourceDictionary>
+                </TabControl.Resources>
+                <controls:TabItemEx x:Name="TabGame" Header="Game" Icon="Home" ui:ControlHelper.CornerRadius="0">
+                    <Grid x:Name="GridGame" Margin="-3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" x:Name="Row1"></RowDefinition>
+                            <RowDefinition Height="70*" x:Name="Row2"></RowDefinition>
+                            <RowDefinition Height="30*" x:Name="Row3"></RowDefinition>
+                            <RowDefinition Height="0" x:Name="Row4"></RowDefinition>
+                            <RowDefinition Height="30" x:Name="Row5"></RowDefinition>
+                            <RowDefinition Height="32" x:Name="Row6"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="55*" x:Name="Col1"></ColumnDefinition>
+                            <ColumnDefinition Width="45*" x:Name="Col2"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Menu x:Name="MenuGame" Grid.Row="0" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,0,.9" Background="#171717">
+                            <MenuItem Header="_File">
+                                <MenuItem x:Name="MenuNetworkButton" Header="Connect" Click="MenuNetworkButton_Click">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon Symbol="MapDrive"></ui:SymbolIcon>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <Separator />
+                                <MenuItem Header="Create Package" Click="MenuItemCreatePackage_Click">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon Symbol="NewWindow"></ui:SymbolIcon>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <Separator />
+                                <MenuItem Header="Storage Folders">
                                     <MenuItem.Icon>
                                         <ui:FontIcon Glyph="&#xED25;" />
                                     </MenuItem.Icon>
+                                    <MenuItem Header="Open Settings Folder" Click="MenuItemOpenSettingsFolderAsync_Click">
+                                        <MenuItem.Icon>
+                                            <ui:FontIcon Glyph="&#xED25;" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="Open Profiles Folder" Click="MenuItemOpenProfilesFolderAsync_Click">
+                                        <MenuItem.Icon>
+                                            <ui:FontIcon Glyph="&#xED25;" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="Open Plugins Folder" Click="MenuItemOpenPluginsFolderAsync_Click">
+                                        <MenuItem.Icon>
+                                            <ui:FontIcon Glyph="&#xED25;" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
                                 </MenuItem>
-                                <MenuItem Header="Open Profiles Folder" Click="MenuItemOpenProfilesFolderAsync_Click">
+                                <Separator />
+                                <MenuItem Header="_Open Profile" x:Name="ButtonOpenProfile" Click="ButtonOpenProfile_OnClick">
                                     <MenuItem.Icon>
-                                        <ui:FontIcon Glyph="&#xED25;" />
+                                        <ui:SymbolIcon Symbol="OpenFile" />
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                <MenuItem Header="Open Plugins Folder" Click="MenuItemOpenPluginsFolderAsync_Click">
+                                <MenuItem Header="Import Package" x:Name="ButtonImportPackage" Click="ButtonImportPackage_OnClickAsync">
                                     <MenuItem.Icon>
-                                        <ui:FontIcon Glyph="&#xED25;" />
+                                        <ui:SymbolIcon Symbol="Import" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="_Save Profile" x:Name="ButtonSaveProfile" Click="ButtonSaveProfile_OnClick">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon Symbol="Save" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <Separator />
+                                <MenuItem Header="Exit Without Save" x:Name="ButtonExitWithoutSave" Click="ButtonExitWithoutSave_OnClickAsync" />
+                                <MenuItem Header="E_xit" x:Name="ButtonExit" Click="ButtonExit_OnClick" />
+                            </MenuItem>
+                            <MenuItem Header="_Edit">
+                                <MenuItem Header="Change Character" Click="MenuItemChangeCharacter_Click">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon Symbol="OtherUser" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <Separator />
+                                <MenuItem Header="Edit _Aliases" Click="MenuShellWindow_Click" Tag="Aliases">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon Symbol="Shuffle" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Edit _Directions" Click="MenuShellWindow_Click" Tag="Directions">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon Symbol="Map" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Edit _Macros" Click="MenuShellWindow_Click" Tag="Macros">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon Symbol="Keyboard" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Edit _Triggers" Click="MenuShellWindow_Click" Tag="Triggers">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon Symbol="Directions" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Edit _Variables" Click="MenuShellWindow_Click" Tag="Variables">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon Symbol="Account" />
                                     </MenuItem.Icon>
                                 </MenuItem>
                             </MenuItem>
-                            <Separator />
-                            <MenuItem Header="_Open Profile" x:Name="ButtonOpenProfile" Click="ButtonOpenProfile_OnClick">
-                                <MenuItem.Icon>
-                                    <ui:SymbolIcon Symbol="OpenFile" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Import Package" x:Name="ButtonImportPackage" Click="ButtonImportPackage_OnClickAsync">
-                                <MenuItem.Icon>
-                                    <ui:SymbolIcon Symbol="Import" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="_Save Profile" x:Name="ButtonSaveProfile" Click="ButtonSaveProfile_OnClick">
-                                <MenuItem.Icon>
-                                    <ui:SymbolIcon Symbol="Save" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <Separator />
-                            <MenuItem Header="Exit Without Save" x:Name="ButtonExitWithoutSave" Click="ButtonExitWithoutSave_OnClickAsync" />
-                            <MenuItem Header="E_xit" x:Name="ButtonExit" Click="ButtonExit_OnClick" />
-                        </MenuItem>
-                        <MenuItem Header="_Edit">
-                            <MenuItem Header="Change Character" Click="MenuItemChangeCharacter_Click">
-                                <MenuItem.Icon>
-                                    <ui:SymbolIcon Symbol="OtherUser" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <Separator />
-                            <MenuItem Header="Edit _Aliases" Click="MenuShellWindow_Click" Tag="Aliases">
-                                <MenuItem.Icon>
-                                    <ui:SymbolIcon Symbol="Shuffle" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Edit _Directions" Click="MenuShellWindow_Click" Tag="Directions">
-                                <MenuItem.Icon>
-                                    <ui:SymbolIcon Symbol="Map" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Edit _Macros" Click="MenuShellWindow_Click" Tag="Macros">
-                                <MenuItem.Icon>
-                                    <ui:SymbolIcon Symbol="Keyboard" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Edit _Triggers" Click="MenuShellWindow_Click" Tag="Triggers">
-                                <MenuItem.Icon>
-                                    <ui:SymbolIcon Symbol="Directions" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Edit _Variables" Click="MenuShellWindow_Click" Tag="Variables">
-                                <MenuItem.Icon>
-                                    <ui:SymbolIcon Symbol="Account" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                        </MenuItem>
-                        <MenuItem Header="_View">
-                            <MenuItem Header="Open Last Editted Alias or Trigger" Click="MenuItemOpenLastEdittedAliasOrTrigger_Click" InputGestureText="Ctrl+Alt+L">
-                                <MenuItem.Icon>
-                                    <ui:SymbolIcon Symbol="BackToWindow" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <Separator />
-                            <MenuItem Header="Reset Layout" Click="MenuItemResetLayout_Click">
-                                <MenuItem.Icon>
-                                    <ui:SymbolIcon Symbol="Undo" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                        </MenuItem>
-                        <MenuItem Header="_Tools">
-                            <MenuItem x:Name="MenuItemDeveloperTools" Header="Developer Tools">
-                                <MenuItem.Icon>
-                                    <ui:FontIcon Glyph="&#xEC7A;" />
-                                </MenuItem.Icon>
-                                <MenuItem Header="Manually Load Plugin" Click="MenuItemManuallyLoadPlugin_Click" InputGestureText="Ctrl+Alt+P">
+                            <MenuItem Header="_View">
+                                <MenuItem Header="Open Last Editted Alias or Trigger" Click="MenuItemOpenLastEdittedAliasOrTrigger_Click" InputGestureText="Ctrl+Alt+L">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon Symbol="BackToWindow" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <Separator />
+                                <MenuItem Header="Reset Layout" Click="MenuItemResetLayout_Click">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon Symbol="Undo" />
+                                    </MenuItem.Icon>
                                 </MenuItem>
                             </MenuItem>
-                            <MenuItem Header="Send _Text to Game" Click="MenuItemSendTextToGameAsync_Click">
-                                <MenuItem.Icon>
-                                    <ui:SymbolIcon Symbol="Send" />
-                                </MenuItem.Icon>
+                            <MenuItem Header="_Tools">
+                                <MenuItem x:Name="MenuItemDeveloperTools" Header="Developer Tools">
+                                    <MenuItem.Icon>
+                                        <ui:FontIcon Glyph="&#xEC7A;" />
+                                    </MenuItem.Icon>
+                                    <MenuItem Header="Manually Load Plugin" Click="MenuItemManuallyLoadPlugin_Click" InputGestureText="Ctrl+Alt+P">
+                                    </MenuItem>
+                                </MenuItem>
+                                <MenuItem Header="Send _Text to Game" Click="MenuItemSendTextToGameAsync_Click">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon Symbol="Send" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Simulate Incoming Text" Click="MenuItemSimulateIncomingTextAsync_Click">
+                                </MenuItem>
+                                <MenuItem Header="Tick Timer Commands" Click="MenuItemTickTimerCommands_Click">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon Symbol="Clock" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <Separator />
+                                <MenuItem Header="_Edit Global Lua File" Click="MenuItemEditGlobalLuaFile_Click">
+                                    <MenuItem.Icon>
+                                        <ui:FontIcon Glyph="&#xE943;" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <Separator />
+                                <MenuItem Header="Regular Expression Tester" Click="MenuItemRegexTester_Click">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon Symbol="Accept" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <Separator />
+                                <MenuItem Header="Database Query Editor" Click="MenuShellWindow_Click" Tag="Database">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon Symbol="Tag" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <Separator />
+                                <MenuItem Header="_Settings" Click="MenuItemSettings_OnClick">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon Symbol="Setting" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
                             </MenuItem>
-                            <MenuItem Header="Simulate Incoming Text" Click="MenuItemSimulateIncomingTextAsync_Click">
+                            <MenuItem Header="_Help">
+                                <MenuItem Header="Documentation" Click="MenuItemDocumentation_Click">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon Symbol="Link" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Hash Commands" Click="MenuItemHashCommands_Click">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon Symbol="Link" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Lua" Click="MenuItemLua_Click">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon Symbol="Link" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <Separator />
+                                <MenuItem Header="Source Code" Click="MenuItemSourceCode_Click">
+                                    <MenuItem.Icon>
+                                        <ui:FontIcon Glyph="&#xE943;" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <Separator />
+                                <MenuItem Header="Update Client and Plugins" Click="MenuItemUpdateClient_Click">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon Symbol="Download"></ui:SymbolIcon>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Update Plugins Only" Click="MenuItemUpdatePlugins_Click">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon Symbol="Download"></ui:SymbolIcon>
+                                    </MenuItem.Icon>
+                                </MenuItem>
                             </MenuItem>
-                            <MenuItem Header="Tick Timer Commands" Click="MenuItemTickTimerCommands_Click">
-                                <MenuItem.Icon>
-                                    <ui:SymbolIcon Symbol="Clock" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <Separator />
-                            <MenuItem Header="_Edit Global Lua File" Click="MenuItemEditGlobalLuaFile_Click">
-                                <MenuItem.Icon>
-                                    <ui:FontIcon Glyph="&#xE943;" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <Separator />
-                            <MenuItem Header="Regular Expression Tester" Click="MenuItemRegexTester_Click">
-                                <MenuItem.Icon>
-                                    <ui:SymbolIcon Symbol="Accept" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <Separator />
-                            <MenuItem Header="Database Query Editor" Click="MenuShellWindow_Click" Tag="Database">
-                                <MenuItem.Icon>
-                                    <ui:SymbolIcon Symbol="Tag" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <Separator />
-                            <MenuItem Header="_Settings" Click="MenuItemSettings_OnClick">
-                                <MenuItem.Icon>
-                                    <ui:SymbolIcon Symbol="Setting" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                        </MenuItem>
-                        <MenuItem Header="_Help">
-                            <MenuItem Header="Documentation" Click="MenuItemDocumentation_Click">
-                                <MenuItem.Icon>
-                                    <ui:SymbolIcon Symbol="Link" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Hash Commands" Click="MenuItemHashCommands_Click">
-                                <MenuItem.Icon>
-                                    <ui:SymbolIcon Symbol="Link" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Lua" Click="MenuItemLua_Click">
-                                <MenuItem.Icon>
-                                    <ui:SymbolIcon Symbol="Link" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <Separator />
-                            <MenuItem Header="Source Code" Click="MenuItemSourceCode_Click">
-                                <MenuItem.Icon>
-                                    <ui:FontIcon Glyph="&#xE943;" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <Separator />
-                            <MenuItem Header="Update Client and Plugins" Click="MenuItemUpdateClient_Click">
-                                <MenuItem.Icon>
-                                    <ui:SymbolIcon Symbol="Download"></ui:SymbolIcon>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Update Plugins Only" Click="MenuItemUpdatePlugins_Click">
-                                <MenuItem.Icon>
-                                    <ui:SymbolIcon Symbol="Download"></ui:SymbolIcon>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                        </MenuItem>
-                    </Menu>
+                        </Menu>
 
-                    <ui:CommandBar x:Name="PrimaryCommandBar" Grid.Row="0" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,0,.9" Background="#171717">
-                        <!--<ui:AppBarButton x:Name="ButtonAdd" Icon="Add" Label="Add" />-->
-                        <ui:CommandBar.SecondaryCommands>
-                            <ui:AppBarToggleButton x:Name="ButtonAliasesEnabled" Icon="Shuffle" Label="Aliases Enabled" />
-                            <ui:AppBarToggleButton x:Name="ButtonTriggersEnabled" Icon="Directions" Label="Triggers Enabled"></ui:AppBarToggleButton>
-                            <ui:AppBarSeparator />
-                            <ui:AppBarToggleButton x:Name="ButtonVariableRepeaterVisible" Icon="Account" Label="Variable Repeater Visible" Click="ButtonVariableRepeaterVisible_Click"></ui:AppBarToggleButton>
-                            <ui:AppBarSeparator />
-                            <ui:AppBarToggleButton x:Name="ButtonCustomTab1Visible" Icon="PreviewLink" Label="Custom Tab 1 Visible"></ui:AppBarToggleButton>
-                            <ui:AppBarToggleButton x:Name="ButtonCustomTab2Visible" Icon="PreviewLink" Label="Custom Tab 2 Visible"></ui:AppBarToggleButton>
-                            <ui:AppBarToggleButton x:Name="ButtonCustomTab3Visible" Icon="PreviewLink" Label="Custom Tab 3 Visible"></ui:AppBarToggleButton>
-                        </ui:CommandBar.SecondaryCommands>
-                    </ui:CommandBar>
+                        <ui:CommandBar x:Name="PrimaryCommandBar" Grid.Row="0" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,0,.9" Background="#171717">
+                            <ui:CommandBar.SecondaryCommands>
+                                <ui:AppBarToggleButton x:Name="ButtonAliasesEnabled" Icon="Shuffle" Label="Aliases Enabled" />
+                                <ui:AppBarToggleButton x:Name="ButtonTriggersEnabled" Icon="Directions" Label="Triggers Enabled"></ui:AppBarToggleButton>
+                                <ui:AppBarSeparator />
+                                <ui:AppBarToggleButton x:Name="ButtonVariableRepeaterVisible" Icon="Account" Label="Variable Repeater Visible" Click="ButtonVariableRepeaterVisible_Click"></ui:AppBarToggleButton>
+                                <ui:AppBarSeparator />
+                                <ui:AppBarToggleButton x:Name="ButtonCustomTab1Visible" Icon="PreviewLink" Label="Custom Tab 1 Visible"></ui:AppBarToggleButton>
+                                <ui:AppBarToggleButton x:Name="ButtonCustomTab2Visible" Icon="PreviewLink" Label="Custom Tab 2 Visible"></ui:AppBarToggleButton>
+                                <ui:AppBarToggleButton x:Name="ButtonCustomTab3Visible" Icon="PreviewLink" Label="Custom Tab 3 Visible"></ui:AppBarToggleButton>
+                            </ui:CommandBar.SecondaryCommands>
+                        </ui:CommandBar>
 
-                    <UniformGrid Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Columns="1">
-                        <controls:AvalonTerminal x:Name="GameBackBufferTerminal" x:FieldModifier="public"
+                        <UniformGrid Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Columns="1">
+                            <controls:AvalonTerminal x:Name="GameBackBufferTerminal" x:FieldModifier="public"
                             Visibility="Collapsed"
                             DockPanel.Dock="Top"
                             ShowLineNumbers="False" WordWrap="True"
@@ -315,9 +344,9 @@
                             PreviewMouseWheel="GameBackBufferTerminal_PreviewMouseWheel"
                             KeyDown="Terminal_OnKeyDown"
                             PreviewKeyDown="GameTerminal_PreviewKeyDown">
-                        </controls:AvalonTerminal>
+                            </controls:AvalonTerminal>
 
-                        <controls:AvalonTerminal x:Name="GameTerminal" x:FieldModifier="public"
+                            <controls:AvalonTerminal x:Name="GameTerminal" x:FieldModifier="public"
                             DockPanel.Dock="Bottom"
                             ShowLineNumbers="False" WordWrap="True"
                             FontFamily="Consolas" IsReadOnly="True"
@@ -329,28 +358,28 @@
                             PreviewMouseWheel="GameTerminal_PreviewMouseWheel"
                             KeyDown="Terminal_OnKeyDown"
                             PreviewKeyDown="GameTerminal_PreviewKeyDown">
-                        </controls:AvalonTerminal>
-                    </UniformGrid>
+                            </controls:AvalonTerminal>
+                        </UniformGrid>
 
-                    <Border x:Name="Panel2" Grid.Row="1" Grid.Column="1" 
+                        <Border x:Name="Panel2" Grid.Row="1" Grid.Column="1" 
                             x:FieldModifier="public"
                             Margin="0" BorderThickness=".9,0,0,0" BorderBrush="Gray">
-                        <controls:TabControlEx x:Name="TabCustom" Margin="0,0,0,0" SelectionChanged="TabCustom_SelectionChanged">
-                            <TabControl.Resources>
-                                <ResourceDictionary>
-                                    <ResourceDictionary.MergedDictionaries>
-                                        <ResourceDictionary Source="/Resources/TabControlStylesSlim.xaml" />
-                                    </ResourceDictionary.MergedDictionaries>
-                                </ResourceDictionary>
-                            </TabControl.Resources>
-                            <controls:TabItemEx x:Name="CustomTab1">
-                                <controls:TabItemEx.Header>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Label x:Name="CustomTab1Label" x:FieldModifier="public" FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14">Custom Tab 1</Label>
-                                        <controls:Badge x:Name="CustomTab1Badge" x:FieldModifier="public"></controls:Badge>
-                                    </StackPanel>
-                                </controls:TabItemEx.Header>
-                                <controls:AvalonTerminal
+                            <controls:TabControlEx x:Name="TabCustom" Margin="0,0,0,0" SelectionChanged="TabCustom_SelectionChanged">
+                                <TabControl.Resources>
+                                    <ResourceDictionary>
+                                        <ResourceDictionary.MergedDictionaries>
+                                            <ResourceDictionary Source="/Resources/TabControlStylesSlim.xaml" />
+                                        </ResourceDictionary.MergedDictionaries>
+                                    </ResourceDictionary>
+                                </TabControl.Resources>
+                                <controls:TabItemEx x:Name="CustomTab1">
+                                    <controls:TabItemEx.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label x:Name="CustomTab1Label" x:FieldModifier="public" FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14">Custom Tab 1</Label>
+                                            <controls:Badge x:Name="CustomTab1Badge" x:FieldModifier="public"></controls:Badge>
+                                        </StackPanel>
+                                    </controls:TabItemEx.Header>
+                                    <controls:AvalonTerminal
                                     x:Name="Terminal1" ShowLineNumbers="False" WordWrap="True" GagEnabled="False"
                                     FontFamily="Consolas" IsReadOnly="True"
                                     Padding="10,0,20,0"
@@ -361,16 +390,16 @@
                                     ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
                                     ScrollViewer.ScrollChanged="CommTerminal_ScrollChanged"
                                     KeyDown="Terminal_OnKeyDown">
-                                </controls:AvalonTerminal>
-                            </controls:TabItemEx>
-                            <controls:TabItemEx x:Name="CustomTab2">
-                                <controls:TabItemEx.Header>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Label x:Name="CustomTab2Label" x:FieldModifier="public" FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14">Custom Tab 2</Label>
-                                        <controls:Badge x:Name="CustomTab2Badge" x:FieldModifier="public"></controls:Badge>
-                                    </StackPanel>
-                                </controls:TabItemEx.Header>
-                                <controls:AvalonTerminal
+                                    </controls:AvalonTerminal>
+                                </controls:TabItemEx>
+                                <controls:TabItemEx x:Name="CustomTab2">
+                                    <controls:TabItemEx.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label x:Name="CustomTab2Label" x:FieldModifier="public" FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14">Custom Tab 2</Label>
+                                            <controls:Badge x:Name="CustomTab2Badge" x:FieldModifier="public"></controls:Badge>
+                                        </StackPanel>
+                                    </controls:TabItemEx.Header>
+                                    <controls:AvalonTerminal
                                     x:Name="Terminal2" ShowLineNumbers="False" WordWrap="True" GagEnabled="False"
                                     FontFamily="Consolas" IsReadOnly="True"
                                     Background="Black" Foreground="LightGray"
@@ -380,16 +409,16 @@
                                     ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
                                     ScrollViewer.ScrollChanged="CommTerminal_ScrollChanged"
                                     KeyDown="Terminal_OnKeyDown">
-                                </controls:AvalonTerminal>
-                            </controls:TabItemEx>
-                            <controls:TabItemEx x:Name="CustomTab3">
-                                <controls:TabItemEx.Header>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Label x:Name="CustomTab3Label" x:FieldModifier="public" FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14">Custom Tab 3</Label>
-                                        <controls:Badge x:Name="CustomTab3Badge" x:FieldModifier="public"></controls:Badge>
-                                    </StackPanel>
-                                </controls:TabItemEx.Header>
-                                <controls:AvalonTerminal
+                                    </controls:AvalonTerminal>
+                                </controls:TabItemEx>
+                                <controls:TabItemEx x:Name="CustomTab3">
+                                    <controls:TabItemEx.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label x:Name="CustomTab3Label" x:FieldModifier="public" FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14">Custom Tab 3</Label>
+                                            <controls:Badge x:Name="CustomTab3Badge" x:FieldModifier="public"></controls:Badge>
+                                        </StackPanel>
+                                    </controls:TabItemEx.Header>
+                                    <controls:AvalonTerminal
                                     x:Name="Terminal3" ShowLineNumbers="False" WordWrap="True" GagEnabled="False"
                                     FontFamily="Consolas" IsReadOnly="True"
                                     Background="Black" Foreground="LightGray"
@@ -399,30 +428,30 @@
                                     ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
                                     ScrollViewer.ScrollChanged="CommTerminal_ScrollChanged"
                                     KeyDown="Terminal_OnKeyDown">
-                                </controls:AvalonTerminal>
-                            </controls:TabItemEx>
-                        </controls:TabControlEx>
-                    </Border>
+                                    </controls:AvalonTerminal>
+                                </controls:TabItemEx>
+                            </controls:TabControlEx>
+                        </Border>
 
-                    <Border x:Name="Panel1" Grid.Row="2" Grid.Column="1"
+                        <Border x:Name="Panel1" Grid.Row="2" Grid.Column="1"
                             x:FieldModifier="public" 
                             Margin="0" Padding="0" BorderThickness=".9,.9,0,0" BorderBrush="Gray">
-                        <controls:BarRepeater x:Name="BarRepeater" x:FieldModifier="public" 
+                            <controls:BarRepeater x:Name="BarRepeater" x:FieldModifier="public" 
                                               Margin="0,0,0,0" EnableMouseClick="True"
                                               ></controls:BarRepeater>
-                    </Border>
+                        </Border>
 
-                    <Border x:Name="VariableRepeaterBorder" Grid.Row="3" Grid.RowSpan="3" Grid.Column="1"                            
+                        <Border x:Name="VariableRepeaterBorder" Grid.Row="3" Grid.RowSpan="3" Grid.Column="1"                            
                             Background="#171717" BorderThickness=".9,.9,0,0" BorderBrush="Gray">
-                        <controls:VariableRepeater x:Name="VariableRepeater" x:FieldModifier="public" />
-                    </Border>
-                   
-                    <Border x:Name="BorderInfoBar" Grid.Row="4" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,.9,0,0">
-                        <controls:InfoBar x:Name="InfoBar" x:FieldModifier="public" Background="#171717"></controls:InfoBar>
-                    </Border>
+                            <controls:VariableRepeater x:Name="VariableRepeater" x:FieldModifier="public" />
+                        </Border>
 
-                    <Border x:Name="BorderTextInput" Grid.Row="5" Grid.Column="0">
-                        <editors:AutoCompleteTextBox x:Name="TextInput" Delay="300"
+                        <Border x:Name="BorderInfoBar" Grid.Row="4" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,.9,0,0">
+                            <controls:InfoBar x:Name="InfoBar" x:FieldModifier="public" Background="#171717"></controls:InfoBar>
+                        </Border>
+
+                        <Border x:Name="BorderTextInput" Grid.Row="5" Grid.Column="0">
+                            <editors:AutoCompleteTextBox x:Name="TextInput" Delay="300"
                                                   VerticalAlignment="Bottom"                                                  
                                                   ui:ControlHelper.CornerRadius="0"
                                                   Text=""
@@ -433,56 +462,56 @@
                                                   SpellCheckEnabled="{Binding Path=SpellCheckEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
                                                   Provider="{StaticResource ResourceKey=AutoCompleteCommandProvider}"
                                                   ItemTemplate="{StaticResource ResourceKey=AutoCompleteCommandTemplate}">
-                            <editors:AutoCompleteTextBox.SelectedItem>
-                                <Binding Path="SelectedCommand" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="False">
-                                </Binding>
-                            </editors:AutoCompleteTextBox.SelectedItem>
-                        </editors:AutoCompleteTextBox>
+                                <editors:AutoCompleteTextBox.SelectedItem>
+                                    <Binding Path="SelectedCommand" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="False">
+                                    </Binding>
+                                </editors:AutoCompleteTextBox.SelectedItem>
+                            </editors:AutoCompleteTextBox>
 
-                    </Border>
+                        </Border>
 
-                    <!-- Vertical Splitter -->
-                    <GridSplitter Grid.Column="0" Grid.Row="1" Grid.RowSpan="2"
+                        <!-- Vertical Splitter -->
+                        <GridSplitter Grid.Column="0" Grid.Row="1" Grid.RowSpan="2"
                                   HorizontalAlignment="Right" VerticalAlignment="Stretch"
                                   Background="Transparent" 
                                   ShowsPreview="True"
                                   Width="3" />
 
-                    <!-- Horizontal Splitter -->
-                    <GridSplitter Grid.Row="1" Grid.Column="1"
+                        <!-- Horizontal Splitter -->
+                        <GridSplitter Grid.Row="1" Grid.Column="1"
                                   ResizeDirection="Rows"
                                   HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                                   Background="Transparent" 
                                   ShowsPreview="True"
                                   Height="3" />
 
-                    <!-- Horizontal Splitter -->
-                    <GridSplitter Grid.Row="2" Grid.Column="1"
+                        <!-- Horizontal Splitter -->
+                        <GridSplitter Grid.Row="2" Grid.Column="1"
                                   ResizeDirection="Rows"
                                   HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                                   Background="Transparent" 
                                   ShowsPreview="True"
                                   Height="3" />
 
-
-                </Grid>
-            </controls:TabItemEx>
-            <controls:TabItemEx x:Name="TabAliases" Header="Aliases" Icon="Shuffle" ui:ControlHelper.CornerRadius="0">
-                <controls:AliasList x:Name="AliasList"></controls:AliasList>
-            </controls:TabItemEx>
-            <controls:TabItemEx x:Name="TabTriggers" Header="Triggers" Icon="Directions" ui:ControlHelper.CornerRadius="0">
-                <controls:TriggerList x:Name="TriggersList"></controls:TriggerList>
-            </controls:TabItemEx>
-            <controls:TabItemEx x:Name="TabMacros" Header="Macros" Icon="Keyboard" ui:ControlHelper.CornerRadius="0">
-                <controls:MacroList x:Name="MacroList"></controls:MacroList>
-            </controls:TabItemEx>
-            <controls:TabItemEx x:Name="TabDirections" Header="Directions" Icon="Map" ui:ControlHelper.CornerRadius="0">
-                <controls:DirectionList x:Name="DirectionList"></controls:DirectionList>
-            </controls:TabItemEx>
-            <controls:TabItemEx x:Name="TabVariables" Header="Variables" Icon="Account" ui:ControlHelper.CornerRadius="0">
-                <controls:VariableList x:Name="VariableList"></controls:VariableList>
-            </controls:TabItemEx>
-        </controls:TabControlEx>
+                    </Grid>
+                </controls:TabItemEx>
+                <controls:TabItemEx x:Name="TabAliases" Header="Aliases" Icon="Shuffle" ui:ControlHelper.CornerRadius="0">
+                    <controls:AliasList x:Name="AliasList"></controls:AliasList>
+                </controls:TabItemEx>
+                <controls:TabItemEx x:Name="TabTriggers" Header="Triggers" Icon="Directions" ui:ControlHelper.CornerRadius="0">
+                    <controls:TriggerList x:Name="TriggersList"></controls:TriggerList>
+                </controls:TabItemEx>
+                <controls:TabItemEx x:Name="TabMacros" Header="Macros" Icon="Keyboard" ui:ControlHelper.CornerRadius="0">
+                    <controls:MacroList x:Name="MacroList"></controls:MacroList>
+                </controls:TabItemEx>
+                <controls:TabItemEx x:Name="TabDirections" Header="Directions" Icon="Map" ui:ControlHelper.CornerRadius="0">
+                    <controls:DirectionList x:Name="DirectionList"></controls:DirectionList>
+                </controls:TabItemEx>
+                <controls:TabItemEx x:Name="TabVariables" Header="Variables" Icon="Account" ui:ControlHelper.CornerRadius="0">
+                    <controls:VariableList x:Name="VariableList"></controls:VariableList>
+                </controls:TabItemEx>
+            </controls:TabControlEx>
+        </ui:SplitView>
     </Grid>
 
 </Window>

@@ -783,15 +783,23 @@ namespace Avalon
         {
             get
             {
-                var win = new WindowPosition
+                // I'm not sure why it didn't behave like this before, but when I changed the
+                // Window chrome it became apparant that I shouldn't save the window position if
+                // it was maximized.
+                if (App.MainWindow.WindowState == WindowState.Maximized)
                 {
-                    Left = App.MainWindow.Left,
-                    Top = App.MainWindow.Top,
-                    Height = App.MainWindow.Height,
-                    Width = App.MainWindow.Width
-                };
-
-                return win;
+                    return App.Settings.AvalonSettings.LastWindowPosition;
+                }
+                else
+                {
+                    return new WindowPosition
+                    {
+                        Left = App.MainWindow.Left,
+                        Top = App.MainWindow.Top,
+                        Height = App.MainWindow.Height,
+                        Width = App.MainWindow.Width
+                    };
+                }
             }
         }
 
