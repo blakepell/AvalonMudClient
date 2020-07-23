@@ -1,0 +1,123 @@
+﻿<UserControl x:Class="Avalon.Controls.WindowControls"
+             x:Name="Me"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:ui="http://schemas.modernwpf.com/2019"
+             mc:Ignorable="d"
+             d:DesignHeight="50" d:DesignWidth="200">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+    </UserControl.Resources>
+    <UserControl.Triggers>
+        <Trigger Property="IsConnected" Value="True">
+            <Trigger.EnterActions>
+                <BeginStoryboard>
+                    <Storyboard>
+                        <ColorAnimation Storyboard.TargetName="NetworkSymbol" 
+                                                          Storyboard.TargetProperty="Foreground.Color"
+                                                          From="Red" To="Gray" Duration="0:0:0.5" />
+                        <Storyboard BeginTime="0:0:0.5">
+                            <ColorAnimation Storyboard.TargetName="NetworkSymbol" 
+                                                          Storyboard.TargetProperty="Foreground.Color"
+                                                          From="Gray" To="Green" Duration="0:0:0.5" />
+                        </Storyboard>
+                    </Storyboard>
+                </BeginStoryboard>
+            </Trigger.EnterActions>
+            <Trigger.ExitActions>
+                <BeginStoryboard>
+                    <Storyboard>
+                        <ColorAnimation Storyboard.TargetName="NetworkSymbol" 
+                                                          Storyboard.TargetProperty="Foreground.Color"
+                                                          From="Green" To="Gray" Duration="0:0:0.5" />
+                        <Storyboard BeginTime="0:0:0.5">
+                            <ColorAnimation Storyboard.TargetName="NetworkSymbol" 
+                                                          Storyboard.TargetProperty="Foreground.Color"
+                                                          From="Gray" To="Red" Duration="0:0:0.5" />
+                        </Storyboard>
+                    </Storyboard>
+                </BeginStoryboard>
+            </Trigger.ExitActions>
+            <Setter TargetName="NetworkSymbol" Property="Symbol" Value="MapDrive" />
+        </Trigger>
+        <Trigger Property="IsConnected" Value="False">
+            <Setter TargetName="NetworkSymbol" Property="Symbol" Value="DisconnectDrive" />
+        </Trigger>
+    </UserControl.Triggers>
+    <StackPanel Orientation="Horizontal">
+        <Button x:Name="PART_Network"
+                Height="{Binding ButtonHeight, ElementName=Me}" Width="{Binding ButtonHeight, ElementName=Me}"
+                IsTabStop="False" WindowChrome.IsHitTestVisibleInChrome="True"
+                BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
+                ToolTip="Connect" Click="PART_Network_Click">
+            <Viewbox Height="16" Width="16" Margin="0,0,0,0">
+                <ui:SymbolIcon Name="NetworkSymbol" Foreground="Red" Symbol="DisconnectDrive" />
+            </Viewbox>
+        </Button>
+
+        <Button x:Name="PART_Settings"
+                Height="{Binding ButtonHeight, ElementName=Me}" Width="{Binding ButtonHeight, ElementName=Me}"
+                IsTabStop="False" WindowChrome.IsHitTestVisibleInChrome="True"
+                BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
+                ToolTip="Settings" Click="PART_Settings_Click">
+            <Viewbox Height="16" Width="16" Margin="0,0,0,0">
+                <ui:SymbolIcon Name="SettingsSymbol"
+                               Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" Symbol="Setting" />
+            </Viewbox>
+        </Button>
+
+        <Button x:Name="PART_Minimize"
+                Height="{Binding ButtonHeight, ElementName=Me}" Width="{Binding ButtonHeight, ElementName=Me}"
+                IsTabStop="False" WindowChrome.IsHitTestVisibleInChrome="True"
+                BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
+                ToolTip="Minimize"
+                Click="PART_Minimize_Click">
+            <Path Data="{StaticResource Minimize}"
+                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}"                   
+                                HorizontalAlignment="Center" 
+                                VerticalAlignment="Center"
+                                UseLayoutRounding="False" 
+                                SnapsToDevicePixels="True"/>
+        </Button>
+        <Button x:Name="PART_Maximize" Visibility="{Binding ShowMaximizeButton, ElementName=Me, Converter={StaticResource BoolToVisConverter}}"
+                    Height="{Binding ButtonHeight, ElementName=Me}" Width="{Binding ButtonHeight, ElementName=Me}"
+                    IsTabStop="False" WindowChrome.IsHitTestVisibleInChrome="True"
+                    BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
+                    ToolTip="Maximize"
+                    Click="PART_Maximize_Click">
+            <Path Data="{StaticResource Maximize}"
+                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}"                   
+                                HorizontalAlignment="Center" 
+                                VerticalAlignment="Center"
+                                UseLayoutRounding="False" 
+                                SnapsToDevicePixels="True"/>
+        </Button>
+        <Button x:Name="PART_Restore"
+                    Height="{Binding ButtonHeight, ElementName=Me}" Width="{Binding ButtonHeight, ElementName=Me}"
+                    Visibility="{Binding ShowRestoreButton, ElementName=Me, Converter={StaticResource BoolToVisConverter}}"
+                    IsTabStop="False" WindowChrome.IsHitTestVisibleInChrome="True"
+                    BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
+                    ToolTip="Maximize"
+                    Click="PART_Restore_Click">
+            <Path Data="{StaticResource Restore}"                  
+                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}"                   
+                                HorizontalAlignment="Center" 
+                                VerticalAlignment="Center"
+                                UseLayoutRounding="False" 
+                                SnapsToDevicePixels="True"/>
+        </Button>
+        <Button x:Name="PART_Close"
+                Height="{Binding ButtonHeight, ElementName=Me}" Width="{Binding ButtonHeight, ElementName=Me}"
+                IsTabStop="False" WindowChrome.IsHitTestVisibleInChrome="True"
+                BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
+                ToolTip="Close" Click="PART_Close_Click">
+            <Path Data="{StaticResource Close}"
+                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" 
+                                HorizontalAlignment="Center" 
+                                VerticalAlignment="Center"
+                                UseLayoutRounding="False" 
+                                SnapsToDevicePixels="True"/>
+        </Button>
+    </StackPanel>
+</UserControl>
