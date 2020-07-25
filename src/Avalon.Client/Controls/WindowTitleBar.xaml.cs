@@ -146,7 +146,8 @@ namespace Avalon.Controls
         /// <param name="e"></param>
         private void PART_Close_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown(0);
+            var win = this.FindAscendant<Window>();
+            SystemCommands.CloseWindow(win);
         }
 
         /// <summary>
@@ -156,7 +157,9 @@ namespace Avalon.Controls
         /// <param name="e"></param>
         private void PART_Maximize_Click(object sender, RoutedEventArgs e)
         {
-            this.FindAscendant<Window>().WindowState = WindowState.Maximized;
+            var win = this.FindAscendant<Window>();
+            SystemCommands.MaximizeWindow(win);
+
             this.ShowMaximizeButton = false;
             this.ShowRestoreButton = true;
         }
@@ -168,7 +171,8 @@ namespace Avalon.Controls
         /// <param name="e"></param>
         private void PART_Minimize_Click(object sender, RoutedEventArgs e)
         {
-            this.FindAscendant<Window>().WindowState = WindowState.Minimized;
+            var win = this.FindAscendant<Window>();
+            SystemCommands.MinimizeWindow(win);
         }
 
         /// <summary>
@@ -178,7 +182,9 @@ namespace Avalon.Controls
         /// <param name="e"></param>
         private void PART_Restore_Click(object sender, RoutedEventArgs e)
         {
-            this.FindAscendant<Window>().WindowState = WindowState.Normal;
+            var win = this.FindAscendant<Window>();
+            SystemCommands.RestoreWindow(win);
+
             this.ShowMaximizeButton = true;
             this.ShowRestoreButton = false;
         }
