@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Argus.Extensions;
 using Avalon.Common.Interfaces;
+using Avalon.Common.Models;
 using Avalon.Extensions;
 using ModernWpf.Controls;
 
@@ -21,7 +22,7 @@ namespace Avalon
     /// <summary>
     /// Interaction logic for Shell.xaml
     /// </summary>
-    public partial class Shell : Window
+    public partial class Shell : Window, IWindow
     {
 
         /// <summary>
@@ -32,7 +33,7 @@ namespace Avalon
         {
             InitializeComponent();
             this.Container.Content = uc;
-            this.DataContext = this;
+            this.DataContext = this;            
         }
 
         /// <summary>
@@ -69,6 +70,10 @@ namespace Avalon
 
         public UIElement BlurredElement { get; private set; }
 
+        public string StatusText { get; set; }
+
+        public WindowType WindowType { get; set; } = WindowType.Default;
+
         /// <summary>
         /// The Symbol to display on the TabItem.
         /// </summary>
@@ -82,6 +87,13 @@ namespace Avalon
         public static readonly DependencyProperty HeaderIconProperty =
             DependencyProperty.Register(nameof(HeaderIcon), typeof(Symbol), typeof(Shell), new PropertyMetadata(Symbol.NewWindow));
 
+
+        private void ShellWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Now that the window is fully loaded, track it.  This will allow the #window command
+            // to also manipulate this.
+            App.Conveyor.WindowList.Add(this);            
+        }
 
         /// <summary>
         /// Cleanup code when the window closes.
@@ -102,6 +114,9 @@ namespace Avalon
                 this.BlurredElement.Effect = null;
                 this.BlurredElement = null;
             }
+
+            // If this window exists in the tracked Window list, remove it.
+            App.Conveyor.WindowList.Remove(this);
         }
 
         /// <summary>
@@ -173,6 +188,14 @@ namespace Avalon
             this.Height = App.MainWindow.Height * percent;
             this.Left = App.MainWindow.Left + (App.MainWindow.Width - (App.MainWindow.Width * percent)) / 2;
             this.Top = App.MainWindow.Top + (App.MainWindow.Height - (App.MainWindow.Height * percent)) / 2;
+        }
+
+        /// <summary>
+        /// Activates the Window and brings it to the forefront and focused.
+        /// </summary>
+        void IWindow.Activate()
+        {
+            base.Activate();
         }
 
     }

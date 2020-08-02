@@ -14,6 +14,7 @@ using System;
 using System.Threading.Tasks;
 using Argus.Extensions;
 using System.Text;
+using System.Linq;
 
 namespace Avalon
 {
@@ -133,6 +134,19 @@ namespace Avalon
             // Dispose of the Toast object which has a NotifyIcon which might potentially leave the
             // program in memory if not axed.
             Toast?.Dispose();
+
+            // Try to gracefully close down any open windows that are being tracked in the
+            // Conveyor.  In theory, these should clean themselves up because the main window
+            // closing should trigger them to close (and when they close they should be removing
+            // themselves from this list.
+            if (Conveyor != null)
+            {
+                foreach (var item in Conveyor.WindowList.Where(x => x != null))
+                {
+                    item.Close();
+                }
+            }
+
         }
 
         /// <summary>

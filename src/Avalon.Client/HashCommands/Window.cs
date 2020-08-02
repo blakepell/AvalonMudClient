@@ -1,7 +1,10 @@
-﻿using Avalon.Common.Interfaces;
+﻿using Argus.Extensions;
+using Avalon.Common.Interfaces;
 using CommandLine;
 using System;
 using System.Linq;
+using System.Threading.Channels;
+using System.Windows.Shell;
 
 namespace Avalon.HashCommands
 {
@@ -32,6 +35,22 @@ namespace Avalon.HashCommands
             var result = Parser.Default.ParseArguments<Arguments>(CreateArgs(this.Parameters))
                 .WithParsed(o =>
                 {
+                    // Close all windows
+                    if (o.CloseAll)
+                    {
+                        int count = this.Interpreter.Conveyor.WindowList.Count;
+
+                        // Step backwards through the list removing all the items.
+                        for (int i = this.Interpreter.Conveyor.WindowList.Count - 1; i >= 0; i--)
+                        {
+                            this.Interpreter.Conveyor.WindowList[i].Close();
+                        }
+
+                        this.Interpreter.Conveyor.EchoLog($"{count} {"window".IfCountPluralize(count, "windows")} {"was".IfCountPluralize(count, "were")} closed", Common.Models.LogType.Information);
+
+                        return;
+                    }
+
                     if (!string.IsNullOrWhiteSpace(o.Name))
                     {
                         // This case is if they specified a window that might exist, we'll find it, edit that.
@@ -195,6 +214,10 @@ namespace Avalon.HashCommands
 
             [Option("close", Required = false, HelpText = "Closes the window if found of the window specified with the --name switch.")]
             public bool Close { get; set; } = false;
+
+
+            [Option("closeall", Required = false, HelpText = "Closes all open windows that are tracked excluding the main game window.  This ignores all other switches when used.")]
+            public bool CloseAll { get; set; } = false;
 
             [Option('h', "height", Required = false, HelpText = "The height of the window.")]
             public int Height { get; set; } = 0;

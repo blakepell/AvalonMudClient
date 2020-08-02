@@ -19,7 +19,6 @@ using ModernWpf.Controls;
 using System.Diagnostics;
 using System.Windows.Media;
 using Argus.Extensions;
-using Avalon.Sqlite;
 
 namespace Avalon
 {
@@ -60,6 +59,12 @@ namespace Avalon
         /// A queue of commands that can be executed as a batch in the order they are added.
         /// </summary>
         public BatchTasks BatchTasks;
+       
+        /// <summary>
+        /// A class which handles the management of the current set of navigation items for the left
+        /// hand slide out menu.
+        /// </summary>
+        public NavManager NavManager { get; set; } = new NavManager();
 
         /// <summary>
         /// Whether spell checking is currently enabled.
@@ -73,16 +78,6 @@ namespace Avalon
         // Using a DependencyProperty as the backing store for SpellCheckEnabled.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SpellCheckEnabledProperty =
             DependencyProperty.Register(nameof(SpellCheckEnabled), typeof(bool), typeof(MainWindow), new PropertyMetadata(true));
-
-        /// <summary>
-        /// Window initialization.  This occurs before the Loaded event.  We'll set the initial
-        /// window positioning here before the UI is shown.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MainWindow_OnInitialized(object sender, EventArgs e)
-        {
-        }
 
         /// <summary>
         /// The Loaded event for the Window where we will execute code that should run when the Window
@@ -158,27 +153,9 @@ namespace Avalon
                     }
                 }
 
-                // Set the startup position.
-                switch (App.Settings.AvalonSettings.WindowStartupPosition)
-                {
-                    case WindowStartupPosition.OperatingSystemDefault:
-                        this.WindowState = WindowState.Normal;
-                        break;
-                    case WindowStartupPosition.Maximized:
-                        this.WindowState = WindowState.Maximized;
-                        break;
-                    case WindowStartupPosition.LastUsed:
-                        this.Left = App.Settings.AvalonSettings.LastWindowPosition.Left;
-                        this.Top = App.Settings.AvalonSettings.LastWindowPosition.Top;
-                        this.Height = App.Settings.AvalonSettings.LastWindowPosition.Height;
-                        this.Width = App.Settings.AvalonSettings.LastWindowPosition.Width;
-                        this.WindowState = (WindowState)App.Settings.AvalonSettings.LastWindowPosition.WindowState;
-                        break;
-                }
-
                 // Inject the Conveyor into the Triggers so the Triggers know how to talk to the UI.  Not doing this
                 // causes ya know, problems.
-                TriggersList.TriggerConveyorSetup();
+                Utilities.Utilities.TriggerConveyorSetup();
 
                 // Wire up any events that have to be wired up through code.
                 TextInput.Editor.PreviewKeyDown += this.Editor_PreviewKeyDown;
@@ -209,6 +186,9 @@ namespace Avalon
                 // the plugin IP is connected to.
                 LoadPlugins();
 
+                // Loads the initial list of items for the navigation slide out.
+                this.NavManager.Load();
+
                 // Update any UI settings
                 UpdateUISettings();
 
@@ -226,6 +206,25 @@ namespace Avalon
 
                 // Finally, all is done, set the focus to the command box.
                 TextInput.Focus();
+
+                // Set the startup position.
+                switch (App.Settings.AvalonSettings.WindowStartupPosition)
+                {
+                    case WindowStartupPosition.OperatingSystemDefault:
+                        this.WindowState = WindowState.Normal;
+                        break;
+                    case WindowStartupPosition.Maximized:
+                        this.WindowState = WindowState.Maximized;
+                        break;
+                    case WindowStartupPosition.LastUsed:
+                        this.WindowState = (WindowState)App.Settings.AvalonSettings.LastWindowPosition.WindowState;
+                        this.Left = App.Settings.AvalonSettings.LastWindowPosition.Left;
+                        this.Top = App.Settings.AvalonSettings.LastWindowPosition.Top;
+                        this.Height = App.Settings.AvalonSettings.LastWindowPosition.Height;
+                        this.Width = App.Settings.AvalonSettings.LastWindowPosition.Width;
+                        break;
+                }
+
             }
             catch (Exception ex)
             {
@@ -257,7 +256,7 @@ namespace Avalon
                 this.Title = string.IsNullOrWhiteSpace(App.Settings.ProfileSettings.WindowTitle)
                     ? "Avalon Mud Client"
                     : App.Settings.ProfileSettings.WindowTitle;
-                
+
                 // The title on the window chrome that we set.
                 TitleBar.Title = this.Title;
 
@@ -493,7 +492,7 @@ namespace Avalon
             // AppSettings gets replaced after this control is loaded.
             Utilities.Utilities.SetBinding(App.Settings.ProfileSettings, "AliasesEnabled", ButtonAliasesEnabled, CheckBox.IsCheckedProperty);
             Utilities.Utilities.SetBinding(App.Settings.ProfileSettings, "TriggersEnabled", ButtonTriggersEnabled, CheckBox.IsCheckedProperty);
-            
+
             // Custom Tab 1 + Quick Toggle Bar
             Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab1Visible", CustomTab1, TabItemEx.VisibilityProperty, boolToCollapsedConverter);
             Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab1Label", CustomTab1Label, Label.ContentProperty);
@@ -570,33 +569,6 @@ namespace Avalon
         }
 
         /// <summary>
-        /// Event for when the tab control's selected tab changes.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            // When the game tab gets the focus always put the focus into the input box.
-            if (TabGame.IsSelected && TextInput.Editor != null)
-            {
-                Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    // In order to get the focus in this instance an UpdateLayout() call has to be called first.
-                    UpdateLayout();
-
-                    // This is a little bit of a hack.. terminals stop auto scrolling for some reason when
-                    // another tab is active.
-                    ScrollAllToBottom();
-
-                    // When the app is first loaded the Editor was coming up null so we'll just check the nulls
-                    // and then default the caret position to 0 if that's the case.
-                    TextInput.Editor.CaretIndex = TextInput?.Editor?.Text?.Length ?? 0;
-                    TextInput.Editor.Focus();
-                }));
-            }
-        }
-
-        /// <summary>
         /// Exits the mud client.
         /// </summary>
         /// <param name="sender"></param>
@@ -662,14 +634,6 @@ namespace Avalon
                     {
                         trigger.Conveyor = App.Conveyor;
                     }
-
-                    // Important!  This is a new profile, we have to reload ALL of the DataList controls
-                    // and reset their bindings.
-                    AliasList.Reload();
-                    DirectionList.Reload();
-                    MacroList.Reload();
-                    TriggersList.Reload();
-                    VariableList.Reload();
 
                     // We have a new profile, refresh the auto complete command list.
                     RefreshAutoCompleteEntries();
@@ -1024,7 +988,7 @@ namespace Avalon
             try
             {
                 // When the game tab gets the focus always put the focus into the input box.
-                if (TabGame.IsSelected && TextInput.Editor != null)
+                if (TextInput.Editor != null)
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
@@ -1441,94 +1405,29 @@ namespace Avalon
         private async void MenuShellWindow_Click(object sender, RoutedEventArgs e)
         {
             var menuItem = e.Source as MenuItem;
-            
-            if (menuItem.Tag.ToString() == "Variables")
-            {
-                var win = new Shell(new VariableList(), null)
-                {
-                    HeaderTitle = "Variables",
-                    HeaderIcon = Symbol.Account,
-                    SecondaryButtonVisibility = Visibility.Collapsed
-                };
+            string requestedWindow = menuItem.Tag.ToString();
 
-                win.SetSizeAndPosition(.85);
-                win.Show();
-            }
-            else if (menuItem.Tag.ToString() == "Aliases")
-            {
-                var win = new Shell(new AliasList(), null)
-                {
-                    HeaderTitle = "Aliases",
-                    HeaderIcon = Symbol.Account,
-                    SecondaryButtonVisibility = Visibility.Collapsed
-                };
-
-                win.SetSizeAndPosition(.85);
-                win.Show();
-            }
-            else if (menuItem.Tag.ToString() == "Macros")
-            {
-                var win = new Shell(new MacroList(), null)
-                {
-                    HeaderTitle = "Macros",
-                    HeaderIcon = Symbol.Keyboard,
-                    SecondaryButtonVisibility = Visibility.Collapsed
-                };
-
-                win.SetSizeAndPosition(.85);
-                win.Show();
-            }
-            else if (menuItem.Tag.ToString() == "Triggers")
-            {
-                var win = new Shell(new TriggerList(), null)
-                {
-                    HeaderTitle = "Triggers",
-                    HeaderIcon = Symbol.Directions,
-                    SecondaryButtonVisibility = Visibility.Collapsed
-                };
-
-                win.SetSizeAndPosition(.85);
-                win.Show();
-            }
-            else if (menuItem.Tag.ToString() == "Directions")
-            {
-                var win = new Shell(new DirectionList(), null)
-                {
-                    HeaderTitle = "Directions",
-                    HeaderIcon = Symbol.Map,
-                    SecondaryButtonVisibility = Visibility.Collapsed
-                };
-
-                win.SetSizeAndPosition(.85);
-                win.Show();
-            }
-            else if (menuItem.Tag.ToString() == "Database")
-            {
-                try
-                {
-                    // Setup the database control.            
-                    var ctrl = new SqliteQueryControl();
-                    ctrl.ConnectionString = $"Data Source={App.Settings.ProfileSettings.SqliteDatabase}";
-                    await ctrl.RefreshSchema();
-
-                    var win = new Shell(ctrl, this)
-                    {
-                        HeaderTitle = "Database Query Editor",
-                        HeaderIcon = Symbol.Tag,
-                        SecondaryButtonVisibility = Visibility.Collapsed
-                    };
-
-                    win.SetSizeAndPosition(.85);
-
-                    this.ShowDialog(win);
-                }
-                catch (Exception ex)
-                {
-                    this.Interp.Conveyor.EchoLog(ex.Message, LogType.Error);
-                }
-            }
-
+            await Utilities.WindowManager.ShellWindow(requestedWindow);
         }
 
+        /// <summary>
+        /// NavBar menu item clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void NavBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+
+            if (btn != null)
+            {
+                var navMenuItem = btn.Tag as NavMenuItem;
+
+                if (navMenuItem != null)
+                {
+                    await navMenuItem.ExecuteAsync();
+                }
+            }
+        }
     }
 }

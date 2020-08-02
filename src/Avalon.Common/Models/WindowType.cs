@@ -3,9 +3,10 @@
     public enum WindowType
     {
         /// <summary>
-        /// A blank window.
+        /// A default window which represents a normal window for the application (e.g. a WPF window if
+        /// running WPF on Windows).
         /// </summary>
-        Blank,
+        Default,
         /// <summary>
         /// A window that inherits from ITerminalWindow
         /// </summary>

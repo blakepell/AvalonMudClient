@@ -116,7 +116,7 @@ namespace Avalon
                 }
 
                 // Just in case this will make sure the Conveyor is setup on this trigger.
-                App.MainWindow.TriggersList.TriggerConveyorSetup();
+                Utilities.Utilities.TriggerConveyorSetup();
 
                 this.Close();
             }

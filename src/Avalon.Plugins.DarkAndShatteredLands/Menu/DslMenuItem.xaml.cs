@@ -9,7 +9,7 @@ using Argus.Extensions;
 
 namespace Avalon.Plugins.DarkAndShatteredLands
 {
-    public partial class DslMenuItem : IMenuItem
+    public partial class DslMenuItem : IPluginMenu
     {
 
         /// <summary>

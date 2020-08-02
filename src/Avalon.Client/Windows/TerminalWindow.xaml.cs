@@ -89,5 +89,13 @@ namespace Avalon
             Terminal.Append(sb, true);
         }
 
+        /// <summary>
+        /// Activates the Window and brings it to the forefront and focused.
+        /// </summary>
+        void IWindow.Activate()
+        {
+            base.Activate();
+        }
+
     }
 }

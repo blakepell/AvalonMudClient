@@ -17,6 +17,25 @@ namespace Avalon.Utilities
     public static class Utilities
     {
         /// <summary>
+        /// Sets all triggers up with the Conveyor from the MainWindow if they haven't been wired up already.
+        /// </summary>
+        public static void TriggerConveyorSetup()
+        {
+            if (App.Settings?.ProfileSettings?.TriggerList == null)
+            {
+                return;
+            }
+
+            foreach (var trigger in App.Settings.ProfileSettings.TriggerList)
+            {
+                if (trigger.Conveyor == null && App.Conveyor != null)
+                {
+                    trigger.Conveyor = App.Conveyor;
+                }
+            }
+        }
+
+        /// <summary>
         /// Puts common variables that might be expensive to populate into the common variable list
         /// as a static variable.
         /// </summary>

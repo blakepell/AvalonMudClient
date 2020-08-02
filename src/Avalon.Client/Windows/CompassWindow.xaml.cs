@@ -61,5 +61,12 @@ namespace Avalon
             CompassControl.SetAngle(direction);
         }
 
+        /// <summary>
+        /// Activates the Window and brings it to the forefront and focused.
+        /// </summary>
+        void IWindow.Activate()
+        {
+            base.Activate();
+        }
     }
 }

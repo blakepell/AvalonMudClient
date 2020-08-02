@@ -5,7 +5,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ui="http://schemas.modernwpf.com/2019"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="clr-namespace:Avalon.Controls"
-             mc:Ignorable="d">
+             mc:Ignorable="d"
+             BorderBrush="#444444" BorderThickness="0,0,0,.9"             
+             >
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
     </UserControl.Resources>
@@ -15,7 +17,7 @@
                     Height="50" Width="50"
                     IsTabStop="False" WindowChrome.IsHitTestVisibleInChrome="True"
                     BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
-                    ToolTip="Maximize"
+                    ToolTip="Open Navigation Menu"
                     Click="PART_SplitViewOpen_Click">
             <ui:SymbolIcon Symbol="GlobalNavigationButton"></ui:SymbolIcon>
         </Button>
@@ -38,7 +40,7 @@
         <!--<Rectangle HorizontalAlignment="Stretch" Margin="10,10,10,10" Stroke="#383838" Fill="White" />-->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <!-- Search Box -->
-            <controls:SearchBox Width="200" Margin="0,0,10,0" WindowChrome.IsHitTestVisibleInChrome="True"></controls:SearchBox>
+            <controls:SearchBox x:Name="SearchBox" Width="200" Margin="0,0,10,0" WindowChrome.IsHitTestVisibleInChrome="True" x:FieldModifier="public"></controls:SearchBox>
 
             <!-- Window controls -->
             <StackPanel Orientation="Horizontal">

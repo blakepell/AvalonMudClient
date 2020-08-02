@@ -18,6 +18,11 @@ namespace Avalon.Common.Interfaces
         void Close();
 
         /// <summary>
+        /// Attempts to Activate the Window and bring it to the foreground.
+        /// </summary>
+        void Activate();
+
+        /// <summary>
         /// The name of the window.
         /// </summary>
         string Name { get; set; }

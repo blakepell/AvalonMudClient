@@ -15,12 +15,6 @@ namespace Avalon
         /// </summary>
         private void MainWindow_OnPreviewKeyDown(object sender, KeyEventArgs e)
         {
-            // Make sure that we are on the game tab which will always be the first tab.
-            if (!TabGame.IsSelected)
-            {
-                return;
-            }
-
             // Second, look for whether this key was a Macro, if a Macro is found, execute it,
             // set the focus to the text input box then get out.
             foreach (var item in App.Settings.ProfileSettings.MacroList)
@@ -343,36 +337,7 @@ namespace Avalon
         /// </summary>
         private void FindInternal(object sender, ExecutedRoutedEventArgs e)
         {
-            if (TabAliases.IsSelected)
-            {
-                AliasList.FocusFilter();
-                return;
-            }
-
-            if (TabTriggers.IsSelected)
-            {
-                TriggersList.FocusFilter();
-                return;
-            }
-
-            if (TabMacros.IsSelected)
-            {
-                MacroList.FocusFilter();
-                return;
-            }
-
-            if (TabVariables.IsSelected)
-            {
-                VariableList.FocusFilter();
-                return;
-            }
-
-            if (TabDirections.IsSelected)
-            {
-                DirectionList.FocusFilter();
-                return;
-            }
-
+            App.MainWindow.TitleBar.SearchBox.Focus();
         }
 
     }
