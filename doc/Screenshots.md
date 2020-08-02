@@ -8,6 +8,8 @@
 
 *The client is being developed as a generic mud client that can be packaged for a specific mud out of the box so a player can download the client and not have to spend lots of time setting up all of the basic scripts, aliases, triggers and other content they need.  The idea is that it goes above and beyond for a new mud player.  This project will have an highly tailored plugin for dsl-mud.org as a model others can expand on or adapt.*
 
+*The main window has a terminal, a back buffer terminal, an info bar, a variable panel, a bar repeater (for stuff like current affects and their duration or anything that can be represented with numbers) and 3 custom panels where input can be redirected.*
+
 ![alt text](images/DirectionsHashCommand.png "Main Terminal")
 
 *As nearly all text based games have directions and massive worlds, the ability to navigate has been built in (and will be expanded).  If the client knows what room your in it can assist in stringing together sets of directions to make a massive world much easier to navigate.*
@@ -15,6 +17,10 @@
 ![alt text](images/ClientTerminal2.png "Main Terminal")
 
 *Text can be redirected to other panels via triggers*
+
+![alt text](images/ClientTerminal2.png "Main Terminal")
+
+*Slide out menu that is touch friendly with the main windows listed as well as the ability add custom aliases*
 
 ### Database Support / SQL Editor (SQLite)
 

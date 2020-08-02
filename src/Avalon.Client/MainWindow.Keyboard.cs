@@ -293,6 +293,22 @@ namespace Avalon
         public static readonly RoutedUICommand Find = new RoutedUICommand("Find", "Find", typeof(MainWindow));
 
         /// <summary>
+        /// For handling hot keys to shell various known windows.
+        /// </summary>
+        public static readonly RoutedUICommand ShellWindow = new RoutedUICommand("ShellWindow", "ShellWindow", typeof(MainWindow));
+
+        /// <summary>
+        /// Event used from menus to shell any number of Shell based UserControls into windows.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void ShellWindowInternal(object sender, ExecutedRoutedEventArgs e)
+        {
+            var param = (string)e.Parameter;
+            await Utilities.WindowManager.ShellWindow(param);
+        }
+
+        /// <summary>
         /// Handler to select an element.
         /// </summary>
         private void SelectElementInternal(object sender, ExecutedRoutedEventArgs e)

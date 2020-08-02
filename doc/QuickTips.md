@@ -26,11 +26,16 @@
 
 ### Built in Hot Keys
 
-1. `Control+Tab` will switch between the main tabs at the top.
-2. `Control+1`, `Control+2`, `Control+3` will jump to each of the custom tabs.
-3. `Page Up` and `Page Down` will activate and scroll through the back buffer when the input box is active.
-4. `Escape` will clear the input box as well as close the back buffer.
-5. `Control+Alt+L` will open the editor for the last trigger or alias you edited.
-6. `Control++` Control and the plus key will make the terminal font size larger.
-7. `Control+-` Control and the minus key will make the terminal font size larger.
-8. 
+1. `Control+Alt+A` will open the edit aliases window.
+2. `Control+Alt+T` will open the edit triggers window.
+3. `Control+Alt+M` will open the edit macros window.
+4. `Control+Alt+D` will open the edit directions window.
+5. `Control+Alt+V` will open the edit variables window.
+6. `Control+Tab` will switch between the main tabs at the top.
+7. `Control+F` will put the focus on the search text box on supported windows.
+8. `Control+1`, `Control+2`, `Control+3` will jump to each of the custom tabs.
+9. `Page Up` and `Page Down` will activate and scroll through the back buffer when the input box is active.
+10. `Escape` will clear the input box as well as close the back buffer.
+11. `Control+Alt+L` will open the editor for the last trigger or alias you edited.
+12. `Control++` Control and the plus key will make the terminal font size larger.
+13. `Control+-` Control and the minus key will make the terminal font size larger.

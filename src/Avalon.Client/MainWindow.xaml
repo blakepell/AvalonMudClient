@@ -76,8 +76,14 @@
         <CommandBinding Command="local:MainWindow.SelectElement" Executed="SelectElementInternal" />
         <CommandBinding Command="local:MainWindow.FontSizeChange" Executed="ChangeTerminalFontSize" />
         <CommandBinding Command="local:MainWindow.Find" Executed="FindInternal" />
+        <CommandBinding Command="local:MainWindow.ShellWindow" Executed="ShellWindowInternal" />
     </Window.CommandBindings>
     <Window.InputBindings>
+        <KeyBinding Command="local:MainWindow.ShellWindow" Key="A" Modifiers="Ctrl+Alt" CommandParameter="Aliases" />
+        <KeyBinding Command="local:MainWindow.ShellWindow" Key="T" Modifiers="Ctrl+Alt" CommandParameter="Triggers" />
+        <KeyBinding Command="local:MainWindow.ShellWindow" Key="M" Modifiers="Ctrl+Alt" CommandParameter="Macros" />
+        <KeyBinding Command="local:MainWindow.ShellWindow" Key="V" Modifiers="Ctrl+Alt" CommandParameter="Variables" />
+        <KeyBinding Command="local:MainWindow.ShellWindow" Key="D" Modifiers="Ctrl+Alt" CommandParameter="Directions" />
         <KeyBinding Command="local:MainWindow.LoadPlugin" Key="P" Modifiers="Ctrl+Alt" />
         <KeyBinding Command="local:MainWindow.EditLastItem" Key="L" Modifiers="Ctrl+Alt" />
         <KeyBinding Command="local:MainWindow.SelectElement" Key="D1" Modifiers="Ctrl" CommandParameter="CustomTab1" />
@@ -215,27 +221,27 @@
                             </MenuItem.Icon>
                         </MenuItem>
                         <Separator />
-                        <MenuItem Header="Edit _Aliases" Click="MenuShellWindow_Click" Tag="Aliases">
+                        <MenuItem Header="Edit _Aliases" Click="MenuShellWindow_Click" Tag="Aliases" InputGestureText="Ctrl+Alt+A">
                             <MenuItem.Icon>
                                 <ui:SymbolIcon Symbol="Shuffle" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="Edit _Directions" Click="MenuShellWindow_Click" Tag="Directions">
+                        <MenuItem Header="Edit _Directions" Click="MenuShellWindow_Click" Tag="Directions" InputGestureText="Ctrl+Alt+D">
                             <MenuItem.Icon>
                                 <ui:SymbolIcon Symbol="Map" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="Edit _Macros" Click="MenuShellWindow_Click" Tag="Macros">
+                        <MenuItem Header="Edit _Macros" Click="MenuShellWindow_Click" Tag="Macros" InputGestureText="Ctrl+Alt+M">
                             <MenuItem.Icon>
                                 <ui:SymbolIcon Symbol="Keyboard" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="Edit _Triggers" Click="MenuShellWindow_Click" Tag="Triggers">
+                        <MenuItem Header="Edit _Triggers" Click="MenuShellWindow_Click" Tag="Triggers" InputGestureText="Ctrl+Alt+T">
                             <MenuItem.Icon>
                                 <ui:SymbolIcon Symbol="Directions" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="Edit _Variables" Click="MenuShellWindow_Click" Tag="Variables">
+                        <MenuItem Header="Edit _Variables" Click="MenuShellWindow_Click" Tag="Variables" InputGestureText="Ctrl+Alt+V">
                             <MenuItem.Icon>
                                 <ui:SymbolIcon Symbol="Account" />
                             </MenuItem.Icon>
@@ -357,7 +363,7 @@
                             Padding="10,0,20,0"
                             BorderThickness=".9,0,0,1"
                             Background="Black" Foreground="LightGray"
-                            FontSize="13" BorderBrush="Gray"
+                            FontSize="13" BorderBrush="#444444"
                             ScrollViewer.PanningMode="VerticalOnly"
                             ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
                             PreviewMouseWheel="GameBackBufferTerminal_PreviewMouseWheel"
