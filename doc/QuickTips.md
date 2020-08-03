@@ -14,6 +14,7 @@
 4. Typing `#go` will pull up built in directions that are stored in the Directions tab.
 5. Pressing `Page Up` or `Page Down` will show you the back buffer panel.  `Escape` will hide it (or if you page all the way to the bottom)
 6. Pressing `Escape` will clear the input box of any text in it.
+7. `Control+I` anywhere while on the main window will put the focus on the main input box.
 
 ### General Tips
 
@@ -31,11 +32,12 @@
 3. `Control+Alt+M` will open the edit macros window.
 4. `Control+Alt+D` will open the edit directions window.
 5. `Control+Alt+V` will open the edit variables window.
-6. `Control+Tab` will switch between the main tabs at the top.
-7. `Control+F` will put the focus on the search text box on supported windows.
-8. `Control+1`, `Control+2`, `Control+3` will jump to each of the custom tabs.
-9. `Page Up` and `Page Down` will activate and scroll through the back buffer when the input box is active.
-10. `Escape` will clear the input box as well as close the back buffer.
-11. `Control+Alt+L` will open the editor for the last trigger or alias you edited.
-12. `Control++` Control and the plus key will make the terminal font size larger.
-13. `Control+-` Control and the minus key will make the terminal font size larger.
+6. `Control+I` will put the focus on the input box.
+7. `Control+Tab` will switch between the main tabs at the top.
+8. `Control+F` will put the focus on the search text box on supported windows.
+9. `Control+1`, `Control+2`, `Control+3` will jump to each of the custom tabs.
+10. `Page Up` and `Page Down` will activate and scroll through the back buffer when the input box is active.
+11. `Escape` will clear the input box as well as close the back buffer.
+12. `Control+Alt+L` will open the editor for the last trigger or alias you edited.
+13. `Control++` Control and the plus key will make the terminal font size larger.
+14. `Control+-` Control and the minus key will make the terminal font size larger.

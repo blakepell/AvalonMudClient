@@ -75,6 +75,7 @@
         <CommandBinding Command="local:MainWindow.EditLastItem" Executed="MenuItemOpenLastEdittedAliasOrTrigger_Click" />
         <CommandBinding Command="local:MainWindow.SelectElement" Executed="SelectElementInternal" />
         <CommandBinding Command="local:MainWindow.FontSizeChange" Executed="ChangeTerminalFontSize" />
+        <CommandBinding Command="local:MainWindow.FocusByName" Executed="FocusByNameInternal" />
         <CommandBinding Command="local:MainWindow.Find" Executed="FindInternal" />
         <CommandBinding Command="local:MainWindow.ShellWindow" Executed="ShellWindowInternal" />
     </Window.CommandBindings>
@@ -84,14 +85,15 @@
         <KeyBinding Command="local:MainWindow.ShellWindow" Key="M" Modifiers="Ctrl+Alt" CommandParameter="Macros" />
         <KeyBinding Command="local:MainWindow.ShellWindow" Key="V" Modifiers="Ctrl+Alt" CommandParameter="Variables" />
         <KeyBinding Command="local:MainWindow.ShellWindow" Key="D" Modifiers="Ctrl+Alt" CommandParameter="Directions" />
+        <KeyBinding Command="local:MainWindow.FocusByName" Key="I" Modifiers="Ctrl" CommandParameter="TextInput" />
         <KeyBinding Command="local:MainWindow.LoadPlugin" Key="P" Modifiers="Ctrl+Alt" />
+        <KeyBinding Command="local:MainWindow.Find" Key="F" Modifiers="Ctrl" />
         <KeyBinding Command="local:MainWindow.EditLastItem" Key="L" Modifiers="Ctrl+Alt" />
         <KeyBinding Command="local:MainWindow.SelectElement" Key="D1" Modifiers="Ctrl" CommandParameter="CustomTab1" />
         <KeyBinding Command="local:MainWindow.SelectElement" Key="D2" Modifiers="Ctrl" CommandParameter="CustomTab2" />
         <KeyBinding Command="local:MainWindow.SelectElement" Key="D3" Modifiers="Ctrl" CommandParameter="CustomTab3" />
         <KeyBinding Command="local:MainWindow.FontSizeChange" Key="OemPlus" Modifiers="Ctrl" CommandParameter="+" />
         <KeyBinding Command="local:MainWindow.FontSizeChange" Key="OemMinus" Modifiers="Ctrl" CommandParameter="-" />
-        <KeyBinding Command="local:MainWindow.Find" Key="F" Modifiers="Ctrl" />
     </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>

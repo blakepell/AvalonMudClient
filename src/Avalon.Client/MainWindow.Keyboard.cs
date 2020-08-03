@@ -293,6 +293,11 @@ namespace Avalon
         public static readonly RoutedUICommand Find = new RoutedUICommand("Find", "Find", typeof(MainWindow));
 
         /// <summary>
+        /// For handling to focus elements from hot keys.
+        /// </summary>
+        public static readonly RoutedUICommand FocusByName = new RoutedUICommand("FocusByName", "FocusByName", typeof(MainWindow));
+
+        /// <summary>
         /// For handling hot keys to shell various known windows.
         /// </summary>
         public static readonly RoutedUICommand ShellWindow = new RoutedUICommand("ShellWindow", "ShellWindow", typeof(MainWindow));
@@ -306,6 +311,24 @@ namespace Avalon
         {
             var param = (string)e.Parameter;
             await Utilities.WindowManager.ShellWindow(param);
+        }
+
+        /// <summary>
+        /// Focuses an known element by name.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FocusByNameInternal(object sender, ExecutedRoutedEventArgs e)
+        {
+            var param = (string)e.Parameter;
+
+            if (string.IsNullOrWhiteSpace(param))
+            {
+                return;
+            }
+
+            var element = this.FindDescendantByName(param);
+            element?.Focus();
         }
 
         /// <summary>
