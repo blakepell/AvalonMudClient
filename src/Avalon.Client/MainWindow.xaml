@@ -11,14 +11,15 @@
         xmlns:providers="clr-namespace:Avalon.Controls.AutoCompleteTextBox"
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:sqlite="clr-namespace:Avalon.Sqlite;assembly=Avalon.Sqlite"
-        ui:WindowHelper.UseModernWindowStyle="True" 
+        ui:WindowHelper.UseModernWindowStyle="False" 
         x:Name="mainPage" TextOptions.TextFormattingMode="Ideal"
         ui:TitleBar.Background="#1E1E1E"
         Loaded="MainWindow_Loaded"
         UseLayoutRounding="True" SnapsToDevicePixels="True"
         PreviewKeyDown="MainWindow_OnPreviewKeyDown"
         Activated="MainWindow_Activated"
-        ResizeMode="CanResize" AllowsTransparency="True" WindowStyle="None" BorderThickness=".9" BorderBrush="Gray" Style="{DynamicResource WindowChrome}"
+        SizeChanged="MainPage_SizeChanged"
+        ResizeMode="CanResize" AllowsTransparency="True" WindowStyle="None" BorderThickness=".9" BorderBrush="#444444" Style="{DynamicResource WindowChrome}"
         >
     <Window.Resources>
         <providers:AutoCompleteCommandProvider x:Key="AutoCompleteCommandProvider"/>

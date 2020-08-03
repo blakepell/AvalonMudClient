@@ -470,6 +470,9 @@ namespace Avalon
             Terminal2.ScrollToLastLine();
             Terminal3.ScrollToLastLine();
 
+            // Apply the border settings by trigger the SizeChanged event.
+            this.MainPage_SizeChanged(null, null);
+
             // Grid Layout
             LoadGridState();
         }
@@ -1426,6 +1429,43 @@ namespace Avalon
                 if (navMenuItem != null)
                 {
                     await navMenuItem.ExecuteAsync();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Logic to handle when the UI changes.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <remarks>
+        /// With a no border window WPF will maximize the window 8 pixels (4 on each side) wider than the actual
+        /// screen.  The result is that the window extends slightly off the edges of the monitor.  As a result, we're
+        /// going to apply a thickness of the border depending on whether the Window is maximized or not.
+        /// </remarks>
+        private void MainPage_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (App.Settings.AvalonSettings.ShowMainWindowBorder)
+            {
+                if (this.WindowState == WindowState.Maximized)
+                {
+                    // 6 if no border
+                    this.BorderThickness = new Thickness(8);
+                }
+                else
+                {
+                    this.BorderThickness = new Thickness(1);
+                }
+            }
+            else
+            {
+                if (this.WindowState == WindowState.Maximized)
+                {
+                    this.BorderThickness = new Thickness(6);
+                }
+                else
+                {
+                    this.BorderThickness = new Thickness(0);
                 }
             }
         }

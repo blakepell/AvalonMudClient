@@ -81,6 +81,11 @@ namespace Avalon.Common.Settings
         }
 
         [CategoryAttribute("UI")]
+        [DescriptionAttribute("Whether the main window should have a border.")]
+        [Browsable(true)]
+        public bool ShowMainWindowBorder { get; set; } = false;
+
+        [CategoryAttribute("UI")]
         [DescriptionAttribute("The font size that should be used in the terminal panels.")]
         [Browsable(true)]
         public int TerminalFontSize { get; set; } = 13;
