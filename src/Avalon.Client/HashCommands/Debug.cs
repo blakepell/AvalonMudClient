@@ -37,15 +37,19 @@ namespace Avalon.HashCommands
             //    SecondaryButtonVisibility = Visibility.Collapsed
             //};
 
-            var win = new Avalon.Shell(new VariableList(), null)
-            {
-                HeaderTitle = "Variables",
-                HeaderIcon = ModernWpf.Controls.Symbol.Account,
-                SecondaryButtonVisibility = Visibility.Collapsed
-            };
+            var win = new DirectionsSelectWindow();
+            win.Owner = App.MainWindow;
+            win.ShowDialog();
 
-            win.SetSizeAndPosition(.85);
-            win.Show();
+            //var win = new Avalon.Shell(new VariableList(), null)
+            //{
+            //    HeaderTitle = "Variables",
+            //    HeaderIcon = ModernWpf.Controls.Symbol.Account,
+            //    SecondaryButtonVisibility = Visibility.Collapsed
+            //};
+
+            //win.SetSizeAndPosition(.85);
+            //win.Show();
 
             //App.MainWindow.VariableRepeater.Bind();
             //var win = this.Interpreter.Conveyor.WindowList.FirstOrDefault(x => x.WindowType == Common.Models.WindowType.CompassWindow) as CompassWindow;

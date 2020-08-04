@@ -33,6 +33,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Media\SearchIconBlack.png" />
+    <None Remove="Media\SearchIconWhite.png" />
     <None Remove="Resources\LuaDarkTheme.xshd" />
     <None Remove="Resources\LuaLightTheme.xshd" />
   </ItemGroup>
@@ -80,6 +82,11 @@
 
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Media\SearchIconBlack.png" />
+    <Resource Include="Media\SearchIconWhite.png" />
   </ItemGroup>
 
   <ItemGroup>

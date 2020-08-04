@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Avalon.Controls
 {
@@ -29,9 +30,32 @@ namespace Avalon.Controls
         public static readonly DependencyProperty HasFocusProperty =
             DependencyProperty.Register(nameof(HasFocus), typeof(bool), typeof(SearchBox), new PropertyMetadata(false));
 
+        public SolidColorBrush BorderSelectionColor 
+        {
+            get { return (SolidColorBrush)GetValue(BorderSelectionColorProperty); }
+            set { SetValue(BorderSelectionColorProperty, value); }
+        }
+
+        public static readonly DependencyProperty BorderSelectionColorProperty =
+            DependencyProperty.Register(nameof(BorderSelectionColor), typeof(SolidColorBrush), typeof(TextBox), new PropertyMetadata((SolidColorBrush)(new BrushConverter().ConvertFrom("#007ACC"))));
+
+        new public double Height
+        {
+            get { return (double)GetValue(HeightProperty); }
+            set { SetValue(HeightProperty, value); }
+        }
+
+        new public static readonly DependencyProperty HeightProperty =
+            DependencyProperty.Register("Height", typeof(double), typeof(SearchBox), new PropertyMetadata(28.0));
+
         static SearchBox()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SearchBox), new FrameworkPropertyMetadata(typeof(SearchBox)));
+        }
+
+        public override void BeginInit()
+        {
+            base.BeginInit();
         }
 
         public override void OnApplyTemplate()
