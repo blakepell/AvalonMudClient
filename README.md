@@ -32,12 +32,12 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
  - Aliases
  - Triggers (simple and regular expression)
  - Macros
- - LUA (LUA can be inlined as alias or trigger commands with extended UI commands exposed)
- - Colored syntax editor for LUA
+ - LUA (LUA can be inlined as the output of an alias or a trigger)
+ - Colored syntax editor for LUA with intellisense (code completion) for all of the extended API's.
  - 4K monitor support / responsive UI design.
  - Touch screen friendly.
- - SQLite Database Builtin.  Database/query editor with a color coded editor and auto completion built in.
- - Profiles can be used for multiple characters (any trigger or alias can be set to only run for certain characters)
+ - SQLite Database Builtin with syntax highlighted query editor.  Database/query editor with a color coded editor and auto completion built in.
+ - Profiles can be used for multiple characters (any trigger or alias can be set to only run for certain characters).
  - Directions support
  - Global variable support in and outside of LUA that persists beyond mud sessions (Avalon also has temp variable support). 
  - Plugin ability (extend Avalon by writing your own C# or Lua plugins)
@@ -45,7 +45,7 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
  - Tick support.
  - Gagging, redirection and custom information panels.
  - Regular Expression tester.
-
+ 
 ### Open Source Libraries used in Avalon
 
  - [AvalonEdit](https://github.com/icsharpcode/AvalonEdit) (MIT)
@@ -73,9 +73,9 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
 
 ### Brief commentary
 
-I've been in the mud community since the mid 1990's, when I began with playing muds I briefly started on a mud called Moosehead Sled which is of note in MUD history as it served as a beta site for the ROM 2.3 codebase.  Shortly after I began playing a mud called Dark and Shattered Lands (dsl-mud.org) which I also coded for from the end of 1998 until sometime in 2004.  It is the mud I consider home where I have made many wonderful friends some of which I've known for over 20 years now.  After 10 years of not playing any MUD I came back in 2014.  That noted, my goal is to code this client in a way that it can be used for all MUDS/MUSH/MUCK games but in practice I use it for play on dsl-mud.org which is a Diku/Merc/ROM derivative mud.  The examples that I provide in regards to plugins, packages etc. will be centered around that game but should be applicable anywhere.
+I've been in the mud community since the mid 1990's.  The first mud I began playing on (briefly) was Moosehead Sled which is of note in MUD history as it served as a beta site for the ROM 2.3 codebase.  Shortly after I followed a number of players there to a new mud called Dark and Shattered Lands (dsl-mud.org) which I also coded for from the end of 1998 until sometime in 2004.  It is the mud I consider home where I have made many wonderful friends some of which I've known for over 23 or so years now.  After 10 years of not playing any MUD I came back in 2014.  That noted, my goal is to code this client in a way that it can be used for all MUDS/MUSH/MUCK games but in practice I use it for play on dsl-mud.org which is a Diku/Merc/ROM derivative mud.  The examples that I provide in regards to plugins, packages etc. will be centered around that game but should be applicable anywhere.
 
-I welcome requests, suggestions, feature requests, bug reports, etc. but this is not the venue to have dialog about the game that I play which is often used as the example I provide.  The mudding community is passionate about the games they play I don't intend to get into conversation about the pros and cons of any specific mud or how they are administered unless it's about how this client interacts with them.  I don't say that to be rude but to point out that there are better venues for those conversations and this is not that venue.  For me, this client is a labor of love and I hope that other folks can find find it useful.
+I welcome requests, suggestions, feature requests, bug reports, collaboration etc. but this is not the venue to have dialog about the game that I play which is often used as the example I provide.  The mudding community is passionate about the games they play I don't intend to get into conversation about the pros and cons of any specific mud or how they are administered unless it's about how this client interacts with them.  I don't say that to be rude but to point out that there are better venues for those conversations and this is not that venue.  For me, this client is a labor of love and I hope that other folks can find find it useful.
 
 ### Recognition / Thank you to testers
 

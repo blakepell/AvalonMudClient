@@ -32,12 +32,13 @@
 3. `Control+Alt+M` will open the edit macros window.
 4. `Control+Alt+D` will open the edit directions window.
 5. `Control+Alt+V` will open the edit variables window.
-6. `Control+I` will put the focus on the input box.
-7. `Control+Tab` will switch between the main tabs at the top.
-8. `Control+F` will put the focus on the search text box on supported windows.
-9. `Control+1`, `Control+2`, `Control+3` will jump to each of the custom tabs.
-10. `Page Up` and `Page Down` will activate and scroll through the back buffer when the input box is active.
-11. `Escape` will clear the input box as well as close the back buffer.
-12. `Control+Alt+L` will open the editor for the last trigger or alias you edited.
-13. `Control++` Control and the plus key will make the terminal font size larger.
-14. `Control+-` Control and the minus key will make the terminal font size larger.
+6. `Control+D` will open a special search window with directions.  This direction list will only list directions that work from the current room you're in. The `Room` variable having to be set in some capacity.  In typical Diku/Merc/Smaug/Room muds this can either be put into the prompt of your game or scraped from the in game input with a trigger.
+7. `Control+I` will put the focus on the input box.
+8. `Control+Tab` will switch between the main tabs at the top.
+9. `Control+F` will put the focus on the search text box on supported windows.
+10. `Control+1`, `Control+2`, `Control+3` will jump to each of the custom tabs.
+11. `Page Up` and `Page Down` will activate and scroll through the back buffer when the input box is active.
+12. `Escape` will clear the input box as well as close the back buffer.
+13. `Control+Alt+L` will open the editor for the last trigger or alias you edited.
+14. `Control++` Control and the plus key will make the terminal font size larger.
+15. `Control+-` Control and the minus key will make the terminal font size larger.

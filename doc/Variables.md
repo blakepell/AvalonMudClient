@@ -34,6 +34,29 @@ The above trigger would match the following prompt.  It would set each of the na
 |@Username|The username of the person currently logged into the computer|
 |@Date|The currently date in a time friendly format.|
 
+### Variable Repeater
+
+On the main window of the mud client there is a variable repeater.  It can be made visible or not visible on the `...` menu in the upper right hand area of the mud client.  When a CLR variable is created you can edit it via the `Variables` window which can be accessed via the `Edit->Edit Variables` menu or by pressing the `Control+Alt+V` hot key.  By check the `Visible` check box on the variable you want it will then always show with it's updated value on the main mud window making it a handy way to show important game data.  Those variables can be sorted via the `Display Order` value.  The order will be `Display Order` lowest to highest then alphabetical.  If all `Display Order` values are 0 then the sort defaults alphabetical.
+
+### Important Variables of Note
+
+The following variables have special importance in the mud client and when sent enable special functionality.
+
+|Variable|Description|
+|--------|-----------|
+|Room|The room name your character is in.  This allows for the game to pull walking paths from the `Directions` you've input that are walkable from the room you're in.|
+|Character|The name of the character you're currently playing.  Having the character name set allows you to have aliases and triggers that only run for that specific character, effecitvly allowing you to use a single profile for multiple characters.|
+|Health|The *current* HP or hit points your character has.|
+|MaxHealth|The *maximum* HP or hit points your chracter has.|
+|Mana|The *current* MANA or magic your character has.|
+|MaxMana|The *maximum* MANA or magic your character has.|
+|Move|The *current* MOVE or movement your character has.|
+|MaxMove|The *maximum* MOVE or movement your character has.|
+|Stance|The battle stance your chracter is in, may not apply to many muds but can be used to surface other varibles to the InfoBar.|
+|ExitsShort|The exits to the room in short format (NSEW)|
+
+Once these are set the `#update-info-bar` hash command can be called to update the InfoBar.  This bar does not currently real-time bind although that might be something that is considered in the future.
+
 ### Lua Global Variable Example:
 
 ```
