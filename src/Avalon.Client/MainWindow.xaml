@@ -87,6 +87,7 @@
         <KeyBinding Command="local:MainWindow.ShellWindow" Key="V" Modifiers="Ctrl+Alt" CommandParameter="Variables" />
         <KeyBinding Command="local:MainWindow.ShellWindow" Key="D" Modifiers="Ctrl+Alt" CommandParameter="Directions" />
         <KeyBinding Command="local:MainWindow.FocusByName" Key="I" Modifiers="Ctrl" CommandParameter="TextInput" />
+        <KeyBinding Command="local:MainWindow.ShellWindow" Key="D" Modifiers="Ctrl" CommandParameter="Directions Select" />
         <KeyBinding Command="local:MainWindow.LoadPlugin" Key="P" Modifiers="Ctrl+Alt" />
         <KeyBinding Command="local:MainWindow.Find" Key="F" Modifiers="Ctrl" />
         <KeyBinding Command="local:MainWindow.EditLastItem" Key="L" Modifiers="Ctrl+Alt" />

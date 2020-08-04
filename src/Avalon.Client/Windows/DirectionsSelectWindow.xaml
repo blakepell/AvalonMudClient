@@ -12,15 +12,6 @@
         Height="300" Width="400" WindowStartupLocation="CenterOwner"
         BorderThickness="0" BorderBrush="#007ACC">
     <Grid>
-        <!--<Grid.Resources>
-            <Style x:Key="TextBoxStyle" TargetType="TextBox">
-                <Style.Triggers>
-                    <Trigger Property="IsSelectionActive" Value="True">
-                        <Setter Property="FontFamily" Value="Courier New"></Setter>
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-        </Grid.Resources>-->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
@@ -29,27 +20,20 @@
         <controls:SearchBox x:Name="TextBoxSearch"
                             Grid.Row="0" BorderSelectionColor="#444444"
                             FontSize="18" Height="40" Padding="5"
-                            Margin="0,0,0,0"></controls:SearchBox>
+                            Margin="0,0,0,0"
+                            TextChanged="TextBoxSearch_TextChanged"
+                            PreviewKeyDown="TextBoxSearch_PreviewKeyDown"
+                            ></controls:SearchBox>
 
-        <ListBox Grid.Row="1">  
-            <ListBoxItem Margin="0,0,15,0">The Cross Roads</ListBoxItem>
-            <ListBoxItem>The Cross Roads</ListBoxItem>
-            <ListBoxItem>The Cross Roads</ListBoxItem>
-            <ListBoxItem>The Cross Roads</ListBoxItem>
-            <ListBoxItem>The Cross Roads</ListBoxItem>
-            <ListBoxItem>The Cross Roads</ListBoxItem>
-            <ListBoxItem>The Cross Roads</ListBoxItem>
-            <ListBoxItem>The Cross Roads</ListBoxItem>
-            <ListBoxItem>The Cross Roads</ListBoxItem>
-            <ListBoxItem>The Cross Roads</ListBoxItem>
-            <ListBoxItem>The Cross Roads</ListBoxItem>
-            <ListBoxItem>The Cross Roads</ListBoxItem>
-            <ListBoxItem>The Cross Roads</ListBoxItem>
-            <ListBoxItem>The Cross Roads</ListBoxItem>
-            <ListBoxItem>The Cross Roads</ListBoxItem>
-            <ListBoxItem>The Cross Roads</ListBoxItem>
-            <ListBoxItem>The Cross Roads</ListBoxItem>
-            <ListBoxItem>The Cross Roads</ListBoxItem>
+        <ListBox x:Name="ListBoxDirections" Grid.Row="1">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <!--<ListBoxItem Margin="0,0,15,0">The Cross Roads</ListBoxItem>-->
         </ListBox>
     </Grid>
 </Window>

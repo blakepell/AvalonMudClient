@@ -1,6 +1,7 @@
 ﻿using Avalon.Common.Models;
 using Avalon.Controls;
 using Avalon.Sqlite;
+using Avalon.Windows;
 using ModernWpf.Controls;
 using System;
 using System.Linq;
@@ -32,7 +33,16 @@ namespace Avalon.Utilities
                 return;
             }
 
-            if (windowName == "Variables")
+            if (windowName == "Directions Select")
+            {
+                var win = new DirectionsSelectWindow
+                {
+                    Owner = App.MainWindow
+                };
+
+                win.ShowDialog();
+            }
+            else if (windowName == "Variables")
             {
                 var win = new Shell(new VariableList(), null)
                 {
