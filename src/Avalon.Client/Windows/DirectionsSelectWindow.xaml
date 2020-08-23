@@ -25,7 +25,7 @@
                             PreviewKeyDown="TextBoxSearch_PreviewKeyDown"
                             ></controls:SearchBox>
 
-        <ListBox x:Name="ListBoxDirections" Grid.Row="1">
+        <ListBox x:Name="ListBoxDirections" Grid.Row="1" PreviewMouseLeftButtonUp="ListBoxDirections_PreviewMouseLeftButtonUp">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>

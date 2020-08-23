@@ -217,6 +217,29 @@ namespace Avalon.Windows
         }
 
         /// <summary>
+        /// Handle if an item is clicked on with the mouse.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ListBoxDirections_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (ListBoxDirections?.SelectedItem == null)
+            {
+                return;
+            }
+
+            var direction = ((Direction)ListBoxDirections?.SelectedItem)?.Speedwalk;
+
+            if (!string.IsNullOrWhiteSpace(direction))
+            {
+                App.MainWindow.Interp.Send($"#walk {direction}");
+            }
+
+            _forceClose = true;
+            this.Close();
+        }
+
+        /// <summary>
         /// Decrements the position in the list box.
         /// </summary>
         private void DecrementSelection()
@@ -228,6 +251,11 @@ namespace Avalon.Windows
             else
             {
                 ListBoxDirections.SelectedIndex -= 1;
+            }
+
+            if (ListBoxDirections.SelectedItem != null)
+            {
+                ListBoxDirections.ScrollIntoView(ListBoxDirections.SelectedItem);
             }
         }
 
@@ -243,6 +271,11 @@ namespace Avalon.Windows
             else
             {
                 ListBoxDirections.SelectedIndex += 1;
+            }
+
+            if (ListBoxDirections.SelectedItem != null)
+            {
+                ListBoxDirections.ScrollIntoView(ListBoxDirections.SelectedItem);
             }
         }
 
