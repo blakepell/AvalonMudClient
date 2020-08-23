@@ -1,11 +1,8 @@
-﻿using Argus.ComponentModel;
-using Avalon.Common.Models;
-using Avalon.Extensions;
+﻿using Avalon.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -253,6 +250,7 @@ namespace Avalon.Windows
                 ListBoxDirections.SelectedIndex -= 1;
             }
 
+            // Since the selected item was changed programmatically, scroll it into view.
             if (ListBoxDirections.SelectedItem != null)
             {
                 ListBoxDirections.ScrollIntoView(ListBoxDirections.SelectedItem);
@@ -273,6 +271,7 @@ namespace Avalon.Windows
                 ListBoxDirections.SelectedIndex += 1;
             }
 
+            // Since the selected item was changed programmatically, scroll it into view.
             if (ListBoxDirections.SelectedItem != null)
             {
                 ListBoxDirections.ScrollIntoView(ListBoxDirections.SelectedItem);
