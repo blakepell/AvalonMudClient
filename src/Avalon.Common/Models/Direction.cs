@@ -1,8 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel;
 
 namespace Avalon.Common.Models
 {
+    /// <summary>
+    /// Represents a path from one room to another.
+    /// </summary>
     public class Direction : ICloneable, INotifyPropertyChanged
     {
         public Direction()
@@ -23,10 +27,17 @@ namespace Avalon.Common.Models
             this.StartingRoom = startingRoom;
         }
 
+        /// <summary>
+        /// The friendly name of the direction.
+        /// </summary>
         public string Name { get; set; } = "";
+
 
         private string _speedwalk = "";
 
+        /// <summary>
+        /// The directions to speed walk from one point to another.
+        /// </summary>
         public string Speedwalk
         {
             get
@@ -40,12 +51,25 @@ namespace Avalon.Common.Models
             }
         }
 
+        /// <summary>
+        /// The name of the starting room.  This is important to be correct as the StartingRoom and EndingRoom
+        /// are used in tandem to combine sets of directions.
+        /// </summary>
         public string StartingRoom { get; set; } = "";
+
+        /// <summary>
+        /// The name of the ending room.  This is important to be correct as the StartingRoom and EndingRoom
+        /// are used in tandem to combine sets of directions.
+        /// </summary>
+        public string EndingRoom { get; set; } = "";
 
         /// <summary>
         /// Whether or not the direction can be auto-updated.
         /// </summary>
         public bool Lock { get; set; } = false;
+
+        [JsonIgnore]
+        public int DegreeOfSeparation { get; set; } = 0;
 
         /// <summary>
         /// Clones the direction.

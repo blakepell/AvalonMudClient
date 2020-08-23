@@ -1,6 +1,11 @@
-﻿using Avalon.Common.Models;
+﻿using Argus.ComponentModel;
+using Avalon.Common.Models;
+using Avalon.Extensions;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -17,7 +22,12 @@ namespace Avalon.Windows
         /// <summary>
         /// The internal filter for the directions.
         /// </summary>
-        ICollectionView _view = CollectionViewSource.GetDefaultView(App.Settings.ProfileSettings.DirectionList);
+        ICollectionView _view;
+
+        /// <summary>
+        /// The list of directions that we build from the current location.
+        /// </summary>
+        private List<Direction> DirectionList { get; set; }
 
         private bool _forceClose = false;
 
@@ -36,9 +46,79 @@ namespace Avalon.Windows
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            this.DirectionList = new List<Direction>();
+
+            this.BuildDirections();
+
+            _view = CollectionViewSource.GetDefaultView(this.DirectionList);
             _view.Filter = CustomerFilter;
             ListBoxDirections.ItemsSource = _view;
             TextBoxSearch.Focus();
+        }
+
+        /// <summary>
+        /// Builds a list of directions attempting to link together known directions to find more paths.
+        /// </summary>
+        public void BuildDirections()
+        {
+            string room = App.Conveyor.GetVariable("Room");
+
+            this.DirectionList.Clear();
+
+            // Exact matches
+            foreach (var item in App.Settings.ProfileSettings.DirectionList.Where(x => x.StartingRoom.Equals(room, StringComparison.OrdinalIgnoreCase)))
+            {
+                var dir = (Direction)item.Clone();
+                dir.DegreeOfSeparation = 1;
+                this.DirectionList.Add(dir);
+            }
+
+            // TODO: Make this a setting.
+            // Now, go through multiple depths trying to build new sets of directions.  If no paths are found at
+            // a given depth we can exit ahead of schedule.
+            int depth = 5;
+
+            for (int i = 2; i <= depth; i++)
+            {
+                var tempList = new List<Direction>();
+                bool found = false;
+
+                foreach (var item in this.DirectionList)
+                {
+                    foreach (var path in App.Settings.ProfileSettings.DirectionList.Where(x => x.StartingRoom.Equals(item.EndingRoom)))
+                    {
+                        if (path.EndingRoom.Equals(room, StringComparison.OrdinalIgnoreCase))
+                        {
+                            continue;
+                        }
+
+                        if (this.DirectionList.Exists(x => path.EndingRoom.Equals(x.EndingRoom)))
+                        {
+                            continue;
+                        }
+
+                        found = true;
+
+                        var newPath = (Direction)path.Clone();
+                        newPath.StartingRoom = item.StartingRoom;
+                        newPath.Speedwalk = $"{item.Speedwalk} {newPath.Speedwalk}";
+                        newPath.DegreeOfSeparation = i;
+                        tempList.Add(newPath);
+                    }
+                }
+
+                if (!found)
+                {
+                    break;
+                }
+
+                this.DirectionList.AddRange(tempList);
+            }
+
+            //var sb = new StringBuilder();
+            //App.Conveyor.EchoText($"{this.DirectionList.Count} paths found.\r\n");
+            //this.DirectionList.ForEach(x => sb.AppendFormat("Tier {0} => {1}: {2}\r\n", x.DegreeOfSeparation, x.Name, x.Speedwalk));
+            //App.Conveyor.EchoText(sb.ToString());
         }
 
         /// <summary>
@@ -80,14 +160,11 @@ namespace Avalon.Windows
                 return false;
             }
 
-            string room = App.Conveyor.GetVariable("Room");
-
             // Filter by the current room AND by the text the user has typed.
-            if (dir.StartingRoom.Equals(room, StringComparison.OrdinalIgnoreCase) && dir.Name.Contains(TextBoxSearch.Text, StringComparison.OrdinalIgnoreCase))
+            if (dir.Name.Contains(TextBoxSearch.Text, StringComparison.OrdinalIgnoreCase))
             {
                 return true;
             }
-
 
             return false;
         }
@@ -127,13 +204,13 @@ namespace Avalon.Windows
                     return;
                 }
 
-                string direction = ((Direction)ListBoxDirections?.SelectedItem)?.Name;
+                var direction = ((Direction)ListBoxDirections?.SelectedItem)?.Speedwalk;
 
-                if (direction != null)
+                if (!string.IsNullOrWhiteSpace(direction))
                 {
-                    App.MainWindow.Interp.Send($"#go {direction}");
+                    App.MainWindow.Interp.Send($"#walk {direction}");
                 }
-                
+
                 _forceClose = true;
                 this.Close();
             }

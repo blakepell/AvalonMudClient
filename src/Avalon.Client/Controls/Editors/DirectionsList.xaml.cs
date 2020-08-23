@@ -62,12 +62,10 @@ namespace Avalon.Controls
             // Load the direction list the first time that it's requested.
             if (DataList.ItemsSource == null)
             {
-                var lcv = new ListCollectionView(App.Settings.ProfileSettings.DirectionList)
+                DataList.ItemsSource = new ListCollectionView(App.Settings.ProfileSettings.DirectionList)
                 {
                     Filter = Filter
                 };
-
-                DataList.ItemsSource = lcv;
             }
 
             // Nothing should be selected at the start.
