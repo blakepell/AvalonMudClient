@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Argus.Extensions;
 using System.Text;
 using System.Linq;
+using ICSharpCode.AvalonEdit;
 
 namespace Avalon
 {
@@ -105,6 +106,11 @@ namespace Avalon
                 {
                     SetupExceptionHandling();
                 }
+
+                // Remove "Control+D" from the AvalonEdit input gestures so our "Control+D" hot key for directions
+                // from the current room will work.
+                AvalonEditCommands.DeleteLine.InputGestures.Clear();
+
             }
             catch (Exception ex)
             {
