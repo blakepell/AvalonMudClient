@@ -53,11 +53,6 @@ namespace Avalon.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SearchBox), new FrameworkPropertyMetadata(typeof(SearchBox)));
         }
 
-        public override void BeginInit()
-        {
-            base.BeginInit();
-        }
-
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -85,8 +80,26 @@ namespace Avalon.Controls
                 case Key.Escape:
                     this.Text = string.Empty;
                     break;
+                case Key.Enter:
+                    SearchExecuted?.Invoke(this, new SearchEventArgs() { SearchText = this.Text });
+                    this.Text = "";
+                    break;
             }
         }
+
+        /// <summary>
+        /// A search event that can be subscribed to.
+        /// </summary>
+        public event EventHandler<SearchEventArgs> SearchExecuted;
+
+        /// <summary>
+        /// The event args for a search.
+        /// </summary>
+        public class SearchEventArgs
+        {
+            public string SearchText { get; set; }
+        }
+
         private void SearchButton_MouseLeftButtonUphandler(object sender, MouseButtonEventArgs e)
         {
             if (this.HasText)

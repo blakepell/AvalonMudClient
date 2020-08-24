@@ -159,6 +159,9 @@ namespace Avalon
 
                 // Wire up any events that have to be wired up through code.
                 TextInput.Editor.PreviewKeyDown += this.Editor_PreviewKeyDown;
+                
+                // Wire up what we're going to do for the search box.
+                TitleBar.SearchBox.SearchExecuted += this.SearchBox_SearchExecutedAsync;
 
                 // Pass the necessary reference from this page to the Interpreter.
                 Interp = new Interpreter(App.Conveyor);
@@ -233,6 +236,17 @@ namespace Avalon
                 App.Conveyor.EchoText(ex?.StackTrace?.ToString() ?? "No stack trace available.");
                 return;
             }
+        }
+
+        /// <summary>
+        /// What to do when the search box is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SearchBox_SearchExecutedAsync(object sender, SearchBox.SearchEventArgs e)
+        {
+            // TODO: Make this subscribable to the plugin system.
+            App.MainWindow.Interp.Send($"#wiki {e.SearchText}");
         }
 
         /// <summary>
