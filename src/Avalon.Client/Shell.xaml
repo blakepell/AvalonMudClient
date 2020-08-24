@@ -12,7 +12,7 @@
         Title="{Binding Path=HeaderTitle}" Height="600" Width="800"
         Closed="ShellWindow_Closed" Loaded="ShellWindow_Loaded"
         Style="{DynamicResource WindowChrome}"
-        Background="#1A1A1A" ResizeMode="CanResize" AllowsTransparency="True" WindowStyle="None" BorderThickness="0" BorderBrush="#1D7DD4"
+        Background="#1A1A1A" ResizeMode="CanResize" AllowsTransparency="True" WindowStyle="None" BorderThickness="1" BorderBrush="Gray"
         >
     <Window.Resources>
         <Style x:Key="WindowChrome">
