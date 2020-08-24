@@ -13,6 +13,12 @@ namespace Avalon.Controls
     /// </summary>
     public partial class WindowTitleBar : UserControl
     {
+
+        /// <summary>
+        /// Represents the parent window which will be found once and then cached for later usage.
+        /// </summary>
+        public MainWindow ParentWindow { get; set; }
+
         /// <summary>
         /// The title that should appear.
         /// </summary>
@@ -124,7 +130,7 @@ namespace Avalon.Controls
         {
             if (e.ChangedButton == MouseButton.Left)
             {
-                this.FindAscendant<Window>().DragMove();
+                this.ParentWindow.DragMove();
             }
         }
 
@@ -135,8 +141,7 @@ namespace Avalon.Controls
         /// <param name="e"></param>
         private void PART_SplitViewOpen_Click(object sender, RoutedEventArgs e)
         {
-            var win = this.FindAscendant<MainWindow>();
-            win.SplitViewMain.IsPaneOpen = !win.SplitViewMain.IsPaneOpen;
+            this.ParentWindow.SplitViewMain.IsPaneOpen = !this.ParentWindow.SplitViewMain.IsPaneOpen;
         }
 
         /// <summary>
@@ -146,8 +151,7 @@ namespace Avalon.Controls
         /// <param name="e"></param>
         private void PART_Close_Click(object sender, RoutedEventArgs e)
         {
-            var win = this.FindAscendant<Window>();
-            SystemCommands.CloseWindow(win);
+            SystemCommands.CloseWindow(this.ParentWindow);
         }
 
         /// <summary>
@@ -157,8 +161,7 @@ namespace Avalon.Controls
         /// <param name="e"></param>
         private void PART_Maximize_Click(object sender, RoutedEventArgs e)
         {
-            var win = this.FindAscendant<Window>();
-            SystemCommands.MaximizeWindow(win);
+            SystemCommands.MaximizeWindow(this.ParentWindow);
 
             this.ShowMaximizeButton = false;
             this.ShowRestoreButton = true;
@@ -171,8 +174,7 @@ namespace Avalon.Controls
         /// <param name="e"></param>
         private void PART_Minimize_Click(object sender, RoutedEventArgs e)
         {
-            var win = this.FindAscendant<Window>();
-            SystemCommands.MinimizeWindow(win);
+            SystemCommands.MinimizeWindow(this.ParentWindow);
         }
 
         /// <summary>
@@ -182,8 +184,7 @@ namespace Avalon.Controls
         /// <param name="e"></param>
         private void PART_Restore_Click(object sender, RoutedEventArgs e)
         {
-            var win = this.FindAscendant<Window>();
-            SystemCommands.RestoreWindow(win);
+            SystemCommands.RestoreWindow(this.ParentWindow);
 
             this.ShowMaximizeButton = true;
             this.ShowRestoreButton = false;
@@ -196,9 +197,8 @@ namespace Avalon.Controls
         /// <param name="e"></param>
         private void PART_Settings_Click(object sender, RoutedEventArgs e)
         {
-            var mainWin = this.FindAscendant<MainWindow>();
             var settingsWin = new SettingsWindow();
-            mainWin.ShowDialog(settingsWin);
+            this.ParentWindow.ShowDialog(settingsWin);
         }
 
         /// <summary>
@@ -212,18 +212,39 @@ namespace Avalon.Controls
             {
                 if (this.IsConnected == false)
                 {
-                    App.MainWindow.Connect();
+                    this.ParentWindow.Connect();
                 }
                 else
                 {
-                    App.MainWindow.Disconnect();
+                    this.ParentWindow.Disconnect();
                 }
             }
             catch (Exception ex)
             {
-                App.MainWindow.Interp.Conveyor.EchoLog($"Network Failure: {ex.Message}", LogType.Error);
+                this.ParentWindow.Interp.Conveyor.EchoLog($"Network Failure: {ex.Message}", LogType.Error);
             }
         }
 
+        /// <summary>
+        /// Updates the buttons on the UI to ensure the currect ones are shown.
+        /// </summary>
+        public void UpdateUI()
+        {
+            if (this.ParentWindow == null)
+            {
+                this.ParentWindow = this.FindAscendant<MainWindow>();
+            }
+
+            if (this.ParentWindow.WindowState == WindowState.Maximized)
+            {
+                this.ShowMaximizeButton = false;
+                this.ShowRestoreButton = true;
+            }
+            else if (this.ParentWindow.WindowState == WindowState.Normal)
+            {
+                this.ShowMaximizeButton = true;
+                this.ShowRestoreButton = false;
+            }
+        }
     }
 }

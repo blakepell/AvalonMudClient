@@ -484,6 +484,12 @@ namespace Avalon
             Terminal2.ScrollToLastLine();
             Terminal3.ScrollToLastLine();
 
+            // This will allow the main window to go maximize and not cover the task bar on the main window
+            // but will maximize over the task bar on 2nd monitors.
+            // TODO - Make this work on all monitors
+            this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
+            this.MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
+
             // Apply the border settings by trigger the SizeChanged event.
             this.MainPage_SizeChanged(null, null);
 
@@ -1459,6 +1465,9 @@ namespace Avalon
         /// </remarks>
         private void MainPage_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            // Make sure the maximize/restore buttons are correct when the window size changes.
+            TitleBar.UpdateUI();
+
             if (App.Settings.AvalonSettings.ShowMainWindowBorder)
             {
                 if (this.WindowState == WindowState.Maximized)
