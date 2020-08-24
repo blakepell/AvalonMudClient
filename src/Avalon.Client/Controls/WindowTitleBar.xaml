@@ -21,7 +21,7 @@
                     Click="PART_SplitViewOpen_Click">
             <ui:SymbolIcon Symbol="GlobalNavigationButton"></ui:SymbolIcon>
         </Button>
-                
+
         <!-- Sword Icon -->
         <Viewbox Height="24" Width="24" Margin="5, 0, 5, 0">
             <Path Data="{StaticResource Sword}" Stroke="White" Fill="#DADADA" RenderTransformOrigin=".5, .5">
@@ -91,17 +91,17 @@
                                             <Setter Property="Symbol" Value="DisconnectDrive" />
                                         </DataTrigger>
                                     </Style.Triggers>
-                                </Style>                                
+                                </Style>
                             </ui:SymbolIcon.Style>
                         </ui:SymbolIcon>
                     </Viewbox>
                 </Button>
 
                 <Button x:Name="PART_Settings"
-                Height="{Binding ButtonHeight, ElementName=Me}" Width="{Binding ButtonHeight, ElementName=Me}"
-                IsTabStop="False" WindowChrome.IsHitTestVisibleInChrome="True"
-                BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
-                ToolTip="Settings" Click="PART_Settings_Click">
+                        Height="{Binding ButtonHeight, ElementName=Me}" Width="{Binding ButtonHeight, ElementName=Me}"
+                        IsTabStop="False" WindowChrome.IsHitTestVisibleInChrome="True"
+                        BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
+                        ToolTip="Settings" Click="PART_Settings_Click">
                     <Viewbox Height="16" Width="16" Margin="0,0,0,0">
                         <ui:SymbolIcon Name="SettingsSymbol"
                                Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" Symbol="Setting" />
@@ -109,11 +109,11 @@
                 </Button>
 
                 <Button x:Name="PART_Minimize"
-                Height="{Binding ButtonHeight, ElementName=Me}" Width="{Binding ButtonHeight, ElementName=Me}"
-                IsTabStop="False" WindowChrome.IsHitTestVisibleInChrome="True"
-                BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
-                ToolTip="Minimize"
-                Click="PART_Minimize_Click">
+                        Height="{Binding ButtonHeight, ElementName=Me}" Width="{Binding ButtonHeight, ElementName=Me}"
+                        IsTabStop="False" WindowChrome.IsHitTestVisibleInChrome="True"
+                        BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
+                        ToolTip="Minimize"
+                        Click="PART_Minimize_Click">
                     <Path Data="{StaticResource Minimize}"
                                 Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}"                   
                                 HorizontalAlignment="Center" 
@@ -122,11 +122,11 @@
                                 SnapsToDevicePixels="True"/>
                 </Button>
                 <Button x:Name="PART_Maximize" Visibility="{Binding ShowMaximizeButton, ElementName=Me, Converter={StaticResource BoolToVisConverter}}"
-                    Height="{Binding ButtonHeight, ElementName=Me}" Width="{Binding ButtonHeight, ElementName=Me}"
-                    IsTabStop="False" WindowChrome.IsHitTestVisibleInChrome="True"
-                    BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
-                    ToolTip="Maximize"
-                    Click="PART_Maximize_Click">
+                        Height="{Binding ButtonHeight, ElementName=Me}" Width="{Binding ButtonHeight, ElementName=Me}"
+                        IsTabStop="False" WindowChrome.IsHitTestVisibleInChrome="True"
+                        BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
+                        ToolTip="Maximize"
+                        Click="PART_Maximize_Click">
                     <Path Data="{StaticResource Maximize}"
                                 Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}"                   
                                 HorizontalAlignment="Center" 
@@ -135,12 +135,12 @@
                                 SnapsToDevicePixels="True"/>
                 </Button>
                 <Button x:Name="PART_Restore"
-                    Height="{Binding ButtonHeight, ElementName=Me}" Width="{Binding ButtonHeight, ElementName=Me}"
-                    Visibility="{Binding ShowRestoreButton, ElementName=Me, Converter={StaticResource BoolToVisConverter}}"
-                    IsTabStop="False" WindowChrome.IsHitTestVisibleInChrome="True"
-                    BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
-                    ToolTip="Maximize"
-                    Click="PART_Restore_Click">
+                        Height="{Binding ButtonHeight, ElementName=Me}" Width="{Binding ButtonHeight, ElementName=Me}"
+                        Visibility="{Binding ShowRestoreButton, ElementName=Me, Converter={StaticResource BoolToVisConverter}}"
+                        IsTabStop="False" WindowChrome.IsHitTestVisibleInChrome="True"
+                        BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
+                        ToolTip="Maximize"
+                        Click="PART_Restore_Click">
                     <Path Data="{StaticResource Restore}"                  
                                 Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}"                   
                                 HorizontalAlignment="Center" 
@@ -149,10 +149,10 @@
                                 SnapsToDevicePixels="True"/>
                 </Button>
                 <Button x:Name="PART_Close"
-                    Height="{Binding ButtonHeight, ElementName=Me}" Width="{Binding ButtonHeight, ElementName=Me}"
-                    IsTabStop="False" WindowChrome.IsHitTestVisibleInChrome="True"
-                    BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
-                    ToolTip="Close" Click="PART_Close_Click">
+                        Height="{Binding ButtonHeight, ElementName=Me}" Width="{Binding ButtonHeight, ElementName=Me}"
+                        IsTabStop="False" WindowChrome.IsHitTestVisibleInChrome="True"
+                        BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
+                        ToolTip="Close" Click="PART_Close_Click">
                     <Path Data="{StaticResource Close}"
                                 Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" 
                                 HorizontalAlignment="Center" 
@@ -161,7 +161,6 @@
                                 SnapsToDevicePixels="True"/>
                 </Button>
             </StackPanel>
-
         </StackPanel>
     </DockPanel>
 </UserControl>

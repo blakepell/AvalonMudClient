@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         xmlns:ui="http://schemas.modernwpf.com/2019"        
         ui:WindowHelper.UseModernWindowStyle="False"
-        xmlns:vm="clr-namespace:Avalon"
+        xmlns:vm="clr-namespace:Avalon" xmlns:controls="clr-namespace:Avalon.Controls"
         d:DataContext ="{d:DesignInstance {x:Type vm:DesignTimeViewModel}, IsDesignTimeCreatable=True}"
         Title="{Binding Path=HeaderTitle}" Height="600" Width="800"
         Closed="ShellWindow_Closed" Loaded="ShellWindow_Loaded"
@@ -29,16 +29,9 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="45"></RowDefinition>
         </Grid.RowDefinitions>
-        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Background="#111111" Grid.Row="0" MouseDown="StackPanel_MouseDown">
-            <Viewbox Height="15" Width="15" Margin="10,1,0,0">
-                <ui:SymbolIcon Foreground="#DADADA" Symbol="{Binding Path=HeaderIcon}" />
-            </Viewbox>
 
-            <Label Foreground="#DADADA" Content="{Binding Path=HeaderTitle}"
-                   FontWeight="Normal" FontStyle="Normal" FontFamily="Segoe UI" FontSize="15" 
-                   Margin="7,15,0,0"></Label>
-        </StackPanel>
-
+        <controls:ChildWindowTitleBar Grid.Row="0" Title="{Binding Path=HeaderTitle}"></controls:ChildWindowTitleBar>
+        
         <Border Grid.Row="1" Padding="10,0,10,10">
             <ContentControl x:Name="Container" x:FieldModifier="public" />
         </Border>

@@ -99,6 +99,9 @@
     <Page Update="Controls\VariableRepeater.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Controls\ChildWindowTitleBar.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\WindowTitleBar.xaml">
       <SubType>Designer</SubType>
     </Page>
