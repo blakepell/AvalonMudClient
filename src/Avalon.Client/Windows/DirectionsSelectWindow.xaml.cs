@@ -142,6 +142,13 @@ namespace Avalon.Windows
         private void TextBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             _view.Refresh();
+
+            // Anytime a key is pressed that isn't one of the above, re-select the first item int he list
+            if (ListBoxDirections.Items.Count > 0)
+            {
+                ListBoxDirections.SelectedItem = null;
+                ListBoxDirections.SelectedItem = ListBoxDirections.Items[0];
+            }
         }
 
         /// <summary>
@@ -196,6 +203,13 @@ namespace Avalon.Windows
             }
             else if (e.Key == Key.Enter)
             {
+                // In case the deactivate stops working, if the text box is empty and enter is hit close the window.
+                if (string.IsNullOrWhiteSpace(TextBoxSearch.Text))
+                {
+                    _forceClose = true;
+                    this.Close();
+                }
+
                 if (ListBoxDirections?.SelectedItem == null)
                 {
                     return;
