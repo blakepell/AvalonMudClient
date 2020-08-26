@@ -72,7 +72,7 @@ namespace Avalon
                 return "";
             }
 
-            if (text.Contains("@"))
+            if (text.Contains('@'))
             {
                 var sb = Argus.Memory.StringBuilderPool.Take();
 

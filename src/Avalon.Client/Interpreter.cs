@@ -62,9 +62,8 @@ namespace Avalon
             }
 
             _aliasRecursionDepth = 0;
-            var cmdList = ParseCommand(cmd);
 
-            foreach (string item in cmdList)
+            foreach (string item in ParseCommand(cmd))
             {
                 if (Telnet == null)
                 {
@@ -110,16 +109,16 @@ namespace Avalon
                     }
                     else
                     {
-                        var hashCmd = HashCommands.FirstOrDefault(x => x.Name == item.FirstWord());
+                        string firstWord = item.FirstWord();
+                        var hashCmd = HashCommands.Find(x => x.Name.Equals(firstWord, StringComparison.Ordinal));
 
                         if (hashCmd == null)
                         {
-                            Conveyor.EchoLog($"Hash command '{item.FirstWord()}' was not found.\r\n", LogType.Error);
+                            Conveyor.EchoLog($"Hash command '{firstWord}' was not found.\r\n", LogType.Error);
                         }
                         else
                         {
-                            string parameters = item.RemoveWord(1);
-                            hashCmd.Parameters = parameters;
+                            hashCmd.Parameters = item.RemoveWord(1);
 
                             if (hashCmd.IsAsync)
                             {
@@ -129,7 +128,6 @@ namespace Avalon
                             {
                                 hashCmd.Execute();
                             }
-
                         }
 
                     }
@@ -203,10 +201,9 @@ namespace Avalon
             string characterName = Conveyor.GetVariable("Character");
 
             // Split the list
-            var initialList = cmd.Split(';').ToList();
             var list = new List<string>();
-
-            foreach (var item in initialList)
+            
+            foreach (var item in cmd.Split(';'))
             {
                 var first = item.FirstArgument();
                 var alias = App.Settings.ProfileSettings.AliasList.FirstOrDefault(x => x.AliasExpression == first.Item1 && x.Enabled == true && (string.IsNullOrEmpty(x.Character) || x.Character == characterName));
@@ -258,7 +255,7 @@ namespace Avalon
 
                     // We have an alias, see if it's a simple alias where we put all of the text at the end or if
                     // it's one where we'll let the user place the words where they need to be.
-                    if (!alias.Command.Contains("%"))
+                    if (!alias.Command.Contains('%'))
                     {
                         list.AddRange(ParseCommand($"{alias.Command} {first.Item2}".Trim()));
                         _aliasRecursionDepth--;
@@ -348,7 +345,6 @@ namespace Avalon
         /// <summary>
         /// Returns the next item in history.
         /// </summary>
-        /// <returns></returns>
         public string InputHistoryNext()
         {
             if (InputHistoryPosition < InputHistory.Count - 1)
@@ -368,7 +364,6 @@ namespace Avalon
         /// <summary>
         /// Returns the current history position.
         /// </summary>
-        /// <returns></returns>
         public string InputHistoryCurrent()
         {
             return InputHistory[(InputHistory.Count - InputHistoryPosition) - 1];
@@ -377,7 +372,6 @@ namespace Avalon
         /// <summary>
         /// Returns the previous item in the history.
         /// </summary>
-        /// <returns></returns>
         public string InputHistoryPrevious()
         {
             if (InputHistoryPosition > 0)
