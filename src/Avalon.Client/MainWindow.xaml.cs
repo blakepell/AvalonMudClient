@@ -398,7 +398,7 @@ namespace Avalon
                     foreach (var item in plugin.HashCommands)
                     {
                         // Only add a hash command if it doesn't already exist.
-                        if (Interp.HashCommands.Any(x => x.Name.Equals(item.Name, StringComparison.OrdinalIgnoreCase)))
+                        if (!Interp.HashCommands.Any(x => x.Name.Equals(item.Name, StringComparison.OrdinalIgnoreCase)))
                         {
                             // Make sure it has a current reference to the interpreter.
                             item.Interpreter = this.Interp;
@@ -568,7 +568,7 @@ namespace Avalon
                 Content = message,
             };
 
-            return await dialog.ShowAsync().ConfigureAwait(false);
+            return await dialog.ShowAsync();
         }
 
         /// <summary>

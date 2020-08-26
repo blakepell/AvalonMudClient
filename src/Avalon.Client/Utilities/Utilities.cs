@@ -57,8 +57,6 @@ namespace Avalon.Utilities
             // Go through the StringBuilder backwards and remove any characters in our HashSet.
             for (int i = sb.Length - 1; i >= 0; i--)
             {
-                char temp = sb[i];
-
                 if (removeChars.Contains(sb[i]))
                 {
                     sb.Remove(i, 1);
@@ -80,7 +78,6 @@ namespace Avalon.Utilities
         /// </summary>
         /// <param name="value"></param>
         /// <param name="maxValue"></param>
-        /// <returns></returns>
         public static SolidColorBrush ColorPercent(int value, int maxValue)
         {
             if (value < (maxValue / 2))

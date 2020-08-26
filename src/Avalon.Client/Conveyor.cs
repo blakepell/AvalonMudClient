@@ -264,7 +264,7 @@ namespace Avalon
         /// <param name="windowName"></param>
         public void EchoText(string text, string windowName)
         {
-            var win = this.WindowList.FirstOrDefault(x => x.WindowType == WindowType.TerminalWindow && x.Name.Equals(windowName, StringComparison.Ordinal)) as TerminalWindow;
+            var win = this.WindowList.Find(x => x.WindowType == WindowType.TerminalWindow && x.Name.Equals(windowName, StringComparison.Ordinal)) as TerminalWindow;
 
             if (win == null)
             {
@@ -285,7 +285,7 @@ namespace Avalon
         /// <param name="windowName"></param>
         public void EchoText(Line line, string windowName)
         {
-            var win = this.WindowList.FirstOrDefault(x => x.WindowType == WindowType.TerminalWindow && x.Name.Equals(windowName, StringComparison.Ordinal)) as TerminalWindow;
+            var win = this.WindowList.Find(x => x.WindowType == WindowType.TerminalWindow && x.Name.Equals(windowName, StringComparison.Ordinal)) as TerminalWindow;
 
             if (win == null)
             {
@@ -592,7 +592,6 @@ namespace Avalon
         /// </summary>
         /// <param name="caption"></param>
         /// <param name="title"></param>
-        /// <returns></returns>
         public async Task<string> InputBox(string caption, string title)
         {
             var win = new InputBoxDialog
@@ -601,7 +600,7 @@ namespace Avalon
                 Caption = caption
             };
 
-            var result = await win.ShowAsync();
+            _ = await win.ShowAsync();
 
             return win.Text;
         }
@@ -611,7 +610,6 @@ namespace Avalon
         /// </summary>
         /// <param name="caption"></param>
         /// <param name="title"></param>
-        /// <returns></returns>
         public async Task<string> InputBox(string caption, string title, string prepopulateText)
         {
             var win = new InputBoxDialog
@@ -621,7 +619,7 @@ namespace Avalon
                 Text = prepopulateText
             };
 
-            var result = await win.ShowAsync();
+            _ = await win.ShowAsync();
 
             return win.Text;
         }
