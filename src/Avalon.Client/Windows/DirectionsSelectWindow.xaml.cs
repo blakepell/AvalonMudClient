@@ -48,7 +48,7 @@ namespace Avalon.Windows
             this.BuildDirections();
 
             _view = CollectionViewSource.GetDefaultView(this.DirectionList);
-            _view.Filter = CustomerFilter;
+            _view.Filter = DirectionsFilter;
             ListBoxDirections.ItemsSource = _view;
             TextBoxSearch.Focus();
         }
@@ -155,7 +155,7 @@ namespace Avalon.Windows
         /// Filters the list of directions based off of the Room name and then text that is entered into the text box.
         /// </summary>
         /// <param name="item"></param>
-        private bool CustomerFilter(object item)
+        private bool DirectionsFilter(object item)
         {
             var dir = item as Direction;
 
