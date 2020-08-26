@@ -133,13 +133,10 @@ namespace Avalon
                     App.Conveyor.EchoLog($"Profiles Folder: {App.Settings.AvalonSettings.SaveDirectory}", LogType.Information);
                 }
 
-                // Parse the command line arguments to see if a profile was specified.
-                var args = Environment.GetCommandLineArgs();
-
                 // Try to load the last profile loaded, if not found create a new profile.
                 if (File.Exists(App.Settings.AvalonSettings.LastLoadedProfilePath))
                 {
-                    await LoadSettings(App.Settings.AvalonSettings.LastLoadedProfilePath);
+                    this.LoadSettings(App.Settings.AvalonSettings.LastLoadedProfilePath);
                 }
                 else
                 {
@@ -233,7 +230,7 @@ namespace Avalon
             {
                 App.Conveyor.EchoLog("A critical error on startup occured.", LogType.Error);
                 App.Conveyor.EchoLog(ex.Message, LogType.Error);
-                App.Conveyor.EchoText(ex?.StackTrace?.ToString() ?? "No stack trace available.");
+                App.Conveyor.EchoText(ex?.StackTrace?? "No stack trace available.");
                 return;
             }
         }
@@ -253,7 +250,7 @@ namespace Avalon
         /// Loads the settings for the specified file.
         /// </summary>
         /// <param name="fileName"></param>
-        private async Task LoadSettings(string fileName)
+        private void LoadSettings(string fileName)
         {
             try
             {
@@ -401,7 +398,7 @@ namespace Avalon
                     foreach (var item in plugin.HashCommands)
                     {
                         // Only add a hash command if it doesn't already exist.
-                        if (Interp.HashCommands.Count(x => x.Name.Equals(item.Name, StringComparison.OrdinalIgnoreCase)) == 0)
+                        if (Interp.HashCommands.Any(x => x.Name.Equals(item.Name, StringComparison.OrdinalIgnoreCase)))
                         {
                             // Make sure it has a current reference to the interpreter.
                             item.Interpreter = this.Interp;
@@ -424,7 +421,7 @@ namespace Avalon
                     }
 
                     App.Conveyor.EchoLog($"Plugins Loaded For: {plugin.IpAddress}", LogType.Success);
-                    App.Conveyor.EchoLog($"   => {plugin.Triggers.Count()} Triggers Loaded", LogType.Success);
+                    App.Conveyor.EchoLog($"   => {plugin.Triggers.Count} Triggers Loaded", LogType.Success);
                 }
 
             }
@@ -563,7 +560,6 @@ namespace Avalon
         /// </summary>
         /// <param name="message"></param>
         /// <param name="title"></param>
-        /// <returns></returns>
         public async Task<ContentDialogResult> MsgBox(string message, string title)
         {
             var dialog = new MessageBoxDialog()
@@ -572,7 +568,7 @@ namespace Avalon
                 Content = message,
             };
 
-            return await dialog.ShowAsync();
+            return await dialog.ShowAsync().ConfigureAwait(false);
         }
 
         /// <summary>
@@ -639,7 +635,7 @@ namespace Avalon
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void ButtonOpenProfile_OnClick(object sender, RoutedEventArgs e)
+        private void ButtonOpenProfile_OnClick(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -650,7 +646,7 @@ namespace Avalon
                 if (dialog.ShowDialog() == true)
                 {
                     // Load the settings for the file that was selected.
-                    await LoadSettings(dialog.FileName);
+                    this.LoadSettings(dialog.FileName);
 
                     // Inject the Conveyor into the Triggers.
                     foreach (var trigger in App.Settings.ProfileSettings.TriggerList)
@@ -846,9 +842,7 @@ namespace Avalon
             // If the result
             if (result != null && result.Value)
             {
-                var lines = win.Text.Split(Environment.NewLine);
-
-                foreach (string line in lines)
+                foreach (string line in win.Text.Split(Environment.NewLine))
                 {
                     await this.Interp.Send(line, false, false);
                     await Task.Delay(500);
@@ -880,9 +874,7 @@ namespace Avalon
             // If the result
             if (result != null && result.Value)
             {
-                var lines = win.Text.Split(Environment.NewLine);
-
-                foreach (string line in lines)
+                foreach (string line in win.Text.Split(Environment.NewLine))
                 {
                     // Like it really came in, send it to the places it should go to display
                     // it and then process it.
@@ -902,17 +894,17 @@ namespace Avalon
         /// <param name="e"></param>
         private void MenuItemEditGlobalLuaFile_Click(object sender, RoutedEventArgs e)
         {
-            // Set the initial text for the editor.
-            var win = new StringEditor();
-
             // Startup position of the dialog should be in the center of the parent window.  The
             // owner has to be set for this to work.
-            win.Owner = App.MainWindow;
-            win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            win.ActionButtonText = "Save";
-            win.EditorMode = StringEditor.EditorType.Lua;
-            win.StatusText = "Global Lua File";
-            win.Text = App.Settings?.ProfileSettings?.LuaGlobalScript ?? "";
+            var win = new StringEditor
+            {
+                Owner = App.MainWindow,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                ActionButtonText = "Save",
+                EditorMode = StringEditor.EditorType.Lua,
+                StatusText = "Global Lua File",
+                Text = App.Settings?.ProfileSettings?.LuaGlobalScript ?? ""
+            };
 
             // Show the Lua dialog.
             var result = win.ShowDialog();
@@ -979,8 +971,8 @@ namespace Avalon
             {
                 PluginsOnly = false
             };
-
-            var result = await confirmDialog.ShowAsync();
+            
+            await confirmDialog.ShowAsync().ConfigureAwait(false);
         }
 
         /// <summary>
@@ -995,7 +987,7 @@ namespace Avalon
                 PluginsOnly = true
             };
 
-            var result = await confirmDialog.ShowAsync();
+            _ = await confirmDialog.ShowAsync();
 
             this.Interp.Conveyor.EchoText("\r\n");
             this.Interp.Conveyor.EchoLog("In order for the plugin updates to take effect you will need to close and then restart this application.", LogType.Warning);
@@ -1308,6 +1300,11 @@ namespace Avalon
             var result = win.ShowDialog();
         }
 
+        /// <summary>
+        /// Attempts to open the editor last editted alias or trigger.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void MenuItemOpenLastEdittedAliasOrTrigger_Click(object sender, RoutedEventArgs e)
         {
             if (App.InstanceGlobals.LastEditted == InstanceGlobals.EditItem.None)
