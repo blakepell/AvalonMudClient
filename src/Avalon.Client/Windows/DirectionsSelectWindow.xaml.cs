@@ -1,7 +1,9 @@
-﻿using Avalon.Common.Models;
+﻿using Argus.Extensions;
+using Avalon.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,6 +28,7 @@ namespace Avalon.Windows
         /// </summary>
         private List<Direction> DirectionList { get; set; }
 
+
         private bool _forceClose = false;
 
         /// <summary>
@@ -43,13 +46,19 @@ namespace Avalon.Windows
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            // Build the directions that are available from this room.
             this.DirectionList = new List<Direction>();
-
             this.BuildDirections();
 
+            // Setup the view that will allow us to filter this list.
             _view = CollectionViewSource.GetDefaultView(this.DirectionList);
             _view.Filter = DirectionsFilter;
             ListBoxDirections.ItemsSource = _view;
+
+            // Wire up what we're going to do for the search box.
+            TextBoxSearch.SearchExecuted += this.TextBoxSearch_SearchExecuted;
+
+            // Focus the text box so the user can start typing immediately.
             TextBoxSearch.Focus();
         }
 
@@ -135,23 +144,6 @@ namespace Avalon.Windows
         }
 
         /// <summary>
-        /// Updates the ICollectionView which filters when the TextBoxSearch's text changes.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void TextBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            _view.Refresh();
-
-            // Anytime a key is pressed that isn't one of the above, re-select the first item int he list
-            if (ListBoxDirections.Items.Count > 0)
-            {
-                ListBoxDirections.SelectedItem = null;
-                ListBoxDirections.SelectedItem = ListBoxDirections.Items[0];
-            }
-        }
-
-        /// <summary>
         /// Filters the list of directions based off of the Room name and then text that is entered into the text box.
         /// </summary>
         /// <param name="item"></param>
@@ -165,7 +157,7 @@ namespace Avalon.Windows
             }
 
             // Filter by the current room AND by the text the user has typed.
-            if (dir.Name.Contains(TextBoxSearch.Text, StringComparison.OrdinalIgnoreCase))
+            if (dir.Name.Contains($"{TextBoxSearch.Text}", StringComparison.OrdinalIgnoreCase))
             {
                 return true;
             }
@@ -174,9 +166,8 @@ namespace Avalon.Windows
         }
 
         /// <summary>
-        /// Handles when a key is pressed in the textbox.  Escape exits, enter sends the listbox item
-        /// if one is selected, in this case to the #go hash command which will do the actual processing
-        /// for sending the direction.
+        /// Handles when a key is pressed in the textbox.  Used for special keys, Up, Down
+        /// and Escape.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -195,35 +186,62 @@ namespace Avalon.Windows
                 {
                     this.DecrementSelection();
                 }
+
+                return;
             }
             else if (e.Key == Key.Escape)
             {
                 _forceClose = true;
                 this.Close();
             }
-            else if (e.Key == Key.Enter)
+
+        }
+
+        private void TextBoxSearch_SearchExecuted(object sender, Controls.SearchBox.SearchEventArgs e)
+        {
+            // In case the deactivate stops working, if the text box is empty and enter is hit close the window.
+            if (_view.CurrentItem == null)
             {
-                // In case the deactivate stops working, if the text box is empty and enter is hit close the window.
-                if (string.IsNullOrWhiteSpace(TextBoxSearch.Text))
-                {
-                    _forceClose = true;
-                    this.Close();
-                }
-
-                if (ListBoxDirections?.SelectedItem == null)
-                {
-                    return;
-                }
-
-                var direction = ((Direction)ListBoxDirections?.SelectedItem)?.Speedwalk;
-
-                if (!string.IsNullOrWhiteSpace(direction))
-                {
-                    App.MainWindow.Interp.Send($"#walk {direction}");
-                }
-
                 _forceClose = true;
                 this.Close();
+                return;
+            }
+
+            // Cast the direction from the CurrentItem of the view.
+            var direction = _view?.CurrentItem as Direction;
+
+            // Must have the speedwalk available to send.
+            if (direction == null || string.IsNullOrWhiteSpace(direction.Speedwalk))
+            {
+                _forceClose = true;
+                this.Close();
+                return;
+            }
+
+
+            App.MainWindow.Interp.Send($"#walk {direction.Speedwalk}");
+
+            _forceClose = true;
+            this.Close();
+        }
+
+        /// <summary>
+        /// Handles when the search box text changes.  This will refresh the view that filters the
+        /// list box as well as move the currently selected item to the top everytime the refresh
+        /// takes place.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TextBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            // Move enter portion here, get preview key down
+            _view.Refresh();
+
+            // If a return wasn't added to the search box then it was filtered, move the
+            // selected item back to the top.
+            if (!TextBoxSearch.Text.EndsWith("\r\n", StringComparison.Ordinal))
+            {
+                _view.MoveCurrentToFirst();
             }
         }
 
@@ -257,11 +275,11 @@ namespace Avalon.Windows
         {
             if (ListBoxDirections.SelectedIndex == -1)
             {
-                ListBoxDirections.SelectedIndex = ListBoxDirections.Items.Count - 1;
+                _view.MoveCurrentToLast();
             }
             else
             {
-                ListBoxDirections.SelectedIndex -= 1;
+                _view.MoveCurrentToPrevious();
             }
 
             // Since the selected item was changed programmatically, scroll it into view.
@@ -278,11 +296,11 @@ namespace Avalon.Windows
         {
             if (ListBoxDirections.SelectedIndex == ListBoxDirections.Items.Count - 1)
             {
-                ListBoxDirections.SelectedIndex = -1;
+                _view.MoveCurrentToFirst();
             }
             else
             {
-                ListBoxDirections.SelectedIndex += 1;
+                _view.MoveCurrentToNext();
             }
 
             // Since the selected item was changed programmatically, scroll it into view.

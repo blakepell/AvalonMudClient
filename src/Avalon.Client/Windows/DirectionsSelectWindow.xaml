@@ -20,12 +20,13 @@
         <controls:SearchBox x:Name="TextBoxSearch"
                             Grid.Row="0" BorderSelectionColor="#444444"
                             FontSize="18" Height="40" Padding="5"
-                            Margin="0,0,0,0"
-                            TextChanged="TextBoxSearch_TextChanged"
-                            PreviewKeyDown="TextBoxSearch_PreviewKeyDown"
+                            Margin="0,0,0,0" AcceptsReturn="True"
+                            PreviewKeyDown="TextBoxSearch_PreviewKeyDown" TextChanged="TextBoxSearch_TextChanged"
                             ></controls:SearchBox>
 
-        <ListBox x:Name="ListBoxDirections" Grid.Row="1" PreviewMouseLeftButtonUp="ListBoxDirections_PreviewMouseLeftButtonUp">
+        <ListBox x:Name="ListBoxDirections" Grid.Row="1" 
+                 IsSynchronizedWithCurrentItem="True"
+                 PreviewMouseLeftButtonUp="ListBoxDirections_PreviewMouseLeftButtonUp">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
