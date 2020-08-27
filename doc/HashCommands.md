@@ -39,6 +39,7 @@ Hash commands that reside in the main project will be general purpose.  Plugins 
 |#clear|Clears the terminal window or any of the specified panels that contain text.|
 |#compass|Shows a compass window and allows for setting the direction of the needle.|
 |#cmd-list|Lists all of the available hash commands.|
+|#dir|Shells the quick directions window.|
 |#disable|Global disables of all triggers or all aliases.|
 |#echo|Echos text to the terminal.  Supports ANSI colors in Lopes style format.  e.g. {R = Red|
 |#echo-event|Echos and event the default or any specified terminal.|
