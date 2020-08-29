@@ -1,11 +1,10 @@
-﻿using Avalon.Common.Models;
+﻿using Avalon.Common.Interfaces;
+using Avalon.Common.Models;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Threading;
-using MoonSharp.Interpreter.Loaders;
-using Avalon.Common.Interfaces;
 
 namespace Avalon.Controls
 {
@@ -125,12 +124,13 @@ namespace Avalon.Controls
                 return true;
             }
 
-            var direction = (Direction)item;
+            var direction = item as Direction;
 
             // Ugly, but must be done in case nulls slip in (say if someone nulls out a value in the JSON
             // and it gets loaded that way).
-            return (direction?.Name?.Contains(TextFilter.Text) ?? false)
-                   || (direction?.StartingRoom?.Contains(TextFilter.Text) ?? false);
+            return (direction?.Name?.Contains(TextFilter.Text, StringComparison.CurrentCultureIgnoreCase) ?? false)
+                   || (direction?.StartingRoom?.Contains(TextFilter.Text, StringComparison.CurrentCultureIgnoreCase) ?? false)
+                   || (direction?.EndingRoom?.Contains(TextFilter.Text, StringComparison.CurrentCultureIgnoreCase) ?? false);
         }
 
         /// <summary>
@@ -212,11 +212,13 @@ namespace Avalon.Controls
 
             string rev = Utilities.Utilities.SpeedwalkReverse(direction.Speedwalk, true);
 
-            var dir = new Direction();
-            dir.StartingRoom = direction.EndingRoom;
-            dir.EndingRoom = direction.StartingRoom;
-            dir.Name = direction.StartingRoom;
-            dir.Speedwalk = rev;
+            var dir = new Direction
+            {
+                StartingRoom = direction.EndingRoom,
+                EndingRoom = direction.StartingRoom,
+                Name = direction.StartingRoom,
+                Speedwalk = rev
+            };
 
             App.Settings.ProfileSettings.DirectionList.Add(dir);
         }
