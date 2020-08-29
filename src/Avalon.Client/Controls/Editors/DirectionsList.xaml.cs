@@ -213,7 +213,8 @@ namespace Avalon.Controls
             string rev = Utilities.Utilities.SpeedwalkReverse(direction.Speedwalk, true);
 
             var dir = new Direction();
-            dir.StartingRoom = direction.Name;
+            dir.StartingRoom = direction.EndingRoom;
+            dir.EndingRoom = direction.StartingRoom;
             dir.Name = direction.StartingRoom;
             dir.Speedwalk = rev;
 
