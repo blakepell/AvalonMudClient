@@ -1,6 +1,8 @@
 ﻿using Avalon.Controls;
+using ICSharpCode.AvalonEdit;
 using ModernWpf;
 using System.Windows.Input;
+using Avalon.Extensions;
 
 namespace Avalon
 {
@@ -63,7 +65,7 @@ namespace Avalon
 
                     // When a command is entered into the input box.
                     // Make sure the newline didn't make it into the text input, then select all in the box so it can be cleared quickly.
-                    TextInput.Editor.Text = TextInput.Editor.Text.Replace("\r", "").Replace("\n", "");
+                    TextInput.Editor.Text = TextInput.Editor.Text.RemoveLineEndings();
                     TextInput.Editor.SelectAll();
                     Interp.Send(TextInput.Editor.Text);
 
