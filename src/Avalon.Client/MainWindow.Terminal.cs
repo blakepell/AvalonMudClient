@@ -45,10 +45,12 @@ namespace Avalon
                     return;
                 }
 
+                // If the SetText crashes more often than not, change SetText to SetDataObject.
+
                 // Remove any ANSI codes from the selected text.
                 var sb = new StringBuilder(terminal.SelectedText);
                 Colorizer.RemoveAllAnsiCodes(sb);
-                Clipboard.SetText(sb.ToString());
+                Clipboard.SetText(sb.ToString(), TextDataFormat.Text);
             }
             catch (Exception ex)
             {
