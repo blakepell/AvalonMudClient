@@ -55,7 +55,7 @@ namespace Avalon.HashCommands
                                            // Special type, this will play even if other system sounds are muted.
                                            if (!System.IO.File.Exists(@"Media\alert.wav"))
                                            {
-                                               this.Interpreter.Conveyor.EchoLog("Media\alert.wav does not exist.", Common.Models.LogType.Error);
+                                               this.Interpreter.Conveyor.EchoLog("Media\\alert.wav does not exist.", Common.Models.LogType.Error);
                                                return;
                                            }
 

@@ -12,7 +12,7 @@ namespace Avalon.HashCommands
     public class Dir : HashCommand
     {
         public Dir(IInterpreter interp) : base (interp)
-        {            
+        {
         }
 
         public override string Name { get; } = "#dir";

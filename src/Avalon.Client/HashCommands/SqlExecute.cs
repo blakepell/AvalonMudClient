@@ -37,6 +37,11 @@ namespace Avalon.HashCommands
 
         }
 
+        struct test
+        {
+            string arg1;
+        }
+
         public override async Task ExecuteAsync()
         {
             if (!App.Settings.AvalonSettings.DeveloperMode)
@@ -58,96 +63,88 @@ namespace Avalon.HashCommands
                     {
                         // This allow the user to run arbitrary SQL from a trigger or alias.  This can execute raw SQL
                         // or can be parameterized by ordinal, @1, @2, @3, @4 corresponding with the position passed in after the SQL.
-                        await using (var conn = new SqliteConnection($"Data Source={App.Settings.ProfileSettings.SqliteDatabase}"))
+                        await using var conn = new SqliteConnection($"Data Source={App.Settings.ProfileSettings.SqliteDatabase}");
+                        await conn.OpenAsync();
+                        await using var cmd = conn.CreateCommand();
+
+                        cmd.CommandText = o.Sql;
+
+                        if (!string.IsNullOrWhiteSpace(o.Parameter1))
                         {
-                            await conn.OpenAsync();
-
-                            await using (var cmd = conn.CreateCommand())
-                            {
-                                cmd.CommandText = o.Sql;
-
-                                if (!string.IsNullOrWhiteSpace(o.Parameter1))
-                                {
-                                    cmd.AddWithValue("@1", o.Parameter1);
-                                }
-                                
-                                if (!string.IsNullOrWhiteSpace(o.Parameter2))
-                                {
-                                    cmd.AddWithValue("@2", o.Parameter2);
-                                }
-
-                                if (!string.IsNullOrWhiteSpace(o.Parameter3))
-                                {
-                                    cmd.AddWithValue("@3", o.Parameter3);
-                                }
-
-                                if (!string.IsNullOrWhiteSpace(o.Parameter4))
-                                {
-                                    cmd.AddWithValue("@4", o.Parameter4);
-                                }
-
-                                if (!string.IsNullOrWhiteSpace(o.Parameter5))
-                                {
-                                    cmd.AddWithValue("@5", o.Parameter5);
-                                }
-
-                                if (!string.IsNullOrWhiteSpace(o.Parameter6))
-                                {
-                                    cmd.AddWithValue("@6", o.Parameter6);
-                                }
-
-                                if (!string.IsNullOrWhiteSpace(o.Parameter7))
-                                {
-                                    cmd.AddWithValue("@7", o.Parameter7);
-                                }
-
-                                if (!string.IsNullOrWhiteSpace(o.Parameter8))
-                                {
-                                    cmd.AddWithValue("@8", o.Parameter8);
-                                }
-
-                                if (!string.IsNullOrWhiteSpace(o.Parameter9))
-                                {
-                                    cmd.AddWithValue("@9", o.Parameter9);
-                                }
-
-                                if (!string.IsNullOrWhiteSpace(o.Parameter10))
-                                {
-                                    cmd.AddWithValue("@10", o.Parameter10);
-                                }
-
-                                if (!string.IsNullOrWhiteSpace(o.Parameter11))
-                                {
-                                    cmd.AddWithValue("@11", o.Parameter11);
-                                }
-
-                                if (!string.IsNullOrWhiteSpace(o.Parameter12))
-                                {
-                                    cmd.AddWithValue("@12", o.Parameter12);
-                                }
-
-                                await cmd.ExecuteNonQueryAsync();
-                            }
+                            cmd.AddWithValue("@1", o.Parameter1);
                         }
 
+                        if (!string.IsNullOrWhiteSpace(o.Parameter2))
+                        {
+                            cmd.AddWithValue("@2", o.Parameter2);
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(o.Parameter3))
+                        {
+                            cmd.AddWithValue("@3", o.Parameter3);
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(o.Parameter4))
+                        {
+                            cmd.AddWithValue("@4", o.Parameter4);
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(o.Parameter5))
+                        {
+                            cmd.AddWithValue("@5", o.Parameter5);
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(o.Parameter6))
+                        {
+                            cmd.AddWithValue("@6", o.Parameter6);
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(o.Parameter7))
+                        {
+                            cmd.AddWithValue("@7", o.Parameter7);
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(o.Parameter8))
+                        {
+                            cmd.AddWithValue("@8", o.Parameter8);
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(o.Parameter9))
+                        {
+                            cmd.AddWithValue("@9", o.Parameter9);
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(o.Parameter10))
+                        {
+                            cmd.AddWithValue("@10", o.Parameter10);
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(o.Parameter11))
+                        {
+                            cmd.AddWithValue("@11", o.Parameter11);
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(o.Parameter12))
+                        {
+                            cmd.AddWithValue("@12", o.Parameter12);
+                        }
+
+                        await cmd.ExecuteNonQueryAsync();
                     }
                     catch (Exception ex)
                     {
                         this.Interpreter.Conveyor.EchoLog(ex.Message, Common.Models.LogType.Error);
                     }
-
                 });
 
             // Display the help or error output from the parameter parsing.
             this.DisplayParserOutput(result);
-
-
         }
 
         /// <summary>
         /// The supported command line arguments.
         /// </summary>
-        public class Arguments
+        private class Arguments
         {
             [Value(0, Required = true, HelpText = "The SQL to execute.")]
             public string Sql { get; set; } = "";

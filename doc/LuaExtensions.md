@@ -77,3 +77,12 @@ Supported types in global variables
 - Boolean
 - Table
 - Void/Nil
+
+## DSL Plugin Lua Extensions
+
+DSL lua commands are prefixed with the `dsl.` qualifier.
+
+|Command|Parameters|Description|
+|-------|----------|-----------|
+|dsl.IsAffected|(string) affectName|A boolean true or false on whether the player is affected by an affect.|
+|dsl.AffectDuration|(string) affectName|The duration left in game ticks of the specified affect.|

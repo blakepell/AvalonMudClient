@@ -36,10 +36,8 @@ namespace Avalon.Sqlite
                                          attr.GetType().GetProperties(BindingFlags.Public |
                                                                       BindingFlags.NonPublic |
                                                                       BindingFlags.Instance)
-                                             .Any(
-                                                 f =>
-                                                 f.Name == "Name" &&
-                                                 f.GetValue(attr).ToString().ToLower() == columnName.ToLower()))
+                                             .Any(f => f.Name == "Name" && string.Equals(f.GetValue(attr).ToString(), columnName, StringComparison.OrdinalIgnoreCase)))
+
                         && // Also ensure the property is not read-only
                         (prop.DeclaringType == type
                              ? prop.GetSetMethod(true)

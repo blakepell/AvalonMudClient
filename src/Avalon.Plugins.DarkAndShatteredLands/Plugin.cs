@@ -241,14 +241,12 @@ end";
         /// </summary>
         public async void CreateDbTables()
         {
-            await using (var conn = new SqliteConnection($"Data Source={this.ProfileSettings.SqliteDatabase}"))
-            {
-                await conn.OpenAsync();
+            await using var conn = new SqliteConnection($"Data Source={this.ProfileSettings.SqliteDatabase}");
+            await conn.OpenAsync();
+            await using var cmd = conn.CreateCommand();
 
-                await using (var cmd = conn.CreateCommand())
-                {
-                    var list = new List<string>();
-                    list.Add(@"
+            var list = new List<string>();
+            list.Add(@"
 								CREATE TABLE IF NOT EXISTS skills (
 									player_name TEXT NOT NULL,
 									skill_name TEXT NOT NULL,
@@ -256,12 +254,10 @@ end";
 									PRIMARY KEY (player_name, skill_name)
 								);");
 
-                    foreach (string sql in list)
-                    {
-                        cmd.CommandText = sql;
-                        await cmd.ExecuteNonQueryAsync();
-                    }
-                }
+            foreach (string sql in list)
+            {
+                cmd.CommandText = sql;
+                await cmd.ExecuteNonQueryAsync();
             }
         }
 

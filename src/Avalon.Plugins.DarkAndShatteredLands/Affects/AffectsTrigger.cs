@@ -133,7 +133,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
             if (found)
             {
                 this.Conveyor.ProgressBarRepeaterStatusVisible = true;
-                this.Conveyor.ProgressBarRepeaterStatusText = $"Spells Missing: {sb.ToString()}";
+                this.Conveyor.ProgressBarRepeaterStatusText = $"Spells Missing: {sb}";
             }
             else
             {
@@ -231,7 +231,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
         public void AddOrUpdateAffect(string name, string modifies, int modifier, int duration)
         {
             // Get the affect if it exists.
-            var a = this.Affects.FirstOrDefault(x => x.Name.Equals(name, System.StringComparison.Ordinal));
+            var a = this.Affects.Find(x => x.Name.Equals(name, System.StringComparison.Ordinal));
             bool add = false;
 
             // If it doesn't exist, create a new one.

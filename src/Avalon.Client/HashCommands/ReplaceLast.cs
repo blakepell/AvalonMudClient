@@ -68,7 +68,7 @@ namespace Avalon.HashCommands
         /// <summary>
         /// The supported command line arguments for this hash command.
         /// </summary>
-        public class Arguments
+        private class Arguments
         {
 
             [Value(0, Required = true, HelpText = "The text that should be replaced.")]

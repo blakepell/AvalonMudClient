@@ -47,7 +47,7 @@ namespace Avalon.Common.Models
             set
             {
                 _speedwalk = value;
-                OnPropertyChanged("Speedwalk");
+                OnPropertyChanged(nameof(Speedwalk));
             }
         }
 

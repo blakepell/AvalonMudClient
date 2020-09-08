@@ -8,13 +8,13 @@ namespace Avalon.HashCommands
     /// The ability to turn scraping on and off.
     /// </summary>
     /// <remarks>
+    /// <para>
     /// Since commands are sent async turning scraping on, issuing a command and then turning it off results
     /// in not data being scraped.  To be effective this will need to have a delay after the command is issued
     /// but before the command to turn scraping off to give the command time to be sent and data to be sent back.
     /// It's not an exact science because there's no way to know what should be sent back unless we allow scraping
     /// to be turned off by finding an end marker which is a neat idea.  We'll call this scrape v1.
-    ///
-    /// TODO - Temporary variable to store this in that isn't saved in the settings file.
+    /// </para>
     /// </remarks>
     public class Scrape : HashCommand
     {

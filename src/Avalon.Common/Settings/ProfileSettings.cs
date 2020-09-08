@@ -57,7 +57,7 @@ namespace Avalon.Common.Settings
             set
             {
                 _aliasesEnabled = value;
-                OnPropertyChanged("AliasesEnabled");
+                OnPropertyChanged(nameof(AliasesEnabled));
             }
         }
 
@@ -73,7 +73,7 @@ namespace Avalon.Common.Settings
             set
             {
                 _triggersEnabled = value;
-                OnPropertyChanged("TriggersEnabled");
+                OnPropertyChanged(nameof(TriggersEnabled));
             }
         }
 
@@ -140,7 +140,7 @@ namespace Avalon.Common.Settings
             set
             {
                 _spellChecking = value;
-                OnPropertyChanged("SpellChecking");
+                OnPropertyChanged(nameof(SpellChecking));
             }
         }
 

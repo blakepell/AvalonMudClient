@@ -31,8 +31,7 @@ namespace Avalon.HashCommands
 
             if (macro.Command.IsNullOrEmptyOrWhiteSpace())
             {
-                Interpreter.EchoText($"--> Macro key '{this.Parameters}' had a blank command.", AnsiColors.Red);
-                Interpreter.EchoText($"");
+                Interpreter.EchoText($"--> Macro key '{this.Parameters}' had a blank command.\r\n", AnsiColors.Red);
                 return;
             }
 

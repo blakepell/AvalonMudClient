@@ -240,10 +240,10 @@ namespace Avalon
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SearchBox_SearchExecutedAsync(object sender, SearchBox.SearchEventArgs e)
+        private async void SearchBox_SearchExecutedAsync(object sender, SearchBox.SearchEventArgs e)
         {
-            // TODO: Make this subscribable to the plugin system.
-            App.MainWindow.Interp.Send($"#wiki {e.SearchText}");
+            // TODO: Make this subscribable to the plugin system or have a setting for what command to run
+            await App.MainWindow.Interp.Send($"#wiki {e.SearchText}");
         }
 
         /// <summary>
@@ -1297,7 +1297,7 @@ namespace Avalon
             win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
             // Show the Lua dialog.
-            var result = win.ShowDialog();
+            _ = win.ShowDialog();
         }
 
         /// <summary>

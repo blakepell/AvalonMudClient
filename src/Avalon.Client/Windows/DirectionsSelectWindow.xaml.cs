@@ -93,12 +93,10 @@ namespace Avalon.Windows
                 {
                     foreach (var path in App.Settings.ProfileSettings.DirectionList.Where(x => x.StartingRoom.Equals(item.EndingRoom)))
                     {
-                        if (path.EndingRoom.Equals(room, StringComparison.OrdinalIgnoreCase))
-                        {
-                            continue;
-                        }
-
-                        if (this.DirectionList.Exists(x => path.EndingRoom.Equals(x.EndingRoom)))
+                        if (path.EndingRoom.Equals(room, StringComparison.OrdinalIgnoreCase)
+                            || string.IsNullOrWhiteSpace(path.EndingRoom)
+                            || string.IsNullOrWhiteSpace(path.StartingRoom)
+                            || this.DirectionList.Exists(x => path.EndingRoom.Equals(x.EndingRoom)))
                         {
                             continue;
                         }

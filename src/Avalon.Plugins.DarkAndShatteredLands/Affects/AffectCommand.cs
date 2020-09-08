@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Avalon.Plugins.DarkAndShatteredLands.Affects
+﻿namespace Avalon.Plugins.DarkAndShatteredLands.Affects
 {
     /// <summary>
     /// A class that represents mapping data for how a player can invoke an affect via a command.

@@ -5,7 +5,6 @@ using System.Linq;
 
 namespace Avalon.HashCommands
 {
-
     /// <summary>
     /// Options to update a compass window.
     /// </summary>
@@ -24,13 +23,16 @@ namespace Avalon.HashCommands
             // If no parameters echo the help.
             if (string.IsNullOrWhiteSpace(this.Parameters))
             {
-                var win = this.Interpreter.Conveyor.WindowList.FirstOrDefault(x => x.WindowType == Common.Models.WindowType.CompassWindow && x.Name.Equals("Compass", StringComparison.Ordinal)) as CompassWindow;
+                var win = this.Interpreter.Conveyor.WindowList.Find(x => x.WindowType == Common.Models.WindowType.CompassWindow && x.Name.Equals("Compass", StringComparison.Ordinal)) as CompassWindow;
 
                 if (win == null)
                 {
-                    win = new CompassWindow();
-                    win.Name = "Compass";
-                    win.Owner = App.MainWindow;
+                    win = new CompassWindow
+                    {
+                        Name = "Compass",
+                        Owner = App.MainWindow
+                    };
+
                     win.Left = (App.MainWindow.Left + App.MainWindow.Width) - win.Width;
                     win.Top = (App.MainWindow.Top + App.MainWindow.Height) - win.Height;
                     win.Show();
@@ -47,13 +49,16 @@ namespace Avalon.HashCommands
             var result = Parser.Default.ParseArguments<Arguments>(CreateArgs(this.Parameters))
                 .WithParsed(o =>
                 {
-                    var win = this.Interpreter.Conveyor.WindowList.FirstOrDefault(x => x.WindowType == Common.Models.WindowType.CompassWindow && x.Name.Equals("Compass", StringComparison.Ordinal)) as CompassWindow;
+                    var win = this.Interpreter.Conveyor.WindowList.Find(x => x.WindowType == Common.Models.WindowType.CompassWindow && x.Name.Equals("Compass", StringComparison.Ordinal)) as CompassWindow;
 
                     if (win == null)
                     {
-                        win = new CompassWindow();
-                        win.Name = "Compass";
-                        win.Owner = App.MainWindow;
+                        win = new CompassWindow
+                        {
+                            Name = "Compass",
+                            Owner = App.MainWindow
+                        };
+
                         win.Left = (App.MainWindow.Left + App.MainWindow.Width) - win.Width;
                         win.Top = (App.MainWindow.Top + App.MainWindow.Height) - win.Height;
                         win.Show();
@@ -88,20 +93,16 @@ namespace Avalon.HashCommands
         /// <summary>
         /// The supported command line arguments for this hash command.
         /// </summary>
-        public class Arguments
+        private class Arguments
         {
-
             [Option('a', "angle", Required = false, HelpText = "The specific angle to position the needle to.")]
             public int Angle { get; set; } = -1;
-
 
             [Option('d', "direction", Required = false, HelpText = "The direction to position the needle to.  Valid values are n, ne, e, se, s, sw, w, nw.")]
             public string Direction { get; set; }
 
             [Option('c', "close", Required = false, HelpText = "Closes the compass window.")]
             public bool Close { get; set; } = false;
-
         }
-
     }
 }

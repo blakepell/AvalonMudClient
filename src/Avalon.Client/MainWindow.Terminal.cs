@@ -154,14 +154,15 @@ namespace Avalon
                 }
 
                 // Set the initial text for the editor.
-                var win = new RegexTestWindow();
-
                 // Startup position of the dialog should be in the center of the parent window.  The
                 // owner has to be set for this to work.
-                win.Owner = App.MainWindow;
-                win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                win.CancelButtonText = "Close";
-                win.SaveButtonVisible = false;
+                var win = new RegexTestWindow
+                {
+                    Owner = App.MainWindow,
+                    WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                    CancelButtonText = "Close",
+                    SaveButtonVisible = false
+                };
 
                 // Remove any ANSI codes from the selected text.
                 var sb = new StringBuilder(terminal.SelectedText);

@@ -85,10 +85,8 @@ namespace Avalon.Sqlite
 
             using (var s = asm.GetManifestResourceStream(resourceName))
             {
-                using (var reader = new XmlTextReader(s))
-                {
-                    SqlEditor.SyntaxHighlighting = HighlightingLoader.Load(reader, HighlightingManager.Instance);
-                }
+                using var reader = new XmlTextReader(s);
+                SqlEditor.SyntaxHighlighting = HighlightingLoader.Load(reader, HighlightingManager.Instance);
             }
 
             // Intellisense

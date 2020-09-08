@@ -24,7 +24,7 @@ namespace Avalon.Utilities
         public static async Task ShellWindow(string windowName)
         {
             // First see if an instance of this window already exists.
-            var instance = App.Conveyor.WindowList.FirstOrDefault(x => x.Name == windowName);
+            var instance = App.Conveyor.WindowList.Find(x => x.Name == windowName);
 
             if (instance != null)
             {

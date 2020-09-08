@@ -74,7 +74,7 @@ namespace Avalon
 
                             if (!App.MainWindow.CustomTab1.IsSelected)
                             {
-                                App.MainWindow.CustomTab1Badge.Value += 1;
+                                App.MainWindow.CustomTab1Badge.Value++;
                             }
                             else if (App.MainWindow.CustomTab1.IsSelected && App.MainWindow.CustomTab1Badge.Value != 0)
                             {
@@ -88,7 +88,7 @@ namespace Avalon
 
                             if (!App.MainWindow.CustomTab2.IsSelected)
                             {
-                                App.MainWindow.CustomTab2Badge.Value += 1;
+                                App.MainWindow.CustomTab2Badge.Value++;
                             }
                             else if (App.MainWindow.CustomTab2.IsSelected && App.MainWindow.CustomTab2Badge.Value != 0)
                             {
@@ -102,7 +102,7 @@ namespace Avalon
 
                             if (!App.MainWindow.CustomTab3.IsSelected)
                             {
-                                App.MainWindow.CustomTab3Badge.Value += 1;
+                                App.MainWindow.CustomTab3Badge.Value++;
                             }
                             else if (App.MainWindow.CustomTab3.IsSelected && App.MainWindow.CustomTab3Badge.Value != 0)
                             {
@@ -179,7 +179,7 @@ namespace Avalon
 
                             if (!App.MainWindow.CustomTab1.IsSelected)
                             {
-                                App.MainWindow.CustomTab1Badge.Value += 1;
+                                App.MainWindow.CustomTab1Badge.Value++;
                             }
                             else if (App.MainWindow.CustomTab1.IsSelected && App.MainWindow.CustomTab1Badge.Value != 0)
                             {
@@ -193,7 +193,7 @@ namespace Avalon
 
                             if (!App.MainWindow.CustomTab2.IsSelected)
                             {
-                                App.MainWindow.CustomTab2Badge.Value += 1;
+                                App.MainWindow.CustomTab2Badge.Value++;
                             }
                             else if (App.MainWindow.CustomTab2.IsSelected && App.MainWindow.CustomTab2Badge.Value != 0)
                             {
@@ -207,7 +207,7 @@ namespace Avalon
 
                             if (!App.MainWindow.CustomTab3.IsSelected)
                             {
-                                App.MainWindow.CustomTab3Badge.Value += 1;
+                                App.MainWindow.CustomTab3Badge.Value++;
                             }
                             else if (App.MainWindow.CustomTab3.IsSelected && App.MainWindow.CustomTab3Badge.Value != 0)
                             {
@@ -215,7 +215,6 @@ namespace Avalon
                                 App.MainWindow.CustomTab3Badge.Value = 0;
                             }
                         }
-
                     }
                 }
             }

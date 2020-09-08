@@ -18,7 +18,6 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
     [TemplatePart(Name = PartSelector, Type = typeof(Selector))]
     public class AutoCompleteTextBox : Control
     {
-
         #region "Fields"
 
         public const string PartEditor = "PART_Editor";
@@ -64,13 +63,11 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
 
         #region "Properties"
 
-
         public int MaxPopupHeight
         {
             get => (int)GetValue(MaxPopUpHeightProperty);
             set => SetValue(MaxPopUpHeightProperty, value);
         }
-
 
         public BindingEvaluator BindingEvaluator { get; set; }
 
@@ -177,7 +174,7 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
 
         public DataTemplateSelector ItemTemplateSelector
         {
-            get => ((DataTemplateSelector)(GetValue(ItemTemplateSelectorProperty)));
+            get => (DataTemplateSelector)(GetValue(ItemTemplateSelectorProperty));
             set => SetValue(ItemTemplateSelectorProperty, value);
         }
 
@@ -241,9 +238,7 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
 
         public static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            AutoCompleteTextBox act = null;
-            act = d as AutoCompleteTextBox;
-            if (act != null)
+            if (d is AutoCompleteTextBox act)
             {
                 if (act.Editor != null & !act._isUpdatingText)
                 {
@@ -283,7 +278,6 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
                     Editor.Text = BindingEvaluator.Evaluate(SelectedItem);
                     _isUpdatingText = false;
                 }
-
             }
 
             GotFocus += AutoCompleteTextBox_GotFocus;
@@ -478,7 +472,6 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
 
         private class SuggestionsAdapter
         {
-
             #region "Fields"
 
             private readonly AutoCompleteTextBox _actb;
@@ -538,11 +531,7 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
             }
 
             #endregion
-
         }
-
         #endregion
-
     }
-
 }

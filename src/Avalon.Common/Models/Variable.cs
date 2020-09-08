@@ -33,7 +33,7 @@ namespace Avalon.Common.Models
             set
             {
                 _key = value;
-                OnPropertyChanged("Key");
+                OnPropertyChanged(nameof(Key));
             }
         }
 
@@ -44,7 +44,7 @@ namespace Avalon.Common.Models
             set
             {
                 _value = value;
-                OnPropertyChanged("Value");
+                OnPropertyChanged(nameof(Value));
 
                 // Also notify that the object itself has changed for bindings to update.
                 OnPropertyChanged("Self");
@@ -61,7 +61,7 @@ namespace Avalon.Common.Models
             set
             {
                 _character = value;
-                OnPropertyChanged("Character");
+                OnPropertyChanged(nameof(Character));
             }            
         }
 
@@ -79,7 +79,7 @@ namespace Avalon.Common.Models
                 if (value != _isVisible)
                 {
                     _isVisible = value;
-                    OnPropertyChanged(nameof(this.IsVisible));
+                    OnPropertyChanged(nameof(IsVisible));
                 }
             }
         }
@@ -98,7 +98,7 @@ namespace Avalon.Common.Models
                 if (value != _displayOrder)
                 {
                     _displayOrder = value;
-                    OnPropertyChanged(nameof(this.DisplayOrder));
+                    OnPropertyChanged(nameof(DisplayOrder));
                 }
             }
         }
@@ -119,8 +119,8 @@ namespace Avalon.Common.Models
                     // Update both the label, and send a notice that the formatted label has
                     // changed as well.
                     _label = value;
-                    OnPropertyChanged(nameof(this.Label));
-                    OnPropertyChanged(nameof(this.FormattedLabel));
+                    OnPropertyChanged(nameof(Label));
+                    OnPropertyChanged(nameof(FormattedLabel));
                 }
             }
         }
@@ -179,7 +179,7 @@ namespace Avalon.Common.Models
             }
         }
 
-        protected virtual async void OnPropertyChanged(string propertyName)
+        protected virtual void OnPropertyChanged(string propertyName)
         {
             var e = new PropertyChangedEventArgs(propertyName);
             PropertyChanged?.Invoke(this, e);

@@ -34,13 +34,10 @@ namespace Avalon
             var asmMobProg = Assembly.GetExecutingAssembly();
             string resourceNameMobProg = $"{asmMobProg.GetName().Name}.Dialogs.MobProgEditor.MobProgDarkTheme.xshd";
 
-            using (var s = asmMobProg.GetManifestResourceStream(resourceNameMobProg))
-            {
-                using (var reader = new XmlTextReader(s))
-                {
-                    AvalonLuaEditor.SyntaxHighlighting = HighlightingLoader.Load(reader, HighlightingManager.Instance);
-                }
-            }
+            using var s = asmMobProg.GetManifestResourceStream(resourceNameMobProg);
+            using var reader = new XmlTextReader(s);
+
+            AvalonLuaEditor.SyntaxHighlighting = HighlightingLoader.Load(reader, HighlightingManager.Instance);
         }
 
 

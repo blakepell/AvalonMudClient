@@ -1,5 +1,8 @@
 ﻿namespace Avalon.Common.Models
 {
+    /// <summary>
+    /// The types of Windows that can be spawned from scripting metaphors.
+    /// </summary>
     public enum WindowType
     {
         /// <summary>

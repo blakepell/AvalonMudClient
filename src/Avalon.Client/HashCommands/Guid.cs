@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using Avalon.Common.Interfaces;
 
 namespace Avalon.HashCommands
@@ -23,8 +22,7 @@ namespace Avalon.HashCommands
         public override void Execute()
         {
             string guid = Guid.NewGuid().ToString();
-            Interpreter.Conveyor.EchoText("\r\n");
-            Interpreter.Conveyor.EchoLog(guid, Common.Models.LogType.Information);
+            Interpreter.Conveyor.EchoText($"\r\n{guid}");
             this.Interpreter.Conveyor.SetVariable("Guid", guid);
         }
     }

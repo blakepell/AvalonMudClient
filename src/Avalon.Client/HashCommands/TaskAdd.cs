@@ -21,7 +21,7 @@ namespace Avalon.HashCommands
         public override void Execute()
         {
             // Parse the arguments and append to the file.
-            var result = Parser.Default.ParseArguments<TaskAdd.TaskAddArguments>(CreateArgs(this.Parameters))
+            var result = Parser.Default.ParseArguments<Arguments>(CreateArgs(this.Parameters))
                 .WithParsed(o =>
                 {
                     App.MainWindow.ScheduledTasks.AddTask(o.Command, o.IsLua, DateTime.Now.AddSeconds(o.Seconds));
@@ -34,7 +34,7 @@ namespace Avalon.HashCommands
         /// <summary>
         /// The supported arguments for the #add-task hash command.
         /// </summary>
-        public class TaskAddArguments
+        private class Arguments
         {
             [Option('c', "command", Required = true, HelpText = "The command or Lua that should be sent or executed.")]
             public string Command { get; set; }

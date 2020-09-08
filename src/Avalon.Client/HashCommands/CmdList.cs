@@ -25,7 +25,7 @@ namespace Avalon.HashCommands
         public override void Execute()
         {
             var list = new List<string>();
-            var sb = new StringBuilder();
+            var sb = Argus.Memory.StringBuilderPool.Take();
 
             foreach (var hc in this.Interpreter.HashCommands)
             {
@@ -35,7 +35,7 @@ namespace Avalon.HashCommands
             list = list.OrderBy(p => p).ToList();
             int i = 0;
 
-            this.Interpreter.EchoText("");
+            sb.Append("\r\n{C");
 
             foreach (string item in list)
             {
@@ -45,15 +45,15 @@ namespace Avalon.HashCommands
                 // Line break every 4 items
                 if (i.IsInterval(3))
                 {
-                    this.Interpreter.EchoText(sb.ToString(), AnsiColors.Cyan);
-                    sb.Clear();
+                    sb.Append("\r\n{C");
                     i = 0;
                 }
             }
 
-            // Whatever was left.
-            this.Interpreter.EchoText($"{sb,-25}", AnsiColors.Cyan);
-            this.Interpreter.EchoText("");
+            sb.Append("{x\r\n");
+            this.Interpreter.EchoText(sb);
+
+            Argus.Memory.StringBuilderPool.Return(sb);
         }
 
     }

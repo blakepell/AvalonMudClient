@@ -34,7 +34,7 @@ namespace Avalon.Common.Models
             set
             {
                 _command = value;
-                OnPropertyChanged("Command");
+                OnPropertyChanged(nameof(Command));
             }
         }
 
@@ -45,7 +45,7 @@ namespace Avalon.Common.Models
             set
             {
                 _enabled = value;
-                OnPropertyChanged("Enabled");
+                OnPropertyChanged(nameof(Enabled));
             }
         }
 
@@ -70,11 +70,11 @@ namespace Avalon.Common.Models
             set
             {
                 _count = value;
-                OnPropertyChanged("Count");
+                OnPropertyChanged(nameof(Count));
             }
         }
 
-        protected virtual async void OnPropertyChanged(string propertyName)
+        protected virtual void OnPropertyChanged(string propertyName)
         {
             var e = new PropertyChangedEventArgs(propertyName);
             PropertyChanged?.Invoke(this, e);

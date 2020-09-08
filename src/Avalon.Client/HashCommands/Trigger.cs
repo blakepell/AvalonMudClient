@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using Avalon.Colors;
-using Avalon.Common.Interfaces;
+﻿using Avalon.Common.Interfaces;
 using CommandLine;
-using Argus.Extensions;
 using System.Linq;
 
 namespace Avalon.HashCommands
@@ -24,7 +21,7 @@ namespace Avalon.HashCommands
         public override void Execute()
         {
             // Parse the arguments and append to the file.
-            var result = Parser.Default.ParseArguments<TriggerArguments>(CreateArgs(this.Parameters))
+            var result = Parser.Default.ParseArguments<Arguments>(CreateArgs(this.Parameters))
                 .WithParsed(o =>
                 {
                     if (o.Enable && o.Disable)
@@ -166,7 +163,7 @@ namespace Avalon.HashCommands
         /// <summary>
         /// The supported command line arguments.
         /// </summary>
-        public class TriggerArguments
+        private class Arguments
         {
 
             [Option('i', "id", Required = true, HelpText = "The ID of the trigger.")]
@@ -192,8 +189,6 @@ namespace Avalon.HashCommands
 
             [Option('g', "group", Required = false, HelpText = "Sets the group of the trigger.")]
             public string Group { get; set; }
-
         }
-
     }
 }

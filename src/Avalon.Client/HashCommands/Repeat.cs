@@ -30,14 +30,15 @@ namespace Avalon.HashCommands
             }
 
             int repeatTimes = int.Parse(argOne.Item1);
-            string cmd = "";
+            var sb = Argus.Memory.StringBuilderPool.Take();
 
             for (int i = 0; i < repeatTimes; i++)
             {
-                cmd = argTwo.Replace("@count", (i + 1).ToString());
-                cmd = cmd.Replace("@index", i.ToString());
-                Interpreter.Send(cmd);
+                sb.Clear();
+                sb.Append(argTwo).Replace("@count", (i + 1).ToString()).Replace("@index", i.ToString());
             }
+
+            Argus.Memory.StringBuilderPool.Return(sb);
         }
 
     }

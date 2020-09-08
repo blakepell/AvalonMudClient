@@ -44,39 +44,37 @@ namespace Avalon
 
                 // Get the release information from GitHub, including the version and the links to all of the installers
                 // for this release.
-                using (var response = await http.GetAsync(App.Settings.AvalonSettings.ReleaseUrl))
+                using var response = await http.GetAsync(App.Settings.AvalonSettings.ReleaseUrl);
+                string json = await response.Content.ReadAsStringAsync();
+                this.Release = JsonConvert.DeserializeObject<Release>(json);
+
+                if (this.PluginsOnly)
                 {
-                    string json = await response.Content.ReadAsStringAsync();
-                    this.Release = JsonConvert.DeserializeObject<Release>(json);
+                    TextBlockInfo.Text = "Would you like to download the latest version of the plugins?";
+                    this.SecondaryButtonText = "Update Plugins";
+                    ProgressRingUpdate.IsActive = false;
+                    return;
+                }
 
-                    if (this.PluginsOnly)
-                    {
-                        TextBlockInfo.Text = "Would you like to download the latest version of the plugins?";
-                        this.SecondaryButtonText = "Update Plugins";
-                        ProgressRingUpdate.IsActive = false;
-                        return;
-                    }
+                var updateVersion = new Version(this.Release.TagName);
+                var thisVersion = Assembly.GetExecutingAssembly().GetName().Version;
 
-                    var updateVersion = new Version(this.Release.TagName);
-                    var thisVersion = Assembly.GetExecutingAssembly().GetName().Version;
-
-                    if (updateVersion == thisVersion)
-                    {
-                        TextBlockInfo.Text = "You are using the current version.";
-                        return;
-                    }
-                    else if (updateVersion > thisVersion)
-                    {
-                        TextBlockInfo.Text = $"There is an update available to version {updateVersion}";
-                        this.PrimaryButtonText = "Update";
-                        return;
-                    }
-                    else if (updateVersion < thisVersion)
-                    {
-                        TextBlockInfo.Text = $"You are using a version that is newer than the general release.";
-                        this.PrimaryButtonText = "";
-                        return;
-                    }
+                if (updateVersion == thisVersion)
+                {
+                    TextBlockInfo.Text = "You are using the current version.";
+                    return;
+                }
+                else if (updateVersion > thisVersion)
+                {
+                    TextBlockInfo.Text = $"There is an update available to version {updateVersion}";
+                    this.PrimaryButtonText = "Update";
+                    return;
+                }
+                else if (updateVersion < thisVersion)
+                {
+                    TextBlockInfo.Text = $"You are using a version that is newer than the general release.";
+                    this.PrimaryButtonText = "";
+                    return;
                 }
 
             }
@@ -148,43 +146,39 @@ namespace Avalon
                 // Get any plugins first
                 foreach (string item in plugins)
                 {
-                    using (var response = await http.GetAsync(item, HttpCompletionOption.ResponseHeadersRead))
+                    using var response = await http.GetAsync(item, HttpCompletionOption.ResponseHeadersRead);
+                    string pluginName = Argus.IO.FileSystemUtilities.ExtractFileName(item);
+                    string pluginSavePath = Path.Combine(App.Settings.UpdateDirectory, pluginName);
+
+                    response.EnsureSuccessStatusCode();
+
+                    using Stream contentStream = await response.Content.ReadAsStreamAsync(), fileStream = new FileStream(pluginSavePath, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true);
+                    var totalRead = 0L;
+                    var totalReads = 0L;
+                    var buffer = new byte[8192];
+                    var isMoreToRead = true;
+
+                    do
                     {
-                        string pluginName = Argus.IO.FileSystemUtilities.ExtractFileName(item);
-                        string pluginSavePath = Path.Combine(App.Settings.UpdateDirectory, pluginName);
-
-                        response.EnsureSuccessStatusCode();
-
-                        using (Stream contentStream = await response.Content.ReadAsStreamAsync(), fileStream = new FileStream(pluginSavePath, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true))
+                        var read = await contentStream.ReadAsync(buffer, 0, buffer.Length);
+                        if (read == 0)
                         {
-                            var totalRead = 0L;
-                            var totalReads = 0L;
-                            var buffer = new byte[8192];
-                            var isMoreToRead = true;
+                            isMoreToRead = false;
+                        }
+                        else
+                        {
+                            await fileStream.WriteAsync(buffer, 0, read);
 
-                            do
+                            totalRead += read;
+                            totalReads++;
+
+                            if (totalReads % 2000 == 0)
                             {
-                                var read = await contentStream.ReadAsync(buffer, 0, buffer.Length);
-                                if (read == 0)
-                                {
-                                    isMoreToRead = false;
-                                }
-                                else
-                                {
-                                    await fileStream.WriteAsync(buffer, 0, read);
-
-                                    totalRead += read;
-                                    totalReads += 1;
-
-                                    if (totalReads % 2000 == 0)
-                                    {
-                                        TextBlockInfo.Text = string.Format("Total bytes downloaded for {0}: {1:n0}", pluginName, totalRead);
-                                    }
-                                }
+                                TextBlockInfo.Text = string.Format("Total bytes downloaded for {0}: {1:n0}", pluginName, totalRead);
                             }
-                            while (isMoreToRead);
                         }
                     }
+                    while (isMoreToRead);
                 }
 
                 // Now, get the full installer.
@@ -192,35 +186,33 @@ namespace Avalon
                 {
                     response.EnsureSuccessStatusCode();
 
-                    using (Stream contentStream = await response.Content.ReadAsStreamAsync(), fileStream = new FileStream(installerFile, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true))
+                    using Stream contentStream = await response.Content.ReadAsStreamAsync(), fileStream = new FileStream(installerFile, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true);
+                    var totalRead = 0L;
+                    var totalReads = 0L;
+                    var buffer = new byte[8192];
+                    var isMoreToRead = true;
+
+                    do
                     {
-                        var totalRead = 0L;
-                        var totalReads = 0L;
-                        var buffer = new byte[8192];
-                        var isMoreToRead = true;
-
-                        do
+                        var read = await contentStream.ReadAsync(buffer, 0, buffer.Length);
+                        if (read == 0)
                         {
-                            var read = await contentStream.ReadAsync(buffer, 0, buffer.Length);
-                            if (read == 0)
-                            {
-                                isMoreToRead = false;
-                            }
-                            else
-                            {
-                                await fileStream.WriteAsync(buffer, 0, read);
+                            isMoreToRead = false;
+                        }
+                        else
+                        {
+                            await fileStream.WriteAsync(buffer, 0, read);
 
-                                totalRead += read;
-                                totalReads += 1;
+                            totalRead += read;
+                            totalReads++;
 
-                                if (totalReads % 2000 == 0)
-                                {
-                                    TextBlockInfo.Text = string.Format("Total bytes downloaded for installer update: {0:n0}", totalRead);
-                                }
+                            if (totalReads % 2000 == 0)
+                            {
+                                TextBlockInfo.Text = string.Format("Total bytes downloaded for installer update: {0:n0}", totalRead);
                             }
                         }
-                        while (isMoreToRead);
                     }
+                    while (isMoreToRead);
                 }
 
                 // Download complete!
@@ -282,43 +274,39 @@ namespace Avalon
                 // Get any plugins first
                 foreach (string item in plugins)
                 {
-                    using (var response = await http.GetAsync(item, HttpCompletionOption.ResponseHeadersRead))
+                    using var response = await http.GetAsync(item, HttpCompletionOption.ResponseHeadersRead);
+                    string pluginName = Argus.IO.FileSystemUtilities.ExtractFileName(item);
+                    string pluginSavePath = Path.Combine(App.Settings.UpdateDirectory, pluginName);
+
+                    response.EnsureSuccessStatusCode();
+
+                    using Stream contentStream = await response.Content.ReadAsStreamAsync(), fileStream = new FileStream(pluginSavePath, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true);
+                    var totalRead = 0L;
+                    var totalReads = 0L;
+                    var buffer = new byte[8192];
+                    var isMoreToRead = true;
+
+                    do
                     {
-                        string pluginName = Argus.IO.FileSystemUtilities.ExtractFileName(item);
-                        string pluginSavePath = Path.Combine(App.Settings.UpdateDirectory, pluginName);
-
-                        response.EnsureSuccessStatusCode();
-
-                        using (Stream contentStream = await response.Content.ReadAsStreamAsync(), fileStream = new FileStream(pluginSavePath, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true))
+                        var read = await contentStream.ReadAsync(buffer, 0, buffer.Length);
+                        if (read == 0)
                         {
-                            var totalRead = 0L;
-                            var totalReads = 0L;
-                            var buffer = new byte[8192];
-                            var isMoreToRead = true;
+                            isMoreToRead = false;
+                        }
+                        else
+                        {
+                            await fileStream.WriteAsync(buffer, 0, read);
 
-                            do
+                            totalRead += read;
+                            totalReads++;
+
+                            if (totalReads % 2000 == 0)
                             {
-                                var read = await contentStream.ReadAsync(buffer, 0, buffer.Length);
-                                if (read == 0)
-                                {
-                                    isMoreToRead = false;
-                                }
-                                else
-                                {
-                                    await fileStream.WriteAsync(buffer, 0, read);
-
-                                    totalRead += read;
-                                    totalReads += 1;
-
-                                    if (totalReads % 2000 == 0)
-                                    {
-                                        TextBlockInfo.Text = string.Format("Total bytes downloaded for {0}: {1:n0}", pluginName, totalRead);
-                                    }
-                                }
+                                TextBlockInfo.Text = string.Format("Total bytes downloaded for {0}: {1:n0}", pluginName, totalRead);
                             }
-                            while (isMoreToRead);
                         }
                     }
+                    while (isMoreToRead);
                 }
 
                 // Download complete!

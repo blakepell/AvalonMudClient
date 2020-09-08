@@ -55,7 +55,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands.HashCommands
         /// <summary>
         /// The supported command line arguments.
         /// </summary>
-        public class Arguments
+        private class Arguments
         {
             [Value(0, Required = true, HelpText = "The name of the affect.")]
             public string AffectName { get; set; } = "";

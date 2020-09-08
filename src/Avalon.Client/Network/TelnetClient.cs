@@ -56,7 +56,6 @@ namespace Avalon.Network
         /// When this task completes you are connected. 
         /// You cannot call this method twice; if you need to reconnect, dispose of this instance and create a new one.
         /// </summary>
-        /// <returns></returns>
         public async Task Connect()
         {
             if (_tcpClient != null)

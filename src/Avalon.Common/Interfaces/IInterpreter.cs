@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using Avalon.Common.Colors;
 using Avalon.Common.Models;
@@ -72,6 +73,12 @@ namespace Avalon.Common.Interfaces
         /// </summary>
         /// <param name="text"></param>
         void EchoText(string text);
+
+        /// <summary>
+        /// Tells the implementing window or form that it needs to echo some text to it's terminal.
+        /// </summary>
+        /// <param name="sb"></param>
+        void EchoText(StringBuilder sb);
 
         /// <summary>
         /// Tells the implementing window or form that it needs to echo some text to it's terminal.

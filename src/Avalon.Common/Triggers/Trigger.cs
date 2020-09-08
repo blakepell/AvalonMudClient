@@ -181,7 +181,7 @@ namespace Avalon.Common.Triggers
             set
             {
                 _command = value;
-                OnPropertyChanged("Command");
+                OnPropertyChanged(nameof(Command));
             }
         }
 
@@ -199,7 +199,7 @@ namespace Avalon.Common.Triggers
             set
             {
                 _pattern = value;
-                OnPropertyChanged("Pattern");
+                OnPropertyChanged(nameof(Pattern));
 
                 try
                 {
@@ -207,10 +207,7 @@ namespace Avalon.Common.Triggers
                 }
                 catch (Exception ex)
                 {
-                    if (this.Conveyor != null)
-                    {
-                        this.Conveyor.EchoLog($"Trigger creation error: {ex.Message}", LogType.Error);
-                    }
+                    this.Conveyor?.EchoLog($"Trigger creation error: {ex.Message}", LogType.Error);
                 }
             }
         }
@@ -236,7 +233,7 @@ namespace Avalon.Common.Triggers
             set
             {
                 _character = value;
-                OnPropertyChanged("Character");
+                OnPropertyChanged(nameof(Character));
             }
         }
 
@@ -254,7 +251,7 @@ namespace Avalon.Common.Triggers
             set
             {
                 _group = value;
-                OnPropertyChanged("Group");
+                OnPropertyChanged(nameof(Group));
             }
         }
 
@@ -275,7 +272,7 @@ namespace Avalon.Common.Triggers
                 if (value != _isSilent)
                 {
                     _isSilent = value;
-                    OnPropertyChanged(nameof(this.IsSilent));
+                    OnPropertyChanged(nameof(IsSilent));
                 }
             }
         }
@@ -297,7 +294,7 @@ namespace Avalon.Common.Triggers
                 if (value != _isLua)
                 {
                     _isLua = value;
-                    OnPropertyChanged(nameof(this.IsLua));
+                    OnPropertyChanged(nameof(IsLua));
                 }
             }
         }
@@ -319,7 +316,7 @@ namespace Avalon.Common.Triggers
                 if (value != _plugin)
                 {
                     _plugin = value;
-                    OnPropertyChanged(nameof(this.Plugin));
+                    OnPropertyChanged(nameof(Plugin));
                 }
             }
         }
@@ -341,7 +338,7 @@ namespace Avalon.Common.Triggers
                 if (value != _disableAfterTriggered)
                 {
                     _disableAfterTriggered = value;
-                    OnPropertyChanged(nameof(this.DisableAfterTriggered));
+                    OnPropertyChanged(nameof(DisableAfterTriggered));
                 }
             }
         }
@@ -363,7 +360,7 @@ namespace Avalon.Common.Triggers
                 if (value != _lock)
                 {
                     _lock = value;
-                    OnPropertyChanged(nameof(this.Lock));
+                    OnPropertyChanged(nameof(Lock));
                 }
             }
         }
@@ -390,7 +387,7 @@ namespace Avalon.Common.Triggers
             set
             {
                 _variableReplacement = value;
-                OnPropertyChanged("VariableReplacement");
+                OnPropertyChanged(nameof(VariableReplacement));
             }
         }
 
@@ -404,7 +401,7 @@ namespace Avalon.Common.Triggers
             set
             {
                 _enabled = value;
-                OnPropertyChanged("Enabled");
+                OnPropertyChanged(nameof(Enabled));
             }
         }
 
@@ -422,7 +419,7 @@ namespace Avalon.Common.Triggers
                 if (value != _gag)
                 {
                     _gag = value;
-                    OnPropertyChanged(nameof(this.Gag));
+                    OnPropertyChanged(nameof(Gag));
                 }
             }
         }
@@ -444,7 +441,7 @@ namespace Avalon.Common.Triggers
                 if (value != _moveTo)
                 {
                     _moveTo = value;
-                    OnPropertyChanged(nameof(this.MoveTo));
+                    OnPropertyChanged(nameof(MoveTo));
                 }
             }
         }
@@ -463,7 +460,7 @@ namespace Avalon.Common.Triggers
                 if (value != _highlightLine)
                 {
                     _highlightLine = value;
-                    OnPropertyChanged(nameof(this.HighlightLine));
+                    OnPropertyChanged(nameof(HighlightLine));
                 }
             }
         }
@@ -488,7 +485,7 @@ namespace Avalon.Common.Triggers
             set
             {
                 _count = value;
-                OnPropertyChanged("Count");
+                OnPropertyChanged(nameof(Count));
             }
         }
 
@@ -503,9 +500,8 @@ namespace Avalon.Common.Triggers
         }
 
         private Regex _regex;
-        private string character = "";
 
-        protected virtual async void OnPropertyChanged(string propertyName)
+        protected virtual void OnPropertyChanged(string propertyName)
         {
             var e = new PropertyChangedEventArgs(propertyName);
             PropertyChanged?.Invoke(this, e);

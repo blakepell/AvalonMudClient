@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalon.Colors;
+using System.Text;
 
 namespace Avalon
 {
@@ -206,7 +207,7 @@ namespace Avalon
             foreach (var item in cmd.Split(';'))
             {
                 var first = item.FirstArgument();
-                var alias = App.Settings.ProfileSettings.AliasList.FirstOrDefault(x => x.AliasExpression == first.Item1 && x.Enabled == true && (string.IsNullOrEmpty(x.Character) || x.Character == characterName));
+                var alias = App.Settings.ProfileSettings.AliasList.FirstOrDefault(x => x.AliasExpression == first.Item1 && x.Enabled && (string.IsNullOrEmpty(x.Character) || x.Character == characterName));
 
                 if (alias == null)
                 {
@@ -399,13 +400,32 @@ namespace Avalon
 
             var e = new EchoEventArgs
             {
-                Text = $"{text}\r\n",
+                Text = $"{sb}\r\n",
                 UseDefaultColors = true,
                 ForegroundColor = AnsiColors.Default,
                 Terminal = TerminalTarget.Main
             };
 
             Argus.Memory.StringBuilderPool.Return(sb);
+
+            this.OnEcho(e);
+        }
+
+        /// <summary>
+        /// Tells the implementing window or form that it needs to echo some text to it's terminal.
+        /// </summary>
+        /// <param name="sb"></param>
+        public void EchoText(StringBuilder sb)
+        {
+            Colorizer.MudToAnsiColorCodes(sb);
+
+            var e = new EchoEventArgs
+            {
+                Text = $"{sb}\r\n",
+                UseDefaultColors = true,                
+                ForegroundColor = AnsiColors.Default,
+                Terminal = TerminalTarget.Main
+            };
 
             this.OnEcho(e);
         }

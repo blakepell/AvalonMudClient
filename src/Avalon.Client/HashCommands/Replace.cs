@@ -7,7 +7,7 @@ namespace Avalon.HashCommands
 {
 
     /// <summary>
-    /// Replaces all occurances of a string in the a terminal window.
+    /// Replaces all occurances of a string in a terminal window.
     /// </summary>
     public class Replace : HashCommand
     {

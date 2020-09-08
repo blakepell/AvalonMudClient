@@ -74,7 +74,7 @@ namespace Avalon.HashCommands
             bool inQuote = false;
 
             // Character 30 is a record separator.
-            char splitter = (char)30;
+            const char splitter = (char)30;
 
             // Convert the spaces to a record separator sign so we can split at newline
             // later on.  Only convert spaces which are outside the boundaries of quoted text.

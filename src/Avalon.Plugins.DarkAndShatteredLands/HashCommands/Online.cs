@@ -39,7 +39,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands.HashCommands
                 // The HttpClient is unique.. it implements IDisposable but DO NOT call Dispose.  It's meant to be used throughout
                 // the life of your application and will be re-used by the framework.  Odd but that's what it is.
                 var http = new HttpClient();
-
+                
                 var sw = new Stopwatch();
                 sw.Start();
 

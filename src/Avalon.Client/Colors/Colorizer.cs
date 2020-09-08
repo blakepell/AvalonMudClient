@@ -76,7 +76,7 @@ namespace Avalon.Colors
         /// <param name="name">The friendly name of the color.</param>
         public static ColorMap ColorMapByName(string name)
         {
-            return ColorMap.FirstOrDefault(x => string.Equals(x.AnsiColor.Name, name, StringComparison.OrdinalIgnoreCase));
+            return ColorMap.Find(x => string.Equals(x.AnsiColor.Name, name, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>

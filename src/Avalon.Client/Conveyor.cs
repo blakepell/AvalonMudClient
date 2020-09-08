@@ -27,7 +27,6 @@ namespace Avalon
         /// Gets a variable from the settings (TODO: character)
         /// </summary>
         /// <param name="key"></param>
-        /// <returns></returns>
         public string GetVariable(string key)
         {
             var variable = App.Settings.ProfileSettings.Variables.FirstOrDefault(x => string.Equals(x.Key, key, StringComparison.OrdinalIgnoreCase));
@@ -567,12 +566,12 @@ namespace Avalon
         /// <param name="id"></param>
         public ITrigger FindTrigger(string id)
         {
-            ITrigger trigger = App.Settings.ProfileSettings.TriggerList.FirstOrDefault(x => x.Identifier.Equals(id, StringComparison.Ordinal));
+            ITrigger trigger = App.Settings.ProfileSettings.TriggerList.Find(x => x.Identifier.Equals(id, StringComparison.Ordinal));
 
             // If the trigger is null, go through the system triggers.
             if (trigger == null)
             {
-                trigger = App.SystemTriggers.FirstOrDefault(x => x.Identifier.Equals(id, StringComparison.Ordinal));
+                trigger = App.SystemTriggers.Find(x => x.Identifier.Equals(id, StringComparison.Ordinal));
             }
 
             return trigger;

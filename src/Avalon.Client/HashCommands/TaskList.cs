@@ -21,7 +21,7 @@ namespace Avalon.HashCommands
         public override void Execute()
         {
             // Parse the arguments and append to the file.
-            var result = Parser.Default.ParseArguments<TaskList.TaskListArguments>(CreateArgs(this.Parameters))
+            var result = Parser.Default.ParseArguments<Arguments>(CreateArgs(this.Parameters))
                 .WithParsed(o =>
                 {
                     if (o.Count)
@@ -62,7 +62,7 @@ namespace Avalon.HashCommands
         /// <summary>
         /// The supported arguments for the #add-task hash command.
         /// </summary>
-        public class TaskListArguments
+        private class Arguments
         {
             [Option('c', "count", Required = false, HelpText = "The number of items in the scheduled task queue.")]
             public bool Count { get; set; }

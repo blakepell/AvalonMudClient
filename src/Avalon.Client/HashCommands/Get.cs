@@ -22,9 +22,7 @@ namespace Avalon.HashCommands
         {
             string temp = this.Interpreter.Conveyor.GetVariable(this.Parameters);
 
-            Interpreter.EchoText("");
-            Interpreter.EchoText($"--> {temp}", AnsiColors.Cyan);
-            Interpreter.EchoText("");
+            Interpreter.EchoText($"\r\n{{C--> {temp}{{x");
         }
 
     }

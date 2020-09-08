@@ -7,7 +7,6 @@ using System.Collections.Generic;
 
 namespace Avalon.HashCommands
 {
-
     /// <summary>
     /// Echos back the parameter the user sends in an easy to see colored event line.
     /// </summary>
@@ -24,7 +23,7 @@ namespace Avalon.HashCommands
         public override void Execute()
         {
             // Parse the arguments and append to the file.
-            var result = Parser.Default.ParseArguments<EchoEvent.EchoEventArguments>(CreateArgs(this.Parameters))
+            var result = Parser.Default.ParseArguments<Arguments>(CreateArgs(this.Parameters))
                 .WithParsed(o =>
                 {
                     var foregroundColor = Colorizer.ColorMapByName(o.Color);
@@ -46,7 +45,7 @@ namespace Avalon.HashCommands
         /// <summary>
         /// The supported command line arguments the #beep hash command.
         /// </summary>
-        public class EchoEventArguments
+        private class Arguments
         {
             [Option('t', "type", Required = false, HelpText = "The type of event: [Information|Warning|Success|Error|Debug]")]
             public LogType EventType { get; set; } = LogType.Information;
@@ -65,6 +64,5 @@ namespace Avalon.HashCommands
             /// </summary>
             public string Text => string.Join(" ", TextList);
         }
-
     }
 }

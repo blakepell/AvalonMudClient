@@ -22,17 +22,14 @@ namespace Avalon.HashCommands
         public override void Execute()
         {
             var argOne = this.Parameters.FirstArgument();
-            string argTwo = argOne.Item2;
 
             if (!argOne.Item1.IsNullOrEmptyOrWhiteSpace())
             {
-                this.Interpreter.Conveyor.SetVariable(argOne.Item1, argTwo ?? "");
+                this.Interpreter.Conveyor.SetVariable(argOne.Item1, argOne.Item2 ?? "");
             }
             else
             {
-                Interpreter.EchoText("");
-                Interpreter.EchoText("--> Invalid syntax for #set", AnsiColors.Red);
-                Interpreter.EchoText("");
+                Interpreter.EchoText("\r\n{R--> Invalid syntax for #set{x\r\n");
             }
         }
 

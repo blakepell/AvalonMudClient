@@ -1,6 +1,5 @@
 ﻿using ICSharpCode.AvalonEdit.CodeCompletion;
 using System.Collections.Generic;
-using System.Data;
 
 namespace Avalon.Lua
 {

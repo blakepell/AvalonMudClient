@@ -4,7 +4,6 @@ using Avalon.Common.Interfaces;
 
 namespace Avalon.HashCommands
 {
-
     /// <summary>
     /// Disable all triggers or aliases globally (it does not change their individual settings).
     /// </summary>
@@ -29,20 +28,18 @@ namespace Avalon.HashCommands
             if (string.Equals(this.Parameters, "alias", System.StringComparison.OrdinalIgnoreCase))
             {
                 App.Settings.ProfileSettings.AliasesEnabled = false;
-                Interpreter.EchoText($"--> Aliases Disabled", AnsiColors.Cyan);
+                Interpreter.EchoText("--> Aliases Disabled", AnsiColors.Cyan);
             }
             else if (string.Equals(this.Parameters, "trigger", System.StringComparison.OrdinalIgnoreCase))
             {
                 App.Settings.ProfileSettings.TriggersEnabled = false;
-                Interpreter.EchoText($"--> Triggers Disable", AnsiColors.Cyan);
+                Interpreter.EchoText("--> Triggers Disable", AnsiColors.Cyan);
             }
             else
             {
                 Interpreter.EchoText("--> Syntax: #disable <alias|trigger>", AnsiColors.Red);
                 return;
             }
-
         }
-
     }
 }

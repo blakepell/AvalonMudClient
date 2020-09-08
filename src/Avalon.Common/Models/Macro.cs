@@ -40,7 +40,7 @@ namespace Avalon.Common.Models
             set
             {
                 _key = value;
-                OnPropertyChanged("Key");
+                OnPropertyChanged(nameof(Key));
             }
         }
 
@@ -54,7 +54,7 @@ namespace Avalon.Common.Models
             set
             {
                 _keyDescription = value;
-                OnPropertyChanged("KeyDescription");
+                OnPropertyChanged(nameof(KeyDescription));
             }
         }
 
@@ -65,7 +65,7 @@ namespace Avalon.Common.Models
             set
             {
                 _command = value;
-                OnPropertyChanged("Command");
+                OnPropertyChanged(nameof(Command));
             }
         }
 

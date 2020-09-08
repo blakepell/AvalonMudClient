@@ -4,7 +4,6 @@ using Avalon.Common.Interfaces;
 
 namespace Avalon.HashCommands
 {
-
     /// <summary>
     /// Enables all triggers or aliases globally (it does not change their individual settings).
     /// </summary>
