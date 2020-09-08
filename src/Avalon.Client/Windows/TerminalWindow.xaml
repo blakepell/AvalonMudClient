@@ -12,9 +12,6 @@
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" xmlns:controls="clr-namespace:Avalon.Controls"
         Loaded="TerminalWindowWindow_Loaded" AllowsTransparency="False" WindowStyle="None"
         Title="Terminal Window" Height="600" Width="800" Closed="TerminalWindowWindow_Closed">
-    <!--<Window.Background>
-        <SolidColorBrush Opacity="0.5" Color="White"/>
-    </Window.Background>-->    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>

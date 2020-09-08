@@ -19,7 +19,7 @@
         PreviewKeyDown="MainWindow_OnPreviewKeyDown"
         Activated="MainWindow_Activated"
         SizeChanged="MainPage_SizeChanged"
-        ResizeMode="CanResize" AllowsTransparency="True" WindowStyle="None" BorderThickness=".9" BorderBrush="#444444" Style="{DynamicResource WindowChrome}"
+        ResizeMode="CanResize" AllowsTransparency="False" WindowStyle="None" BorderThickness=".9" BorderBrush="#444444" Style="{DynamicResource WindowChrome}"
         >
     <Window.Resources>
         <providers:AutoCompleteCommandProvider x:Key="AutoCompleteCommandProvider"/>

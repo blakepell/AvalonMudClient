@@ -50,7 +50,7 @@
                                    HorizontalOffset="0"
                                    MinHeight="25"
                                    MaxHeight="600"
-                                   AllowsTransparency="True"
+                                   AllowsTransparency="False"
                                    PopupAnimation="None"
                                    Placement="Top"
                                    Focusable="False">
