@@ -16,6 +16,7 @@ using Argus.Extensions;
 using System.Text;
 using System.Linq;
 using ICSharpCode.AvalonEdit;
+using System.Windows.Media;
 
 namespace Avalon
 {
@@ -105,6 +106,14 @@ namespace Avalon
                 if (App.Settings.AvalonSettings.GlobalExceptionHandlingEnabled)
                 {
                     SetupExceptionHandling();
+                }
+
+                // This is not recommended but is provided in case the hardware acceleration is causing the app to crash
+                // or not render correctly due to a video card driver.  This is an edge case but providing this setting
+                // will allow for people to disable hardware acceleration and continue using the app.
+                if (App.Settings.AvalonSettings.DisableHardwareAcceleration)
+                {
+                    RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
                 }
 
                 // Remove "Control+D" from the AvalonEdit input gestures so our "Control+D" hot key for directions

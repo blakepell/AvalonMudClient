@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Windows.Media;
 using Avalon.Common.Interfaces;
 
 namespace Avalon.HashCommands
@@ -22,6 +23,7 @@ namespace Avalon.HashCommands
         {
             string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             string bit = Environment.Is64BitProcess ? "64-bit" : "32-bit";
+            string rendering = "N/A";
 
 #if DEBUG
             string mode = "Debug";
@@ -29,9 +31,20 @@ namespace Avalon.HashCommands
             string mode = "Release";
 #endif
 
+            switch (RenderOptions.ProcessRenderMode)
+            {
+                case System.Windows.Interop.RenderMode.Default:
+                    rendering = "Enabled";
+                    break;
+                case System.Windows.Interop.RenderMode.SoftwareOnly:
+                    rendering = "Disabled";
+                    break;
+            }
+
             Interpreter.Conveyor.EchoText("\r\n");
-            Interpreter.Conveyor.EchoText($"Version:  {version} {bit}\r\n");
-            Interpreter.Conveyor.EchoText($"Build:    {mode}");
+            Interpreter.Conveyor.EchoText($"Version:            {version} {bit}\r\n");
+            Interpreter.Conveyor.EchoText($"Build:              {mode}\r\n");
+            Interpreter.Conveyor.EchoText($"Hardward Rendering: {rendering}\r\n");
         }
 
     }

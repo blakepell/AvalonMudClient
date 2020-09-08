@@ -58,6 +58,19 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public bool BackBufferEnabled { get; set; } = true;
 
+        /// <summary>
+        /// The ability to disable hardware acceleration (not recommended).
+        /// </summary>
+        /// <remarks>
+        /// This is not recommended but is provided in case the hardware acceleration is causing the app to crash
+        /// or not render correctly due to a video card driver.  This is an edge case but providing this setting
+        /// will allow for people to disable hardware acceleration and continue using the app.
+        /// </remarks>
+        [CategoryAttribute("Performance")]
+        [DescriptionAttribute("Whether disable hardware acceleration or not.  This should always be true unless the UI is crashing due to a video card issue with this app.  Hardware acceleration will almost always be faster than the alternative.")]
+        [Browsable(true)]
+        public bool DisableHardwareAcceleration { get; set; } = false;
+
         private bool _developerMode = false;
 
         [CategoryAttribute("Security")]
@@ -315,6 +328,7 @@ namespace Avalon.Common.Settings
         [DescriptionAttribute("Whether or not global exceptions should be handled.  Note: This requires a reboot of the mud client to take effect.")]
         [Browsable(true)]
         public bool GlobalExceptionHandlingEnabled { get; set; } = false;
+
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
