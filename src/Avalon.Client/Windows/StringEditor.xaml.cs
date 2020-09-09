@@ -8,6 +8,7 @@ using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
+using ModernWpf.Controls;
 
 namespace Avalon
 {
@@ -62,7 +63,7 @@ namespace Avalon
                             }
                         }
 
-                        this.StatusText = "Press [F1] for code snippits or type 'lua:' to see custom functions.";
+                        this.StatusText = "Press [F1] for code snippits or type 'lua.' to see custom functions.";
 
                         break;
                 }
@@ -197,8 +198,35 @@ namespace Avalon
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ButtonSave_OnClick(object sender, RoutedEventArgs e)
+        private async void ButtonSave_OnClick(object sender, RoutedEventArgs e)
         {
+            // Allow Lua validating to be turned off, but if it's on attempt to use LoadString to check
+            // for any blatant syntax errors.
+            if (this.EditorMode == EditorType.Lua && App.Settings.AvalonSettings.ValidateLua)
+            {
+                var luaResult = await App.MainWindow.Interp.LuaCaller.ValidateAsync(this.Text);
+                
+                if (!luaResult.Success && luaResult.Exception != null)
+                {
+                    string buf = $"An error occured on line {luaResult.Exception.ToLineNumber}\r\nMessage: {luaResult?.Exception?.Message ?? "N/A"}\r\n\r\nWould you still like to save?";
+
+                    var confirmDialog = new YesNoDialog()
+                    {
+                        Title = "Syntax Error",
+                        Content = buf,
+                        PrimaryButtonText = "Yes",
+                        SecondaryButtonText = "No"
+                    };
+
+                    var result = await confirmDialog.ShowAsync();
+
+                    if (result == ContentDialogResult.Secondary)
+                    {
+                        return;
+                    }
+                }
+            }
+
             this.DialogResult = true;
             this.Close();
         }

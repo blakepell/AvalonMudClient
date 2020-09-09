@@ -330,6 +330,11 @@ namespace Avalon.Common.Settings
         public bool GlobalExceptionHandlingEnabled { get; set; } = false;
 
 
+        [CategoryAttribute("Lua")]
+        [DescriptionAttribute("Whether the Lua editor should attempt to validate Lua for syntax errors on save and report those to the user.")]
+        [Browsable(true)]
+        public bool ValidateLua { get; set; } = true;
+
         protected virtual void OnPropertyChanged(string propertyName)
         {
             var e = new PropertyChangedEventArgs(propertyName);

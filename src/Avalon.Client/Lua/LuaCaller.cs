@@ -75,7 +75,7 @@ namespace Avalon.Lua
                 UserData.RegisterType(t);
                 _clrTypes.Add(prefix, t);
             }
-        }    
+        }
 
         /// <summary>
         /// Clears the custom loaded types from LuaCaller.RegisterType.
@@ -234,7 +234,7 @@ namespace Avalon.Lua
                     try
                     {
                         if (!string.IsNullOrWhiteSpace(App.Settings?.ProfileSettings?.LuaGlobalScript))
-                        {                                                        
+                        {
                             await lua.DoStringAsync(executionControlToken, App.Settings.ProfileSettings.LuaGlobalScript);
                         }
                     }
@@ -259,7 +259,7 @@ namespace Avalon.Lua
                         }
                         else
                         {
-                            var exInner = ((InterpreterException) ex.InnerException);
+                            var exInner = ((InterpreterException)ex.InnerException);
                             _interpreter.Send("~", true, false);
                             _interpreter.Conveyor.EchoLog($"--> {exInner.DecoratedMessage}", LogType.Error);
                         }
@@ -278,6 +278,70 @@ namespace Avalon.Lua
                     }
                 }
             }), DispatcherPriority.Normal);
+        }
+
+        /// <summary>
+        /// Validates Lua code for potential syntax errors but does not execute it.
+        /// </summary>
+        /// <param name="luaCode"></param>
+        public async Task<LuaValidationResult> ValidateAsync(string luaCode)
+        {
+            if (string.IsNullOrWhiteSpace(luaCode))
+            {
+                return new LuaValidationResult
+                {
+                    Success = true
+                };
+            }
+
+            try
+            {
+                // Setup Lua
+                var lua = new Script();
+                lua.Options.CheckThreadAccess = false;
+                UserData.RegisterType<LuaCommands>();
+                UserData.RegisterType<LuaGlobalVariables>();
+
+                // Custom Lua Commands
+                var luaCmd = UserData.Create(new LuaCommands(_interpreter, _random));
+                lua.Globals.Set("lua", luaCmd);
+
+                // Dynamic types from plugins.
+                foreach (var item in _clrTypes)
+                {
+                    // Set the actual class that has the Lua commands.
+                    var instance = Activator.CreateInstance(item.Value) as ILuaCommand;
+                    instance.Interpreter = _interpreter;
+
+                    // Add it in.
+                    var instanceLua = UserData.Create(instance);
+                    lua.Globals.Set(item.Key, instanceLua);
+                }
+
+                // Set the global variables that are specifically only available in Lua.
+                lua.Globals["global"] = this.LuaGlobalVariables;
+
+
+                if (!string.IsNullOrWhiteSpace(App.Settings?.ProfileSettings?.LuaGlobalScript))
+                {
+                    await lua.LoadStringAsync(App.Settings.ProfileSettings.LuaGlobalScript);
+                }
+
+                await lua.LoadStringAsync(luaCode);
+
+                return new LuaValidationResult
+                {
+                    Success = true
+                };
+            }
+            catch (SyntaxErrorException ex)
+            {
+                return new LuaValidationResult
+                {
+                    Success = false,
+                    Exception = ex
+                };
+            }
         }
     }
 }

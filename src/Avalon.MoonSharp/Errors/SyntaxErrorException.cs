@@ -69,5 +69,27 @@ namespace MoonSharp.Interpreter
 				throw new SyntaxErrorException(this);
 		}
 
+		/// <summary>
+		/// The first line of any errors.
+		/// </summary>
+		public int FromLineNumber
+        {
+			get
+            {
+				return Token?.FromLine ?? -1; 
+            }
+        }
+
+		/// <summary>
+		/// The last line of any errors.
+		/// </summary>
+		public int ToLineNumber
+		{
+			get
+			{
+				return Token?.ToLine ?? -1;
+			}
+		}
+
 	}
 }
