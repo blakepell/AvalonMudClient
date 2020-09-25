@@ -36,6 +36,7 @@ namespace Avalon.HashCommands
             {
                 sb.Clear();
                 sb.Append(argTwo).Replace("@count", (i + 1).ToString()).Replace("@index", i.ToString());
+                Interpreter.Send(sb.ToString());
             }
 
             Argus.Memory.StringBuilderPool.Return(sb);
