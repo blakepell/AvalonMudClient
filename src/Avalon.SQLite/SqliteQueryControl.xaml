@@ -36,7 +36,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Margin="-3">
+    <Grid Margin="0,5,0,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="7*" />
@@ -47,9 +47,9 @@
             <RowDefinition Height="50*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Background="#171717" Grid.Row="0" Grid.Column="0">
-            <ui:CommandBar x:Name="DbExplorerCommandBar" Background="#171717" DefaultLabelPosition="Right"  HorizontalAlignment="Left">
-                <ui:AppBarButton x:Name="ButtonRefreshSchema" Label="Refresh Schema" Click="ButtonRefreshSchema_ClickAsync">
+        <StackPanel Grid.Row="0" Grid.Column="0">
+            <ui:CommandBar x:Name="DbExplorerCommandBar" Background="#1A1A1A" DefaultLabelPosition="Right"  HorizontalAlignment="Left" Margin="1">
+                <ui:AppBarButton x:Name="ButtonRefreshSchema" Background="#1A1A1A" Label="Refresh Schema" Click="ButtonRefreshSchema_ClickAsync">
                     <ui:AppBarButton.Icon>
                         <ui:SymbolIcon Symbol="Refresh" Foreground="CornflowerBlue" />
                     </ui:AppBarButton.Icon>
@@ -57,9 +57,9 @@
             </ui:CommandBar>
         </StackPanel>
 
-        <DockPanel Background="#171717" Grid.Row="0" Grid.Column="1">
+        <DockPanel Background="#1A1A1A" Grid.Row="0" Grid.Column="1">
             <ui:CommandBar x:Name="SqlCommandBar" Background="#171717" DefaultLabelPosition="Right" HorizontalAlignment="Left">
-                <ui:AppBarButton x:Name="ButtonExecuteSql" Label="Execute Query [F5]" Click="ButtonExecuteSql_ClickAsync" DataContext="{Binding ElementName=QueryControl}" IsEnabled="{Binding Path=IsQueryExecuting, Converter={StaticResource InverseBooleanConverter}}">
+                <ui:AppBarButton x:Name="ButtonExecuteSql" Background="#1A1A1A" Label="Execute Query [F5]" Click="ButtonExecuteSql_ClickAsync" DataContext="{Binding ElementName=QueryControl}" IsEnabled="{Binding Path=IsQueryExecuting, Converter={StaticResource InverseBooleanConverter}}">
                     <ui:AppBarButton.Icon>
                         <ui:SymbolIcon Symbol="Play" Foreground="Green" />
                     </ui:AppBarButton.Icon>
