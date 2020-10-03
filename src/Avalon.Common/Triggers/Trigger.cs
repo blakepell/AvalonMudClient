@@ -8,6 +8,7 @@ using Avalon.Common.Models;
 
 namespace Avalon.Common.Triggers
 {
+    /// <inheritdoc/>
     public class Trigger : ITrigger, ICloneable, INotifyPropertyChanged
     {
         public Trigger()
@@ -40,17 +41,26 @@ namespace Avalon.Common.Triggers
             this.Gag = gag;
         }
 
-        /// <summary>
-        /// Matches a trigger.  Also allows for the variable replacement triggers to be explicitly ignored by the caller
-        /// regardless of how they're setup by the user.  This is important because the screen rendering code from AvalonEdit
-        /// will hit those triggers over and over as each line comes in.  Variable replace should be ignored in those cases
-        /// because they've already been processed (and in some cases it will cause them to re-process out of order).  If you're
-        /// reading variables in from a prompt and getting say, a room name, you want that to process once, when you're there
-        /// and not out of order.  To be clear, this isn't replace @ variables in the pattern, it's the part that sets the
-        /// the variable later down the line.  The first "variable replacement" has to happen in both cases.
-        /// </summary>
-        /// <param name="line"></param>
-        /// <param name="skipVariableSet">Default false: Whether to explicitly skip variable setting (not replacing).</param>
+        public Trigger(string pattern = "", string command = "", string character = "", bool isSilent = false, string identifier = "", 
+                        TerminalTarget moveTo = TerminalTarget.Main, bool gag = false, string group = "", bool disableAfterTriggered = false, 
+                        bool enabled = true, bool highlightLine = false, bool isLua = false, bool variableReplacement = false)
+        {
+            this.Pattern = pattern;
+            this.Command = command;
+            this.Character = character;
+            this.IsSilent = isSilent;
+            this.Identifier = identifier;
+            this.MoveTo = moveTo;
+            this.Gag = gag;
+            this.Group = group;
+            this.DisableAfterTriggered = disableAfterTriggered;
+            this.Enabled = enabled;
+            this.HighlightLine = highlightLine;
+            this.IsLua = isLua;
+            this.VariableReplacement = variableReplacement;
+        }
+
+        /// <inheritdoc/>
         public bool IsMatch(string line, bool skipVariableSet = false)
         {
             Match match;
@@ -154,7 +164,6 @@ namespace Avalon.Common.Triggers
         /// <summary>
         /// The command after it's been processed.  This is what should get sent to the game.
         /// </summary>
-        /// <returns></returns>
         [JsonIgnore]
         public string ProcessedCommand { get; private set; } = "";
 
@@ -169,9 +178,7 @@ namespace Avalon.Common.Triggers
 
         private string _command = "";
 
-        /// <summary>
-        /// The command as entered by the user before it is processed in anyway.
-        /// </summary>
+        /// <inheritdoc/>
         public virtual string Command
         {
             get
@@ -187,9 +194,7 @@ namespace Avalon.Common.Triggers
 
         private string _pattern = "";
 
-        /// <summary>
-        /// The regular expression pattern to match the trigger on.
-        /// </summary>
+        /// <inheritdoc/>
         public string Pattern
         {
             get
@@ -212,18 +217,15 @@ namespace Avalon.Common.Triggers
             }
         }
 
-        /// <summary>
-        /// Execute command that is overridable.
-        /// </summary>
+        /// <inheritdoc/>
         public virtual void Execute()
         {
             return;
         }
 
         private string _character = "";
-        /// <summary>
-        /// The character who the trigger should be isolated to (if any).
-        /// </summary>
+
+        /// <inheritdoc/>
         public string Character
         {
             get
@@ -239,9 +241,7 @@ namespace Avalon.Common.Triggers
 
         private string _group = "";
 
-        /// <summary>
-        /// The group the trigger is in.  This can be used to toggle all triggers on or off.
-        /// </summary>
+        /// <inheritdoc/>
         public string Group
         {
             get
@@ -257,9 +257,7 @@ namespace Avalon.Common.Triggers
 
         private bool _isSilent = false;
 
-        /// <summary>
-        /// Whether the triggers output should be silent (not echo to the main terminal).
-        /// </summary>
+        /// <inheritdoc/>
         public bool IsSilent
         {
             get
@@ -279,9 +277,7 @@ namespace Avalon.Common.Triggers
 
         private bool _isLua = false;
 
-        /// <summary>
-        /// Whether the command should be executed as a Lua script.
-        /// </summary>
+        /// <inheritdoc/>
         public bool IsLua
         {
             get
@@ -301,9 +297,7 @@ namespace Avalon.Common.Triggers
 
         private bool _plugin = false;
 
-        /// <summary>
-        /// Indicates whether a trigger was loaded from a plugin or not.
-        /// </summary>
+        /// <inheritdoc/>
         public bool Plugin
         {
             get
@@ -323,9 +317,7 @@ namespace Avalon.Common.Triggers
 
         private bool _disableAfterTriggered = false;
 
-        /// <summary>
-        /// If set to true will disable the trigger after it fires.
-        /// </summary>
+        /// <inheritdoc/>
         public bool DisableAfterTriggered
         {
             get
@@ -345,9 +337,7 @@ namespace Avalon.Common.Triggers
 
         private bool _lock = false;
 
-        /// <summary>
-        /// Whether the trigger is locked.  This will stop a trigger from being auto-updated in a package.
-        /// </summary>
+        /// <inheritdoc/>
         public bool Lock
         {
             get
@@ -365,19 +355,12 @@ namespace Avalon.Common.Triggers
             }
         }
 
-        /// <summary>
-        /// The date/time the trigger last fired successfully.  This can be useful in tracking down
-        /// errant triggers that are running (when you have -a lot- of them).  This can be toggled not
-        /// to set via the TrackTriggerLastMatched profile setting.
-        /// </summary>
+        /// <inheritdoc/>
         public DateTime LastMatched { get; set; } = DateTime.MinValue;
 
         private bool _variableReplacement = false;
 
-        /// <summary>
-        /// Whether or not variables should be replaced in the pattern.  This is offered as
-        /// a performance tweak so the player has to opt into it.
-        /// </summary>
+        /// <inheritdoc/>
         public bool VariableReplacement
         {
             get
@@ -392,6 +375,8 @@ namespace Avalon.Common.Triggers
         }
 
         private bool _enabled = true;
+
+        /// <inheritdoc/>
         public bool Enabled
         {
             get
@@ -407,6 +392,7 @@ namespace Avalon.Common.Triggers
 
         private bool _gag = false;
 
+        /// <inheritdoc/>
         public bool Gag
         {
             get
@@ -426,9 +412,7 @@ namespace Avalon.Common.Triggers
 
         private TerminalTarget _moveTo = TerminalTarget.None;
 
-        /// <summary>
-        /// What terminal window to move the triggered line to.
-        /// </summary>
+        /// <inheritdoc/>
         public TerminalTarget MoveTo
         {
             get
@@ -448,6 +432,7 @@ namespace Avalon.Common.Triggers
 
         private bool _highlightLine = false;
 
+        /// <inheritdoc />
         public bool HighlightLine
         {
             get
@@ -465,17 +450,13 @@ namespace Avalon.Common.Triggers
             }
         }
 
-        /// <summary>
-        /// A Conveyor so the trigger can interact with the UI if it's a CLR trigger.
-        /// </summary>
+        /// <inheritdoc />
         [JsonIgnore]
         public IConveyor Conveyor { get; set; }
 
         private int _count = 0;
 
-        /// <summary>
-        /// The number of a times a trigger has fired.
-        /// </summary>
+        /// <inheritdoc />
         public int Count
         {
             get
@@ -489,6 +470,7 @@ namespace Avalon.Common.Triggers
             }
         }
 
+        /// <inheritdoc />
         public string Identifier { get; set; } = Guid.NewGuid().ToString();
 
         /// <summary>
@@ -499,6 +481,9 @@ namespace Avalon.Common.Triggers
             return this.MemberwiseClone();
         }
 
+        /// <summary>
+        /// The underlying compiled RegeEx for this trigger.
+        /// </summary>
         private Regex _regex;
 
         protected virtual void OnPropertyChanged(string propertyName)

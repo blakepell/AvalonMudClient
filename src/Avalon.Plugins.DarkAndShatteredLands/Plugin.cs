@@ -64,7 +64,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             {
                 this.ProfileSettings.TriggerList.Remove(removePrompt);
             }
-
+            
             // Now, add our prompt in that is set via #set-prompt.
             this.Triggers.Add(new Trigger(@"^(\[Quiet\] )?\<(?<Health>\d+)/(?<MaxHealth>\d+)hp (?<Mana>\d+)/(?<MaxMana>\d+)m (?<Move>\d+)/(?<MaxMove>\d+)mv \((?<Wimpy>\d+)\|(?<Stance>\w+)\) \((?<Room>.*?)\) \((?<ExitsShort>.*?)\) (?<ExpTnl>.*?) (?<Gold>.*?) (?<Silver>.*?) (?<QuestPoints>.*?) (?<Language>.*?) (?<Weight>.*?) (?<MaxWeight>.*?) (?<GameTime>.*?)\>", "#update-info-bar", "", true, "1b8a50c4-ab92-48a8-8527-21331791f33d", TerminalTarget.None, true));
 
