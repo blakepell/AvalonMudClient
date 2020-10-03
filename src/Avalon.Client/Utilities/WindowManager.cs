@@ -116,7 +116,10 @@ namespace Avalon.Utilities
                     ctrl.ConnectionString = $"Data Source={App.Settings.ProfileSettings.SqliteDatabase}";
                     await ctrl.RefreshSchema();
 
-                    var win = new Shell(ctrl, App.MainWindow)
+                    // Removed dialog/blur
+                    //var win = new Shell(ctrl, App.MainWindow)
+
+                    var win = new Shell(ctrl, null)
                     {
                         Name = "Database",
                         HeaderTitle = "Database Query Editor",
@@ -125,8 +128,8 @@ namespace Avalon.Utilities
                     };
 
                     win.SetSizeAndPosition(.85);
-
-                    App.MainWindow.ShowDialog(win);
+                    win.Show();
+                    //App.MainWindow.ShowDialog(win);
                 }
                 catch (Exception ex)
                 {
