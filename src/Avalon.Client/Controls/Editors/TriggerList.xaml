@@ -69,7 +69,7 @@
                 <DataGridCheckBoxColumn Header="Lua" Binding="{Binding IsLua,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
                 <DataGridCheckBoxColumn Header="Var Replace" Binding="{Binding VariableReplacement,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
                 <DataGridCheckBoxColumn Header="Gag" Binding="{Binding Gag,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
-                <DataGridCheckBoxColumn Header="Highlight" Binding="{Binding HighlightLine,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
+                <DataGridCheckBoxColumn Header="Stop After" Binding="{Binding StopProcessing,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
                 <DataGridCheckBoxColumn Header="Lock" Binding="{Binding Lock,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
                 <DataGridTextColumn Header="Count" Binding="{Binding Count,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
             </DataGrid.Columns>
