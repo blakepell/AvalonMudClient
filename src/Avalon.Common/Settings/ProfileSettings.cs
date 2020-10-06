@@ -123,9 +123,6 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public string AutoExecuteCommand { get; set; } = "";
 
-        [Browsable(false)]
-        public bool Debug { get; set; } = false;
-
         private bool _spellChecking = false;
 
         [CategoryAttribute("Misc")]

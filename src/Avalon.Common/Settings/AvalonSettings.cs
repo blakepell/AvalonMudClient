@@ -93,6 +93,11 @@ namespace Avalon.Common.Settings
             }
         }
 
+        [CategoryAttribute("Security")]
+        [DescriptionAttribute("Whether advanced debugging messages will be echoed to the console.")]
+        [Browsable(true)]
+        public bool Debug { get; set; } = false;
+
         [CategoryAttribute("UI")]
         [DescriptionAttribute("Whether the main window should have a border.")]
         [Browsable(true)]
