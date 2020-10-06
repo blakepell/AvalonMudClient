@@ -97,3 +97,25 @@ Lua Global Variables:
 ---------------------------------------------------------------------
   * myName: Blake
 ```
+
+### Cancel Script Pattern
+
+One downside of the current Lua engine is that it does not allow for a mechanism to cancel scripts which can be problematic if one runs away.  One solution to this problem is to implement a cancel pattern inside of the script.  If the Lua script runs in a loop it can simply monitor for the value of a mud global variable or a lua global variable.  That value can be set through an alias.
+
+#### Alias: test-lua
+```
+global.lua_running = true
+
+while(global.lua_running)
+  lua.Echo("Pausing for 2 seconds...)
+  lua.Sleep(2000)
+do
+```
+
+#### Alias: cancel-lua
+
+```
+global.lua_running = false
+```
+
+In the above aliases (setup for Lua), the first program `test-lua` enters into a loop that will go on until `global.lua_running` has been set to `false`.  The second alias `cancel-lua` sets the value of the Lua global variable `global.lua_running` and once that's set the `test-lua` program will gracefully exit.

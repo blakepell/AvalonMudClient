@@ -44,6 +44,9 @@
     <Compile Update="Controls\VariableRepeater.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="MainWindow - Copy.Triggers.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Update="MainWindow.Keyboard.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -57,6 +60,9 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Update="MainWindow.Mouse.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="MainWindow.Plugins.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
   </ItemGroup>

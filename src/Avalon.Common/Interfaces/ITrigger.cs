@@ -113,9 +113,25 @@ namespace Avalon.Common.Interfaces
         int Count { get; set; }
 
         /// <summary>
+        /// The priority or order the trigger should be executed in comparison to all of the other Triggers
+        /// that exist.  A default priority value should be specified by the implementing class that is well
+        /// above zero that all triggers without a priority set start at.
+        /// </summary>
+        int Priority { get; set; }
+
+        /// <summary>
         /// Execute command that is overridable.
         /// </summary>
         void Execute();
+
+        /// <summary>
+        /// Whether or not this trigger is a system trigger.  In the plugin system, a system trigger gets loaded
+        /// from the Plugin into the system triggers list.  These triggers fire before regular triggers and also
+        /// do not save, they only for the boot in which they were loaded.  Non-CLR triggers from a plugin will
+        /// be loaded into the main trigger list (overwriting previous copies) if the trigger it's replacing does
+        /// not have the <see cref="Lock"/> flag set.
+        /// </summary>
+        bool SystemTrigger { get; set; }
 
         /// <summary>
         /// A reference to the game's Conveyor so that the trigger can interact with the UI if it's

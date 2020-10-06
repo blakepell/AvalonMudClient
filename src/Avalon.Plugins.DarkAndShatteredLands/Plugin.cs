@@ -66,36 +66,57 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             }
             
             // Now, add our prompt in that is set via #set-prompt.
-            this.Triggers.Add(new Trigger(@"^(\[Quiet\] )?\<(?<Health>\d+)/(?<MaxHealth>\d+)hp (?<Mana>\d+)/(?<MaxMana>\d+)m (?<Move>\d+)/(?<MaxMove>\d+)mv \((?<Wimpy>\d+)\|(?<Stance>\w+)\) \((?<Room>.*?)\) \((?<ExitsShort>.*?)\) (?<ExpTnl>.*?) (?<Gold>.*?) (?<Silver>.*?) (?<QuestPoints>.*?) (?<Language>.*?) (?<Weight>.*?) (?<MaxWeight>.*?) (?<GameTime>.*?)\>", "#update-info-bar", "", true, "1b8a50c4-ab92-48a8-8527-21331791f33d", TerminalTarget.None, true));
+            this.Triggers.Add(new Trigger(pattern: @"^(\[Quiet\] )?\<(?<Health>\d+)/(?<MaxHealth>\d+)hp (?<Mana>\d+)/(?<MaxMana>\d+)m (?<Move>\d+)/(?<MaxMove>\d+)mv \((?<Wimpy>\d+)\|(?<Stance>\w+)\) \((?<Room>.*?)\) \((?<ExitsShort>.*?)\) (?<ExpTnl>.*?) (?<Gold>.*?) (?<Silver>.*?) (?<QuestPoints>.*?) (?<Language>.*?) (?<Weight>.*?) (?<MaxWeight>.*?) (?<GameTime>.*?)\>"
+                                            , command: "#update-info-bar", isSilent: true, identifier: "1b8a50c4-ab92-48a8-8527-21331791f33d", moveTo: TerminalTarget.None, gag: true, systemTrigger: false, group: "dsl-mud.org"));
 
             // IC Channels: Clan gossip, clan, gossip, ask, answer, kingdom, group tells, tells, auction, pray, grats, quest (quote at the end)
-            this.Triggers.Add(new Trigger(@"^[\a]?(\[ .* \] )?([\w'-]+|The ghost of [\w'-]+|\(An Imm\)|\(Imm\) [\w'-]+|\(Wizi@\d\d\) \(Imm\) [\w'-]+) (\bclan gossip(s?)\b|\bclan(s?)\b|\bgossip(s?)\b|\bask(s?)\b|\banswers(s?)\b|\btell(s?)\b|\bBloodbath(s?)\b|\bpray(s?)\b|\bgrats\b|\bauction(s?)\b|\bquest(s?)\b|\bradio(s?)\b|\bimm(s?)\b).*'$", "", "", true, "8b0bc970-08de-498e-9866-8e1aec458c08", TerminalTarget.Terminal1, true));
-            this.Triggers.Add(new Trigger(@"^[\a]?(\[ .* \] )?(?!.*OOC).*Kingdom: .*$", "", "", true, "1dcf2580-da86-45b5-880f-36f9468891c1", TerminalTarget.Terminal1, true));
-            this.Triggers.Add(new Trigger(@"\((Admin|Coder)\) \(Imm\) [\w'-]+:", "", "", true, "b5c8f16b-31d1-48e9-a895-fda1be732051", TerminalTarget.Terminal1, true));
+            this.Triggers.Add(new Trigger(pattern: @"^[\a]?(\[ .* \] )?([\w'-]+|The ghost of [\w'-]+|\(An Imm\)|\(Imm\) [\w'-]+|\(Wizi@\d\d\) \(Imm\) [\w'-]+) (\bclan gossip(s?)\b|\bclan(s?)\b|\bgossip(s?)\b|\bask(s?)\b|\banswers(s?)\b|\btell(s?)\b|\bBloodbath(s?)\b|\bpray(s?)\b|\bgrats\b|\bauction(s?)\b|\bquest(s?)\b|\bradio(s?)\b|\bimm(s?)\b).*'$"
+                                            , command: "", isSilent: true, identifier: "8b0bc970-08de-498e-9866-8e1aec458c08", moveTo: TerminalTarget.Terminal1, gag: true, systemTrigger: false, group: "dsl-mud.org"));
+
+            this.Triggers.Add(new Trigger(pattern: @"^[\a]?(\[ .* \] )?(?!.*OOC).*Kingdom: .*$"
+                                            , command: "", isSilent: true, identifier: "1dcf2580-da86-45b5-880f-36f9468891c1", moveTo: TerminalTarget.Terminal1, gag: true, systemTrigger: false, group: "dsl-mud.org"));
+
+            this.Triggers.Add(new Trigger(pattern: @"\((Admin|Coder)\) \(Imm\) [\w'-]+:"
+                                            , command: "", isSilent: true, identifier: "b5c8f16b-31d1-48e9-a895-fda1be732051", moveTo: TerminalTarget.Terminal1, gag: true, systemTrigger: false, group: "dsl-mud.org"));
 
             // OOC Channels: OOC, OOC Clan, OOC Kingdom, Newbie
-            this.Triggers.Add(new Trigger(@"^[\a]?(\(.*\)?)?([\w'-]+|The ghost of [\w'-]+|\(An Imm\)|\(Imm\) [\w'-]+) (OOC|\[Newbie\]).*$", "", "", true, "4c7efde0-6f9a-4429-8b5c-edf23e60e61f", TerminalTarget.Terminal2, true));
+            this.Triggers.Add(new Trigger(pattern: @"^[\a]?(\(.*\)?)?([\w'-]+|The ghost of [\w'-]+|\(An Imm\)|\(Imm\) [\w'-]+) (OOC|\[Newbie\]).*$"
+                                            , command: "", isSilent: true, identifier: "4c7efde0-6f9a-4429-8b5c-edf23e60e61f", moveTo: TerminalTarget.Terminal2, gag: true, systemTrigger: false, group: "dsl-mud.org"));
 
             // Shared channels (Shalonesti, Conclave)
-            this.Triggers.Add(new Trigger(@"^\((Shalonesti|OOC Shalonesti|Clave|OOC Clave)\).*$", "", "", true, "bd8f5ed0-3122-4091-bb23-db2f589e7cf0", TerminalTarget.Terminal1, true));
+            this.Triggers.Add(new Trigger(pattern: @"^\((Shalonesti|OOC Shalonesti|Clave|OOC Clave)\).*$"
+                                            , command: "", isSilent: true, identifier: "bd8f5ed0-3122-4091-bb23-db2f589e7cf0", moveTo: TerminalTarget.Terminal1, gag: true, systemTrigger: false, group: "dsl-mud.org"));
 
             // Toasts, TODO: Dragon/Remort toasts ( Dragon ) ( Balanx )
-            this.Triggers.Add(new Trigger(@"^[\a]?([\[\(](.*?)[\]\)])?[ ]{0,}([\w'-]+) got (.*?) by (.*?) ([\[\(] (.*?) [\]\)])?[ ]{0,}([\(]Arena[\)])?", "", "", true, "6731ca72-5672-4dab-879b-896b2945805a", TerminalTarget.Terminal1, true));
+            this.Triggers.Add(new Trigger(pattern: @"^[\a]?([\[\(](.*?)[\]\)])?[ ]{0,}([\w'-]+) got (.*?) by (.*?) ([\[\(] (.*?) [\]\)])?[ ]{0,}([\(]Arena[\)])?"
+                                            , command: "", isSilent: true, identifier: "6731ca72-5672-4dab-879b-896b2945805a", moveTo: TerminalTarget.Terminal1, gag: true, systemTrigger: false, group: "dsl-mud.org"));
 
             // Game events: Keeps
-            this.Triggers.Add(new Trigger(@"^([\w'-]+) has (conquered|unlocked) (.*)!", "", "", true, "638a6c30-0a5e-4859-b666-72413f2f1781", TerminalTarget.Terminal1, false));
-            this.Triggers.Add(new Trigger(@"^(personal> )?Keep Lord clans '(.*) is invading (.*)!'", "", "", true, "16f9a412-a6ef-4b5d-a2b7-4dd36f117416", TerminalTarget.Terminal1, false));
+            this.Triggers.Add(new Trigger(pattern: @"^([\w'-]+) has (conquered|unlocked) (.*)!"
+                                            , command: "", isSilent: true, identifier: "638a6c30-0a5e-4859-b666-72413f2f1781", moveTo: TerminalTarget.Terminal1, systemTrigger: false, group: "dsl-mud.org"));
+
+            this.Triggers.Add(new Trigger(pattern: @"^(personal> )?Keep Lord clans '(.*) is invading (.*)!'"
+                                            , command: "", isSilent: true, identifier: "16f9a412-a6ef-4b5d-a2b7-4dd36f117416", moveTo: TerminalTarget.Terminal1, systemTrigger: false, group: "dsl-mud.org"));
 
             // Login, find out who the player is and put it into a variable.  Run whoami and then score to scrap initial info.
-            this.Triggers.Add(new Trigger(@"^Welcome to DSL! DSL Loves You! Other muds think you are ugly, they said so", "whoami;score;aff;#set-prompt"));
+            this.Triggers.Add(new Trigger(pattern: @"^Welcome to DSL! DSL Loves You! Other muds think you are ugly, they said so"
+                                            , command: "whoami;score;aff;#set-prompt", identifier: "bb8d252b-155d-42b6-bc72-1b5e86b551f4", systemTrigger: false, group: "dsl-mud.org"));
 
             // Re-enable the whois trigger which will disable itself when run again.
-            this.Triggers.Add(new Trigger(@"Reconnecting. Type replay to see missed tells.", "#trigger -i 0000f3e4-9ab9-4f52-9e29-0ba6d88348a6 -e;whoami;score"));
+            this.Triggers.Add(new Trigger(pattern: @"Reconnecting. Type replay to see missed tells."
+                                            , command: "#trigger -i 0000f3e4-9ab9-4f52-9e29-0ba6d88348a6 -e;whoami;score", identifier: "115e3e81-fc66-4f1d-a997-dbeb642ba5c3", systemTrigger: false, group: "dsl-mud.org"));
 
-            this.Triggers.Add(new Trigger(@"^You are logged in as\: (?<Character>.*?)$", "whois @Character"));
-            this.Triggers.Add(new Trigger(@"\[Exits: (?<Exits>.*?)  \]", ""));
-            this.Triggers.Add(new Trigger(@"\[Exits:  \]", "#set ExitsShort none;#set Exits none", "", true, "f8efc60a-adcf-46fc-b230-bcf3a4fee8a2"));
-            this.Triggers.Add(new Trigger(@"^Your current war\(s\): (?<Wars>.*?)$", ""));
+            this.Triggers.Add(new Trigger(pattern: @"^You are logged in as\: (?<Character>.*?)$"
+                                            , command: "whois @Character", identifier: "abe0ea16-1abe-4207-835e-bb10e154dba2", systemTrigger: false, group: "dsl-mud.org"));
+
+            this.Triggers.Add(new Trigger(pattern: @"\[Exits: (?<Exits>.*?)  \]"
+                                            , command: "", identifier: "dbaad2c7-45fd-4bf6-9512-8b0f6e19033a", systemTrigger: false, group: "dsl-mud.org"));
+
+            this.Triggers.Add(new Trigger(pattern: @"\[Exits:  \]" 
+                                            , command: "#set ExitsShort none;#set Exits none", isSilent: true, identifier: "f8efc60a-adcf-46fc-b230-bcf3a4fee8a2", systemTrigger: false, group: "dsl-mud.org"));
+
+            this.Triggers.Add(new Trigger(pattern: @"^Your current war\(s\): (?<Wars>.*?)$"
+                                            , command: "", identifier: "80421928-bf25-4ad5-953f-ef196d4d17a5", systemTrigger: false, group: "dsl-mud.org"));
 
             // One time trigger that will disable itself, it sets the players info from the whois entry (but then
             // disables it so you don't reset those variables when you look at other players entries.  Some Lua will
@@ -103,38 +124,47 @@ namespace Avalon.Plugins.DarkAndShatteredLands
             var t = new Trigger(@"^(\[\s?(?<Level>\d+)\s+([\w-]+) (?<Class>\w+)\]|\[ .*? \])\s(\[Quiet\] )?(\(Wizi@\d\d\)\s)?(\[ (?<Clan>.*?) \] )?(\((?<Kingdom>.*?)\))?", "", "", false, "0000f3e4-9ab9-4f52-9e29-0ba6d88348a6")
             {
                 IsLua = true,
-                DisableAfterTriggered = true
+                DisableAfterTriggered = true,
+                Identifier = "fbd0f5c3-2fd0-4900-873b-f0de76ebd24bn",
+                SystemTrigger = false,
+                Group = "dsl-mud.org"
             };
 
             t.Command = @"
 local clan = lua:GetVariable(""Clan"")
 
 if clan ~= nil and clan ~= """" and clan ~= ""Loner"" and clan ~= ""Renegade"" and clan ~= ""Dragon"" and clan ~= ""Angel"" and clan ~= ""Balanx"" and clan ~= ""Demon"" then
-	lua:Send(""cinfo "" .. clan)
+    lua:Send(""cinfo "" .. clan)
 end";
 
             this.Triggers.Add(t);
 
             // Affects processing.
             _affectsTrigger = new AffectsTrigger();
+            _affectsTrigger.SystemTrigger = true;
+            _affectsTrigger.Group = "dsl-mud.org";
+
             var affectsPerm = new AffectsPermanentTrigger(_affectsTrigger);
+            affectsPerm.SystemTrigger = true;
+            affectsPerm.Group = "dsl-mud.org";
+
             var affectsClear = new AffectsClearTrigger(_affectsTrigger);
+            affectsPerm.SystemTrigger = true;
+            affectsPerm.Group = "dsl-mud.org";
 
             this.Triggers.Add(affectsClear);
             this.Triggers.Add(_affectsTrigger);
             this.Triggers.Add(affectsPerm);
 
             // These are of the utmost importance so we'll track these.
-            this.Triggers.Add(new Trigger(@"^You are surrounded by a white aura.$", "#partial-affect sanctuary", "", true, ""));
-            this.Triggers.Add(new Trigger(@"^The white aura around your body fades.$", "#remove-affect sanctuary", "", true, ""));
-
-            this.Triggers.Add(new Trigger(@"^You feel yourself moving more quickly.$", "#partial-affect haste", "", true, ""));
-            this.Triggers.Add(new Trigger(@"^You feel yourself slow down.$", "#remove-affect haste", "", true, ""));
-            this.Triggers.Add(new Trigger(@"^You feel yourself slowing down.", "#remove-affect haste", "", true, ""));
-
-            this.Triggers.Add(new Trigger(@"^You feel less protected.$", "#remove-affect protection good;#remove-affect protection neutral;#remove-affect protection evil", "", true, ""));
-            this.Triggers.Add(new Trigger(@"^Your protection disappears!$", "#remove-affect protection good;#remove-affect protection neutral;#remove-affect protection evil", "", true, ""));
-
+            this.Triggers.Add(new Trigger(pattern: @"^You are surrounded by a white aura.$", command: "#partial-affect sanctuary", isSilent: true, identifier: "273cfc6d-340b-4323-a36c-a3147356ba9a", systemTrigger: true, group: "dsl-mud.org"));
+            this.Triggers.Add(new Trigger(pattern: @"^The white aura around your body fades.$", command: "#remove-affect sanctuary", isSilent: true, identifier: "cc4c3bfc-06cb-476a-a03d-2cc24e995d17", systemTrigger: true, group: "dsl-mud.org"));
+            this.Triggers.Add(new Trigger(pattern: @"^You feel yourself moving more quickly.$", command: "#partial-affect haste", isSilent: true, identifier: "d0d81b22-9248-48b3-ad63-14e935802eae", systemTrigger: true, group: "dsl-mud.org"));
+            this.Triggers.Add(new Trigger(pattern: @"^You feel yourself slow down.$", command: "#remove-affect haste", isSilent: true, identifier: "0400ba9f-167d-4e3c-855a-66bbaf74b5c1", systemTrigger: true, group: "dsl-mud.org"));
+            this.Triggers.Add(new Trigger(pattern: @"^You feel yourself slowing down.", command: "#remove-affect haste", isSilent: true, identifier: "dae503cb-7089-4a2a-b691-5ad6bbc2ee02", systemTrigger: true, group: "dsl-mud.org"));
+            this.Triggers.Add(new Trigger(pattern: @"^You feel less protected.$", command: "#remove-affect protection good;#remove-affect protection neutral;#remove-affect protection evil", isSilent: true, identifier: "15984179-28ca-4b73-b1db-d825892d1927", systemTrigger: true, group: "dsl-mud.org"));
+            this.Triggers.Add(new Trigger(pattern: @"^Your protection disappears!$", command: "#remove-affect protection good;#remove-affect protection neutral;#remove-affect protection evil", isSilent: true, identifier: "5fb3c6e1-d516-45e8-a72b-e25dc60886d8", systemTrigger: true, group: "dsl-mud.org"));
+            
             //this.Triggers.Add(new Trigger(@"^Your skin feels soft again.$", "#remove-affect stone skin", "", true, ""));
             //this.Triggers.Add(new Trigger(@"^You feel solid again..$", "#remove-affect pass door", "", true, ""));
             //this.Triggers.Add(new Trigger(@"^You feel less sick.$", "#remove-affect poison", "", true, ""));
@@ -247,12 +277,12 @@ end";
 
             var list = new List<string>();
             list.Add(@"
-								CREATE TABLE IF NOT EXISTS skills (
-									player_name TEXT NOT NULL,
-									skill_name TEXT NOT NULL,
-									value INT,
-									PRIMARY KEY (player_name, skill_name)
-								);");
+                                CREATE TABLE IF NOT EXISTS skills (
+                                    player_name TEXT NOT NULL,
+                                    skill_name TEXT NOT NULL,
+                                    value INT,
+                                    PRIMARY KEY (player_name, skill_name)
+                                );");
 
             foreach (string sql in list)
             {

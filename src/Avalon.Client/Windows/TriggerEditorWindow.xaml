@@ -11,7 +11,7 @@
         ui:TitleBar.Background="#2D2D30" Background="#171717" BorderBrush="#007ACC"
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
         Loaded="TriggerEditorWindow_Loaded" UseLayoutRounding="True"
-        Title="Trigger Editor" Height="450" Width="800">
+        Title="Trigger Editor" Height="500" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
@@ -70,6 +70,26 @@
                                   SelectedValuePath="Key" DisplayMemberPath="Value">
                         </ComboBox>
                     </ui:SimpleStackPanel>
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <ui:SimpleStackPanel Grid.Column="0" Orientation="Vertical" Margin="0,5,5,0">
+                        <Label FontSize="14" Margin="0,0,0,5">Priority:</Label>
+                        <ui:NumberBox x:Name="TextPriority" ui:ControlHelper.CornerRadius="0" SmallChange="1" LargeChange="10" 
+                                      SpinButtonPlacementMode="Inline" PreviewTextInput="TextPriority_PreviewTextInput"></ui:NumberBox>
+                    </ui:SimpleStackPanel>
+
+                    <!--<ui:SimpleStackPanel Grid.Column="1" Orientation="Vertical" Margin="0,5,0,0">
+                        <Label FontSize="14" Margin="0,0,0,5">Redirect To:</Label>
+                        <ComboBox x:Name="ComboBoxRedirectTo" ui:ControlHelper.CornerRadius="0" HorizontalAlignment="Stretch" SelectedIndex="0"
+                                  SelectedValuePath="Key" DisplayMemberPath="Value">
+                        </ComboBox>
+                    </ui:SimpleStackPanel>-->
                 </Grid>
 
                 <ui:SimpleStackPanel Orientation="Horizontal" Margin="0,5,0,0">

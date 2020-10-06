@@ -15,35 +15,9 @@ namespace Avalon.Common.Triggers
         {
         }
 
-        public Trigger(string pattern, string command)
-        {
-            this.Pattern = pattern;
-            this.Command = command;
-        }
-
-        public Trigger(string pattern, string command, string character, bool silent, string identifier)
-        {
-            this.Pattern = pattern;
-            this.Command = command;
-            this.Character = character;
-            this.Identifier = identifier;
-            this.IsSilent = silent;
-        }
-
-        public Trigger(string pattern, string command, string character, bool silent, string identifier, TerminalTarget moveTo, bool gag)
-        {
-            this.Pattern = pattern;
-            this.Command = command;
-            this.Character = character;
-            this.Identifier = identifier;
-            this.IsSilent = silent;
-            this.MoveTo = moveTo;
-            this.Gag = gag;
-        }
-
-        public Trigger(string pattern = "", string command = "", string character = "", bool isSilent = false, string identifier = "", 
-                        TerminalTarget moveTo = TerminalTarget.Main, bool gag = false, string group = "", bool disableAfterTriggered = false, 
-                        bool enabled = true, bool highlightLine = false, bool isLua = false, bool variableReplacement = false)
+        public Trigger(string pattern, string command, string character = "", bool isSilent = false, string identifier = "",
+                        TerminalTarget moveTo = TerminalTarget.None, bool gag = false, string group = "", bool disableAfterTriggered = false,
+                        bool enabled = true, bool highlightLine = false, bool isLua = false, bool variableReplacement = false, bool systemTrigger = false)
         {
             this.Pattern = pattern;
             this.Command = command;
@@ -58,6 +32,27 @@ namespace Avalon.Common.Triggers
             this.HighlightLine = highlightLine;
             this.IsLua = isLua;
             this.VariableReplacement = variableReplacement;
+            this.SystemTrigger = systemTrigger;
+        }
+
+        public Trigger(string pattern, string command, string character, bool isSilent, string identifier)
+        {
+            this.Pattern = pattern;
+            this.Command = command;
+            this.Character = character;
+            this.Identifier = identifier;
+            this.IsSilent = isSilent;
+        }
+
+        public Trigger(string pattern, string command, string character, bool isSilent, string identifier, TerminalTarget moveTo, bool gag)
+        {
+            this.Pattern = pattern;
+            this.Command = command;
+            this.Character = character;
+            this.Identifier = identifier;
+            this.IsSilent = isSilent;
+            this.MoveTo = moveTo;
+            this.Gag = gag;
         }
 
         /// <inheritdoc/>
@@ -470,8 +465,27 @@ namespace Avalon.Common.Triggers
             }
         }
 
+        private int _priority = 10000;
+
+        /// <inheritdoc />
+        public int Priority
+        {
+            get
+            {
+                return _priority;
+            }
+            set
+            {
+                _priority = value;
+                OnPropertyChanged(nameof(Priority));
+            }
+        }
+
         /// <inheritdoc />
         public string Identifier { get; set; } = Guid.NewGuid().ToString();
+
+        /// <inheritdoc />
+        public bool SystemTrigger { get; set; } = false;
 
         /// <summary>
         /// Clones the trigger.

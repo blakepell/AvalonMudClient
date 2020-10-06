@@ -71,6 +71,16 @@ namespace Avalon.Utilities
             sb.Replace("\x1B[1D", ""); // Left
             sb.Replace("\x1B[5m", ""); // Blink
             sb.Replace("\x1b[2J", ""); // Clear Screen
+            
+            // TODO Background color support
+            //sb.Replace("\x1b[40m", ""); // Black Background
+            //sb.Replace("\x1b[41m", ""); // Red Background
+            //sb.Replace("\x1b[42m", ""); // Green Background
+            //sb.Replace("\x1b[43m", ""); // Yellow Background
+            //sb.Replace("\x1b[44m", ""); // Blue Background
+            //sb.Replace("\x1b[45m", ""); // Purple Background
+            //sb.Replace("\x1b[46m", ""); // Cyan Background
+            //sb.Replace("\x1b[47m", ""); // White Background
         }
 
         /// <summary>
@@ -183,7 +193,7 @@ namespace Avalon.Utilities
             finally
             {
                 Argus.Memory.StringBuilderPool.Return(sb);
-            }            
+            }
         }
 
         /// <summary>
@@ -193,7 +203,7 @@ namespace Avalon.Utilities
         /// <param name="leaveParens">Whether or not to leave parenthesis around commands.  The default value is false.</param>
         public static string SpeedwalkReverse(string input, bool leaveParens = false)
         {
-            if (string.IsNullOrWhiteSpace(input))                
+            if (string.IsNullOrWhiteSpace(input))
             {
                 return "";
             }

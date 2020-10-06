@@ -2,6 +2,7 @@
 using Avalon.Common.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using Trigger = Avalon.Common.Triggers.Trigger;
@@ -45,6 +46,7 @@ namespace Avalon
             TextCharacter.Text = trigger.Character;
             TextGroup.Text = trigger.Group;
             TextIdentifier.Text = trigger.Identifier;
+            TextPriority.Value = trigger.Priority;
             CheckBoxEnabled.IsChecked = trigger.Enabled;
             CheckBoxLua.IsChecked = trigger.IsLua;
             CheckBoxGag.IsChecked = trigger.Gag;
@@ -109,6 +111,17 @@ namespace Avalon
                 this.Trigger.HighlightLine = (bool)CheckBoxHighlight.IsChecked;
                 this.Trigger.IsSilent = (bool)CheckBoxSilent.IsChecked;
                 this.Trigger.DisableAfterTriggered = (bool)CheckBoxDisableAfterTriggered.IsChecked;
+
+                // Set it to the default trigger priority if it is NaN.
+                if (double.IsNaN(TextPriority.Value))
+                {
+                    this.Trigger.Priority = 10000;
+                }
+                else
+                {
+
+                    this.Trigger.Priority = (int)TextPriority.Value;
+                }
 
                 if (ComboBoxRedirectTo.SelectedValue != null)
                 {
@@ -188,6 +201,19 @@ namespace Avalon
             catch (Exception ex)
             {
                 this.StatusText = $"Error: {ex.Message}";
+            }        
+        }
+
+        /// <summary>
+        /// Limits the number box to only digits.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TextPriority_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            if (e.Text.Any(c => !char.IsDigit(c)))
+            {
+                e.Handled = true;
             }
         }
     }
