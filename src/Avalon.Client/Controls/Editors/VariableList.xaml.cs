@@ -139,9 +139,9 @@ namespace Avalon.Controls
 
             var variable = (Variable)item;
 
-            return (variable?.Key?.Contains(TextFilter.Text) ?? false)
-                   || (variable?.Value?.Contains(TextFilter.Text) ?? false)
-                   || (variable?.Character?.Contains(TextFilter.Text) ?? false);
+            return (variable?.Key?.Contains(TextFilter.Text, StringComparison.OrdinalIgnoreCase) ?? false)
+                   || (variable?.Value?.Contains(TextFilter.Text, StringComparison.OrdinalIgnoreCase) ?? false)
+                   || (variable?.Character?.Contains(TextFilter.Text, StringComparison.OrdinalIgnoreCase) ?? false);
         }
 
         /// <summary>

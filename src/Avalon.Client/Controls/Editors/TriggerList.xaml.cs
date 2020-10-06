@@ -184,10 +184,10 @@ namespace Avalon.Controls
 
             var trigger = (Common.Triggers.Trigger)item;
 
-            return (trigger?.Pattern?.Contains(TextFilter.Text) ?? false)
-                   || (trigger?.Command?.Contains(TextFilter.Text) ?? false)
-                   || (trigger?.Character?.Contains(TextFilter.Text) ?? false)
-                   || (trigger?.Group?.Contains(TextFilter.Text) ?? false);
+            return (trigger?.Pattern?.Contains(TextFilter.Text, StringComparison.OrdinalIgnoreCase) ?? false)
+                   || (trigger?.Command?.Contains(TextFilter.Text, StringComparison.OrdinalIgnoreCase) ?? false)
+                   || (trigger?.Character?.Contains(TextFilter.Text, StringComparison.OrdinalIgnoreCase) ?? false)
+                   || (trigger?.Group?.Contains(TextFilter.Text, StringComparison.OrdinalIgnoreCase) ?? false);
         }
 
         /// <summary>

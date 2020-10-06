@@ -165,10 +165,10 @@ namespace Avalon.Controls
 
             // Ugly, but must be done in case nulls slip in (say if someone nulls out a value in the JSON
             // and it gets loaded that way).
-            return (alias?.AliasExpression?.Contains(TextFilter.Text) ?? false)
-                   || (alias?.Command?.Contains(TextFilter.Text) ?? false)
-                   || (alias?.Character?.Contains(TextFilter.Text) ?? false)
-                   || (alias?.Group?.Contains(TextFilter.Text) ?? false);
+            return (alias?.AliasExpression?.Contains(TextFilter.Text, StringComparison.OrdinalIgnoreCase) ?? false)
+                   || (alias?.Command?.Contains(TextFilter.Text, StringComparison.OrdinalIgnoreCase) ?? false)
+                   || (alias?.Character?.Contains(TextFilter.Text, StringComparison.OrdinalIgnoreCase) ?? false)
+                   || (alias?.Group?.Contains(TextFilter.Text, StringComparison.OrdinalIgnoreCase) ?? false);
         }
 
         /// <summary>
