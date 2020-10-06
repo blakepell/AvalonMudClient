@@ -1,5 +1,9 @@
 ﻿using Avalon.Common.Interfaces;
 using CommandLine;
+using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Avalon.HashCommands
@@ -145,8 +149,10 @@ namespace Avalon.HashCommands
                         // Set the Conveyor so it's usable
                         t.Conveyor = this.Interpreter.Conveyor;
                         
-                        // Add it to the list.
-                       App.Settings.ProfileSettings.TriggerList.Add(t);
+                        // Add it to the list.  BUG: This could cause a bug if a trigger is added and this has
+                        // been called from the trigger loop itself (e.g. you're adding to a collection that is being
+                        // currently enumerated.
+                        App.Settings.ProfileSettings.TriggerList.Add(t);
 
                         if (o.Verbose)
                         {
@@ -189,6 +195,7 @@ namespace Avalon.HashCommands
 
             [Option('g', "group", Required = false, HelpText = "Sets the group of the trigger.")]
             public string Group { get; set; }
+
         }
     }
 }

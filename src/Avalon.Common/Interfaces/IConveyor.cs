@@ -75,6 +75,8 @@ namespace Avalon.Common.Interfaces
 
         bool ScrapeEnabled { get; set; }
 
+        void SortTriggersByPriority();
+
         void ProgressBarRepeaterClear();
 
         void ProgressBarRepeaterAdd(string key, int value, int maximum, string text);
@@ -94,5 +96,6 @@ namespace Avalon.Common.Interfaces
         WindowPosition GetWindowPosition { get; }
 
         List<IWindow> WindowList { get; set; }
+
     }
 }

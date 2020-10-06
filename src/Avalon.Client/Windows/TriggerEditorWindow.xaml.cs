@@ -55,6 +55,7 @@ namespace Avalon
             CheckBoxHighlight.IsChecked = trigger.HighlightLine;
             CheckBoxSilent.IsChecked = trigger.IsSilent;
             CheckBoxDisableAfterTriggered.IsChecked = trigger.DisableAfterTriggered;
+            CheckBoxStopProcessing.IsChecked = trigger.StopProcessing;
 
             var dict = new Dictionary<int, string>
             {
@@ -111,6 +112,7 @@ namespace Avalon
                 this.Trigger.HighlightLine = (bool)CheckBoxHighlight.IsChecked;
                 this.Trigger.IsSilent = (bool)CheckBoxSilent.IsChecked;
                 this.Trigger.DisableAfterTriggered = (bool)CheckBoxDisableAfterTriggered.IsChecked;
+                this.Trigger.StopProcessing = (bool)CheckBoxStopProcessing.IsChecked;
 
                 // Set it to the default trigger priority if it is NaN.
                 if (double.IsNaN(TextPriority.Value))

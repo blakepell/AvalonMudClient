@@ -134,6 +134,16 @@ namespace Avalon.Common.Interfaces
         bool SystemTrigger { get; set; }
 
         /// <summary>
+        /// If StopProcessing is true then the trigger processing function will stop processing any triggers after
+        /// the trigger that fired here.  In order for that to happen, the trigger will need to match.  This will
+        /// allow a player to allow for a very efficient trigger loop (but could also cause problems if use incorrectly
+        /// in that it will stop trigger processing when this fires).  One thing to note, this is for general purpose
+        /// triggers that the user executes but it does not apply to Gag triggers.  Gag triggers inherently work will
+        /// gag an entire line and they stop prcoessing as soon as one matches.
+        /// </summary>
+        bool StopProcessing { get; set; }
+
+        /// <summary>
         /// A reference to the game's Conveyor so that the trigger can interact with the UI if it's
         /// a CLR trigger.
         /// </summary>

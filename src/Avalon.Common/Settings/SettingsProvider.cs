@@ -251,112 +251,122 @@ namespace Avalon.Common.Settings
             this.ImportDirections(settings.DirectionList);
         }
 
-        /// <summary>
-        /// Imports a list of triggers.  If a trigger already exists and it is locked then it will be skipped.
-        /// </summary>
-        /// <param name="list"></param>
+        /// <inheritdoc />
         public void ImportTriggers(IList<Trigger> list)
         {
             foreach (var trigger in list)
             {
-                // Skip any locked items that exist AND are locked.
-                if (this.ProfileSettings.TriggerList.Any(profileTrigger => profileTrigger.Identifier.Equals(trigger.Identifier, StringComparison.OrdinalIgnoreCase) && profileTrigger.Lock))
-                {
-                    continue;
-                }
-
-                int count = 0;
-
-                // Go through all of the triggers and see if this one already exists.
-                for (int i = this.ProfileSettings.TriggerList.Count - 1; i >= 0; i--)
-                {
-                    if (this.ProfileSettings.TriggerList[i].Identifier == trigger.Identifier)
-                    {
-                        // Save the count we're going to preserve it.
-                        count = this.ProfileSettings.TriggerList[i].Count;
-
-                        // Remove the trigger, we're going to re-add the new copy.
-                        this.ProfileSettings.TriggerList.RemoveAt(i);
-
-                        break;
-                    }
-                }
-
-                trigger.Count = count;
-                this.ProfileSettings.TriggerList.Add(trigger);
-            }
-
-            // Inject the Conveyor into all of the triggers so they're ready to roll.
-            foreach (var trigger in this.ProfileSettings.TriggerList)
-            {
-                trigger.Conveyor = this.Conveyor;
+                ImportTrigger(trigger);
             }
         }
 
-        /// <summary>
-        /// Imports a set of directions if they don't exist or if they do exist and aren't locked.
-        /// </summary>
-        /// <param name="list"></param>
+        /// <inheritdoc />
+        public void ImportTrigger(Trigger trigger)
+        {
+            // Skip any locked items that exist AND are locked.
+            if (this.ProfileSettings.TriggerList.Any(profileTrigger => profileTrigger.Identifier.Equals(trigger.Identifier, StringComparison.OrdinalIgnoreCase) && profileTrigger.Lock))
+            {
+                return;
+            }
+
+            int count = 0;
+
+            // Go through all of the triggers and see if this one already exists.
+            for (int i = this.ProfileSettings.TriggerList.Count - 1; i >= 0; i--)
+            {
+                if (this.ProfileSettings.TriggerList[i].Identifier == trigger.Identifier)
+                {
+                    // Save the count we're going to preserve it.
+                    count = this.ProfileSettings.TriggerList[i].Count;
+
+                    // Remove the trigger, we're going to re-add the new copy.
+                    this.ProfileSettings.TriggerList.RemoveAt(i);
+
+                    break;
+                }
+            }
+
+            trigger.Count = count;
+
+            // Inject the Conveyor into all of the triggers so they're ready to roll.
+            trigger.Conveyor = this.Conveyor;
+
+            this.ProfileSettings.TriggerList.Add(trigger);
+        }
+
+        /// <inheritdoc />
         public void ImportDirections(IList<Direction> list)
         {
             // A direction must be unique by it's name and starting room.
             foreach (var direction in list)
             {
-                // Skip any locked items that exist AND are locked.
-                if (this.ProfileSettings.DirectionList.Any(profileDirection => profileDirection.Name.Equals(direction.Name, StringComparison.OrdinalIgnoreCase)
-                                                                                && profileDirection.StartingRoom.Equals(direction.StartingRoom, StringComparison.OrdinalIgnoreCase)
-                                                                                && profileDirection.Lock))
-                {
-                    continue;
-                }
-
-                // Go through all of the directions and see if this one already exists.
-                for (int i = this.ProfileSettings.DirectionList.Count - 1; i >= 0; i--)
-                {
-                    if (string.Equals(this.ProfileSettings.DirectionList[i].Name, direction.Name, StringComparison.OrdinalIgnoreCase)
-                        && string.Equals(this.ProfileSettings.DirectionList[i].StartingRoom, direction.StartingRoom, StringComparison.OrdinalIgnoreCase))
-                    {
-                        // Remove the trigger, we're going to re-add the new copy.
-                        this.ProfileSettings.DirectionList.RemoveAt(i);
-                    }
-                }
-
-                this.ProfileSettings.DirectionList.Add(direction);
+                ImportDirection(direction);
             }
         }
 
+        /// <inheritdoc />
+        public void ImportDirection(Direction direction)
+        {
+            // Skip any locked items that exist AND are locked.
+            if (this.ProfileSettings.DirectionList.Any(profileDirection => profileDirection.Name.Equals(direction.Name, StringComparison.OrdinalIgnoreCase)
+                                                                            && profileDirection.StartingRoom.Equals(direction.StartingRoom, StringComparison.OrdinalIgnoreCase)
+                                                                            && profileDirection.Lock))
+            {
+                return;
+            }
+
+            // Go through all of the directions and see if this one already exists.
+            for (int i = this.ProfileSettings.DirectionList.Count - 1; i >= 0; i--)
+            {
+                if (string.Equals(this.ProfileSettings.DirectionList[i].Name, direction.Name, StringComparison.OrdinalIgnoreCase)
+                    && string.Equals(this.ProfileSettings.DirectionList[i].StartingRoom, direction.StartingRoom, StringComparison.OrdinalIgnoreCase))
+                {
+                    // Remove the trigger, we're going to re-add the new copy.
+                    this.ProfileSettings.DirectionList.RemoveAt(i);
+                }
+            }
+
+            this.ProfileSettings.DirectionList.Add(direction);
+        }
+
+        /// <inheritdoc />
         public void ImportAliases(IList<Alias> list)
         {
             // An alias must be unique by it's expression.
             foreach (var alias in list)
             {
-                // Skip any locked items that exist AND are locked.
-                if (this.ProfileSettings.AliasList.Any(profileAlias => profileAlias.AliasExpression.Equals(alias.AliasExpression, StringComparison.OrdinalIgnoreCase) && profileAlias.Lock))
-                {
-                    continue;
-                }
-
-                int count = 0;
-
-                // Go through all of the aliases and see if this one already exists.
-                for (int i = this.ProfileSettings.AliasList.Count - 1; i >= 0; i--)
-                {
-                    if (this.ProfileSettings.AliasList[i].AliasExpression.Equals(alias.AliasExpression, StringComparison.OrdinalIgnoreCase))
-                    {
-                        // Save the count we're going to preserve it.
-                        count = this.ProfileSettings.AliasList[i].Count;
-
-                        // Remove the alias, we're going to re-add the new copy.
-                        this.ProfileSettings.AliasList.RemoveAt(i);
-
-                        break;
-                    }
-                }
-
-                alias.Count = count;
-                this.ProfileSettings.AliasList.Add(alias);
+                ImportAlias(alias);
             }
         }
 
+        /// <inheritdoc />
+        public void ImportAlias(Alias alias)
+        {
+            // Skip any locked items that exist AND are locked.
+            if (this.ProfileSettings.AliasList.Any(profileAlias => profileAlias.AliasExpression.Equals(alias.AliasExpression, StringComparison.OrdinalIgnoreCase) && profileAlias.Lock))
+            {
+                return;
+            }
+
+            int count = 0;
+
+            // Go through all of the aliases and see if this one already exists.
+            for (int i = this.ProfileSettings.AliasList.Count - 1; i >= 0; i--)
+            {
+                if (this.ProfileSettings.AliasList[i].AliasExpression.Equals(alias.AliasExpression, StringComparison.OrdinalIgnoreCase))
+                {
+                    // Save the count we're going to preserve it.
+                    count = this.ProfileSettings.AliasList[i].Count;
+
+                    // Remove the alias, we're going to re-add the new copy.
+                    this.ProfileSettings.AliasList.RemoveAt(i);
+
+                    break;
+                }
+            }
+
+            alias.Count = count;
+            this.ProfileSettings.AliasList.Add(alias);
+        }
     }
 }

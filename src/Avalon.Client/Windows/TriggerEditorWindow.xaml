@@ -11,7 +11,7 @@
         ui:TitleBar.Background="#2D2D30" Background="#171717" BorderBrush="#007ACC"
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
         Loaded="TriggerEditorWindow_Loaded" UseLayoutRounding="True"
-        Title="Trigger Editor" Height="500" Width="800">
+        Title="Trigger Editor" Height="550" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
@@ -85,7 +85,7 @@
                     </ui:SimpleStackPanel>
 
                     <!--<ui:SimpleStackPanel Grid.Column="1" Orientation="Vertical" Margin="0,5,0,0">
-                        <Label FontSize="14" Margin="0,0,0,5">Redirect To:</Label>
+                        <Label FontSize="14" Margin="0,0,0,5">Stop Processing:</Label>
                         <ComboBox x:Name="ComboBoxRedirectTo" ui:ControlHelper.CornerRadius="0" HorizontalAlignment="Stretch" SelectedIndex="0"
                                   SelectedValuePath="Key" DisplayMemberPath="Value">
                         </ComboBox>
@@ -104,6 +104,10 @@
                     <CheckBox x:Name="CheckBoxHighlight" Content="Highlight" ui:ControlHelper.CornerRadius="0" Margin="20,0,0,0"></CheckBox>
                     <CheckBox x:Name="CheckBoxSilent" Content="Silent" ui:ControlHelper.CornerRadius="0" Margin="20,0,0,0"></CheckBox>
                     <CheckBox x:Name="CheckBoxDisableAfterTriggered" Content="Disable after Triggered" ui:ControlHelper.CornerRadius="0" Margin="20,0,0,0"></CheckBox>
+                </ui:SimpleStackPanel>
+
+                <ui:SimpleStackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <CheckBox x:Name="CheckBoxStopProcessing" Content="Stop Processing" ui:ControlHelper.CornerRadius="0" Margin="20,0,0,0"></CheckBox>
                 </ui:SimpleStackPanel>
 
             </ui:SimpleStackPanel>

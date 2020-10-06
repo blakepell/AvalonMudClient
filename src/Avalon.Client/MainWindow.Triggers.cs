@@ -112,6 +112,19 @@ namespace Avalon
                         }
 
                     }
+
+                    // This breaks instead of returning, no more system triggers would be processed but user
+                    // ones might.
+                    if (item.StopProcessing)
+                    {
+                        // To help with debugging.
+                        if (App.Settings.AvalonSettings.Debug)
+                        {
+                            App.Conveyor.EchoLog("System trigger matched that stops the processing of the rest of the trigger list.", LogType.Debug);
+                        }
+
+                        break;
+                    }
                 }
             }
 
@@ -123,7 +136,7 @@ namespace Avalon
                 {
                     continue;
                 }
-
+                
                 // Skip it if it's not global or for this character.
                 if (!string.IsNullOrWhiteSpace(item.Character) && item.Character != App.Conveyor.GetVariable("Character"))
                 {
@@ -216,6 +229,23 @@ namespace Avalon
                             }
                         }
                     }
+
+                    // So, if this trigger matches and i has StopProcessing set it will not process any trigger
+                    // thereafter.  This lets a savvy user setup a very efficient trigger processing pipeline but
+                    // can potentially cause issues if they have something that stops processing but didn't intend
+                    // for it (since it would not fire any triggers after).  All triggers are set to process by
+                    // default.
+                    if (item.StopProcessing)
+                    {
+                        // To help with debugging.
+                        if (App.Settings.AvalonSettings.Debug)
+                        {
+                            App.Conveyor.EchoLog("Regular trigger matched that stops the processing of the rest of the trigger list.", LogType.Debug);
+                        }
+
+                        return;
+                    }
+
                 }
             }
         }

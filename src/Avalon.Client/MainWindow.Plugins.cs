@@ -109,8 +109,24 @@ namespace Avalon
                     {
                         trigger.Plugin = true;
                         trigger.Conveyor = App.Conveyor;
-                        App.SystemTriggers.Add(trigger);
+
+                        if (trigger.SystemTrigger)
+                        {
+                            // System triggers get loaded everytime
+                            App.SystemTriggers.Add(trigger);
+                        }
+                        else
+                        {
+                            // It wasn't a system trigger, try to import it.  The import function will check whether
+                            // it can be imported or not (e.g. if it's locked by the user).
+                            App.Settings.ImportTrigger(trigger);
+                        }
                     }
+
+                    // Not the fastest, but now that we've added or updated the trigger list from a plugin, sort all the plugins
+                    // by priority.  This copies the list, sorts it, then clears the original list and reputs the items into it
+                    // as to not break binding.
+                    App.Conveyor.SortTriggersByPriority();
 
                     // Load any top level menu items included in the plugin.
                     foreach (var item in plugin.MenuItems)

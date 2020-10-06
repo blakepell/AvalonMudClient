@@ -17,7 +17,8 @@ namespace Avalon.Common.Triggers
 
         public Trigger(string pattern, string command, string character = "", bool isSilent = false, string identifier = "",
                         TerminalTarget moveTo = TerminalTarget.None, bool gag = false, string group = "", bool disableAfterTriggered = false,
-                        bool enabled = true, bool highlightLine = false, bool isLua = false, bool variableReplacement = false, bool systemTrigger = false)
+                        bool enabled = true, bool highlightLine = false, bool isLua = false, bool variableReplacement = false, bool systemTrigger = false,
+                        int priority = 10000, bool stopProcessing = false)
         {
             this.Pattern = pattern;
             this.Command = command;
@@ -33,6 +34,8 @@ namespace Avalon.Common.Triggers
             this.IsLua = isLua;
             this.VariableReplacement = variableReplacement;
             this.SystemTrigger = systemTrigger;
+            this.Priority = priority;
+            this.StopProcessing = stopProcessing;
         }
 
         public Trigger(string pattern, string command, string character, bool isSilent, string identifier)
@@ -478,6 +481,24 @@ namespace Avalon.Common.Triggers
             {
                 _priority = value;
                 OnPropertyChanged(nameof(Priority));
+            }
+        }
+
+        public bool _stopProcessing = false;
+        
+        /// <summary>
+        /// <inheritdoc />
+        /// </summary>
+        public bool StopProcessing
+        {
+            get
+            {
+                return _stopProcessing;
+            }
+            set
+            {
+                _stopProcessing = value;
+                OnPropertyChanged(nameof(StopProcessing));
             }
         }
 

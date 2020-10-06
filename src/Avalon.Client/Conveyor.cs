@@ -328,7 +328,7 @@ namespace Avalon
                     line.FormattedText = $"[  {AnsiColors.Red}Error  {AnsiColors.LightGray}] {text}\r\n";
                     break;
                 case LogType.Debug:
-                    line.FormattedText = $"[  {AnsiColors.Blue}Debug  {AnsiColors.LightGray}] {text}\r\n";
+                    line.FormattedText = $"[  {AnsiColors.Cyan}Debug  {AnsiColors.LightGray}] {text}\r\n";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
@@ -379,7 +379,6 @@ namespace Avalon
         /// Gets the selected text from the requested window.
         /// </summary>
         /// <param name="target"></param>
-        /// <returns></returns>
         public string GetSelectedText(TerminalTarget target, bool removeColors)
         {
             var sb = new StringBuilder();
@@ -848,6 +847,27 @@ namespace Avalon
                     App.MainWindow.BarRepeater.StatusBarVisible = value;
                 }));
             }
+        }
+
+        /// <summary>
+        /// Sorts the triggers by priority.
+        /// </summary>
+        public void SortTriggersByPriority()
+        {
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                // Sort the original list by the provided function.
+                var sortedList = new List<Common.Triggers.Trigger>(App.Settings.ProfileSettings.TriggerList).OrderBy(x => x.Priority);
+
+                // Clear the original list.
+                App.Settings.ProfileSettings.TriggerList.Clear();
+
+                // Repopulate the original list with the contents of the new sorted list.
+                foreach (var item in sortedList)
+                {
+                    App.Settings.ProfileSettings.TriggerList.Add(item);
+                }
+            }));
         }
 
         /// <summary>

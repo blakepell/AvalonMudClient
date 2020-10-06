@@ -1,4 +1,7 @@
-﻿using Avalon.Common.Settings;
+﻿using Avalon.Common.Models;
+using Avalon.Common.Settings;
+using System.Collections.Generic;
+using Trigger = Avalon.Common.Triggers.Trigger;
 
 namespace Avalon.Common.Interfaces
 {
@@ -70,5 +73,40 @@ namespace Avalon.Common.Interfaces
         /// <param name="json"></param>
         void ImportPackageFromJson(string json);
 
+        /// <summary>
+        /// Imports a list of triggers.
+        /// </summary>
+        /// <param name="list"></param>
+        void ImportTriggers(IList<Trigger> list);
+
+        /// <summary>
+        /// Imports a single trigger.
+        /// </summary>
+        /// <param name="trigger"></param>
+        void ImportTrigger(Trigger trigger);
+
+        /// <summary>
+        /// Imports a list of directions.
+        /// </summary>
+        /// <param name="list"></param>
+        void ImportDirections(IList<Direction> list);
+
+        /// <summary>
+        /// Imports a single direction.
+        /// </summary>
+        /// <param name="direction"></param>
+        void ImportDirection(Direction direction);
+
+        /// <summary>
+        /// Imports a list of aliases.
+        /// </summary>
+        /// <param name="list"></param>
+        void ImportAliases(IList<Alias> list);
+
+        /// <summary>
+        /// Imports a single alias.
+        /// </summary>
+        /// <param name="alias"></param>
+        void ImportAlias(Alias alias);
     }
 }
