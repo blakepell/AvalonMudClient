@@ -37,17 +37,10 @@ namespace Avalon.Timers
         {
             if (_lastTimeValue != Conveyor.GetGameTime())
             {
-                // TICK!
-                if (Conveyor.ProfileSettings.Debug)
+                //  Debug tick timing.
+                if (Conveyor.ClientSettings.Debug)
                 {
-                    var line = new Line
-                    {
-                        FormattedText = $"--> TICK @ {DateTime.Now}: {((double) _stopWatch.ElapsedMilliseconds / 1000)}", 
-                        ForegroundColor = AnsiColors.Cyan, 
-                        IgnoreLastColor = true
-                    };
-
-                    Conveyor.EchoText(line, TerminalTarget.Main);
+                    Conveyor.EchoLog($"--> TICK @ {DateTime.Now}: {((double)_stopWatch.ElapsedMilliseconds / 1000)}", LogType.Debug);
                 }
 
                 _lastTimeValue = Conveyor.GetGameTime();
