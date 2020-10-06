@@ -161,6 +161,10 @@ namespace Avalon.Plugins.DarkAndShatteredLands
                                 , command: "", isSilent: true, identifier: "a6b89afc-9c07-4616-b4c9-616ab7dc96ad", moveTo: TerminalTarget.Terminal1, gag: true, group: "Communication: Bloodbath"
                                 , priority: 20, stopProcessing: true));
 
+            this.Triggers.Add(new Trigger(pattern: @"^[\a]?Bloodbath System:.*'$"
+                    , command: "", isSilent: true, identifier: "30d55b5e-d2ed-49fe-a333-127b7f59cfce", moveTo: TerminalTarget.Terminal1, gag: true, group: "Communication: Bloodbath"
+                    , priority: 20, stopProcessing: true));
+
             // Newbie
             this.Triggers.Add(new Trigger(pattern: @"^[\a]?(\(.*\)?)?([\w'-]+|The ghost of [\w'-]+|\(An Imm\)|\(Imm\) [\w'-]+) (\[Newbie\]).*$"
                                 , command: "", isSilent: true, identifier: "ee6fbe61-751c-4b38-be03-4616c65a67dd", moveTo: TerminalTarget.Terminal2, gag: true, group: "Communication: Newbie"
