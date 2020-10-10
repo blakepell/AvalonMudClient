@@ -151,7 +151,7 @@ namespace Avalon.Common.Triggers
             }
 
             // If the profile setting to track the last trigger date is set then set it.
-            if (this.Conveyor.ProfileSettings.TrackTriggerLastMatched)
+            if (this?.Conveyor?.ProfileSettings?.TrackTriggerLastMatched == true)
             {
                 this.LastMatched = DateTime.Now;
             }
