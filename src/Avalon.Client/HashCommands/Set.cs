@@ -1,5 +1,4 @@
 ﻿using Argus.Extensions;
-using Avalon.Common.Colors;
 using Avalon.Common.Interfaces;
 
 namespace Avalon.HashCommands
@@ -32,6 +31,5 @@ namespace Avalon.HashCommands
                 Interpreter.EchoText("\r\n{R--> Invalid syntax for #set{x\r\n");
             }
         }
-
     }
 }
