@@ -45,6 +45,7 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
         public static readonly DependencyProperty SuggestionBackgroundProperty = DependencyProperty.Register(nameof(SuggestionBackground), typeof(Brush), typeof(AutoCompleteTextBox), new FrameworkPropertyMetadata(Brushes.White));
         public static readonly DependencyProperty DirectionalKeysOpenProperty = DependencyProperty.Register(nameof(DirectionalKeysOpen), typeof(bool), typeof(AutoCompleteTextBox), new PropertyMetadata(false));
         public static readonly DependencyProperty SpellCheckEnabledProperty = DependencyProperty.Register(nameof(SpellCheckEnabled), typeof(bool), typeof(AutoCompleteTextBox), new PropertyMetadata(false));
+        public static readonly DependencyProperty AcceptsTabProperty = DependencyProperty.Register(nameof(AcceptsTab), typeof(bool), typeof(AutoCompleteTextBox), new PropertyMetadata(false));
 
         private bool _isUpdatingText;
         private bool _selectionCancelled;
@@ -161,6 +162,13 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
             get => (bool)GetValue(IsReadOnlyProperty);
 
             set => SetValue(IsReadOnlyProperty, value);
+        }
+
+        public bool AcceptsTab
+        {
+            get => (bool)GetValue(AcceptsTabProperty);
+
+            set => SetValue(AcceptsTabProperty, value);
         }
 
         public Selector ItemsSelector { get; set; }

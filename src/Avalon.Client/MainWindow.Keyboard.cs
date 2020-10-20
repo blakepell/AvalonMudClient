@@ -3,6 +3,8 @@ using ICSharpCode.AvalonEdit;
 using ModernWpf;
 using System.Windows.Input;
 using Avalon.Extensions;
+using System.Linq;
+using Argus.Extensions;
 
 namespace Avalon
 {
@@ -169,6 +171,51 @@ namespace Avalon
                     // Reset the input history to the default position and clear the text in the input box.
                     Interp.InputHistoryPosition = -1;
                     TextInput.Editor.Text = "";
+                    break;
+                case Key.Tab:
+                    // Auto Complete from command history and/or aliases.
+                    e.Handled = true;
+                    string command = null;
+                    bool ctrl = ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control);
+
+                    // If control is down search aliases, if it's not search the history
+                    if (ctrl && !string.IsNullOrWhiteSpace(TextInput.Editor.Text))
+                    {
+                        // Aliases
+                        var alias = App.Settings.ProfileSettings.AliasList.FirstOrDefault(x => x.AliasExpression.StartsWith(TextInput.Editor.Text, System.StringComparison.OrdinalIgnoreCase));
+
+                        if (alias != null)
+                        {
+                            command = alias.AliasExpression;
+                        }
+
+                        // If the alias isn't null, put it in the text editor and leave, we're done.  If it is, we'll go ahead and
+                        // continue on to the history as a fall back.
+                        if (!string.IsNullOrWhiteSpace(command))
+                        {
+                            TextInput.Editor.Text = command;
+                            TextInput.Editor.SelectionStart = TextInput.Editor.Text.Length;
+                            return;
+                        }
+                    }
+
+                    // If there is no input in the text editor, get the last entered command otherwise search the input
+                    // history for the command (searching the latest entries backwards).
+                    if (string.IsNullOrWhiteSpace(TextInput.Editor.Text))
+                    {
+                        command = Interp.InputHistory.Last();
+                    }
+                    else
+                    {
+                        command = Interp.InputHistory.FindLast(x => x.StartsWith(TextInput.Editor.Text, System.StringComparison.OrdinalIgnoreCase));
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(command))
+                    {
+                        TextInput.Editor.Text = command;
+                        TextInput.Editor.SelectionStart = TextInput.Editor.Text.Length;
+                    }
+
                     break;
             }
         }

@@ -39,6 +39,7 @@
                                              HorizontalAlignment="Stretch"
                                              VerticalAlignment="Center" Foreground="Black" Background="White" BorderThickness="0" SelectionBrush="DodgerBlue" SelectionOpacity=".5"
                                              SpellCheck.IsEnabled="{Binding Path=SpellCheckEnabled, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}"
+                                             AcceptsTab="{Binding Path=AcceptsTab, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}"
                                              MaxLength="{Binding Path=MaxLength, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}"
                                              CharacterCasing="{Binding Path=CharacterCasing, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}"
                                              Text="{Binding Path=Text, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}" />
