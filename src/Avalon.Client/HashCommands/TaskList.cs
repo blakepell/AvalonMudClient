@@ -1,6 +1,7 @@
 ﻿using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
 using CommandLine;
+using Argus.Extensions;
 
 namespace Avalon.HashCommands
 {
@@ -36,23 +37,31 @@ namespace Avalon.HashCommands
                         return;
                     }
 
+                    var sb = Argus.Memory.StringBuilderPool.Take();
+                    sb.AppendLine("");
+                    sb.AppendLine("+--------------------------------------------------------------------------+");
+                    sb.AppendLine("+ Time         | Type     | Command                                        +");
+                    sb.AppendLine("+--------------------------------------------------------------------------+");
+
                     foreach (var task in App.MainWindow.ScheduledTasks.Tasks)
                     {
-                        string commandType = "";
+                        sb.AppendFormat("+ {0, -12} |", task.RunAfter.ToString("hh:mm:ss tt"));
 
                         if (task.IsLua)
                         {
-                            commandType = "Lua";
+                            sb.AppendFormat(" {0, -8} | ", "Lua");
                         }
                         else
                         {
-                            commandType = "Command";
+                            sb.AppendFormat(" {0, -8} | ", "Command");
                         }
 
-                        this.Interpreter.Conveyor.EchoLog($"Scheduled to run after: {task.RunAfter.ToString()}", LogType.Information);
-                        this.Interpreter.Conveyor.EchoLog($"Command type: {commandType}", LogType.Information);
-                        this.Interpreter.Conveyor.EchoLog(task.Command, LogType.Information);
+                        sb.AppendFormat("{0, -46} |\r\n", task.Command.TrimEnd('\n').TrimEnd('r').TrimLengthWithEllipses(46));
                     }
+
+                    sb.AppendLine("+--------------------------------------------------------------------------+\r\n");
+
+                    this.Interpreter.Conveyor.EchoText(sb.ToString());
                 });
 
             // Display the help or error output from the parameter parsing.
