@@ -56,15 +56,57 @@ namespace Avalon
             }
         }
 
-        public string HeaderTitle { get; set; } = "Untitled";
+        public string PrimaryButtonText
+        {
+            get { return (string)GetValue(PrimaryButtonTextProperty); }
+            set { SetValue(PrimaryButtonTextProperty, value); }
+        }
 
-        public string PrimaryButtonText { get; set; } = "Ok";
+        // Using a DependencyProperty as the backing store for PrimaryButtonText.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PrimaryButtonTextProperty =
+            DependencyProperty.Register("PrimaryButtonText", typeof(string), typeof(Shell), new PropertyMetadata("Ok"));
 
-        public Visibility PrimaryButtonVisibility { get; set; }
 
-        public string SecondaryButtonText { get; set; } = "Cancel";
+        public Visibility PrimaryButtonVisibility
+        {
+            get { return (Visibility)GetValue(PrimaryButtonVisibilityProperty); }
+            set { SetValue(PrimaryButtonVisibilityProperty, value); }
+        }
 
-        public Visibility SecondaryButtonVisibility { get; set; }
+        // Using a DependencyProperty as the backing store for PrimaryButtonVisbility.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PrimaryButtonVisibilityProperty =
+            DependencyProperty.Register("PrimaryButtonVisibility", typeof(Visibility), typeof(Shell), new PropertyMetadata(Visibility.Visible));
+
+        public string SecondaryButtonText
+        {
+            get { return (string)GetValue(SecondaryButtonTextProperty); }
+            set { SetValue(SecondaryButtonTextProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SecondaryButtonText.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SecondaryButtonTextProperty =
+            DependencyProperty.Register("SecondaryButtonText", typeof(string), typeof(Shell), new PropertyMetadata("Cancel"));
+
+        public Visibility SecondaryButtonVisibility
+        {
+            get { return (Visibility)GetValue(SecondaryButtonVisibilityProperty); }
+            set { SetValue(SecondaryButtonVisibilityProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SecondaryButtonVisbility.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SecondaryButtonVisibilityProperty =
+            DependencyProperty.Register("SecondaryButtonVisibility", typeof(Visibility), typeof(Shell), new PropertyMetadata(Visibility.Visible));
+
+
+        public Visibility StatusBarVisibility
+        {
+            get { return (Visibility)GetValue(StatusBarVisibilityProperty); }
+            set { SetValue(StatusBarVisibilityProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for StatusBarVisibility.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty StatusBarVisibilityProperty =
+            DependencyProperty.Register("StatusBarVisibility", typeof(Visibility), typeof(Shell), new PropertyMetadata(Visibility.Visible));
 
         public bool BlurParent { get; private set; } = false;
 
@@ -87,6 +129,75 @@ namespace Avalon
         public static readonly DependencyProperty HeaderIconProperty =
             DependencyProperty.Register(nameof(HeaderIcon), typeof(Symbol), typeof(Shell), new PropertyMetadata(Symbol.NewWindow));
 
+
+        /// <summary>
+        /// Whether the progress ring is currently spinning.
+        /// </summary>
+        public bool ProgressRingIsActive
+        {
+            get { return (bool)GetValue(ProgressRingIsActiveProperty); }
+            set
+            {
+                SetValue(ProgressRingIsActiveProperty, value);
+            }
+        }
+
+        // Using a DependencyProperty as the backing store for ProgressRingIsActive.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ProgressRingIsActiveProperty =
+            DependencyProperty.Register("ProgressRingIsActive", typeof(bool), typeof(Shell), new PropertyMetadata(false));
+
+
+        /// <summary>
+        /// Whether the progress ring is visible.
+        /// </summary>
+        public Visibility ProgressRingVisibility
+        {
+            get { return (Visibility)GetValue(ProgressRingVisibilityProperty); }
+            set { SetValue(ProgressRingVisibilityProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for visibility.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ProgressRingVisibilityProperty =
+            DependencyProperty.Register("ProgressRingVisibility", typeof(Visibility), typeof(Shell), new PropertyMetadata(Visibility.Collapsed));
+
+
+        /// <summary>
+        /// The status bar text that should exist on the far left.
+        /// </summary>
+        public string StatusBarLeftText
+        {
+            get { return (string)GetValue(StatusBarLeftTextProperty); }
+            set { SetValue(StatusBarLeftTextProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for StatusBarLeftText.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty StatusBarLeftTextProperty =
+            DependencyProperty.Register("StatusBarLeftText", typeof(string), typeof(Shell), new PropertyMetadata(""));
+
+
+        /// <summary>
+        /// The status bar text that should exist on the far right.
+        /// </summary>
+        public string StatusBarRightText
+        {
+            get { return (string)GetValue(StatusBarRightTextProperty); }
+            set { SetValue(StatusBarRightTextProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for StatusBarRightText.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty StatusBarRightTextProperty =
+            DependencyProperty.Register("StatusBarRightText", typeof(string), typeof(Shell), new PropertyMetadata(""));
+
+
+        public string HeaderTitle
+        {
+            get { return (string)GetValue(HeaderTitleProperty); }
+            set { SetValue(HeaderTitleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for HeaderTitle.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty HeaderTitleProperty =
+            DependencyProperty.Register("HeaderTitle", typeof(string), typeof(Shell), new PropertyMetadata("Untitled"));
 
         private void ShellWindow_Loaded(object sender, RoutedEventArgs e)
         {

@@ -19,6 +19,7 @@ using ModernWpf.Controls;
 using System.Diagnostics;
 using System.Windows.Media;
 using Argus.Extensions;
+using Avalon.Utilities;
 
 namespace Avalon
 {
@@ -242,8 +243,13 @@ namespace Avalon
         /// <param name="e"></param>
         private async void SearchBox_SearchExecutedAsync(object sender, SearchBox.SearchEventArgs e)
         {
-            // TODO: Make this subscribable to the plugin system or have a setting for what command to run
-            await App.MainWindow.Interp.Send($"#wiki {e.SearchText}");
+            if (string.IsNullOrWhiteSpace(App.Settings.ProfileSettings.SearchBarCommand))
+            {
+                App.Conveyor.EchoLog("No search bar command has been set.  Open the settings and enter a command into the 'SearchBarCommand' property of the profile settings.", LogType.Information);
+                return;
+            }
+
+            await App.MainWindow.Interp.Send($"{App.Settings.ProfileSettings.SearchBarCommand}{e.SearchText}");
         }
 
         /// <summary>
@@ -536,7 +542,6 @@ namespace Avalon
         /// </remarks>
         private async void ButtonImportPackage_OnClickAsync(object sender, RoutedEventArgs e)
         {
-            // TODO - Instead of a straight import everything have this do an upsert if there are matching guids so that packages can be updated.
             try
             {
                 var dialog = new OpenFileDialog();
@@ -833,15 +838,7 @@ namespace Avalon
         /// <param name="e"></param>
         private async void MenuItemUpdatePlugins_Click(object sender, RoutedEventArgs e)
         {
-            var confirmDialog = new UpdateDialog()
-            {
-                PluginsOnly = true
-            };
-
-            _ = await confirmDialog.ShowAsync();
-
-            this.Interp.Conveyor.EchoText("\r\n");
-            this.Interp.Conveyor.EchoLog("In order for the plugin updates to take effect you will need to close and then restart this application.", LogType.Warning);
+            await WindowManager.ShellWindow("UpdateDLLPlugin");
         }
 
         /// <summary>

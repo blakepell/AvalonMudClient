@@ -75,6 +75,14 @@ namespace Avalon.Common.Interfaces
 
         bool ScrapeEnabled { get; set; }
 
+        void ExecuteCommand(string cmd);
+
+        Task ExecuteCommandAsync(string cmd);
+
+        void ExecuteLua(string lua);
+
+        Task ExecuteLuaAsync(string lua);
+
         void SortTriggersByPriority();
 
         void ProgressBarRepeaterClear();

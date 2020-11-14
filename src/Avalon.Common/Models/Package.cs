@@ -1,25 +1,175 @@
 ﻿using Avalon.Common.Interfaces;
 using Avalon.Common.Triggers;
+using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Avalon.Common.Models
 {
-    public class Package : IPackage
+    public class Package : IPackage, INotifyPropertyChanged
     {
-        public string Name { get; set; } = "";
 
-        public string Description { get; set; } = "";
+        private string _id = "";
 
-        public string Author { get; set; } = "";
+        /// <inheritdoc />
+        public string Id
+        {
+            get => _id;
+            set
+            {
+                _id = value;
+                OnPropertyChanged(nameof(Id));
+            }
+        }
 
-        public string GameAddress { get; set; } = "";
+        private string _name = "";
 
-        public int Version { get; set; } = 0;
+        /// <inheritdoc />
+        public string Name 
+        {
+            get => _name;
+            set
+            {
+                _name = value;
+                OnPropertyChanged(nameof(Name));
+            }
+        }
 
+        private string _description = "";
+
+        /// <inheritdoc />
+        public string Description 
+        {
+            get => _description;
+            set
+            {
+                _description = value;
+                OnPropertyChanged(nameof(Description));
+            }
+        }
+
+        private string _author = "";
+
+        /// <inheritdoc />
+        public string Author 
+        {
+            get => _author;
+            set
+            {
+                _author = value;
+                OnPropertyChanged(nameof(Author));
+            }
+        }
+
+        private string _gameAddress = "";
+
+        /// <inheritdoc />
+        public string GameAddress
+        {
+            get => _gameAddress;
+            set
+            {
+                _gameAddress = value;
+                OnPropertyChanged(nameof(GameAddress));
+            }
+        }
+
+        private string _category = "";
+        /// <inheritdoc />        
+        public string Category
+        {
+            get => _category;
+            set
+            {
+                _category = value;
+                OnPropertyChanged(nameof(Category));
+            }
+        }
+
+        private int _version = 0;
+        /// <inheritdoc />
+        public int Version 
+        {
+            get => _version;
+            set
+            {
+                _version = value;
+                OnPropertyChanged(nameof(Version));
+            }
+        }
+
+        private string _minimumClientVersion = "0.0.0.0";
+
+        /// <inheritdoc/>
+        public string MinimumClientVersion 
+        {
+            get => _minimumClientVersion;
+            set
+            {
+                _minimumClientVersion = value;
+                OnPropertyChanged(nameof(MinimumClientVersion));
+            }
+        }
+
+        private bool _isInstalled = false;
+        
+        /// <summary>
+        /// Property to display on the UI if a package (or part of it) was found installed into the
+        /// current profile.  This is calculated at the time the Package Manager loads.
+        /// </summary>
+        [JsonIgnore]
+        public bool IsInstalled
+        {
+            get => _isInstalled;
+            set
+            {
+                _isInstalled = value;
+                OnPropertyChanged(nameof(IsInstalled));
+            }
+        }
+
+        private string _setupCommand = "";
+
+        /// <inheritdoc />
+        public string SetupCommand
+        {
+            get => _setupCommand;
+            set
+            {
+                _setupCommand = value;
+                OnPropertyChanged(nameof(SetupCommand));
+            }
+        }
+
+        private string _setupLuaScript = "";
+
+        /// <inheritdoc />
+        public string SetupLuaScript
+        {
+            get => _setupLuaScript;
+            set
+            {
+                _setupLuaScript = value;
+                OnPropertyChanged(nameof(SetupLuaScript));
+            }
+        }
+
+        /// <inheritdoc />
         public List<Alias> AliasList { get; set; } = new List<Alias>();
 
+        /// <inheritdoc />
         public List<Trigger> TriggerList { get; set; } = new List<Trigger>();
 
+        /// <inheritdoc />
         public List<Direction> DirectionList { get; set; } = new List<Direction>();
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            var e = new PropertyChangedEventArgs(propertyName);
+            PropertyChanged?.Invoke(this, e);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
     }
 }

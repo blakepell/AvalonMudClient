@@ -329,6 +329,11 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public string ReleaseUrl { get; } = "https://api.github.com/repos/blakepell/AvalonMudClient/releases/latest";
 
+        [CategoryAttribute("Updates")]
+        [DescriptionAttribute("The URL to the Package Manager API.  Although this is pre-filled by default it can be changed by the user to point to any package manager they desire that implements the same API calls.")]
+        [Browsable(true)]
+        public string PackageManagerApiUrl { get; set; } = "https://avalon-mud-client.azurewebsites.net/api/package";
+
         [CategoryAttribute("Error Handling and Reporting")]
         [DescriptionAttribute("Whether or not global exceptions should be handled.  Note: This requires a reboot of the mud client to take effect.")]
         [Browsable(true)]

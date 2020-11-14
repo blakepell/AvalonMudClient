@@ -74,6 +74,12 @@ namespace Avalon.Common.Interfaces
         void ImportPackageFromJson(string json);
 
         /// <summary>
+        /// Imports an already populated <see cref="Package"/> object, aliases, triggers and directions.
+        /// </summary>
+        /// <param name="package"></param>
+        public void ImportPackage(Package package);
+
+        /// <summary>
         /// Imports a list of triggers.
         /// </summary>
         /// <param name="list"></param>

@@ -31,6 +31,10 @@ namespace Avalon.Common.Models
         }
 
         private int _key = 0;
+
+        /// <summary>
+        /// The numeric representation of the keyboard key the macro represents.
+        /// </summary>
         public int Key 
         { 
             get
@@ -45,6 +49,10 @@ namespace Avalon.Common.Models
         }
 
         private string _keyDescription = "";
+
+        /// <summary>
+        /// The friendly description of the name of the keyboard key.
+        /// </summary>
         public string KeyDescription
         { 
             get
@@ -59,6 +67,10 @@ namespace Avalon.Common.Models
         }
 
         private string _command = "";
+
+        /// <summary>
+        /// The command that should be executed by the <see cref="Macro"/>.
+        /// </summary>
         public string Command
         {
             get => _command;

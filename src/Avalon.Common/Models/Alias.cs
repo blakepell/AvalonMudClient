@@ -4,6 +4,7 @@ using Avalon.Common.Interfaces;
 
 namespace Avalon.Common.Models
 {
+    /// <inheritdoc />
     public class Alias : INotifyPropertyChanged, ICloneable, IAlias
     {
 
@@ -25,9 +26,12 @@ namespace Avalon.Common.Models
             this.Group = group;
         }
 
+        /// <inheritdoc />
         public string AliasExpression { get; set; } = "";
 
         private string _command = "";
+
+        /// <inheritdoc />
         public string Command
         {
             get => _command;
@@ -39,6 +43,8 @@ namespace Avalon.Common.Models
         }
 
         private bool _enabled = true;
+
+        /// <inheritdoc />
         public bool Enabled
         {
             get => _enabled;
@@ -49,21 +55,21 @@ namespace Avalon.Common.Models
             }
         }
 
-        /// <summary>
-        /// The character who the trigger should be isolated to (if any).
-        /// </summary>
+        /// <inheritdoc />
         public string Character { get; set; } = "";
 
+        /// <inheritdoc />
         public string Group { get; set; } = "";
 
+        /// <inheritdoc />
         public bool IsLua { get; set; } = false;
 
-        /// <summary>
-        /// Whether or not the alias is locked for updating.
-        /// </summary>
+        /// <inheritdoc />
         public bool Lock { get; set; } = false;
 
         private int _count = 0;
+
+        /// <inheritdoc />
         public int Count
         {
             get => _count;
@@ -73,6 +79,9 @@ namespace Avalon.Common.Models
                 OnPropertyChanged(nameof(Count));
             }
         }
+
+        /// <inheritdoc />
+        public string PackageId { get; set; } = "";
 
         protected virtual void OnPropertyChanged(string propertyName)
         {

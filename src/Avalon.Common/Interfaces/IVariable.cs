@@ -1,7 +1,9 @@
-﻿using System.Reflection.Emit;
-
-namespace Avalon.Common.Interfaces
+﻿namespace Avalon.Common.Interfaces
 {
+    /// <summary>
+    /// A variable that is persisted with the profile that can be used to track
+    /// data as well as be coupled with aliases/triggers and the script engine.
+    /// </summary>
     public interface IVariable
     {
         /// <summary>
@@ -40,7 +42,6 @@ namespace Avalon.Common.Interfaces
         /// The friendly name of the color to lookup that the variable should be displayed in.
         /// </summary>
         string ForegroundColor { get; set; }
-
 
     }
 }

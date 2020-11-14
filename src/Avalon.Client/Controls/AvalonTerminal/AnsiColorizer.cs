@@ -31,10 +31,10 @@ namespace Avalon.Controls
                 while ((index = text.IndexOf(color.AnsiColor.AnsiCode.AsSpan(), start)) >= 0)
                 {
                     // Find the end of the control sequence
-                    int indexEnd = text.IndexOf("m".AsSpan(), index + 1) + 1;
+                    int indexEnd = text.IndexOf('m', index + 1) + 1;
 
                     // This should look for the index of the next color code EXCEPT when it's a style code.
-                    int endMarker = text.IndexOfNextColorCode("\x1B".AsSpan(), index + 1);
+                    int endMarker = text.IndexOfNextColorCode(index + 1);
 
                     // If the end marker isn't found on this line then it goes to the end of the line
                     if (endMarker == -1)

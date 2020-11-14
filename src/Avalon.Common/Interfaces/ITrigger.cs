@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using Avalon.Common.Models;
 
 namespace Avalon.Common.Interfaces
@@ -150,6 +151,12 @@ namespace Avalon.Common.Interfaces
         IConveyor Conveyor { get; set; }
 
         /// <summary>
+        /// The underlying regular expression provided in case an outside caller wants to call it directly such
+        /// as in gagging operations where a command won't be executed.
+        /// </summary>
+        Regex Regex { get; set; }
+
+        /// <summary>
         /// The date and time that the trigger was last matched.
         /// </summary>
         /// <remarks>
@@ -157,6 +164,11 @@ namespace Avalon.Common.Interfaces
         /// order they are firing in.  This can be toggled not to set via the TrackTriggerLastMatched profile setting.
         /// </remarks>
         DateTime LastMatched { get; set; }
+
+        /// <summary>
+        /// The package that imported this trigger.
+        /// </summary>
+        public string PackageId { get; set; }
 
     }
 }

@@ -68,7 +68,9 @@ Hash commands that reside in the main project will be general purpose.  Plugins 
 |#set|Sets a global variable.|
 |#set-title|Sets the title of the window to something other than 'Avalon Mud Client'.|
 |#shell|Shells and OS program or command.|
+|#shell-url|Shells an http or https URl.|
 |#sql-execute|Excutes a SQL command against the profiles SQLite database.|
+|#sql-query-one|Executes a query that returns one value and optionally will allow that value to be saved into a variable for use with scripts.|
 |#task-add|Adds a command to to be executed in a specified amount of time.  This is a single usage timer/scheduler.|
 |#task-clear|Clears all pending tasks.|
 |#task-list|Echos out all pending tasks.|

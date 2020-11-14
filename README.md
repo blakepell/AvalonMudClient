@@ -24,7 +24,7 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
 
 ### Info
 
- - Language: C# / WPF for .Net Core 3.1
+ - Language: C# / WPF for .Net Core 5
  - OS Support: Windows 7, 8.1, 10 (1607+)
 
 ### Key Features
@@ -32,6 +32,7 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
  - Aliases
  - Triggers (simple and regular expression)
  - Macros
+ - Package Manager for installing packages that are built for a specific game.
  - LUA (LUA can be inlined as the output of an alias or a trigger)
  - Colored syntax editor for LUA with intellisense (code completion) for all of the extended API's.
  - 4K monitor support / responsive UI design.
@@ -55,17 +56,14 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
  - [Argus Framework](https://www.github.com/blakepell/ArgusFramework) (MIT)
  - [WPF-AutoComplete-TextBox](https://github.com/quicoli/WPF-AutoComplete-TextBox) (MIT)
  - [TentacleSoftware.Telnet](https://github.com/Spksh/TentacleSoftware.Telnet) (Apache v2)
- 
+ - [RestSharp](https://github.com/restsharp/RestSharp) (Apache v2)
+ - [JSON.Net](https://github.com/JamesNK/Newtonsoft.Json) (MIT)
+
 ### Short Term Road-map
 
  - Finish SQLite DB Support
- - Plugin support will change a bit over the short term.  Plugins will support JSON for Triggers/Aliases/Lua and C# for things that need UI components or a robust programming model/framework.  The ability to add a user control from a plugin straight into the UI will be a priority.  I think this will be incredibly easy to use and a powerful to extend the UI outside of my realm.
- - The ability to easy search for community based triggers, aliases and scripts for import.
- - Additional Hash Commands and Lua extensions.
  - Documentation
  - Ensure touch screen scrolling is smooth on all termianls and controls.
- - Plugin support for a Dark and Shattered Lands (dsl-mud.org) with a deployment that is completely setup to play from the first run (a custom tailored deployment that just works without a cumbersome setup process for new players).
- - Timers (there is a tick timer built in and some hash commands like alias support a delay flag which is effectivly a one time timer to fire a command after a specified amount of time.
 
 ### Long Term Road-map
 
@@ -75,7 +73,7 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
 
 I've been in the mud community since the mid 1990's.  The first mud I began playing on (briefly) was Moosehead Sled which is of note in MUD history as it served as a beta site for the ROM 2.3 codebase.  Shortly after I followed a number of players there to a new mud called Dark and Shattered Lands (dsl-mud.org) which I also coded for from the end of 1998 until sometime in 2004.  It is the mud I consider home where I have made many wonderful friends some of which I've known for over 23 or so years now.  After 10 years of not playing any MUD I came back in 2014.  That noted, my goal is to code this client in a way that it can be used for all MUDS/MUSH/MUCK games but in practice I use it for play on dsl-mud.org which is a Diku/Merc/ROM derivative mud.  The examples that I provide in regards to plugins, packages etc. will be centered around that game but should be applicable anywhere.
 
-I welcome requests, suggestions, feature requests, bug reports, collaboration etc. but this is not the venue to have dialog about the game that I play which is often used as the example I provide.  The mudding community is passionate about the games they play I don't intend to get into conversation about the pros and cons of any specific mud or how they are administered unless it's about how this client interacts with them.  I don't say that to be rude but to point out that there are better venues for those conversations and this is not that venue.  For me, this client is a labor of love and I hope that other folks can find find it useful.
+I welcome requests, suggestions, feature requests, bug reports and collaboration.
 
 ### Recognition / Thank you to testers
 

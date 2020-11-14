@@ -131,7 +131,10 @@ namespace Avalon
             {
                 Application.Current.Dispatcher.Invoke(new Action(() =>
                 {
+                    // Set both the official Windows title of the title bar and the faux custom title bar
+                    // that we created on our UI.
                     App.MainWindow.Title = value;
+                    App.MainWindow.TitleBar.Title = value;
                 }));
             }
         }
@@ -316,19 +319,19 @@ namespace Avalon
             switch (type)
             {
                 case LogType.Information:
-                    line.FormattedText = $"[  {AnsiColors.Green}Info   {AnsiColors.LightGray}] {text}\r\n";
+                    line.FormattedText = $"{{b={{B>{{x {text}\r\n";
                     break;
                 case LogType.Success:
-                    line.FormattedText = $"[ {AnsiColors.Green}Success {AnsiColors.LightGray}] {text}\r\n";
+                    line.FormattedText = $"{{g={{G>{{x {text}\r\n";
                     break;
                 case LogType.Warning:
-                    line.FormattedText = $"[ {AnsiColors.Yellow}Warning {AnsiColors.LightGray}] {text}\r\n";
+                    line.FormattedText = $"{{y={{Y>{{x {text}\r\n";
                     break;
                 case LogType.Error:
-                    line.FormattedText = $"[  {AnsiColors.Red}Error  {AnsiColors.LightGray}] {text}\r\n";
+                    line.FormattedText = $"{{r={{R>{{x {text}\r\n";
                     break;
                 case LogType.Debug:
-                    line.FormattedText = $"[  {AnsiColors.Cyan}Debug  {AnsiColors.LightGray}] {text}\r\n";
+                    line.FormattedText = $"{{c={{C>{{x {text}\r\n";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
@@ -697,7 +700,7 @@ namespace Avalon
         {
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
-              App.MainWindow.BarRepeater.Add(value, maximum, text, key);
+                App.MainWindow.BarRepeater.Add(value, maximum, text, key);
             }));
         }
 
@@ -804,7 +807,7 @@ namespace Avalon
         /// </summary>
         public string ProgressBarRepeaterStatusText
         {
-            get 
+            get
             {
                 string text = "";
 
@@ -867,6 +870,55 @@ namespace Avalon
                 {
                     App.Settings.ProfileSettings.TriggerList.Add(item);
                 }
+            }));
+        }
+
+        /// <summary>
+        /// Sends a command immediately to the game and does not await the return;
+        /// </summary>
+        /// <param name="cmd">The command or commands to send to the game.</param>
+        public void ExecuteCommand(string cmd)
+        {
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                App.MainWindow.Interp.Send(cmd);
+            }));
+        }
+
+        /// <summary>
+        /// Sends a command to the game and awaits the async call.
+        /// </summary>
+        /// <param name="cmd">The command or commands to send to the game.</param>
+        public async Task ExecuteCommandAsync(string cmd)
+        {
+            await Application.Current.Dispatcher.InvokeAsync(new Action(async () =>
+            {
+                await App.MainWindow.Interp.Send(cmd);
+            }));
+        }
+
+        /// <summary>
+        /// Executes a Lua script on the UI thread.
+        /// </summary>
+        /// <param name="lua"></param>
+        public void ExecuteLua(string lua)
+        {
+            Application.Current.Dispatcher.InvokeAsync(new Action(() =>
+            {
+                App.MainWindow.Interp.LuaCaller.Execute(lua);
+            }));
+        }
+
+        /// <summary>
+        /// Executes a Lua script on the UI thread.
+        /// </summary>
+        /// <param name="lua"></param>
+        public async Task ExecuteLuaAsync(string lua)
+        {
+            await Application.Current.Dispatcher.InvokeAsync(new Action(async () =>
+            {
+                // This is all that's going to execute as it clears the list.. we can "fire and forget".
+                await App.MainWindow.Interp.LuaCaller.ExecuteAsync(lua);
             }));
         }
 

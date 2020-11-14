@@ -14,7 +14,6 @@ namespace Avalon.HashCommands
 
         public override void Execute()
         {
-
         }
     }
 }

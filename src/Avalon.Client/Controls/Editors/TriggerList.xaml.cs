@@ -5,6 +5,7 @@ using System.Windows.Data;
 using System.Windows.Threading;
 using Argus.Extensions;
 using Avalon.Common.Interfaces;
+using ModernWpf;
 
 namespace Avalon.Controls
 {
@@ -94,6 +95,9 @@ namespace Avalon.Controls
             {
                 DataList.SelectedItem = null;
             }
+
+            var win = this.FindAscendant<Shell>();
+            win.StatusBarRightText = $"{App.Settings.ProfileSettings.TriggerList.Count} Triggers";
 
             this.FirstLoad = false;
         }

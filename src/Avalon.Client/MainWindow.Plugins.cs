@@ -59,7 +59,7 @@ namespace Avalon
 
                     if (App.Settings.AvalonSettings.DeveloperMode)
                     {
-                        App.Conveyor.EchoLog($"   => Loaded For: {pluginInstance.IpAddress}", LogType.Success);
+                        App.Conveyor.EchoLog($"   Plugin For: {pluginInstance.IpAddress}", LogType.Information);
                     }
                 }
             }
@@ -172,8 +172,7 @@ namespace Avalon
                         Interp.LuaCaller.RegisterType(item.Value, item.Key);
                     }
 
-                    App.Conveyor.EchoLog($"Plugins Loaded For: {plugin.IpAddress}", LogType.Success);
-                    App.Conveyor.EchoLog($"   => {plugin.Triggers.Count} Triggers Loaded", LogType.Success);
+                    App.Conveyor.EchoLog($"   {plugin.Triggers.Count} Triggers Loaded", LogType.Success);
                 }
             }
         }

@@ -1,6 +1,7 @@
 ﻿using Argus.ComponentModel;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
+using Argus.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -114,7 +115,7 @@ namespace Avalon.Common.Settings
                     }
 
                 }
-                catch (JsonSerializationException ex)
+                catch (JsonSerializationException)
                 {
                     // Reset the file
                     File.WriteAllText(this.AvalonSettingsFile, JsonConvert.SerializeObject(this.AvalonSettings, Formatting.Indented));
@@ -249,6 +250,29 @@ namespace Avalon.Common.Settings
             this.ImportAliases(settings.AliasList);
             this.ImportTriggers(settings.TriggerList);
             this.ImportDirections(settings.DirectionList);
+        }
+
+        /// <summary>
+        /// Imports a <see cref="Package"/> object.
+        /// </summary>
+        /// <param name="package"></param>
+        public void ImportPackage(Package package)
+        {
+            this.ProfileSettings.InstalledPackages.AddIfDoesntExist(package.Id);
+
+            this.ImportAliases(package.AliasList);
+            this.ImportTriggers(package.TriggerList);
+            this.ImportDirections(package.DirectionList);
+
+            if (!string.IsNullOrWhiteSpace(package.SetupCommand))
+            {
+                this.Conveyor.ExecuteCommand(package.SetupCommand);
+            }
+
+            if (!string.IsNullOrWhiteSpace(package.SetupLuaScript))
+            {
+                this.Conveyor.ExecuteLuaAsync(package.SetupLuaScript);
+            }
         }
 
         /// <inheritdoc />

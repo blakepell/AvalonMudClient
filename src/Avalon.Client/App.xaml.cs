@@ -124,7 +124,7 @@ namespace Avalon
             catch (Exception ex)
             {
                 // TODO - logging
-                MessageBox.Show($"A startup error occured: {ex.Message}");
+                MessageBox.Show($"A startup error occurred: {ex.Message}");
             }
         }
 

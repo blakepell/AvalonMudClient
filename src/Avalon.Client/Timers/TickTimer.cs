@@ -15,7 +15,6 @@ namespace Avalon.Timers
     /// </summary>
     public class TickTimer
     {
-
         public TickTimer(IConveyor conveyer)
         {
             this.Conveyor = conveyer;

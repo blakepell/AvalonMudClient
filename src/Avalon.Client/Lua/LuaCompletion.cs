@@ -17,7 +17,8 @@ namespace Avalon.Lua
             {
                 data.Add(new LuaCompletionData("Send", "Sends a command to the game."));
                 data.Add(new LuaCompletionData("GetVariable", "Gets a global variable that is shared with the entire mud client."));
-                data.Add(new LuaCompletionData("SetVariable", "Sets a variable that is shared with the entire mud client."));
+                data.Add(new LuaCompletionData("SetVariable", "Sets a global variable that is shared with the entire mud client."));
+                data.Add(new LuaCompletionData("RemoveVariable", "Removes a global variable that is shared with the entire mud client."));
                 data.Add(new LuaCompletionData("Echo", "Echos text to the game terminal."));
                 data.Add(new LuaCompletionData("EchoEvent", "Echos a highlighted set of text to the game terminal."));
                 data.Add(new LuaCompletionData("EchoWindow", "Echos to a specified custom window.  This operation appends text by default."));

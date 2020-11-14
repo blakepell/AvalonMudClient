@@ -1,5 +1,6 @@
 ﻿using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
+using ModernWpf;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -95,6 +96,9 @@ namespace Avalon.Controls
             {
                 DataList.SelectedItem = null;
             }
+
+            var win = this.FindAscendant<Shell>();
+            win.StatusBarRightText = $"{App.Settings.ProfileSettings.AliasList.Count} Aliases";
 
             this.FirstLoad = false;
         }

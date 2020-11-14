@@ -128,7 +128,7 @@
                                     <ui:StackLayout Orientation="Vertical"/>
                                 </ui:ItemsRepeater.Layout>
                                 <DataTemplate>
-                                    <Button Style="{DynamicResource NavBarButton}" ui:ControlHelper.CornerRadius="0" Click="NavBarButton_Click" Tag="{Binding Reference}">
+                                    <Button Style="{StaticResource NavBarButton}" ui:ControlHelper.CornerRadius="0" Click="NavBarButton_Click" Tag="{Binding Reference}">
                                         <ui:SimpleStackPanel Orientation="Horizontal">
                                             <Viewbox Height="16" Width="16" Margin="17,0,19,0">
                                                 <ContentControl Content="{Binding Icon}" Foreground="White"></ContentControl>
@@ -250,6 +250,12 @@
                                 <ui:SymbolIcon Symbol="Account" />
                             </MenuItem.Icon>
                         </MenuItem>
+                        <Separator />
+                        <MenuItem Header="_Package Manager" Click="MenuShellWindow_Click" Tag="PackageManager">
+                            <MenuItem.Icon>
+                                <ui:SymbolIcon Symbol="SyncFolder" />
+                            </MenuItem.Icon>
+                        </MenuItem>
                     </MenuItem>
                     <MenuItem Header="_View">
                         <MenuItem Header="Open Last Editted Alias or Trigger" Click="MenuItemOpenLastEdittedAliasOrTrigger_Click" InputGestureText="Ctrl+Alt+L">
@@ -369,7 +375,7 @@
                             Background="Black" Foreground="LightGray"
                             FontSize="13" BorderBrush="#444444"
                             ScrollViewer.PanningMode="VerticalOnly"
-                            ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
+                            ContextMenu="{StaticResource AvalonTerminalContextMenu}"
                             PreviewMouseWheel="GameBackBufferTerminal_PreviewMouseWheel"
                             KeyDown="Terminal_OnKeyDown"
                             PreviewKeyDown="GameTerminal_PreviewKeyDown">
@@ -383,7 +389,7 @@
                             Background="Black" Foreground="LightGray"
                             FontSize="13" BorderBrush="#444444" BorderThickness=".9,0,0,0"                                                                                                  
                             ScrollViewer.PanningMode="VerticalOnly"                                                 
-                            ContextMenu="{DynamicResource AvalonTerminalContextMenu}"                            
+                            ContextMenu="{StaticResource AvalonTerminalContextMenu}"                            
                             PreviewMouseWheel="GameTerminal_PreviewMouseWheel"
                             KeyDown="Terminal_OnKeyDown"
                             PreviewKeyDown="GameTerminal_PreviewKeyDown">
@@ -416,7 +422,7 @@
                                     FontSize="10pt"
                                     ScrollViewer.PanningMode="VerticalOnly"
                                     VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible"
-                                    ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
+                                    ContextMenu="{StaticResource AvalonTerminalContextMenu}"
                                     ScrollViewer.ScrollChanged="CommTerminal_ScrollChanged"
                                     KeyDown="Terminal_OnKeyDown">
                             </controls:AvalonTerminal>
@@ -435,7 +441,7 @@
                                     Padding="10,0,20,0"
                                     FontSize="13"                                 
                                     ScrollViewer.PanningMode="VerticalOnly"
-                                    ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
+                                    ContextMenu="{StaticResource AvalonTerminalContextMenu}"
                                     ScrollViewer.ScrollChanged="CommTerminal_ScrollChanged"
                                     KeyDown="Terminal_OnKeyDown">
                             </controls:AvalonTerminal>
@@ -454,7 +460,7 @@
                                     Padding="10,0,20,0"
                                     FontSize="13"                                 
                                     ScrollViewer.PanningMode="VerticalOnly"
-                                    ContextMenu="{DynamicResource AvalonTerminalContextMenu}"
+                                    ContextMenu="{StaticResource AvalonTerminalContextMenu}"
                                     ScrollViewer.ScrollChanged="CommTerminal_ScrollChanged"
                                     KeyDown="Terminal_OnKeyDown">
                             </controls:AvalonTerminal>

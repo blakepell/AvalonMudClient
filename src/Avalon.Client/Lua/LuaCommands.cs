@@ -51,10 +51,9 @@ namespace Avalon.Lua
         }
 
         /// <summary>
-        /// Gets a variable from the profile's global variable list.
+        /// Gets a <see cref="Variable"/> from the profile's global variable list.
         /// </summary>
         /// <param name="key"></param>
-        /// <returns></returns>
         public string GetVariable(string key)
         {
             if (key == null)
@@ -69,7 +68,7 @@ namespace Avalon.Lua
         }
 
         /// <summary>
-        /// Sets a variable in the profile's global variable list.
+        /// Sets a <see cref="Variable"/> in the profile's global variable list.
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
@@ -88,6 +87,18 @@ namespace Avalon.Lua
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 _interpreter.Conveyor.SetVariable(key, value);
+            }));
+        }
+
+        /// <summary>
+        /// Removes a <see cref="Variable"/> from the global variable list.
+        /// </summary>
+        /// <param name="key"></param>
+        public void RemoveVariable(string key)
+        {
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                _interpreter.Conveyor.RemoveVariable(key);
             }));
         }
 

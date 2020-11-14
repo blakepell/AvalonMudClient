@@ -1,11 +1,10 @@
-﻿using Argus.Extensions;
-using Avalon.Common.Interfaces;
+﻿using Avalon.Common.Interfaces;
 using Newtonsoft.Json;
-using System;
 using System.ComponentModel;
 
 namespace Avalon.Common.Models
 {
+    /// <inheritdoc />
     public class Variable : INotifyPropertyChanged, IVariable
     {
         public Variable()
@@ -27,6 +26,8 @@ namespace Avalon.Common.Models
         }
 
         private string _key = "";
+
+        /// <inheritdoc />
         public string Key
         {
             get => _key;
@@ -38,6 +39,8 @@ namespace Avalon.Common.Models
         }
 
         private string _value = "";
+
+        /// <inheritdoc />
         public string Value
         {
             get => _value;
@@ -52,6 +55,8 @@ namespace Avalon.Common.Models
         }
 
         private string _character = "";
+
+        /// <inheritdoc />
         public string Character
         { 
             get
@@ -67,6 +72,7 @@ namespace Avalon.Common.Models
 
         private bool _isVisible = false;
 
+        /// <inheritdoc />
         public bool IsVisible
         {
             get
@@ -86,6 +92,7 @@ namespace Avalon.Common.Models
 
         private int _displayOrder = 0;
 
+        /// <inheritdoc />
         public int DisplayOrder
         {
             get
@@ -105,6 +112,7 @@ namespace Avalon.Common.Models
 
         private string _label = "";
 
+        /// <inheritdoc />
         public string Label
         {
             get
@@ -145,9 +153,7 @@ namespace Avalon.Common.Models
 
         private string _foregroundColor;
 
-        /// <summary>
-        /// The foreground color that the variable should be displayed in.
-        /// </summary>
+        /// <inheritdoc />
         public string ForegroundColor
         {
             get

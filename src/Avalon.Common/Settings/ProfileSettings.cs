@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Newtonsoft.Json;
 using Avalon.Common.Attributes;
+using System.Collections.Generic;
 
 namespace Avalon.Common.Settings
 {
@@ -141,6 +142,21 @@ namespace Avalon.Common.Settings
             }
         }
 
+        private string _searchBarCommand = "";
+
+        [CategoryAttribute("UI")]
+        [DescriptionAttribute("The command the search bar should execute.")]
+        [Browsable(true)]
+        public string SearchBarCommand
+        {
+            get => _searchBarCommand;
+            set
+            {
+                _searchBarCommand = value;
+                OnPropertyChanged(nameof(SearchBarCommand));
+            }
+        }
+
         /// <summary>
         /// The location to the SQLite database for this profile.  Note that if the file is changed it will try
         /// to create a new database in the location specified.
@@ -159,6 +175,14 @@ namespace Avalon.Common.Settings
         [DescriptionAttribute("A global Lua script that can be used to share functions and code with all Lua from the UI.")]
         [Browsable(true)]
         public string LuaGlobalScript { get; set; } = "";
+
+        /// <summary>
+        /// A list of any installed package ID's.  The package ID a trigger, alias, etc. belongs to will be stored there
+        /// as well but this will give us a place to track installed packages for things like behaviors that don't have
+        /// aliases/triggers/directions etc. but might change something about the UI.
+        /// </summary>
+        [Browsable(false)]
+        public List<string> InstalledPackages { get; set; } = new List<string>();
 
         [Browsable(false)]
         public ObservableCollection<Macro> MacroList { get; set; } = new ObservableCollection<Macro>();

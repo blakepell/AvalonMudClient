@@ -71,6 +71,7 @@
                 <DataGridCheckBoxColumn Header="Gag" Binding="{Binding Gag,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
                 <DataGridCheckBoxColumn Header="Stop After" Binding="{Binding StopProcessing,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
                 <DataGridCheckBoxColumn Header="Lock" Binding="{Binding Lock,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
+                <DataGridTextColumn Header="Priority" Binding="{Binding Priority,UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Count" Binding="{Binding Count,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>

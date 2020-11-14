@@ -72,6 +72,11 @@ namespace Avalon.Common.Models
         public int DegreeOfSeparation { get; set; } = 0;
 
         /// <summary>
+        /// The package that imported this <see cref="Direction"/>.
+        /// </summary>
+        public string PackageId { get; set; } = "";
+
+        /// <summary>
         /// Clones the direction.
         /// </summary>
         public object Clone()

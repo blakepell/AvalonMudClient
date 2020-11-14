@@ -28,6 +28,7 @@
             <RowDefinition Height="50"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="45"></RowDefinition>
+            <RowDefinition Height="32"></RowDefinition>
         </Grid.RowDefinitions>
 
         <controls:ChildWindowTitleBar Grid.Row="0" Title="{Binding Path=HeaderTitle}"></controls:ChildWindowTitleBar>
@@ -36,17 +37,43 @@
             <ContentControl x:Name="Container" x:FieldModifier="public" />
         </Border>
 
-
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button x:Name="ButtonSecondary" Content="{Binding Path=SecondaryButtonText}" 
-                    Style="{DynamicResource RegularButton}" Margin="0,0,10,15" Width="100"
+                    Style="{StaticResource RegularButton}" Margin="0,0,10,15" Width="100"
                     Visibility="{Binding Path=SecondaryButtonVisibility}"
                     Click="ButtonSecondary_Click"></Button>
             <Button x:Name="ButtonPrimary" Content="{Binding Path=PrimaryButtonText}"
-                    Style="{DynamicResource RegularButtonAccent}" Margin="0,0,15,15"
+                    Style="{StaticResource RegularButtonAccent}" Margin="0,0,15,15"
                     Visibility="{Binding Path=PrimaryButtonVisibility}"                    
                     Width="100"
                     Click="ButtonPrimary_Click"></Button>
         </StackPanel>
+
+        <StatusBar Grid.Row="3" Background="#333333" Foreground="White" BorderBrush="#555555" BorderThickness="0,.9,0,0" Visibility="{Binding Path=StatusBarVisibility}">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <ui:ProgressRing x:Name="ProgressRingUpdating" Margin="0,0,5,0" IsActive="{Binding Path=ProgressRingIsActive}" Visibility="{Binding Path=ProgressRingVisibility}" />
+                </StackPanel>
+            </StatusBarItem>
+            <Separator Grid.Column="1" Width=".9" Background="#555555" Visibility="{Binding Path=ProgressRingVisibility}" />
+            <StatusBarItem Grid.Column="2">
+                <TextBlock Text="{Binding Path=StatusBarLeftText}" Margin="5,0,0,0" />
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="4">
+                <TextBlock Text="{Binding Path=StatusBarRightText}" Margin="0,0,5,0" />
+            </StatusBarItem>
+        </StatusBar>                
     </Grid>
 </Window>

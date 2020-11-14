@@ -22,8 +22,8 @@ namespace MoonSharp.Interpreter.Interop
 
 
 		object m_Lock = new object();
-		MultiDictionary<object, Closure> m_Callbacks = new MultiDictionary<object, Closure>(new ReferenceEqualityComparer());
-		Dictionary<object, Delegate> m_Delegates = new Dictionary<object, Delegate>(new ReferenceEqualityComparer());
+		MultiDictionary<object, Closure> m_Callbacks = new MultiDictionary<object, Closure>(new MoonSharp.Interpreter.DataStructs.ReferenceEqualityComparer());
+		Dictionary<object, Delegate> m_Delegates = new Dictionary<object, Delegate>(new MoonSharp.Interpreter.DataStructs.ReferenceEqualityComparer());
 
 		/// <summary>
 		/// Tries to create a new StandardUserDataEventDescriptor, returning <c>null</c> in case the method is not 

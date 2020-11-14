@@ -78,7 +78,7 @@ namespace Avalon.Common.Triggers
             else
             {
                 // Run the match normal Match, this will be most all cases.
-                match = _regex?.Match(line);
+                match = this.Regex?.Match(line);
             }
 
             // If it's not a match, get out.
@@ -206,7 +206,7 @@ namespace Avalon.Common.Triggers
 
                 try
                 {
-                    _regex = new Regex(_pattern, RegexOptions.Compiled);
+                    this.Regex = new Regex(_pattern, RegexOptions.Compiled);
                 }
                 catch (Exception ex)
                 {
@@ -484,8 +484,8 @@ namespace Avalon.Common.Triggers
             }
         }
 
-        public bool _stopProcessing = false;
-        
+        private bool _stopProcessing = false;
+
         /// <summary>
         /// <inheritdoc />
         /// </summary>
@@ -506,7 +506,14 @@ namespace Avalon.Common.Triggers
         public string Identifier { get; set; } = Guid.NewGuid().ToString();
 
         /// <inheritdoc />
+        public string PackageId { get; set; } = "";
+
+        /// <inheritdoc />
         public bool SystemTrigger { get; set; } = false;
+
+        /// <inheritdoc />
+        [JsonIgnore]
+        public Regex Regex { get; set; }
 
         /// <summary>
         /// Clones the trigger.
@@ -515,11 +522,6 @@ namespace Avalon.Common.Triggers
         {
             return this.MemberwiseClone();
         }
-
-        /// <summary>
-        /// The underlying compiled RegeEx for this trigger.
-        /// </summary>
-        private Regex _regex;
 
         protected virtual void OnPropertyChanged(string propertyName)
         {

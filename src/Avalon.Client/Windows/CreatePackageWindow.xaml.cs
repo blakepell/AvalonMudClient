@@ -40,9 +40,19 @@ namespace Avalon
                 return;
             }
 
+            var win = new InputBoxDialog
+            {
+                Title = "Author",
+                Caption = "Who should be listed as the author of this package?"
+            };
+
+            _ = await win.ShowAsync();
+
             var package = new Package
             {
-                GameAddress = App.Settings.ProfileSettings.IpAddress
+                Id = Guid.NewGuid().ToString(),
+                GameAddress = App.Settings.ProfileSettings.IpAddress,
+                Author = win.Text ?? ""
             };
 
             foreach (object obj in AliasList.DataList.SelectedItems)

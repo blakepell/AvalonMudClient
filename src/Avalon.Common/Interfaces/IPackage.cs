@@ -1,8 +1,6 @@
 ﻿using Avalon.Common.Models;
 using Avalon.Common.Triggers;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Avalon.Common.Interfaces
 {
@@ -12,6 +10,11 @@ namespace Avalon.Common.Interfaces
     public interface IPackage
     {
         /// <summary>
+        /// The unique identifier of the package.
+        /// </summary>
+        public string Id { get; set; }
+
+        /// <summary>
         /// The name of the package.
         /// </summary>
         string Name { get; set; }
@@ -20,6 +23,11 @@ namespace Avalon.Common.Interfaces
         /// A description for the package.
         /// </summary>
         string Description { get; set; }
+
+        /// <summary>
+        /// An optional category that the package can be grouped under.
+        /// </summary>
+        string Category { get; set; }
 
         /// <summary>
         /// The author of the package.
@@ -35,6 +43,22 @@ namespace Avalon.Common.Interfaces
         /// The version of the import package.
         /// </summary>
         int Version { get; set; }
+
+        /// <summary>
+        /// The minimum version of the mud client that is required for this plugin to work.  Only
+        /// set if is needed for commands or features that might not exist in earlier versions.
+        /// </summary>
+        string MinimumClientVersion { get; set; }
+
+        /// <summary>
+        /// A command or commands that will be run when the package is installed.
+        /// </summary>
+        string SetupCommand { get; set; }
+
+        /// <summary>
+        /// A Lua script that if populated will be run when the package is installed.
+        /// </summary>
+        string SetupLuaScript { get; set; }
 
         /// <summary>
         /// The list of packaged aliases.

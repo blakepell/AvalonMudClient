@@ -136,6 +136,39 @@ namespace Avalon.Utilities
                     App.Conveyor.EchoLog(ex.Message, LogType.Error);
                 }
             }
+            else if (windowName == "PackageManager")
+            {
+                try
+                {
+                    var win = new Shell(new PackageManager(), null)
+                    {
+                        Name = "PackageManager",
+                        HeaderTitle = "Package Manager",
+                        HeaderIcon = Symbol.SyncFolder,
+                        SecondaryButtonVisibility = Visibility.Collapsed
+                    };
+
+                    win.SetSizeAndPosition(.85);
+                    win.Show();
+
+                }
+                catch (Exception ex)
+                {
+                    App.Conveyor.EchoLog(ex.Message, LogType.Error);
+                }
+            }
+            else if (windowName == "UpdateDLLPlugin")
+            {
+                var confirmDialog = new UpdateDialog()
+                {
+                    PluginsOnly = true
+                };
+
+                _ = await confirmDialog.ShowAsync();
+
+                App.MainWindow.Interp.Conveyor.EchoText("\r\n");
+                App.MainWindow.Interp.Conveyor.EchoLog("In order for the plugin updates to take effect you will need to close and then restart this application.", LogType.Warning);
+            }
         }
     }
 }
