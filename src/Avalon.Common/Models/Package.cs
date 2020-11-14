@@ -128,6 +128,22 @@ namespace Avalon.Common.Models
             }
         }
 
+        private bool _updateAvailable = false;
+
+        /// <summary>
+        /// Whether an update is available to this package from the package manager API site.
+        /// </summary>
+        [JsonIgnore]
+        public bool UpdateAvailable
+        {
+            get => _updateAvailable;
+            set
+            {
+                _updateAvailable = value;
+                OnPropertyChanged(nameof(UpdateAvailable));
+            }
+        }
+
         private string _setupCommand = "";
 
         /// <inheritdoc />

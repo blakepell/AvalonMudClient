@@ -29,7 +29,7 @@
                 </local:SearchBox>
             </Grid>
         </StackPanel>
-        
+
         <DataGrid x:Name="DataList" x:FieldModifier="public"
                   Grid.Row="1" HeadersVisibility="Column" SelectionUnit="FullRow" SelectionMode="Single"
                   Margin="5,0,5,5" 
@@ -68,7 +68,7 @@
                     <Setter Property="Padding" Value="0"></Setter>
                 </Style>
             </DataGrid.RowStyle>
-                <DataGrid.Columns>
+            <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name,UpdateSourceTrigger=PropertyChanged}" Width="300" IsReadOnly="True" />
                 <DataGridTextColumn Header="Category" Binding="{Binding Category,UpdateSourceTrigger=PropertyChanged}" Width="150" IsReadOnly="True" />
                 <DataGridTextColumn Header="Version" Binding="{Binding Version,UpdateSourceTrigger=PropertyChanged}" Width="65" IsReadOnly="True" />
@@ -86,6 +86,7 @@
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding IsInstalled}" Value="True">
                                                         <Setter Property="Background" Value="Green" />
+                                                        
                                                     </DataTrigger>
                                                     <DataTrigger Binding="{Binding IsInstalled}" Value="False">
                                                         <Setter Property="Background" Value="Gray" />
@@ -113,6 +114,48 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Update">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ContentPresenter>
+                                <ContentPresenter.Content>
+                                    <Border CornerRadius="3" Height="20" Width="100" Margin="0,0,5,0">
+                                        <Border.Style>
+                                            <Style TargetType="{x:Type Border}">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding UpdateAvailable}" Value="True">
+                                                        <Setter Property="Background" Value="DarkRed" />
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding UpdateAvailable}" Value="False">
+                                                        <Setter Property="Visibility" Value="Hidden"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <TextBlock FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <TextBlock.Style>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding UpdateAvailable}" Value="True">
+                                                            <Setter Property="Text" Value="Update Available" />
+                                                            <Setter Property="Foreground" Value="White"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding UpdateAvailable}" Value="False">
+                                                            <Setter Property="Text" Value="" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Border>
+                                </ContentPresenter.Content>
+                            </ContentPresenter>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
             </DataGrid.Columns>
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>

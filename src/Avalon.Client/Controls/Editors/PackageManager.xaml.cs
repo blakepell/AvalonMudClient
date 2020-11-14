@@ -50,7 +50,8 @@ namespace Avalon.Controls
                 var client = new RestClient(App.Settings.AvalonSettings.PackageManagerApiUrl);
                 client.UseNewtonsoftJson();
 
-                var request = new RestRequest("get-all", RestSharp.DataFormat.Json).AddQueryParameter("ip", App.Settings.ProfileSettings.IpAddress);
+                // This retrieves all of the packages, but only the metadata, none of the content until something is specifically requested.
+                var request = new RestRequest("get-all-metadata", RestSharp.DataFormat.Json).AddQueryParameter("ip", App.Settings.ProfileSettings.IpAddress);
                 this.PackageList = await client.GetAsync<List<Package>>(request);
 
                 if (this.PackageList.Count == 0)
@@ -61,15 +62,6 @@ namespace Avalon.Controls
                     win.StatusBarLeftText = $"Packages for {App.Settings.ProfileSettings.IpAddress}.";
                     await this.MsgBox($"There are no packages available for {App.Settings.ProfileSettings.IpAddress}", "No Packages Found");
                     return;
-                }
-
-                // Loop through every item in this package and make sure they are all set to have the PackageId
-                // of the package that is loading them.  That will allow them to be uninstalled as a whole later.
-                foreach (var item in this.PackageList)
-                {
-                    item.AliasList.ForEach(x => x.PackageId = item.Id);
-                    item.TriggerList.ForEach(x => x.PackageId = item.Id);
-                    item.DirectionList.ForEach(x => x.PackageId = item.Id);
                 }
 
                 // Update which ones if any are installed.
@@ -220,6 +212,18 @@ namespace Avalon.Controls
                 if (InstallStatus(item.Id))
                 {
                     item.IsInstalled = true;
+
+                    // Is there an update available?
+                    var package = App.Settings.ProfileSettings.InstalledPackages.FirstOrDefault(x => x.PackageId == item.Id);
+
+                    if (item.Version > package?.Version)
+                    {
+                        item.UpdateAvailable = true;
+                    }
+                    else
+                    {
+                        item.UpdateAvailable = false;
+                    }
                 }
                 else
                 {
@@ -255,7 +259,7 @@ namespace Avalon.Controls
                 return true;
             }
 
-            var packageExists = App.Settings.ProfileSettings.InstalledPackages.Any(x => x == packageId);
+            var packageExists = App.Settings.ProfileSettings.InstalledPackages.Any(x => x.PackageId == packageId);
 
             if (packageExists)
             {
@@ -281,13 +285,45 @@ namespace Avalon.Controls
                 return;
             }
 
-            // This will update this profile with the items from the json package.
-            App.Settings.ImportPackage(package);
+            var win = this.FindAscendant<Shell>();
 
-            // Update which ones if any are installed.
-            this.UpdateInstalledList();
+            try
+            {
+                win.ProgressRingVisibility = Visibility.Visible;
+                win.ProgressRingIsActive = true;
+                win.StatusBarLeftText = $"Downloading and installing {package.Name}";
 
-            await MsgBox($"{package.Name} version {package.Version} has successfully been installed.", "Success");
+                var client = new RestClient(App.Settings.AvalonSettings.PackageManagerApiUrl);
+                client.UseNewtonsoftJson();
+
+                // This retrieves only the specific package by the ID we want to install.
+                var request = new RestRequest("get", RestSharp.DataFormat.Json).AddQueryParameter("id", package.Id);
+                var fullPackage = await client.GetAsync<Package>(request);
+
+                // Loop through all items in this package and make sure the PackageId is set of every part
+                // that will be installed.
+                fullPackage.AliasList.ForEach(x => x.PackageId = fullPackage.Id);
+                fullPackage.TriggerList.ForEach(x => x.PackageId = fullPackage.Id);
+                fullPackage.DirectionList.ForEach(x => x.PackageId = fullPackage.Id);
+
+                // This will update this profile with the items from the json package.
+                App.Settings.ImportPackage(fullPackage);
+
+                // Update which ones if any are installed.
+                this.UpdateInstalledList();
+
+                await MsgBox($"{package.Name} version {package.Version} has successfully been installed.", "Success");
+                win.StatusBarLeftText = $"{package.Name} was installed successfully.";
+            }
+            catch (Exception ex)
+            {
+                await this.MsgBox($"An error occurred requesting the package list: {ex.Message}", "Package Manager Error");
+                win.StatusBarLeftText = $"Package list failed: {ex.Message}";
+                win.StatusBarRightText = $"0 Packages";
+            }
+
+            win.ProgressRingIsActive = false;
+            win.ProgressRingVisibility = Visibility.Collapsed;
         }
 
         private async void ButtonUninstall_OnClick(object sender, RoutedEventArgs e)
@@ -338,7 +374,13 @@ namespace Avalon.Controls
             }
 
             // Remove the package ID from the list.
-            App.Settings.ProfileSettings.InstalledPackages.Remove(package.Id);
+            for (int i = App.Settings.ProfileSettings.InstalledPackages.Count - 1; i >= 0; i--)
+            {
+                if (App.Settings.ProfileSettings.InstalledPackages[i].PackageId == package.Id)
+                {
+                    App.Settings.ProfileSettings.InstalledPackages.RemoveAt(i);
+                }
+            }
 
             // Update which ones if any are installed.
             this.UpdateInstalledList();

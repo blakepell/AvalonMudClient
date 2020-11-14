@@ -258,7 +258,24 @@ namespace Avalon.Common.Settings
         /// <param name="package"></param>
         public void ImportPackage(Package package)
         {
-            this.ProfileSettings.InstalledPackages.AddIfDoesntExist(package.Id);
+            var item = this.ProfileSettings.InstalledPackages.FirstOrDefault(x => x.PackageId == package.Id);
+
+            if (item == null)
+            {
+                // Add the new package to our list of installed packages.
+                var ip = new InstalledPackage
+                {
+                    PackageId = package.Id,
+                    Version = package.Version
+                };
+
+                this.ProfileSettings.InstalledPackages.Add(ip);
+            }
+            else
+            {
+                // Update the version
+                item.Version = package.Version;
+            }
 
             this.ImportAliases(package.AliasList);
             this.ImportTriggers(package.TriggerList);

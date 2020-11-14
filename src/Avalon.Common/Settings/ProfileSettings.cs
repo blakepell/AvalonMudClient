@@ -182,7 +182,7 @@ namespace Avalon.Common.Settings
         /// aliases/triggers/directions etc. but might change something about the UI.
         /// </summary>
         [Browsable(false)]
-        public List<string> InstalledPackages { get; set; } = new List<string>();
+        public List<InstalledPackage> InstalledPackages { get; set; } = new List<InstalledPackage>();
 
         [Browsable(false)]
         public ObservableCollection<Macro> MacroList { get; set; } = new ObservableCollection<Macro>();

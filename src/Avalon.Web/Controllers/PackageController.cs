@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.Data.Sqlite;
 using Dapper;
+using System.Text;
 
 namespace Avalon.Web.Controllers
 {
@@ -24,6 +25,8 @@ namespace Avalon.Web.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
 
         private List<IPackage> PackgeList { get; set; }
+
+        private List<IPackage> PacakgeListMetadata { get; set; }
 
         public PackageController(ILogger<PackageController> logger, IMemoryCache cache, IWebHostEnvironment env)
         {
@@ -54,6 +57,18 @@ namespace Avalon.Web.Controllers
             await RequestIncrement();
             this.LoadCache();
             return this.PackgeList.FindAll(x => x.GameAddress.Equals(ip, StringComparison.Ordinal)) ?? new List<IPackage>();
+        }
+
+        /// <summary>
+        /// Returns all packages but only the metadata for the Package Manager search screen.
+        /// </summary>
+        /// <param name="ip"></param>
+        [HttpGet("get-all-metadata")]
+        public async Task<IEnumerable<IPackage>> GetAllMetadata([FromQuery] string ip)
+        {
+            await RequestIncrement();
+            this.LoadCache();
+            return this.PacakgeListMetadata.FindAll(x => x.GameAddress.Equals(ip, StringComparison.Ordinal)) ?? new List<IPackage>();
         }
 
         [HttpGet("count-all")]
@@ -88,6 +103,36 @@ namespace Avalon.Web.Controllers
                     await conn.OpenAsync();
                     int counter = await conn.ExecuteScalarAsync<int>("select sum(hits) from usage");
                     return Ok(counter);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Returns the total number of API requests made.
+        /// </summary>
+        [HttpGet("request-count-by-route")]
+        public async Task<IActionResult> RequestCountByRoute()
+        {
+            try
+            {
+                await RequestIncrement();
+
+                using (var conn = new SqliteConnection($"Data Source={Path.Join(_webHostEnvironment.ContentRootPath, "/Data/avalon.db")}"))
+                {
+                    await conn.OpenAsync();
+                    var results = await conn.QueryAsync(@"select route, sum(hits) as 'hits' from usage group by route order by 'hits'");
+                    var sb = new StringBuilder();
+
+                    foreach (var item in results)
+                    {
+                        sb.AppendFormat("{0},{1}\r\n", item.route, item.hits);
+                    }
+
+                    return Ok(sb.ToString());
                 }
             }
             catch (Exception ex)
@@ -158,6 +203,7 @@ namespace Avalon.Web.Controllers
         public IActionResult ReloadCache()
         {
             _cache.Remove("PackageList");
+            _cache.Remove("PackageListMetadata");
             this.LoadCache();
             return Ok("Ok");
         }
@@ -168,6 +214,7 @@ namespace Avalon.Web.Controllers
         private void LoadCache()
         {
             List<IPackage> list;
+            List<IPackage> metadataList;
 
             // Look for cache key.
             if (!_cache.TryGetValue("PackageList", out list))
@@ -192,6 +239,39 @@ namespace Avalon.Web.Controllers
             }
 
             this.PackgeList = list;
+
+            // Look for cache key.
+            if (!_cache.TryGetValue("PackageListMetadata", out metadataList))
+            {
+                metadataList = new List<IPackage>();
+
+                // Set cache options.
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromHours(6));
+
+                // Only the metadata, not the content which can be large
+                foreach (var item in list)
+                {
+                    var p = new Package
+                    {
+                        Name = item.Name,
+                        Description = item.Description,
+                        Author = item.Author,
+                        Category = item.Category,
+                        GameAddress = item.GameAddress,
+                        Version = item.Version,
+                        MinimumClientVersion = item.MinimumClientVersion,
+                        Id = item.Id
+                    };
+
+                    metadataList.Add(p);
+                }
+
+                // Save data in cache.
+                _cache.Set("PackageListMetadata", metadataList, cacheEntryOptions);
+            }
+
+            this.PacakgeListMetadata = metadataList;
         }
 
         /// <summary>

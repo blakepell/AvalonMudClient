@@ -5,7 +5,7 @@
   "Author": "Rhien",
   "GameAddress": "dsl-mud.org",
   "Category": "Immortals",
-  "Version": 4,
+  "Version": 5,
   "SetupCommand": "#setting -c -s \"CustomTab3Label\" -v \"Wiznet\";#setting -c -s \"CustomTab3Visible\" -v \"true\"",
   "AliasList": [],
   "TriggerList": [
