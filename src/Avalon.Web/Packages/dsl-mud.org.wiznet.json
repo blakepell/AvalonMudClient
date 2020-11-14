@@ -1,0 +1,37 @@
+{
+  "Id": "c7d8769c-73bc-481e-a762-82896c2d12c6",
+  "Name": "Wiznet",
+  "Description": "A trigger that will move wiznet info to terminal 3 without gagging it from the main game terminal.",
+  "Author": "Rhien",
+  "GameAddress": "dsl-mud.org",
+  "Category": "Immortals",
+  "Version": 4,
+  "SetupCommand": "#setting -c -s \"CustomTab3Label\" -v \"Wiznet\";#setting -c -s \"CustomTab3Visible\" -v \"true\"",
+  "AliasList": [],
+  "TriggerList": [
+    {
+      "Command": "#echo -d -t Terminal3 \" %0\"",
+      "Pattern": "^-->",
+      "Character": "",
+      "Group": "Immortal",
+      "IsSilent": false,
+      "IsLua": false,
+      "Plugin": false,
+      "DisableAfterTriggered": false,
+      "Lock": false,
+      "LastMatched": "0001-01-01T00:00:00",
+      "VariableReplacement": false,
+      "Enabled": true,
+      "Gag": false,
+      "MoveTo": 0,
+      "HighlightLine": false,
+      "Count": 0,
+      "Priority": 10000,
+      "StopProcessing": false,
+      "Identifier": "1eb065f2-834b-473d-a4a2-3ffcb4a36641",
+      "PackageId": "",
+      "SystemTrigger": false
+    }
+  ],
+  "DirectionList": []
+}

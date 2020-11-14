@@ -1,0 +1,13 @@
+{
+  "Id": "e92f6693-22b5-46b5-b76a-853326dff695",
+  "Name": "Wiki Search Bar",
+  "Description": "Installing this package will set the search bar to search the DSL Wiki.",
+  "Author": "Rhien",
+  "GameAddress": "dsl-mud.org",
+  "Category": "Search Bar",
+  "Version": 1,
+  "SetupCommand": "#setting -p -s \"SearchBarCommand\" -v \"#shell-url https://dslmud.fandom.com/wiki/Special:Search?query=\"",
+  "AliasList": [],
+  "TriggerList": [],
+  "DirectionList": []
+}

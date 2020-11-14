@@ -1,0 +1,24 @@
+{
+  "Id": "27ffda87-161b-4a7b-98f2-1c398a127373",
+  "Name": "Murder 10x",
+  "Description": "An example of how to use the repeat hash command to spam 10 murders in at a time.",
+  "Author": "Rhien",
+  "GameAddress": "127.0.0.1",
+  "Category": "Battle",
+  "Version": 1,
+  "AliasList": [
+    {
+      "AliasExpression": "m10",
+      "Command": "#repeat 10 murder %1",
+      "Enabled": true,
+      "Character": "",
+      "Group": "",
+      "IsLua": false,
+      "Lock": false,
+      "Count": 0,
+      "PackageId": ""
+    }
+  ],
+  "TriggerList": [],
+  "DirectionList": []
+}

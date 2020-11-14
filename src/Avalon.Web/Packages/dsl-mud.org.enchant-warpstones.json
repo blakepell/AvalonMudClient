@@ -1,0 +1,48 @@
+{
+  "Id": "85fa02bb-b9be-4f28-b9d9-4bed7e8119ad",
+  "Name": "Enchantor: Warpstone Script",
+  "Description": "A script to create warpstones until you're out of mana.  The command needs to be editted to get a gem from the pit or shelves you're storing your gems to use in.  The initial script assumes you're using a pit and a glass trinket, both the alias and the Lua script must be updated with the proper keywords for your usage.",
+  "Author": "Rhien",
+  "GameAddress": "dsl-mud.org",
+  "Category": "Enchantors",
+  "Version": 1,
+  "AliasList": [
+    {
+      "AliasExpression": "enchant-gem",
+      "Command": "get trinket pit;c 'enchant gem' trinket",
+      "Enabled": true,
+      "Character": "",
+      "Group": "",
+      "IsLua": false,
+      "Lock": false,
+      "Count": 0,
+      "PackageId": ""
+    }
+  ],
+  "TriggerList": [
+    {
+      "Command": "-- Initialize variabless\r\nif global.warpstones_enchanted == nil then\r\n    global.warpstones_enchanted = 0\r\nend\r\n\r\n-- Increment the counter\r\nglobal.warpstones_enchanted = global.warpstones_enchanted + 1\r\nlua.Echo(\"{CYou have enchanted {y\" .. global.warpstones_enchanted .. \"{C warpstones.{x\")\r\n\r\n-- Enchant the next one.\r\nlua.Send(\"put glit put;get trinket pit;c 'enchant gem' trink\")",
+      "Pattern": "^A glass trinket glows a bright magenta and then changes form.",
+      "Character": "",
+      "Group": "",
+      "IsSilent": false,
+      "IsLua": true,
+      "Plugin": false,
+      "DisableAfterTriggered": false,
+      "Lock": false,
+      "LastMatched": "0001-01-01T00:00:00",
+      "VariableReplacement": false,
+      "Enabled": true,
+      "Gag": false,
+      "MoveTo": 0,
+      "HighlightLine": false,
+      "Count": 0,
+      "Priority": 10000,
+      "StopProcessing": false,
+      "Identifier": "88029e27-02a3-4d9d-b372-74f4ca14db38",
+      "PackageId": "",
+      "SystemTrigger": false
+    }
+  ],
+  "DirectionList": []
+}

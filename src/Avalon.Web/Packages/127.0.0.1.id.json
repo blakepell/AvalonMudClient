@@ -1,0 +1,24 @@
+{
+  "Id": "c366d107-a77f-4807-be69-3e868b2137cc",
+  "Name": "ID alias",
+  "Description": "Will cast identify on 1 to n items of a keyword in your inventory.",
+  "Author": "Rhien",
+  "GameAddress": "127.0.0.1",
+  "Category": "General",
+  "Version": 1,
+  "AliasList": [
+    {
+      "AliasExpression": "id",
+      "Command": "-- Syntax: id <start index> <end index> <keyword>\r\n-- Description: Casts the identify spell on a number of items with the same keyword.\r\n-- Example: id 1 5 sword\r\n-- Result: cast identify 1.sword, cast identify 2.sword, etc.\r\n\r\nfor i = %1, %2, 1 \r\ndo\r\n    lua:Send(\"cast identify \" .. i .. \".%3\")\r\nend",
+      "Enabled": true,
+      "Character": "",
+      "Group": "",
+      "IsLua": true,
+      "Lock": false,
+      "Count": 0,
+      "PackageId": ""
+    }
+  ],
+  "TriggerList": [],
+  "DirectionList": []
+}

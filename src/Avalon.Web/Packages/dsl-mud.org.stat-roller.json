@@ -1,0 +1,36 @@
+{
+  "Id": "a4841d83-56a9-4685-ba1b-c9000dfcebb4",
+  "Name": "Stat Roller",
+  "Description": "A basic stat roller.",
+  "Author": "Rhien",
+  "GameAddress": "dsl-mud.org",
+  "Category": "General",
+  "Version": 1,
+  "AliasList": [],
+  "TriggerList": [
+    {
+      "Command": "-- Basic Stat Roller, Rhien 3/30/2020\r\n-- Change the \"goal\" variable to the number you want to roll.\r\nlocal goal = 240\r\nlocal stat_str = lua:GetVariable(\"RollerStr\")\r\nlocal stat_int = lua:GetVariable(\"RollerInt\")\r\nlocal stat_wis = lua:GetVariable(\"RollerWis\")\r\nlocal stat_dex = lua:GetVariable(\"RollerDex\")\r\nlocal stat_con = lua:GetVariable(\"RollerCon\")\r\nlocal total = stat_str + stat_int + stat_wis + stat_dex + stat_con\r\n\r\nlua:Echo(\"Total: \" .. total)\r\n\r\nif total >= goal then\r\n\tlua:EchoEvent(\"Goal met!\")\r\n\tlua:Send(\"#beep\")\r\n\tlua:Send(\"#flash\")\r\n\tlua:Send(\"#toast Roller hit the goal.\")\r\nelse\r\n\tlua:Send(\"n\")\r\nend\r\n",
+      "Pattern": "\\[Str: (?<RollerStr>\\d+)  Int: (?<RollerInt>\\d+)  Wis: (?<RollerWis>\\d+)  Dex: (?<RollerDex>\\d+)  Con: (?<RollerCon>\\d+)\\]",
+      "Character": "",
+      "Group": "Roller",
+      "IsSilent": false,
+      "IsLua": true,
+      "Plugin": false,
+      "DisableAfterTriggered": false,
+      "Lock": false,
+      "LastMatched": "0001-01-01T00:00:00",
+      "VariableReplacement": false,
+      "Enabled": true,
+      "Gag": false,
+      "MoveTo": 0,
+      "HighlightLine": false,
+      "Count": 0,
+      "Priority": 10000,
+      "StopProcessing": false,
+      "Identifier": "01ec7108-d0a6-43e5-aa3f-8d23df745275",
+      "PackageId": "",
+      "SystemTrigger": false
+    }
+  ],
+  "DirectionList": []
+}

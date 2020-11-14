@@ -1,0 +1,36 @@
+{
+  "Id": "a1ae6953-4e0f-451a-bd59-5f2ed83d0377",
+  "Name": "Highlight Important Affects",
+  "Description": "An example of a trigger that will highlight important affects in the game window",
+  "Author": "Rhien",
+  "GameAddress": "dsl-mud.org",
+  "Category": "Info and Alerts",
+  "Version": 1,
+  "AliasList": [],
+  "TriggerList": [
+    {
+      "Command": "",
+      "Pattern": "^Spell: (sanctuary|haste|protection good|protection neutral|protection evil)",
+      "Character": "",
+      "Group": "",
+      "IsSilent": false,
+      "IsLua": false,
+      "Plugin": false,
+      "DisableAfterTriggered": false,
+      "Lock": false,
+      "LastMatched": "0001-01-01T00:00:00",
+      "VariableReplacement": false,
+      "Enabled": true,
+      "Gag": false,
+      "MoveTo": 0,
+      "HighlightLine": true,
+      "Count": 0,
+      "Priority": 10000,
+      "StopProcessing": false,
+      "Identifier": "66f1087f-692f-4bf5-9065-bbeae56a54e1",
+      "PackageId": "",
+      "SystemTrigger": false
+    }
+  ],
+  "DirectionList": []
+}

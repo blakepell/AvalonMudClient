@@ -1,0 +1,25 @@
+{
+  "Id": "1c8027a0-c82e-42f8-85e7-7a0edc53d1d0",
+  "Name": "SQLite Database Example",
+  "Description": "An example showing how to interact with the SQLite database.",
+  "Author": "Rhien",
+  "GameAddress": "dsl-mud.org",
+  "Category": "Examples",
+  "Version": 1,
+  "MinimumClientVersion": "0.0.0.0",
+  "AliasList": [
+    {
+      "AliasExpression": "example-sql",
+      "Command": "-- Lua SQL example.  This will create a table, put a record into it, select it out and then\r\n-- drop the table.  Note, that if you use the \"lua.Send\" it parses as a command and thus\r\n-- the semi-colon that usually ends SQL statements will actually split the command into\r\n-- two calls by the mud client.  Future versions will see SQL commands directoly exposed\r\n-- to Lua.\r\nlua.Send(\"#example\")\r\n\r\n-- Explain to the user what this is supposed to do.\r\nlua.Echo(\"{x {c={C>{x This example will create a database table, insert one row into it and then{x\")\r\nlua.Echo(\"{x {c={C>{x select that value out and show it to the mud client.{x\")\r\nlua.Echo(\"{x {c={C>{x {Y{_Important Note{x: This example requires that developer mode is turned on in the settings.{x\\r\\n\")\r\n\r\nlua.Echo(\"{x {g={G>{x Creating database table {ctest{x with two columns, {cid{x and {cvalue{x.\")\r\nlua.Send(\"#sql-execute \\\"CREATE TABLE IF NOT EXISTS test (id INTEGER PRIMARY KEY AUTOINCREMENT, value TEXT)\\\"\")\r\nlua.Echo(\"{x {g={G>{x Inserting one row into the table with the current time.\")\r\n\r\nlocal dt = lua.GetTime()\r\nlocal cmd = string.format(\"#sql-execute \\\"INSERT INTO test (value) VALUES (@1)\\\" \\\"%s\\\"\", dt)\r\nlua.Send(cmd)\r\n\r\nlua.Echo(\" {g={G>{x Selecting that value from the table.\")\r\n\r\n-- We're just getting the top record.\r\nlua.Send(\"#sql-query-one \\\"SELECT value FROM test LIMIT 1\\\" -n \\\"temp-dt\\\" -s\")\r\n\r\nlocal dbValue = lua.GetVariable(\"temp-dt\")\r\nlua.Echo(\"{x {g={G>{x The value selected from the database now available to Lua is {y\" .. dbValue .. \"{x\")\r\n\r\n-- Remove the temporary global variable we used.\r\nlua.RemoveVariable(\"temp-dt\")\r\n\r\n-- Cleanup, drop the table.\r\nlua.Echo(\" {g={G>{x Dropping the table from the database.\")\r\nlua.Send(\"#sql-execute \\\"DROP TABLE test\\\"\")",
+      "Enabled": true,
+      "Character": "",
+      "Group": "Examples",
+      "IsLua": true,
+      "Lock": false,
+      "Count": 0,
+      "PackageId": ""
+    }
+  ],
+  "TriggerList": [],
+  "DirectionList": []
+}

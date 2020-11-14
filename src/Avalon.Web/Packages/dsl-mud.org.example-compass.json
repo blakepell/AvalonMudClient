@@ -1,0 +1,24 @@
+{
+  "Id": "2a1a534d-9bad-4ef6-8400-7b978559d274",
+  "Name": "Compass Example",
+  "Description": "An example command 'example-compass' that shows how to span a compass window and change the direction it points.",
+  "Author": "Rhien",
+  "GameAddress": "dsl-mud.org",
+  "Category": "Examples",
+  "Version": 1,
+  "AliasList": [
+    {
+      "AliasExpression": "example-compass",
+      "Command": "#example;#echo \"I will create a compass window in two seconds pointed {yeast{x.\";#task-add -s 2 -c \"#compass\";#task-add -s 2 -c \"#compass -d e\";#task-add -s 4 -c \"#echo I will move the compass to the {ysouthwest{x.\";#task-add -s 5 -c \"#compass -d sw\";#task-add -s 7 -c \"#echo I will move the compass to the {ynorth{x.\";#task-add -s 8 -c \"#compass -d n\";#task-add -s 10 -c \"#echo I will now close the compass.  This concludes the example.\";#task-add -s 11 -c \"#compass --close\"",
+      "Enabled": true,
+      "Character": "",
+      "Group": "",
+      "IsLua": false,
+      "Lock": false,
+      "Count": 0,
+      "PackageId": ""
+    }
+  ],
+  "TriggerList": [],
+  "DirectionList": []
+}

@@ -1,0 +1,24 @@
+{
+  "Id": "856d8d5e-1f82-46c9-b53b-65ea3c8c721b",
+  "Name": "An example of using the #window hash command.",
+  "Description": "This set of commands will create a new window, set it's title and status as well as echo text and colored text to it.",
+  "Author": "Rhien",
+  "GameAddress": "dsl-mud.org",
+  "Category": "Examples",
+  "Version": 1,
+  "AliasList": [
+    {
+      "AliasExpression": "window-example",
+      "Command": "#example;#window -n ExampleWindow --title \"Example Window\" --status \"This is where a custom status could go\";#echo -w ExampleWindow \"{xRhien says '{gYou can you the normal mud {Rc{Yo{Gl{Wo{Cr{g codes you know and love here.{x';#echo -w ExampleWindow \"{xRhien says '{gHello, how are you?  Here, have a toaster.{x'\";#echo -w ExampleWindow \"Rhien hands you a broken toaster.\";#echo -w ExampleWindow \"Rhien now points to the line below this one, it will be prefixed with a timestamp.\";#echo -w ExampleWindow -d \"There is a timestamp on this line.\";",
+      "Enabled": true,
+      "Character": "",
+      "Group": "Examples",
+      "IsLua": false,
+      "Lock": false,
+      "Count": 0,
+      "PackageId": ""
+    }
+  ],
+  "TriggerList": [],
+  "DirectionList": []
+}

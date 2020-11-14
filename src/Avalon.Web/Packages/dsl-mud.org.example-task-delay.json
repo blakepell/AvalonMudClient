@@ -1,0 +1,24 @@
+{
+  "Id": "990526be-d472-47af-aeed-ff7c717e5196",
+  "Name": "Task Delay Example",
+  "Description": "An example alias called 'example-delay' that allows you to schedule commands to run in the future.",
+  "Author": "Rhien",
+  "GameAddress": "dsl-mud.org",
+  "Category": "Examples",
+  "Version": 1,
+  "AliasList": [
+    {
+      "AliasExpression": "example-delay",
+      "Command": "#example;#task-add -s 1 -c \"#echo {g={G>{x This is an example of scheduling commands to run.\";#task-add -s 3 -c \"#echo {g={G>{x You may use the {c#task-add{x command to schedule a task to run in a given amount of seconds.\";#task-add -s 6 -c \"#echo {g={G>{x If you wish to clear all pending tasks use the {c#task-clear{x command.\";#task-add -s 9 -c \"#echo {g={G>{x If you wish to see all of the tasks scheduled and the times they'll run use {c#task-list{x.;#task-add -s 9 -c \"#echo {g={G>{x  I'll add two more tasks and run {c#task-list{x for you to see that.\";#task-add -s 14 -c \"#echo This is delayed task {y1{x.\";#task-add -s 16 -c \"#echo This is delayed task {y2{x.  This example is now complete.\";#task-add -s 10 -c \"#task-list\"\r\n",
+      "Enabled": true,
+      "Character": "",
+      "Group": "",
+      "IsLua": false,
+      "Lock": false,
+      "Count": 0,
+      "PackageId": ""
+    }
+  ],
+  "TriggerList": [],
+  "DirectionList": []
+}

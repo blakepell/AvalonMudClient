@@ -1,0 +1,38 @@
+{
+  "Id": "0771c833-4718-4406-a2ea-88648274e287",
+  "Name": "Toasts Capture",
+  "Description": "Move PK toasts to the communications window.",
+  "Author": "Rhien",
+  "GameAddress": "dsl-mud.org",
+  "Category": "Info and Alerts",
+  "Version": 1,
+  "MinimumClientVersion": "0.0.0.0",
+  "SetupCommand": "",
+  "AliasList": [],
+  "TriggerList": [
+    {
+      "Command": "",
+      "Pattern": "^[\\a]?([\\[\\(](.*?)[\\]\\)])?[ ]{0,}([\\w'-]+) got (.*?) by (.*?) ([\\[\\(] (.*?) [\\]\\)])?[ ]{0,}([\\(]Arena[\\)])?",
+      "Character": "",
+      "Group": "dsl-mud.org",
+      "IsSilent": true,
+      "IsLua": false,
+      "Plugin": true,
+      "DisableAfterTriggered": false,
+      "Lock": false,
+      "LastMatched": "0001-01-01T00:00:00",
+      "VariableReplacement": false,
+      "Enabled": true,
+      "Gag": true,
+      "MoveTo": 2,
+      "HighlightLine": false,
+      "Count": 0,
+      "Priority": 10000,
+      "StopProcessing": false,
+      "Identifier": "6731ca72-5672-4dab-879b-896b2945805a",
+      "PackageId": "",
+      "SystemTrigger": false
+    }
+  ],
+  "DirectionList": []
+}
