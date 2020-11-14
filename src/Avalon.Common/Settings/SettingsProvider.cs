@@ -273,6 +273,16 @@ namespace Avalon.Common.Settings
             {
                 this.Conveyor.ExecuteLuaAsync(package.SetupLuaScript);
             }
+
+            try
+            {
+                this.Conveyor.SortTriggersByPriority();
+            }
+            catch (Exception ex)
+            {
+                this.Conveyor.EchoLog("An error occurred sorting the trigger list by priority.", LogType.Error);
+                this.Conveyor.EchoLog(ex.Message, LogType.Error);
+            }
         }
 
         /// <inheritdoc />
