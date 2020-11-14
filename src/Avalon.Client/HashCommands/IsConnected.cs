@@ -1,4 +1,5 @@
 ﻿using Avalon.Common.Interfaces;
+using CommandLine;
 
 namespace Avalon.HashCommands
 {
@@ -21,7 +22,33 @@ namespace Avalon.HashCommands
 
         public override void Execute()
         {
-            this.Interpreter.Conveyor.EchoText(this.Interpreter.Telnet.IsConnected().ToString());
+            // Parse the arguments and append to the file.
+            var result = Parser.Default.ParseArguments<Arguments>(CreateArgs(this.Parameters))
+                .WithParsed(o =>
+                {
+                    string value = this.Interpreter?.Telnet?.IsConnected().ToString() ?? "False";
+                    this.Interpreter.Conveyor.SetVariable(o.VariableName, value);
+
+                    if (!o.Silent)
+                    {
+                        this.Interpreter.Conveyor.EchoText($"{value}\r\n");
+                    }
+                });
+
+            // Display the help or error output from the parameter parsing.
+            this.DisplayParserOutput(result);
+        }
+
+        /// <summary>
+        /// The supported command line arguments for this hash command.
+        /// </summary>
+        public class Arguments
+        {
+            [Option('s', "silent", Required = false, HelpText = "Whether the value should be echoed to the main terminal or not.")]
+            public bool Silent { get; set; } = false;
+
+            [Option('n', "name", Required = false, HelpText = "Puts the result into a variable.  The default variable name is 'IsConnected'.")]
+            public string VariableName { get; set; } = "IsConnected";
         }
 
     }
