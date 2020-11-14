@@ -8,6 +8,7 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
 
 ### Documentation
 
+- [Installation](doc/InstallationInstructions.md)
 - [Quick Tips for Getting Started](doc/QuickTips.md)
 - [FAQ](doc/FAQ.md)
 - [Aliases](doc/Aliases.md)
