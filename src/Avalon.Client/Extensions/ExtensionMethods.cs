@@ -112,20 +112,19 @@ namespace Avalon.Extensions
         /// is validated before it gets here.
         /// </remarks>
         /// <param name="span">The Span to search.</param>
-        /// <param name="value">The string to search for.</param>
         /// <param name="startIndex">The starting position.</param>
-        public static int IndexOfNextColorCode(this ReadOnlySpan<char> span, ReadOnlySpan<char> value, int startIndex)
+        public static int IndexOfNextColorCode(this ReadOnlySpan<char> span, int startIndex)
         {
             // Look up both the starting position of the value and the second value that
             // it isn't supposed to be after those positions.
-            int index = span.SafeIndexOf(value, startIndex);
+            int index = span.SafeIndexOf('\x1B', startIndex);
 
             // Not found at all, return -1.
             if (index == -1)
             {
                 return -1;
             }
-
+            
             int reverseIndex = span.SafeIndexOf(AnsiColors.Reverse.AnsiCode.AsSpan(), startIndex);
             int underlineIndex = span.SafeIndexOf(AnsiColors.Underline.AnsiCode.AsSpan(), startIndex);
 
@@ -139,9 +138,9 @@ namespace Avalon.Extensions
             // but notIndex does not.
             int start = index;
 
-            while ((span.SafeIndexOf(value, start)) >= 0)
+            while ((span.SafeIndexOf('\x1B', start)) >= 0)
             {
-                index = span.SafeIndexOf(value, start);
+                index = span.SafeIndexOf('\x1B', start);
 
                 // Not found at all, return -1.
                 if (index == -1)
@@ -160,7 +159,7 @@ namespace Avalon.Extensions
 
                 // Increment the start position and search for the next occurrence at the top
                 // of the loop.
-                start = index + value.Length;
+                start = index + 1;
             }
 
             // No instances of the value were found where notValue wasn't found at the same
