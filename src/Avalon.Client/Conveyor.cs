@@ -319,7 +319,7 @@ namespace Avalon
             switch (type)
             {
                 case LogType.Information:
-                    line.FormattedText = $"{{b={{B>{{x {text}\r\n";
+                    line.FormattedText = $"{{c={{C>{{x {text}\r\n";
                     break;
                 case LogType.Success:
                     line.FormattedText = $"{{g={{G>{{x {text}\r\n";
@@ -331,7 +331,7 @@ namespace Avalon
                     line.FormattedText = $"{{r={{R>{{x {text}\r\n";
                     break;
                 case LogType.Debug:
-                    line.FormattedText = $"{{c={{C>{{x {text}\r\n";
+                    line.FormattedText = $"{{b={{B>{{x {text}\r\n";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);

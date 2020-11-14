@@ -94,6 +94,8 @@ namespace Avalon.Controls
             catch (Exception ex)
             {
                 await this.MsgBox($"An error occurred requesting the package list: {ex.Message}", "Package Manager Error");
+                win.StatusBarLeftText = $"Package list failed: {ex.Message}";
+                win.StatusBarRightText = $"0 Packages";
             }
 
             win.ProgressRingIsActive = false;

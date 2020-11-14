@@ -88,6 +88,9 @@ namespace Avalon
         /// <param name="e"></param>
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            // Package manager echo.
+            this.StartupMessages();
+
             // The settings for the app load in the app startup, they will then try to load the last profile that was used.
             App.Conveyor.EchoLog($"Avalon Mud Client Version {Assembly.GetExecutingAssembly()?.GetName()?.Version.ToString() ?? "Unknown"}", LogType.Information);
 
@@ -234,6 +237,25 @@ namespace Avalon
                 App.Conveyor.EchoText(ex?.StackTrace?? "No stack trace available.");
                 return;
             }
+        }
+
+        /// <summary>
+        /// Any important messages or notices that should be echo'd to the client on startup.
+        /// </summary>
+        private void StartupMessages()
+        {
+            var sb = Argus.Memory.StringBuilderPool.Take();
+            sb.AppendLine();
+            sb.AppendLine("+------------------------------------------------------------------------------+");
+            sb.AppendLine("+ {GP{gackage {GM{ganager{x                                                              +");
+            sb.AppendLine("+------------------------------------------------------------------------------+");
+            sb.AppendLine("+ To search for alias/trigger/direction packages use the Edit->Package Manager +");
+            sb.AppendLine("+ menu option.  Packages can be used to easily and quickly setup your mud      +");
+            sb.AppendLine("+ client.                                                                      +");
+            sb.AppendLine("+------------------------------------------------------------------------------+");
+            sb.AppendLine();
+            App.Conveyor.EchoText(sb.ToString());
+            Argus.Memory.StringBuilderPool.Return(sb);
         }
 
         /// <summary>
