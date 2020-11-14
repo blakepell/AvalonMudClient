@@ -73,7 +73,6 @@
                 <DataGridTextColumn Header="Category" Binding="{Binding Category,UpdateSourceTrigger=PropertyChanged}" Width="150" IsReadOnly="True" />
                 <DataGridTextColumn Header="Version" Binding="{Binding Version,UpdateSourceTrigger=PropertyChanged}" Width="65" IsReadOnly="True" />
                 <DataGridTextColumn Header="Author" Binding="{Binding Author,UpdateSourceTrigger=PropertyChanged}" Width="100" IsReadOnly="True" />
-                <DataGridTextColumn Header="Installed" Binding="{Binding IsInstalled,UpdateSourceTrigger=PropertyChanged}" Width="65"></DataGridTextColumn>
                 <DataGridTemplateColumn Header="Installed">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
