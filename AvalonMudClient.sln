@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Avalon.Plugins.DarkAndShatt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Avalon.Sqlite", "src\Avalon.SQLite\Avalon.Sqlite.csproj", "{235DEDF3-24AF-4194-BFF5-027C6D17C4AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalon.Web", "src\Avalon.Web\Avalon.Web.csproj", "{D24714B5-1103-4B43-A9BE-1A93E0CA1A7A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{235DEDF3-24AF-4194-BFF5-027C6D17C4AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{235DEDF3-24AF-4194-BFF5-027C6D17C4AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{235DEDF3-24AF-4194-BFF5-027C6D17C4AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D24714B5-1103-4B43-A9BE-1A93E0CA1A7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D24714B5-1103-4B43-A9BE-1A93E0CA1A7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D24714B5-1103-4B43-A9BE-1A93E0CA1A7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D24714B5-1103-4B43-A9BE-1A93E0CA1A7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
