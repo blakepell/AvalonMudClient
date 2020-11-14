@@ -1,5 +1,6 @@
-﻿using System;
-using Avalon.Common.Interfaces;
+﻿using Avalon.Common.Interfaces;
+using CommandLine;
+using System;
 
 namespace Avalon.HashCommands
 {
@@ -11,7 +12,7 @@ namespace Avalon.HashCommands
     /// </remarks>
     public class GuidHashCmd : HashCommand
     {
-        public GuidHashCmd(IInterpreter interp) : base (interp)
+        public GuidHashCmd(IInterpreter interp) : base(interp)
         {
         }
 
@@ -21,9 +22,56 @@ namespace Avalon.HashCommands
 
         public override void Execute()
         {
-            string guid = Guid.NewGuid().ToString();
-            Interpreter.Conveyor.EchoText($"\r\n{guid}");
-            this.Interpreter.Conveyor.SetVariable("Guid", guid);
+            // Parse the arguments and append to the file.
+            var result = Parser.Default.ParseArguments<Arguments>(CreateArgs(this.Parameters))
+                .WithParsed(o =>
+                {
+                    if (o.Count > 1000)
+                    {
+                        Interpreter.Conveyor.EchoLog("The count is limited to 1,000 Guids at a time.", Common.Models.LogType.Warning);
+                    }
+
+                    var sb = Argus.Memory.StringBuilderPool.Take();
+
+                    // If more than one guid is generated we're only saving the last one into a variable.
+                    for (int i = 0; i < o.Count; i++)
+                    {
+                        string guid = Guid.NewGuid().ToString();
+
+                        if (i == o.Count - 1)
+                        {
+                            this.Interpreter.Conveyor.SetVariable(o.VariableName, guid);
+                        }
+
+                        sb.AppendFormat("\r\n{0}", guid);
+                    }
+
+                    sb.Append("\r\n");
+
+                    Interpreter.Conveyor.EchoText(sb.ToString());
+                    Argus.Memory.StringBuilderPool.Return(sb);
+
+                });
+
+            // Display the help or error output from the parameter parsing.
+            this.DisplayParserOutput(result);
         }
+
+        /// <summary>
+        /// The supported command line arguments for this hash command.
+        /// </summary>
+        public class Arguments
+        {
+            /// <summary>
+            /// Adds the number to the variable if the variable is a number.
+            /// </summary>
+            [Option('c', "count", Required = false, HelpText = "The number of GUIDs to generate.  If not set the default is 1.")]
+            public int Count { get; set; } = 1;
+
+
+            [Option('n', "name", Required = false, HelpText = "The name of the variable to set, the default is 'Guid'")]
+            public string VariableName { get; set; } = "Guid";
+        }
+
     }
 }
