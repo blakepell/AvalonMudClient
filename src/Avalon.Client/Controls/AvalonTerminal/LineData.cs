@@ -15,13 +15,7 @@ namespace Avalon.Controls
 
         public string Text { get; set; }
 
-        public string UnformattedText
-        {
-            get
-            {
-                return Avalon.Colors.Colorizer.RemoveAllAnsiCodes(this.Text);
-            }
-        }
+        public string UnformattedText => Avalon.Colors.Colorizer.RemoveAllAnsiCodes(this.Text);
 
         public bool IsGagged { get; set; }
 
