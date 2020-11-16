@@ -11,6 +11,7 @@ using Avalon.Common.Models;
 using System.Threading.Tasks;
 using Avalon.Colors;
 using System.Collections.Generic;
+using System.Windows.Threading;
 
 namespace Avalon
 {
@@ -181,6 +182,13 @@ namespace Avalon
         /// <param name="target"></param>
         public void EchoText(Line line, TerminalTarget target)
         {
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => EchoText(line, target)));
+                return;
+            }
+
             var sb = Argus.Memory.StringBuilderPool.Take(line.FormattedText);
             Colorizer.MudToAnsiColorCodes(sb);
             line.FormattedText = sb.ToString();
@@ -190,42 +198,31 @@ namespace Avalon
             {
                 case TerminalTarget.None:
                 case TerminalTarget.Main:
-                    Application.Current.Dispatcher.Invoke(new Action(() =>
+                    App.MainWindow.GameTerminal.Append(line);
+
+                    // If the back buffer setting is enabled put the data also in there.
+                    if (App.Settings.AvalonSettings.BackBufferEnabled)
                     {
-                        App.MainWindow.GameTerminal.Append(line);
-
-                        // If the back buffer setting is enabled put the data also in there.
-                        if (App.Settings.AvalonSettings.BackBufferEnabled)
-                        {
-                            line.ScrollToLastLine = false;
-                            App.MainWindow.GameBackBufferTerminal.Append(line);
-                        }
-
-                    }));
-
+                        line.ScrollToLastLine = false;
+                        App.MainWindow.GameBackBufferTerminal.Append(line);
+                    }
                     break;
                 case TerminalTarget.Terminal1:
-                    Application.Current.Dispatcher.Invoke(new Action(() =>
-                    {
-                        App.MainWindow.Terminal1.Append(line);
+                    App.MainWindow.Terminal1.Append(line);
 
-                        if (!App.MainWindow.CustomTab1.IsSelected)
-                        {
-                            App.MainWindow.CustomTab1Badge.Value += 1;
-                        }
-                        else if (App.MainWindow.CustomTab1.IsSelected && App.MainWindow.CustomTab1Badge.Value != 0)
-                        {
-                            // Only setting this if the value isn't 0 so it doesn't trigger UI processing.
-                            App.MainWindow.CustomTab1Badge.Value = 0;
-                        }
-                    }));
+                    if (!App.MainWindow.CustomTab1.IsSelected)
+                    {
+                        App.MainWindow.CustomTab1Badge.Value += 1;
+                    }
+                    else if (App.MainWindow.CustomTab1.IsSelected && App.MainWindow.CustomTab1Badge.Value != 0)
+                    {
+                        // Only setting this if the value isn't 0 so it doesn't trigger UI processing.
+                        App.MainWindow.CustomTab1Badge.Value = 0;
+                    }
 
                     break;
                 case TerminalTarget.Terminal2:
-                    Application.Current.Dispatcher.Invoke(new Action(() =>
-                    {
-                        App.MainWindow.Terminal2.Append(line);
-                    }));
+                    App.MainWindow.Terminal2.Append(line);
 
                     if (!App.MainWindow.CustomTab2.IsSelected)
                     {
@@ -239,10 +236,7 @@ namespace Avalon
 
                     break;
                 case TerminalTarget.Terminal3:
-                    Application.Current.Dispatcher.Invoke(new Action(() =>
-                    {
-                        App.MainWindow.Terminal3.Append(line);
-                    }));
+                    App.MainWindow.Terminal3.Append(line);
 
                     if (!App.MainWindow.CustomTab3.IsSelected)
                     {
@@ -255,7 +249,6 @@ namespace Avalon
                     }
 
                     break;
-
             }
         }
 
@@ -266,6 +259,13 @@ namespace Avalon
         /// <param name="windowName"></param>
         public void EchoText(string text, string windowName)
         {
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => EchoText(text, windowName)));
+                return;
+            }
+
             var win = this.WindowList.Find(x => x.WindowType == WindowType.TerminalWindow && x.Name.Equals(windowName, StringComparison.Ordinal)) as TerminalWindow;
 
             if (win == null)
@@ -287,6 +287,13 @@ namespace Avalon
         /// <param name="windowName"></param>
         public void EchoText(Line line, string windowName)
         {
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => EchoText(line, windowName)));
+                return;
+            }
+
             var win = this.WindowList.Find(x => x.WindowType == WindowType.TerminalWindow && x.Name.Equals(windowName, StringComparison.Ordinal)) as TerminalWindow;
 
             if (win == null)
@@ -344,6 +351,7 @@ namespace Avalon
         /// Gets all of the text from the requested window.
         /// </summary>
         /// <param name="target"></param>
+        /// <param name="removeColors"></param>
         public string GetText(TerminalTarget target, bool removeColors)
         {
             var sb = new StringBuilder();
@@ -422,10 +430,14 @@ namespace Avalon
         /// <param name="value"></param>
         public void SetTickTime(int value)
         {
-            Application.Current.Dispatcher.Invoke(new Action(() =>
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
             {
-                App.MainWindow.InfoBar.TickTimer = value;
-            }));
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => SetTickTime(value)));
+                return;
+            }
+
+            App.MainWindow.InfoBar.TickTimer = value;
         }
 
         /// <summary>
@@ -452,29 +464,33 @@ namespace Avalon
         /// <param name="target"></param>
         public void ClearTerminal(TerminalTarget target)
         {
-            Application.Current.Dispatcher.Invoke(new Action(() =>
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
             {
-                switch (target)
-                {
-                    case TerminalTarget.None:
-                        break;
-                    case TerminalTarget.Main:
-                        App.MainWindow.GameTerminal.ClearText();
-                        break;
-                    case TerminalTarget.Terminal1:
-                        App.MainWindow.Terminal1.ClearText();
-                        break;
-                    case TerminalTarget.Terminal2:
-                        App.MainWindow.Terminal2.ClearText();
-                        break;
-                    case TerminalTarget.BackBuffer:
-                        App.MainWindow.GameBackBufferTerminal.ClearText();
-                        break;
-                    case TerminalTarget.Terminal3:
-                        App.MainWindow.Terminal3.ClearText();
-                        break;
-                }
-            }));
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => ClearTerminal(target)));
+                return;
+            }
+
+            switch (target)
+            {
+                case TerminalTarget.None:
+                    break;
+                case TerminalTarget.Main:
+                    App.MainWindow.GameTerminal.ClearText();
+                    break;
+                case TerminalTarget.Terminal1:
+                    App.MainWindow.Terminal1.ClearText();
+                    break;
+                case TerminalTarget.Terminal2:
+                    App.MainWindow.Terminal2.ClearText();
+                    break;
+                case TerminalTarget.BackBuffer:
+                    App.MainWindow.GameBackBufferTerminal.ClearText();
+                    break;
+                case TerminalTarget.Terminal3:
+                    App.MainWindow.Terminal3.ClearText();
+                    break;
+            }
         }
 
         /// <summary>
@@ -666,14 +682,17 @@ namespace Avalon
         /// <param name="target"></param>
         public void Focus(FocusTarget target)
         {
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => Focus(target)));
+                return;
+            }
+
             switch (target)
             {
                 case FocusTarget.Input:
-                    Application.Current.Dispatcher.Invoke(new Action(() =>
-                    {
-                        App.MainWindow.TextInput.Editor.Focus();
-                    }));
-
+                    App.MainWindow.TextInput.Editor.Focus();
                     break;
             }
         }
@@ -683,10 +702,14 @@ namespace Avalon
         /// </summary>
         public void ProgressBarRepeaterClear()
         {
-            Application.Current.Dispatcher.Invoke(new Action(() =>
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
             {
-                App.MainWindow.BarRepeater.Clear();
-            }));
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => ProgressBarRepeaterClear()));
+                return;
+            }
+
+            App.MainWindow.BarRepeater.Clear();
         }
 
         /// <summary>
@@ -698,18 +721,26 @@ namespace Avalon
         /// <param name="text"></param>
         public void ProgressBarRepeaterAdd(string key, int value, int maximum, string text)
         {
-            Application.Current.Dispatcher.Invoke(new Action(() =>
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
             {
-                App.MainWindow.BarRepeater.Add(value, maximum, text, key);
-            }));
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => ProgressBarRepeaterAdd(key, value, maximum, text)));
+                return;
+            }
+
+            App.MainWindow.BarRepeater.Add(value, maximum, text, key);
         }
 
         public void ProgressBarRepeaterAdd(string key, int value, int maximum, string text, string command)
         {
-            Application.Current.Dispatcher.Invoke(new Action(() =>
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
             {
-                App.MainWindow.BarRepeater.Add(value, maximum, text, key, command);
-            }));
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => ProgressBarRepeaterAdd(key, value, maximum, text, command)));
+                return;
+            }
+
+            App.MainWindow.BarRepeater.Add(value, maximum, text, key, command);
         }
 
         /// <summary>
@@ -718,10 +749,14 @@ namespace Avalon
         /// <param name="key"></param>
         public void ProgressBarRemove(string key)
         {
-            Application.Current.Dispatcher.Invoke(new Action(() =>
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
             {
-                App.MainWindow.BarRepeater.Remove(key);
-            }));
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => ProgressBarRemove(key)));
+                return;
+            }
+
+            App.MainWindow.BarRepeater.Remove(key);
         }
 
         /// <summary>
@@ -731,21 +766,25 @@ namespace Avalon
         /// <param name="visible"></param>
         public void SetCustomTabVisible(CustomTab tab, bool visible)
         {
-            Application.Current.Dispatcher.Invoke(new Action(() =>
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
             {
-                switch (tab)
-                {
-                    case CustomTab.Tab1:
-                        App.MainWindow.CustomTab1.Visibility = visible.ToVisibleOrCollapse();
-                        break;
-                    case CustomTab.Tab2:
-                        App.MainWindow.CustomTab2.Visibility = visible.ToVisibleOrCollapse();
-                        break;
-                    case CustomTab.Tab3:
-                        App.MainWindow.CustomTab3.Visibility = visible.ToVisibleOrCollapse();
-                        break;
-                }
-            }));
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => SetCustomTabVisible(tab, visible)));
+                return;
+            }
+
+            switch (tab)
+            {
+                case CustomTab.Tab1:
+                    App.MainWindow.CustomTab1.Visibility = visible.ToVisibleOrCollapse();
+                    break;
+                case CustomTab.Tab2:
+                    App.MainWindow.CustomTab2.Visibility = visible.ToVisibleOrCollapse();
+                    break;
+                case CustomTab.Tab3:
+                    App.MainWindow.CustomTab3.Visibility = visible.ToVisibleOrCollapse();
+                    break;
+            }
         }
 
         /// <summary>
@@ -755,24 +794,28 @@ namespace Avalon
         /// <param name="label"></param>
         public void SetCustomTabLabel(CustomTab tab, string label)
         {
-            Application.Current.Dispatcher.Invoke(new Action(() =>
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
             {
-                switch (tab)
-                {
-                    case CustomTab.Tab1:
-                        App.MainWindow.CustomTab1Label.Content = label;
-                        App.Settings.AvalonSettings.CustomTab1Label = label;
-                        break;
-                    case CustomTab.Tab2:
-                        App.MainWindow.CustomTab2Label.Content = label;
-                        App.Settings.AvalonSettings.CustomTab2Label = label;
-                        break;
-                    case CustomTab.Tab3:
-                        App.MainWindow.CustomTab3Label.Content = label;
-                        App.Settings.AvalonSettings.CustomTab3Label = label;
-                        break;
-                }
-            }));
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => SetCustomTabLabel(tab, label)));
+                return;
+            }
+
+            switch (tab)
+            {
+                case CustomTab.Tab1:
+                    App.MainWindow.CustomTab1Label.Content = label;
+                    App.Settings.AvalonSettings.CustomTab1Label = label;
+                    break;
+                case CustomTab.Tab2:
+                    App.MainWindow.CustomTab2Label.Content = label;
+                    App.Settings.AvalonSettings.CustomTab2Label = label;
+                    break;
+                case CustomTab.Tab3:
+                    App.MainWindow.CustomTab3Label.Content = label;
+                    App.Settings.AvalonSettings.CustomTab3Label = label;
+                    break;
+            }
         }
 
         /// <summary>
@@ -857,20 +900,24 @@ namespace Avalon
         /// </summary>
         public void SortTriggersByPriority()
         {
-            Application.Current.Dispatcher.Invoke(new Action(() =>
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
             {
-                // Sort the original list by the provided function.
-                var sortedList = new List<Common.Triggers.Trigger>(App.Settings.ProfileSettings.TriggerList).OrderBy(x => x.Priority);
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => SortTriggersByPriority()));
+                return;
+            }
 
-                // Clear the original list.
-                App.Settings.ProfileSettings.TriggerList.Clear();
+            // Sort the original list by the provided function.
+            var sortedList = new List<Common.Triggers.Trigger>(App.Settings.ProfileSettings.TriggerList).OrderBy(x => x.Priority);
 
-                // Repopulate the original list with the contents of the new sorted list.
-                foreach (var item in sortedList)
-                {
-                    App.Settings.ProfileSettings.TriggerList.Add(item);
-                }
-            }));
+            // Clear the original list.
+            App.Settings.ProfileSettings.TriggerList.Clear();
+
+            // Repopulate the original list with the contents of the new sorted list.
+            foreach (var item in sortedList)
+            {
+                App.Settings.ProfileSettings.TriggerList.Add(item);
+            }
         }
 
         /// <summary>
@@ -879,10 +926,14 @@ namespace Avalon
         /// <param name="cmd">The command or commands to send to the game.</param>
         public void ExecuteCommand(string cmd)
         {
-            Application.Current.Dispatcher.Invoke(new Action(() =>
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
             {
-                App.MainWindow.Interp.Send(cmd);
-            }));
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => ExecuteCommand(cmd)));
+                return;
+            }
+
+            App.MainWindow.Interp.Send(cmd);
         }
 
         /// <summary>
@@ -903,10 +954,14 @@ namespace Avalon
         /// <param name="lua"></param>
         public void ExecuteLua(string lua)
         {
-            Application.Current.Dispatcher.InvokeAsync(new Action(() =>
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
             {
-                App.MainWindow.Interp.LuaCaller.Execute(lua);
-            }));
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => ExecuteLua(lua)));
+                return;
+            }
+
+            App.MainWindow.Interp.LuaCaller.Execute(lua);
         }
 
         /// <summary>
