@@ -60,7 +60,7 @@ namespace Avalon
         /// A queue of commands that can be executed as a batch in the order they are added.
         /// </summary>
         public BatchTasks BatchTasks;
-       
+
         /// <summary>
         /// A class which handles the management of the current set of navigation items for the left
         /// hand slide out menu.
@@ -160,7 +160,7 @@ namespace Avalon
 
                 // Wire up any events that have to be wired up through code.
                 TextInput.Editor.PreviewKeyDown += this.Editor_PreviewKeyDown;
-                
+
                 // Wire up what we're going to do for the search box.
                 TitleBar.SearchBox.SearchExecuted += this.SearchBox_SearchExecutedAsync;
 
@@ -234,7 +234,7 @@ namespace Avalon
             {
                 App.Conveyor.EchoLog("A critical error on startup occured.", LogType.Error);
                 App.Conveyor.EchoLog(ex.Message, LogType.Error);
-                App.Conveyor.EchoText(ex?.StackTrace?? "No stack trace available.");
+                App.Conveyor.EchoText(ex?.StackTrace ?? "No stack trace available.");
                 return;
             }
         }
@@ -849,7 +849,7 @@ namespace Avalon
             {
                 PluginsOnly = false
             };
-            
+
             await confirmDialog.ShowAsync().ConfigureAwait(false);
         }
 
