@@ -12,6 +12,7 @@ using System.IO;
 using Microsoft.Data.Sqlite;
 using Dapper;
 using System.Text;
+using Argus.Extensions;
 
 namespace Avalon.Web.Controllers
 {
@@ -56,7 +57,7 @@ namespace Avalon.Web.Controllers
         {
             await RequestIncrement();
             this.LoadCache();
-            return this.PackgeList.FindAll(x => x.GameAddress.Equals(ip, StringComparison.Ordinal)) ?? new List<IPackage>();
+            return this.PackgeList.FindAll(x => x.GameAddress.Equals(ip, StringComparison.Ordinal) || x.GameAddress.IsNullOrEmptyOrWhiteSpace()) ?? new List<IPackage>();
         }
 
         /// <summary>
@@ -68,7 +69,7 @@ namespace Avalon.Web.Controllers
         {
             await RequestIncrement();
             this.LoadCache();
-            return this.PacakgeListMetadata.FindAll(x => x.GameAddress.Equals(ip, StringComparison.Ordinal)) ?? new List<IPackage>();
+            return this.PacakgeListMetadata.FindAll(x => x.GameAddress.Equals(ip, StringComparison.Ordinal) || x.GameAddress.IsNullOrEmptyOrWhiteSpace()) ?? new List<IPackage>();
         }
 
         [HttpGet("count-all")]

@@ -3,7 +3,7 @@
   "Name": "Disable Spell Check",
   "Description": "If the input bar lags it could be because the native Windows spell checking is running slow, run this package to disable it.",
   "Author": "Rhien",
-  "GameAddress": "dsl-mud.org",
+  "GameAddress": "",
   "Category": "Performance",
   "Version": 1,
   "SetupCommand": "#setting -p -s \"SpellChecking\" -v \"false\"",
