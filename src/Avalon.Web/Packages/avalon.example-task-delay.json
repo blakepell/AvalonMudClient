@@ -3,7 +3,7 @@
   "Name": "Task Delay Example",
   "Description": "An example alias called 'example-delay' that allows you to schedule commands to run in the future.",
   "Author": "Rhien",
-  "GameAddress": "dsl-mud.org",
+  "GameAddress": "",
   "Category": "Examples",
   "Version": 1,
   "AliasList": [

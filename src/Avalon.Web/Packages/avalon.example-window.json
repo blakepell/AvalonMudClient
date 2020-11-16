@@ -3,7 +3,7 @@
   "Name": "An example of using the #window hash command.",
   "Description": "This set of commands will create a new window, set it's title and status as well as echo text and colored text to it.",
   "Author": "Rhien",
-  "GameAddress": "dsl-mud.org",
+  "GameAddress": "",
   "Category": "Examples",
   "Version": 1,
   "AliasList": [

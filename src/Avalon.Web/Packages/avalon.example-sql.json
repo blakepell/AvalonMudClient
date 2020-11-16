@@ -3,7 +3,7 @@
   "Name": "SQLite Database Example",
   "Description": "An example showing how to interact with the SQLite database.",
   "Author": "Rhien",
-  "GameAddress": "dsl-mud.org",
+  "GameAddress": "",
   "Category": "Examples",
   "Version": 1,
   "MinimumClientVersion": "0.0.0.0",

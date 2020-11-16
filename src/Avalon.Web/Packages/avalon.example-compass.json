@@ -3,7 +3,7 @@
   "Name": "Compass Example",
   "Description": "An example command 'example-compass' that shows how to span a compass window and change the direction it points.",
   "Author": "Rhien",
-  "GameAddress": "dsl-mud.org",
+  "GameAddress": "",
   "Category": "Examples",
   "Version": 1,
   "AliasList": [
