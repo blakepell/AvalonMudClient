@@ -37,6 +37,8 @@
                                              ui:ControlHelper.CornerRadius="0"
                                              Focusable="True"
                                              HorizontalAlignment="Stretch"
+                                             UndoLimit="0"
+                                             IsUndoEnabled="False"
                                              VerticalAlignment="Center" Foreground="Black" Background="White" BorderThickness="0" SelectionBrush="DodgerBlue" SelectionOpacity=".5"
                                              SpellCheck.IsEnabled="{Binding Path=SpellCheckEnabled, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}"
                                              AcceptsTab="{Binding Path=AcceptsTab, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}"

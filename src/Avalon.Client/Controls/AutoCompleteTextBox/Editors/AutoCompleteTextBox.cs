@@ -246,14 +246,11 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
 
         public static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is AutoCompleteTextBox act)
+            if (d is AutoCompleteTextBox act && act.Editor != null & !act._isUpdatingText)
             {
-                if (act.Editor != null & !act._isUpdatingText)
-                {
-                    act._isUpdatingText = true;
-                    act.Editor.Text = act.BindingEvaluator.Evaluate(e.NewValue);
-                    act._isUpdatingText = false;
-                }
+                act._isUpdatingText = true;
+                act.Editor.Text = act.BindingEvaluator.Evaluate(e.NewValue);
+                act._isUpdatingText = false;
             }
         }
 
@@ -349,21 +346,23 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
 
         private void OnEditorKeyDown(object sender, KeyEventArgs e)
         {
-            if (SelectionAdapter != null)
+            if (SelectionAdapter == null)
             {
-                if (IsDropDownOpen)
+                return;
+            }
+
+            if (IsDropDownOpen)
+            {
+                SelectionAdapter.HandleKeyDown(e);
+            }
+            else
+            {
+                // If the DirectionalKeysOpen property is set then the up and down will open the list box and start
+                // cycling through it, otherwise, it will open only when the pattern is found THEN you can use the
+                // up and own.
+                if (this.DirectionalKeysOpen)
                 {
-                    SelectionAdapter.HandleKeyDown(e);
-                }
-                else
-                {
-                    // If the DirectionalKeysOpen property is set then the up and down will open the list box and start
-                    // cycling through it, otherwise, it will open only when the pattern is found THEN you can use the
-                    // up and own.
-                    if (this.DirectionalKeysOpen)
-                    {
-                        IsDropDownOpen = e.Key == Key.Down || e.Key == Key.Up;
-                    }
+                    IsDropDownOpen = e.Key == Key.Down || e.Key == Key.Up;
                 }
             }
         }
@@ -409,15 +408,19 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
             FetchTimer.IsEnabled = false;
             FetchTimer.Stop();
 
-            if (Provider != null && ItemsSelector != null)
+            if (Provider == null || ItemsSelector == null)
             {
-                Filter = Editor.Text;
-                if (_suggestionsAdapter == null)
-                {
-                    _suggestionsAdapter = new SuggestionsAdapter(this);
-                }
-                _suggestionsAdapter.GetSuggestions(Filter);
+                return;
             }
+
+            Filter = Editor.Text;
+
+            if (_suggestionsAdapter == null)
+            {
+                _suggestionsAdapter = new SuggestionsAdapter(this);
+            }
+
+            _suggestionsAdapter.GetSuggestions(Filter);
         }
 
         private void OnPopupClosed(object sender, EventArgs e)
@@ -532,7 +535,7 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
                     string searchText = Convert.ToString(args[0]);
                     if (args[1] is ISuggestionProvider provider)
                     {
-                        IEnumerable list = provider.GetSuggestions(searchText);
+                        var list = provider.GetSuggestions(searchText);
                         _actb.Dispatcher.BeginInvoke(new Action<IEnumerable, string>(DisplaySuggestions), DispatcherPriority.Background, list, searchText);
                     }
                 }
