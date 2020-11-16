@@ -41,6 +41,15 @@ namespace Avalon.Controls
         private string _lastColorCode = "";
 
         /// <summary>
+        /// Whether the last color code was set and should be used.
+        /// </summary>
+        /// <remarks>
+        /// We previously set the last color code to a blank string and used that as an indicator however
+        /// if we use a bool we can avoid a string allocation per line that's rendered which adds up.
+        /// </remarks>
+        private bool _useLastColorCode = false;
+
+        /// <summary>
         /// Regular expression to find the last ANSI color code used.
         /// </summary>
         private readonly Regex _lastColorRegEx = new Regex(@"\x1B\[[^@-~]*[@-~]", RegexOptions.RightToLeft | RegexOptions.Compiled);
@@ -396,23 +405,26 @@ namespace Avalon.Controls
             {
                 // We'll insert the last color code UNLESS it's the clear color code.  No point in putting one
                 // of those at the start of every line.  Having a line with no color might provide us some
-                // optimizations if we can mark the line as having no color (and then the colorizer can simply
+                // optimizations if we can mark the line as having no color (and then the AnsiColorizer can simply
                 // skip that line.
-                if (!string.IsNullOrWhiteSpace(_lastColorCode) && _lastColorCode != AnsiColors.Clear)
+                if (_useLastColorCode && _lastColorCode != AnsiColors.Clear)
                 {
                     line.FormattedText = line.FormattedText.Insert(0, _lastColorCode);
                 }
 
                 // Save the last color code if it's a new line, that way we can continue the color on the
                 // next line.. however, if it was only a partial line clear the color code because that
-                // line will already have the last color code on it.
+                // line will already have the last color code on it.  Instead of setting the last color
+                // to a blank if it's not a new line we'll use the _useLastColorCode bool as to not
+                // allocate a lot of unneeded strings.
                 if (line.FormattedText.EndsWith('\n'))
                 {
                     _lastColorCode = _lastColorRegEx.Match(line.FormattedText).Value;
+                    _useLastColorCode = true;
                 }
                 else
                 {
-                    _lastColorCode = "";
+                    _useLastColorCode = false;
                 }
             }
             else
@@ -715,7 +727,7 @@ namespace Avalon.Controls
         }
 
         /// <summary>
-        /// Replaces all instancese of a string with another.
+        /// Replaces all instances of a string with another.
         /// </summary>
         /// <param name="searchFor">The string to search for.</param>
         /// <param name="replacement">The string to replace the search string with.</param>
