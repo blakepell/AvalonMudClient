@@ -119,6 +119,11 @@ namespace Avalon
         {
             get
             {
+                if (Application.Current.Dispatcher.CheckAccess())
+                {
+                    return App.MainWindow.Title;
+                }
+
                 string buf = "";
 
                 Application.Current.Dispatcher.Invoke(new Action(() =>
@@ -130,6 +135,13 @@ namespace Avalon
             }
             set
             {
+                if (Application.Current.Dispatcher.CheckAccess())
+                {
+                    App.MainWindow.Title = value;
+                    App.MainWindow.TitleBar.Title = value;
+                    return;
+                }
+
                 Application.Current.Dispatcher.Invoke(new Action(() =>
                 {
                     // Set both the official Windows title of the title bar and the faux custom title bar
