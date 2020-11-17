@@ -197,7 +197,7 @@ namespace Avalon
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
             if (!Application.Current.Dispatcher.CheckAccess())
             {
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => EchoText(line, target)));
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => EchoText(line, target)));
                 return;
             }
 
@@ -274,7 +274,7 @@ namespace Avalon
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
             if (!Application.Current.Dispatcher.CheckAccess())
             {
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => EchoText(text, windowName)));
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => EchoText(text, windowName)));
                 return;
             }
 
@@ -302,7 +302,7 @@ namespace Avalon
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
             if (!Application.Current.Dispatcher.CheckAccess())
             {
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => EchoText(line, windowName)));
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => EchoText(line, windowName)));
                 return;
             }
 
@@ -366,29 +366,34 @@ namespace Avalon
         /// <param name="removeColors"></param>
         public string GetText(TerminalTarget target, bool removeColors)
         {
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                string buf = "";
+                Application.Current.Dispatcher.Invoke(new Action(() => buf = GetText(target, removeColors)));
+                return buf;
+            }
+
             var sb = new StringBuilder();
 
-            Application.Current.Dispatcher.Invoke(new Action(() =>
+            switch (target)
             {
-                switch (target)
-                {
-                    case TerminalTarget.Main:
-                        sb.Append(App.MainWindow.GameTerminal.Text);
-                        break;
-                    case TerminalTarget.Terminal1:
-                        sb.Append(App.MainWindow.Terminal1.Text);
-                        break;
-                    case TerminalTarget.Terminal2:
-                        sb.Append(App.MainWindow.Terminal2.Text);
-                        break;
-                    case TerminalTarget.BackBuffer:
-                        sb.Append(App.MainWindow.GameBackBufferTerminal.Text);
-                        break;
-                    case TerminalTarget.Terminal3:
-                        sb.Append(App.MainWindow.Terminal3.Text);
-                        break;
-                }
-            }));
+                case TerminalTarget.Main:
+                    sb.Append(App.MainWindow.GameTerminal.Text);
+                    break;
+                case TerminalTarget.Terminal1:
+                    sb.Append(App.MainWindow.Terminal1.Text);
+                    break;
+                case TerminalTarget.Terminal2:
+                    sb.Append(App.MainWindow.Terminal2.Text);
+                    break;
+                case TerminalTarget.BackBuffer:
+                    sb.Append(App.MainWindow.GameBackBufferTerminal.Text);
+                    break;
+                case TerminalTarget.Terminal3:
+                    sb.Append(App.MainWindow.Terminal3.Text);
+                    break;
+            }
 
             if (removeColors)
             {
@@ -402,31 +407,37 @@ namespace Avalon
         /// Gets the selected text from the requested window.
         /// </summary>
         /// <param name="target"></param>
+        /// <param name="removeColors"></param>
         public string GetSelectedText(TerminalTarget target, bool removeColors)
         {
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                string buf = "";
+                Application.Current.Dispatcher.Invoke(new Action(() => buf = GetSelectedText(target, removeColors)));
+                return buf;
+            }
+
             var sb = new StringBuilder();
 
-            Application.Current.Dispatcher.Invoke(new Action(() =>
+            switch (target)
             {
-                switch (target)
-                {
-                    case TerminalTarget.Main:
-                        sb.Append(App.MainWindow.GameTerminal.SelectedText);
-                        break;
-                    case TerminalTarget.Terminal1:
-                        sb.Append(App.MainWindow.Terminal1.SelectedText);
-                        break;
-                    case TerminalTarget.Terminal2:
-                        sb.Append(App.MainWindow.Terminal2.SelectedText);
-                        break;
-                    case TerminalTarget.BackBuffer:
-                        sb.Append(App.MainWindow.GameBackBufferTerminal.SelectedText);
-                        break;
-                    case TerminalTarget.Terminal3:
-                        sb.Append(App.MainWindow.Terminal3.SelectedText);
-                        break;
-                }
-            }));
+                case TerminalTarget.Main:
+                    sb.Append(App.MainWindow.GameTerminal.SelectedText);
+                    break;
+                case TerminalTarget.Terminal1:
+                    sb.Append(App.MainWindow.Terminal1.SelectedText);
+                    break;
+                case TerminalTarget.Terminal2:
+                    sb.Append(App.MainWindow.Terminal2.SelectedText);
+                    break;
+                case TerminalTarget.BackBuffer:
+                    sb.Append(App.MainWindow.GameBackBufferTerminal.SelectedText);
+                    break;
+                case TerminalTarget.Terminal3:
+                    sb.Append(App.MainWindow.Terminal3.SelectedText);
+                    break;
+            }
 
             if (removeColors)
             {
@@ -445,7 +456,7 @@ namespace Avalon
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
             if (!Application.Current.Dispatcher.CheckAccess())
             {
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => SetTickTime(value)));
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => SetTickTime(value)));
                 return;
             }
 
@@ -479,7 +490,7 @@ namespace Avalon
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
             if (!Application.Current.Dispatcher.CheckAccess())
             {
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => ClearTerminal(target)));
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => ClearTerminal(target)));
                 return;
             }
 
@@ -697,7 +708,7 @@ namespace Avalon
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
             if (!Application.Current.Dispatcher.CheckAccess())
             {
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => Focus(target)));
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => Focus(target)));
                 return;
             }
 
@@ -717,7 +728,7 @@ namespace Avalon
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
             if (!Application.Current.Dispatcher.CheckAccess())
             {
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => ProgressBarRepeaterClear()));
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => ProgressBarRepeaterClear()));
                 return;
             }
 
@@ -736,7 +747,7 @@ namespace Avalon
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
             if (!Application.Current.Dispatcher.CheckAccess())
             {
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => ProgressBarRepeaterAdd(key, value, maximum, text)));
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => ProgressBarRepeaterAdd(key, value, maximum, text)));
                 return;
             }
 
@@ -748,7 +759,7 @@ namespace Avalon
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
             if (!Application.Current.Dispatcher.CheckAccess())
             {
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => ProgressBarRepeaterAdd(key, value, maximum, text, command)));
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => ProgressBarRepeaterAdd(key, value, maximum, text, command)));
                 return;
             }
 
@@ -764,7 +775,7 @@ namespace Avalon
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
             if (!Application.Current.Dispatcher.CheckAccess())
             {
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => ProgressBarRemove(key)));
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => ProgressBarRemove(key)));
                 return;
             }
 
@@ -781,7 +792,7 @@ namespace Avalon
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
             if (!Application.Current.Dispatcher.CheckAccess())
             {
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => SetCustomTabVisible(tab, visible)));
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => SetCustomTabVisible(tab, visible)));
                 return;
             }
 
@@ -809,7 +820,7 @@ namespace Avalon
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
             if (!Application.Current.Dispatcher.CheckAccess())
             {
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => SetCustomTabLabel(tab, label)));
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => SetCustomTabLabel(tab, label)));
                 return;
             }
 
@@ -837,23 +848,29 @@ namespace Avalon
         {
             get
             {
+                // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+                if (!Application.Current.Dispatcher.CheckAccess())
+                {
+                    WindowPosition wp = null;
+                    Application.Current.Dispatcher.Invoke(new Action(() => wp = GetWindowPosition));
+                    return wp;
+                }
+
                 // I'm not sure why it didn't behave like this before, but when I changed the
-                // Window chrome it became apparant that I shouldn't save the window position if
+                // Window chrome it became apparent that I shouldn't save the window position if
                 // it was maximized.
                 if (App.MainWindow.WindowState == WindowState.Maximized)
                 {
                     return App.Settings.AvalonSettings.LastWindowPosition;
                 }
-                else
+
+                return new WindowPosition
                 {
-                    return new WindowPosition
-                    {
-                        Left = App.MainWindow.Left,
-                        Top = App.MainWindow.Top,
-                        Height = App.MainWindow.Height,
-                        Width = App.MainWindow.Width
-                    };
-                }
+                    Left = App.MainWindow.Left,
+                    Top = App.MainWindow.Top,
+                    Height = App.MainWindow.Height,
+                    Width = App.MainWindow.Width
+                };
             }
         }
 
@@ -864,6 +881,12 @@ namespace Avalon
         {
             get
             {
+                // If it has access directly return it.
+                if (Application.Current.Dispatcher.CheckAccess())
+                {
+                    return App.MainWindow.BarRepeater.StatusText;
+                }
+
                 string text = "";
 
                 Application.Current.Dispatcher.Invoke(new Action(() =>
@@ -875,6 +898,13 @@ namespace Avalon
             }
             set
             {
+                // If it has access directly set it.
+                if (Application.Current.Dispatcher.CheckAccess())
+                {
+                    App.MainWindow.BarRepeater.StatusText = value;
+                    return;
+                }
+
                 Application.Current.Dispatcher.Invoke(new Action(() =>
                 {
                     App.MainWindow.BarRepeater.StatusText = value;
@@ -889,6 +919,12 @@ namespace Avalon
         {
             get
             {
+                // If it has access directly return it.
+                if (Application.Current.Dispatcher.CheckAccess())
+                {
+                    return App.MainWindow.BarRepeater.StatusBarVisible;
+                }
+
                 bool visible = false;
 
                 Application.Current.Dispatcher.Invoke(new Action(() =>
@@ -900,6 +936,13 @@ namespace Avalon
             }
             set
             {
+                // If it has access directly set it
+                if (Application.Current.Dispatcher.CheckAccess())
+                {
+                    App.MainWindow.BarRepeater.StatusBarVisible = value;
+                    return;
+                }
+
                 Application.Current.Dispatcher.Invoke(new Action(() =>
                 {
                     App.MainWindow.BarRepeater.StatusBarVisible = value;
@@ -915,7 +958,7 @@ namespace Avalon
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
             if (!Application.Current.Dispatcher.CheckAccess())
             {
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => SortTriggersByPriority()));
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => SortTriggersByPriority()));
                 return;
             }
 
@@ -941,7 +984,7 @@ namespace Avalon
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
             if (!Application.Current.Dispatcher.CheckAccess())
             {
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => ExecuteCommand(cmd)));
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => ExecuteCommand(cmd)));
                 return;
             }
 
@@ -954,6 +997,13 @@ namespace Avalon
         /// <param name="cmd">The command or commands to send to the game.</param>
         public async Task ExecuteCommandAsync(string cmd)
         {
+            // If it has access directly send it and return, otherwise we'll use the dispatcher to queue it up on the UI thread.
+            if (Application.Current.Dispatcher.CheckAccess())
+            {
+                await App.MainWindow.Interp.Send(cmd);
+                return;
+            }
+
             await Application.Current.Dispatcher.InvokeAsync(new Action(async () =>
             {
                 await App.MainWindow.Interp.Send(cmd);
@@ -969,7 +1019,7 @@ namespace Avalon
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
             if (!Application.Current.Dispatcher.CheckAccess())
             {
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => ExecuteLua(lua)));
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => ExecuteLua(lua)));
                 return;
             }
 
@@ -982,6 +1032,13 @@ namespace Avalon
         /// <param name="lua"></param>
         public async Task ExecuteLuaAsync(string lua)
         {
+            // If it has access directly send it and return, otherwise we'll use the dispatcher to queue it up on the UI thread.
+            if (Application.Current.Dispatcher.CheckAccess())
+            {
+                await App.MainWindow.Interp.LuaCaller.ExecuteAsync(lua);
+                return;
+            }
+
             await Application.Current.Dispatcher.InvokeAsync(new Action(async () =>
             {
                 // This is all that's going to execute as it clears the list.. we can "fire and forget".
