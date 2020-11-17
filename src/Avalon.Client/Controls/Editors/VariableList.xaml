@@ -9,7 +9,8 @@
              xmlns:sys="clr-namespace:System;assembly=System.Runtime"
              mc:Ignorable="d" ui:ThemeManager.RequestedTheme="Dark" 
              d:DesignHeight="450" d:DesignWidth="800"
-             IsVisibleChanged="UserControl_IsVisibleChanged">
+             IsVisibleChanged="UserControl_IsVisibleChanged"
+             Unloaded="VariableList_OnUnloaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>

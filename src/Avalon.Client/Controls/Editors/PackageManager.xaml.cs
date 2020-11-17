@@ -95,6 +95,21 @@ namespace Avalon.Controls
         }
 
         /// <summary>
+        /// When the control is unloaded: Release any bindings or objects that need to be freed or
+        /// detached from this control so it can be GC'd properly.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PackageManager_OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            if (DataList.ItemsSource is ListCollectionView lcv)
+            {
+                lcv.DetachFromSourceCollection();
+                lcv = null;
+            }
+        }
+
+        /// <summary>
         /// Shows a message box dialog.
         /// </summary>
         /// <param name="message"></param>

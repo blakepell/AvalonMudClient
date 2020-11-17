@@ -8,7 +8,8 @@
              xmlns:avalon="clr-namespace:Avalon"
              mc:Ignorable="d" ui:ThemeManager.RequestedTheme="Dark" 
              d:DesignHeight="450" d:DesignWidth="800"
-             IsVisibleChanged="UserControl_IsVisibleChanged">
+             IsVisibleChanged="UserControl_IsVisibleChanged"
+             Unloaded="DirectionList_OnUnloaded">
     <UserControl.Resources>
         <ContextMenu x:Key="RowMenu" x:Shared="true" ui:ControlHelper.CornerRadius="0">
             <MenuItem Header="Create Reverse Direction" Click="CreateReverseMenuItem_OnClick">
