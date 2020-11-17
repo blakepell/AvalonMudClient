@@ -31,7 +31,7 @@ namespace Avalon.Controls
         /// <summary>
         /// Timer that sets the delay on your filtering TextBox.
         /// </summary>
-        DispatcherTimer _typingTimer;
+        private readonly DispatcherTimer _typingTimer;
 
         public TriggerList()
         {
@@ -115,6 +115,9 @@ namespace Avalon.Controls
                 lcv.DetachFromSourceCollection();
                 lcv = null;
             }
+
+            // Unsubscribe to the tick event so it doesn't leak.
+            _typingTimer.Tick -= this._typingTimer_Tick;
         }
 
         /// <summary>

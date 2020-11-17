@@ -93,6 +93,9 @@ namespace Avalon.Controls
                 lcv.DetachFromSourceCollection();
                 lcv = null;
             }
+
+            // Unsubscribe to the tick event so it doesn't leak.
+            _typingTimer.Tick -= this._typingTimer_Tick;
         }
 
         /// <summary>
