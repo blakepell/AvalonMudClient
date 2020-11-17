@@ -113,7 +113,7 @@ namespace Avalon.Controls
             if (DataList.ItemsSource is ListCollectionView lcv)
             {
                 lcv.DetachFromSourceCollection();
-                lcv = null;
+                DataList.ItemsSource = null;
             }
 
             // Unsubscribe to the tick event so it doesn't leak.
@@ -125,12 +125,17 @@ namespace Avalon.Controls
         /// </summary>
         public void Reload()
         {
+            if (DataList.ItemsSource is ListCollectionView lcvOld)
+            {
+                lcvOld.DetachFromSourceCollection();
+                DataList.ItemsSource = null;
+            }
+
             var lcv = new ListCollectionView(App.Settings.ProfileSettings.TriggerList)
             {
                 Filter = Filter
             };
 
-            DataList.ItemsSource = null;
             DataList.ItemsSource = lcv;
 
             TriggerConveyorSetup();
