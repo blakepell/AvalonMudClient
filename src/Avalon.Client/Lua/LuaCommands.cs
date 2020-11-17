@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace Avalon.Lua
 {
@@ -61,6 +62,7 @@ namespace Avalon.Lua
                 return "";
             }
 
+            // Invoke requested so that the call waits for the result of the function before returning.
             return Application.Current.Dispatcher.Invoke(new Func<string>(() =>
             {
                 return _interpreter.Conveyor.GetVariable(key);

@@ -25,7 +25,8 @@ namespace Avalon
     {
 
         /// <summary>
-        /// Gets a variable from the settings (TODO: character)
+        /// Gets a variable from the settings.  This is not thread safe, calls to this from outside
+        /// threads should run through the Dispatcher.
         /// </summary>
         /// <param name="key"></param>
         public string GetVariable(string key)
@@ -43,7 +44,8 @@ namespace Avalon
         }
 
         /// <summary>
-        /// Sets a variable in the settings (TODO: character)
+        /// Sets a variable in the settings.  This is not thread safe, calls to this from outside
+        /// threads should run through the Dispatcher.
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
@@ -62,7 +64,8 @@ namespace Avalon
         }
 
         /// <summary>
-        /// Replaces any variables in the provided string with the variable literal value.
+        /// Replaces any variables in the provided string with the variable literal value.  This is not thread safe, calls to this from outside
+        /// threads should run through the Dispatcher.
         /// </summary>
         /// <param name="text"></param>
         public string ReplaceVariablesWithValue(string text)
@@ -97,7 +100,8 @@ namespace Avalon
         }
 
         /// <summary>
-        /// Removes a variable from the settings (TODO: character)
+        /// Removes a variable from the settings.  This is not thread safe, calls to this from outside
+        /// threads should run through the Dispatcher.
         /// </summary>
         /// <param name="key"></param>
         public void RemoveVariable(string key)
