@@ -38,8 +38,9 @@ namespace Avalon.HashCommands
                         sb.Append("---------------------------------------------------------------------\r\n");
 
                         sb.AppendFormat("  {{G* {{WActive Lua Scripts Running:{{x {{C{0}{{x\r\n", lua.ActiveLuaScripts);
-                        sb.AppendFormat(" {{G * {{WTotal Lua Scripts Run:{{x {{C{0}{{x\r\n", lua.LuaScriptsRun);
-                        sb.AppendFormat(" {{G * {{WGlobal Variable Count:{{x {{C{0}{{x\r\n", globalVariableCount);
+                        sb.AppendFormat(" {{G * {{WTotal Lua Scripts Run:{{x      {{C{0}{{x\r\n", lua.LuaScriptsRun);
+                        sb.AppendFormat(" {{G * {{WGlobal Variable Count:{{x      {{C{0}{{x\r\n", globalVariableCount);
+                        sb.AppendFormat(" {{G * {{WLua Error Count:{{x            {{C{0}{{x\r\n", lua.LuaErrorCount);
                         sb.AppendLine();
                     }
 
@@ -52,7 +53,6 @@ namespace Avalon.HashCommands
                         if (globalVariableCount == 0)
                         {
                             sb.Append("  {G* {WNo global variables are currently stored.{x");
-                            sb.AppendLine();
                         }
                         else
                         {
@@ -61,6 +61,8 @@ namespace Avalon.HashCommands
                                 sb.AppendFormat("  {{G* {{W{0}: {{C{1}{{x\r\n", key, lua.LuaGlobalVariables[key]);
                             }
                         }
+
+                        sb.AppendLine();
                     }
 
                     this.Interpreter.Conveyor.EchoText(sb.ToString());

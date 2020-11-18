@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -15,26 +16,9 @@ namespace Avalon.Lua
     public class LuaCaller
     {
         /// <summary>
-        /// A reference to the mud client's current interpreter.
-        /// </summary>
-        private IInterpreter _interpreter;
-
-
-        /// <summary>
         /// Global variables available to Lua that are shared across all of our Lua sessions.
         /// </summary>
         public LuaGlobalVariables LuaGlobalVariables { get; private set; }
-
-        /// <summary>
-        /// Single static Random object that will need to be locked between usages.  Calls to _random
-        /// should be locked for thread safety as Random is not thread safe.
-        /// </summary>
-        private static Random _random;
-
-        /// <summary>
-        /// A object to use for locking.
-        /// </summary>
-        private object _lockObject = new object();
 
         /// <summary>
         /// A counter of the number of Lua scripts that are actively executing.
@@ -47,6 +31,38 @@ namespace Avalon.Lua
         public int LuaScriptsRun { get; set; } = 0;
 
         /// <summary>
+        /// The number of Lua scripts that have errored.
+        /// </summary>
+        public int LuaErrorCount { get; set; } = 0;
+
+        /// <summary>
+        /// A reference to the mud client's current interpreter.
+        /// </summary>
+        private IInterpreter _interpreter;
+
+        /// <summary>
+        /// Represents a shared instance of the DynValue that holds our LuaCommands object which is CLR
+        /// code that we're exposing to Lua in the "lua" namespace.
+        /// </summary>
+        private DynValue _luaCmds;
+
+        /// <summary>
+        /// Single static Random object that will need to be locked between usages.  Calls to _random
+        /// should be locked for thread safety as Random is not thread safe.
+        /// </summary>
+        private static Random _random;
+
+        /// <summary>
+        /// The currently/dynamically loaded CLR types that can be exposed to Lua.
+        /// </summary>
+        private Dictionary<string, DynValue> _clrTypes = new Dictionary<string, DynValue>();
+
+        /// <summary>
+        /// A object to use for locking.
+        /// </summary>
+        private readonly object _lockObject = new object();
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="interp"></param>
@@ -55,26 +71,43 @@ namespace Avalon.Lua
             _interpreter = interp;
             _random = new Random();
             this.LuaGlobalVariables = new LuaGlobalVariables();
-        }
 
-        /// <summary>
-        /// The currently/dynamically loaded CLR types that can be exposed to Lua, probably
-        /// through plugins.
-        /// </summary>
-        private Dictionary<string, Type> _clrTypes = new Dictionary<string, Type>();
+            // The CLR types we want to expose to Lua need to be registered before UserData.Create
+            // can be called.  If they're not registered UserData.Create will return a null.
+            UserData.RegisterType<LuaCommands>();
+            UserData.RegisterType<LuaGlobalVariables>();
+            _luaCmds = UserData.Create(new LuaCommands(_interpreter, _random));
+        }
 
         /// <summary>
         /// Register a CLR type for use with Lua.
         /// </summary>
-        /// <param name="o"></param>
+        /// <param name="t"></param>
         /// <param name="prefix"></param>
         public void RegisterType(Type t, string prefix)
         {
-            if (!_clrTypes.ContainsKey(prefix))
+            // Only add the type in if it hasn't been added previously.
+            if (_clrTypes.ContainsKey(prefix))
             {
-                UserData.RegisterType(t);
-                _clrTypes.Add(prefix, t);
+                return;
             }
+
+            // Set the actual class that has the Lua commands.
+            var instance = Activator.CreateInstance(t) as ILuaCommand;
+
+            if (instance == null)
+            {
+                return;
+            }
+
+            instance.Interpreter = _interpreter;
+
+            // Register the type now that we know it has been activated and is ready.
+            UserData.RegisterType(t);
+
+            // Save the DynValue which contains the instance to the activated CLR type
+            // and the prefix/namespace it should be available to lua under.
+            _clrTypes.Add(prefix, UserData.Create(instance));
         }
 
         /// <summary>
@@ -86,98 +119,101 @@ namespace Avalon.Lua
         }
 
         /// <summary>
-        /// Executes a Lua script synchronously.
+        /// Increments the specified counter and performs locking for thread safety.
         /// </summary>
-        /// <param name="luaCode"></param>
-        public void Execute(string luaCode)
+        /// <param name="c">The counter type.</param>
+        private void IncrementCounter(LuaCounter c)
         {
-            if (string.IsNullOrWhiteSpace(luaCode))
+            switch (c)
+            {
+                case LuaCounter.ActiveScripts:
+                    lock (_lockObject)
+                    {
+                        this.ActiveLuaScripts++;
+                    }
+
+                    break;
+                case LuaCounter.ScriptsRun:
+                    lock (_lockObject)
+                    {
+                        this.LuaScriptsRun++;
+                    }
+
+                    break;
+                case LuaCounter.ErrorCount:
+                    lock (_lockObject)
+                    {
+                        this.LuaErrorCount++;
+                    }
+
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Decrements the specified counter and performs locking for thread safety.
+        /// </summary>
+        /// <param name="c">The counter type.</param>
+        private void DecrementCounter(LuaCounter c)
+        {
+            switch (c)
+            {
+                case LuaCounter.ActiveScripts:
+                    lock (_lockObject)
+                    {
+                        this.ActiveLuaScripts--;
+                    }
+
+                    break;
+                case LuaCounter.ScriptsRun:
+                    lock (_lockObject)
+                    {
+                        this.LuaScriptsRun--;
+                    }
+
+                    break;
+                case LuaCounter.ErrorCount:
+                    lock (_lockObject)
+                    {
+                        this.LuaErrorCount--;
+                    }
+
+                    break;
+            }
+        }
+
+
+        /// <summary>
+        /// Will handle writing the exception to the console.
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="ex"></param>
+        private void LogException(string msg = null, Exception ex = null)
+        {
+            if (!string.IsNullOrWhiteSpace(msg))
+            {
+                _interpreter.Conveyor.EchoLog($"Lua Error: {msg}", LogType.Error);
+            }
+
+            if (ex == null)
             {
                 return;
             }
 
-            try
+            // The inner exception will have Lua error with the line number, etc.  Show exception message if the
+            // inner exception doesn't exist.
+            if (ex.InnerException == null)
             {
-                lock (_lockObject)
-                {
-                    this.ActiveLuaScripts++;
-                    this.LuaScriptsRun++;
-                }
-
-                // Setup Lua
-                var lua = new Script();
-                lua.Options.CheckThreadAccess = false;
-                UserData.RegisterType<LuaCommands>();
-                UserData.RegisterType<LuaGlobalVariables>();
-
-                // Create a UserData, again, explicitly.  This initializes and registers the LuaCommands (.NET methods/functions) that
-                // we're providing to Lua.
-                var luaCmd = UserData.Create(new LuaCommands(_interpreter, _random));
-                lua.Globals.Set("lua", luaCmd);
-
-                // Dynamic types from plugins.  The namespace list is provided to _clrTypes via the RegisterType method
-                // and they're loaded by creating the instances here.
-                foreach (var item in _clrTypes)
-                {
-                    // Set the actual class that has the Lua commands.
-                    var instance = Activator.CreateInstance(item.Value) as ILuaCommand;
-                    instance.Interpreter = _interpreter;
-
-                    // Add it in.
-                    var instanceLua = UserData.Create(instance);
-                    lua.Globals.Set(item.Key, instanceLua);
-                }
-
-                // Set the global variables that are specifically only available in Lua.
-                lua.Globals["global"] = this.LuaGlobalVariables;
-
-                // If there is a Lua global shared set of code run it, try catch it in case there
-                // is a problem with it, we don't want it to interfere with everything if there is
-                // an issue with it, we DO want to show the user that though.
-                try
-                {
-                    if (!string.IsNullOrWhiteSpace(App.Settings?.ProfileSettings?.LuaGlobalScript))
-                    {
-                        lua.DoString(App.Settings.ProfileSettings.LuaGlobalScript);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    _interpreter.Conveyor.EchoLog("There was an error in the global Lua file.", LogType.Error);
-                    _interpreter.Conveyor.EchoLog($"Lua: {ex.Message}", LogType.Error);
-                }
-
-                // Execute the lua code.
-                lua.DoString(luaCode);
+                _interpreter.Conveyor.EchoLog($"Lua Exception: {ex.Message}", LogType.Error);
             }
-            catch (Exception ex)
+
+            if (ex.InnerException != null)
             {
-                if (ex.InnerException != null)
+                _interpreter.Conveyor.EchoLog($"Lua Inner Exception: {((InterpreterException)ex.InnerException)?.DecoratedMessage}", LogType.Error);
+
+                if (ex.InnerException.Message.Contains("abort"))
                 {
-                    if (ex.InnerException.Message.Contains("abort"))
-                    {
-                        // TODO - Make this a setting so that it can be tailored (the command that is sent, e.g. the ~).
-                        // Cancel pending sends with the mud in case something went haywire
-                        _interpreter.Send("~", true, false);
-                        _interpreter.Conveyor.EchoLog("All active Lua scripts have been terminated.", LogType.Error);
-                    }
-                    else
-                    {
-                        _interpreter.Send("~", true, false);
-                        _interpreter.Conveyor.EchoLog($"--> {ex.InnerException.Message}", LogType.Error);
-                    }
-                }
-                else
-                {
-                    _interpreter.Send("~", true, false);
-                    _interpreter.Conveyor.EchoLog(ex.Message, LogType.Error);
-                }
-            }
-            finally
-            {
-                lock (_lockObject)
-                {
-                    this.ActiveLuaScripts--;
+                    _interpreter.Conveyor.EchoLog("All active Lua scripts have been terminated.", LogType.Error);
                 }
             }
         }
@@ -197,41 +233,24 @@ namespace Avalon.Lua
             {
                 try
                 {
-                    lock (_lockObject)
-                    {
-                        this.ActiveLuaScripts++;
-                        this.LuaScriptsRun++;
-                    }
+                    IncrementCounter(LuaCounter.ActiveScripts);
+                    IncrementCounter(LuaCounter.ScriptsRun);
 
                     // Setup Lua
                     var lua = new Script
                     {
-                        Options = {CheckThreadAccess = false}
+                        Options = { CheckThreadAccess = false }
                     };
 
-                    UserData.RegisterType<LuaCommands>();
-                    UserData.RegisterType<LuaGlobalVariables>();
+                    // Pass the lua script object our object that holds our CLR commands.  This is a DynValue that
+                    // has been pre-populated with our LuaCommands instance.
+                    lua.Globals.Set("lua", _luaCmds);
 
-                    // Custom Lua Commands from the Avalon exe
-                    var luaCmd = UserData.Create(new LuaCommands(_interpreter, _random));
-                    lua.Globals.Set("lua", luaCmd);
-
-                    // Dynamic types from plugins.
+                    // Dynamic types from plugins.  These are created when they are registered and only need to be
+                    // added into globals here for use.
                     foreach (var item in _clrTypes)
                     {
-                        // Set the actual class that has the Lua commands.
-                        var instance = Activator.CreateInstance(item.Value) as ILuaCommand;
-
-                        if (instance == null)
-                        {
-                            continue;
-                        }
-
-                        instance.Interpreter = _interpreter;
-
-                        // Add it in.
-                        var instanceLua = UserData.Create(instance);
-                        lua.Globals.Set(item.Key, instanceLua);
+                        lua.Globals.Set(item.Key, item.Value);
                     }
 
                     // Set the global variables that are specifically only available in Lua.
@@ -241,7 +260,7 @@ namespace Avalon.Lua
                     // is a problem with it, we don't want it to interfere with everything if there is
                     // an issue with it, we DO want to show the user that though.
                     var executionControlToken = new ExecutionControlToken();
-                    
+
                     try
                     {
                         if (!string.IsNullOrWhiteSpace(App.Settings?.ProfileSettings?.LuaGlobalScript))
@@ -251,44 +270,95 @@ namespace Avalon.Lua
                     }
                     catch (Exception ex)
                     {
-                        _interpreter.Conveyor.EchoLog("There was an error in the global Lua file.", LogType.Error);
-                        _interpreter.Conveyor.EchoLog($"Lua: {ex.Message}", LogType.Error);
+                        IncrementCounter(LuaCounter.ErrorCount);
+                        LogException("There was an error in the global Lua file.", ex);
                     }
 
                     await lua.DoStringAsync(executionControlToken, luaCode);
                 }
                 catch (Exception ex)
                 {
-                    if (ex.InnerException != null)
-                    {
-                        if (ex.InnerException.Message.Contains("abort"))
-                        {
-                            // TODO - Make this a setting so that it can be tailored (the command that is sent, e.g. the ~).
-                            // Cancel pending sends with the mud in case something went haywire
-                            _interpreter.Send("~", true, false);
-                            _interpreter.Conveyor.EchoLog("All active Lua scripts have been terminated.", LogType.Error);
-                        }
-                        else
-                        {
-                            var exInner = ((InterpreterException)ex.InnerException);
-                            _interpreter.Send("~", true, false);
-                            _interpreter.Conveyor.EchoLog($"--> {exInner.DecoratedMessage}", LogType.Error);
-                        }
-                    }
-                    else
-                    {
-                        _interpreter.Send("~", true, false);
-                        _interpreter.Conveyor.EchoLog(ex.Message, LogType.Error);
-                    }
+                    IncrementCounter(LuaCounter.ErrorCount);
+                    LogException(ex: ex);
+
+                    // TODO - Make this a setting so that it can be tailored (the command that is sent, e.g. the ~).
+                    // Cancel pending sends with the mud in case something went haywire
+                    await _interpreter.Send("~", true, false);
                 }
                 finally
                 {
-                    lock (_lockObject)
-                    {
-                        this.ActiveLuaScripts--;
-                    }
+                    DecrementCounter(LuaCounter.ActiveScripts);
                 }
             }), DispatcherPriority.Normal);
+        }
+
+        /// <summary>
+        /// Executes a Lua script synchronously.
+        /// </summary>
+        /// <param name="luaCode"></param>
+        public void Execute(string luaCode)
+        {
+            if (string.IsNullOrWhiteSpace(luaCode))
+            {
+                return;
+            }
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                try
+                {
+                    IncrementCounter(LuaCounter.ActiveScripts);
+                    IncrementCounter(LuaCounter.ScriptsRun);
+
+                    // Setup Lua
+                    var lua = new Script
+                    {
+                        Options = { CheckThreadAccess = false }
+                    };
+
+                    // Pass the lua script object our object that holds our CLR commands.  This is a DynValue that
+                    // has been pre-populated with our LuaCommands instance.
+                    lua.Globals.Set("lua", _luaCmds);
+
+                    // Dynamic types from plugins.  These are created when they are registered and only need to be
+                    // added into globals here for use.
+                    foreach (var item in _clrTypes)
+                    {
+                        lua.Globals.Set(item.Key, item.Value);
+                    }
+
+                    // Set the global variables that are specifically only available in Lua.
+                    lua.Globals["global"] = this.LuaGlobalVariables;
+
+                    try
+                    {
+                        if (!string.IsNullOrWhiteSpace(App.Settings?.ProfileSettings?.LuaGlobalScript))
+                        {
+                            lua.DoString(App.Settings.ProfileSettings.LuaGlobalScript);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        IncrementCounter(LuaCounter.ErrorCount);
+                        LogException("There was an error in the global Lua file.", ex);
+                    }
+
+                    lua.DoString(luaCode);
+                }
+                catch (Exception ex)
+                {
+                    IncrementCounter(LuaCounter.ErrorCount);
+                    LogException(ex: ex);
+
+                    // TODO - Make this a setting so that it can be tailored (the command that is sent, e.g. the ~).
+                    // Cancel pending sends with the mud in case something went haywire
+                    _interpreter.Send("~", true, false);
+                }
+                finally
+                {
+                    DecrementCounter(LuaCounter.ActiveScripts);
+                }
+            }, DispatcherPriority.Normal);
         }
 
         /// <summary>
@@ -320,12 +390,8 @@ namespace Avalon.Lua
                 // Dynamic types from plugins.
                 foreach (var item in _clrTypes)
                 {
-                    // Set the actual class that has the Lua commands.
-                    var instance = Activator.CreateInstance(item.Value) as ILuaCommand;
-                    instance.Interpreter = _interpreter;
-
                     // Add it in.
-                    var instanceLua = UserData.Create(instance);
+                    var instanceLua = UserData.Create(item.Value);
                     lua.Globals.Set(item.Key, instanceLua);
                 }
 
