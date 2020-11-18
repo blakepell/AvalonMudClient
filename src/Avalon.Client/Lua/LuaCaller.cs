@@ -110,11 +110,13 @@ namespace Avalon.Lua
                 UserData.RegisterType<LuaCommands>();
                 UserData.RegisterType<LuaGlobalVariables>();
 
-                // Create a UserData, again, explicitly.
+                // Create a UserData, again, explicitly.  This initializes and registers the LuaCommands (.NET methods/functions) that
+                // we're providing to Lua.
                 var luaCmd = UserData.Create(new LuaCommands(_interpreter, _random));
                 lua.Globals.Set("lua", luaCmd);
 
-                // Dynamic types from plugins.
+                // Dynamic types from plugins.  The namespace list is provided to _clrTypes via the RegisterType method
+                // and they're loaded by creating the instances here.
                 foreach (var item in _clrTypes)
                 {
                     // Set the actual class that has the Lua commands.
@@ -202,12 +204,15 @@ namespace Avalon.Lua
                     }
 
                     // Setup Lua
-                    var lua = new Script();
-                    lua.Options.CheckThreadAccess = false;
+                    var lua = new Script
+                    {
+                        Options = {CheckThreadAccess = false}
+                    };
+
                     UserData.RegisterType<LuaCommands>();
                     UserData.RegisterType<LuaGlobalVariables>();
 
-                    // Custom Lua Commands
+                    // Custom Lua Commands from the Avalon exe
                     var luaCmd = UserData.Create(new LuaCommands(_interpreter, _random));
                     lua.Globals.Set("lua", luaCmd);
 
@@ -216,6 +221,12 @@ namespace Avalon.Lua
                     {
                         // Set the actual class that has the Lua commands.
                         var instance = Activator.CreateInstance(item.Value) as ILuaCommand;
+
+                        if (instance == null)
+                        {
+                            continue;
+                        }
+
                         instance.Interpreter = _interpreter;
 
                         // Add it in.
@@ -230,7 +241,7 @@ namespace Avalon.Lua
                     // is a problem with it, we don't want it to interfere with everything if there is
                     // an issue with it, we DO want to show the user that though.
                     var executionControlToken = new ExecutionControlToken();
-
+                    
                     try
                     {
                         if (!string.IsNullOrWhiteSpace(App.Settings?.ProfileSettings?.LuaGlobalScript))
