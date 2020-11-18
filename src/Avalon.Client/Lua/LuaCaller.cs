@@ -378,26 +378,24 @@ namespace Avalon.Lua
             try
             {
                 // Setup Lua
-                var lua = new Script();
-                lua.Options.CheckThreadAccess = false;
-                UserData.RegisterType<LuaCommands>();
-                UserData.RegisterType<LuaGlobalVariables>();
+                var lua = new Script
+                {
+                    Options = { CheckThreadAccess = false }
+                };
 
-                // Custom Lua Commands
-                var luaCmd = UserData.Create(new LuaCommands(_interpreter, _random));
-                lua.Globals.Set("lua", luaCmd);
+                // Pass the lua script object our object that holds our CLR commands.  This is a DynValue that
+                // has been pre-populated with our LuaCommands instance.
+                lua.Globals.Set("lua", _luaCmds);
 
-                // Dynamic types from plugins.
+                // Dynamic types from plugins.  These are created when they are registered and only need to be
+                // added into globals here for use.
                 foreach (var item in _clrTypes)
                 {
-                    // Add it in.
-                    var instanceLua = UserData.Create(item.Value);
-                    lua.Globals.Set(item.Key, instanceLua);
+                    lua.Globals.Set(item.Key, item.Value);
                 }
 
                 // Set the global variables that are specifically only available in Lua.
                 lua.Globals["global"] = this.LuaGlobalVariables;
-
 
                 if (!string.IsNullOrWhiteSpace(App.Settings?.ProfileSettings?.LuaGlobalScript))
                 {
