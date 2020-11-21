@@ -57,6 +57,16 @@ namespace Avalon.HashCommands
                             }
                         }
 
+                        if (!string.IsNullOrWhiteSpace(o.StopProcessing))
+                        {
+                            t.StopProcessing = bool.Parse(o.StopProcessing);
+
+                            if (o.Verbose)
+                            {
+                                this.Interpreter.Conveyor.EchoLog($"A trigger with the ID of '{o.Id}' had stop processing set to {t.StopProcessing}.", Common.Models.LogType.Success);
+                            }
+                        }
+
                         // The pattern has to be something
                         if (!string.IsNullOrWhiteSpace(o.Pattern))
                         {
@@ -108,6 +118,16 @@ namespace Avalon.HashCommands
                             }
                         }
 
+                        if (!string.IsNullOrWhiteSpace(o.StopProcessing))
+                        {
+                            t.StopProcessing = bool.Parse(o.StopProcessing);
+
+                            if (o.Verbose)
+                            {
+                                this.Interpreter.Conveyor.EchoLog($"A trigger with the ID of '{o.Id}' had stop processing set to {t.StopProcessing}.", Common.Models.LogType.Success);
+                            }
+                        }
+
                         // The pattern has to be something
                         if (!string.IsNullOrWhiteSpace(o.Pattern))
                         {
@@ -139,6 +159,11 @@ namespace Avalon.HashCommands
                         var t = new Common.Triggers.Trigger(o.Pattern, o.Command ?? "", "", false, o.Id);
                         t.Group = o.Group ?? "";
                         t.VariableReplacement = o.VariableReplacement;
+
+                        if (!string.IsNullOrWhiteSpace(o.StopProcessing))
+                        {
+                            t.StopProcessing = bool.Parse(o.StopProcessing);
+                        }
 
                         // Enabled is default, they can force it to be created disabled.
                         if (o.Disable)
@@ -195,6 +220,10 @@ namespace Avalon.HashCommands
 
             [Option('g', "group", Required = false, HelpText = "Sets the group of the trigger.")]
             public string Group { get; set; }
+
+            [Option('s', "stop", Required = false, HelpText = "[true|false] Whether the trigger should stop the processing the remaining lower priority triggers.")]
+            public string StopProcessing { get; set; }
+
 
         }
     }
