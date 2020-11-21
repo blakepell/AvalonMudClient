@@ -4,7 +4,7 @@
   "Description": "Moves channel communication into the communcation panels on the right hand side of the client.",
   "Author": "Rhien",
   "GameAddress": "dsl-mud.org",
-  "Version": 3,
+  "Version": 4,
   "Category": "Communication",
   "SetupCommand": "#setting -c -s \"CustomTab1Label\" -v \"Communication\";#setting -c -s \"CustomTab2Label\" -v \"OOC\";#setting -c -s \"CustomTab1Visible\" -v \"true\";#setting -c -s \"CustomTab2Visible\" -v \"true\"",
   "AliasList": [],
@@ -27,7 +27,7 @@
       "HighlightLine": false,
       "Count": 0,
       "Priority": 9,
-      "StopProcessing": true,
+      "StopProcessing": false,
       "Identifier": "1b06d6a5-98c3-4839-b795-aa0ef13e694e",
       "PackageId": "",
       "SystemTrigger": false
