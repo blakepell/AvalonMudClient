@@ -54,6 +54,7 @@ namespace Avalon
         /// </summary>
         /// <param name="cmd"></param>
         /// <param name="silent">Whether the commands should be outputted to the game window.</param>
+        /// <param name="addToInputHistory">Whether the command should be added to the input history the user can scroll back through.</param>
         public async Task Send(string cmd, bool silent, bool addToInputHistory)
         {
             // Add the whole thing to the command history
@@ -74,7 +75,7 @@ namespace Avalon
 
                 try
                 {
-                    if (item.SafeLeft(1) != "#")
+                    if (!item.StartsWith('#'))
                     {
                         // Show the command in the window that was sent.
                         if (!silent)
@@ -104,7 +105,6 @@ namespace Avalon
                                 _spamGuardCounter = 0;
                             }
                         }
-
 
                         await Telnet.Send(item);
                     }
