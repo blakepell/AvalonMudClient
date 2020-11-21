@@ -77,7 +77,11 @@ namespace Avalon.Controls
             }
 
             var win = this.FindAscendant<Shell>();
-            win.StatusBarRightText = $"{App.Settings.ProfileSettings.Variables.Count} Variables";
+
+            if (win != null)
+            {
+                win.StatusBarRightText = $"{App.Settings.ProfileSettings.Variables.Count} Variables";
+            }
 
             this.FirstLoad = false;
         }

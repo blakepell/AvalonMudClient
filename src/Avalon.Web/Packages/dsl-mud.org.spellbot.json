@@ -1,0 +1,39 @@
+{
+  "Id": "c0d164c1-ea58-4912-afa8-eec17096e38e",
+  "Name": "Spell Bot",
+  "Description": "Will cast a requested spell on the player who sends you a tell.",
+  "Author": "Rhien",
+  "GameAddress": "dsl-mud.org",
+  "Category": "General",
+  "Version": 1,
+  "MinimumClientVersion": "2020.11.21.1",
+  "SetupCommand": "#trigger --id \"1b06d6a5-98c3-4839-b795-aa0ef13e694e\" --stop \"false\"",
+  "SetupLuaScript": "",
+  "AliasList": [],
+  "TriggerList": [
+    {
+      "Command": "c '%2' %1",
+      "Pattern": "^([\\w'-]+) tells you '(.*)'",
+      "Character": "",
+      "Group": "",
+      "IsSilent": false,
+      "IsLua": false,
+      "Plugin": false,
+      "DisableAfterTriggered": false,
+      "Lock": false,
+      "LastMatched": "0001-01-01T00:00:00",
+      "VariableReplacement": false,
+      "Enabled": true,
+      "Gag": false,
+      "MoveTo": 0,
+      "HighlightLine": false,
+      "Count": 0,
+      "Priority": 10000,
+      "StopProcessing": false,
+      "Identifier": "0c1f526c-bf16-4353-b5a6-b785466a47cc",
+      "PackageId": "",
+      "SystemTrigger": false
+    }
+  ],
+  "DirectionList": []
+}

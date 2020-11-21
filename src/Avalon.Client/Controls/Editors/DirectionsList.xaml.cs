@@ -75,8 +75,12 @@ namespace Avalon.Controls
             }
 
             var win = this.FindAscendant<Shell>();
-            win.StatusBarRightText = $"{App.Settings.ProfileSettings.AliasList.Count} Directions";
 
+            if (win != null)
+            {
+                win.StatusBarRightText = $"{App.Settings.ProfileSettings.AliasList.Count} Directions";
+            }
+            
             this.FirstLoad = false;
         }
 

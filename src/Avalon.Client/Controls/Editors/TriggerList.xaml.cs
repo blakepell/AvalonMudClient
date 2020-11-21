@@ -97,7 +97,11 @@ namespace Avalon.Controls
             }
 
             var win = this.FindAscendant<Shell>();
-            win.StatusBarRightText = $"{App.Settings.ProfileSettings.TriggerList.Count} Triggers";
+
+            if (win != null)
+            {
+                win.StatusBarRightText = $"{App.Settings.ProfileSettings.TriggerList.Count} Triggers";
+            }
 
             this.FirstLoad = false;
         }
