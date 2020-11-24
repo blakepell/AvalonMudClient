@@ -518,10 +518,10 @@ namespace Avalon.Controls
 
         /// <summary>
         /// Scrolls to the end of the terminal by the vertical offset.  This is the most efficient way to scroll
-        /// but sometimes does not scroll all the way to the bottom when wrapping has occured.
+        /// but sometimes does not scroll all the way to the bottom when wrapping has occurred.
         /// </summary>
         /// <param name="useVerticalOffset">Use the vertical offset is much faster but doesn't always work when there are lines that are wrapped.</param>
-        public void ScrollToLastLine(bool useVerticalOffset = false)
+        public void ScrollToLastLine(bool useVerticalOffset)
         {
             if (useVerticalOffset)
             {
@@ -780,7 +780,7 @@ namespace Avalon.Controls
         private int _lastFindIndex = 0;
 
         /// <summary>
-        /// Finds the next occurance of a string
+        /// Finds the next occurrence of a string
         /// </summary>
         /// <param name="searchFor"></param>
         /// <param name="reset">Whether or not to reset the starting index.</param>
@@ -832,7 +832,6 @@ namespace Avalon.Controls
         /// </summary>
         /// <param name="offset"></param>
         /// <param name="length"></param>
-        /// <returns></returns>
         public string GetText(int offset, int length)
         {
             return this.Document.GetText(offset, length);
@@ -843,7 +842,6 @@ namespace Avalon.Controls
         /// onto that it is not updated (it is a snapshot in time).
         /// </summary>
         /// <param name="lineNumber"></param>
-        /// <returns></returns>
         public LineData LineData(int lineNumber)
         {
             var line = this.Document.GetLineByNumber(lineNumber);
