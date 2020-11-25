@@ -121,7 +121,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
             if (!this.Affects.Any(x => x.Name.Equals("sanctuary", System.StringComparison.Ordinal)))
             {
                 found = true;
-                sb.Append("Santuary");
+                sb.Append("Sanctuary");
             }
 
             if (!this.Affects.Any(x => x.Name.Equals("haste", System.StringComparison.Ordinal)))
