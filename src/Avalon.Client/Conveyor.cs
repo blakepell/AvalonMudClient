@@ -364,6 +364,51 @@ namespace Avalon
         }
 
         /// <summary>
+        /// Echos an information log line.  Shorthand for EchoLog => LogType.Information.
+        /// </summary>
+        /// <param name="text"></param>
+        public void EchoInfo(string text)
+        {
+            this.EchoLog(text, LogType.Information);
+        }
+
+        /// <summary>
+        /// Echos a success log line.  Shorthand for EchoLog => LogType.Success.
+        /// </summary>
+        /// <param name="text"></param>
+        public void EchoSuccess(string text)
+        {
+            this.EchoLog(text, LogType.Success);
+        }
+
+        /// <summary>
+        /// Echos a warning log line.  Shorthand for EchoLog => LogType.Warning.
+        /// </summary>
+        /// <param name="text"></param>
+        public void EchoWarning(string text)
+        {
+            this.EchoLog(text, LogType.Warning);
+        }
+
+        /// <summary>
+        /// Echos an error log line.  Shorthand for EchoLog => LogType.Error.
+        /// </summary>
+        /// <param name="text"></param>
+        public void EchoError(string text)
+        {
+            this.EchoLog(text, LogType.Error);
+        }
+
+        /// <summary>
+        /// Echos a debug log line.  Shorthand for EchoDebug => LogType.Debug.
+        /// </summary>
+        /// <param name="text"></param>
+        public void EchoDebug(string text)
+        {
+            this.EchoLog(text, LogType.Debug);
+        }
+
+        /// <summary>
         /// Gets all of the text from the requested window.
         /// </summary>
         /// <param name="target"></param>

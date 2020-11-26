@@ -1,5 +1,4 @@
-﻿using Avalon.Common.Colors;
-using Avalon.Common.Interfaces;
+﻿using Avalon.Common.Interfaces;
 
 namespace Avalon.HashCommands
 {
@@ -21,9 +20,7 @@ namespace Avalon.HashCommands
         public override void Execute()
         {
             string temp = this.Interpreter.Conveyor.GetVariable(this.Parameters);
-
-            Interpreter.EchoText($"\r\n{{C--> {temp}{{x");
+            Interpreter.Conveyor.EchoInfo(temp);
         }
-
     }
 }

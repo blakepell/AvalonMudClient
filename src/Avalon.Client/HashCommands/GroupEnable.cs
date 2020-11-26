@@ -1,5 +1,4 @@
 ﻿using Argus.Extensions;
-using Avalon.Common.Colors;
 using Avalon.Common.Interfaces;
 
 namespace Avalon.HashCommands
@@ -22,7 +21,7 @@ namespace Avalon.HashCommands
         {
             if (this.Parameters.IsNullOrEmptyOrWhiteSpace())
             {
-                Interpreter.EchoText("--> Syntax: #group-enable <group name>", AnsiColors.Red);
+                Interpreter.Conveyor.EchoInfo("Syntax: #group-enable <group name>");
                 return;
             }
 
@@ -30,12 +29,11 @@ namespace Avalon.HashCommands
 
             if (found)
             {
-                Interpreter.Conveyor.EchoLog($"Group '{this.Parameters}' enabled.", Common.Models.LogType.Information);
+                Interpreter.Conveyor.EchoSuccess($"Group '{this.Parameters}' enabled.");
                 return;
             }
 
-            Interpreter.Conveyor.EchoLog($"Group '{this.Parameters}' was not found", Common.Models.LogType.Information);
-            return;
+            Interpreter.Conveyor.EchoError($"Group '{this.Parameters}' was not found.");
         }
 
     }

@@ -548,8 +548,7 @@ namespace Avalon
             }
             catch (Exception ex)
             {
-                Interp.EchoText("");
-                Interp.EchoText($"--> An error occured: {ex.Message}.\r\n", AnsiColors.Red);
+                this.Interp.Conveyor.EchoError($"{ex.Message}.\r\n");
             }
         }
 

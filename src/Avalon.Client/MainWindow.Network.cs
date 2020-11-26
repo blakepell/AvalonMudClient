@@ -180,7 +180,7 @@ namespace Avalon
 
             if (ea == null)
             {
-                GameTerminal.Append("--> Error: Null EchoEventArgs in InterpreterEcho", AnsiColors.Red);
+                this.Interp.Conveyor.EchoError(" Null EchoEventArgs in InterpreterEcho");
                 return;
             }
 

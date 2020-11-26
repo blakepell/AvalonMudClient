@@ -41,6 +41,16 @@ namespace Avalon.Common.Interfaces
 
         void EchoLog(string text, LogType type);
 
+        void EchoDebug(string text);
+
+        void EchoInfo(string text);
+
+        void EchoSuccess(string text);
+
+        void EchoWarning(string text);
+
+        void EchoError(string text);
+
         string GetText(TerminalTarget target, bool removeColors);
 
         string GetSelectedText(TerminalTarget target, bool removeColors);

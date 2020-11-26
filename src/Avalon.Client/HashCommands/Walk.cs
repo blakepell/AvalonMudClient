@@ -24,12 +24,8 @@ namespace Avalon.HashCommands
                 return;
             }
 
-            // Parse the speed walk.
-            string buf = Utilities.Utilities.Speedwalk(this.Parameters);
-
             // Send the speed walk.
-            Interpreter.Send(buf);
+            Interpreter.Send(Utilities.Utilities.Speedwalk(this.Parameters));
         }
-
     }
 }

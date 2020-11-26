@@ -28,7 +28,7 @@ namespace Avalon.HashCommands
             }
             else
             {
-                Interpreter.EchoText("\r\n{R--> Invalid syntax for #set{x\r\n");
+                Interpreter.Conveyor.EchoError("Syntax: #set <variable> <value>");
             }
         }
     }

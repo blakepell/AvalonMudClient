@@ -27,11 +27,11 @@ namespace Avalon.HashCommands
                 .WithParsed(o =>
                 {
                     string value = this.Interpreter?.Telnet?.IsConnected().ToString() ?? "False";
-                    this.Interpreter.Conveyor.SetVariable(o.VariableName, value);
+                    Interpreter.Conveyor.SetVariable(o.VariableName, value);
 
                     if (!o.Silent)
                     {
-                        this.Interpreter.Conveyor.EchoText($"{value}\r\n");
+                        Interpreter.Conveyor.EchoInfo($"{value}");
                     }
                 });
 

@@ -4,6 +4,7 @@ using CommandLine;
 using System;
 using System.Linq;
 using System.Threading.Channels;
+using System.Windows.Markup;
 using System.Windows.Shell;
 
 namespace Avalon.HashCommands
@@ -88,7 +89,14 @@ namespace Avalon.HashCommands
 
                         return;
                     }
-                    
+
+                    // Shows a known system window.
+                    if (!string.IsNullOrWhiteSpace(o.Show))
+                    {
+                        Utilities.WindowManager.ShellWindow(o.Show);
+                        return;
+                    }
+
                     if (o.List)
                     {
                         // List info about all of the active windows.
@@ -245,6 +253,9 @@ namespace Avalon.HashCommands
 
             [Option('n', "name", Required = false, HelpText = "The name of the of the new terminal window that is required to echo to it.")]
             public string Name { get; set; } = "";
+
+            [Option('s', "show", Required = false, HelpText = "Shows a known system window.")]
+            public string Show { get; set; }
 
         }
 

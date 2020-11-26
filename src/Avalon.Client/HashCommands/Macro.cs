@@ -1,5 +1,4 @@
 ﻿using Argus.Extensions;
-using Avalon.Common.Colors;
 using System.Linq;
 using Avalon.Common.Interfaces;
 
@@ -25,13 +24,13 @@ namespace Avalon.HashCommands
 
             if (macro == null)
             {
-                Interpreter.EchoText($"--> Macro for key '{this.Parameters}' not found.", AnsiColors.Red);
+                Interpreter.Conveyor.EchoError($"Macro for key '{this.Parameters}' not found.");
                 return;
             }
 
             if (macro.Command.IsNullOrEmptyOrWhiteSpace())
             {
-                Interpreter.EchoText($"--> Macro key '{this.Parameters}' had a blank command.\r\n", AnsiColors.Red);
+                Interpreter.Conveyor.EchoError($"--> Macro key '{this.Parameters}' had a blank command.\r\n");
                 return;
             }
 
@@ -40,8 +39,6 @@ namespace Avalon.HashCommands
             {
                 Interpreter.Send(macro.Command);
             }
-
         }
-
     }
 }

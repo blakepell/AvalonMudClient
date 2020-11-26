@@ -30,14 +30,14 @@ namespace Avalon.HashCommands
 
             if (!this.Parameters.StartsWith("http", System.StringComparison.OrdinalIgnoreCase))
             {
-                this.Interpreter.Conveyor.EchoLog("URL must be 'http' or 'https'.", LogType.Warning);
+                this.Interpreter.Conveyor.EchoWarning("URL must be 'http' or 'https'.");
                 return;
             }
 
             if (!App.Settings.AvalonSettings.AllowShell)
             {
-                this.Interpreter.Conveyor.EchoLog("Starting executables is currently disabled.  To enable it go into ", LogType.Warning);
-                this.Interpreter.Conveyor.EchoLog("Tools -> Settings -> Client Settings -> AllowShell", LogType.Warning);
+                this.Interpreter.Conveyor.EchoWarning("Starting executables is currently disabled.  To enable it go into ");
+                this.Interpreter.Conveyor.EchoWarning("Tools -> Settings -> Client Settings -> AllowShell");
                 return;
             }
 

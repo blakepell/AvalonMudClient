@@ -1,5 +1,4 @@
 ﻿using Argus.Extensions;
-using Avalon.Common.Colors;
 using Avalon.Common.Interfaces;
 
 namespace Avalon.HashCommands
@@ -21,27 +20,25 @@ namespace Avalon.HashCommands
         {
             if (this.Parameters.IsNullOrEmptyOrWhiteSpace())
             {
-                Interpreter.EchoText("--> Syntax: #enable <alias|trigger>", AnsiColors.Red);
+                Interpreter.Conveyor.EchoInfo("Syntax: #enable <alias|trigger>");
                 return;
             }
 
             if (string.Equals(this.Parameters, "alias", System.StringComparison.OrdinalIgnoreCase))
             {
                 App.Settings.ProfileSettings.AliasesEnabled = true;
-                Interpreter.EchoText($"--> Aliases Enabled", AnsiColors.Cyan);
+                Interpreter.Conveyor.EchoSuccess(("Aliases enabled"));
             }
             else if (string.Equals(this.Parameters, "trigger", System.StringComparison.OrdinalIgnoreCase))
             {
                 App.Settings.ProfileSettings.TriggersEnabled = true;
-                Interpreter.EchoText($"--> Triggers Enabled", AnsiColors.Cyan);
+                Interpreter.Conveyor.EchoSuccess(("Triggers enabled"));
             }
             else
             {
-                Interpreter.EchoText("--> Syntax: #enable <alias|trigger>", AnsiColors.Red);
-                return;
+                Interpreter.Conveyor.EchoWarning("Syntax: #enable <alias|trigger>");
             }
 
         }
-
     }
 }

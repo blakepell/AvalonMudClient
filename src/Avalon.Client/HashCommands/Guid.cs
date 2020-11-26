@@ -26,9 +26,9 @@ namespace Avalon.HashCommands
             var result = Parser.Default.ParseArguments<Arguments>(CreateArgs(this.Parameters))
                 .WithParsed(o =>
                 {
-                    if (o.Count > 1000)
+                    if (o.Count > 100)
                     {
-                        Interpreter.Conveyor.EchoLog("The count is limited to 1,000 Guids at a time.", Common.Models.LogType.Warning);
+                        Interpreter.Conveyor.EchoLog("The count is limited to 100 Guids at a time.", Common.Models.LogType.Warning);
                     }
 
                     var sb = Argus.Memory.StringBuilderPool.Take();

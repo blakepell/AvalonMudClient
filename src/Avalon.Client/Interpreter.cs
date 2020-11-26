@@ -220,7 +220,7 @@ namespace Avalon
                     // tried to use an alias but they're disabled.
                     if (!App.Settings.ProfileSettings.AliasesEnabled)
                     {
-                        EchoText($"--> Alias found for '{alias.AliasExpression ?? "null"}' but aliases are globally disabled.", AnsiColors.Red);
+                        this.Conveyor.EchoError($"Alias found for '{alias.AliasExpression ?? "null"}' but aliases are globally disabled.");
                         list.Add(item);
                         continue;
                     }

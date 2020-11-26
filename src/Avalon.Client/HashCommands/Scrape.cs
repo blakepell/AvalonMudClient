@@ -47,7 +47,7 @@ namespace Avalon.HashCommands
             }
             else
             {
-                this.Interpreter.EchoText("--> Syntax: #scrape <on|off|echo|clear>", AnsiColors.Yellow);
+                this.Interpreter.Conveyor.EchoInfo("Syntax: #scrape <on|off|echo|clear>");
             }
         }
     }

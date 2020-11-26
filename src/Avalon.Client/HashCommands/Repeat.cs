@@ -1,5 +1,4 @@
 ﻿using Argus.Extensions;
-using Avalon.Common.Colors;
 using Avalon.Common.Interfaces;
 
 namespace Avalon.HashCommands
@@ -25,7 +24,7 @@ namespace Avalon.HashCommands
 
             if (!argOne.Item1.IsNumeric())
             {
-                Interpreter.EchoText($"--> Syntax: #repeat <number of times> <command>", AnsiColors.Red);
+                Interpreter.Conveyor.EchoError($"--> Syntax: #repeat <number of times> <command>");
 
             }
 
@@ -41,6 +40,5 @@ namespace Avalon.HashCommands
 
             Argus.Memory.StringBuilderPool.Return(sb);
         }
-
     }
 }

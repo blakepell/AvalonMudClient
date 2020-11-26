@@ -42,16 +42,15 @@ namespace Avalon.HashCommands
 
             if (dest == null)
             {
-                Interpreter.EchoText($"--> Direction not found.", AnsiColors.Red);
+                Interpreter.Conveyor.EchoError("Direction not found.");
                 return;
             }
 
             // Starting room is correct, start walking
             if (dest != null && string.Equals(dest.StartingRoom, room, System.StringComparison.OrdinalIgnoreCase))
             {
-                // Parse the speedwalk and send it to the hash command.
-                string buf = Utilities.Utilities.Speedwalk(dest.Speedwalk);
-                Interpreter.Send(buf);
+                // Parse the speed walk and send it to the hash command.
+                Interpreter.Send(Utilities.Utilities.Speedwalk(dest.Speedwalk));
                 return;
             }
 
@@ -72,9 +71,7 @@ namespace Avalon.HashCommands
                 return;
             }
 
-            Interpreter.EchoText($"--> Path not found from '{room.ToTitleCase()}' to '{dest.Name}'", AnsiColors.Red);
-
+            Interpreter.Conveyor.EchoError($"Path not found from '{room.ToTitleCase()}' to '{dest.Name}'");
         }
-
     }
 }
