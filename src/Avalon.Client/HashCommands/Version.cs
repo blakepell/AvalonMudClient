@@ -44,7 +44,7 @@ namespace Avalon.HashCommands
             Interpreter.Conveyor.EchoText("\r\n");
             Interpreter.Conveyor.EchoText($"Version:            {version} {bit}\r\n");
             Interpreter.Conveyor.EchoText($"Build:              {mode}\r\n");
-            Interpreter.Conveyor.EchoText($"Hardward Rendering: {rendering}\r\n");
+            Interpreter.Conveyor.EchoText($"Hardware Rendering: {rendering}\r\n");
         }
 
     }
