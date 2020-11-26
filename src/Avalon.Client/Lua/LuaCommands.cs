@@ -5,6 +5,7 @@ using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -61,7 +62,7 @@ namespace Avalon.Lua
             {
                 return "";
             }
-
+            
             // Invoke requested so that the call waits for the result of the function before returning.
             return Application.Current.Dispatcher.Invoke(new Func<string>(() =>
             {
@@ -266,11 +267,16 @@ namespace Avalon.Lua
         }
 
         /// <summary>
-        /// Returns the current time in HH:MM:SS format.
+        /// Returns the current time formatted as either 12-hour or 24-hour.
         /// </summary>
-        /// <returns></returns>
-        public string GetTime()
+        /// <param name="meridiemTime">Whether or not to return the time in AM/PM format.</param>
+        public string GetTime(bool meridiemTime = false)
         {
+            if (meridiemTime)
+            {
+                return DateTime.Now.ToString(@"hh:mm:ss tt", new CultureInfo("en-US"));
+            }
+
             return $"{DateTime.Now.Hour}:{DateTime.Now.Minute}:{DateTime.Now.Second}";
         }
 
@@ -308,6 +314,36 @@ namespace Avalon.Lua
         public int GetMillisecond()
         {
             return DateTime.Now.Millisecond;
+        }
+
+        /// <summary>
+        /// The minutes elapsed since the start of the day.
+        /// </summary>
+        public int DailyMinutesElapsed()
+        {
+            var dt = DateTime.Now;
+            return (dt.Hour * 60) + dt.Minute;
+        }
+
+        /// <summary>
+        /// The seconds elapsed since the start of the day.
+        /// </summary>
+        public int DailySecondsElapsed()
+        {
+            var dt = DateTime.Now;
+            int minutes = (dt.Hour * 60) + dt.Minute;
+            return (minutes * 60) + dt.Second;
+        }
+
+        /// <summary>
+        /// The milliseconds elapsed since the start of the day.
+        /// </summary>
+        public int DailyMillisecondsElapsed()
+        {
+            var dt = DateTime.Now;
+            int minutes = (dt.Hour * 60) + dt.Minute;
+            int seconds = (minutes * 60) + dt.Second;
+            return (seconds * 1000) + dt.Millisecond;
         }
 
         /// <summary>
@@ -782,7 +818,7 @@ namespace Avalon.Lua
                     i--;
                     taken++;
 
-                    // Once we've statisfied the number of lines to get, exit the loop.
+                    // Once we've satisfied the number of lines to get, exit the loop.
                     if (taken == numberToTake)
                     {
                         break;
@@ -796,6 +832,23 @@ namespace Avalon.Lua
             }
 
             return list.ToArray();
+        }
+
+        /// <summary>
+        /// The current location of the profile save directory.
+        /// </summary>
+        public string ProfileDirectory()
+        {
+            return App.Settings.AvalonSettings.SaveDirectory;
+        }
+
+        /// <summary>
+        /// Where the avalon setting file is stored that among other things has where the profile
+        /// save directory is (in case that is in Dropbox, OneDrive, etc.).
+        /// </summary>
+        public string AppDataDirectory()
+        {
+            return App.Settings.AppDataDirectory;
         }
 
         private IInterpreter _interpreter;

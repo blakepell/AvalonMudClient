@@ -24,11 +24,14 @@ namespace Avalon.Lua
                 data.Add(new LuaCompletionData("EchoWindow", "Echos to a specified custom window.  This operation appends text by default."));
                 data.Add(new LuaCompletionData("ClearWindow", "Clears any text in the terminal of a custom window."));
                 data.Add(new LuaCompletionData("Coalesce", "Returns the first non null and non empty value from the list"));
-                data.Add(new LuaCompletionData("GetTime", "Gets the current time."));
+                data.Add(new LuaCompletionData("GetTime", "Gets the current time.  Accepts a true/false parameter indicating whether to use 12 or 24 hour time."));
                 data.Add(new LuaCompletionData("GetMinute", "Gets the current minute."));
                 data.Add(new LuaCompletionData("GetHour", "Gets the current hour."));
                 data.Add(new LuaCompletionData("GetSecond", "Gets the current second."));
                 data.Add(new LuaCompletionData("GetMillisecond", "Gets the current millisecond."));
+                data.Add(new LuaCompletionData("DailyMillisecondsElapsed", "Gets the number of milliseconds that have elapsed since midnight."));
+                data.Add(new LuaCompletionData("DailyMinutesElapsed", "Gets the number of minutes that have elapsed since midnight."));
+                data.Add(new LuaCompletionData("DailyHoursElapsed", "Gets the number of hours that have elapsed since midnight."));
                 data.Add(new LuaCompletionData("Sleep", "Pauses the execution of the script for a specified set of milliseconds."));
                 data.Add(new LuaCompletionData("RandomNumber", "Returns a random number between two values."));
                 data.Add(new LuaCompletionData("RandomChoice", "Returns a random choice out of the specified values."));
@@ -54,6 +57,8 @@ namespace Avalon.Lua
                 data.Add(new LuaCompletionData("AddBatchTask", "Adds a batch task to be performed one after another with a delay in between them."));
                 data.Add(new LuaCompletionData("ClearTasks", "Clears all tasks."));
                 data.Add(new LuaCompletionData("FormatNumber", "Formats a number with commas."));
+                data.Add(new LuaCompletionData("ProfileDirectory", "The location of the current profile directory."));
+                data.Add(new LuaCompletionData("AppDataDirectory", "The location of the AppData directory."));
             }
         }
 

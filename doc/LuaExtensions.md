@@ -21,10 +21,14 @@ local dir = lua:RandomChoice({"north", "south"});
 |lua:ClearWindow|(string) windowName|Clears the text in a popup terminal window of the same name.|
 |lua:Coalesce|Value one (string), Value two (string)|Returns the first non null and non empty value.|
 |lua:GetTime|None|Gets the current time in HH:MM:SS format|
+|lua:GetTime|(bool) meridiemTime|Whether to get the time in a 12 or 24 hour format.|
 |lua:GetHour|None|Gets the current hour.|
 |lua:GetMinute|None|Gets the current minute.|
 |lua:GetSecond|None|Gets the current second.|
 |lua:GetMillisecond|None|Gets the current millisecond.|
+|lua:DailyMillisecondsElapsed|None|Gets the number of milliseconds that have elapsed since midnight.|
+|lua:DailyMinutesElapsed|None|Gets the number of minutes that have elapsed since midnight.|
+|lua:DailyHoursElapsed|None|Gets the number of hours that have elapsed since midnight.|
 |lua:Sleep|milliseconds (int)|Pauses a Lua script for the specified set of milliseconds (e.g. 1000 = 1 second)|
 |lua:RandomNumber|Low value (int), High value (int)|Returns a random number|
 |lua:RandomChoice|Values (string array)|Returns a random value from the provide list of values in the string array|
@@ -60,6 +64,8 @@ local dir = lua:RandomChoice({"north", "south"});
 |lua:LastNonEmptyLine|None|Gets the last non empty line.|
 |lua:LastLines|(int) numberToTake|Returns the requested number of lines from the end of the game terminall as a string array from oldest to newest.|
 |lua:LastLines|(int) numberToTake, (bool)reverseOrder|Returns the requested number of lines from the end of the game terminal as a string array.  `reverseOrder` being true will return the list in newest to oldest order, false will return oldest to newest.|
+|lua:ProfileDirectory|None|The location of where the profile save directory.|
+|lua:AppDataDirectory|None|The location of where the core AppData directory.|
 |global|None|Used to set global variables only global to Lua.|
 
 ## Lua Global Variables
