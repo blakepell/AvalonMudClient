@@ -21,7 +21,7 @@ namespace Avalon.HashCommands
 
         public override void Execute()
         {
-            string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            string version = Assembly.GetExecutingAssembly().GetName()?.Version?.ToString() ?? "Unknown";
             string bit = Environment.Is64BitProcess ? "64-bit" : "32-bit";
             string rendering = "N/A";
 
