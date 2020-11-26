@@ -1,0 +1,39 @@
+{
+  "Id": "91f03812-fb1e-4601-b5c7-82cb7c54f65c",
+  "Name": "Gag Weapon Flags",
+  "Description": "A gag trigger that remove weapon flag from the terminal.  This includes vampiric, leech, flaming, shocking, frost and holy.",
+  "Author": "Rhien",
+  "GameAddress": "dsl-mud.org",
+  "Category": "Battle",
+  "Version": 1,
+  "MinimumClientVersion": "0.0.0.0",
+  "SetupCommand": "",
+  "SetupLuaScript": "",
+  "AliasList": [],
+  "TriggerList": [
+    {
+      "Command": "",
+      "Pattern": "(is struck by lightning from|draws life from|draws energy from|is burned by|^(.*) freezes |^A flash of holy power erupts)",
+      "Character": "",
+      "Group": "BattleSpam",
+      "IsSilent": false,
+      "IsLua": false,
+      "Plugin": false,
+      "DisableAfterTriggered": false,
+      "Lock": false,
+      "LastMatched": "0001-01-01T00:00:00",
+      "VariableReplacement": false,
+      "Enabled": true,
+      "Gag": true,
+      "MoveTo": 0,
+      "HighlightLine": false,
+      "Count": 0,
+      "Priority": 5,
+      "StopProcessing": true,
+      "Identifier": "4dacdb10-0443-402f-842f-5379bd9332a4",
+      "PackageId": "",
+      "SystemTrigger": false
+    }
+  ],
+  "DirectionList": []
+}
