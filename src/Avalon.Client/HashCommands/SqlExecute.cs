@@ -37,11 +37,6 @@ namespace Avalon.HashCommands
 
         }
 
-        struct test
-        {
-            string arg1;
-        }
-
         public override async Task ExecuteAsync()
         {
             if (!App.Settings.AvalonSettings.DeveloperMode)
@@ -146,44 +141,44 @@ namespace Avalon.HashCommands
         /// </summary>
         private class Arguments
         {
-            [Value(0, Required = true, HelpText = "The SQL to execute.")]
-            public string Sql { get; set; } = "";
+            [Value(0, Required = true, HelpText = "SQL to execute.")]
+            public string Sql { get; set; }
             
             [Value(1, Required = false, HelpText = "Parameter 1")]
-            public string Parameter1 { get; set; } = "";
+            public string Parameter1 { get; set; }
 
             [Value(2, Required = false, HelpText = "Parameter 2")]
-            public string Parameter2 { get; set; } = "";
+            public string Parameter2 { get; set; }
 
             [Value(3, Required = false, HelpText = "Parameter 3")]
-            public string Parameter3 { get; set; } = "";
+            public string Parameter3 { get; set; }
 
             [Value(4, Required = false, HelpText = "Parameter 4")]
-            public string Parameter4 { get; set; } = "";
+            public string Parameter4 { get; set; }
 
             [Value(5, Required = false, HelpText = "Parameter 5")]
-            public string Parameter5 { get; set; } = "";
+            public string Parameter5 { get; set; }
 
             [Value(6, Required = false, HelpText = "Parameter 6")]
-            public string Parameter6 { get; set; } = "";
+            public string Parameter6 { get; set; }
 
             [Value(7, Required = false, HelpText = "Parameter 7")]
-            public string Parameter7 { get; set; } = "";
+            public string Parameter7 { get; set; }
 
             [Value(8, Required = false, HelpText = "Parameter 8")]
-            public string Parameter8 { get; set; } = "";
+            public string Parameter8 { get; set; }
 
             [Value(9, Required = false, HelpText = "Parameter 9")]
-            public string Parameter9 { get; set; } = "";
+            public string Parameter9 { get; set; }
 
             [Value(10, Required = false, HelpText = "Parameter 10")]
-            public string Parameter10 { get; set; } = "";
+            public string Parameter10 { get; set; }
 
             [Value(11, Required = false, HelpText = "Parameter 11")]
-            public string Parameter11 { get; set; } = "";
+            public string Parameter11 { get; set; }
 
             [Value(12, Required = false, HelpText = "Parameter 12")]
-            public string Parameter12 { get; set; } = "";
+            public string Parameter12 { get; set; }
 
         }
 
