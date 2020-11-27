@@ -61,6 +61,16 @@ namespace Avalon.Common.Interfaces
         string SetupLuaScript { get; set; }
 
         /// <summary>
+        /// A command or commands that will be run when the package is uninstalled.
+        /// </summary>
+        string UninstallCommand { get; set; }
+
+        /// <summary>
+        /// A Lua script that if populated will be run when the package is installed.
+        /// </summary>
+        string UninstallLuaScript { get; set; }
+
+        /// <summary>
         /// The list of packaged aliases.
         /// </summary>
         List<Alias> AliasList { get; set; }

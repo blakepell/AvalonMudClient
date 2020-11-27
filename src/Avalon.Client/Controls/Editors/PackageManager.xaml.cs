@@ -400,6 +400,18 @@ namespace Avalon.Controls
                 }
             }
 
+            // Run any uninstall commands.
+            if (!string.IsNullOrWhiteSpace(package.UninstallCommand))
+            {
+                await App.Conveyor.ExecuteCommandAsync(package.UninstallCommand);
+            }
+
+            // Run any uninstall Lua scripts.
+            if (!string.IsNullOrWhiteSpace(package.UninstallLuaScript))
+            {
+                await App.Conveyor.ExecuteLuaAsync(package.UninstallLuaScript);
+            }
+
             // Update which ones if any are installed.
             this.UpdateInstalledList();
 

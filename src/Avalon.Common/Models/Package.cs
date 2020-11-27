@@ -170,6 +170,32 @@ namespace Avalon.Common.Models
             }
         }
 
+        private string _uninstallCommand = "";
+
+        /// <inheritdoc />
+        public string UninstallCommand
+        {
+            get => _uninstallCommand;
+            set
+            {
+                _uninstallCommand = value;
+                OnPropertyChanged(nameof(UninstallCommand));
+            }
+        }
+
+        private string _uninstallLuaScript = "";
+
+        /// <inheritdoc />
+        public string UninstallLuaScript
+        {
+            get => _uninstallLuaScript;
+            set
+            {
+                _uninstallLuaScript = value;
+                OnPropertyChanged(nameof(UninstallLuaScript));
+            }
+        }
+
         /// <inheritdoc />
         public List<Alias> AliasList { get; set; } = new List<Alias>();
 
