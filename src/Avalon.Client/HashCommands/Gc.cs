@@ -1,6 +1,7 @@
 ﻿using Avalon.Common.Colors;
 using System;
 using Avalon.Common.Interfaces;
+using CommandLine;
 
 namespace Avalon.HashCommands
 {
@@ -20,14 +21,35 @@ namespace Avalon.HashCommands
 
         public override void Execute()
         {
-            GC.Collect();
-            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
-            GC.WaitForPendingFinalizers();
+            // Parse the arguments and append to the file.
+            var result = Parser.Default.ParseArguments<Arguments>(CreateArgs(this.Parameters))
+                               .WithParsed(o =>
+                               {
+                                   try
+                                   {
+                                       GC.Collect();
+                                       GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
+                                       GC.WaitForPendingFinalizers();
 
-            if (!string.Equals(this.Parameters, "silent", StringComparison.OrdinalIgnoreCase))
-            {
-                Interpreter.EchoText("Garbage Collection Executed.", AnsiColors.Cyan);
-            }
+                                       if (!o.Silent)
+                                       {
+                                           Interpreter.Conveyor.EchoSuccess("Garbage Collection Executed");
+                                       }
+                                   }
+                                   catch (Exception ex)
+                                   {
+                                       Interpreter.Conveyor.EchoError($"Error running garbage collection: {ex.Message}");
+                                   }
+                               });
+
+            // Display the help or error output from the parameter parsing.
+            this.DisplayParserOutput(result);
+        }
+
+        public class Arguments
+        {
+            [Option('s', "silent", Required = false, HelpText = "Whether to run silently.")]
+            public bool Silent { get; set; }
         }
 
     }
