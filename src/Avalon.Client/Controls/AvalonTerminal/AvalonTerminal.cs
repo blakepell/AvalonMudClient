@@ -74,6 +74,7 @@ namespace Avalon.Controls
             this.TextArea.Caret.CaretBrush = Brushes.Transparent;
 
             // Setup our custom line and element transformers.
+            this.TextArea.TextView.ElementGenerators.Add(new HideAnsiElementGenerator() { ParseExtended = true });
             this.TextArea.TextView.LineTransformers.Add(new AnsiColorizer());
 
             this.Gag = new GagElementGenerator();

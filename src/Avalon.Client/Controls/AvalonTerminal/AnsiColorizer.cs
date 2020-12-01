@@ -14,6 +14,8 @@ namespace Avalon.Controls
     /// ANSI color support for the AvalonTerminal.
     /// </summary>
     /// <remarks>
+    /// The AnsiColorizer handles the coloring and styling of text inside of the Terminal.  Hiding
+    /// of the ANSI sequences is now handled in the <see cref="HideAnsiElementGenerator"/>.
     /// TODO - Background colors: http://pueblo.sourceforge.net/doc/manual/ansi_color_codes.html
     /// </remarks>
     public class AnsiColorizer : DocumentColorizingTransformer
@@ -30,9 +32,6 @@ namespace Avalon.Controls
 
                 while ((index = text.IndexOf(color.AnsiColor.AnsiCode.AsSpan(), start)) >= 0)
                 {
-                    // Find the end of the control sequence
-                    int indexEnd = text.IndexOf('m', index + 1) + 1;
-
                     // This should look for the index of the next color code EXCEPT when it's a style code.
                     int endMarker = text.IndexOfNextColorCode(index + 1);
 
@@ -53,19 +52,6 @@ namespace Avalon.Controls
 
                     // Search for next occurrence, again, we'll reference the span and not the length.
                     start = index + color.AnsiColor.AnsiCode.AsSpan().Length;
-
-                    // Hide the control sequence (the control escape is hidden via the TextArea.TextView.Options.ShowBoxForControlCharacters
-                    // property, but we need to hide the rest of the ANSI sequence as well.  I haven't found a way to make these hidden and
-                    // collapse their space so I'm setting them to transparent and making them really really small.  Kind of a hack but it works.
-                    base.ChangeLinePart(
-                        line.Offset + index,    // startOffset
-                        line.Offset + indexEnd, // endOffset
-                        (VisualLineElement element) =>
-                        {
-                            element.TextRunProperties.SetForegroundBrush(Brushes.Transparent);
-                            element.TextRunProperties.SetFontRenderingEmSize(.00000001);
-                        });
-
                 }
             }
 
@@ -79,9 +65,6 @@ namespace Avalon.Controls
 
                 while ((index = text.IndexOf(color.AnsiColor.AnsiCode.AsSpan(), start)) >= 0)
                 {
-                    // Find the end of the control sequence
-                    int indexEnd = index + color.AnsiColor.AnsiCode.AsSpan().Length;
-
                     // Find the clear color code if it exists.
                     int endMarker = text.IndexOf(AnsiColors.Clear.AnsiCode.AsSpan(), index + 1);
 
@@ -112,19 +95,6 @@ namespace Avalon.Controls
 
                     // Search for the next occurrence
                     start = index + color.AnsiColor.AnsiCode.AsSpan().Length;
-
-                    // Hide the control sequence (the control escape is hidden via the TextArea.TextView.Options.ShowBoxForControlCharacters
-                    // property, but we need to hide the rest of the ANSI sequence as well.  I haven't found a way to make these hidden and
-                    // collapse their space so I'm setting them to transparent and making them really really small.  Kind of a hack but it works.
-                    base.ChangeLinePart(
-                        line.Offset + index,    // startOffset
-                        line.Offset + indexEnd, // endOffset
-                        (VisualLineElement element) =>
-                        {
-                            element.TextRunProperties.SetForegroundBrush(Brushes.Transparent);
-                            element.TextRunProperties.SetFontRenderingEmSize(.00000001);
-                        });
-
                 }
             }
         }
