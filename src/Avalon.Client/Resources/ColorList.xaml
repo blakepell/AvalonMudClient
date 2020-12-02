@@ -1,10 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:Avalon.Resources"
                     xmlns:sys="clr-namespace:System;assembly=System.Runtime">
     <x:Array x:Key="ColorList" Type="sys:String">
         <sys:String>Cyan</sys:String>
-        <sys:String>Dark Dyan</sys:String>
+        <sys:String>Dark Cyan</sys:String>
         <sys:String>Green</sys:String>
         <sys:String>Dark Green</sys:String>
         <sys:String>White</sys:String>
