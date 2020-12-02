@@ -1,28 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Effects;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Argus.Extensions;
-using Avalon.Common.Interfaces;
+﻿using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
 using Avalon.Extensions;
 using ModernWpf.Controls;
+using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media.Effects;
 
 namespace Avalon
 {
     /// <summary>
     /// Interaction logic for Shell.xaml
     /// </summary>
-    public partial class Shell : Window, IWindow
+    public partial class Shell : IWindow
     {
 
         /// <summary>
