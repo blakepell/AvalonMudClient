@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Avalon.Colors;
 using ICSharpCode.AvalonEdit.Rendering;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Media.TextFormatting;
-using Avalon.Colors;
-using System;
-using Argus.Extensions;
 
 namespace Avalon.Controls
 {
@@ -21,7 +18,7 @@ namespace Avalon.Controls
         /// This might seem like a micro optimization but the StringBuilder used in GetFirstInterestedOffset had a performance
         /// hit allocated that is avoided if we reuse the StringBuilder and simply clear it.  Since this is called A LOT it
         /// while rendering the impact was enough that this made sense.  Since this is heavily used in the Gag and it's only
-        /// allocated once when the Gag is created I've choosen to keep this here instead of using the StringBuilderPool because
+        /// allocated once when the Gag is created I've chosen to keep this here instead of using the StringBuilderPool because
         /// it's always going to be needed so I've just made it dedicated.
         /// </summary>
         private readonly StringBuilder _sb = new StringBuilder();
@@ -176,20 +173,4 @@ namespace Avalon.Controls
         }
 
     }
-
-    /// <summary>
-    /// Represents a hidden element in the text editor.
-    /// </summary>
-    public class HiddenTextElement : VisualLineElement
-    {
-        public HiddenTextElement(int documentLength) : base(1, documentLength)
-        {
-        }
-
-        public override TextRun CreateTextRun(int startVisualColumn, ITextRunConstructionContext context)
-        {
-            return new TextHidden(1);
-        }
-    }
-
 }

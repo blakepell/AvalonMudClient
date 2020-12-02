@@ -17,7 +17,11 @@ namespace Avalon.Controls
         /// <summary>
         /// A more extensive list of the ANSI control sequences.
         /// </summary>
-        private static readonly char[] _endMarkersExtended = { 'm', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'S', 'T' };
+        /// <remarks>
+        /// The char 'm' is listed first since it will be the most used code that comes down from any game since it
+        /// ends all of the color and style sequences. 
+        /// </remarks>
+        private static readonly char[] _endMarkersExtended = { 'm', 'D', 'A', 'B', 'C', 'J', 'E', 'F', 'G', 'H', 'K', 'S', 'T' };
 
         /// <summary>
         /// A match of a control sequence containing only the match's offset and the length
