@@ -25,9 +25,9 @@ namespace Avalon.Web.Controllers
 
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        private List<IPackage> PackgeList { get; set; }
+        private List<IPackage> PackageList { get; set; }
 
-        private List<IPackage> PacakgeListMetadata { get; set; }
+        private List<IPackage> PacakageListMetadata { get; set; }
 
         public PackageController(ILogger<PackageController> logger, IMemoryCache cache, IWebHostEnvironment env)
         {
@@ -45,7 +45,7 @@ namespace Avalon.Web.Controllers
         {
             await RequestIncrement();
             this.LoadCache();
-            return this.PackgeList.Find(x => x.Id.Equals(id, StringComparison.Ordinal)) ?? new Package();
+            return this.PackageList.Find(x => x.Id.Equals(id, StringComparison.Ordinal)) ?? new Package();
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Avalon.Web.Controllers
         {
             await RequestIncrement();
             this.LoadCache();
-            return this.PackgeList.FindAll(x => x.GameAddress.Equals(ip, StringComparison.Ordinal) || x.GameAddress.IsNullOrEmptyOrWhiteSpace()) ?? new List<IPackage>();
+            return this.PackageList.FindAll(x => x.GameAddress.Equals(ip, StringComparison.Ordinal) || x.GameAddress.IsNullOrEmptyOrWhiteSpace()) ?? new List<IPackage>();
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Avalon.Web.Controllers
         {
             await RequestIncrement();
             this.LoadCache();
-            return this.PacakgeListMetadata.FindAll(x => x.GameAddress.Equals(ip, StringComparison.Ordinal) || x.GameAddress.IsNullOrEmptyOrWhiteSpace()) ?? new List<IPackage>();
+            return this.PacakageListMetadata.FindAll(x => x.GameAddress.Equals(ip, StringComparison.Ordinal) || x.GameAddress.IsNullOrEmptyOrWhiteSpace()) ?? new List<IPackage>();
         }
 
         [HttpGet("count-all")]
@@ -77,7 +77,7 @@ namespace Avalon.Web.Controllers
         {
             await RequestIncrement();
             this.LoadCache();
-            return this.PackgeList.Count();
+            return this.PackageList.Count;
         }
 
         [HttpGet("count")]
@@ -86,7 +86,7 @@ namespace Avalon.Web.Controllers
 
             await RequestIncrement();
             this.LoadCache();
-            return this.PackgeList.Count(x => x.GameAddress.Equals(ip, StringComparison.Ordinal));
+            return this.PackageList.Count(x => x.GameAddress.Equals(ip, StringComparison.Ordinal));
         }
 
         /// <summary>
@@ -214,11 +214,8 @@ namespace Avalon.Web.Controllers
         /// </summary>
         private void LoadCache()
         {
-            List<IPackage> list;
-            List<IPackage> metadataList;
-
             // Look for cache key.
-            if (!_cache.TryGetValue("PackageList", out list))
+            if (!_cache.TryGetValue("PackageList", out List<IPackage> list))
             {
                 list = new List<IPackage>();
 
@@ -239,10 +236,10 @@ namespace Avalon.Web.Controllers
                 _cache.Set("PackageList", list, cacheEntryOptions);
             }
 
-            this.PackgeList = list;
+            this.PackageList = list;
 
             // Look for cache key.
-            if (!_cache.TryGetValue("PackageListMetadata", out metadataList))
+            if (!_cache.TryGetValue("PackageListMetadata", out List<IPackage> metadataList))
             {
                 metadataList = new List<IPackage>();
 
@@ -272,7 +269,7 @@ namespace Avalon.Web.Controllers
                 _cache.Set("PackageListMetadata", metadataList, cacheEntryOptions);
             }
 
-            this.PacakgeListMetadata = metadataList;
+            this.PacakageListMetadata = metadataList;
         }
 
         /// <summary>
