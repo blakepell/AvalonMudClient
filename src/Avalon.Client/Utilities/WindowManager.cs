@@ -112,9 +112,10 @@ namespace Avalon.Utilities
                 try
                 {
                     // Setup the database control.            
-                    var ctrl = new SqliteQueryControl();
-                    ctrl.ConnectionString = $"Data Source={App.Settings.ProfileSettings.SqliteDatabase}";
-                    await ctrl.RefreshSchema();
+                    var ctrl = new SqliteQueryControl
+                    {
+                        ConnectionString = $"Data Source={App.Settings.ProfileSettings.SqliteDatabase}"
+                    };
 
                     // Removed dialog/blur
                     //var win = new Shell(ctrl, App.MainWindow)
@@ -126,6 +127,8 @@ namespace Avalon.Utilities
                         HeaderIcon = Symbol.Tag,
                         SecondaryButtonVisibility = Visibility.Collapsed
                     };
+
+                    await ctrl.RefreshSchemaAsync();
 
                     win.SetSizeAndPosition(.85);
                     win.Show();

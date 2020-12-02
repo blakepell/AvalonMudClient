@@ -12,7 +12,7 @@ namespace Avalon.Sqlite
     /// <typeparam name="T">The type of the object that this mapper applies to.</typeparam>
     public class ColumnAttributeTypeMapper<T> : FallbackTypeMapper
     {
-        public static readonly string ColumnAttributeName = "ColumnAttribute";
+        private static readonly string ColumnAttributeName = "ColumnAttribute";
 
         public ColumnAttributeTypeMapper()
             : base(new SqlMapper.ITypeMap[]
@@ -36,24 +36,28 @@ namespace Avalon.Sqlite
                                          attr.GetType().GetProperties(BindingFlags.Public |
                                                                       BindingFlags.NonPublic |
                                                                       BindingFlags.Instance)
-                                             .Any(f => f.Name == "Name" && string.Equals(f.GetValue(attr).ToString(), columnName, StringComparison.OrdinalIgnoreCase)))
+                                             .Any(f => f.Name == "Name" && string.Equals(f.GetValue(attr)?.ToString(), columnName, StringComparison.OrdinalIgnoreCase)))
 
                         && // Also ensure the property is not read-only
                         (prop.DeclaringType == type
                              ? prop.GetSetMethod(true)
-                             : prop.DeclaringType.GetProperty(prop.Name,
+                             : prop.DeclaringType?.GetProperty(prop.Name,
                                                               BindingFlags.Public | BindingFlags.NonPublic |
-                                                              BindingFlags.Instance).GetSetMethod(true)) != null
+                                                              BindingFlags.Instance)?.GetSetMethod(true)) != null
                     );
         }
     }
 
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
-    public class ColumnAttribute : Attribute
+    public sealed class ColumnAttribute : Attribute
     {
+        public ColumnAttribute(string name)
+        {
+            this.Name = name;
+        }
+
         public string Name { get; set; }
         public ColumnAttribute() { }
-        public ColumnAttribute(string Name) { this.Name = Name; }
     }
 
     public class FallbackTypeMapper : SqlMapper.ITypeMap

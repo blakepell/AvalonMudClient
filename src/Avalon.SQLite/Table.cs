@@ -1,24 +1,69 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
+using Argus.ComponentModel;
 
 namespace Avalon.Sqlite
 {
-    public class Table 
+    /// <summary>
+    /// The metadata for a SQLite table.
+    /// </summary>
+    /// <remarks>
+    /// The duplicate properties for Name and TableName are from SQLite itself.
+    /// </remarks>
+    public class Table : Observable
     {
 
+        private string _name;
+
+        /// <summary>
+        /// The table name.
+        /// </summary>
         [Column("name")]
-        public string Name { get; set; } = "";
+        public string Name
+        {
+            get => _name;
+            set => Set(ref _name, value, nameof(Name));
+        }
 
+        private string _tableName;
 
+        /// <summary>
+        /// The table name.
+        /// </summary>
         [Column("tbl_name")]
-        public string TableName { get; set; } = "";
+        public string TableName
+        {
+            get => _tableName;
+            set => Set(ref _tableName, value, nameof(TableName));
+        }
 
+        private int _rootPage;
+
+        /// <summary>
+        /// The root page.
+        /// </summary>
         [Column("rootpage")]
-        public int RootPage { get; set; } = 0;
+        public int RootPage
+        {
+            get => _rootPage;
+            set => Set(ref _rootPage, value, nameof(RootPage));
+        }
 
+        private string _sql;
+
+        /// <summary>
+        /// The SQL provided by SQLite to create the table.
+        /// </summary>
         [Column("sql")]
-        public string Sql { get; set; } = "";
+        public string Sql
+        {
+            get => _sql;
+            set => Set(ref _sql, value, nameof(Sql));
+        }
 
-        public List<Field> Fields { get; set; } = new List<Field>();
+        /// <summary>
+        /// The fields contained in the table.
+        /// </summary>
+        public ObservableCollection<Field> Fields { get; set; } = new ObservableCollection<Field>();
 
     }
 }

@@ -1,16 +1,45 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
+using Argus.ComponentModel;
 
 namespace Avalon.Sqlite
 {
 
-    public class Schema
+    /// <summary>
+    /// The schema of the SQLite database.
+    /// </summary>
+    public class Schema : Observable
     {
-        public string DatabaseName { get; set; } = "";
+        private string _databaseName;
 
-        public List<Table> Tables { get; set; } = new List<Table>();
+        /// <summary>
+        /// The database name.
+        /// </summary>
+        public string DatabaseName
+        {
+            get => _databaseName;
+            set => Set(ref _databaseName, value, nameof(DatabaseName));
+        }
 
-        public List<View> Views { get; set; } = new List<View>();
+        private ObservableCollection<Table> _tables;
 
+        /// <summary>
+        /// The tables inside the SQLite database.
+        /// </summary>
+        public ObservableCollection<Table> Tables
+        {
+            get => _tables;
+            set => Set(ref _tables, value, nameof(Tables));
+        }
+
+        private ObservableCollection<View> _views;
+
+        /// <summary>
+        /// The views inside the SQLite database.
+        /// </summary>
+        public ObservableCollection<View> Views
+        {
+            get => _views;
+            set => Set(ref _views, value, nameof(Views));
+        }
     }
-
 }

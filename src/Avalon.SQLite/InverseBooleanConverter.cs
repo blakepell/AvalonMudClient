@@ -13,7 +13,7 @@ namespace Avalon.Sqlite
                 throw new InvalidOperationException("The target must be a boolean");
             }
 
-            return !(bool)value;
+            return value != null && !(bool)value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

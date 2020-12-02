@@ -41,7 +41,7 @@ namespace Avalon.Sqlite
         /// <summary>
         /// Actual text to insert.
         /// </summary>
-        public string Text { get; private set; }
+        public string Text { get; }
 
         /// <summary>
         /// A prefix that displays before the Content display.
@@ -51,13 +51,7 @@ namespace Avalon.Sqlite
         /// <summary>
         /// Use this property if you want to show a fancy UIElement in the list that displays.
         /// </summary>
-        public object Content
-        {
-            get
-            {
-                return $"{this.ContentPrefix}{this.Text}";
-            }
-        }
+        public object Content => $"{this.ContentPrefix}{this.Text}";
 
         public object Description { get; set; }
 

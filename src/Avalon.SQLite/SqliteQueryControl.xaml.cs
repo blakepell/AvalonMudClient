@@ -1,8 +1,14 @@
-﻿using System;
+﻿using Dapper;
+using ICSharpCode.AvalonEdit;
+using ICSharpCode.AvalonEdit.CodeCompletion;
+using ICSharpCode.AvalonEdit.Highlighting;
+using ICSharpCode.AvalonEdit.Highlighting.Xshd;
+using Microsoft.Data.Sqlite;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
@@ -11,39 +17,60 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml;
-using Dapper;
-using ICSharpCode.AvalonEdit;
-using ICSharpCode.AvalonEdit.CodeCompletion;
-using ICSharpCode.AvalonEdit.Highlighting;
-using ICSharpCode.AvalonEdit.Highlighting.Xshd;
-using Microsoft.Data.Sqlite;
 
 namespace Avalon.Sqlite
 {
     /// <summary>
     /// Interaction logic for SqliteQueryControl.xaml
     /// </summary>
-    public partial class SqliteQueryControl : UserControl, INotifyPropertyChanged
+    public partial class SqliteQueryControl
     {
         /// <summary>
         /// The database schema current as of the last refresh.
         /// </summary>
-        public Schema Schema { get; set; }
+        public Schema Schema
+        {
+            get => (Schema)GetValue(SchemaProperty);
+            set => SetValue(SchemaProperty, value);
+        }
+
+        public static readonly DependencyProperty SchemaProperty =
+            DependencyProperty.Register(nameof(Schema), typeof(Schema), typeof(SqliteQueryControl), new PropertyMetadata(new Schema()));
+
+        private DataTable _dataTable;
 
         /// <summary>
         /// The results of the last query.
         /// </summary>
-        public DataTable DataTable { get; set; }
+        public DataTable DataTable
+        {
+            get => _dataTable;
+            set
+            {
+                _dataTable = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _connectionString;
 
         /// <summary>
         /// The connection string used to connect to the SQLite database.
         /// </summary>
-        public string ConnectionString { get; set; }
+        public string ConnectionString
+        {
+            get => _connectionString;
+            set
+            {
+                _connectionString = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Internal variable for IsQueryExecuting
         /// </summary>
-        private bool _isQueryExecuting = false;
+        private bool _isQueryExecuting;
 
         /// <summary>
         /// Whether or not a query is currently executing.
@@ -64,7 +91,12 @@ namespace Avalon.Sqlite
         public string QueryText
         {
             get => SqlEditor.Text;
-            set => SqlEditor.Text = value;
+            set
+            {
+
+                SqlEditor.Text = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>
@@ -85,8 +117,11 @@ namespace Avalon.Sqlite
 
             using (var s = asm.GetManifestResourceStream(resourceName))
             {
-                using var reader = new XmlTextReader(s);
-                SqlEditor.SyntaxHighlighting = HighlightingLoader.Load(reader, HighlightingManager.Instance);
+                if (s != null)
+                {
+                    using var reader = new XmlTextReader(s);
+                    SqlEditor.SyntaxHighlighting = HighlightingLoader.Load(reader, HighlightingManager.Instance);
+                }
             }
 
             // Intellisense
@@ -105,13 +140,30 @@ namespace Avalon.Sqlite
         }
 
         /// <summary>
+        /// Handles code that needs to run when the control is unloaded.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SqliteQueryControl_OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            SqlEditor.TextArea.TextEntering -= SqlEditor_TextEntering;
+            SqlEditor.TextArea.TextEntered -= SqlEditor_TextEntered;
+
+            if (this.DataTable != null)
+            {
+                this.DataTable.Clear();
+                this.DataTable.Dispose();
+            }
+        }
+
+        /// <summary>
         /// Executes the query.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private async void ButtonExecuteSql_ClickAsync(object sender, RoutedEventArgs e)
         {
-            await ExecuteQuery();
+            await ExecuteQueryAsync();
         }
 
         /// <summary>
@@ -122,9 +174,8 @@ namespace Avalon.Sqlite
         /// <param name="e"></param>
         private async void ButtonRefreshSchema_ClickAsync(object sender, RoutedEventArgs e)
         {
-            await this.RefreshSchema();
+            await this.RefreshSchemaAsync();
         }
-
 
         /// <summary>
         /// When a key is pressed anywhere on the control.
@@ -135,8 +186,8 @@ namespace Avalon.Sqlite
         {
             if (e.Key == Key.F5)
             {
-                // ExecuteQuery() will handle closing autocompletion since it's called from multiple paths.
-                await ExecuteQuery();
+                // ExecuteQuery() will handle closing auto completion since it's called from multiple paths.
+                await ExecuteQueryAsync();
                 e.Handled = true;
             }
             else if (e.Key == Key.Escape)
@@ -157,13 +208,17 @@ namespace Avalon.Sqlite
         private void SqlResults_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
             string header = e.Column.Header.ToString();
-            e.Column.Header = header.Replace("_", "__");
+
+            if (!string.IsNullOrWhiteSpace(header))
+            {
+                e.Column.Header = header.Replace("_", "__");
+            }
         }
 
         /// <summary>
         /// Executes the query that's currently in the SqlEditor.
         /// </summary>
-        public async Task ExecuteQuery()
+        public async Task ExecuteQueryAsync()
         {
             this.IsQueryExecuting = true;
 
@@ -190,9 +245,9 @@ namespace Avalon.Sqlite
 
                         await using (var dr = await cmd.ExecuteReaderAsync())
                         {
-                            /// The DataSet is required to ignore contraints on the DataTable which is important
-                            /// because queries don't always have the contraints of the source tables (e.g. an inner joined
-                            /// query can bring back records with keys listed many times because of the join).
+                            // The DataSet is required to ignore constraints on the DataTable which is important
+                            // because queries don't always have the constraints of the source tables (e.g. an inner joined
+                            // query can bring back records with keys listed many times because of the join).
                             this.DataTable = new DataTable();
 
                             using (var ds = new DataSet() { EnforceConstraints = false })
@@ -203,7 +258,7 @@ namespace Avalon.Sqlite
                                 this.DataTable.EndLoadData();
                                 ds.Tables.Remove(this.DataTable);
                             }
-
+                            
                             SqlResults.ItemsSource = this.DataTable.DefaultView;
                         }
                     }
@@ -211,7 +266,10 @@ namespace Avalon.Sqlite
                     await conn.CloseAsync();
                 }
 
-                TextBlockStatus.Text = $"{this?.DataTable?.Rows?.Count ?? 0} records returned.";
+                TextBlockStatus.Text = $"{DataTable?.Rows.Count} records returned.";
+
+                // Refresh the DB schema.
+                await this.RefreshSchemaAsync();
             }
             catch (Exception e)
             {
@@ -223,7 +281,10 @@ namespace Avalon.Sqlite
             this.IsQueryExecuting = false;
         }
 
-        public async Task RefreshSchema()
+        /// <summary>
+        /// Refreshes the database schema.
+        /// </summary>
+        public async Task RefreshSchemaAsync()
         {
             var schema = new Schema();
 
@@ -235,7 +296,7 @@ namespace Avalon.Sqlite
 
                 SqlMapper.SetTypeMap(typeof(Table), new ColumnAttributeTypeMapper<Table>());
                 var ieTables = await conn.QueryAsync<Table>("select * from sqlite_master where type = 'table' order by name");
-                schema.Tables = ieTables.ToList();
+                schema.Tables = new ObservableCollection<Table>(ieTables);
 
                 foreach (var table in schema.Tables)
                 {
@@ -244,7 +305,7 @@ namespace Avalon.Sqlite
 
                     // So, the PRAGMA command won't work with parameters AND selecting from pragma_table_info isn't working
                     // with this version of SQLite so we're going to use the SQLite quote function to escape our parameter
-                    // before doing a string concat.  Before people RAWR in anger this was a recommendation from a senior
+                    // before doing a string concat.  Before people claim outrage this was a recommendation from a senior
                     // development on the Microsoft Entity Framework team.
                     var dictionary = new Dictionary<string, object>
                     {
@@ -255,12 +316,12 @@ namespace Avalon.Sqlite
                     string tableName = await conn.QueryFirstAsync<string>("SELECT quote(@TableName)", parameters);
 
                     var ieFields = await conn.QueryAsync<Field>("PRAGMA table_info(" + tableName + ");", parameters);
-                    table.Fields = ieFields.ToList();
+                    table.Fields = new ObservableCollection<Field>(ieFields);
                 }
 
                 SqlMapper.SetTypeMap(typeof(View), new ColumnAttributeTypeMapper<View>());
                 var ieViews = await conn.QueryAsync<View>("select * from sqlite_master where type = 'view' order by name");
-                schema.Views = ieViews.ToList();
+                schema.Views = new ObservableCollection<View>(ieViews);
 
                 foreach (var view in schema.Views)
                 {
@@ -274,14 +335,13 @@ namespace Avalon.Sqlite
 
                     // See comment above about escaping via the quote SQLite function.
                     var ieFields = await conn.QueryAsync<Field>("PRAGMA table_info(" + viewName + ");", parameters);
-                    view.Fields = ieFields.ToList();
+                    view.Fields = new ObservableCollection<Field>(ieFields);
                 }
 
                 await conn.CloseAsync();
             }
 
             this.Schema = schema;
-            this.TreeViewSchema.DataContext = this.Schema;
         }
 
         CompletionWindow _completionWindow;
@@ -354,10 +414,11 @@ namespace Avalon.Sqlite
 
             while (true)
             {
-                if (text == null && text.CompareTo(" ") > 0)
+                if (text == null && String.Compare(text, " ", StringComparison.Ordinal) > 0)
                 {
                     break;
                 }
+
                 if (Regex.IsMatch(text, @".*[^A-Za-z\. ]"))
                 {
                     break;
@@ -402,6 +463,5 @@ namespace Avalon.Sqlite
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }

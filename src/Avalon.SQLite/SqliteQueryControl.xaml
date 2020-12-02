@@ -6,7 +6,9 @@
              xmlns:local="clr-namespace:Avalon.Sqlite"
              xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
              xmlns:ui="http://schemas.modernwpf.com/2019"
-             mc:Ignorable="d" Loaded="QueryControl_Loaded"
+             mc:Ignorable="d"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}" 
+             Loaded="QueryControl_Loaded" Unloaded="SqliteQueryControl_OnUnloaded"
              Name="QueryControl"
              d:DesignHeight="450" d:DesignWidth="800"
              KeyDown="QueryControl_KeyDownAsync">
@@ -69,6 +71,7 @@
         </DockPanel>
 
         <TreeView x:Name="TreeViewSchema"
+                  DataContext="{Binding Schema}"
                   BorderBrush="{StaticResource ResourceKey=GridLines}" Background="#1E1E1E" Foreground="#DCDCDC"
                   Margin="0" Padding="0,0,0,0"
                   BorderThickness="1,1,1,1"
