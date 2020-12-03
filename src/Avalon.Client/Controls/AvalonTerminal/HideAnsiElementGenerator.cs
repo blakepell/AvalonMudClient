@@ -81,8 +81,7 @@ namespace Avalon.Controls
                 };
             }
 
-            int endOffset = endLine.EndOffset;
-            var relevantText = CurrentContext.GetText(startOffset, endOffset - startOffset);
+            var relevantText = CurrentContext.GetText(startOffset, endLine.EndOffset - startOffset);
             int index = relevantText.Text.IndexOf('\x1B', relevantText.Offset, relevantText.Count);
             
             var m = new Match
