@@ -66,9 +66,10 @@ namespace Avalon.Common.Triggers
             // Does this trigger contain any variables?  If so, we'll need to special handle it.  We're also
             // going to require that the VariableReplacement value is set to true so the player has to
             // specifically opt into this.  Since the Gag triggers run -a lot- on the terminal rendering
-            // the bool will be more performant as a first check before the string contains check.  This is
-            // a micro optimization that had real payoff in the performance profiler.
-            if (this.VariableReplacement && Pattern.Contains('@', StringComparison.Ordinal))
+            // the bool will much faster as a first check before the string contains check.  This is
+            // a micro optimization that had real payoff in the performance profiler.  Also when profiling, IndexOf
+            // a char without Ordinal consistently ran faster than Contains and IndexOf with Ordinal.
+            if (this.VariableReplacement && Pattern.IndexOf('@') >= 0)
             {
                 // Replace any variables with their literal values.
                 string tempPattern = this.Conveyor.ReplaceVariablesWithValue(Pattern);
