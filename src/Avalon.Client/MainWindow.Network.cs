@@ -162,7 +162,7 @@ namespace Avalon
             }
             catch (Exception ex)
             {
-                GameTerminal.Append($"ERROR: {ex.Message}", AnsiColors.Red);
+                this.Interp.Conveyor.EchoError($"ERROR (HandleDataReceived): {ex.Message}");
             }
         }
 

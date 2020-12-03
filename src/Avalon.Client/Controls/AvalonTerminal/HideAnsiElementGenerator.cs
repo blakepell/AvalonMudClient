@@ -7,7 +7,37 @@ namespace Avalon.Controls
     /// </summary>
     public class HideAnsiElementGenerator : VisualLineElementGenerator
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="parent">
+        /// A reference to the parent <see cref="AvalonTerminal"/> required in order to
+        /// see if a line has already been Gagged via it's <see cref="GagElementGenerator"/>.
+        /// </param>
+        public HideAnsiElementGenerator(AvalonTerminal parent)
+        {
+            _parent = parent;
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public HideAnsiElementGenerator()
+        {
+                
+        }
+
+        /// <summary>
+        /// Whether this should hide the smaller or larger set of ANSI sequences.  The smaller set might fill the need for
+        /// most muds and have a modest performance boost.  The extended set doesn't cost much more processing and covers
+        /// a wider variety of cases, especially for muds that implement some other standards like VT100.
+        /// </summary>
         public bool ParseExtended { get; set; } = true;
+
+        /// <summary>
+        /// A reference to the parent terminal for this element generator.
+        /// </summary>
+        private AvalonTerminal _parent;
 
         /// <summary>
         /// A basic list of ANSI control sequences.
@@ -39,10 +69,22 @@ namespace Avalon.Controls
         /// <param name="startOffset"></param>
         private Match FindPosition(int startOffset)
         {
-            int endOffset = CurrentContext.VisualLine.LastDocumentLine.EndOffset;
+            var endLine = CurrentContext.VisualLine.LastDocumentLine;
+
+            // If the line has already been collapsed, ignore it.  If we don't ignore it then the client will crash
+            // or throw an exception on the second thing that is gagged (either here or in the GagElementGenerator).
+            if (_parent?.Gag?.CollapsedLineSections.ContainsKey(endLine.LineNumber) ?? false)
+            {
+                return new Match()
+                {
+                    MatchOffset = startOffset
+                };
+            }
+
+            int endOffset = endLine.EndOffset;
             var relevantText = CurrentContext.GetText(startOffset, endOffset - startOffset);
             int index = relevantText.Text.IndexOf('\x1B', relevantText.Offset, relevantText.Count);
-
+            
             var m = new Match
             {
                 MatchOffset = index > -1 ? index - relevantText.Offset + startOffset : -1
