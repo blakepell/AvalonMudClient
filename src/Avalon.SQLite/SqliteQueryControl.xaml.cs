@@ -238,7 +238,7 @@ namespace Avalon.Sqlite
                 await using (var conn = new SqliteConnection(this.ConnectionString))
                 {
                     await conn.OpenAsync();
-                    
+
                     await using (var cmd = conn.CreateCommand())
                     {
                         cmd.CommandText = SqlEditor.Text;
@@ -250,7 +250,7 @@ namespace Avalon.Sqlite
                             // query can bring back records with keys listed many times because of the join).
                             this.DataTable = new DataTable();
 
-                            using (var ds = new DataSet() { EnforceConstraints = false })
+                            using (var ds = new DataSet() {EnforceConstraints = false})
                             {
                                 ds.Tables.Add(this.DataTable);
                                 this.DataTable.BeginLoadData();
@@ -258,7 +258,7 @@ namespace Avalon.Sqlite
                                 this.DataTable.EndLoadData();
                                 ds.Tables.Remove(this.DataTable);
                             }
-                            
+
                             SqlResults.ItemsSource = this.DataTable.DefaultView;
                         }
                     }
@@ -268,8 +268,15 @@ namespace Avalon.Sqlite
 
                 TextBlockStatus.Text = $"{DataTable?.Rows.Count} records returned.";
 
-                // Refresh the DB schema.
-                await this.RefreshSchemaAsync();
+                // Refresh the DB schema if we happen to see creates, drops or alters in the SQL.
+                string sql = SqlEditor.Text.ToLower();
+
+                if (sql.Contains("create")
+                    || sql.Contains("drop")
+                    || sql.Contains("alter"))
+                {
+                    await this.RefreshSchemaAsync();
+                }
             }
             catch (Exception e)
             {
