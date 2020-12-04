@@ -18,7 +18,7 @@ namespace Avalon.Controls
         /// <summary>
         /// Timer that sets the delay on your filtering TextBox.
         /// </summary>
-        DispatcherTimer _typingTimer;
+        readonly DispatcherTimer _typingTimer;
 
         /// <summary>
         /// Whether it's the first time the control has been shown.
@@ -190,19 +190,12 @@ namespace Avalon.Controls
             // Set the initial text for the editor.
             var win = new StringEditor
             {
-                Text = direction.Speedwalk
+                Text = direction.Speedwalk,
+                EditorMode = StringEditor.EditorType.Text,
+                StatusText = $"Direction: {direction.Name}",
+                Owner = App.MainWindow,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
             };
-
-            // Set this to be a text editor.
-            win.EditorMode = StringEditor.EditorType.Text;
-
-            // Show what direction is being edited in the status bar of the string editor window.
-            win.StatusText = $"Direction: {direction.Name}";
-
-            // Startup position of the dialog should be in the center of the parent window.  The
-            // owner has to be set for this to work.
-            win.Owner = App.MainWindow;
-            win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
             // Show the string dialog
             var result = win.ShowDialog();

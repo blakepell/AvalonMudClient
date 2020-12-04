@@ -176,15 +176,13 @@ namespace Avalon
         {
             try
             {
-                // Set the initial text for the editor.
-                var win = new RegexTestWindow();
-
-                // Startup position of the dialog should be in the center of the parent window.  The
-                // owner has to be set for this to work.
-                win.Owner = this;
-                win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                win.CancelButtonText = "Close";
-                win.SaveButtonVisible = true;
+                var win = new RegexTestWindow
+                {
+                    Owner = this,
+                    WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                    CancelButtonText = "Close",
+                    SaveButtonVisible = true
+                };
 
                 // Remove any ANSI codes from the selected text, then escape the pattern.
                 var sb = new StringBuilder(TextPattern.Text);

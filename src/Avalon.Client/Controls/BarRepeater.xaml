@@ -9,16 +9,16 @@
     <UserControl.Resources>
         <DataTemplate x:Key="HorizontalBarTemplate">
             <Grid>
-                <ui:ProgressBar Maximum="{Binding Path=Maximum, Mode=OneWay}" Value="{Binding Path=Value, Mode=OneWay}" ui:CornerRadius="0" 
-                                Background="#171717" Foreground="{Binding Path=Background, Mode=OneWay}" IsIndeterminate="False"
+                <ui:ProgressBar Maximum="{Binding Path=(local:BarRepeater+Bar.Maximum), Mode=OneWay}" Value="{Binding Path=(local:BarRepeater+Bar.Value), Mode=OneWay}" ui:CornerRadius="0" 
+                                Background="#171717" Foreground="{Binding Path=(local:BarRepeater+Bar.Background), Mode=OneWay}" IsIndeterminate="False"
                                 Height="20" Width="250"></ui:ProgressBar>
-                <TextBlock Text="{Binding Path=Text}" 
+                <TextBlock Text="{Binding Path=(local:BarRepeater+Bar.Text)}" 
                            FontFamily="Consolas"
                            FontSize="14"
                            Foreground="White" 
                            HorizontalAlignment="Left" VerticalAlignment="Center"
                            Margin="10,0,0,0"
-                           Tag="{Binding Path=Command}"
+                           Tag="{Binding Path=(local:BarRepeater+Bar.Command)}"
                            PreviewMouseLeftButtonUp="TextBlock_PreviewMouseLeftButtonUp"
                            />
             </Grid>

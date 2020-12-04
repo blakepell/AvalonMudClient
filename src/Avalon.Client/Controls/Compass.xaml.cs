@@ -201,7 +201,7 @@ namespace Avalon.Controls
         {
             var control = (Compass)sender;
 
-            if (control == null || control?.Canvas1 == null)
+            if (control?.Canvas1 == null)
             {
                 return;
             }
@@ -226,7 +226,7 @@ namespace Avalon.Controls
         {
             var control = (Compass)sender;
 
-            if (control == null || control?.Canvas1 == null)
+            if (control?.Canvas1 == null)
             {
                 return;
             }

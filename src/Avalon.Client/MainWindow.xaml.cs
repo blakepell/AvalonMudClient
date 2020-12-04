@@ -422,9 +422,7 @@ namespace Avalon
         /// </summary>
         public void RefreshAutoCompleteEntries()
         {
-            var ac = this.Resources["AutoCompleteCommandProvider"] as AutoCompleteCommandProvider;
-
-            if (ac != null)
+            if (this.Resources["AutoCompleteCommandProvider"] is AutoCompleteCommandProvider ac)
             {
                 ac.RefreshAutoCompleteEntries();
             }
@@ -518,9 +516,11 @@ namespace Avalon
         {
             try
             {
-                var dialog = new OpenFileDialog();
-                dialog.InitialDirectory = App.Settings.AvalonSettings.SaveDirectory;
-                dialog.Filter = "JSON files (*.json)|*.json|Text Files (*.txt)|*.txt|All files (*.*)|*.*";
+                var dialog = new OpenFileDialog
+                {
+                    InitialDirectory = App.Settings.AvalonSettings.SaveDirectory,
+                    Filter = "JSON files (*.json)|*.json|Text Files (*.txt)|*.txt|All files (*.*)|*.*"
+                };
 
                 if (dialog.ShowDialog() == true)
                 {
@@ -565,9 +565,11 @@ namespace Avalon
         {
             try
             {
-                var dialog = new OpenFileDialog();
-                dialog.InitialDirectory = App.Settings.AvalonSettings.SaveDirectory;
-                dialog.Filter = "JSON files (*.json)|*.json|Text Files (*.txt)|*.txt|All files (*.*)|*.*";
+                var dialog = new OpenFileDialog
+                {
+                    InitialDirectory = App.Settings.AvalonSettings.SaveDirectory,
+                    Filter = "JSON files (*.json)|*.json|Text Files (*.txt)|*.txt|All files (*.*)|*.*"
+                };
 
                 if (dialog.ShowDialog() == true)
                 {
@@ -589,7 +591,7 @@ namespace Avalon
                     }
 
                     // Load the file, then set it as the last loaded file -if- it existed.
-                    string json = File.ReadAllText(dialog.FileName);
+                    string json = await File.ReadAllTextAsync(dialog.FileName);
 
                     // This will update this profile with the items from the json package.
                     App.Settings.ImportPackageFromJson(json);
@@ -704,14 +706,12 @@ namespace Avalon
         /// <param name="e"></param>
         private async void MenuItemSendTextToGameAsync_Click(object sender, RoutedEventArgs e)
         {
-            // Set the initial text for the editor.
-            var win = new StringEditor();
-
-            // Startup position of the dialog should be in the center of the parent window.  The
-            // owner has to be set for this to work.
-            win.Owner = App.MainWindow;
-            win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            win.ActionButtonText = "Send";
+            var win = new StringEditor
+            {
+                Owner = App.MainWindow,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                ActionButtonText = "Send"
+            };
 
             // Show the Lua dialog.
             var result = win.ShowDialog();
@@ -734,16 +734,14 @@ namespace Avalon
         /// <param name="e"></param>
         private async void MenuItemSimulateIncomingTextAsync_Click(object sender, RoutedEventArgs e)
         {
-            // Set the initial text for the editor.
-            var win = new StringEditor();
-
-            // Startup position of the dialog should be in the center of the parent window.  The
-            // owner has to be set for this to work.
-            win.Owner = App.MainWindow;
-            win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            win.Title = "Simulate Incoming Text";
-            win.ActionButtonText = "Simulate";
-            win.StatusText = "Although a simulation of incoming text, triggers and aliases will actually fire.";
+            var win = new StringEditor
+            {
+                Owner = App.MainWindow,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                Title = "Simulate Incoming Text",
+                ActionButtonText = "Simulate",
+                StatusText = "Although a simulation of incoming text, triggers and aliases will actually fire."
+            };
 
             // Show the Lua dialog.
             var result = win.ShowDialog();
@@ -904,17 +902,14 @@ namespace Avalon
         /// <param name="e"></param>
         private void MenuItemRegexTester_Click(object sender, RoutedEventArgs e)
         {
-            // Set the initial text for the editor.
-            var win = new RegexTestWindow();
+            var win = new RegexTestWindow
+            {
+                Owner = App.MainWindow,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                CancelButtonText = "Close",
+                SaveButtonVisible = false
+            };
 
-            // Startup position of the dialog should be in the center of the parent window.  The
-            // owner has to be set for this to work.
-            win.Owner = App.MainWindow;
-            win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            win.CancelButtonText = "Close";
-            win.SaveButtonVisible = false;
-
-            // Show the Lua dialog.
             win.Show();
         }
 
@@ -1157,15 +1152,11 @@ namespace Avalon
         /// <param name="e"></param>
         private void MenuItemTickTimerCommands_Click(object sender, RoutedEventArgs e)
         {
-            // Set the initial text for the editor.
-            var win = new TickCommandEditor();
+            var win = new TickCommandEditor
+            {
+                Owner = App.MainWindow, WindowStartupLocation = WindowStartupLocation.CenterOwner
+            };
 
-            // Startup position of the dialog should be in the center of the parent window.  The
-            // owner has to be set for this to work.
-            win.Owner = App.MainWindow;
-            win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-
-            // Show the Lua dialog.
             _ = win.ShowDialog();
         }
 
@@ -1236,11 +1227,10 @@ namespace Avalon
                     return;
                 }
 
-                // Set the initial trigger for the editor.
-                var win = new TriggerEditorWindow(trigger);
-
-                // Show what trigger is being edited in the status bar of the string editor window.
-                win.StatusText = $"This trigger has fired {trigger.Count.ToString().FormatIfNumber(0)} times.";
+                var win = new TriggerEditorWindow(trigger)
+                {
+                    StatusText = $"This trigger has fired {trigger.Count.ToString().FormatIfNumber(0)} times."
+                };
 
                 // Save the last item and type so the Control+Alt+L alias can re-open it.
                 App.InstanceGlobals.LastEdittedId = trigger.Identifier;
@@ -1306,16 +1296,9 @@ namespace Avalon
         /// <param name="e"></param>
         private async void NavBarButton_Click(object sender, RoutedEventArgs e)
         {
-            var btn = sender as Button;
-
-            if (btn != null)
+            if (sender is Button btn && btn.Tag is NavMenuItem navMenuItem)
             {
-                var navMenuItem = btn.Tag as NavMenuItem;
-
-                if (navMenuItem != null)
-                {
-                    await navMenuItem.ExecuteAsync();
-                }
+                await navMenuItem.ExecuteAsync();
             }
         }
 

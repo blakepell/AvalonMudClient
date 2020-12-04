@@ -12,7 +12,7 @@ namespace Avalon.Lua
         /// <summary>
         /// Global variables dictionary.
         /// </summary>
-        Dictionary<string, DynValue> _values = new Dictionary<string, DynValue>();
+        readonly Dictionary<string, DynValue> _values = new Dictionary<string, DynValue>();
 
         /// <summary>
         /// Lock to ensure thread safety.

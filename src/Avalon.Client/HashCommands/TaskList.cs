@@ -46,16 +46,7 @@ namespace Avalon.HashCommands
                     foreach (var task in App.MainWindow.ScheduledTasks.Tasks)
                     {
                         sb.AppendFormat("+ {0, -12} |", task.RunAfter.ToString("hh:mm:ss tt"));
-
-                        if (task.IsLua)
-                        {
-                            sb.AppendFormat(" {0, -8} | ", "Lua");
-                        }
-                        else
-                        {
-                            sb.AppendFormat(" {0, -8} | ", "Command");
-                        }
-
+                        sb.AppendFormat(" {0, -8} | ", task.IsLua ? "Lua" : "Command");
                         sb.AppendFormat("{0, -46} |\r\n", task.Command.TrimEnd('\n').TrimEnd('r').TrimLengthWithEllipses(46));
                     }
 

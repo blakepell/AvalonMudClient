@@ -387,7 +387,7 @@ namespace Avalon
         {
             var element = this.FindDescendantByName((string)e.Parameter);
 
-            if (element != null && element is TabItemEx)
+            if (element is TabItemEx)
             {
                 ((TabItemEx)element).IsSelected = true;
             }

@@ -13,11 +13,6 @@ namespace Avalon.Controls.AutoCompleteTextBox
     {
         public List<AutoCompleteCommand> Items { get; set; } = new List<AutoCompleteCommand>();
 
-        public AutoCompleteCommandProvider()
-        {
-
-        }
-
         /// <summary>
         /// Updates the list of auto complete entries.
         /// </summary>

@@ -31,20 +31,20 @@ namespace Avalon.Lua
         public int LuaScriptsRun { get; set; } = 0;
 
         /// <summary>
-        /// The number of Lua scripts that have errored.
+        /// The number of Lua scripts that have had an error.
         /// </summary>
         public int LuaErrorCount { get; set; } = 0;
 
         /// <summary>
         /// A reference to the mud client's current interpreter.
         /// </summary>
-        private IInterpreter _interpreter;
+        private readonly IInterpreter _interpreter;
 
         /// <summary>
         /// Represents a shared instance of the DynValue that holds our LuaCommands object which is CLR
         /// code that we're exposing to Lua in the "lua" namespace.
         /// </summary>
-        private DynValue _luaCmds;
+        private readonly DynValue _luaCmds;
 
         /// <summary>
         /// Single static Random object that will need to be locked between usages.  Calls to _random
@@ -55,7 +55,7 @@ namespace Avalon.Lua
         /// <summary>
         /// The currently/dynamically loaded CLR types that can be exposed to Lua.
         /// </summary>
-        private Dictionary<string, DynValue> _clrTypes = new Dictionary<string, DynValue>();
+        private readonly Dictionary<string, DynValue> _clrTypes = new Dictionary<string, DynValue>();
 
         /// <summary>
         /// A object to use for locking.

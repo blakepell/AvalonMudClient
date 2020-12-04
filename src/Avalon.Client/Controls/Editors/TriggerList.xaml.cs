@@ -245,10 +245,10 @@ namespace Avalon.Controls
             }
 
             // Set the initial trigger for the editor.
-            var win = new TriggerEditorWindow(trigger);
-
-            // Show what trigger is being edited in the status bar of the string editor window.
-            win.StatusText = $"This trigger has fired {trigger.Count.ToString().FormatIfNumber(0)} times.";
+            var win = new TriggerEditorWindow(trigger)
+            {
+                StatusText = $"This trigger has fired {trigger.Count.ToString().FormatIfNumber(0)} times."
+            };
 
             // Save the last item and type so the Control+Alt+L alias can re-open it.
             App.InstanceGlobals.LastEdittedId = trigger.Identifier;

@@ -851,7 +851,7 @@ namespace Avalon.Lua
             return App.Settings.AppDataDirectory;
         }
 
-        private IInterpreter _interpreter;
+        private readonly IInterpreter _interpreter;
 
     }
 }

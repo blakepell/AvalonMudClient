@@ -105,7 +105,7 @@ namespace Avalon
             {
                 if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    File.WriteAllText(dialog.FileName, Newtonsoft.Json.JsonConvert.SerializeObject(package, Newtonsoft.Json.Formatting.Indented));
+                    await File.WriteAllTextAsync(dialog.FileName, Newtonsoft.Json.JsonConvert.SerializeObject(package, Newtonsoft.Json.Formatting.Indented));
                 }
             }
             catch (Exception ex)
@@ -116,6 +116,8 @@ namespace Avalon
                     Content = ex.Message,
                 };
 
+                await msgbox.ShowAsync();
+                
                 return;
             }
 

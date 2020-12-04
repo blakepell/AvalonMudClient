@@ -71,7 +71,7 @@ namespace Avalon
         /// <summary>
         /// A list of the text boxes on the window that can be iterated through in a for loop.
         /// </summary>
-        private List<RichTextBox> _textBoxList = new List<RichTextBox>();
+        private readonly List<RichTextBox> _textBoxList = new List<RichTextBox>();
 
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Avalon
         /// <summary>
         /// The default status bar color.
         /// </summary>
-        private SolidColorBrush _defaultStatusColor = (SolidColorBrush)(new BrushConverter().ConvertFrom("#007ACC"));
+        private readonly SolidColorBrush _defaultStatusColor = (SolidColorBrush)(new BrushConverter().ConvertFrom("#007ACC"));
 
         /// <summary>
         /// Constructor.

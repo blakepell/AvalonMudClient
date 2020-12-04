@@ -15,7 +15,7 @@ namespace Avalon.Windows
     /// <summary>
     /// Custom Directions dialog.
     /// </summary>
-    public partial class DirectionsSelectWindow : Window
+    public partial class DirectionsSelectWindow
     {
 
         /// <summary>
@@ -134,6 +134,9 @@ namespace Avalon.Windows
         /// <param name="e"></param>
         private void Window_Deactivated(object sender, EventArgs e)
         {
+            // Cleanup any events that need cleaning up.
+            TextBoxSearch.SearchExecuted -= this.TextBoxSearch_SearchExecuted;
+
             // Don't call close here if Close has already been called.
             if (!_forceClose)
             {
@@ -147,9 +150,7 @@ namespace Avalon.Windows
         /// <param name="item"></param>
         private bool DirectionsFilter(object item)
         {
-            var dir = item as Direction;
-
-            if (dir == null)
+            if (!(item is Direction dir))
             {
                 return false;
             }
@@ -164,7 +165,7 @@ namespace Avalon.Windows
         }
 
         /// <summary>
-        /// Handles when a key is pressed in the textbox.  Used for special keys, Up, Down
+        /// Handles when a key is pressed in the <see cref="TextBox"/>.  Used for special keys, Up, Down
         /// and Escape.
         /// </summary>
         /// <param name="sender"></param>
@@ -207,7 +208,7 @@ namespace Avalon.Windows
 
             // Cast the direction from the CurrentItem of the view.
             var direction = _view?.CurrentItem as Direction;
-
+            
             // Must have the speedwalk available to send.
             if (direction == null || string.IsNullOrWhiteSpace(direction.Speedwalk))
             {

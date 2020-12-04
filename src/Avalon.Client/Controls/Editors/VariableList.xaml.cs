@@ -201,19 +201,12 @@ namespace Avalon.Controls
             // Set the initial text for the editor.
             var win = new StringEditor
             {
-                Text = variable.Value
+                Text = variable.Value,
+                EditorMode = StringEditor.EditorType.Text,
+                StatusText = $"Variable: {variable.Key}",
+                Owner = App.MainWindow,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
             };
-
-            // Set this to be a text editor.
-            win.EditorMode = StringEditor.EditorType.Text;
-
-            // Show what alias is being edited in the status bar of the string editor window.
-            win.StatusText = $"Variable: {variable.Key}";
-
-            // Startup position of the dialog should be in the center of the parent window.  The
-            // owner has to be set for this to work.
-            win.Owner = App.MainWindow;
-            win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
             // Show the string dialog
             var result = win.ShowDialog();

@@ -14,10 +14,7 @@ namespace Avalon.Utilities
 
         public Toast()
         {
-            _notifyIcon = new NotifyIcon();
-            // Extracts your app's icon and uses it as notify icon
-            _notifyIcon.Icon = Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
-            // Hides the icon when the notification is closed
+            _notifyIcon = new NotifyIcon {Icon = Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location)};
             _notifyIcon.BalloonTipClosed += (s, e) => _notifyIcon.Visible = false;
         }
 

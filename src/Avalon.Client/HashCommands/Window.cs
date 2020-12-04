@@ -65,8 +65,7 @@ namespace Avalon.HashCommands
                         else if (win == null)
                         {
                             // Window wasn't found, create it.
-                            win = new TerminalWindow();
-                            win.Name = o.Name;
+                            win = new TerminalWindow {Name = o.Name};
 
                             // Add the terminal window to our list.
                             this.Interpreter.Conveyor.WindowList.Add(win);

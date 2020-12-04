@@ -156,9 +156,10 @@ namespace Avalon.HashCommands
                     if (!found)
                     {
                         // Create the trigger.
-                        var t = new Common.Triggers.Trigger(o.Pattern, o.Command ?? "", "", false, o.Id);
-                        t.Group = o.Group ?? "";
-                        t.VariableReplacement = o.VariableReplacement;
+                        var t = new Common.Triggers.Trigger(o.Pattern, o.Command ?? "", "", false, o.Id)
+                        {
+                            Group = o.Group ?? "", VariableReplacement = o.VariableReplacement
+                        };
 
                         if (!string.IsNullOrWhiteSpace(o.StopProcessing))
                         {

@@ -230,13 +230,7 @@ namespace Avalon.Extensions
             rtb.ClearAllBackgrounds();
 
             var tr = rtb.Document.ContentStart.FindText(word);
-
-            if (tr == null)
-            {
-                return;
-            }
-
-            tr.ApplyPropertyValue(TextElement.BackgroundProperty, color);
+            tr?.ApplyPropertyValue(TextElement.BackgroundProperty, color);
         }
 
         /// <summary>

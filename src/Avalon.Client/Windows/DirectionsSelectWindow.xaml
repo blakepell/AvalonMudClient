@@ -34,7 +34,6 @@
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-            <!--<ListBoxItem Margin="0,0,15,0">The Cross Roads</ListBoxItem>-->
         </ListBox>
     </Grid>
 </Window>

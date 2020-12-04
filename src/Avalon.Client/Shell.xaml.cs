@@ -49,8 +49,8 @@ namespace Avalon
 
         public string PrimaryButtonText
         {
-            get { return (string)GetValue(PrimaryButtonTextProperty); }
-            set { SetValue(PrimaryButtonTextProperty, value); }
+            get => (string)GetValue(PrimaryButtonTextProperty);
+            set => SetValue(PrimaryButtonTextProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for PrimaryButtonText.  This enables animation, styling, binding, etc...
@@ -60,8 +60,8 @@ namespace Avalon
 
         public Visibility PrimaryButtonVisibility
         {
-            get { return (Visibility)GetValue(PrimaryButtonVisibilityProperty); }
-            set { SetValue(PrimaryButtonVisibilityProperty, value); }
+            get => (Visibility)GetValue(PrimaryButtonVisibilityProperty);
+            set => SetValue(PrimaryButtonVisibilityProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for PrimaryButtonVisbility.  This enables animation, styling, binding, etc...
@@ -70,8 +70,8 @@ namespace Avalon
 
         public string SecondaryButtonText
         {
-            get { return (string)GetValue(SecondaryButtonTextProperty); }
-            set { SetValue(SecondaryButtonTextProperty, value); }
+            get => (string)GetValue(SecondaryButtonTextProperty);
+            set => SetValue(SecondaryButtonTextProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for SecondaryButtonText.  This enables animation, styling, binding, etc...
@@ -80,8 +80,8 @@ namespace Avalon
 
         public Visibility SecondaryButtonVisibility
         {
-            get { return (Visibility)GetValue(SecondaryButtonVisibilityProperty); }
-            set { SetValue(SecondaryButtonVisibilityProperty, value); }
+            get => (Visibility)GetValue(SecondaryButtonVisibilityProperty);
+            set => SetValue(SecondaryButtonVisibilityProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for SecondaryButtonVisbility.  This enables animation, styling, binding, etc...
@@ -91,15 +91,13 @@ namespace Avalon
 
         public Visibility StatusBarVisibility
         {
-            get { return (Visibility)GetValue(StatusBarVisibilityProperty); }
-            set { SetValue(StatusBarVisibilityProperty, value); }
+            get => (Visibility)GetValue(StatusBarVisibilityProperty);
+            set => SetValue(StatusBarVisibilityProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for StatusBarVisibility.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty StatusBarVisibilityProperty =
             DependencyProperty.Register("StatusBarVisibility", typeof(Visibility), typeof(Shell), new PropertyMetadata(Visibility.Visible));
-
-        public bool BlurParent { get; private set; } = false;
 
         public UIElement BlurredElement { get; private set; }
 
@@ -126,11 +124,8 @@ namespace Avalon
         /// </summary>
         public bool ProgressRingIsActive
         {
-            get { return (bool)GetValue(ProgressRingIsActiveProperty); }
-            set
-            {
-                SetValue(ProgressRingIsActiveProperty, value);
-            }
+            get => (bool)GetValue(ProgressRingIsActiveProperty);
+            set => SetValue(ProgressRingIsActiveProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for ProgressRingIsActive.  This enables animation, styling, binding, etc...
@@ -143,8 +138,8 @@ namespace Avalon
         /// </summary>
         public Visibility ProgressRingVisibility
         {
-            get { return (Visibility)GetValue(ProgressRingVisibilityProperty); }
-            set { SetValue(ProgressRingVisibilityProperty, value); }
+            get => (Visibility)GetValue(ProgressRingVisibilityProperty);
+            set => SetValue(ProgressRingVisibilityProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for visibility.  This enables animation, styling, binding, etc...
@@ -157,8 +152,8 @@ namespace Avalon
         /// </summary>
         public string StatusBarLeftText
         {
-            get { return (string)GetValue(StatusBarLeftTextProperty); }
-            set { SetValue(StatusBarLeftTextProperty, value); }
+            get => (string)GetValue(StatusBarLeftTextProperty);
+            set => SetValue(StatusBarLeftTextProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for StatusBarLeftText.  This enables animation, styling, binding, etc...
@@ -171,8 +166,8 @@ namespace Avalon
         /// </summary>
         public string StatusBarRightText
         {
-            get { return (string)GetValue(StatusBarRightTextProperty); }
-            set { SetValue(StatusBarRightTextProperty, value); }
+            get => (string)GetValue(StatusBarRightTextProperty);
+            set => SetValue(StatusBarRightTextProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for StatusBarRightText.  This enables animation, styling, binding, etc...
@@ -182,8 +177,8 @@ namespace Avalon
 
         public string HeaderTitle
         {
-            get { return (string)GetValue(HeaderTitleProperty); }
-            set { SetValue(HeaderTitleProperty, value); }
+            get => (string)GetValue(HeaderTitleProperty);
+            set => SetValue(HeaderTitleProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for HeaderTitle.  This enables animation, styling, binding, etc...
@@ -211,7 +206,7 @@ namespace Avalon
             }
 
             // If the blurring was originally requested, get rid of the effect on the parent window.
-            if (this.BlurredElement != null && this.BlurredElement.Effect != null)
+            if (BlurredElement?.Effect != null)
             {
                 this.BlurredElement.Effect = null;
                 this.BlurredElement = null;
@@ -219,20 +214,6 @@ namespace Avalon
 
             // If this window exists in the tracked Window list, remove it.
             App.Conveyor.WindowList.Remove(this);
-        }
-
-        /// <summary>
-        /// Allows for the moving of the window with the left mouse button if the area where the title bar
-        /// would be is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void StackPanel_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left)
-            {
-                this.DragMove();
-            }
         }
 
         /// <summary>
@@ -247,9 +228,7 @@ namespace Avalon
                 this.DialogResult = false;
             }
 
-            IShellControl control = this.Container?.Content as IShellControl;
-
-            if (control != null)
+            if (this.Container?.Content is IShellControl control)
             {
                 control.SecondaryButtonClick();
             }
@@ -269,9 +248,7 @@ namespace Avalon
                 this.DialogResult = true;
             }
 
-            IShellControl control = this.Container?.Content as IShellControl;
-
-            if (control != null)
+            if (this.Container?.Content is IShellControl control)
             {
                 control.PrimaryButtonClick();
             }
@@ -318,6 +295,20 @@ namespace Avalon
         public string SecondaryButtonText { get; private set; }
 
         public string HeaderTitle { get; private set; }
+
+        public Visibility SecondaryButtonVisibility { get; private set; }
+
+        public Visibility PrimaryButtonVisibility { get; private set; }
+
+        public Visibility StatusBarVisibility { get; private set; }
+
+        public Visibility ProgressRingVisibility { get; private set; }
+
+        public bool ProgressRingIsActive { get; private set; }
+
+        public string StatusBarLeftText { get; private set; }
+
+        public string StatusBarRightText { get; private set; }
 
     }
 

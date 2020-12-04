@@ -7,7 +7,7 @@ namespace Avalon.Controls
     /// <summary>
     /// Interaction logic for Badge.xaml
     /// </summary>
-    public partial class Badge : UserControl
+    public partial class Badge
     {
 
 

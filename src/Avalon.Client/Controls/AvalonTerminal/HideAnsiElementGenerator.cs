@@ -20,14 +20,6 @@ namespace Avalon.Controls
         }
 
         /// <summary>
-        /// Constructor
-        /// </summary>
-        public HideAnsiElementGenerator()
-        {
-                
-        }
-
-        /// <summary>
         /// Whether this should hide the smaller or larger set of ANSI sequences.  The smaller set might fill the need for
         /// most muds and have a modest performance boost.  The extended set doesn't cost much more processing and covers
         /// a wider variety of cases, especially for muds that implement some other standards like VT100.

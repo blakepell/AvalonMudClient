@@ -112,7 +112,7 @@ namespace Avalon.Timers
         /// <summary>
         /// The Conveyor for allowing for interaction with the UI.
         /// </summary>
-        private IConveyor Conveyor  { get; set; }
+        private IConveyor Conveyor  { get; }
 
         /// <summary>
         /// Timer to time ticks with.

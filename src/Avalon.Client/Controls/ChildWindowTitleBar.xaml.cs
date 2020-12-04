@@ -1,10 +1,7 @@
-﻿using Avalon.Common.Models;
-using ModernWpf;
+﻿using ModernWpf;
 using ModernWpf.Controls;
 using System;
-using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Avalon.Controls
@@ -12,15 +9,15 @@ namespace Avalon.Controls
     /// <summary>
     /// The window controls, minimize, maximize, restore and close that a normal window should have.
     /// </summary>
-    public partial class ChildWindowTitleBar : UserControl
+    public partial class ChildWindowTitleBar
     {
         /// <summary>
         /// The title that should appear.
         /// </summary>
         public string Title
         {
-            get { return (string)GetValue(TitleProperty); }
-            set { SetValue(TitleProperty, value); }
+            get => (string)GetValue(TitleProperty);
+            set => SetValue(TitleProperty, value);
         }
 
         public static readonly DependencyProperty TitleProperty =
@@ -31,9 +28,8 @@ namespace Avalon.Controls
         /// </summary>
         public double ButtonWidth
         {
-            get { return Convert.ToDouble(GetValue(ButtonWidthProperty)); }
-
-            set { SetValue(ButtonWidthProperty, value); }
+            get => Convert.ToDouble(GetValue(ButtonWidthProperty));
+            set => SetValue(ButtonWidthProperty, value);
         }
 
         public static readonly DependencyProperty ButtonWidthProperty =
@@ -44,9 +40,8 @@ namespace Avalon.Controls
         /// </summary>
         public double ButtonHeight
         {
-            get { return Convert.ToDouble(GetValue(ButtonHeightProperty)); }
-
-            set { SetValue(ButtonHeightProperty, value); }
+            get => Convert.ToDouble(GetValue(ButtonHeightProperty));
+            set => SetValue(ButtonHeightProperty, value);
         }
 
         public static readonly DependencyProperty ButtonHeightProperty =
@@ -58,9 +53,8 @@ namespace Avalon.Controls
         /// </summary>
         public bool ShowMaximizeButton
         {
-            get { return Convert.ToBoolean(GetValue(ShowMaximizeButtonProperty)); }
-
-            set { SetValue(ShowMaximizeButtonProperty, value); }
+            get => Convert.ToBoolean(GetValue(ShowMaximizeButtonProperty));
+            set => SetValue(ShowMaximizeButtonProperty, value);
         }
 
         public static readonly DependencyProperty ShowMaximizeButtonProperty =
@@ -72,9 +66,8 @@ namespace Avalon.Controls
         /// </summary>
         public bool ShowRestoreButton
         {
-            get { return Convert.ToBoolean(GetValue(ShowRestoreButtonProperty)); }
-
-            set { SetValue(ShowRestoreButtonProperty, value); }
+            get => Convert.ToBoolean(GetValue(ShowRestoreButtonProperty));
+            set => SetValue(ShowRestoreButtonProperty, value);
         }
 
         public static readonly DependencyProperty ShowRestoreButtonProperty =
@@ -92,7 +85,6 @@ namespace Avalon.Controls
         // Using a DependencyProperty as the backing store for Icon.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty HeaderIconProperty =
             DependencyProperty.Register(nameof(HeaderIcon), typeof(Symbol), typeof(ChildWindowTitleBar), new PropertyMetadata(Symbol.NewWindow));
-
 
         /// <summary>
         /// Constructor

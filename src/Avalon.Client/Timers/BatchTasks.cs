@@ -94,7 +94,7 @@ namespace Avalon.Timers
         /// <summary>
         /// A copy of the current Interpreter so the tasks can be run from here.
         /// </summary>
-        private Interpreter Interpreter { get; set; }
+        private Interpreter Interpreter { get; }
 
         /// <summary>
         /// All pending scheduled.
