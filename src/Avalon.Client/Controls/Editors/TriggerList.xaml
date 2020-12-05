@@ -5,10 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Avalon.Controls"
              xmlns:ui="http://schemas.modernwpf.com/2019"
-             xmlns:avalon="clr-namespace:Avalon"
              mc:Ignorable="d" ui:ThemeManager.RequestedTheme="Dark" 
              d:DesignHeight="450" d:DesignWidth="800"
-             IsVisibleChanged="UserControl_IsVisibleChanged"
+             Loaded="TriggerList_OnLoaded"
              Unloaded="TriggerList_OnUnloaded">
     <Grid>
         <Grid.RowDefinitions>
@@ -38,6 +37,9 @@
                   CanUserAddRows="True"
                   AutoGenerateColumns="False"
                   GridLinesVisibility="All"
+                  EnableColumnVirtualization="True"
+                  EnableRowVirtualization="True"
+                  VirtualizingPanel.VirtualizationMode="Standard"
                   CellEditEnding="DataList_OnCellEditEnding"
                   InitializingNewItem="DataList_InitializingNewItem">
             <DataGrid.Resources>

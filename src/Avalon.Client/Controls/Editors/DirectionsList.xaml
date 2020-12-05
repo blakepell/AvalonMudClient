@@ -5,10 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Avalon.Controls"
              xmlns:ui="http://schemas.modernwpf.com/2019"
-             xmlns:avalon="clr-namespace:Avalon"
              mc:Ignorable="d" ui:ThemeManager.RequestedTheme="Dark" 
              d:DesignHeight="450" d:DesignWidth="800"
-             IsVisibleChanged="UserControl_IsVisibleChanged"
+             Loaded="DirectionList_OnLoaded"
              Unloaded="DirectionList_OnUnloaded">
     <UserControl.Resources>
         <ContextMenu x:Key="RowMenu" x:Shared="true" ui:ControlHelper.CornerRadius="0">
@@ -49,6 +48,9 @@
                   AutoGenerateColumns="False"
                   GridLinesVisibility="All"
                   RowStyle="{StaticResource DefaultRowStyle}"
+                  EnableColumnVirtualization="True"
+                  EnableRowVirtualization="True"
+                  VirtualizingPanel.VirtualizationMode="Standard"
                   CellEditEnding="DataList_OnCellEditEnding">
             <DataGrid.Resources>
                 <ResourceDictionary>

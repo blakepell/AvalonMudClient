@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace Avalon.Controls
 {
@@ -11,7 +10,7 @@ namespace Avalon.Controls
     /// plumbing.  The LoadList method must be called to load a list otherwise the blank list will be
     /// the source in SourceList.
     /// </summary>
-    public partial class ListManager : UserControl
+    public partial class ListManager
     {
         public List<string> SourceList { get; set; }
 

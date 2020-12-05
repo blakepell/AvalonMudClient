@@ -5,8 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Avalon.Controls"
              xmlns:ui="http://schemas.modernwpf.com/2019"
-             xmlns:avalon="clr-namespace:Avalon"
-             xmlns:sys="clr-namespace:System;assembly=System.Runtime"
              mc:Ignorable="d" ui:ThemeManager.RequestedTheme="Dark" 
              d:DesignHeight="450" d:DesignWidth="800"
              Loaded="UserControl_Loaded"
@@ -36,6 +34,9 @@
                   Margin="5,0,5,5" 
                   GridLinesVisibility="Horizontal" BorderThickness="0,0,0,0" HorizontalGridLinesBrush="#222222" VerticalGridLinesBrush="#222222"
                   CanUserAddRows="False" CanUserDeleteRows="False"
+                  EnableColumnVirtualization="True"
+                  EnableRowVirtualization="True"
+                  VirtualizingPanel.VirtualizationMode="Standard"
                   AutoGenerateColumns="False">
             <DataGrid.Resources>
                 <ResourceDictionary>

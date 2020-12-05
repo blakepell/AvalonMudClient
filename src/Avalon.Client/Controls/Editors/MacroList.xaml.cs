@@ -19,17 +19,27 @@ namespace Avalon.Controls
         /// </summary>
         private readonly DispatcherTimer _typingTimer;
 
-        /// <summary>
-        /// Whether it's the first time the control has been shown.
-        /// </summary>
-        public bool FirstLoad { get; set; } = false;
-
         public MacroList()
         {
             InitializeComponent();
             _typingTimer = new DispatcherTimer();
             _typingTimer.Tick += this._typingTimer_Tick;
             DataContext = this;
+        }
+
+        private void MacroList_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            this.FocusFilter();
+
+            // Fix the descriptions on any macros in case they get borked up.
+            this.FixMacros();
+
+            DataList.ItemsSource = new ListCollectionView(App.Settings.ProfileSettings.MacroList)
+            {
+                Filter = Filter
+            };
+
+            DataList.SelectedItem = null;
         }
 
         /// <summary>
@@ -43,41 +53,6 @@ namespace Avalon.Controls
                 {
                     TextFilter.Focus();
                 }));
-        }
-
-        /// <summary>
-        /// This will effectively load the list data into the DataGrid the first time it's shown to the user.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if ((bool)e.NewValue)
-            {
-                this.FocusFilter();
-            }
-
-            // Fix the descriptions on any macros in case they get borked up.
-            this.FixMacros();
-
-            // Load the macro list the first time that it's requested.
-            if (DataList.ItemsSource == null)
-            {
-                var lcv = new ListCollectionView(App.Settings.ProfileSettings.MacroList)
-                {
-                    Filter = Filter
-                };
-
-                DataList.ItemsSource = lcv;
-            }
-
-            // Nothing should be selected at the start.
-            if (this.FirstLoad)
-            {
-                DataList.SelectedItem = null;
-            }
-
-            this.FirstLoad = false;
         }
 
         /// <summary>
@@ -267,6 +242,5 @@ namespace Avalon.Controls
         {
             // Do nothing.
         }
-
     }
 }

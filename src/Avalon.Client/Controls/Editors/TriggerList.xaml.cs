@@ -12,7 +12,7 @@ namespace Avalon.Controls
     /// <summary>
     /// Interaction logic for the TriggerList editor.
     /// </summary>
-    public partial class TriggerList : UserControl, IShellControl
+    public partial class TriggerList : IShellControl
     {
         /// <summary>
         /// Provided because of binding.
@@ -22,11 +22,6 @@ namespace Avalon.Controls
             get => App.Settings.ProfileSettings.TriggersEnabled;
             set => App.Settings.ProfileSettings.TriggersEnabled = value;
         }
-
-        /// <summary>
-        /// Whether it's the first time the control has been shown.
-        /// </summary>
-        public bool FirstLoad { get; set; } = false;
 
         /// <summary>
         /// Timer that sets the delay on your filtering TextBox.
@@ -39,44 +34,19 @@ namespace Avalon.Controls
             _typingTimer = new DispatcherTimer();
             _typingTimer.Tick += this._typingTimer_Tick;
             DataContext = this;
-            this.FirstLoad = true;
         }
 
-        /// <summary>
-        /// Sets the focus onto the filter text box.
-        /// </summary>
-        public void FocusFilter()
+        private void TriggerList_OnLoaded(object sender, RoutedEventArgs e)
         {
-            Dispatcher.BeginInvoke(
-                DispatcherPriority.ContextIdle,
-                new Action(delegate ()
-                {
-                    TextFilter.Focus();
-                }));
-        }
-
-        /// <summary>
-        /// This will effectively load the list data into the DataGrid the first time it's shown to the user.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if ((bool)e.NewValue)
-            {
-                this.FocusFilter();
-            }
+            this.FocusFilter();
 
             // Load the Trigger list the first time that it's requested.
-            if (DataList.ItemsSource == null)
+            DataList.ItemsSource = new ListCollectionView(App.Settings.ProfileSettings.TriggerList)
             {
-                var lcv = new ListCollectionView(App.Settings.ProfileSettings.TriggerList)
-                {
-                    Filter = Filter
-                };
+                Filter = Filter
+            };
 
-                DataList.ItemsSource = lcv;
-            }
+            DataList.SelectedItem = null;
 
             // Manually setup the bindings.  I couldn't get it to work in the Xaml because the AppSettings gets replaced
             // after this control is loaded.
@@ -90,20 +60,25 @@ namespace Avalon.Controls
 
             BindingOperations.SetBinding(CheckBoxTriggersEnabled, CheckBox.IsCheckedProperty, binding);
 
-            // Nothing should be selected at the start.
-            if (this.FirstLoad)
-            {
-                DataList.SelectedItem = null;
-            }
-
             var win = this.FindAscendant<Shell>();
 
             if (win != null)
             {
                 win.StatusBarRightText = $"{App.Settings.ProfileSettings.TriggerList.Count} Triggers";
             }
+        }
 
-            this.FirstLoad = false;
+        /// <summary>
+        /// Sets the focus onto the filter text box.
+        /// </summary>
+        public void FocusFilter()
+        {
+            Dispatcher.BeginInvoke(
+                DispatcherPriority.ContextIdle,
+                new Action(delegate ()
+                {
+                    TextFilter.Focus();
+                }));
         }
 
         /// <summary>
@@ -135,12 +110,10 @@ namespace Avalon.Controls
                 DataList.ItemsSource = null;
             }
 
-            var lcv = new ListCollectionView(App.Settings.ProfileSettings.TriggerList)
+            DataList.ItemsSource = new ListCollectionView(App.Settings.ProfileSettings.TriggerList)
             {
                 Filter = Filter
             };
-
-            DataList.ItemsSource = lcv;
 
             TriggerConveyorSetup();
 
@@ -292,6 +265,5 @@ namespace Avalon.Controls
         {
             // Do nothing.
         }
-
     }
 }
