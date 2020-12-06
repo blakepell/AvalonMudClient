@@ -193,7 +193,6 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="windowName"></param>
         /// <param name="text"></param>
-        /// <param name="append"></param>
         public void EchoWindow(string windowName, string text)
         {
             Application.Current.Dispatcher.Invoke(new Action(() =>
@@ -239,10 +238,8 @@ namespace Avalon.Lua
                 {
                     return;
                 }
-                else
-                {
-                    win.Text = "";
-                }
+
+                win.Text = "";
             }));
 
         }
@@ -292,7 +289,6 @@ namespace Avalon.Lua
         /// <summary>
         /// Returns the current minute.
         /// </summary>
-        /// <returns></returns>
         public int GetMinute()
         {
             return DateTime.Now.Minute;
@@ -301,7 +297,6 @@ namespace Avalon.Lua
         /// <summary>
         /// Returns the current second.
         /// </summary>
-        /// <returns></returns>
         public int GetSecond()
         {
             return DateTime.Now.Second;
@@ -310,7 +305,6 @@ namespace Avalon.Lua
         /// <summary>
         /// Returns the current millisecond.
         /// </summary>
-        /// <returns></returns>
         public int GetMillisecond()
         {
             return DateTime.Now.Millisecond;
@@ -362,7 +356,6 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="low"></param>
         /// <param name="high"></param>
-        /// <returns></returns>
         public int RandomNumber(int low, int high)
         {
             lock (_randomLock)
@@ -376,7 +369,6 @@ namespace Avalon.Lua
         /// Returns a random element from the string array provided.
         /// </summary>
         /// <param name="choices"></param>
-        /// <returns></returns>
         public string RandomChoice(string[] choices)
         {
             if (choices == null)
@@ -399,7 +391,6 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="choices"></param>
         /// <param name="delimiter"></param>
-        /// <returns></returns>
         public string RandomChoice(string choices, string delimiter)
         {
             if (choices == null || delimiter == null)
@@ -414,7 +405,6 @@ namespace Avalon.Lua
         /// <summary>
         /// Returns a new GUID.
         /// </summary>
-        /// <returns></returns>
         public string Guid()
         {
             return System.Guid.NewGuid().ToString();
@@ -424,7 +414,6 @@ namespace Avalon.Lua
         /// Sets the mud client's title.
         /// </summary>
         /// <param name="title"></param>
-        /// <returns></returns>
         public void SetTitle(string title)
         {
             if (title == null)
@@ -449,7 +438,6 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="buf"></param>
         /// <param name="contains"></param>
-        /// <returns></returns>
         public bool Contains(string buf, string contains)
         {
             return Contains(buf, contains, false);
@@ -461,7 +449,6 @@ namespace Avalon.Lua
         /// <param name="buf"></param>
         /// <param name="contains"></param>
         /// <param name="ignoreCase"></param>
-        /// <returns></returns>
         public bool Contains(string buf, string contains, bool ignoreCase)
         {
             if (ignoreCase)
@@ -476,7 +463,6 @@ namespace Avalon.Lua
         /// Trims whitespace off of the front and end of a string.
         /// </summary>
         /// <param name="buf"></param>
-        /// <returns></returns>
         public string Trim(string buf)
         {
             return buf?.Trim() ?? "";
@@ -832,6 +818,33 @@ namespace Avalon.Lua
             }
 
             return list.ToArray();
+        }
+
+        /// <summary>
+        /// Returns the MD5 hash for the given string.
+        /// </summary>
+        /// <param name="value"></param>
+        public string MD5(string value)
+        {
+            return Argus.Cryptography.HashUtilities.MD5Hash(value);
+        }
+
+        /// <summary>
+        /// Returns the SHA256 hash for the given string.
+        /// </summary>
+        /// <param name="value"></param>
+        public string SHA256(string value)
+        {
+            return Argus.Cryptography.HashUtilities.Sha256Hash(value);
+        }
+
+        /// <summary>
+        /// Returns the SHA512 hash for the given string.
+        /// </summary>
+        /// <param name="value"></param>
+        public string SHA512(string value)
+        {
+            return Argus.Cryptography.HashUtilities.Sha512Hash(value);
         }
 
         /// <summary>
