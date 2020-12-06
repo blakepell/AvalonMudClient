@@ -1,6 +1,4 @@
-﻿using Avalon.Controls;
-using System;
-using Argus.Extensions;
+﻿using System;
 using Avalon.Common.Colors;
 using Avalon.Common.Models;
 

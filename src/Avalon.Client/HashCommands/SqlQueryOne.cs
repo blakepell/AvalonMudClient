@@ -124,7 +124,7 @@ namespace Avalon.HashCommands
 
                         if (!o.Silent)
                         {
-                            this.Interpreter.EchoText((string)result);
+                            this.Interpreter.EchoText(result);
                         }
                     }
                     catch (Exception ex)

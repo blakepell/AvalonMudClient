@@ -1,10 +1,6 @@
 ﻿using Avalon.Utilities;
 using ModernWpf.Controls;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Navigation;
 
 namespace Avalon.Controls
 {
@@ -31,7 +27,7 @@ namespace Avalon.Controls
                     // TODO
                     break;
                 case NavType.ShellWindow:
-                    await WindowManager.ShellWindow(this.Title);
+                    await WindowManager.ShellWindowAsync(this.Title);
                     break;
                 case NavType.Alias:
                     // TODO

@@ -34,8 +34,6 @@ namespace Avalon.HashCommands
             }
 
             Interpreter.Conveyor.EchoError($"Group '{this.Parameters}' was not found");
-            return;
         }
-
     }
 }

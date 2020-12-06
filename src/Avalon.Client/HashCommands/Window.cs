@@ -3,9 +3,6 @@ using Avalon.Common.Interfaces;
 using CommandLine;
 using System;
 using System.Linq;
-using System.Threading.Channels;
-using System.Windows.Markup;
-using System.Windows.Shell;
 
 namespace Avalon.HashCommands
 {
@@ -92,7 +89,7 @@ namespace Avalon.HashCommands
                     // Shows a known system window.
                     if (!string.IsNullOrWhiteSpace(o.Show))
                     {
-                        Utilities.WindowManager.ShellWindow(o.Show);
+                        Utilities.WindowManager.ShellWindowAsync(o.Show);
                         return;
                     }
 
@@ -101,7 +98,7 @@ namespace Avalon.HashCommands
                         // List info about all of the active windows.
                         if (this.Interpreter.Conveyor.WindowList.Count == 0)
                         {
-                            this.Interpreter.Conveyor.EchoLog($"No user created terminal windows currently exist.", Common.Models.LogType.Information);
+                            this.Interpreter.Conveyor.EchoLog("No user created terminal windows currently exist.", Common.Models.LogType.Information);
                             return;
                         }
 

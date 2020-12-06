@@ -16,7 +16,7 @@
         <Button x:Name="PART_SplitViewOpen" Style="{DynamicResource WindowButton}"
                     Height="50" Width="50"
                     IsTabStop="False" WindowChrome.IsHitTestVisibleInChrome="True"
-                    BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
+                    BorderBrush="{x:Null}" Background="{x:Null}"
                     ToolTip="Open Navigation Menu"
                     Click="PART_SplitViewOpen_Click">
             <ui:SymbolIcon Symbol="GlobalNavigationButton"></ui:SymbolIcon>

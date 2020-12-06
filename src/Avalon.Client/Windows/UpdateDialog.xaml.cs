@@ -1,11 +1,9 @@
 ﻿using Avalon.GitHub;
 using ModernWpf.Controls;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -13,7 +11,7 @@ using System.Windows;
 
 namespace Avalon
 {
-    public partial class UpdateDialog : ContentDialog
+    public partial class UpdateDialog
     {
         public Release Release { get; set; }
 
@@ -72,7 +70,7 @@ namespace Avalon
                 }
                 else if (updateVersion < thisVersion)
                 {
-                    TextBlockInfo.Text = $"You are using a version that is newer than the general release.";
+                    TextBlockInfo.Text = "You are using a version that is newer than the general release.";
                     this.PrimaryButtonText = "";
                     return;
                 }

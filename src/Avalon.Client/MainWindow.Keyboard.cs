@@ -1,10 +1,8 @@
 ﻿using Avalon.Controls;
-using ICSharpCode.AvalonEdit;
 using ModernWpf;
 using System.Windows.Input;
 using Avalon.Extensions;
 using System.Linq;
-using Argus.Extensions;
 
 namespace Avalon
 {
@@ -359,7 +357,7 @@ namespace Avalon
         private async void ShellWindowInternal(object sender, ExecutedRoutedEventArgs e)
         {
             var param = (string)e.Parameter;
-            await Utilities.WindowManager.ShellWindow(param);
+            await Utilities.WindowManager.ShellWindowAsync(param);
         }
 
         /// <summary>
@@ -387,9 +385,9 @@ namespace Avalon
         {
             var element = this.FindDescendantByName((string)e.Parameter);
 
-            if (element is TabItemEx)
+            if (element is TabItemEx tabItem)
             {
-                ((TabItemEx)element).IsSelected = true;
+                tabItem.IsSelected = true;
             }
         }
 

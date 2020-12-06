@@ -1,5 +1,4 @@
 ﻿using Avalon.Common.Models;
-using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -21,7 +20,7 @@ namespace Avalon
         }
 
         /// <summary>
-        /// Wheter this is an add or edit dialog.
+        /// Whether this is an add or edit dialog.
         /// </summary>
         public EditTypeCode EditType { get; set; } = EditTypeCode.Add;
 

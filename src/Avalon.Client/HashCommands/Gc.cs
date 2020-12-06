@@ -1,5 +1,4 @@
-﻿using Avalon.Common.Colors;
-using System;
+﻿using System;
 using Avalon.Common.Interfaces;
 using CommandLine;
 

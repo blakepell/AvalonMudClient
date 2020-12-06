@@ -1,7 +1,5 @@
-﻿using Avalon.Common.Colors;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Argus.Extensions;
 using Avalon.Common.Interfaces;
 

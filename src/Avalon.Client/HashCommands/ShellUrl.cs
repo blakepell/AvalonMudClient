@@ -1,8 +1,4 @@
-﻿using Argus.Extensions;
-using Avalon.Common.Colors;
-using Avalon.Common.Interfaces;
-using Avalon.Common.Models;
-using CommandLine;
+﻿using Avalon.Common.Interfaces;
 
 namespace Avalon.HashCommands
 {

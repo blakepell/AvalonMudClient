@@ -11,7 +11,7 @@ namespace Avalon.Common.Interfaces
         /// You cannot call this method twice; if you need to reconnect, dispose of this instance and create a new one.
         /// </summary>
         /// <returns></returns>
-        Task Connect();
+        Task ConnectAsync();
 
         /// <summary>
         /// Connect via SOCKS4 proxy. See http://en.wikipedia.org/wiki/SOCKS#SOCKS4.
@@ -22,20 +22,20 @@ namespace Avalon.Common.Interfaces
         /// <param name="socks4ProxyPort"></param>
         /// <param name="socks4ProxyUser"></param>
         /// <returns></returns>
-        Task Connect(string socks4ProxyHost, int socks4ProxyPort, string socks4ProxyUser);
+        Task ConnectAsync(string socks4ProxyHost, int socks4ProxyPort, string socks4ProxyUser);
 
         /// <summary>
         /// Sends a message to the server.
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        Task Send(string message);
+        Task SendAsync(string message);
 
         /// <summary>
         /// Main task that waits for messages from the server.
         /// </summary>
         /// <returns></returns>
-        Task WaitForMessage();
+        Task WaitForMessageAsync();
 
         /// <summary>
         /// Disconnecting will leave TelnetClient in an unusable state.

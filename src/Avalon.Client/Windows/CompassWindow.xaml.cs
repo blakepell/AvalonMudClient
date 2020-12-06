@@ -1,6 +1,5 @@
 ﻿using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
-using System.Text;
 using System.Windows;
 
 namespace Avalon

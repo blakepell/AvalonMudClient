@@ -24,7 +24,7 @@
                             Background="#222222" />
                         <Border 
                             Name="Border" 
-                            Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                            Grid.Row="1" Grid.Column="0"
                             BorderThickness="0,0,0,0"
                             CornerRadius="0" Background="#111111"
                             KeyboardNavigation.TabNavigation="Local"

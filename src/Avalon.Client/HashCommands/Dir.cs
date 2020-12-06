@@ -22,7 +22,7 @@ namespace Avalon.HashCommands
         public override void Execute()
         {
             // Fire and forget.
-            Utilities.WindowManager.ShellWindow("Directions Select");
+            Utilities.WindowManager.ShellWindowAsync("Directions Select");
         }
     }
 }

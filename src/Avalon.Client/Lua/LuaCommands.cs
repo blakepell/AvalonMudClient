@@ -10,7 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Threading;
 
 namespace Avalon.Lua
 {
@@ -64,10 +63,7 @@ namespace Avalon.Lua
             }
             
             // Invoke requested so that the call waits for the result of the function before returning.
-            return Application.Current.Dispatcher.Invoke(new Func<string>(() =>
-            {
-                return _interpreter.Conveyor.GetVariable(key);
-            }));
+            return Application.Current.Dispatcher.Invoke(() => _interpreter.Conveyor.GetVariable(key));
         }
 
         /// <summary>
@@ -87,10 +83,7 @@ namespace Avalon.Lua
                 value = "";
             }
 
-            Application.Current.Dispatcher.Invoke(new Action(() =>
-            {
-                _interpreter.Conveyor.SetVariable(key, value);
-            }));
+            Application.Current.Dispatcher.Invoke(() => _interpreter.Conveyor.SetVariable(key, value));
         }
 
         /// <summary>
@@ -99,10 +92,7 @@ namespace Avalon.Lua
         /// <param name="key"></param>
         public void RemoveVariable(string key)
         {
-            Application.Current.Dispatcher.Invoke(new Action(() =>
-            {
-                _interpreter.Conveyor.RemoveVariable(key);
-            }));
+            Application.Current.Dispatcher.Invoke(() => _interpreter.Conveyor.RemoveVariable(key));
         }
 
         /// <summary>
@@ -116,7 +106,7 @@ namespace Avalon.Lua
                 return;
             }
 
-            Application.Current.Dispatcher.Invoke(new Action(() =>
+            Application.Current.Dispatcher.Invoke(() =>
             {
                 var line = new Line
                 {
@@ -127,7 +117,7 @@ namespace Avalon.Lua
                 };
 
                 _interpreter.Conveyor.EchoText(line, TerminalTarget.Main);
-            }));
+            });
         }
 
         /// <summary>
@@ -148,7 +138,7 @@ namespace Avalon.Lua
 
             var foreground = Colorizer.ColorMapByName(color)?.AnsiColor ?? AnsiColors.Cyan;
 
-            Application.Current.Dispatcher.Invoke(new Action(() =>
+            Application.Current.Dispatcher.Invoke(() =>
             {
                 var line = new Line
                 {
@@ -159,7 +149,7 @@ namespace Avalon.Lua
                 };
 
                 _interpreter.Conveyor.EchoText(line, TerminalTarget.Main);
-            }));
+            });
         }
 
         /// <summary>
@@ -173,7 +163,7 @@ namespace Avalon.Lua
                 return;
             }
 
-            Application.Current.Dispatcher.Invoke(new Action(() =>
+            Application.Current.Dispatcher.Invoke(() =>
             {
                 var line = new Line
                 {
@@ -184,7 +174,7 @@ namespace Avalon.Lua
                 };
 
                 _interpreter.Conveyor.EchoText(line, TerminalTarget.Main);
-            }));
+            });
         }
 
         /// <summary>
@@ -195,7 +185,7 @@ namespace Avalon.Lua
         /// <param name="text"></param>
         public void EchoWindow(string windowName, string text)
         {
-            Application.Current.Dispatcher.Invoke(new Action(() =>
+            Application.Current.Dispatcher.Invoke(() =>
             {
                 // This case is if they specified a window that might exist, we'll find it, edit that.
                 var win = _interpreter.Conveyor.WindowList.FirstOrDefault(x => x.WindowType == WindowType.TerminalWindow && x.Name.Equals(windowName, StringComparison.Ordinal)) as TerminalWindow;
@@ -204,23 +194,21 @@ namespace Avalon.Lua
                 {
                     return;
                 }
-                else
+
+                var sb = Argus.Memory.StringBuilderPool.Take(text);
+                Colorizer.MudToAnsiColorCodes(sb);
+
+                var line = new Line
                 {
-                    var sb = Argus.Memory.StringBuilderPool.Take(text);
-                    Colorizer.MudToAnsiColorCodes(sb);
+                    FormattedText = sb.ToString(),
+                    ForegroundColor = AnsiColors.Default,
+                    ReverseColors = false
+                };
 
-                    var line = new Line
-                    {
-                        FormattedText = sb.ToString(),
-                        ForegroundColor = AnsiColors.Default,
-                        ReverseColors = false
-                    };
+                win.AppendText(line);
 
-                    win.AppendText(line);
-
-                    Argus.Memory.StringBuilderPool.Return(sb);
-                }
-            }));
+                Argus.Memory.StringBuilderPool.Return(sb);
+            });
         }
 
         /// <summary>
@@ -229,7 +217,7 @@ namespace Avalon.Lua
         /// <param name="windowName"></param>
         public void ClearWindow(string windowName)
         {
-            Application.Current.Dispatcher.Invoke(new Action(() =>
+            Application.Current.Dispatcher.Invoke(() =>
             {
                 // This case is if they specified a window that might exist, we'll find it, edit that.
                 var win = _interpreter.Conveyor.WindowList.FirstOrDefault(x => x.WindowType == WindowType.TerminalWindow && x.Name.Equals(windowName, StringComparison.Ordinal)) as TerminalWindow;
@@ -240,7 +228,7 @@ namespace Avalon.Lua
                 }
 
                 win.Text = "";
-            }));
+            });
 
         }
 
@@ -398,8 +386,7 @@ namespace Avalon.Lua
                 return "";
             }
 
-            var items = choices.Split(delimiter);
-            return RandomChoice(items);
+            return RandomChoice(choices.Split(delimiter));
         }
 
         /// <summary>
@@ -595,37 +582,52 @@ namespace Avalon.Lua
         public string ListRemove(string sourceList, string value, char delimiter = '|')
         {
             var list = sourceList.Split(delimiter);
-            var sb = new StringBuilder();
+            var sb = Argus.Memory.StringBuilderPool.Take();
 
-            foreach (string item in list)
+            try
             {
-                if (!item.Equals(value, StringComparison.Ordinal))
+                foreach (string item in list)
                 {
-                    sb.AppendFormat("|{0}", value);
+                    if (!item.Equals(value, StringComparison.Ordinal))
+                    {
+                        sb.AppendFormat("|{0}", value);
+                    }
                 }
-            }
 
-            return sb.ToString().Trim('|');
+                return sb.ToString().Trim('|');
+            }
+            finally
+            {
+                Argus.Memory.StringBuilderPool.Return(sb);
+            }
         }
 
         /// <summary>
         /// Removes 1 to n items from the end of a list.
         /// </summary>
         /// <param name="sourceList"></param>
-        /// <param name="value"></param>
+        /// <param name="items"></param>
         /// <param name="delimiter"></param>
         public string ListRemove(string sourceList, int items, char delimiter = '|')
         {
             var list = sourceList.Split(delimiter);
-            var sb = new StringBuilder();
-            int keep = list.Count() - items;
+            var sb = Argus.Memory.StringBuilderPool.Take();
 
-            for (int i = 0; i < keep; i++)
+            try
             {
-                sb.AppendFormat("|{0}", list[i]);
-            }
+                int keep = list.Count() - items;
 
-            return sb.ToString().Trim('|');
+                for (int i = 0; i < keep; i++)
+                {
+                    sb.AppendFormat("|{0}", list[i]);
+                }
+
+                return sb.ToString().Trim('|');
+            }
+            finally
+            {
+                Argus.Memory.StringBuilderPool.Return(sb);
+            }
         }
 
         /// <summary>
@@ -646,7 +648,6 @@ namespace Avalon.Lua
         /// <param name="buf"></param>
         /// <param name="searchValue"></param>
         /// <param name="replaceValue"></param>
-        /// <returns></returns>
         public string Replace(string buf, string searchValue, string replaceValue)
         {
             if (buf == null)
@@ -693,7 +694,6 @@ namespace Avalon.Lua
         /// <param name="command"></param>
         /// <param name="isLua"></param>
         /// <param name="seconds"></param>
-        /// <returns></returns>
         public void AddScheduledTask(string command, bool isLua, int seconds)
         {
             App.MainWindow.ScheduledTasks.AddTask(command, isLua, DateTime.Now.AddSeconds(seconds));
@@ -730,7 +730,6 @@ namespace Avalon.Lua
         /// Formats a number as string with commas and no decimal places.
         /// </summary>
         /// <param name="value"></param>
-        /// <returns></returns>
         public string FormatNumber(string value)
         {
             if (value == null)
@@ -746,7 +745,6 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="value"></param>
         /// <param name="decimalPlaces"></param>
-        /// <returns></returns>
         public string FormatNumber(string value, int decimalPlaces)
         {
             if (value == null)
@@ -919,6 +917,5 @@ namespace Avalon.Lua
         }
 
         private readonly IInterpreter _interpreter;
-
     }
 }

@@ -1,5 +1,4 @@
-﻿using Argus.Extensions;
-using Avalon.Common.Interfaces;
+﻿using Avalon.Common.Interfaces;
 using CommandLine;
 
 namespace Avalon.HashCommands
@@ -37,7 +36,6 @@ namespace Avalon.HashCommands
 
             // Display the help or error output from the parameter parsing.
             this.DisplayParserOutput(result);
-
         }
 
         /// <summary>
@@ -50,9 +48,6 @@ namespace Avalon.HashCommands
 
             [Value(1, Required = false, HelpText = "The ending line in the range.")]
             public int EndLine { get; set; } = 0;
-
         }
-
     }
-
 }

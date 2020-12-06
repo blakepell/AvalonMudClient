@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Avalon
+﻿namespace Avalon
 {
     /// <summary>
     /// Global variables that live in the app but are not persisted across boots of the

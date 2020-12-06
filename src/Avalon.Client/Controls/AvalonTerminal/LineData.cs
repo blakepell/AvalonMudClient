@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Avalon.Controls
+﻿namespace Avalon.Controls
 {
     /// <summary>
     /// A class used to return data about the current state of a given line that the

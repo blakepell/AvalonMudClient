@@ -1,9 +1,5 @@
-﻿using Argus.Extensions;
-using System;
-using System.Globalization;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows.Controls;
-using System.Windows.Data;
 
 namespace Avalon.Controls
 {

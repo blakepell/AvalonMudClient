@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -18,7 +17,7 @@ namespace Avalon.Lua
         /// <summary>
         /// Global variables available to Lua that are shared across all of our Lua sessions.
         /// </summary>
-        public LuaGlobalVariables LuaGlobalVariables { get; private set; }
+        public LuaGlobalVariables LuaGlobalVariables { get; }
 
         /// <summary>
         /// A counter of the number of Lua scripts that are actively executing.

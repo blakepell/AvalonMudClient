@@ -23,9 +23,6 @@
                            />
             </Grid>
         </DataTemplate>
-        <ui:StackLayout x:Key="HorizontalStackLayout"
-                        Orientation="Vertical"
-                        Spacing="4" />
         <ui:UniformGridLayout
             x:Key="UniformGridLayout"
             MinItemWidth="215"

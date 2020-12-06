@@ -6,9 +6,9 @@
         mc:Ignorable="d"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="True" 
-        x:Name="ListManagerWin" TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextFormattingMode="Ideal"
         ui:TitleBar.Background="#2D2D30" Background="#171717" BorderBrush="#007ACC"
-        xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" xmlns:local="clr-namespace:Avalon.Controls"
+        xmlns:local="clr-namespace:Avalon.Controls"
         Title="List Manager" Height="400" Width="600">
     <Grid>
         <Grid.RowDefinitions>

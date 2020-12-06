@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ui="http://schemas.modernwpf.com/2019"
                     xmlns:controls="clr-namespace:Avalon.Controls">
     <Style TargetType="{x:Type controls:TabControlEx}">
         <Setter Property="Template">
@@ -25,7 +24,7 @@
                         <!-- The .9 is weird on the border thickness but fixes a weird double pixel border on 4k monitors -->
                         <Border 
                             Name="Border" 
-                            Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                            Grid.Row="1" Grid.Column="0"
                             BorderThickness="0,.9,0,0"
                             BorderBrush="Gray"
                             Margin="0"

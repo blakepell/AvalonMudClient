@@ -1,12 +1,11 @@
-﻿using Avalon.Common.Interfaces;
-using Avalon.Common.Models;
-using ModernWpf;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Input;
 using System.Windows.Threading;
+using Avalon.Common.Interfaces;
+using Avalon.Common.Models;
+using ModernWpf;
 
 namespace Avalon.Controls
 {
@@ -33,13 +32,13 @@ namespace Avalon.Controls
         {
             InitializeComponent();
             _typingTimer = new DispatcherTimer();
-            _typingTimer.Tick += this._typingTimer_Tick;
+            _typingTimer.Tick += _typingTimer_Tick;
             DataContext = this;
         }
 
         private void AliasList_OnLoaded(object sender, RoutedEventArgs e)
         {
-            this.FocusFilter();
+            FocusFilter();
 
             // Load the alias list the first time that it's requested.
             DataList.ItemsSource = new ListCollectionView(App.Settings.ProfileSettings.AliasList)
@@ -76,10 +75,7 @@ namespace Avalon.Controls
         {
             Dispatcher.BeginInvoke(
                 DispatcherPriority.ContextIdle,
-                new Action(delegate ()
-                {
-                    TextFilter.Focus();
-                }));
+                new Action(() => TextFilter.Focus()));
         }
 
         /// <summary>
@@ -97,7 +93,7 @@ namespace Avalon.Controls
             }
 
             // Unsubscribe to the tick event so it doesn't leak.
-            _typingTimer.Tick -= this._typingTimer_Tick;
+            _typingTimer.Tick -= _typingTimer_Tick;
         }
 
         /// <summary>
@@ -138,7 +134,7 @@ namespace Avalon.Controls
         /// </summary>
         public int SelectedCount()
         {
-            return DataList?.SelectedItems?.Count ?? 0;
+            return DataList?.SelectedItems.Count ?? 0;
         }
 
         /// <summary>

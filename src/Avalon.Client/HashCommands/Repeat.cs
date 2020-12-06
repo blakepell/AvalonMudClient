@@ -24,7 +24,7 @@ namespace Avalon.HashCommands
 
             if (!argOne.Item1.IsNumeric())
             {
-                Interpreter.Conveyor.EchoError($"--> Syntax: #repeat <number of times> <command>");
+                Interpreter.Conveyor.EchoError("--> Syntax: #repeat <number of times> <command>");
 
             }
 

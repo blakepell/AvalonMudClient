@@ -12,9 +12,7 @@ using System.Windows.Controls;
 using Microsoft.Win32;
 using System.Reflection;
 using System.Threading.Tasks;
-using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
-using Avalon.Common.Plugins;
 using ModernWpf.Controls;
 using System.Diagnostics;
 using System.Windows.Media;
@@ -92,7 +90,7 @@ namespace Avalon
             this.StartupMessages();
 
             // The settings for the app load in the app startup, they will then try to load the last profile that was used.
-            App.Conveyor.EchoLog($"Avalon Mud Client Version {Assembly.GetExecutingAssembly()?.GetName()?.Version.ToString() ?? "Unknown"}", LogType.Information);
+            App.Conveyor.EchoInfo($"Avalon Mud Client Version {Assembly.GetExecutingAssembly()?.GetName()?.Version.ToString() ?? "Unknown"}");
 
             try
             {
@@ -100,17 +98,17 @@ namespace Avalon
 
                 if (count == 1)
                 {
-                    App.Conveyor.EchoLog($"{count} plugin was updated.", LogType.Information);
+                    App.Conveyor.EchoSuccess($"{count} plugin was updated.");
                 }
                 else if (count > 1)
                 {
-                    App.Conveyor.EchoLog($"{count} plugins were updated.", LogType.Information);
+                    App.Conveyor.EchoSuccess($"{count} plugins were updated.");
                 }
             }
             catch (Exception ex)
             {
-                App.Conveyor.EchoLog("An error occured copying updated plugins.", LogType.Error);
-                App.Conveyor.EchoLog(ex.Message, LogType.Error);
+                App.Conveyor.EchoError("An error occurred copying updated plugins.");
+                App.Conveyor.EchoError(ex.Message);
             }
 
             try
@@ -119,22 +117,22 @@ namespace Avalon
 
                 if (count > 0)
                 {
-                    App.Conveyor.EchoLog($"{count} files(s) deleted from the updates folder.", LogType.Information);
+                    App.Conveyor.EchoInfo($"{count} files(s) deleted from the updates folder.");
                 }
             }
             catch (Exception ex)
             {
-                App.Conveyor.EchoLog("An error occured removing old updates from the updates folder.", LogType.Error);
-                App.Conveyor.EchoLog(ex.Message, LogType.Error);
+                App.Conveyor.EchoError("An error occurred removing old updates from the updates folder.");
+                App.Conveyor.EchoError(ex.Message);
             }
 
             try
             {
                 if (App.Settings.AvalonSettings.DeveloperMode)
                 {
-                    App.Conveyor.EchoLog($"Global Settings Folder: {App.Settings.AppDataDirectory}", LogType.Information);
-                    App.Conveyor.EchoLog($"Global Settings File:   {App.Settings.AvalonSettingsFile}", LogType.Information);
-                    App.Conveyor.EchoLog($"Profiles Folder: {App.Settings.AvalonSettings.SaveDirectory}", LogType.Information);
+                    App.Conveyor.EchoInfo($"Global Settings Folder: {App.Settings.AppDataDirectory}");
+                    App.Conveyor.EchoInfo($"Global Settings File:   {App.Settings.AvalonSettingsFile}");
+                    App.Conveyor.EchoInfo($"Profiles Folder: {App.Settings.AvalonSettings.SaveDirectory}");
                 }
 
                 // Try to load the last profile loaded, if not found create a new profile.
@@ -146,11 +144,11 @@ namespace Avalon
                 {
                     if (string.IsNullOrWhiteSpace(App.Settings.AvalonSettings.LastLoadedProfilePath))
                     {
-                        App.Conveyor.EchoLog($"New Profile being created.", LogType.Information);
+                        App.Conveyor.EchoInfo("New Profile being created.");
                     }
                     else
                     {
-                        App.Conveyor.EchoLog($"Last Profile Loaded Not Found: {App.Settings.AvalonSettings.LastLoadedProfilePath}", LogType.Warning);
+                        App.Conveyor.EchoInfo($"Last Profile Loaded Not Found: {App.Settings.AvalonSettings.LastLoadedProfilePath}");
                     }
                 }
 
@@ -232,15 +230,14 @@ namespace Avalon
             }
             catch (Exception ex)
             {
-                App.Conveyor.EchoLog("A critical error on startup occured.", LogType.Error);
-                App.Conveyor.EchoLog(ex.Message, LogType.Error);
-                App.Conveyor.EchoText(ex?.StackTrace ?? "No stack trace available.");
-                return;
+                App.Conveyor.EchoError("A critical error on startup occurred.");
+                App.Conveyor.EchoError(ex.Message);
+                App.Conveyor.EchoError(ex?.StackTrace ?? "No stack trace available.");
             }
         }
 
         /// <summary>
-        /// Any important messages or notices that should be echo'd to the client on startup.
+        /// Any important messages or notices that should be echoed to the client on startup.
         /// </summary>
         private void StartupMessages()
         {
@@ -499,7 +496,7 @@ namespace Avalon
                 App.MainWindow.SaveGridState();
                 App.Settings.SaveSettings();
                 App.Conveyor.EchoText("\r\n");
-                App.Conveyor.EchoLog($"Settings Saved", LogType.Success);
+                App.Conveyor.EchoLog("Settings Saved", LogType.Success);
             }
             catch (Exception ex)
             {
@@ -605,7 +602,7 @@ namespace Avalon
             catch (Exception ex)
             {
                 Interp.EchoText("");
-                Interp.Conveyor.EchoLog($"An error occured: {ex.Message}.\r\n", LogType.Error);
+                Interp.Conveyor.EchoLog($"An error occurred: {ex.Message}.\r\n", LogType.Error);
             }
         }
 
@@ -857,7 +854,7 @@ namespace Avalon
         /// <param name="e"></param>
         private async void MenuItemUpdatePlugins_Click(object sender, RoutedEventArgs e)
         {
-            await WindowManager.ShellWindow("UpdateDLLPlugin");
+            await WindowManager.ShellWindowAsync("UpdateDLLPlugin");
         }
 
         /// <summary>
@@ -890,7 +887,7 @@ namespace Avalon
             }
             catch (Exception ex)
             {
-                this.Interp.Conveyor.EchoLog("An error occured setting the focus on the input box when the window received focus.", LogType.Error);
+                this.Interp.Conveyor.EchoLog("An error occurred setting the focus on the input box when the window received focus.", LogType.Error);
                 this.Interp.Conveyor.EchoLog(ex.Message, LogType.Error);
             }
         }
@@ -1285,8 +1282,7 @@ namespace Avalon
         {
             var menuItem = e.Source as MenuItem;
             string requestedWindow = menuItem.Tag.ToString();
-
-            await Utilities.WindowManager.ShellWindow(requestedWindow);
+            await WindowManager.ShellWindowAsync(requestedWindow);
         }
 
         /// <summary>

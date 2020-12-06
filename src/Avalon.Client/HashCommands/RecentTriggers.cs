@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Avalon.Common.Interfaces;
-using Argus.Extensions;
-using Avalon.Common.Colors;
 
 namespace Avalon.HashCommands
 {

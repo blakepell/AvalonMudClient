@@ -33,7 +33,7 @@ namespace Avalon.HashCommands
 
                     if (App.MainWindow.ScheduledTasks.Tasks.Count == 0)
                     {
-                        this.Interpreter.Conveyor.EchoLog($"There are no scheduled tasks that are in the queue.", LogType.Information);
+                        this.Interpreter.Conveyor.EchoLog("There are no scheduled tasks that are in the queue.", LogType.Information);
                         return;
                     }
 

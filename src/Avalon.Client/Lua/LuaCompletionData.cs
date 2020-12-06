@@ -2,7 +2,6 @@
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Editing;
 using System;
-using System.Text;
 
 namespace Avalon.Lua
 {

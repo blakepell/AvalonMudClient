@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Data;
@@ -108,7 +107,8 @@ namespace Avalon.Utilities
         /// <summary>
         /// Processes a speedwalk command into a set of commands.
         /// </summary>
-        /// <param name="leaveParens">Whether or not to leave parenthesis around commands.  The default value is false.</param>
+        /// <param name="input"></param>
+        /// <param name="leaveParens">Whether or not to leave parenthesis around commands.  The default value is false.</param>/// 
         public static string Speedwalk(string input, bool leaveParens = false)
         {
             if (string.IsNullOrWhiteSpace(input))
@@ -423,6 +423,7 @@ namespace Avalon.Utilities
         /// <param name="propertyName">The name of the property on the source object.</param>
         /// <param name="depObj">The name of the DependencyObject, usually the control.</param>
         /// <param name="depProp">The DependencyProperty on the control.</param>
+        /// <param name="converter"></param>
         public static void SetBinding(object o, string propertyName, DependencyObject depObj, DependencyProperty depProp, IValueConverter converter = null)
         {
             var binding = new Binding

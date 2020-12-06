@@ -1,5 +1,4 @@
-﻿using Argus.Extensions;
-using Avalon.Common.Interfaces;
+﻿using Avalon.Common.Interfaces;
 using Avalon.Common.Settings;
 using System;
 using System.Linq;
@@ -11,7 +10,6 @@ using Avalon.Common.Models;
 using System.Threading.Tasks;
 using Avalon.Colors;
 using System.Collections.Generic;
-using System.Windows.Threading;
 
 namespace Avalon
 {
@@ -130,10 +128,10 @@ namespace Avalon
 
                 string buf = "";
 
-                Application.Current.Dispatcher.Invoke(new Action(() =>
+                Application.Current.Dispatcher.Invoke(() =>
                 {
                     buf = App.MainWindow.Title;
-                }));
+                });
 
                 return buf;
             }
@@ -699,6 +697,7 @@ namespace Avalon
         /// </summary>
         /// <param name="caption"></param>
         /// <param name="title"></param>
+        /// <param name="prepopulateText"></param>
         public async Task<string> InputBox(string caption, string title, string prepopulateText)
         {
             var win = new InputBoxDialog
@@ -938,10 +937,10 @@ namespace Avalon
 
                 string text = "";
 
-                Application.Current.Dispatcher.Invoke(new Action(() =>
+                Application.Current.Dispatcher.Invoke(() =>
                 {
                     text = App.MainWindow.BarRepeater.StatusText;
-                }));
+                });
 
                 return text;
             }
@@ -954,10 +953,10 @@ namespace Avalon
                     return;
                 }
 
-                Application.Current.Dispatcher.Invoke(new Action(() =>
+                Application.Current.Dispatcher.Invoke(() =>
                 {
                     App.MainWindow.BarRepeater.StatusText = value;
-                }));
+                });
             }
         }
 
@@ -976,10 +975,10 @@ namespace Avalon
 
                 bool visible = false;
 
-                Application.Current.Dispatcher.Invoke(new Action(() =>
+                Application.Current.Dispatcher.Invoke(() =>
                 {
                     visible = App.MainWindow.BarRepeater.StatusBarVisible;
-                }));
+                });
 
                 return visible;
             }
@@ -992,10 +991,10 @@ namespace Avalon
                     return;
                 }
 
-                Application.Current.Dispatcher.Invoke(new Action(() =>
+                Application.Current.Dispatcher.Invoke(() =>
                 {
                     App.MainWindow.BarRepeater.StatusBarVisible = value;
-                }));
+                });
             }
         }
 

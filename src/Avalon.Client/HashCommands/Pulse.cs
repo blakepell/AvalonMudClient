@@ -4,7 +4,6 @@ using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
 using CommandLine;
 using System.Threading.Tasks;
-using System.Windows.Media;
 
 namespace Avalon.HashCommands
 {

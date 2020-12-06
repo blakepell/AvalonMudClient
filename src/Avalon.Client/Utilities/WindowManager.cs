@@ -4,7 +4,6 @@ using Avalon.Sqlite;
 using Avalon.Windows;
 using ModernWpf.Controls;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -19,9 +18,9 @@ namespace Avalon.Utilities
 
         /// <summary>
         /// Event used from menus to shell any number of Shell based UserControls into windows.
-        /// TODO Clean this function up, there's a lot of redudant code here.
+        /// TODO Clean this function up, there's a lot of redundant code here.
         /// </summary>
-        public static async Task ShellWindow(string windowName)
+        public static async Task ShellWindowAsync(string windowName)
         {
             // First see if an instance of this window already exists.
             var instance = App.Conveyor.WindowList.Find(x => x.Name == windowName);

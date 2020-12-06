@@ -56,11 +56,11 @@ namespace Avalon.Network
         /// When this task completes you are connected. 
         /// You cannot call this method twice; if you need to reconnect, dispose of this instance and create a new one.
         /// </summary>
-        public async Task Connect()
+        public async Task ConnectAsync()
         {
             if (_tcpClient != null)
             {
-                throw new NotSupportedException($"{nameof(Connect)} aborted: Reconnecting is not supported. You must dispose of this instance and instantiate a new TelnetClient");
+                throw new NotSupportedException($"{nameof(ConnectAsync)} aborted: Reconnecting is not supported. You must dispose of this instance and instantiate a new TelnetClient");
             }
 
             _tcpClient = new TcpClient();
@@ -70,7 +70,7 @@ namespace Avalon.Network
             _tcpWriter = new StreamWriter(_tcpClient.GetStream()) { AutoFlush = true };
 
             // Fire-and-forget looping task that waits for messages to arrive
-            WaitForMessage();
+            WaitForMessageAsync();
         }
 
         /// <summary>
@@ -81,11 +81,11 @@ namespace Avalon.Network
         /// <param name="socks4ProxyHost"></param>
         /// <param name="socks4ProxyPort"></param>
         /// <param name="socks4ProxyUser"></param>
-        public async Task Connect(string socks4ProxyHost, int socks4ProxyPort, string socks4ProxyUser)
+        public async Task ConnectAsync(string socks4ProxyHost, int socks4ProxyPort, string socks4ProxyUser)
         {
             if (_tcpClient != null)
             {
-                throw new NotSupportedException($"{nameof(Connect)} aborted: Reconnecting is not supported. You must dispose of this instance and instantiate a new TelnetClient");
+                throw new NotSupportedException($"{nameof(ConnectAsync)} aborted: Reconnecting is not supported. You must dispose of this instance and instantiate a new TelnetClient");
             }
 
             _tcpClient = new TcpClient();
@@ -137,7 +137,7 @@ namespace Avalon.Network
                     case 0x5d:
                         throw new InvalidOperationException("Proxy connect request failed because client's identd could not confirm the user ID string in the request");
                     default:
-                        throw new InvalidOperationException("Proxy connect request failed, unknown error occured");
+                        throw new InvalidOperationException("Proxy connect request failed, unknown error occurred");
                 }
             }
 
@@ -145,10 +145,10 @@ namespace Avalon.Network
             _tcpWriter = new StreamWriter(_tcpClient.GetStream()) { AutoFlush = true };
 
             // Fire-and-forget looping task that waits for messages to arrive
-            WaitForMessage();
+            WaitForMessageAsync();
         }
 
-        public async Task Send(string message)
+        public async Task SendAsync(string message)
         {
             try
             {
@@ -166,23 +166,23 @@ namespace Avalon.Network
             {
                 // We're waiting to release our semaphore, and someone cancelled the task on us (I'm looking at you, WaitForMessages...)
                 // This happens if we've just sent something and then disconnect immediately
-                TraceInformation($"{nameof(Send)} aborted: {nameof(_internalCancellation.IsCancellationRequested)} == true");
+                TraceInformation($"{nameof(SendAsync)} aborted: {nameof(_internalCancellation.IsCancellationRequested)} == true");
             }
             catch (ObjectDisposedException)
             {
                 // This happens during ReadLineAsync() when we call Disconnect() and close the underlying stream
                 // This is an expected exception during disconnection if we're in the middle of a send
-                TraceInformation($"{nameof(Send)} failed: {nameof(_tcpWriter)} or {nameof(_tcpWriter.BaseStream)} disposed");
+                TraceInformation($"{nameof(SendAsync)} failed: {nameof(_tcpWriter)} or {nameof(_tcpWriter.BaseStream)} disposed");
             }
             catch (IOException)
             {
                 // This happens when we start WriteLineAsync() if the socket is disconnected unexpectedly
-                TraceError($"{nameof(Send)} failed: Socket disconnected unexpectedly");
+                TraceError($"{nameof(SendAsync)} failed: Socket disconnected unexpectedly");
                 throw;
             }
             catch (Exception error)
             {
-                TraceError($"{nameof(Send)} failed: {error}");
+                TraceError($"{nameof(SendAsync)} failed: {error}");
                 throw;
             }
             finally
@@ -192,7 +192,7 @@ namespace Avalon.Network
             }
         }
 
-        public async Task WaitForMessage()
+        public async Task WaitForMessageAsync()
         {
             // We're going to store the receiveBuffer and it's string value in these variables that will
             // be cleared.  This is more of a micro optimization.  They will need to be cleared each iteration.
@@ -206,7 +206,7 @@ namespace Avalon.Network
                 {
                     if (_internalCancellation.IsCancellationRequested)
                     {
-                        TraceInformation($"{nameof(WaitForMessage)} aborted: {nameof(_internalCancellation.IsCancellationRequested)} == true");
+                        TraceInformation($"{nameof(WaitForMessageAsync)} aborted: {nameof(_internalCancellation.IsCancellationRequested)} == true");
                         break;
                     }
 
@@ -217,7 +217,7 @@ namespace Avalon.Network
                     {
                         if (!_tcpClient.Connected)
                         {
-                            TraceInformation($"{nameof(WaitForMessage)} aborted: {nameof(_tcpClient)} is not connected");
+                            TraceInformation($"{nameof(WaitForMessageAsync)} aborted: {nameof(_tcpClient)} is not connected");
                             break;
                         }
 
@@ -268,7 +268,7 @@ namespace Avalon.Network
 
                         if (receiveBuffer == null)
                         {
-                            TraceInformation($"{nameof(WaitForMessage)} aborted: {nameof(_tcpReader)} reached end of stream");
+                            TraceInformation($"{nameof(WaitForMessageAsync)} aborted: {nameof(_tcpReader)} reached end of stream");
                             break;
                         }
                     }
@@ -276,18 +276,18 @@ namespace Avalon.Network
                     {
                         // This happens during ReadLineAsync() when we call Disconnect() and close the underlying stream
                         // This is an expected exception during disconnection
-                        TraceInformation($"{nameof(WaitForMessage)} aborted: {nameof(_tcpReader)} or {nameof(_tcpReader.BaseStream)} disposed. This is expected after calling Disconnect()");
+                        TraceInformation($"{nameof(WaitForMessageAsync)} aborted: {nameof(_tcpReader)} or {nameof(_tcpReader.BaseStream)} disposed. This is expected after calling Disconnect()");
                         break;
                     }
                     catch (IOException)
                     {
                         // This happens when we start ReadLineAsync() if the socket is disconnected unexpectedly
-                        TraceError($"{nameof(WaitForMessage)} aborted: Socket disconnected unexpectedly");
+                        TraceError($"{nameof(WaitForMessageAsync)} aborted: Socket disconnected unexpectedly");
                         break;
                     }
                     catch (Exception error)
                     {
-                        TraceError($"{nameof(WaitForMessage)} aborted: {error}");
+                        TraceError($"{nameof(WaitForMessageAsync)} aborted: {error}");
                         break;
                     }
 
@@ -295,7 +295,7 @@ namespace Avalon.Network
             }
             finally
             {
-                TraceInformation($"{nameof(WaitForMessage)} completed");
+                TraceInformation($"{nameof(WaitForMessageAsync)} completed");
             }
         }
 

@@ -29,7 +29,7 @@ namespace Avalon.Controls
         /// <summary>
         /// A reference to the parent terminal for this element generator.
         /// </summary>
-        private AvalonTerminal _parent;
+        private readonly AvalonTerminal _parent;
 
         /// <summary>
         /// A basic list of ANSI control sequences.

@@ -59,7 +59,7 @@ namespace Avalon
 
                     if (App.Settings.AvalonSettings.DeveloperMode)
                     {
-                        App.Conveyor.EchoLog($"   Plugin For: {pluginInstance.IpAddress}", LogType.Information);
+                        App.Conveyor.EchoLog($"   Plugin For: {pluginInstance?.IpAddress ?? "Unknown"}", LogType.Information);
                     }
                 }
             }

@@ -101,7 +101,7 @@ namespace Avalon.Controls
         /// </summary>
         public int SelectedCount()
         {
-            return DataList?.SelectedItems?.Count ?? 0;
+            return DataList?.SelectedItems.Count ?? 0;
         }
 
         /// <summary>

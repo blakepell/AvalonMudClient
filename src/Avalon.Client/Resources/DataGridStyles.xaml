@@ -2,11 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ui="http://schemas.modernwpf.com/2019">
     <Style BasedOn="{ui:StaticResource ResourceKey=DefaultDataGridColumnHeaderStyle}" TargetType="{x:Type DataGridColumnHeader}">
-        <Setter Property="Control.Background" Value="#111111"/>
+        <Setter Property="Background" Value="#111111"/>
         <Setter Property="Foreground" Value="#DCDCDC"></Setter>
-        <Setter Property="Control.Padding" Value="8" />
-        <Setter Property="Control.FontSize" Value="12" />
-        <Setter Property="Control.BorderThickness" Value="0,0,1,0"></Setter>
-        <Setter Property="Control.BorderBrush" Value="Gray"></Setter>
+        <Setter Property="Padding" Value="8" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="BorderThickness" Value="0,0,1,0"></Setter>
+        <Setter Property="BorderBrush" Value="Gray"></Setter>
     </Style>
 </ResourceDictionary>

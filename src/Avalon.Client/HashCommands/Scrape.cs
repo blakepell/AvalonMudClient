@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using Avalon.Common.Colors;
-using Avalon.Common.Interfaces;
+﻿using Avalon.Common.Interfaces;
 
 namespace Avalon.HashCommands
 {

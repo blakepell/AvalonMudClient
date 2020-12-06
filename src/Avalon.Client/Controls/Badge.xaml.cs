@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 
 namespace Avalon.Controls
 {
@@ -16,20 +14,11 @@ namespace Avalon.Controls
         /// </summary>
         public int Value
         {
-            get { return (int)GetValue(ValueProperty); }
+            get => (int)GetValue(ValueProperty);
             set
             {
                 SetValue(ValueProperty, value);
-
-                // Do we automatically hide or show ourselves?
-                if (value == 0)
-                {
-                    this.Visibility = Visibility.Hidden;
-                }
-                else
-                {
-                    this.Visibility = Visibility.Visible;
-                }
+                this.Visibility = value == 0 ? Visibility.Hidden : Visibility.Visible;
             }
         }
 
@@ -37,7 +26,7 @@ namespace Avalon.Controls
             DependencyProperty.Register(nameof(Value), typeof(int), typeof(Badge), new PropertyMetadata(0));
 
         /// <summary>
-        /// Incriments the value if the expression is true, sets the value to 0 if false.
+        /// Increments the value if the expression is true, sets the value to 0 if false.
         /// </summary>
         /// <param name="expression"></param>
         public void IncrementOrReset(bool expression)

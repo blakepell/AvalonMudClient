@@ -6,10 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Avalon.Colors;
 using Avalon.Common.Models;
-using System.Windows.Controls;
 using System;
-using ICSharpCode.AvalonEdit.Document;
-using ICSharpCode.AvalonEdit.Utils;
 using System.Linq;
 
 namespace Avalon.Controls
@@ -57,7 +54,7 @@ namespace Avalon.Controls
         /// <summary>
         /// Gag element generator.
         /// </summary>
-        public GagElementGenerator Gag { get; private set; }
+        public GagElementGenerator Gag { get; }
 
         /// <summary>
         /// Constructor
@@ -798,7 +795,7 @@ namespace Avalon.Controls
                 return;
             }
 
-            int index = this.Document.Text.IndexOf(searchFor, _lastFindIndex);
+            int index = this.Document.Text.IndexOf(searchFor, _lastFindIndex, StringComparison.Ordinal);
 
             if (index != -1)
             {                

@@ -1,5 +1,4 @@
-﻿using Avalon.HashCommands;
-using Avalon.Common.Interfaces;
+﻿using Avalon.Common.Interfaces;
 
 namespace Avalon.HashCommands
 {

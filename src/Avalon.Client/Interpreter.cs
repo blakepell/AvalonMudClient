@@ -44,9 +44,10 @@ namespace Avalon
         /// Sends a command string to the mud.
         /// </summary>
         /// <param name="cmd"></param>
-        public async Task Send(string cmd)
+        public Task Send(string cmd)
         {
-            await Send(cmd, false, true);
+            // Elided this call.
+            return Send(cmd, false, true);
         }
 
         /// <summary>
@@ -101,12 +102,12 @@ namespace Avalon
                             if (_spamGuardCounter == 15)
                             {
                                 EchoText("where", AnsiColors.Yellow);
-                                await Telnet.Send("where");
+                                await Telnet.SendAsync("where");
                                 _spamGuardCounter = 0;
                             }
                         }
 
-                        await Telnet.Send(item);
+                        await Telnet.SendAsync(item);
                     }
                     else
                     {
@@ -161,7 +162,7 @@ namespace Avalon
                 Telnet.ConnectionClosed += connectionClosed;
                 Telnet.LineReceived += lineReceived;
                 Telnet.DataReceived += dataReceived;
-                await Telnet.Connect();
+                await Telnet.ConnectAsync();
             }
             catch (Exception ex)
             {
@@ -330,7 +331,7 @@ namespace Avalon
                 }
                 else
                 {
-                    if (!cmd.In(new string[] { "n", "s", "e", "w", "nw", "sw", "ne", "se", "u", "d" }))
+                    if (!cmd.In("n", "s", "e", "w", "nw", "sw", "ne", "se", "u", "d"))
                     {
                         this.InputHistory.Add(cmd);
                         this.Conveyor.SetVariable("LastCommand", cmd);

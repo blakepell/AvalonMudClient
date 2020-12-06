@@ -1,9 +1,6 @@
-﻿using Argus.Extensions;
-using Avalon.Common.Interfaces;
-using Avalon.Common.Settings;
+﻿using Avalon.Common.Interfaces;
 using CommandLine;
 using System;
-using System.Reflection;
 
 namespace Avalon.HashCommands
 {

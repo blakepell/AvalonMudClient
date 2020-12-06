@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Avalon.Utilities
+﻿namespace Avalon.Utilities
 {
     public static class Ascii
     {

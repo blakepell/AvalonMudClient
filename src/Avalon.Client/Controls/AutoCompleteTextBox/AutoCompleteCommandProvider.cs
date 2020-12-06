@@ -29,23 +29,20 @@ namespace Avalon.Controls.AutoCompleteTextBox
 
             foreach (var item in directions)
             {
-                var cmd = new AutoCompleteCommand();
-                cmd.Command = $"#go {item}";
+                var cmd = new AutoCompleteCommand {Command = $"#go {item}"};
                 Items.Add(cmd);
             }
 
             foreach (var item in aliases)
             {
-                var cmd = new AutoCompleteCommand();
-                cmd.Command = $"#a {item}";
+                var cmd = new AutoCompleteCommand {Command = $"#a {item}"};
                 Items.Add(cmd);
             }
 
             // Add the available hash commands into the auto complete box.
             foreach (var hashCmd in App.MainWindow.Interp.HashCommands)
             {
-                var cmd = new AutoCompleteCommand();
-                cmd.Command = hashCmd.Name;
+                var cmd = new AutoCompleteCommand {Command = hashCmd.Name};
                 Items.Add(cmd);
             }
 

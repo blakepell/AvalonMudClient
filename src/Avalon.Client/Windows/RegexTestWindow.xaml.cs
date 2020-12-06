@@ -1,7 +1,6 @@
 ﻿using Avalon.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,7 +11,7 @@ namespace Avalon
     /// <summary>
     /// A simple Lua highlighted text editor for use with editing Lua scripts.
     /// </summary>
-    public partial class RegexTestWindow : Window
+    public partial class RegexTestWindow
     {
 
         /// <summary>

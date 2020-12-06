@@ -3,13 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Avalon"
         mc:Ignorable="d"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="True" 
-        x:Name="CreatePackage" TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextFormattingMode="Ideal"
         ui:TitleBar.Background="#2D2D30" Background="#171717" BorderBrush="#007ACC"
-        xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:controls="clr-namespace:Avalon.Controls"
         Title="Create Package" Height="450" Width="800">
     <Grid>

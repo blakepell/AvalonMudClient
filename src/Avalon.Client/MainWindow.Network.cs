@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Media;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Avalon.Colors;
-using Avalon.Common.Colors;
 using Avalon.Common.Models;
 using Avalon.Controls;
 using Avalon.Utilities;

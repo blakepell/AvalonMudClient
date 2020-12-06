@@ -6,7 +6,6 @@ using Argus.Extensions;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows;
-using System.Text.RegularExpressions;
 using System.Windows.Media;
 using System.Threading.Tasks;
 using System.Windows.Media.Animation;
@@ -174,7 +173,7 @@ namespace Avalon.Extensions
         public static string Text(this RichTextBox rtb)
         {
             var textRange = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
-            return textRange?.Text ?? "";
+            return textRange.Text ?? "";
         }
 
         /// <summary>
@@ -204,7 +203,7 @@ namespace Avalon.Extensions
         public static void ClearAllProperties(this RichTextBox rtb)
         {           
             var tr = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);            
-            tr?.ClearAllProperties();
+            tr.ClearAllProperties();
         }
 
         /// <summary>
@@ -214,7 +213,7 @@ namespace Avalon.Extensions
         public static void ClearAllBackgrounds(this RichTextBox rtb)
         {
             var tr = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
-            tr?.ApplyPropertyValue(TextElement.BackgroundProperty, null);
+            tr.ApplyPropertyValue(TextElement.BackgroundProperty, null);
         }
 
         /// <summary>
@@ -259,7 +258,7 @@ namespace Avalon.Extensions
                     string textRun = position.GetTextInRun(LogicalDirection.Forward);
 
                     // Find the starting index of any substring that matches "word".
-                    int indexInRun = textRun.IndexOf(word, startingPosition);
+                    int indexInRun = textRun.IndexOf(word, startingPosition, StringComparison.Ordinal);
 
                     if (indexInRun >= 0)
                     {

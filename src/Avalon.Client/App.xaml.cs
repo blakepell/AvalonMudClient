@@ -2,7 +2,6 @@
 using System.Windows;
 using Avalon.Common.Settings;
 using Avalon.Common.Interfaces;
-using Avalon.Common.Models;
 using Avalon.Utilities;
 using System.Media;
 using System.IO;

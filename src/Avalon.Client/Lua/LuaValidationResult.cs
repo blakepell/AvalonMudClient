@@ -1,5 +1,4 @@
 ﻿using MoonSharp.Interpreter;
-using System;
 
 namespace Avalon.Lua
 {

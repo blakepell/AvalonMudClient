@@ -208,7 +208,7 @@ namespace Avalon
                 
                 if (!luaResult.Success && luaResult.Exception != null)
                 {
-                    string buf = $"An error occured on line {luaResult.Exception.ToLineNumber}\r\nMessage: {luaResult?.Exception?.Message ?? "N/A"}\r\n\r\nWould you still like to save?";
+                    string buf = $"An error occurred on line {luaResult.Exception.ToLineNumber}\r\nMessage: {luaResult?.Exception?.Message ?? "N/A"}\r\n\r\nWould you still like to save?";
 
                     var confirmDialog = new YesNoDialog()
                     {
@@ -232,7 +232,7 @@ namespace Avalon
         }
 
         /// <summary>
-        /// Gets the word before the caret.  This seems to work accidently.  Go through this when
+        /// Gets the word before the caret.  This seems to work accidentally.  Go through this when
         /// new use cases come up if wonky behavior occurs.
         /// </summary>
         /// <param name="textEditor"></param>

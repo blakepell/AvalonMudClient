@@ -1,11 +1,5 @@
-﻿using Argus.Extensions;
-using Avalon.Common.Colors;
-using Avalon.Common.Interfaces;
+﻿using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Documents;
 
 namespace Avalon.HashCommands
 {
@@ -35,6 +29,5 @@ namespace Avalon.HashCommands
 
             this.Interpreter.Conveyor.EchoLog(rev, LogType.Information);
         }
-
     }
 }

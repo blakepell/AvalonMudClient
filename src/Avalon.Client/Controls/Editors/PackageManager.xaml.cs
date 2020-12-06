@@ -7,7 +7,6 @@ using RestSharp.Serializers.NewtonsoftJson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -87,7 +86,7 @@ namespace Avalon.Controls
             {
                 await this.MsgBox($"An error occurred requesting the package list: {ex.Message}", "Package Manager Error");
                 win.StatusBarLeftText = $"Package list failed: {ex.Message}";
-                win.StatusBarRightText = $"0 Packages";
+                win.StatusBarRightText = "0 Packages";
             }
 
             win.ProgressRingIsActive = false;
@@ -160,10 +159,7 @@ namespace Avalon.Controls
         {
             Dispatcher.BeginInvoke(
                 DispatcherPriority.ContextIdle,
-                new Action(delegate ()
-                {
-                    TextFilter.Focus();
-                }));
+                new Action(() => TextFilter.Focus()));
         }
 
         /// <summary>
@@ -171,7 +167,7 @@ namespace Avalon.Controls
         /// </summary>
         public int SelectedCount()
         {
-            return DataList?.SelectedItems?.Count ?? 0;
+            return DataList?.SelectedItems.Count ?? 0;
         }
 
         /// <summary>
@@ -337,7 +333,7 @@ namespace Avalon.Controls
             {
                 await this.MsgBox($"An error occurred requesting the package list: {ex.Message}", "Package Manager Error");
                 win.StatusBarLeftText = $"Package list failed: {ex.Message}";
-                win.StatusBarRightText = $"0 Packages";
+                win.StatusBarRightText = "0 Packages";
             }
 
             win.ProgressRingIsActive = false;

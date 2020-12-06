@@ -190,7 +190,7 @@
                                    FontSize="14" TextWrapping="Wrap" Foreground="#1D7DD4"
                                    Margin="0,0,0,5" />
 
-                        <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,10,0,0">
+                        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,10,0,0">
                             <Button x:Name="ButtonSecondary" Content="Uninstall" Click="ButtonUninstall_OnClick" 
                                 Style="{StaticResource RegularButton}" Margin="0,0,0,0" Width="100"></Button>
                             <Button x:Name="ButtonPrimary" Content="Install" Click="ButtonInstall_OnClick" 

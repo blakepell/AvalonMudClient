@@ -2,7 +2,6 @@ using Avalon.Extensions;
 using System;
 using System.Collections;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -238,6 +237,7 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
         /// <summary>
         /// Pulses the input text box a color.
         /// </summary>
+        /// <param name="color"></param>
         /// <param name="durationMilliseconds"></param>
         public async void Pulse(Color color, int durationMilliseconds = 1000)
         {

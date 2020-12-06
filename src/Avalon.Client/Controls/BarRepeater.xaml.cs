@@ -126,7 +126,7 @@ namespace Avalon.Controls
             {
                 var tb = e.OriginalSource as TextBlock;
 
-                if (tb.Tag == null)
+                if (tb != null && tb.Tag == null)
                 {
                     return;
                 }
@@ -224,6 +224,7 @@ namespace Avalon.Controls
             /// <param name="maximum"></param>
             /// <param name="text"></param>
             /// <param name="key"></param>
+            /// <param name="command"></param>
             public Bar(int value, int maximum, string text, string key, string command)
             {
                 this.Value = value;

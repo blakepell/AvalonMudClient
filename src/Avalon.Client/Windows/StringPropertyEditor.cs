@@ -35,7 +35,7 @@ namespace Avalon.Windows
             // Custom attributes we'll look for on strings.
             var lua = new LuaAttribute();
 
-            if (context.PropertyDescriptor.Attributes.Contains(lua))
+            if (context.PropertyDescriptor != null && context.PropertyDescriptor.Attributes.Contains(lua))
             {
                 // Set the initial type for highlighting.
                 win.EditorMode = StringEditor.EditorType.Lua;
@@ -46,7 +46,10 @@ namespace Avalon.Windows
             }
 
             // Show what alias is being edited in the status bar of the string editor window.
-            win.StatusText = $"Property: {context.PropertyDescriptor.Name}";
+            if (context.PropertyDescriptor != null)
+            {
+                win.StatusText = $"Property: {context.PropertyDescriptor.Name}";
+            }
 
             // Startup position of the dialog should be in the center of the parent window.  The
             // owner has to be set for this to work.

@@ -19,9 +19,9 @@ namespace Avalon.Controls
         static Compass()
         {
             // Calculations that need to occur when default dependency properties change.
-            HeightProperty.OverrideMetadata(typeof(Compass), new FrameworkPropertyMetadata(0.0, new PropertyChangedCallback(HeightChanged)));
-            WidthProperty.OverrideMetadata(typeof(Compass), new FrameworkPropertyMetadata(0.0, new PropertyChangedCallback(WidthChanged)));
-            FontSizeProperty.OverrideMetadata(typeof(Compass), new FrameworkPropertyMetadata(20.0, new PropertyChangedCallback(FontSizeChanged)));
+            HeightProperty.OverrideMetadata(typeof(Compass), new FrameworkPropertyMetadata(0.0, HeightChanged));
+            WidthProperty.OverrideMetadata(typeof(Compass), new FrameworkPropertyMetadata(0.0, WidthChanged));
+            FontSizeProperty.OverrideMetadata(typeof(Compass), new FrameworkPropertyMetadata(20.0, FontSizeChanged));
         }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace Avalon.Controls
         /// <param name="angle"></param>
         public static double NormalizeAngle(double angle)
         {
-            double times = System.Math.Floor(angle / 360);
+            double times = Math.Floor(angle / 360);
             double reduction = times * 360;
             return angle - reduction;
         }
@@ -267,7 +267,7 @@ namespace Avalon.Controls
         }
 
         public static readonly DependencyProperty AngleProperty =
-            DependencyProperty.Register(nameof(Angle), typeof(double), typeof(Compass), new PropertyMetadata(0.0, new PropertyChangedCallback(AngleChanged)));
+            DependencyProperty.Register(nameof(Angle), typeof(double), typeof(Compass), new PropertyMetadata(0.0, AngleChanged));
 
         /// <summary>
         /// Performs animation when the Angle property changes.

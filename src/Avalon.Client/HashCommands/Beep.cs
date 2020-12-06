@@ -1,7 +1,5 @@
-﻿using System;
-using System.Media;
+﻿using System.Media;
 using Argus.Extensions;
-using Avalon.Common.Colors;
 using Avalon.Common.Interfaces;
 using CommandLine;
 

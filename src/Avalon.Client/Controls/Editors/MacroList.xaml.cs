@@ -49,10 +49,7 @@ namespace Avalon.Controls
         {
             Dispatcher.BeginInvoke(
                 DispatcherPriority.ContextIdle,
-                new Action(delegate ()
-                {
-                    TextFilter.Focus();
-                }));
+                new Action(() => TextFilter.Focus()));
         }
 
         /// <summary>
@@ -122,7 +119,7 @@ namespace Avalon.Controls
         /// </summary>
         public int SelectedCount()
         {
-            return DataList?.SelectedItems?.Count ?? 0;
+            return DataList?.SelectedItems.Count ?? 0;
         }
 
         /// <summary>
