@@ -848,6 +848,60 @@ namespace Avalon.Lua
         }
 
         /// <summary>
+        /// Removes all lines from a string that start with the specified text.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="searchText"></param>
+        public string RemoveLinesStartingWith(string text, string searchText)
+        {
+            var sb = Argus.Memory.StringBuilderPool.Take();
+
+            try
+            {
+                foreach (var item in (string[])text.Split('\n'))
+                {
+                    if (!item.StartsWith(searchText))
+                    {
+                        sb.AppendLine(item.TrimEnd('\r', '\n'));
+                    }
+                }
+
+                return sb.ToString().TrimEnd('\r', '\n');
+            }
+            finally
+            {
+                Argus.Memory.StringBuilderPool.Return(sb);
+            }
+        }
+
+        /// <summary>
+        /// Removes all lines from a string that end with the specified text.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="searchText"></param>
+        public string RemoveLinesEndingWith(string text, string searchText)
+        {
+            var sb = Argus.Memory.StringBuilderPool.Take();
+
+            try
+            {
+                foreach (var item in (string[]) text.Split('\n'))
+                {
+                    if (!item.EndsWith(searchText))
+                    {
+                        sb.AppendLine(item.TrimEnd('\r', '\n'));
+                    }
+                }
+
+                return sb.ToString().TrimEnd('\r', '\n');
+            }
+            finally
+            {
+                Argus.Memory.StringBuilderPool.Return(sb);
+            }
+        }
+
+        /// <summary>
         /// The current location of the profile save directory.
         /// </summary>
         public string ProfileDirectory()

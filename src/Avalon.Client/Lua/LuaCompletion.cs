@@ -15,6 +15,7 @@ namespace Avalon.Lua
         {
             if (pattern == "lua")
             {
+                // data.Add(new LuaCompletionData("", ""));
                 data.Add(new LuaCompletionData("Send", "Sends a command to the game."));
                 data.Add(new LuaCompletionData("GetVariable", "Gets a global variable that is shared with the entire mud client."));
                 data.Add(new LuaCompletionData("SetVariable", "Sets a global variable that is shared with the entire mud client."));
@@ -57,6 +58,11 @@ namespace Avalon.Lua
                 data.Add(new LuaCompletionData("AddBatchTask", "Adds a batch task to be performed one after another with a delay in between them."));
                 data.Add(new LuaCompletionData("ClearTasks", "Clears all tasks."));
                 data.Add(new LuaCompletionData("FormatNumber", "Formats a number with commas."));
+                data.Add(new LuaCompletionData("MD5", "Returns the MD5 hash of the specified string."));
+                data.Add(new LuaCompletionData("SHA256", "Returns the SHA256 hash of the specified string."));
+                data.Add(new LuaCompletionData("SHA512", "Returns the SHA512 hash of the specified string."));
+                data.Add(new LuaCompletionData("RemoveLinesEndingWith", "Removes all lines from a string that end with a specified value."));
+                data.Add(new LuaCompletionData("RemoveLinesStartingWith", "Removes all lines from a string that starts with a specified value."));
                 data.Add(new LuaCompletionData("ProfileDirectory", "The location of the current profile directory."));
                 data.Add(new LuaCompletionData("AppDataDirectory", "The location of the AppData directory."));
             }

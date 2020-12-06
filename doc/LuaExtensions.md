@@ -69,6 +69,9 @@ local dir = lua:RandomChoice({"north", "south"});
 |lua:SHA512|(string) value|Returns an SHA512 hash for the specified string value.|
 |lua:ProfileDirectory|None|The location of where the profile save directory.|
 |lua:AppDataDirectory|None|The location of where the core AppData directory.|
+|lua:RemoveLinesStartingWith|(string) text, (string) searchValue|Removes all lines from the string that start with the specified search value.|
+|lua:RemoveLinesEndingWith|(string) text, (string) searchValue|Removes all lines from the string that end with the specified search value.|
+
 |global|None|Used to set global variables only global to Lua.|
 
 ## Lua Global Variables
