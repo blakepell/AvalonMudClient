@@ -12,9 +12,8 @@ namespace Avalon.Controls
 
         public bool HasText
         {
-            get { return Convert.ToBoolean(GetValue(HasTextProperty)); }
-
-            set { SetValue(HasTextProperty, value); }
+            get => Convert.ToBoolean(GetValue(HasTextProperty));
+            set => SetValue(HasTextProperty, value);
         }
 
         public static readonly DependencyProperty HasTextProperty =
@@ -22,9 +21,8 @@ namespace Avalon.Controls
 
         public bool HasFocus
         {
-            get { return Convert.ToBoolean(GetValue(HasFocusProperty)); }
-
-            set { SetValue(HasFocusProperty, value); }
+            get => Convert.ToBoolean(GetValue(HasFocusProperty));
+            private set { SetValue(HasFocusProperty, value); }
         }
 
         public static readonly DependencyProperty HasFocusProperty =
@@ -32,8 +30,8 @@ namespace Avalon.Controls
 
         public SolidColorBrush BorderSelectionColor 
         {
-            get { return (SolidColorBrush)GetValue(BorderSelectionColorProperty); }
-            set { SetValue(BorderSelectionColorProperty, value); }
+            get => (SolidColorBrush)GetValue(BorderSelectionColorProperty);
+            set => SetValue(BorderSelectionColorProperty, value);
         }
 
         public static readonly DependencyProperty BorderSelectionColorProperty =
@@ -41,8 +39,8 @@ namespace Avalon.Controls
 
         new public double Height
         {
-            get { return (double)GetValue(HeightProperty); }
-            set { SetValue(HeightProperty, value); }
+            get => (double)GetValue(HeightProperty);
+            set => SetValue(HeightProperty, value);
         }
 
         new public static readonly DependencyProperty HeightProperty =

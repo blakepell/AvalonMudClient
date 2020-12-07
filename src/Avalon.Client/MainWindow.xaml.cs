@@ -70,8 +70,8 @@ namespace Avalon
         /// </summary>
         public bool SpellCheckEnabled
         {
-            get { return (bool)GetValue(SpellCheckEnabledProperty); }
-            set { SetValue(SpellCheckEnabledProperty, value); }
+            get => (bool)GetValue(SpellCheckEnabledProperty);
+            set => SetValue(SpellCheckEnabledProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for SpellCheckEnabled.  This enables animation, styling, binding, etc...

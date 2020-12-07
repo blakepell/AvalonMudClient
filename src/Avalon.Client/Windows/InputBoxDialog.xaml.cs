@@ -30,14 +30,8 @@ namespace Avalon
         /// </summary>
         public string Caption
         {
-            get
-            {
-                return this.TextBlockCaption.Text;
-            }
-            set
-            {
-                this.TextBlockCaption.Text = value;
-            }
+            get => this.TextBlockCaption.Text;
+            set => this.TextBlockCaption.Text = value;
         }
 
         /// <summary>
@@ -45,14 +39,8 @@ namespace Avalon
         /// </summary>
         public string Text
         {
-            get
-            {
-                return TextBoxInput.Text;
-            }
-            set
-            {
-                TextBoxInput.Text = value;
-            }
+            get => TextBoxInput.Text;
+            set => TextBoxInput.Text = value;
         }
 
         /// <summary>

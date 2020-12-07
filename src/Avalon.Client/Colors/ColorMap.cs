@@ -20,10 +20,7 @@ namespace Avalon.Colors
         /// </summary>
         public SolidColorBrush Brush
         { 
-            get
-            {
-                return _solidColorBrush;
-            }
+            get => _solidColorBrush;
             set
             {
                 _solidColorBrush = value;

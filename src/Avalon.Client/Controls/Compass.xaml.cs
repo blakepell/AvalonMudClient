@@ -257,7 +257,7 @@ namespace Avalon.Controls
         /// </summary>
         public double Angle
         {
-            get { return (double)GetValue(AngleProperty); }
+            get => (double)GetValue(AngleProperty);
             set
             {
                 double angle = NormalizeAngle(value);
@@ -318,8 +318,8 @@ namespace Avalon.Controls
         /// </summary>
         public SolidColorBrush EllipseFillColor
         {
-            get { return (SolidColorBrush)GetValue(EllipseFillColorProperty); }
-            set { SetValue(EllipseFillColorProperty, value); }
+            get => (SolidColorBrush)GetValue(EllipseFillColorProperty);
+            set => SetValue(EllipseFillColorProperty, value);
         }
 
         public static readonly DependencyProperty EllipseFillColorProperty =
@@ -330,8 +330,8 @@ namespace Avalon.Controls
         /// </summary>
         public SolidColorBrush EllipseBorderColor
         {
-            get { return (SolidColorBrush)GetValue(EllipseBorderColorProperty); }
-            set { SetValue(EllipseBorderColorProperty, value); }
+            get => (SolidColorBrush)GetValue(EllipseBorderColorProperty);
+            set => SetValue(EllipseBorderColorProperty, value);
         }
 
         public static readonly DependencyProperty EllipseBorderColorProperty =
@@ -342,8 +342,8 @@ namespace Avalon.Controls
         /// </summary>
         public SolidColorBrush NeedleColor
         {
-            get { return (SolidColorBrush)GetValue(NeedleColorProperty); }
-            set { SetValue(NeedleColorProperty, value); }
+            get => (SolidColorBrush)GetValue(NeedleColorProperty);
+            set => SetValue(NeedleColorProperty, value);
         }
 
         public static readonly DependencyProperty NeedleColorProperty =
@@ -356,8 +356,8 @@ namespace Avalon.Controls
         /// </summary>
         public Visibility LabelVisible
         {
-            get { return (Visibility)GetValue(LabelVisibleProperty); }
-            set { SetValue(LabelVisibleProperty, value); }
+            get => (Visibility)GetValue(LabelVisibleProperty);
+            set => SetValue(LabelVisibleProperty, value);
         }
 
         public static readonly DependencyProperty LabelVisibleProperty =
@@ -369,8 +369,8 @@ namespace Avalon.Controls
         /// </summary>
         public SolidColorBrush LabelForegroundColor
         {
-            get { return (SolidColorBrush)GetValue(LabelForegroundColorProperty); }
-            set { SetValue(LabelForegroundColorProperty, value); }
+            get => (SolidColorBrush)GetValue(LabelForegroundColorProperty);
+            set => SetValue(LabelForegroundColorProperty, value);
         }
 
         public static readonly DependencyProperty LabelForegroundColorProperty =

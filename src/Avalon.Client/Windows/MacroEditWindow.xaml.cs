@@ -40,10 +40,7 @@ namespace Avalon
         /// </summary>
         public Macro Macro
         {
-            get
-            {
-                return _macro;
-            }
+            get => _macro;
             set
             {
                 _originalMacro.Command = value.Command;

@@ -48,10 +48,7 @@ namespace Avalon
         /// </summary>
         public bool SaveButtonVisible
         {
-            get
-            {
-                return _saveButtonVisible;
-            }
+            get => _saveButtonVisible;
             set
             {
                 _saveButtonVisible = value;
@@ -117,14 +114,8 @@ namespace Avalon
         /// </summary>
         public string ActionButtonText
         {
-            get
-            {
-                return ButtonSave.Content.ToString();
-            }
-            set
-            {
-                ButtonSave.Content = value;
-            }
+            get => ButtonSave.Content.ToString();
+            set => ButtonSave.Content = value;
         }
 
         /// <summary>

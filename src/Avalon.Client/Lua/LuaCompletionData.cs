@@ -51,13 +51,7 @@ namespace Avalon.Lua
         /// <summary>
         /// Use this property if you want to show a fancy UIElement in the list that displays.
         /// </summary>
-        public object Content
-        {
-            get
-            {
-                return $"{this.ContentPrefix}{this.Text}";
-            }
-        }
+        public object Content => $"{this.ContentPrefix}{this.Text}";
 
         public object Description { get; set; }
 

@@ -8,13 +8,7 @@ namespace Avalon
     /// </summary>
     public partial class ListManagerWindow : Window
     {
-        public List<string> SourceList
-        {
-            get 
-            {
-                return ListMan.SourceList;
-            }
-        }
+        public List<string> SourceList => ListMan.SourceList;
 
         public void LoadList(List<string> list)
         {
@@ -46,10 +40,7 @@ namespace Avalon
         /// </summary>
         public bool SaveButtonVisible
         {
-            get
-            {
-                return _saveButtonVisible;
-            }
+            get => _saveButtonVisible;
             set
             {
                 _saveButtonVisible = value;
@@ -79,14 +70,8 @@ namespace Avalon
         /// </summary>
         public string ActionButtonText
         {
-            get
-            {
-                return ButtonSave.Content.ToString();
-            }
-            set
-            {
-                ButtonSave.Content = value;
-            }
+            get => ButtonSave.Content.ToString();
+            set => ButtonSave.Content = value;
         }
 
         /// <summary>
