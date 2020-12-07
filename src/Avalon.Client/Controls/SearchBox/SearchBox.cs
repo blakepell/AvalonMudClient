@@ -22,7 +22,7 @@ namespace Avalon.Controls
         public bool HasFocus
         {
             get => Convert.ToBoolean(GetValue(HasFocusProperty));
-            private set { SetValue(HasFocusProperty, value); }
+            private set => SetValue(HasFocusProperty, value);
         }
 
         public static readonly DependencyProperty HasFocusProperty =

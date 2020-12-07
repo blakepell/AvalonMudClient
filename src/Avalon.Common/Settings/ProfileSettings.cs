@@ -51,10 +51,7 @@ namespace Avalon.Common.Settings
         [Browsable(false)]
         public bool AliasesEnabled
         {
-            get
-            {
-                return _aliasesEnabled;
-            }
+            get => _aliasesEnabled;
             set
             {
                 _aliasesEnabled = value;
@@ -67,10 +64,7 @@ namespace Avalon.Common.Settings
         [Browsable(false)]
         public bool TriggersEnabled
         {
-            get
-            {
-                return _triggersEnabled;
-            }
+            get => _triggersEnabled;
             set
             {
                 _triggersEnabled = value;
@@ -131,10 +125,7 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public bool SpellChecking
         {
-            get
-            {
-                return _spellChecking;
-            }
+            get => _spellChecking;
             set
             {
                 _spellChecking = value;

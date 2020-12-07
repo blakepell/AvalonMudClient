@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using Avalon.Common.Models;
-using Newtonsoft.Json;
 
 namespace Avalon.Common.Settings
 {
@@ -78,10 +77,7 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public bool DeveloperMode
         {
-            get
-            {
-                return _developerMode;
-            }
+            get => _developerMode;
 
             set
             {
@@ -172,11 +168,7 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public bool VariableRepeaterVisible
         {
-            get
-            {
-                return _variableRepeaterVisible;
-            }
-
+            get => _variableRepeaterVisible;
             set
             {
                 if (value != _variableRepeaterVisible)
@@ -194,11 +186,7 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public string CustomTab1Label
         {
-            get
-            {
-                return _customTab1Label;
-            }
-
+            get => _customTab1Label;
             set
             {
                 if (value != _customTab1Label)
@@ -216,11 +204,7 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public bool CustomTab1Visible
         {
-            get
-            {
-                return _customTab1Visible;
-            }
-
+            get => _customTab1Visible;
             set
             {
                 if (value != _customTab1Visible)
@@ -238,11 +222,7 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public string CustomTab2Label
         {
-            get
-            {
-                return _customTab2Label;
-            }
-
+            get => _customTab2Label;
             set
             {
                 if (value != _customTab2Label)
@@ -260,11 +240,7 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public bool CustomTab2Visible
         {
-            get
-            {
-                return _customTab2Visible;
-            }
-
+            get => _customTab2Visible;
             set
             {
                 if (value != _customTab2Visible)
@@ -282,11 +258,7 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public string CustomTab3Label
         {
-            get
-            {
-                return _customTab3Label;
-            }
-
+            get => _customTab3Label;
             set
             {
                 if (value != _customTab3Label)
@@ -304,11 +276,7 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public bool CustomTab3Visible
         {
-            get
-            {
-                return _customTab3Visible;
-            }
-
+            get => _customTab3Visible;
             set
             {
                 if (value != _customTab3Visible)

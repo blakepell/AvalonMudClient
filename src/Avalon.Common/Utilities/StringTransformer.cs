@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Argus.Extensions;
 
 namespace Avalon.Common.Utilities
 {
     /// <summary>
-    /// A class to manage a list of lines who require operations to be performed on those lines.  The lines are kept interally
-    /// and removed or updated.  When ToString or ToStringBuilder are called the outputted text is rebuilt from
-    /// what is left in the Lines list.  The lines are parsed when initially passed in and stored in the <see cref="Lines"/>
+    /// A class to manage a list of lines who require operations to be performed on those lines.  The lines are kept internally
+    /// and removed or updated.  When ToString or ToStringBuilder are called the outputted text is rebuilt from what
+    /// is left in the Lines list.  The lines are parsed when initially passed in and stored in the <see cref="Lines"/>
     /// property against which all operations will occur.  Transforms that need to occur against the full string will force
     /// the full string to be realized.
     /// </summary>
@@ -25,7 +24,7 @@ namespace Avalon.Common.Utilities
         //             Class:  StringTransformer
         //      Organization:  http://www.blakepell.com
         //      Initial Date:  04/25/2020
-        //      Last Updated:  06/27/2020
+        //      Last Updated:  12/06/2020
         //     Programmer(s):  Blake Pell, blakepell@hotmail.com
         //
         //*********************************************************************************************************************
@@ -33,7 +32,7 @@ namespace Avalon.Common.Utilities
         /// <summary>
         /// A single internal StringBuilder used to process and return the output.
         /// </summary>
-        private StringBuilder _sb = new StringBuilder();
+        private readonly StringBuilder _sb = new StringBuilder();
 
         /// <summary>
         /// The list of individual lines that we will filter down.
@@ -43,7 +42,7 @@ namespace Avalon.Common.Utilities
         /// <summary>
         /// Returns the number of lines currently in the Lines list.
         /// </summary>
-        public int LineCount { get => this.Lines.Count; }
+        public int LineCount => this.Lines.Count;
 
         /// <summary>
         /// Constructor
@@ -395,7 +394,7 @@ namespace Avalon.Common.Utilities
         }
 
         /// <summary>
-        /// Replaces all occurances of a string with another string in the <see cref="Lines"/>.
+        /// Replaces all occurrences of a string with another string in the <see cref="Lines"/>.
         /// </summary>
         /// <param name="pattern"></param>
         /// <param name="replaceWith"></param>
@@ -407,7 +406,7 @@ namespace Avalon.Common.Utilities
         }
 
         /// <summary>
-        /// Replaces all occurances of a char with another char in the <see cref="Lines"/> list.
+        /// Replaces all occurrences of a char with another char in the <see cref="Lines"/> list.
         /// </summary>
         /// <param name="c"></param>
         /// <param name="replaceWith"></param>
@@ -532,6 +531,5 @@ namespace Avalon.Common.Utilities
             this.BuildString();
             return _sb;
         }
-
     }
 }

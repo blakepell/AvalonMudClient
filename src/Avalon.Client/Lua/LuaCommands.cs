@@ -762,10 +762,10 @@ namespace Avalon.Lua
         {
             string buf = "";
 
-            Application.Current.Dispatcher.Invoke(new Action(() =>
+            Application.Current.Dispatcher.Invoke(() =>
             {
                 buf = App.MainWindow.GameTerminal.LastNonEmptyLine;
-            }));
+            });
 
             return buf ?? "";
         }
@@ -788,7 +788,7 @@ namespace Avalon.Lua
         {
             var list = new List<string>();
 
-            Application.Current.Dispatcher.Invoke(new Action(() =>
+            Application.Current.Dispatcher.Invoke(() =>
             {
                 string text = "";
                 int i = App.MainWindow.GameTerminal.Document.LineCount;
@@ -808,7 +808,7 @@ namespace Avalon.Lua
                         break;
                     }
                 }
-            }));
+            });
 
             if (reverseOrder)
             {

@@ -37,10 +37,7 @@ namespace Avalon.Common.Models
         /// </summary>
         public int Key 
         { 
-            get
-            {
-                return _key;
-            }
+            get => _key;
             set
             {
                 _key = value;
@@ -55,10 +52,7 @@ namespace Avalon.Common.Models
         /// </summary>
         public string KeyDescription
         { 
-            get
-            {
-                return _keyDescription;
-            }
+            get => _keyDescription;
             set
             {
                 _keyDescription = value;

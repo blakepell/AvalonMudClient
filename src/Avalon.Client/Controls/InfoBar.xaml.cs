@@ -7,7 +7,7 @@ namespace Avalon.Controls
     /// <summary>
     /// Interaction logic for InfoBar.xaml
     /// </summary>
-    public partial class InfoBar : UserControl
+    public partial class InfoBar
     {
         public InfoBar()
         {

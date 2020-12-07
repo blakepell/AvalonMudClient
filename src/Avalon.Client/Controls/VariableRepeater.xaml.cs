@@ -6,7 +6,7 @@ namespace Avalon.Controls
     /// <summary>
     /// Interaction logic for VariableRepeater.xaml
     /// </summary>
-    public partial class VariableRepeater : UserControl
+    public partial class VariableRepeater
     {
 
         public VariableRepeater()

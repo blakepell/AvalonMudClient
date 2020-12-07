@@ -1,8 +1,6 @@
-﻿using ModernWpf.Controls;
-
-namespace Avalon
+﻿namespace Avalon
 {
-    public partial class MessageBoxDialog : ContentDialog
+    public partial class MessageBoxDialog
     {
         public MessageBoxDialog()
         {

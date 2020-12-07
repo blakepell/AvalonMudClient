@@ -98,14 +98,8 @@ namespace Avalon
         /// </summary>
         public string ActionButtonText
         {
-            get
-            {
-                return ButtonSave.Content.ToString();
-            }
-            set
-            {
-                ButtonSave.Content = value;
-            }
+            get => ButtonSave.Content.ToString();
+            set => ButtonSave.Content = value;
         }
 
         /// <summary>

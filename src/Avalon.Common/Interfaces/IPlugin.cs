@@ -16,7 +16,7 @@ namespace Avalon.Common.Interfaces
     {
         /// <summary>
         /// The IP Address for the mud the plugin should be active for.  This will match with the profile
-        /// IP address so system triggers only load for a mud you're connecting to in case you have mulitple
+        /// IP address so system triggers only load for a mud you're connecting to in case you have multiple
         /// sets of plugins.
         /// </summary>
         /// <returns></returns>

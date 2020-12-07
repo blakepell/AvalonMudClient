@@ -20,6 +20,7 @@ namespace Avalon.Common.Interfaces
         /// </summary>
         /// <param name="cmd"></param>
         /// <param name="silent">Whether the commands should be outputted to the game window.</param>
+        /// <param name="addToInputHistory">If the command that was entered should be added to the users input history.</param>
         Task Send(string cmd, bool silent, bool addToInputHistory);
 
         /// <summary>

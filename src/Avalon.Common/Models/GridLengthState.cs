@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Avalon.Common.Models
+﻿namespace Avalon.Common.Models
 {
     public class GridLengthState
     {

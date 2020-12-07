@@ -4,7 +4,10 @@ using Avalon.Common.Interfaces;
 
 namespace Avalon.Common.Models
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// An alias that invokes another command, a series of commands or a script by a
+    /// provided scripting engine.
+    /// </summary>
     public class Alias : INotifyPropertyChanged, ICloneable, IAlias
     {
 

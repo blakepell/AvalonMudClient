@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Avalon.Common.Colors;
 using Avalon.Common.Models;
 using Avalon.Common.Settings;
-using Avalon.Common.Triggers;
 
 namespace Avalon.Common.Interfaces
 {

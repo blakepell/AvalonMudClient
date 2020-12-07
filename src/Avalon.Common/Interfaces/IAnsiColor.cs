@@ -20,7 +20,6 @@
         /// <summary>
         /// ToString() implementation which should be the actual ANSI value.
         /// </summary>
-        /// <returns></returns>
         string ToString();
     }
 }

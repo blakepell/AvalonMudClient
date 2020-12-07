@@ -4,7 +4,10 @@ using System.ComponentModel;
 
 namespace Avalon.Common.Models
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// A variable that is persisted with the profile that can be used to track
+    /// data as well as be coupled with aliases/triggers and the script engine.
+    /// </summary>
     public class Variable : INotifyPropertyChanged, IVariable
     {
         public Variable()
@@ -59,10 +62,7 @@ namespace Avalon.Common.Models
         /// <inheritdoc />
         public string Character
         { 
-            get
-            {
-                return _character;
-            }
+            get => _character;
             set
             {
                 _character = value;
@@ -75,11 +75,7 @@ namespace Avalon.Common.Models
         /// <inheritdoc />
         public bool IsVisible
         {
-            get
-            {
-                return _isVisible;
-            }
-
+            get => _isVisible;
             set
             {
                 if (value != _isVisible)
@@ -95,11 +91,7 @@ namespace Avalon.Common.Models
         /// <inheritdoc />
         public int DisplayOrder
         {
-            get
-            {
-                return _displayOrder;
-            }
-
+            get => _displayOrder;
             set
             {
                 if (value != _displayOrder)
@@ -115,11 +107,7 @@ namespace Avalon.Common.Models
         /// <inheritdoc />
         public string Label
         {
-            get
-            {
-                return _label;
-            }
-
+            get => _label;
             set
             {
                 if (value != _label)
@@ -156,11 +144,7 @@ namespace Avalon.Common.Models
         /// <inheritdoc />
         public string ForegroundColor
         {
-            get
-            {
-                return _foregroundColor;
-            }
-
+            get => _foregroundColor;
             set
             {
                 if (value != _foregroundColor)
@@ -177,13 +161,7 @@ namespace Avalon.Common.Models
         /// scenarios or it will endlessly loop.
         /// </summary>
         [JsonIgnore]
-        public Variable Self
-        {
-            get
-            {
-                return this;
-            }
-        }
+        public Variable Self => this;
 
         protected virtual void OnPropertyChanged(string propertyName)
         {

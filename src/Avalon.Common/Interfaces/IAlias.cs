@@ -32,7 +32,7 @@
         bool Enabled { get; set; }
 
         /// <summary>
-        /// The name of the group a package belongs to.  This metadata will alllow the user to sort
+        /// The name of the group a package belongs to.  This metadata will allow the user to sort
         /// in the UI or enable/disable entire groups if needed.
         /// </summary>
         string Group { get; set; }
@@ -50,7 +50,7 @@
         bool Lock { get; set; }
 
         /// <summary>
-        /// The unique identifier of the Package if the <see cref="Alias"/> was imported.
+        /// The unique identifier of the Package if the <see cref="IAlias"/> was imported.
         /// </summary>
         string PackageId { get; set; }
     }

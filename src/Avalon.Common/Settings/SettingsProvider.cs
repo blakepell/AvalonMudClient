@@ -1,7 +1,5 @@
-﻿using Argus.ComponentModel;
-using Avalon.Common.Interfaces;
+﻿using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
-using Argus.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

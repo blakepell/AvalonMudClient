@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Avalon.Common.Interfaces
+﻿namespace Avalon.Common.Interfaces
 {
     public interface ICompassWindow : IWindow
     {

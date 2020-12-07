@@ -40,10 +40,7 @@ namespace Avalon.Common.Models
         /// </summary>
         public string Speedwalk
         {
-            get
-            {
-                return _speedwalk;
-            }
+            get => _speedwalk;
             set
             {
                 _speedwalk = value;

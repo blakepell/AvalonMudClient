@@ -8,7 +8,9 @@ using Avalon.Common.Models;
 
 namespace Avalon.Common.Triggers
 {
-    /// <inheritdoc/>
+    /// <summary>
+    /// A trigger is an action that is executed based off of a pattern that is sent from the game.
+    /// </summary>
     public class Trigger : ITrigger, ICloneable, INotifyPropertyChanged
     {
         public Trigger()
@@ -152,7 +154,7 @@ namespace Avalon.Common.Triggers
             }
 
             // If the profile setting to track the last trigger date is set then set it.
-            if (this?.Conveyor?.ProfileSettings?.TrackTriggerLastMatched == true)
+            if (this.Conveyor?.ProfileSettings?.TrackTriggerLastMatched == true)
             {
                 this.LastMatched = DateTime.Now;
             }
@@ -180,10 +182,7 @@ namespace Avalon.Common.Triggers
         /// <inheritdoc/>
         public virtual string Command
         {
-            get
-            {
-                return _command;
-            }
+            get => _command;
             set
             {
                 _command = value;
@@ -196,10 +195,7 @@ namespace Avalon.Common.Triggers
         /// <inheritdoc/>
         public string Pattern
         {
-            get
-            {
-                return _pattern;
-            }
+            get => _pattern;
             set
             {
                 _pattern = value;
@@ -219,7 +215,6 @@ namespace Avalon.Common.Triggers
         /// <inheritdoc/>
         public virtual void Execute()
         {
-            return;
         }
 
         private string _character = "";
@@ -227,10 +222,7 @@ namespace Avalon.Common.Triggers
         /// <inheritdoc/>
         public string Character
         {
-            get
-            {
-                return _character;
-            }
+            get => _character;
             set
             {
                 _character = value;
@@ -243,10 +235,7 @@ namespace Avalon.Common.Triggers
         /// <inheritdoc/>
         public string Group
         {
-            get
-            {
-                return _group;
-            }
+            get => _group;
             set
             {
                 _group = value;
@@ -259,10 +248,7 @@ namespace Avalon.Common.Triggers
         /// <inheritdoc/>
         public bool IsSilent
         {
-            get
-            {
-                return _isSilent;
-            }
+            get => _isSilent;
 
             set
             {
@@ -279,10 +265,7 @@ namespace Avalon.Common.Triggers
         /// <inheritdoc/>
         public bool IsLua
         {
-            get
-            {
-                return _isLua;
-            }
+            get => _isLua;
 
             set
             {
@@ -299,10 +282,7 @@ namespace Avalon.Common.Triggers
         /// <inheritdoc/>
         public bool Plugin
         {
-            get
-            {
-                return _plugin;
-            }
+            get => _plugin;
 
             set
             {
@@ -319,10 +299,7 @@ namespace Avalon.Common.Triggers
         /// <inheritdoc/>
         public bool DisableAfterTriggered
         {
-            get
-            {
-                return _disableAfterTriggered;
-            }
+            get => _disableAfterTriggered;
 
             set
             {
@@ -339,10 +316,7 @@ namespace Avalon.Common.Triggers
         /// <inheritdoc/>
         public bool Lock
         {
-            get
-            {
-                return _lock;
-            }
+            get => _lock;
 
             set
             {
@@ -362,10 +336,7 @@ namespace Avalon.Common.Triggers
         /// <inheritdoc/>
         public bool VariableReplacement
         {
-            get
-            {
-                return _variableReplacement;
-            }
+            get => _variableReplacement;
             set
             {
                 _variableReplacement = value;
@@ -378,10 +349,7 @@ namespace Avalon.Common.Triggers
         /// <inheritdoc/>
         public bool Enabled
         {
-            get
-            {
-                return _enabled;
-            }
+            get => _enabled;
             set
             {
                 _enabled = value;
@@ -394,11 +362,7 @@ namespace Avalon.Common.Triggers
         /// <inheritdoc/>
         public bool Gag
         {
-            get
-            {
-                return _gag;
-            }
-
+            get => _gag;
             set
             {
                 if (value != _gag)
@@ -414,11 +378,7 @@ namespace Avalon.Common.Triggers
         /// <inheritdoc/>
         public TerminalTarget MoveTo
         {
-            get
-            {
-                return _moveTo;
-            }
-
+            get => _moveTo;
             set
             {
                 if (value != _moveTo)
@@ -434,11 +394,7 @@ namespace Avalon.Common.Triggers
         /// <inheritdoc />
         public bool HighlightLine
         {
-            get
-            {
-                return _highlightLine;
-            }
-
+            get => _highlightLine;
             set
             {
                 if (value != _highlightLine)
@@ -458,10 +414,7 @@ namespace Avalon.Common.Triggers
         /// <inheritdoc />
         public int Count
         {
-            get
-            {
-                return _count;
-            }
+            get => _count;
             set
             {
                 _count = value;
@@ -474,10 +427,7 @@ namespace Avalon.Common.Triggers
         /// <inheritdoc />
         public int Priority
         {
-            get
-            {
-                return _priority;
-            }
+            get => _priority;
             set
             {
                 _priority = value;
@@ -492,10 +442,7 @@ namespace Avalon.Common.Triggers
         /// </summary>
         public bool StopProcessing
         {
-            get
-            {
-                return _stopProcessing;
-            }
+            get => _stopProcessing;
             set
             {
                 _stopProcessing = value;

@@ -23,7 +23,7 @@ namespace Avalon.Network
         private readonly SemaphoreSlim _sendRateLimit;
         private readonly CancellationTokenSource _internalCancellation;
         private readonly bool _traceEnabled = true;
-        private const byte GoAheadCode = 0xF9;
+        private const byte GO_AHEAD_CODE = 0xF9;
 
         private TcpClient _tcpClient;
         private StreamReader _tcpReader;
@@ -244,7 +244,7 @@ namespace Avalon.Network
                             dataBuffer.Append(receiveBuffer[i]);
 
                             // This was a newline or a telnetga (telnet go ahead), process it like it's a line.
-                            if (receiveBuffer[i] == 10 || receiveBuffer[i] == GoAheadCode)
+                            if (receiveBuffer[i] == 10 || receiveBuffer[i] == GO_AHEAD_CODE)
                             {
                                 // A complete line was found, send it on to the line handler.  Send the real
                                 // time data first to the OnDataReceived.

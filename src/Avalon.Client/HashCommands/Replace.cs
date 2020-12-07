@@ -7,7 +7,7 @@ namespace Avalon.HashCommands
 {
 
     /// <summary>
-    /// Replaces all occurances of a string in a terminal window.
+    /// Replaces all occurrences of a string in a terminal window.
     /// </summary>
     public class Replace : HashCommand
     {
@@ -17,7 +17,7 @@ namespace Avalon.HashCommands
 
         public override string Name { get; } = "#replace";
 
-        public override string Description { get; } = "Replaces all occurances of one string with another.";
+        public override string Description { get; } = "Replaces all occurrences of one string with another.";
 
         public override void Execute()
         {

@@ -8,7 +8,7 @@ namespace Avalon
     /// <summary>
     /// A simple Lua highlighted text editor for use with editing Lua scripts.
     /// </summary>
-    public partial class MacroEditWindow : Window
+    public partial class MacroEditWindow
     {
         /// <summary>
         /// Editor type: Add or Edit.

@@ -26,7 +26,7 @@ namespace Avalon.Common.Interfaces
 
         /// <summary>
         /// A unique identifier, typically a <see cref="Guid"/> that identifies this specific trigger.  The identifier
-        /// allows for this trigger to be manipulated via hash commands, alises, lua scripts, etc.        
+        /// allows for this trigger to be manipulated via hash commands, aliases, lua scripts, etc.        
         /// </summary>
         /// <remarks>
         /// The identifier is useful for crafting efficient sets of triggers and manipulating them in real time.  For instance, 
@@ -99,7 +99,7 @@ namespace Avalon.Common.Interfaces
 
         /// <summary>
         /// Whether the trigger is locked.  This will stop a trigger from being auto-updated in a package.  It should
-        /// be noted that a lock does not however stop a user from editting the trigger.
+        /// be noted that a lock does not however stop a user from editing the trigger.
         /// </summary>
         bool Lock { get; set; }
 
@@ -140,7 +140,7 @@ namespace Avalon.Common.Interfaces
         /// allow a player to allow for a very efficient trigger loop (but could also cause problems if use incorrectly
         /// in that it will stop trigger processing when this fires).  One thing to note, this is for general purpose
         /// triggers that the user executes but it does not apply to Gag triggers.  Gag triggers inherently work will
-        /// gag an entire line and they stop prcoessing as soon as one matches.
+        /// gag an entire line and they stop processing as soon as one matches.
         /// </summary>
         bool StopProcessing { get; set; }
 

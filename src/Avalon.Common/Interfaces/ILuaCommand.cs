@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Avalon.Common.Interfaces
+﻿namespace Avalon.Common.Interfaces
 {
     /// <summary>
     /// Property and methods that Lua command classes must contain.

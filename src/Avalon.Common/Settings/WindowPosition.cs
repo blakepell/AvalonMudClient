@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Avalon.Common.Settings
+﻿namespace Avalon.Common.Settings
 {
     /// <summary>
     /// Information about the window that we might want to restore at a later time.

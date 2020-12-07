@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Avalon.Common.Interfaces
+﻿namespace Avalon.Common.Interfaces
 {
     /// <summary>
     /// Interface that UserControl's should inherit if they are used in the Shell window.
