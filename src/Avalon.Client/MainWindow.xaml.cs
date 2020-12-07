@@ -24,7 +24,7 @@ namespace Avalon
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public MainWindow()
         {
@@ -90,7 +90,7 @@ namespace Avalon
             this.StartupMessages();
 
             // The settings for the app load in the app startup, they will then try to load the last profile that was used.
-            App.Conveyor.EchoInfo($"Avalon Mud Client Version {Assembly.GetExecutingAssembly()?.GetName()?.Version.ToString() ?? "Unknown"}");
+            App.Conveyor.EchoInfo($"Avalon Mud Client: Version {Assembly.GetExecutingAssembly()?.GetName()?.Version?.ToString() ?? "Unknown"}");
 
             try
             {
@@ -203,7 +203,15 @@ namespace Avalon
                 // Is there an auto execute command or set of commands to run?
                 if (!string.IsNullOrWhiteSpace(App.Settings.ProfileSettings.AutoExecuteCommand))
                 {
-                    Interp.Send(App.Settings.ProfileSettings.AutoExecuteCommand, true, false);
+                    // Send the auto execute command if the user is connected.
+                    if (this.Interp.Telnet.IsConnected())
+                    {
+                        await Interp.Send(App.Settings.ProfileSettings.AutoExecuteCommand, true, false);
+                    }
+                    else
+                    {
+                        App.Conveyor.EchoWarning("Auto Execute Command Skipped: Connection to server was closed.");
+                    }
                 }
 
                 // Finally, all is done, set the focus to the command box.
