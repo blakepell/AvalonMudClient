@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Argus.IO;
 using Trigger = Avalon.Common.Triggers.Trigger;
 
 namespace Avalon.Common.Settings
@@ -75,19 +76,19 @@ namespace Avalon.Common.Settings
             // Create the core app data folder if it doesn't exist.
             if (!Directory.Exists(this.AppDataDirectory))
             {
-                Argus.IO.FileSystemUtilities.CreateDirectory(this.AppDataDirectory);
+                FileSystemUtilities.CreateDirectory(this.AppDataDirectory);
             }
 
             // Create the plugin folder if it doesn't exist.
             if (!Directory.Exists(this.PluginDirectory))
             {
-                Argus.IO.FileSystemUtilities.CreateDirectory(this.PluginDirectory);
+                FileSystemUtilities.CreateDirectory(this.PluginDirectory);
             }
 
             // Create the updates folder if it doesn't exist.
             if (!Directory.Exists(this.UpdateDirectory))
             {
-                Argus.IO.FileSystemUtilities.CreateDirectory(this.UpdateDirectory);
+                FileSystemUtilities.CreateDirectory(this.UpdateDirectory);
             }
             
             // Create the core (minimal) settings file if it doesn't exist.

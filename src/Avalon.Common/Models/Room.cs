@@ -1,4 +1,6 @@
-﻿namespace Avalon.Common.Models
+﻿using Argus.Cryptography;
+
+namespace Avalon.Common.Models
 {
     public class Room
     {
@@ -19,6 +21,6 @@
         public int Up { get; set; } = -1;
         public int Down { get; set; } = -1;
         public string Contents { get; set; } = "";
-        public string Hash => Argus.Cryptography.HashUtilities.Sha512Hash(Name + Description + Exits);
+        public string Hash => HashUtilities.Sha512Hash(Name + Description + Exits);
     }
 }
