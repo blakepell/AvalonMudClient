@@ -63,7 +63,7 @@ namespace Avalon
                             }
                         }
 
-                        this.StatusText = "Press [F1] for code snippits or type 'lua.' to see custom functions.";
+                        this.StatusText = "Press [F1] for code snippets or type 'lua.' to see custom functions.";
 
                         break;
                 }
