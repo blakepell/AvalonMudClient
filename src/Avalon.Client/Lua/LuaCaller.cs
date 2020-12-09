@@ -129,6 +129,7 @@ namespace Avalon.Lua
                     lock (_lockObject)
                     {
                         this.ActiveLuaScripts++;
+                        App.MainWindow.ViewModel.LuaScriptsActive = this.ActiveLuaScripts;
                     }
 
                     break;
@@ -161,6 +162,7 @@ namespace Avalon.Lua
                     lock (_lockObject)
                     {
                         this.ActiveLuaScripts--;
+                        App.MainWindow.ViewModel.LuaScriptsActive = this.ActiveLuaScripts;
                     }
 
                     break;

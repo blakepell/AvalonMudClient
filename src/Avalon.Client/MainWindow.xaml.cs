@@ -5,6 +5,7 @@ using Avalon.Controls.AutoCompleteTextBox;
 using Avalon.Timers;
 using MoonSharp.Interpreter;
 using System;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -40,6 +41,11 @@ namespace Avalon
         public Interpreter Interp;
 
         /// <summary>
+        /// A view model to house various data elements that should be displayed on the main game window.
+        /// </summary>
+        public MainWindowViewModel ViewModel = new MainWindowViewModel();
+
+        /// <summary>
         /// Lua control token to pause, stop and resume scripts.
         /// </summary>
         public ExecutionControlToken LuaControl;
@@ -48,11 +54,6 @@ namespace Avalon
         /// Timer to time ticks with.
         /// </summary>
         public TickTimer TickTimer;
-
-        /// <summary>
-        /// A queue of commands that will run after a specified time.
-        /// </summary>
-        public ScheduledTasks ScheduledTasks;
 
         /// <summary>
         /// A queue of commands that can be executed as a batch in the order they are added.
@@ -66,17 +67,9 @@ namespace Avalon
         public NavManager NavManager { get; set; } = new NavManager();
 
         /// <summary>
-        /// Whether spell checking is currently enabled.
+        /// A queue of commands that will run after a specified time.
         /// </summary>
-        public bool SpellCheckEnabled
-        {
-            get => (bool)GetValue(SpellCheckEnabledProperty);
-            set => SetValue(SpellCheckEnabledProperty, value);
-        }
-
-        // Using a DependencyProperty as the backing store for SpellCheckEnabled.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SpellCheckEnabledProperty =
-            DependencyProperty.Register(nameof(SpellCheckEnabled), typeof(bool), typeof(MainWindow), new PropertyMetadata(true));
+        public ScheduledTasks ScheduledTasks { get; set; }
 
         /// <summary>
         /// The Loaded event for the Window where we will execute code that should run when the Window
@@ -128,6 +121,8 @@ namespace Avalon
 
             try
             {
+                this.DataContext = this.ViewModel;
+
                 if (App.Settings.AvalonSettings.DeveloperMode)
                 {
                     App.Conveyor.EchoInfo($"Global Settings Folder: {App.Settings.AppDataDirectory}");
@@ -173,8 +168,8 @@ namespace Avalon
 
                 // TODO - Setting to disable and command to view these tasks.
                 // Setup the scheduled and batch tasks.
-                ScheduledTasks = new ScheduledTasks(this.Interp);
-                BatchTasks = new BatchTasks(this.Interp);
+                this.ScheduledTasks = new ScheduledTasks(this.Interp);
+                this.BatchTasks = new BatchTasks(this.Interp);
 
                 // Setup the auto complete commands.  If they're found refresh them, if they're not
                 // report it to the terminal window.  It should -always be found-.
@@ -347,7 +342,7 @@ namespace Avalon
             this.Terminal3.FontFamily = font;
             this.GameBackBufferTerminal.FontFamily = font;
 
-            this.SpellCheckEnabled = App.Settings.ProfileSettings.SpellChecking;
+            this.ViewModel.SpellCheckEnabled = App.Settings.ProfileSettings.SpellChecking;
 
             // Line numbers
             GameTerminal.ShowLineNumbers = App.Settings.AvalonSettings.ShowLineNumbersInGameTerminal;
@@ -1304,6 +1299,26 @@ namespace Avalon
             {
                 await navMenuItem.ExecuteAsync();
             }
+        }
+
+        /// <summary>
+        /// Echos information from the #lua-debug to the main terminal.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LuaStatus_OnClick(object sender, RoutedEventArgs e)
+        {
+            this.Interp.Send("#lua-debug", true, false);
+        }
+
+        /// <summary>
+        /// Echos information from the #task-list to the main terminal.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ScheduledTaskStatus_OnClick(object sender, RoutedEventArgs e)
+        {
+            this.Interp.Send("#task-list", true, false);
         }
 
         /// <summary>

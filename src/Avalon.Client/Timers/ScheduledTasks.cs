@@ -11,7 +11,6 @@ namespace Avalon.Timers
     /// </summary>
     public class ScheduledTasks
     {
-
         /// <summary>
         /// Constructor
         /// </summary>
@@ -19,7 +18,7 @@ namespace Avalon.Timers
         public ScheduledTasks(Interpreter interp)
         {
             this.Interpreter = interp;
-
+            
             _timer.Interval = TimeSpan.FromSeconds(1);
             _timer.Tick += ScheduledTasks_Tick;
         }
@@ -65,6 +64,8 @@ namespace Avalon.Timers
             var task = new ScheduledTask {Command = command, IsLua = isLua, RunAfter = runAfter};
             this.Tasks.Add(task);
 
+            App.MainWindow.ViewModel.ScheduledTasksActive++;
+
             // There is something in the timer, make sure it's enabled.
             _timer.IsEnabled = true;
         }
@@ -72,7 +73,6 @@ namespace Avalon.Timers
         /// <summary>
         /// Dequeue and return all tasks that are past their RunAfter time. 
         /// </summary>
-        /// <returns></returns>
         public IEnumerable<ScheduledTask> Dequeue()
         {
             if (Tasks.Count == 0)
@@ -90,6 +90,7 @@ namespace Avalon.Timers
                     // from our queue.
                     list.Add(Tasks[i]);
                     Tasks.RemoveAt(i);
+                    App.MainWindow.ViewModel.ScheduledTasksActive--;
                 }
             }
 
@@ -97,6 +98,7 @@ namespace Avalon.Timers
             // nothing to process.
             if (Tasks.Count == 0)
             {
+                App.MainWindow.ViewModel.ScheduledTasksActive = 0;
                 _timer.IsEnabled = false;
             }
 
@@ -110,6 +112,7 @@ namespace Avalon.Timers
         {
             this.Tasks.Clear();
             _timer.IsEnabled = false;
+            App.MainWindow.ViewModel.ScheduledTasksActive = 0;
         }
 
         /// <summary>
