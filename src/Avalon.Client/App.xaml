@@ -34,7 +34,7 @@
                     </ui:ThemeResources.ThemeDictionaries>
                 </ui:ThemeResources>
                 <ui:XamlControlsResources />
-                <ResourceDictionary Source="Resources/TextBoxStyles.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="Resources/EditorTextBoxStyles.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/Avalon;component/Controls/SearchBox/SearchBox.xaml" />
                 <ResourceDictionary Source="/Avalon;component/Resources/Buttons.xaml" />
                 <ResourceDictionary Source="/Avalon;component/Resources/Geometries.xaml" />

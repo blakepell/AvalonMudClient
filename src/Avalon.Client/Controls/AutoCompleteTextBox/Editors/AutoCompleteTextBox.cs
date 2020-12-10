@@ -12,7 +12,7 @@ using System.Windows.Threading;
 
 namespace Avalon.Controls.AutoCompleteTextBox.Editors
 {
-    [TemplatePart(Name = PartEditor, Type = typeof(TextBox))]
+    [TemplatePart(Name = PartEditor, Type = typeof(EditorTextBox))]
     [TemplatePart(Name = PartPopup, Type = typeof(Popup))]
     [TemplatePart(Name = PartSelector, Type = typeof(Selector))]
     public class AutoCompleteTextBox : Control
@@ -113,7 +113,7 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
             set => SetValue(DisplayMemberProperty, value);
         }
 
-        public TextBox Editor { get; set; }
+        public EditorTextBox Editor { get; set; }
 
         public DispatcherTimer FetchTimer { get; set; }
 
@@ -250,7 +250,7 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
         {
             base.OnApplyTemplate();
 
-            Editor = Template.FindName(PartEditor, this) as TextBox;
+            Editor = Template.FindName(PartEditor, this) as EditorTextBox;
             Popup = Template.FindName(PartPopup, this) as Popup;
             ItemsSelector = Template.FindName(PartSelector, this) as Selector;
             BindingEvaluator = new BindingEvaluator(new Binding(DisplayMember));

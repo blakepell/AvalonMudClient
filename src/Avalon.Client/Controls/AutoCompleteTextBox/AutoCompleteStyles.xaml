@@ -32,7 +32,7 @@
                                                Focusable="False"
                                                Foreground="Gray"
                                                Margin="3,0" />
-                                <TextBox x:Name="PART_Editor"
+                                <editors:EditorTextBox x:Name="PART_Editor"
                                              ui:ControlHelper.CornerRadius="0"
                                              Focusable="True"
                                              HorizontalAlignment="Stretch"

@@ -496,12 +496,7 @@
                                                   SpellCheckEnabled="{Binding Path=SpellCheckEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
                                                   Provider="{StaticResource ResourceKey=AutoCompleteCommandProvider}"
                                                   ItemTemplate="{StaticResource ResourceKey=AutoCompleteCommandTemplate}">
-                        <editors:AutoCompleteTextBox.SelectedItem>
-                            <Binding Path="SelectedCommand" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="False">
-                            </Binding>
-                        </editors:AutoCompleteTextBox.SelectedItem>
                     </editors:AutoCompleteTextBox>
-
                 </Border>
 
                 <!-- Vertical Splitter -->
@@ -531,7 +526,7 @@
         </ui:SplitView>
 
         <!-- #007ACC, #CA5100, #8A179A, #121112 -->
-        <StatusBar Grid.Row="2" Background="#121112" Foreground="White" BorderBrush="#444444" BorderThickness="0,.9,0,0">
+        <StatusBar Grid.Row="2" Background="#007ACC" Foreground="White" BorderBrush="#444444" BorderThickness="0,.9,0,0">
             <StatusBarItem DockPanel.Dock="Right">
                 <StackPanel Orientation="Horizontal">
                     <Button FontFamily="Segoe UI" FontSize="12" Click="LuaStatus_OnClick">
