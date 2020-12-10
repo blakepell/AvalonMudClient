@@ -104,14 +104,12 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
         public int Delay
         {
             get => (int)GetValue(DelayProperty);
-
             set => SetValue(DelayProperty, value);
         }
 
         public string DisplayMember
         {
             get => (string)GetValue(DisplayMemberProperty);
-
             set => SetValue(DisplayMemberProperty, value);
         }
 
@@ -124,49 +122,42 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
         public object Icon
         {
             get => GetValue(IconProperty);
-
             set => SetValue(IconProperty, value);
         }
 
         public IconPlacement IconPlacement
         {
             get => (IconPlacement)GetValue(IconPlacementProperty);
-
             set => SetValue(IconPlacementProperty, value);
         }
 
         public Visibility IconVisibility
         {
             get => (Visibility)GetValue(IconVisibilityProperty);
-
             set => SetValue(IconVisibilityProperty, value);
         }
 
         public bool IsDropDownOpen
         {
             get => (bool)GetValue(IsDropDownOpenProperty);
-
             set => SetValue(IsDropDownOpenProperty, value);
         }
 
         public bool IsLoading
         {
             get => (bool)GetValue(IsLoadingProperty);
-
             set => SetValue(IsLoadingProperty, value);
         }
 
         public bool IsReadOnly
         {
             get => (bool)GetValue(IsReadOnlyProperty);
-
             set => SetValue(IsReadOnlyProperty, value);
         }
 
         public bool AcceptsTab
         {
             get => (bool)GetValue(AcceptsTabProperty);
-
             set => SetValue(AcceptsTabProperty, value);
         }
 
@@ -175,7 +166,6 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
         public DataTemplate ItemTemplate
         {
             get => (DataTemplate)GetValue(ItemTemplateProperty);
-
             set => SetValue(ItemTemplateProperty, value);
         }
 
@@ -188,7 +178,6 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
         public object LoadingContent
         {
             get => GetValue(LoadingContentProperty);
-
             set => SetValue(LoadingContentProperty, value);
         }
 
@@ -197,14 +186,12 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
         public ISuggestionProvider Provider
         {
             get => (ISuggestionProvider)GetValue(ProviderProperty);
-
             set => SetValue(ProviderProperty, value);
         }
 
         public object SelectedItem
         {
             get => GetValue(SelectedItemProperty);
-
             set => SetValue(SelectedItemProperty, value);
         }
 
@@ -213,20 +200,17 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
         public string Text
         {
             get => (string)GetValue(TextProperty);
-
             set => SetValue(TextProperty, value);
         }
 
         public string Watermark
         {
             get => (string)GetValue(WatermarkProperty);
-
             set => SetValue(WatermarkProperty, value);
         }
         public Brush SuggestionBackground
         {
             get => (Brush)GetValue(SuggestionBackgroundProperty);
-
             set => SetValue(SuggestionBackgroundProperty, value);
         }
 
