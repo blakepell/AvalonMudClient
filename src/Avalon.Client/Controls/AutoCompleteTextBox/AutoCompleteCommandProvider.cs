@@ -23,7 +23,7 @@ namespace Avalon.Controls.AutoCompleteTextBox
             var directions = App.Settings.ProfileSettings.DirectionList.Select(x => x.Name).Distinct();
             var aliases = App.Settings.ProfileSettings.AliasList.Select(x => x.AliasExpression).Distinct();
 
-            // TODO - Directions based soley off of the room your in
+            // TODO - Directions based solely off of the room your in
             //string room = Utilities.GetVariable("Room");
             //var directions = AppSettings.DirectionList.Where(x => x.StartingRoom == room).Select(x => x.Name).Distinct();
 

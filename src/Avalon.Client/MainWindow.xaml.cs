@@ -428,7 +428,7 @@ namespace Avalon
             }
             else
             {
-                this.GameTerminal.Append("Warning: AutoCompleteCommandProvider was not found.", AnsiColors.Yellow);
+                App.Conveyor.EchoWarning("Warning: AutoCompleteCommandProvider was not found.");
             }
         }
 
@@ -1338,26 +1338,11 @@ namespace Avalon
 
             if (App.Settings.AvalonSettings.ShowMainWindowBorder)
             {
-                if (this.WindowState == WindowState.Maximized)
-                {
-                    // 6 if no border
-                    this.BorderThickness = new Thickness(8);
-                }
-                else
-                {
-                    this.BorderThickness = new Thickness(1);
-                }
+                this.BorderThickness = this.WindowState == WindowState.Maximized ? new Thickness(8) : new Thickness(1);
             }
             else
             {
-                if (this.WindowState == WindowState.Maximized)
-                {
-                    this.BorderThickness = new Thickness(6);
-                }
-                else
-                {
-                    this.BorderThickness = new Thickness(0);
-                }
+                this.BorderThickness = this.WindowState == WindowState.Maximized ? new Thickness(6) : new Thickness(0);
             }
         }
     }
