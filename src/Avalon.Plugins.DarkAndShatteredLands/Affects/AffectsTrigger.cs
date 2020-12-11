@@ -1,12 +1,7 @@
-﻿using Avalon.Common.Colors;
-using Avalon.Common.Models;
-using Avalon.Common.Settings;
-using Avalon.Common.Triggers;
+﻿using Avalon.Common.Triggers;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
 
 namespace Avalon.Plugins.DarkAndShatteredLands.Affects
 {
@@ -98,7 +93,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
 
             this.SortAffects();
 
-            this.Conveyor.ProgressBarRepeaterClear();
+            this?.Conveyor.ProgressBarRepeaterClear();
 
             foreach (var affect in this.Affects)
             {
@@ -185,7 +180,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
                 // It's run out, remove it, then continue.
                 if (this.Affects[i].Name.Equals(key, System.StringComparison.OrdinalIgnoreCase))
                 {
-                    this.Conveyor.ProgressBarRemove(this.Affects[i].Name);
+                    this?.Conveyor.ProgressBarRemove(this.Affects[i].Name);
                     this.Affects.RemoveAt(i);
                     found = true;
                 }
@@ -282,9 +277,8 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
 
                 // Reduce it's tick count by 1
                 this.Affects[i].Duration -= 1;
-                this.Conveyor.ProgressBarRepeaterAdd(this.Affects[i].Name, this.Affects[i].Duration + 1, 50, this.Affects[i].Display());
+                this?.Conveyor.ProgressBarRepeaterAdd(this.Affects[i].Name, this.Affects[i].Duration + 1, 50, this.Affects[i].Display());
             }
         }
-
     }
 }
