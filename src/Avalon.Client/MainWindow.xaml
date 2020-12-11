@@ -9,6 +9,7 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         xmlns:editors="clr-namespace:Avalon.Controls.AutoCompleteTextBox.Editors"
         xmlns:providers="clr-namespace:Avalon.Controls.AutoCompleteTextBox"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         ui:WindowHelper.UseModernWindowStyle="False" 
         x:Name="mainPage" TextOptions.TextFormattingMode="Ideal"
         ui:TitleBar.Background="#1E1E1E"
@@ -527,13 +528,21 @@
 
         <!-- #007ACC, #CA5100, #8A179A, #121112 -->
         <StatusBar Grid.Row="2" Background="#007ACC" Foreground="White" BorderBrush="#444444" BorderThickness="0,.9,0,0">
+            <StatusBarItem Width="47">
+                <StackPanel Orientation="Horizontal">
+                </StackPanel>
+            </StatusBarItem>
+            <!--<Separator Width="1" />-->
+            <StatusBarItem>
+            </StatusBarItem>
             <StatusBarItem DockPanel.Dock="Right">
                 <StackPanel Orientation="Horizontal">
                     <Button FontFamily="Segoe UI" FontSize="12" Click="LuaStatus_OnClick">
                         <Button.Template>
                             <ControlTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Margin="10, 0, 0, 0">Lua:</TextBlock>
+                                    <iconPacks:PackIconMaterial Kind="LanguageLua" Margin="10,0,0,0" />
+                                    <TextBlock Margin="5, 0, 0, 0">Lua:</TextBlock>
                                     <TextBlock Margin="5, 0, 0, 0"
                                                Text="{Binding Path= LuaScriptsActive}"></TextBlock>
                                 </StackPanel>
@@ -545,7 +554,8 @@
                         <Button.Template>
                             <ControlTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Margin="10,0,0,0">Scheduled Tasks:</TextBlock>
+                                    <iconPacks:PackIconMaterial Kind="CalendarCheck" Margin="10,0,0,0" />
+                                    <TextBlock Margin="5,0,0,0">Scheduled Tasks:</TextBlock>
                                     <TextBlock Margin="5, 0, 0, 0" 
                                                Text="{Binding Path= ScheduledTasksActive}"></TextBlock>
                                 </StackPanel>
