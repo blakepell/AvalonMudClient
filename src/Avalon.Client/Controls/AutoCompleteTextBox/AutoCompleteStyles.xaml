@@ -24,14 +24,6 @@
                                                   x:Name="PART_Icon"
                                                   Visibility="{TemplateBinding IconVisibility}" />
                             <Grid>
-                                <TextBlock x:Name="PART_Watermark"
-                                               Text="{TemplateBinding Watermark}"
-                                               Visibility="Collapsed"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Left"
-                                               Focusable="False"
-                                               Foreground="Gray"
-                                               Margin="3,0" />
                                 <editors:EditorTextBox x:Name="PART_Editor"
                                              ui:ControlHelper.CornerRadius="0"
                                              Focusable="True"
@@ -72,7 +64,7 @@
                                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                                                 >
                                     </ListBox>
-                                    <Border Visibility="{Binding Path=IsLoading, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource   ResourceKey=BoolToVisConverter}}">
+                                    <Border Visibility="{Binding Path=IsLoading, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ResourceKey=BoolToVisConverter}}">
                                         <ContentPresenter ContentSource="LoadingContent"/>
                                     </Border>
                                 </Grid>
@@ -82,13 +74,6 @@
                     </Grid>
                     <!--</Border>-->
                     <ControlTemplate.Triggers>
-                        <Trigger Property="Text"
-                                 Value=""
-                                 SourceName="PART_Editor">
-                            <Setter Property="Visibility"
-                                    Value="Visible"
-                                    TargetName="PART_Watermark" />
-                        </Trigger>
                         <Trigger Property="IconPlacement"
                                  Value="Left">
                             <Setter Property="DockPanel.Dock"
@@ -100,10 +85,6 @@
                             <Setter Property="DockPanel.Dock"
                                     Value="Right"
                                     TargetName="PART_Icon" />
-                        </Trigger>
-                        <Trigger Property="Validation.HasError" Value="True">
-                            <Setter Property="BorderBrush"
-                                    Value="Red"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -40,7 +40,6 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
         public static readonly DependencyProperty MaxLengthProperty = DependencyProperty.Register(nameof(MaxLength), typeof(int), typeof(AutoCompleteTextBox), new FrameworkPropertyMetadata(0));
         public static readonly DependencyProperty CharacterCasingProperty = DependencyProperty.Register(nameof(CharacterCasing), typeof(CharacterCasing), typeof(AutoCompleteTextBox), new FrameworkPropertyMetadata(CharacterCasing.Normal));
         public static readonly DependencyProperty MaxPopUpHeightProperty = DependencyProperty.Register(nameof(MaxPopupHeight), typeof(int), typeof(AutoCompleteTextBox), new FrameworkPropertyMetadata(600));
-        public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register(nameof(Watermark), typeof(string), typeof(AutoCompleteTextBox), new FrameworkPropertyMetadata(string.Empty));
         public static readonly DependencyProperty SuggestionBackgroundProperty = DependencyProperty.Register(nameof(SuggestionBackground), typeof(Brush), typeof(AutoCompleteTextBox), new FrameworkPropertyMetadata(Brushes.White));
         public static readonly DependencyProperty DirectionalKeysOpenProperty = DependencyProperty.Register(nameof(DirectionalKeysOpen), typeof(bool), typeof(AutoCompleteTextBox), new PropertyMetadata(false));
         public static readonly DependencyProperty SpellCheckEnabledProperty = DependencyProperty.Register(nameof(SpellCheckEnabled), typeof(bool), typeof(AutoCompleteTextBox), new PropertyMetadata(false));
@@ -203,11 +202,6 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
             set => SetValue(TextProperty, value);
         }
 
-        public string Watermark
-        {
-            get => (string)GetValue(WatermarkProperty);
-            set => SetValue(WatermarkProperty, value);
-        }
         public Brush SuggestionBackground
         {
             get => (Brush)GetValue(SuggestionBackgroundProperty);
@@ -463,27 +457,15 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
         }
         #endregion
 
-        #region "Nested Types"
-
         private class SuggestionsAdapter
         {
-            #region "Fields"
-
             private readonly AutoCompleteTextBox _actb;
-
             private string _filter;
-            #endregion
-
-            #region "Constructors"
 
             public SuggestionsAdapter(AutoCompleteTextBox actb)
             {
                 _actb = actb;
             }
-
-            #endregion
-
-            #region "Methods"
 
             public void GetSuggestions(string searchText)
             {
@@ -525,8 +507,6 @@ namespace Avalon.Controls.AutoCompleteTextBox.Editors
                 }
             }
 
-            #endregion
         }
-        #endregion
     }
 }
