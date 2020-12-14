@@ -130,8 +130,8 @@
                                 <DataTemplate>
                                     <Button Style="{StaticResource NavBarButton}" ui:ControlHelper.CornerRadius="0" Click="NavBarButton_Click" Tag="{Binding Reference}">
                                         <ui:SimpleStackPanel Orientation="Horizontal">
-                                            <Viewbox Height="16" Width="16" Margin="17,0,19,0">
-                                                <ContentControl Content="{Binding Icon}" Foreground="White"></ContentControl>
+                                            <Viewbox Height="32" Width="32" Margin="3,0,24,0">
+                                                <iconPacks:PackIconMaterial Kind="{Binding Icon}" Foreground="#DADADA"  Margin="10,0,0,0" />
                                             </Viewbox>
                                             <TextBlock Text="{Binding Title}" FontSize="18" Foreground="#DADADA" FontFamily="Segoe UI" VerticalAlignment="Center"></TextBlock>
                                         </ui:SimpleStackPanel>

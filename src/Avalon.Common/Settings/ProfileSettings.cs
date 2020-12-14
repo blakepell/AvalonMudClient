@@ -168,6 +168,24 @@ namespace Avalon.Common.Settings
         public string LuaGlobalScript { get; set; } = "";
 
         /// <summary>
+        /// This is provided in the profile even if a client doesn't implement it.  The SSH program shelled might be specific
+        /// to a profile if a user has multiple profiles.
+        /// </summary>
+        [CategoryAttribute("NavigationBar")]
+        [DescriptionAttribute("The path to shell an SSH program that is associated with this profile.  If this value is blank the option won't be shown on the Nav Bar.")]
+        [Browsable(true)]
+        public string SshAppPath { get; set; } = "";
+
+        /// <summary>
+        /// This is provided in the profile even if a client doesn't implement it.  The terminal program (not SSH) that should be
+        /// shelled for use on the local system.
+        /// </summary>
+        [CategoryAttribute("NavigationBar")]
+        [DescriptionAttribute("The path or execute name of a terminal that can be shelled from the navigation bar.  E.g. cmd, bash, wt.  If this value is blank the option won't be shown on the Nav Bar.")]
+        [Browsable(true)]
+        public string TerminalAppPath { get; set; } = "";
+
+        /// <summary>
         /// A list of any installed package ID's.  The package ID a trigger, alias, etc. belongs to will be stored there
         /// as well but this will give us a place to track installed packages for things like behaviors that don't have
         /// aliases/triggers/directions etc. but might change something about the UI.

@@ -11,6 +11,10 @@
         Default,
 
         /// <summary>
+        /// Shells an application.
+        /// </summary>
+        Shell,
+        /// <summary>
         /// Shells a known window.
         /// </summary>
         ShellWindow,

@@ -1,6 +1,7 @@
-﻿using Avalon.Utilities;
-using ModernWpf.Controls;
+﻿using System;
+using Avalon.Utilities;
 using System.Threading.Tasks;
+using MahApps.Metro.IconPacks;
 
 namespace Avalon.Controls
 {
@@ -11,7 +12,7 @@ namespace Avalon.Controls
     {
         public string Title { get; set; }
 
-        public IconElement Icon { get; set; }
+        public PackIconMaterialKind Icon { get; set; }
 
         public string Argument { get; set; }
 
@@ -25,6 +26,16 @@ namespace Avalon.Controls
             {
                 case NavType.Default:
                     // TODO
+                    break;
+                case NavType.Shell:
+                    try
+                    {
+                        Utilities.Utilities.Shell(this.Argument);
+                    }
+                    catch (Exception ex)
+                    {
+                        App.Conveyor.EchoError(ex.Message);
+                    }
                     break;
                 case NavType.ShellWindow:
                     await WindowManager.ShellWindowAsync(this.Title);

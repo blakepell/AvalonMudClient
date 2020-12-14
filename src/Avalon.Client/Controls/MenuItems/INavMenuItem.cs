@@ -1,11 +1,11 @@
-﻿using ModernWpf.Controls;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using MahApps.Metro.IconPacks;
 
 namespace Avalon.Controls
 {
     public interface INavMenuItem
     { 
-        IconElement Icon { get; set; }
+        PackIconMaterialKind Icon { get; set; }
 
         string Title { get; set; }
 
