@@ -59,6 +59,7 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
  - [TentacleSoftware.Telnet](https://github.com/Spksh/TentacleSoftware.Telnet) (Apache v2)
  - [RestSharp](https://github.com/restsharp/RestSharp) (Apache v2)
  - [JSON.Net](https://github.com/JamesNK/Newtonsoft.Json) (MIT)
+ - [MahApps.Metro.IconPacks](https://github.com/MahApps/MahApps.Metro.IconPacks) (MIT)
 
 ### Short Term Road-map
 
