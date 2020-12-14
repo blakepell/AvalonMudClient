@@ -212,6 +212,74 @@ namespace Avalon.Lua
         }
 
         /// <summary>
+        /// Makes an info echo.
+        /// </summary>
+        /// <param name="msg"></param>
+        public void LogInfo(string msg)
+        {
+            if (msg == null)
+            {
+                return;
+            }
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                _interpreter.Conveyor.EchoInfo(msg);
+            });
+        }
+
+        /// <summary>
+        /// Makes an warning echo.
+        /// </summary>
+        /// <param name="msg"></param>
+        public void LogWarning(string msg)
+        {
+            if (msg == null)
+            {
+                return;
+            }
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                _interpreter.Conveyor.EchoWarning(msg);
+            });
+        }
+
+        /// <summary>
+        /// Makes an error echo.
+        /// </summary>
+        /// <param name="msg"></param>
+        public void LogError(string msg)
+        {
+            if (msg == null)
+            {
+                return;
+            }
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                _interpreter.Conveyor.EchoError(msg);
+            });
+        }
+
+        /// <summary>
+        /// Makes a success log echo.
+        /// </summary>
+        /// <param name="msg"></param>
+        public void LogSuccess(string msg)
+        {
+            if (msg == null)
+            {
+                return;
+            }
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {                
+                _interpreter.Conveyor.EchoSuccess(msg);
+            });
+        }
+
+        /// <summary>
         /// Clears the text in a terminal of a specified window name.
         /// </summary>
         /// <param name="windowName"></param>

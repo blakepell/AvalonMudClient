@@ -51,6 +51,10 @@ namespace Avalon.Lua
                 data.Add(new LuaCompletionData("ListAddIfNotExist", "Adds an item to the end of a list if that item doesn't already exist."));
                 data.Add(new LuaCompletionData("ListRemove", "Removes all items from a list that match the provided key."));
                 data.Add(new LuaCompletionData("ListExists", "Whether an item exists in a list."));
+                data.Add(new LuaCompletionData("LogInfo", "Logs an informational message."));
+                data.Add(new LuaCompletionData("LogWarning", "Logs a warning message."));
+                data.Add(new LuaCompletionData("LogError", "Logs an error message."));
+                data.Add(new LuaCompletionData("LogSuccess", "Logs a success message."));
                 data.Add(new LuaCompletionData("Replace", "Replaces a pattern in text with another pattern."));
                 data.Add(new LuaCompletionData("EnableGroup", "Enables a group of aliases and triggers."));
                 data.Add(new LuaCompletionData("DisableGroup", "Disables a group of aliases and triggers."));

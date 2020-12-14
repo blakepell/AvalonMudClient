@@ -64,6 +64,10 @@ local dir = lua:RandomChoice({"north", "south"});
 |lua:LastNonEmptyLine|None|Gets the last non empty line.|
 |lua:LastLines|(int) numberToTake|Returns the requested number of lines from the end of the game terminall as a string array from oldest to newest.|
 |lua:LastLines|(int) numberToTake, (bool)reverseOrder|Returns the requested number of lines from the end of the game terminal as a string array.  `reverseOrder` being true will return the list in newest to oldest order, false will return oldest to newest.|
+|lua:LogInfo|(string) msg|Logs an informational log message.|
+|lua:LogWarning|(string) msg|Logs a warning log message.|
+|lua:LogError|(string) msg|Logs an error log message.|
+|lua:LogSuccess|(string) msg|Logs a success log message.|
 |lua:MD5|(string) value|Returns an MD5 hash for the specified string value.|
 |lua:SHA256|(string) value|Returns an SHA256 hash for the specified string value.|
 |lua:SHA512|(string) value|Returns an SHA512 hash for the specified string value.|
