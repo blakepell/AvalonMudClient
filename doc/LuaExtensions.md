@@ -75,7 +75,10 @@ local dir = lua:RandomChoice({"north", "south"});
 |lua:AppDataDirectory|None|The location of where the core AppData directory.|
 |lua:RemoveLinesStartingWith|(string) text, (string) searchValue|Removes all lines from the string that start with the specified search value.|
 |lua:RemoveLinesEndingWith|(string) text, (string) searchValue|Removes all lines from the string that end with the specified search value.|
-
+|lua:RemoveNonAlpha|(string) text, (string) includeAlso|Removes non alpha characters but allows for an exceptions list of chars to be provided that should be included.|
+|lua:RemoveNonAlpha|(string) text|Removes non alpha characters from a string.|
+|lua:StartsWith|(string) text, (string) searchText|If a string starts with another string.|
+|lua:EndsWith|(string) text, (string) searchText|If a string ends with another string.|
 |global|None|Used to set global variables only global to Lua.|
 
 ## Lua Global Variables

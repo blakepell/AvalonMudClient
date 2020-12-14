@@ -336,7 +336,6 @@ namespace Avalon.Lua
         /// <summary>
         /// Returns the current hour.
         /// </summary>
-        /// <returns></returns>
         public int GetHour()
         {
             return DateTime.Now.Hour;
@@ -512,6 +511,34 @@ namespace Avalon.Lua
             }
 
             return buf.Contains(contains, StringComparison.Ordinal);
+        }
+
+        /// <summary>
+        /// Removes non alpha characters but allows for an exceptions list of chars to be provided that
+        /// should be included.
+        /// </summary>
+        /// <param name="buf">The string to remove all non Alpha characters from.</param>
+        /// <param name="includeAlso">A string treated like a char array, if any individual characters exist in
+        /// the base string then those characters will be allowed through.  This will allow for exceptions with
+        /// punctuation, white space, etc.</param>
+        public string RemoveNonAlpha(string buf, string includeAlso = "")
+        {
+            if (buf.IsNullOrEmptyOrWhiteSpace())
+            {
+                return "";
+            }
+
+            var sb = new StringBuilder();
+
+            foreach (var c in buf)
+            {
+                if (char.IsLetter(c) || includeAlso.Contains(c))
+                {
+                    sb.Append(c);
+                }
+            }
+
+            return sb.ToString();
         }
 
         /// <summary>
@@ -918,8 +945,14 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="text"></param>
         /// <param name="searchText"></param>
+        /// <remarks>Either parameter being null returns either the text if it's not null or a blank string if it was null.</remarks>
         public string RemoveLinesStartingWith(string text, string searchText)
         {
+            if (text.IsNullOrEmptyOrWhiteSpace() || searchText.IsNullOrEmptyOrWhiteSpace())
+            {
+                return text ?? "";
+            }
+
             var sb = Argus.Memory.StringBuilderPool.Take();
 
             try
@@ -944,9 +977,14 @@ namespace Avalon.Lua
         /// Removes all lines from a string that end with the specified text.
         /// </summary>
         /// <param name="text"></param>
-        /// <param name="searchText"></param>
+        /// <remarks>Either parameter being null returns either the text if it's not null or a blank string if it was null.</remarks>
         public string RemoveLinesEndingWith(string text, string searchText)
         {
+            if (text.IsNullOrEmptyOrWhiteSpace() || searchText.IsNullOrEmptyOrWhiteSpace())
+            {
+                return text ?? "";
+            }
+
             var sb = Argus.Memory.StringBuilderPool.Take();
 
             try
@@ -965,6 +1003,37 @@ namespace Avalon.Lua
             {
                 Argus.Memory.StringBuilderPool.Return(sb);
             }
+        }
+
+        /// <summary>
+        /// If a string starts with another string.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="searchText"></param>
+        public bool StartsWith(string text, string searchText)
+        {
+            if (text == null || searchText == null)
+            {
+                return false;
+            }
+
+            return text.StartsWith(searchText);
+        }
+
+        /// <summary>
+        /// If a string ends with another string.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="searchText"></param>
+        /// <returns></returns>
+        public bool EndsWith(string text, string searchText)
+        {
+            if (text == null || searchText == null)
+            {
+                return false;
+            }
+
+            return text.EndsWith(searchText);
         }
 
         /// <summary>

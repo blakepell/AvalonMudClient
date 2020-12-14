@@ -140,8 +140,21 @@
         <Key word = "StartBatch" />
         <Key word = "ClearTasks" />
         <Key word = "FormatNumber" />
+        <Key word = "LogInfo" />
+        <Key word = "LogWarning" />
+        <Key word = "LogError" />
+        <Key word = "LogSuccess" />
+        <Key word = "MD5" />
+        <Key word = "SHA256" />
+        <Key word = "SHA512" />
+        <Key word = "AppDataDirectory" />
+        <Key word = "ProfileDirectory" />
+        <Key word = "RemoveLinesEndingWith" />
+        <Key word = "RemoveLinesStartingWith" />
+        <Key word = "RemoveNonAlpha" />
+        <Key word = "StartsWith" />
+        <Key word = "EndsWith" />
       </KeyWords>
-      
     </RuleSet>
   </RuleSets>
 </SyntaxDefinition>

@@ -69,6 +69,9 @@ namespace Avalon.Lua
                 data.Add(new LuaCompletionData("RemoveLinesStartingWith", "Removes all lines from a string that starts with a specified value."));
                 data.Add(new LuaCompletionData("ProfileDirectory", "The location of the current profile directory."));
                 data.Add(new LuaCompletionData("AppDataDirectory", "The location of the AppData directory."));
+                data.Add(new LuaCompletionData("RemoveNonAlpha", "Removes non alpha chars from a string.  A second parameter of exception chars is allowed.\r\nSyntax: lua.RemoveNonAlpha(string, string)"));
+                data.Add(new LuaCompletionData("StartsWith", "If a string starts with another string."));
+                data.Add(new LuaCompletionData("EndsWith", "If a string ends with another string."));
             }
         }
 
