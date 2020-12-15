@@ -1,5 +1,8 @@
 ﻿using Avalon.Common.Interfaces;
 using CommandLine;
+using System;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Avalon.HashCommands
@@ -33,6 +36,21 @@ namespace Avalon.HashCommands
 
                     if (o.Info || runAll)
                     {
+                        // For fun, calculate the total bytes of stored Lua code for where Lua exists, in aliases, triggers and the global file.
+                        int totalBytes = 0;
+
+                        foreach (var a in App.Settings.ProfileSettings.AliasList.Where(x => x.IsLua))
+                        {
+                            totalBytes += Encoding.UTF8.GetByteCount(a.Command);
+                        }
+
+                        foreach (var a in App.Settings.ProfileSettings.TriggerList.Where(x => x.IsLua))
+                        {
+                            totalBytes += Encoding.UTF8.GetByteCount(a.Command);
+                        }
+
+                        totalBytes += Encoding.UTF8.GetByteCount(App.Settings.ProfileSettings.LuaGlobalScript);
+
                         sb.AppendLine();
                         sb.Append("{CLua Environment Info:{x\r\n");
                         sb.Append("---------------------------------------------------------------------\r\n");
@@ -40,8 +58,11 @@ namespace Avalon.HashCommands
                         sb.AppendFormat("  {{G* {{WActive Lua Scripts Running:{{x {{C{0}{{x\r\n", lua.ActiveLuaScripts);
                         sb.AppendFormat(" {{G * {{WTotal Lua Scripts Run:{{x      {{C{0}{{x\r\n", lua.LuaScriptsRun);
                         sb.AppendFormat(" {{G * {{WGlobal Variable Count:{{x      {{C{0}{{x\r\n", globalVariableCount);
+                        
                         sb.AppendFormat(" {{G * {{WLua Error Count:{{x            {{C{0}{{x\r\n", lua.LuaErrorCount);
-                        sb.AppendLine();
+
+                        sb.AppendFormat(" {{G * {{WLua Global Code Storage:{{x    {{C{0} bytes{{x\r\n", String.Format("{0:n0}", Encoding.UTF8.GetByteCount(App.Settings.ProfileSettings.LuaGlobalScript)));
+                        sb.AppendFormat(" {{G * {{WLua Overall Code Storage:{{x   {{C{0} bytes{{x\r\n", String.Format("{0:n0}", totalBytes));
                     }
 
                     if (o.GlobalsList || runAll)
