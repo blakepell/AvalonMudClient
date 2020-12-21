@@ -145,6 +145,16 @@ namespace Avalon
                 App.Settings.SaveSettings();
             }
 
+            // Write any pending database transactions to the db, then dispose of the SqlTasks
+            // object which will properly close the DB connection.  We're going to eat an error
+            // here since the program is ending anyway.  We can log it in the future if need be.
+            try
+            {
+                App.MainWindow.SqlTasks.Flush();
+                App.MainWindow.SqlTasks.Dispose();
+            }
+            catch { }
+
             // Dispose of the Toast object which has a NotifyIcon which might potentially leave the
             // program in memory if not axed.
             Toast?.Dispose();
@@ -157,10 +167,9 @@ namespace Avalon
             {
                 foreach (var item in Conveyor.WindowList.Where(x => x != null))
                 {
-                    item.Close();
+                    item.Close();                   
                 }
             }
-
         }
 
         /// <summary>
