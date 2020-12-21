@@ -1119,6 +1119,16 @@ namespace Avalon.Lua
             return Application.Current.Dispatcher.Invoke(() => App.MainWindow.SqlTasks.Select(sql, parameters));
         }
 
+        /// <summary>
+        /// Forces all pending database operations to be committed.
+        /// </summary>
+        public void DbFlush()
+        {
+            Application.Current.Dispatcher.Invoke(() => App.MainWindow.SqlTasks.Flush());
+        }
+
+
         private readonly IInterpreter _interpreter;
+
     }
 }
