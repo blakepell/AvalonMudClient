@@ -58,8 +58,8 @@ namespace Avalon.HashCommands
                         sb.AppendFormat("  {{G* {{WActive Lua Scripts Running:{{x {{C{0}{{x\r\n", lua.ActiveLuaScripts);
                         sb.AppendFormat(" {{G * {{WTotal Lua Scripts Run:{{x      {{C{0}{{x\r\n", lua.LuaScriptsRun);
                         sb.AppendFormat(" {{G * {{WGlobal Variable Count:{{x      {{C{0}{{x\r\n", globalVariableCount);
-                        
                         sb.AppendFormat(" {{G * {{WLua Error Count:{{x            {{C{0}{{x\r\n", lua.LuaErrorCount);
+
 
                         sb.AppendFormat(" {{G * {{WLua Global Code Storage:{{x    {{C{0} bytes{{x\r\n", String.Format("{0:n0}", Encoding.UTF8.GetByteCount(App.Settings.ProfileSettings.LuaGlobalScript)));
                         sb.AppendFormat(" {{G * {{WLua Overall Code Storage:{{x   {{C{0} bytes{{x\r\n", String.Format("{0:n0}", totalBytes));

@@ -72,6 +72,10 @@ namespace Avalon.Lua
                 data.Add(new LuaCompletionData("RemoveNonAlpha", "Removes non alpha chars from a string.  A second parameter of exception chars is allowed.\r\nSyntax: lua.RemoveNonAlpha(string, string)"));
                 data.Add(new LuaCompletionData("StartsWith", "If a string starts with another string."));
                 data.Add(new LuaCompletionData("EndsWith", "If a string ends with another string."));
+                data.Add(new LuaCompletionData("LuaScriptsActive", "The number of Lua scripts that are actively running."));
+                data.Add(new LuaCompletionData("DbExecute", "Executes a parameterized SQL statement.\r\nExecute(string sql, params string[] parameters)\r\nReturns integer"));
+                data.Add(new LuaCompletionData("DbSelectValue", "Selects the value from the first column of the first row of any result set.\r\nSelectValue(string sql, params string[] parameters)\r\nReturns object"));
+                data.Add(new LuaCompletionData("DbSelect", "Selects a record set from the database.\r\nSelect(string sql, params string[] parameters)\r\nReturns a tabled record set."));
             }
         }
 

@@ -61,6 +61,11 @@ namespace Avalon
         public BatchTasks BatchTasks;
 
         /// <summary>
+        /// A queue of SQL commands to execute in buffered batches.
+        /// </summary>
+        public SqlTasks SqlTasks;
+
+        /// <summary>
         /// A class which handles the management of the current set of navigation items for the left
         /// hand slide out menu.
         /// </summary>
@@ -170,6 +175,17 @@ namespace Avalon
                 // Setup the scheduled and batch tasks.
                 this.ScheduledTasks = new ScheduledTasks(this.Interp);
                 this.BatchTasks = new BatchTasks(this.Interp);
+                this.SqlTasks = new SqlTasks($"Data Source={App.Settings.ProfileSettings.SqliteDatabase}");
+
+                try
+                {
+                    this.SqlTasks.OpenAsync();
+                }
+                catch (Exception ex)
+                {
+                    App.Conveyor.EchoError("An error occurred opening the SQLite database for this profile.");
+                    App.Conveyor.EchoError($"Error message: {ex.Message}");
+                }
 
                 // Setup the auto complete commands.  If they're found refresh them, if they're not
                 // report it to the terminal window.  It should -always be found-.
@@ -365,6 +381,9 @@ namespace Avalon
             // TODO - Make this work on all monitors
             this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
             this.MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
+
+            // The number of seconds in between batch writes for the the database wrapper.
+            SqlTasks.SetInterval(App.Settings.AvalonSettings.DatabaseWriteInterval);
 
             // Apply the border settings by trigger the SizeChanged event.
             this.MainPage_SizeChanged(null, null);
@@ -1299,6 +1318,16 @@ namespace Avalon
             {
                 await navMenuItem.ExecuteAsync();
             }
+        }
+
+        /// <summary>
+        /// Echos information from the #lua-debug to the main terminal.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SqlStatus_OnClick(object sender, RoutedEventArgs e)
+        {
+            this.Interp.Send("#sql-debug", true, false);
         }
 
         /// <summary>

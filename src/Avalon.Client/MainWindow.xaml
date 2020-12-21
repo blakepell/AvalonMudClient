@@ -537,6 +537,20 @@
             </StatusBarItem>
             <StatusBarItem DockPanel.Dock="Right">
                 <StackPanel Orientation="Horizontal">
+                    <Button FontFamily="Segoe UI" FontSize="12" Click="SqlStatus_OnClick" Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <!-- Transparent background allows margin to participate in the hit test for the cursor -->
+                                <StackPanel Orientation="Horizontal" Background="Transparent">
+                                    <iconPacks:PackIconMaterial Kind="Database" Margin="10,0,0,0" />
+                                    <TextBlock Margin="5, 0, 0, 0">Database:</TextBlock>
+                                    <TextBlock Margin="5, 0, 0, 0"
+                                               Text="{Binding Path= PendingSqlStatements}"></TextBlock>
+                                </StackPanel>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
                     <Button FontFamily="Segoe UI" FontSize="12" Click="LuaStatus_OnClick" Cursor="Hand">
                         <Button.Template>
                             <ControlTemplate>

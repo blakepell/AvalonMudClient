@@ -11,6 +11,7 @@ namespace Avalon
         {
             this.ScheduledTasksActive = 0;
             this.LuaScriptsActive = 0;
+            this.PendingSqlStatements = 0;
         }
         /// <summary>
         /// The current number of tasks that are currently scheduled.
@@ -36,6 +37,18 @@ namespace Avalon
 
         public static readonly DependencyProperty LuaScriptsActiveProperty =
             DependencyProperty.Register(nameof(LuaScriptsActive), typeof(int), typeof(MainWindowViewModel), new PropertyMetadata(0));
+
+        /// <summary>
+        /// The current number of pending SQL statements.
+        /// </summary>
+        public int PendingSqlStatements
+        {
+            get => (int)GetValue(PendingSqlStatementsProperty);
+            set => SetValue(PendingSqlStatementsProperty, value);
+        }
+
+        public static readonly DependencyProperty PendingSqlStatementsProperty =
+            DependencyProperty.Register(nameof(PendingSqlStatements), typeof(int), typeof(MainWindowViewModel), new PropertyMetadata(0));
 
         /// <summary>
         /// Whether spell checking is currently enabled.

@@ -35,6 +35,11 @@ namespace Avalon.Lua
         public int LuaErrorCount { get; set; } = 0;
 
         /// <summary>
+        /// The number of SQL command that have been run through Lua.
+        /// </summary>
+        public int LuaSqlCommandsRun { get; set; } = 0;
+
+        /// <summary>
         /// A reference to the mud client's current interpreter.
         /// </summary>
         private readonly IInterpreter _interpreter;
@@ -69,12 +74,14 @@ namespace Avalon.Lua
         {
             _interpreter = interp;
             _random = new Random();
+            
             this.LuaGlobalVariables = new LuaGlobalVariables();
 
             // The CLR types we want to expose to Lua need to be registered before UserData.Create
             // can be called.  If they're not registered UserData.Create will return a null.
             UserData.RegisterType<LuaCommands>();
             UserData.RegisterType<LuaGlobalVariables>();
+            
             _luaCmds = UserData.Create(new LuaCommands(_interpreter, _random));
         }
 
@@ -121,14 +128,15 @@ namespace Avalon.Lua
         /// Increments the specified counter and performs locking for thread safety.
         /// </summary>
         /// <param name="c">The counter type.</param>
-        private void IncrementCounter(LuaCounter c)
+        /// <param name="value">The value to increment the counter by, if left unspecified the default is 1.</param>
+        private void IncrementCounter(LuaCounter c, int value = 1)
         {
             switch (c)
             {
                 case LuaCounter.ActiveScripts:
                     lock (_lockObject)
                     {
-                        this.ActiveLuaScripts++;
+                        this.ActiveLuaScripts += value;
                         App.MainWindow.ViewModel.LuaScriptsActive = this.ActiveLuaScripts;
                     }
 
@@ -136,14 +144,21 @@ namespace Avalon.Lua
                 case LuaCounter.ScriptsRun:
                     lock (_lockObject)
                     {
-                        this.LuaScriptsRun++;
+                        this.LuaScriptsRun += value;
                     }
 
                     break;
                 case LuaCounter.ErrorCount:
                     lock (_lockObject)
                     {
-                        this.LuaErrorCount++;
+                        this.LuaErrorCount += value;
+                    }
+
+                    break;
+                case LuaCounter.SqlCount:
+                    lock (_lockObject)
+                    {
+                        this.LuaSqlCommandsRun += value;
                     }
 
                     break;
@@ -154,14 +169,15 @@ namespace Avalon.Lua
         /// Decrements the specified counter and performs locking for thread safety.
         /// </summary>
         /// <param name="c">The counter type.</param>
-        private void DecrementCounter(LuaCounter c)
+        /// <param name="value">The value to decrement the counter by, if left unspecified the default is 1.</param>
+        private void DecrementCounter(LuaCounter c, int value = 1)
         {
             switch (c)
             {
                 case LuaCounter.ActiveScripts:
                     lock (_lockObject)
                     {
-                        this.ActiveLuaScripts--;
+                        this.ActiveLuaScripts -= value;
                         App.MainWindow.ViewModel.LuaScriptsActive = this.ActiveLuaScripts;
                     }
 
@@ -169,20 +185,26 @@ namespace Avalon.Lua
                 case LuaCounter.ScriptsRun:
                     lock (_lockObject)
                     {
-                        this.LuaScriptsRun--;
+                        this.LuaScriptsRun -= value;
                     }
 
                     break;
                 case LuaCounter.ErrorCount:
                     lock (_lockObject)
                     {
-                        this.LuaErrorCount--;
+                        this.LuaErrorCount -= value;
+                    }
+
+                    break;
+                case LuaCounter.SqlCount:
+                    lock (_lockObject)
+                    {
+                        this.LuaSqlCommandsRun -= value;
                     }
 
                     break;
             }
         }
-
 
         /// <summary>
         /// Will handle writing the exception to the console.

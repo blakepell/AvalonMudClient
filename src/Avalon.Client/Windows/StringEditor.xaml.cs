@@ -119,7 +119,7 @@ namespace Avalon
             {
                 string word = GetWordBefore(AvalonLuaEditor);
 
-                if (word == "lua")
+                if (word == "lua" || word == "sql")
                 {
                     // Open code completion after the user has pressed dot:
                     _completionWindow = new CompletionWindow(AvalonLuaEditor.TextArea);

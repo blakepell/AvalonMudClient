@@ -215,16 +215,16 @@ namespace Avalon.Lua
         /// Makes an info echo.
         /// </summary>
         /// <param name="msg"></param>
-        public void LogInfo(string msg)
+        public void LogInfo(string msg, params object[] args)
         {
             if (msg == null)
             {
                 return;
             }
-
+            
             Application.Current.Dispatcher.Invoke(() =>
             {
-                _interpreter.Conveyor.EchoInfo(msg);
+                _interpreter.Conveyor.EchoInfo(args.Length > 0 ? string.Format(msg, args) : msg);
             });
         }
 
@@ -232,7 +232,7 @@ namespace Avalon.Lua
         /// Makes an warning echo.
         /// </summary>
         /// <param name="msg"></param>
-        public void LogWarning(string msg)
+        public void LogWarning(string msg, params object[] args)
         {
             if (msg == null)
             {
@@ -241,7 +241,7 @@ namespace Avalon.Lua
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                _interpreter.Conveyor.EchoWarning(msg);
+                _interpreter.Conveyor.EchoWarning(args.Length > 0 ? string.Format(msg, args) : msg);
             });
         }
 
@@ -249,7 +249,7 @@ namespace Avalon.Lua
         /// Makes an error echo.
         /// </summary>
         /// <param name="msg"></param>
-        public void LogError(string msg)
+        public void LogError(string msg, params object[] args)
         {
             if (msg == null)
             {
@@ -258,7 +258,7 @@ namespace Avalon.Lua
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                _interpreter.Conveyor.EchoError(msg);
+                _interpreter.Conveyor.EchoError(args.Length > 0 ? string.Format(msg, args) : msg);
             });
         }
 
@@ -266,7 +266,7 @@ namespace Avalon.Lua
         /// Makes a success log echo.
         /// </summary>
         /// <param name="msg"></param>
-        public void LogSuccess(string msg)
+        public void LogSuccess(string msg, params object[] args)
         {
             if (msg == null)
             {
@@ -274,8 +274,8 @@ namespace Avalon.Lua
             }
 
             Application.Current.Dispatcher.Invoke(() =>
-            {                
-                _interpreter.Conveyor.EchoSuccess(msg);
+            {
+                _interpreter.Conveyor.EchoSuccess(args.Length > 0 ? string.Format(msg, args) : msg);
             });
         }
 
@@ -791,6 +791,13 @@ namespace Avalon.Lua
         /// <param name="seconds"></param>
         public void AddScheduledTask(string command, bool isLua, int seconds)
         {
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => AddScheduledTask(command, isLua, seconds)));
+                return;
+            }
+
             App.MainWindow.ScheduledTasks.AddTask(command, isLua, DateTime.Now.AddSeconds(seconds));
         }
 
@@ -801,6 +808,13 @@ namespace Avalon.Lua
         /// <param name="isLua"></param>
         public void AddBatchTask(string command, bool isLua)
         {
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => AddBatchTask(command, isLua)));
+                return;
+            }
+
             App.MainWindow.BatchTasks.AddTask(command, isLua);
         }
 
@@ -810,6 +824,13 @@ namespace Avalon.Lua
         /// <param name="secondsInBetweenCommands"></param>
         public void StartBatch(int secondsInBetweenCommands)
         {
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => StartBatch(secondsInBetweenCommands)));
+                return;
+            }
+
             App.MainWindow.BatchTasks.StartBatch(secondsInBetweenCommands);
         }
 
@@ -818,6 +839,13 @@ namespace Avalon.Lua
         /// </summary>
         public void ClearTasks()
         {
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => ClearTasks()));
+                return;
+            }
+
             App.MainWindow.ScheduledTasks.ClearTasks();
         }
 
@@ -1037,6 +1065,14 @@ namespace Avalon.Lua
         }
 
         /// <summary>
+        /// The number of Lua scripts that are actively running.
+        /// </summary>
+        public int LuaScriptsActive()
+        {
+            return ((Interpreter)_interpreter).LuaCaller.ActiveLuaScripts;
+        }
+
+        /// <summary>
         /// The current location of the profile save directory.
         /// </summary>
         public string ProfileDirectory()
@@ -1051,6 +1087,36 @@ namespace Avalon.Lua
         public string AppDataDirectory()
         {
             return App.Settings.AppDataDirectory;
+        }
+
+        /// <summary>
+        /// Adds a SQL command to the SqlTasks queue.
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="parameters"></param>
+        public void DbExecute(string sql, params string[] parameters)
+        {
+            Application.Current.Dispatcher.Invoke(() => App.MainWindow.SqlTasks.Add(sql, parameters));
+        }
+
+        /// <summary>
+        /// Selects one value from the database.
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="parameters"></param>
+        public object DbSelectValue(string sql, params string[] parameters)
+        {
+            return Application.Current.Dispatcher.Invoke(() => App.MainWindow.SqlTasks.SelectValue(sql, parameters));
+        }
+
+        /// <summary>
+        /// Selects a record set that can be iterated over in Lua as a table.
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="parameters"></param>
+        public IEnumerable<Dictionary<string, object>> DbSelect(string sql, params string[] parameters)
+        {
+            return Application.Current.Dispatcher.Invoke(() => App.MainWindow.SqlTasks.Select(sql, parameters));
         }
 
         private readonly IInterpreter _interpreter;

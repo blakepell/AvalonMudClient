@@ -313,6 +313,11 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public bool ValidateLua { get; set; } = true;
 
+        [CategoryAttribute("Database")]
+        [DescriptionAttribute("The number of seconds between each database batch write.")]
+        [Browsable(true)]
+        public int DatabaseWriteInterval { get; set; } = 10;
+
         protected virtual void OnPropertyChanged(string propertyName)
         {
             var e = new PropertyChangedEventArgs(propertyName);

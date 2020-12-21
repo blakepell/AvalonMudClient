@@ -98,6 +98,7 @@
         <Key word = "while" />
         <Key word = "lua" />
         <Key word = "global" />
+        <Key word = "sql" />
       </KeyWords>
 
       <KeyWords name ="ExtensionFunctions"
@@ -154,6 +155,16 @@
         <Key word = "RemoveNonAlpha" />
         <Key word = "StartsWith" />
         <Key word = "EndsWith" />
+        <Key word = "Execute" />
+        <Key word = "SelectValue" />
+        <Key word = "Select" />
+        <Key word = "StartTransaction" />
+        <Key word = "Commit" />
+        <Key word = "Rollback" />
+        <Key word = "Close" />
+        <Key word = "Open" />
+        <Key word = "ShrinkDb" />
+        <Key word = "LuaScriptsActive" />
       </KeyWords>
     </RuleSet>
   </RuleSets>

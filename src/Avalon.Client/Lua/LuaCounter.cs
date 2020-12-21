@@ -16,6 +16,10 @@
         /// <summary>
         /// The number of scripts that have encountered errors in the instance of the LuaCaller.
         /// </summary>
-        ErrorCount
+        ErrorCount,
+        /// <summary>
+        /// The number of SQL statements that have been run in the instance of the LuaCaller.
+        /// </summary>
+        SqlCount
     }
 }

@@ -14,6 +14,8 @@ namespace Avalon.HashCommands
 
         public override void Execute()
         {
+            object o = App.MainWindow.SqlTasks.SelectValue("select count(*) from test");
+            App.Conveyor.EchoInfo($"{o} items in the test table.");
         }
     }
 }

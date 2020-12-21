@@ -79,6 +79,10 @@ local dir = lua:RandomChoice({"north", "south"});
 |lua:RemoveNonAlpha|(string) text|Removes non alpha characters from a string.|
 |lua:StartsWith|(string) text, (string) searchText|If a string starts with another string.|
 |lua:EndsWith|(string) text, (string) searchText|If a string ends with another string.|
+|lua:LuaScriptsActive||The number of Lua scripts that are actively running.|
+|lua:DbExecute|(string) sql, (object) params|Executes a parameterized SQL statement intended for write operations.|
+|lua:DbSelect|(string) sql, (object) params|Executes a parameterized SQL statement and returns a record set as a Lua table that can be iterated over.|
+|lua:DbSelectValue|(string) sql, (object) params|Executes a parameterized SQL statement and returns a single value (the first column of the first row).|
 |global|None|Used to set global variables only global to Lua.|
 
 ## Lua Global Variables

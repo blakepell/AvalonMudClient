@@ -24,9 +24,6 @@
 - License is inherited from the official Moonsharp project.</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="LICENSE.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
