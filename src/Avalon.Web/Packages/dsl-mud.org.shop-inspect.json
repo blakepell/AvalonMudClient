@@ -1,11 +1,11 @@
 {
   "Id": "89d7da13-86a0-4fde-89c2-6b110f763238",
   "Name": "Shop Item Inspection",
-  "Description": "This script will inspect all of the items of a keyword in a shop and track the quality of those items as well as the position of the item so that you can easily purchage it.",
+  "Description": "This script will inspect all of the items of a keyword in a shop and track the quality of those items as well as the position of the item so that you can easily purchase it.",
   "Author": "Rhien",
   "GameAddress": "dsl-mud.org",
   "Category": "Info and Alerts",
-  "Version": 1,
+  "Version": 2,
   "AliasList": [
     {
       "AliasExpression": "shop-inspect",
