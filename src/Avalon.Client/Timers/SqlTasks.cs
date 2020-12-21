@@ -3,6 +3,7 @@ using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Threading;
@@ -10,7 +11,7 @@ using System.Windows.Threading;
 namespace Avalon.Timers
 {
     /// <summary>
-    /// SQLite interactions.
+    /// SQLite gatekeeper.
     /// </summary>
     /// <remarks>
     /// This will be the main entry point for scripts to utilize SQLite.  SQLite integration poses some unique
@@ -21,11 +22,15 @@ namespace Avalon.Timers
     /// necessarily be over and from a traditional sense all of those objects will have to be created every time
     /// which can quickly cause performance and memory problems.  As a result, this class will act as the gate
     /// keeper.  It will run operations perhaps unrelated as transactions for efficiency but also allow for traditional
-    /// cohesive transactions to be grouped together.
-    ///
-    ///       Pause selects if writing
+    /// cohesive transactions to be grouped together.  The downside is, unrelated commands could stop fail and stop
+    /// commits that otherwise would have succeeded.  But, once someone's scripts are solid that won't really
+    /// be an issue.
+    /// 
+    /// Because the commands are parameterized by index (@1, @2, @3) we are going to cache the SqlCommand's and
+    /// re-use them (a cached SQLCommand with parameters will exist by the number of params passed in).  As a result
+    /// the cache will never grow that large and will have a high re-use rate.
     /// </remarks>
-    public class SqlTasks
+    public class SqlTasks : IDisposable
     {
 
         /// <summary>
@@ -88,6 +93,9 @@ namespace Avalon.Timers
 
             this.IsWriting = true;
 
+            var sw = new Stopwatch();
+            sw.Start();
+
             try
             {
                 await Connection.ExecuteAsync("BEGIN");
@@ -125,6 +133,27 @@ namespace Avalon.Timers
                 App.MainWindow.ViewModel.PendingSqlStatements = 0;
                 this.IsWriting = false;
             }
+
+            sw.Stop();
+
+            // I don't necessarily want to spam the user but if the batches are taking this long I think
+            // a warning message is appropriate.
+            if (sw.ElapsedMilliseconds > 5000)
+            {
+                App.Conveyor.EchoWarning($"Performance: Database batch took {sw.ElapsedMilliseconds}ms.");
+            }
+
+            if (App.Settings.AvalonSettings.Debug)
+            {
+                if (sw.ElapsedMilliseconds < 500)
+                {
+                    App.Conveyor.EchoSuccess($"SQL batch committed in {sw.ElapsedMilliseconds}ms");
+                }
+                else
+                {
+                    App.Conveyor.EchoWarning($"SQL batch committed in {sw.ElapsedMilliseconds}ms");
+                }
+            }
         }
 
         /// <summary>
@@ -144,21 +173,27 @@ namespace Avalon.Timers
         }
 
         /// <summary>
-        /// Returns a new or cached database command for a SQL statement.
+        /// Returns a new or cached database command for a SQL statement.  The SQL statement
+        /// provided is put into the command as part of this function.
         /// </summary>
         /// <param name="sql"></param>
         private SqliteCommand GetCachedSqliteCommand(string sql)
         {
             int count = sql.Count(c => c == '@');
             var cmd = GetCachedSqliteCommand(count);
-            
-            cmd.CommandText = sql;
+
+            // Save an allocation and only change the string if it needs to be changed.
+            if (cmd.CommandText != sql)
+            {
+                cmd.CommandText = sql;
+            }
 
             return cmd;
         }
 
         /// <summary>
-        /// Returns a new or cached database command for the specified number of parameters.
+        /// Returns a new or cached database command for the specified number of parameters.  Note:  The
+        /// caller is responsible for adding the SQL statement into the returned object.
         /// </summary>
         /// <param name="numberOfParameters"></param>
         private SqliteCommand GetCachedSqliteCommand(int numberOfParameters)
@@ -198,6 +233,7 @@ namespace Avalon.Timers
                 return;
             }
 
+            // Dispose of all of the cached SqliteCommand objects.
             for (int i = this.SqliteCommandCache.Count - 1; i > 0; i--)
             {
                 this.SqliteCommandCache[i]?.Dispose();
@@ -304,6 +340,16 @@ namespace Avalon.Timers
             _timer.Interval = TimeSpan.FromSeconds(seconds);
         }
 
+        /// <summary>
+        /// Disposes of any resources used by the class.
+        /// </summary>
+        public void Dispose()
+        {
+            this.ClearCache();
+            this.ClearQueue();
+            this.Connection?.Close();
+            this.Connection?.Dispose();
+        }
     }
 
     /// <summary>
@@ -315,8 +361,15 @@ namespace Avalon.Timers
     /// </remarks>
     public class SqlTask
     {
+        /// <summary>
+        /// The parameterized SQL command that should be run.  All parameters will be numeric
+        /// by index (e.g. @1, @2, @3, etc.).
+        /// </summary>
         public string Sql { get; set; }
 
+        /// <summary>
+        /// The parameters specified in the order by index start at 1.
+        /// </summary>
         public string[] Parameters { get; set; }
     }
 }
