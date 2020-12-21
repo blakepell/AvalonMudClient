@@ -155,16 +155,10 @@
         <Key word = "RemoveNonAlpha" />
         <Key word = "StartsWith" />
         <Key word = "EndsWith" />
-        <Key word = "Execute" />
-        <Key word = "SelectValue" />
-        <Key word = "Select" />
-        <Key word = "StartTransaction" />
-        <Key word = "Commit" />
-        <Key word = "Rollback" />
-        <Key word = "Close" />
-        <Key word = "Open" />
-        <Key word = "ShrinkDb" />
-        <Key word = "LuaScriptsActive" />
+        <Key word = "DbExecute" />
+        <Key word = "DbSelectValue" />
+        <Key word = "DbSelect" />
+        <Key word = "DbFlush" />
       </KeyWords>
     </RuleSet>
   </RuleSets>

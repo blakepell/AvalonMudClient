@@ -76,6 +76,7 @@ namespace Avalon.Lua
                 data.Add(new LuaCompletionData("DbExecute", "Executes a parameterized SQL statement.\r\nExecute(string sql, params string[] parameters)\r\nReturns integer"));
                 data.Add(new LuaCompletionData("DbSelectValue", "Selects the value from the first column of the first row of any result set.\r\nSelectValue(string sql, params string[] parameters)\r\nReturns object"));
                 data.Add(new LuaCompletionData("DbSelect", "Selects a record set from the database.\r\nSelect(string sql, params string[] parameters)\r\nReturns a tabled record set."));
+                data.Add(new LuaCompletionData("DbFlush", "Forces all pending database transactions to be committed to the database.\r\nDbFlush()"));
             }
         }
 
