@@ -77,6 +77,8 @@ namespace Avalon.Lua
                 data.Add(new LuaCompletionData("DbSelectValue", "Selects the value from the first column of the first row of any result set.\r\nSelectValue(string sql, params string[] parameters)\r\nReturns object"));
                 data.Add(new LuaCompletionData("DbSelect", "Selects a record set from the database.\r\nSelect(string sql, params string[] parameters)\r\nReturns a tabled record set."));
                 data.Add(new LuaCompletionData("DbFlush", "Forces all pending database transactions to be committed to the database.\r\nDbFlush()"));
+                data.Add(new LuaCompletionData("HttpGet", "Downloads a string from a provided URL using a HTTP GET method.\r\nHttpGet(string url)"));
+                data.Add(new LuaCompletionData("HttpPost", "Downloads a string from a provided URL using the POST method.\r\nHttpPost(string url, string data)\r\nThe data parameter format is for form fields is: 'name=Rhien hobby=muds'"));
             }
         }
 

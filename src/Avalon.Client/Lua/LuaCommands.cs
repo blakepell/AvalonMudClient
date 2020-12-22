@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -61,7 +62,7 @@ namespace Avalon.Lua
             {
                 return "";
             }
-            
+
             // Invoke requested so that the call waits for the result of the function before returning.
             return Application.Current.Dispatcher.Invoke(() => _interpreter.Conveyor.GetVariable(key));
         }
@@ -221,7 +222,7 @@ namespace Avalon.Lua
             {
                 return;
             }
-            
+
             Application.Current.Dispatcher.Invoke(() =>
             {
                 _interpreter.Conveyor.EchoInfo(args.Length > 0 ? string.Format(msg, args) : msg);
@@ -1017,7 +1018,7 @@ namespace Avalon.Lua
 
             try
             {
-                foreach (var item in (string[]) text.Split('\n'))
+                foreach (var item in (string[])text.Split('\n'))
                 {
                     if (!item.EndsWith(searchText))
                     {
@@ -1117,6 +1118,34 @@ namespace Avalon.Lua
         public IEnumerable<Dictionary<string, object>> DbSelect(string sql, params string[] parameters)
         {
             return Application.Current.Dispatcher.Invoke(() => App.MainWindow.SqlTasks.Select(sql, parameters));
+        }
+
+        /// <summary>
+        /// Downloads a string from a URL using the GET method.
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public string HttpGet(string url)
+        {
+            using (var client = new WebClient())
+            {
+                return client.DownloadString(url);
+            }          
+        }
+
+        /// <summary>
+        /// Downloads a string from a URL using the POST method.  Data is a formatted string
+        /// posted as a form in the format: "Time = 12:00am temperature = 50";
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public string HttpPost(string url, string data)
+        {
+            using (var client = new WebClient())
+            {
+                return client.UploadString(url, data);
+            }
         }
 
         /// <summary>

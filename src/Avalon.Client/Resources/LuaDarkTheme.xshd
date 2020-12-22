@@ -159,6 +159,8 @@
         <Key word = "DbSelectValue" />
         <Key word = "DbSelect" />
         <Key word = "DbFlush" />
+        <Key word = "HttpPost" />
+        <Key word = "HttpGet" />
       </KeyWords>
     </RuleSet>
   </RuleSets>

@@ -83,6 +83,8 @@ local dir = lua:RandomChoice({"north", "south"});
 |lua:DbExecute|(string) sql, (object) params|Executes a parameterized SQL statement intended for write operations.|
 |lua:DbSelect|(string) sql, (object) params|Executes a parameterized SQL statement and returns a record set as a Lua table that can be iterated over.|
 |lua:DbSelectValue|(string) sql, (object) params|Executes a parameterized SQL statement and returns a single value (the first column of the first row).|
+|lua:HttpGet|(string) urlDownloads a string using an HTTP GET.|
+|lua:HttpPost|(string) url, (string) data|Downloads a string using an HTTP POST.  The data variable is a key pair formatted like: 'name=Rhien hobby=muds'|
 |global|None|Used to set global variables only global to Lua.|
 
 ## Lua Global Variables
