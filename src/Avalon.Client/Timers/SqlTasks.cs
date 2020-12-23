@@ -126,10 +126,12 @@ namespace Avalon.Timers
             }
             catch (Exception ex)
             {
+                await Connection.ExecuteAsync("ROLLBACK");
                 App.Conveyor.EchoError(ex.Message);
             }
             finally
             {
+                this.SqlQueue.Clear();
                 App.MainWindow.ViewModel.PendingSqlStatements = 0;
                 this.IsWriting = false;
             }
