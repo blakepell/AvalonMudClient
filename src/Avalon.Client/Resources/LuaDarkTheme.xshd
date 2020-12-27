@@ -161,6 +161,9 @@
         <Key word = "DbFlush" />
         <Key word = "HttpPost" />
         <Key word = "HttpGet" />
+        <Key word = "CaptureOn" />
+        <Key word = "CaptureOff" />
+        <Key word = "CaptureClear" />
       </KeyWords>
     </RuleSet>
   </RuleSets>

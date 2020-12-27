@@ -79,6 +79,9 @@ namespace Avalon.Lua
                 data.Add(new LuaCompletionData("DbFlush", "Forces all pending database transactions to be committed to the database.\r\nDbFlush()"));
                 data.Add(new LuaCompletionData("HttpGet", "Downloads a string from a provided URL using a HTTP GET method.\r\nHttpGet(string url)"));
                 data.Add(new LuaCompletionData("HttpPost", "Downloads a string from a provided URL using the POST method.\r\nHttpPost(string url, string data)\r\nThe data parameter format is for form fields is: 'name=Rhien hobby=muds'"));
+                data.Add(new LuaCompletionData("CaptureOn", "Turns on the text capturing from the incoming game text."));
+                data.Add(new LuaCompletionData("CaptureOff", "Turns off the text capturing from the incoming game text."));
+                data.Add(new LuaCompletionData("CaptureClear", "Clears the capture buffer."));
             }
         }
 

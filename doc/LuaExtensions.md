@@ -85,6 +85,9 @@ local dir = lua:RandomChoice({"north", "south"});
 |lua:DbSelectValue|(string) sql, (object) params|Executes a parameterized SQL statement and returns a single value (the first column of the first row).|
 |lua:HttpGet|(string) urlDownloads a string using an HTTP GET.|
 |lua:HttpPost|(string) url, (string) data|Downloads a string using an HTTP POST.  The data variable is a key pair formatted like: 'name=Rhien hobby=muds'|
+|lua:CaptureOn||Turns on text capturing which will capture the incoming game text with ANSI color codes removed.|
+|lua:CaptureOff||Turns off text capturing.|
+|lua:CaptureClear||Clears the text capture buffer.|
 |global|None|Used to set global variables only global to Lua.|
 
 ## Lua Global Variables
