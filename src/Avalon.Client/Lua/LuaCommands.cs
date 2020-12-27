@@ -11,6 +11,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace Avalon.Lua
 {
@@ -485,7 +486,48 @@ namespace Avalon.Lua
         /// </summary>
         public string GetScrapedText()
         {
-            return _interpreter.Conveyor.Scrape.ToString();
+            string buf = "";
+
+            Application.Current.Dispatcher.Invoke((Action)(() =>
+            {
+                buf = _interpreter.Conveyor.Scrape.ToString();
+            }));
+
+            return buf;
+        }
+
+        /// <summary>
+        /// Turns text capturing on.
+        /// </summary>
+        public void CaptureOn()
+        {
+            Application.Current.Dispatcher.Invoke((Action) (() =>
+            {
+                _interpreter.Conveyor.ScrapeEnabled = true;
+            }), DispatcherPriority.Send);
+        }
+
+        /// <summary>
+        /// Turns text capturing off.
+        /// </summary>
+        public void CaptureOff()
+        {
+            Application.Current.Dispatcher.Invoke((Action)(() =>
+            {
+                _interpreter.Conveyor.ScrapeEnabled = false;
+            }), DispatcherPriority.Send);
+        }
+
+        /// <summary>
+        /// Clears the text capturing buffer.
+        /// </summary>
+        public void CaptureClear()
+        {
+            Application.Current.Dispatcher.Invoke((Action)(() =>
+            {
+                _interpreter.Conveyor.ScrapeEnabled = false;
+                _interpreter.Conveyor.Scrape.Clear();
+            }));
         }
 
         /// <summary>
