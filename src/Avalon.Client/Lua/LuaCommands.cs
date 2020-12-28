@@ -80,10 +80,7 @@ namespace Avalon.Lua
                 return;
             }
 
-            if (value == null)
-            {
-                value = "";
-            }
+            value ??= "";
 
             Application.Current.Dispatcher.Invoke(() => _interpreter.Conveyor.SetVariable(key, value));
         }
@@ -133,10 +130,7 @@ namespace Avalon.Lua
                 return;
             }
 
-            if (color == null)
-            {
-                color = "Cyan";
-            }
+            color ??= "Cyan";
 
             var foreground = Colorizer.ColorMapByName(color)?.AnsiColor ?? AnsiColors.Cyan;
 
@@ -1230,7 +1224,6 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="url"></param>
         /// <param name="data"></param>
-        /// <returns></returns>
         public string HttpPost(string url, string data)
         {
             using (var client = new WebClient())
@@ -1249,6 +1242,5 @@ namespace Avalon.Lua
 
 
         private readonly IInterpreter _interpreter;
-
     }
 }
