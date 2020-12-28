@@ -10,6 +10,7 @@
         xmlns:editors="clr-namespace:Avalon.Controls.AutoCompleteTextBox.Editors"
         xmlns:providers="clr-namespace:Avalon.Controls.AutoCompleteTextBox"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
         ui:WindowHelper.UseModernWindowStyle="False" 
         x:Name="mainPage" TextOptions.TextFormattingMode="Ideal"
         ui:TitleBar.Background="#1E1E1E"
@@ -20,6 +21,7 @@
         SizeChanged="MainPage_SizeChanged"
         ResizeMode="CanResize" AllowsTransparency="True" WindowStyle="None" BorderThickness=".9" BorderBrush="#444444" Style="{DynamicResource WindowChrome}"
         >
+    <!-- Resources (e.g. context menu) -->
     <Window.Resources>
         <providers:AutoCompleteCommandProvider x:Key="AutoCompleteCommandProvider"/>
         <DataTemplate x:Key="AutoCompleteCommandTemplate">
@@ -70,6 +72,7 @@
             </Setter>
         </Style>
     </Window.Resources>
+    <!-- Hot keys -->
     <Window.CommandBindings>
         <CommandBinding Command="local:MainWindow.LoadPlugin" Executed="MenuItemManuallyLoadPlugin_Click" />
         <CommandBinding Command="local:MainWindow.EditLastItem" Executed="MenuItemOpenLastEdittedAliasOrTrigger_Click" />
@@ -96,6 +99,7 @@
         <KeyBinding Command="local:MainWindow.FontSizeChange" Key="OemPlus" Modifiers="Ctrl" CommandParameter="+" />
         <KeyBinding Command="local:MainWindow.FontSizeChange" Key="OemMinus" Modifiers="Ctrl" CommandParameter="-" />
     </Window.InputBindings>
+    <!-- Main Grid --> 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
@@ -106,6 +110,7 @@
         <!-- The title bar of the Window -->
         <controls:WindowTitleBar x:Name="TitleBar" Grid.Row="0" HorizontalAlignment="Stretch"></controls:WindowTitleBar>
 
+        <!-- SplitView for the main part of the main grid -->
         <ui:SplitView x:Name="SplitViewMain" x:FieldModifier="public"
             Grid.Row="1"
             PaneBackground="#171717"
@@ -465,6 +470,14 @@
                                     KeyDown="Terminal_OnKeyDown">
                             </controls:AvalonTerminal>
                         </controls:TabItemEx>
+                        <controls:TabItemEx>
+                            <controls:TabItemEx.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14" Margin="0,0,15,0">Lua</Label>
+                                </StackPanel>
+                            </controls:TabItemEx.Header>
+                            <controls:AvalonLuaEditor x:Name="LuaEditor"></controls:AvalonLuaEditor>
+                        </controls:TabItemEx>
                     </controls:TabControlEx>
                 </Border>
 
@@ -526,6 +539,7 @@
             </Grid>
         </ui:SplitView>
 
+        <!-- Status Bar -->
         <!-- #007ACC, #CA5100, #8A179A, #121112 -->
         <StatusBar Grid.Row="2" Background="#007ACC" Foreground="White" BorderBrush="#444444" BorderThickness="0,.9,0,0">
             <StatusBarItem Width="47">

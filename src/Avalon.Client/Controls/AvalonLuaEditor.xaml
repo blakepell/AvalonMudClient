@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="Avalon.Controls.AvalonLuaEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.modernwpf.com/2019"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Loaded="AvalonLuaEditor_OnLoaded"
+             Unloaded="AvalonLuaEditor_OnUnloaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Background="#171717" Orientation="Horizontal">
+            <Button Click="ButtonRunLua_OnClick"
+                    Background="#171717" 
+                    Margin="0,0,0,0" 
+                    ui:ControlHelper.CornerRadius="0">
+                <StackPanel Orientation="Horizontal">
+                    <iconPacks:PackIconMaterial Kind="Play" Foreground="Green" Margin="0,2,0,0" />
+                    <TextBlock FontFamily="Segoe UI" Foreground="#DDDDDD" Margin="5,0,0,0">Run</TextBlock>
+                </StackPanel>
+            </Button>
+            <Button Click="ButtonInfo_OnClick" 
+                    Background="#171717" 
+                    Margin="0,0,0,0"
+                    ui:ControlHelper.CornerRadius="0">
+                <StackPanel Orientation="Horizontal">
+                    <iconPacks:PackIconMaterial Kind="InformationOutline" Margin="0,2,0,0" />
+                    <TextBlock FontFamily="Segoe UI" Foreground="#DDDDDD" Margin="5,0,0,0">Info</TextBlock>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <avalonedit:TextEditor
+            x:Name="Editor" ShowLineNumbers="True" WordWrap="False"
+            Grid.Row="1" Grid.Column="0" KeyDown="AvalonLuaEditor_OnKeyDown"
+            FontFamily="Consolas" FontSize="10pt" IsReadOnly="False"
+            Padding="0,0,0,0" Margin="0,0,0,0"
+            Background="#1E1E1E" Foreground="#DCDCDC"
+            ScrollViewer.PanningMode="VerticalOnly"
+            BorderThickness="0,.9,0,0"
+            BorderBrush="#666666">
+        </avalonedit:TextEditor>
+    </Grid>
+</UserControl>

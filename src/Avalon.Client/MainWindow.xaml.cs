@@ -17,8 +17,11 @@ using Avalon.Common.Models;
 using ModernWpf.Controls;
 using System.Diagnostics;
 using System.Windows.Media;
+using System.Xml;
 using Argus.Extensions;
 using Avalon.Utilities;
+using ICSharpCode.AvalonEdit.Highlighting;
+using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 
 namespace Avalon
 {
