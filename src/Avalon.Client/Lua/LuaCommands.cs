@@ -190,7 +190,10 @@ namespace Avalon.Lua
             Application.Current.Dispatcher.Invoke(() =>
             {
                 // This case is if they specified a window that might exist, we'll find it, edit that.
-                var win = _interpreter.Conveyor.WindowList.FirstOrDefault(x => x.WindowType == WindowType.TerminalWindow && x.Name.Equals(windowName, StringComparison.Ordinal)) as TerminalWindow;
+                var win = _interpreter.Conveyor.WindowList.FirstOrDefault(x =>
+                        x.WindowType == WindowType.TerminalWindow &&
+                        x.Name.Equals(windowName, StringComparison.Ordinal)) as
+                    TerminalWindow;
 
                 if (win == null)
                 {
@@ -290,7 +293,10 @@ namespace Avalon.Lua
             Application.Current.Dispatcher.Invoke(() =>
             {
                 // This case is if they specified a window that might exist, we'll find it, edit that.
-                var win = _interpreter.Conveyor.WindowList.FirstOrDefault(x => x.WindowType == WindowType.TerminalWindow && x.Name.Equals(windowName, StringComparison.Ordinal)) as TerminalWindow;
+                var win = _interpreter.Conveyor.WindowList.FirstOrDefault(x =>
+                        x.WindowType == WindowType.TerminalWindow &&
+                        x.Name.Equals(windowName, StringComparison.Ordinal)) as
+                    TerminalWindow;
 
                 if (win == null)
                 {
@@ -319,6 +325,49 @@ namespace Avalon.Lua
             }
 
             return "";
+        }
+
+        /// <summary>
+        /// Returns the specified number of characters from the left side of the string.  If more
+        /// characters were requested than exist the full string is returned.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="length"></param>
+        public string Left(string str, int length)
+        {
+            return str.SafeLeft(length);
+        }
+
+        /// <summary>
+        /// Returns the specified number of characters from the right side of the string.  If more
+        /// characters were requested than exist the full string is returned.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="length"></param>
+        public string Right(string str, int length)
+        {
+            return str.SafeRight(length);
+        }
+
+        /// <summary>
+        /// Returns the substring starting at the specified index.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="startIndex"></param>
+        public string Substring(string str, int startIndex)
+        {
+            return str.SafeSubstring(startIndex);
+        }
+
+        /// <summary>
+        /// Returns the substring starting at the specified index for the specified length.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="startIndex"></param>
+        /// <param name="length"></param>
+        public string Substring(string str, int startIndex, int length)
+        {
+            return str.SafeSubstring(startIndex, length);
         }
 
         /// <summary>
@@ -501,10 +550,10 @@ namespace Avalon.Lua
         /// </summary>
         public void CaptureOn()
         {
-            Application.Current.Dispatcher.Invoke((Action) (() =>
-            {
-                _interpreter.Conveyor.ScrapeEnabled = true;
-            }), DispatcherPriority.Send);
+            Application.Current.Dispatcher.Invoke((Action)(() =>
+           {
+               _interpreter.Conveyor.ScrapeEnabled = true;
+           }), DispatcherPriority.Send);
         }
 
         /// <summary>
@@ -1172,7 +1221,7 @@ namespace Avalon.Lua
             using (var client = new WebClient())
             {
                 return client.DownloadString(url);
-            }          
+            }
         }
 
         /// <summary>

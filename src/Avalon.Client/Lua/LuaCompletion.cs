@@ -82,6 +82,9 @@ namespace Avalon.Lua
                 data.Add(new LuaCompletionData("CaptureOn", "Turns on the text capturing from the incoming game text."));
                 data.Add(new LuaCompletionData("CaptureOff", "Turns off the text capturing from the incoming game text."));
                 data.Add(new LuaCompletionData("CaptureClear", "Clears the capture buffer."));
+                data.Add(new LuaCompletionData("Left", "Returns the specified number of characters from the left side of the string. If more characters were requested than exist the full string is returned.\r\nLeft(string str, int length)"));
+                data.Add(new LuaCompletionData("Right", "Returns the specified number of characters from the right side of the string. If more characters were requested than exist the full string is returned.\r\nRight(string str, int length)"));
+                data.Add(new LuaCompletionData("Substring", "Returns the substring starting at the specified index for the specified length.\r\nSyntax: Substring(string str, int startIndex)\r\nSyntax: Substring(string str, int startIndex, int length)"));
             }
         }
 

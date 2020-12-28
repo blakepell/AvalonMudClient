@@ -88,7 +88,11 @@ local dir = lua:RandomChoice({"north", "south"});
 |lua:CaptureOn||Turns on text capturing which will capture the incoming game text with ANSI color codes removed.|
 |lua:CaptureOff||Turns off text capturing.|
 |lua:CaptureClear||Clears the text capture buffer.|
-|global|None|Used to set global variables only global to Lua.|
+|lua:Left|(string) str, (int) length|Returns the specified number of characters from the left side of the string. If more characters were requested than exist the full string is returned.|
+|lua:Right|(string) str, (int) length|Returns the specified number of characters from the right side of the string. If more characters were requested than exist the full string is returned.|
+|lua:Substring|(string) str, (int) startIndex|
+|lua:Substring|(string) str, (int) startIndex, (int) length|Returns the substring starting at the specified index.|
+|global|None|Used to set global variables only global to Lua.|Returns the substring starting at the specified index for the specified length.|
 
 ## Lua Global Variables
 

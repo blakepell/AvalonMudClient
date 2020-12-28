@@ -164,6 +164,9 @@
         <Key word = "CaptureOn" />
         <Key word = "CaptureOff" />
         <Key word = "CaptureClear" />
+        <Key word = "Left" />
+        <Key word = "Right" />
+        <Key word = "Substring" />
       </KeyWords>
     </RuleSet>
   </RuleSets>
