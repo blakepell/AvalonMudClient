@@ -77,7 +77,7 @@ namespace Avalon
         }
 
         /// <summary>
-        /// Used for autocompletion with Lua.
+        /// Used for auto completion with Lua.
         /// </summary>
         CompletionWindow _completionWindow;
 
@@ -112,6 +112,18 @@ namespace Avalon
             AvalonLuaEditor.Focus();
         }
 
+        /// <summary>
+        /// Fired when the Window is unloaded.  Cleanup any resources including removing EventHandlers
+        /// so this memory can be properly disposed of.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StringEditor_OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            AvalonLuaEditor.TextArea.TextEntering -= AvalonLuaEditor_TextEntering;
+            AvalonLuaEditor.TextArea.TextEntered -= AvalonLuaEditor_TextEntered;
+        }
+
         private void AvalonLuaEditor_TextEntered(object sender, TextCompositionEventArgs e)
         {
             // Text colon or dot, find the word before it.
@@ -119,7 +131,7 @@ namespace Avalon
             {
                 string word = GetWordBefore(AvalonLuaEditor);
 
-                if (word == "lua" || word == "sql")
+                if (word == "lua")
                 {
                     // Open code completion after the user has pressed dot:
                     _completionWindow = new CompletionWindow(AvalonLuaEditor.TextArea);
@@ -270,6 +282,5 @@ namespace Avalon
 
             return wordBeforeDot;
         }
-
     }
 }
