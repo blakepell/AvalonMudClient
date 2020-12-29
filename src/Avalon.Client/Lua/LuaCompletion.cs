@@ -90,9 +90,9 @@ namespace Avalon.Lua
 
         public static void LoadCompletionDataSnippits(IList<ICompletionData> data)
         {
-            data.Add(new LuaCompletionData("Scheduled Tasks", "A snippit to show how to use scheduled tasks", ""));
-            data.Add(new LuaCompletionData("For Loop", "A snippit to show how to use scheduled tasks", ""));
-            data.Add(new LuaCompletionData("For Loop Pairs", "A snippit to show how to use scheduled tasks", ""));
+            data.Add(new LuaCompletionData("Scheduled Tasks", "A snippet to show how to use scheduled tasks", ""));
+            data.Add(new LuaCompletionData("For Loop", "A snippet to show how to use scheduled tasks", ""));
+            data.Add(new LuaCompletionData("For Loop Pairs", "A snippet to show how to use scheduled tasks", ""));
         }
 
     }
