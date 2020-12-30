@@ -11,6 +11,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms.VisualStyles;
 using System.Windows.Threading;
 
 namespace Avalon.Lua
@@ -717,6 +718,71 @@ namespace Avalon.Lua
         }
 
         /// <summary>
+        /// Removes all ANSI control sequences.
+        /// </summary>
+        /// <param name="str"></param>
+        public string RemoveAnsiCodes(string str)
+        {
+            return Colorizer.RemoveAllAnsiCodes(str);
+        }
+
+        /// <summary>
+        /// Removes all ANSI control sequences.
+        /// </summary>
+        /// <param name="array"></param>
+        public string[] RemoveAnsiCodes(string[] array)
+        {
+            var list = new List<string>();
+
+            foreach (string line in array)
+            {
+                list.Add(Colorizer.RemoveAllAnsiCodes(line));
+            }
+
+            return list.ToArray();
+        }
+
+        /// <summary>
+        /// Removes empty elements from an array.
+        /// </summary>
+        /// <param name="array"></param>
+        public string[] RemoveElementsEmpty(string[] array)
+        {
+            var returnList = array.Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
+            return returnList;
+        }
+
+        /// <summary>
+        /// Removes elements from an array starting with a specified string.
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="str"></param>
+        public string[] RemoveElementsStartsWith(string[] array, string str)
+        {
+            return array.Where(x => !x.StartsWith(str)).ToArray();
+        }
+
+        /// <summary>
+        /// Removes elements from an array ending with a specified string.
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="str"></param>
+        public string[] RemoveElementsEndingWith(string[] array, string str)
+        {
+            return array.Where(x => !x.EndsWith(str)).ToArray();
+        }
+
+        /// <summary>
+        /// Removes elements from an array containing with a specified string.
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="str"></param>
+        public string[] RemoveElementsContains(string[] array, string str)
+        {
+            return array.Where(x => !x.Contains(str)).ToArray();
+        }
+
+        /// <summary>
         /// Adds an item to a list.  Duplicate items are acceptable.
         /// </summary>
         /// <param name="sourceList"></param>
@@ -1022,6 +1088,205 @@ namespace Avalon.Lua
             if (reverseOrder)
             {
                 list.Reverse();
+            }
+
+            return list.ToArray();
+        }
+
+        /// <summary>
+        /// Returns the last lines oldest to newest where the start line contains the search pattern.
+        /// </summary>
+        /// <param name="startLineContains"></param>
+        public string[] LastLinesBetweenContains(string startLineContains)
+        {
+            var list = new List<string>();
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                string text = "";
+                int i = App.MainWindow.GameTerminal.Document.LineCount;
+
+                while (string.IsNullOrEmpty(text) && i > 0)
+                {
+                    var line = App.MainWindow.GameTerminal.Document.GetLineByNumber(i);
+                    list.Add(App.MainWindow.GameTerminal.Document.GetText(line.Offset, line.Length));
+
+                    i--;
+
+                    // Break if the line contains the search string.
+                    if (i < 0 || list.Last().Contains(startLineContains))
+                    {
+                        break;
+                    }
+                }
+            });
+
+            list.Reverse();
+
+            return list.ToArray();
+        }
+
+        /// <summary>
+        /// Returns the last lines oldest to newest where the start line contains the search pattern and
+        /// the end line contains it's search pattern.  Both patterns must be found or the list will be
+        /// empty.
+        /// </summary>
+        /// <param name="startLineContains"></param>
+        /// <param name="endLineContains"></param>
+        public string[] LastLinesBetweenContains(string startLineContains, string endLineContains)
+        {
+            bool found = false;
+            var list = new List<string>();
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                string text = "";
+                int i = App.MainWindow.GameTerminal.Document.LineCount;
+
+                while (string.IsNullOrEmpty(text) && i > 0)
+                {
+                    var line = App.MainWindow.GameTerminal.Document.GetLineByNumber(i);
+                    list.Add(App.MainWindow.GameTerminal.Document.GetText(line.Offset, line.Length));
+
+                    i--;
+
+                    // Break if the line contains the search string.
+                    if (i < 0 || list.Last().Contains(startLineContains))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+            });
+
+            // If there is no starting pattern nothing should be returned.
+            if (!found)
+            {
+                return Array.Empty<string>();
+            }
+
+            list.Reverse();
+
+            // Find the line where the next occurrence is found, then remove all the lines after that line.
+            int lastLine = 0;
+
+            for (int x = 0; x < list.Count; x++)
+            {
+                // Break if the line contains the end line search string so we don't remove anymore.
+                if (list[x].Contains(endLineContains))
+                {
+                    lastLine = x;
+                    break;
+                }
+            }
+
+            // Remove everything after the last line.
+            for (int x = list.Count - 1; x >= 0; x--)
+            {
+                if (x > lastLine)
+                {
+                    list.RemoveAt(x);
+                }
+            }
+
+            return list.ToArray();
+        }
+
+        /// <summary>
+        /// Returns the last lines oldest to newest where the start line contains the search pattern.
+        /// </summary>
+        /// <param name="startLineStartsWith"></param>
+        public string[] LastLinesBetweenStartsWith(string startLineStartsWith)
+        {
+            var list = new List<string>();
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                string text = "";
+                int i = App.MainWindow.GameTerminal.Document.LineCount;
+
+                while (string.IsNullOrEmpty(text) && i > 0)
+                {
+                    var line = App.MainWindow.GameTerminal.Document.GetLineByNumber(i);
+                    list.Add(App.MainWindow.GameTerminal.Document.GetText(line.Offset, line.Length));
+
+                    i--;
+
+                    // Break if the line contains the search string.
+                    if (i < 0 || list.Last().StartsWith(startLineStartsWith))
+                    {
+                        break;
+                    }
+                }
+            });
+
+            list.Reverse();
+
+            return list.ToArray();
+        }
+
+
+        /// <summary>
+        /// Returns the last lines oldest to newest where the start line contains the search pattern and
+        /// the end line contains it's search pattern.  Both patterns must be found or the list will be
+        /// empty.
+        /// </summary>
+        /// <param name="startLineStartsWith"></param>
+        /// <param name="endLineStartsWith"></param>
+        public string[] LastLinesBetweenStartsWith(string startLineStartsWith, string endLineStartsWith)
+        {
+            bool found = false;
+            var list = new List<string>();
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                string text = "";
+                int i = App.MainWindow.GameTerminal.Document.LineCount;
+
+                while (string.IsNullOrEmpty(text) && i > 0)
+                {
+                    var line = App.MainWindow.GameTerminal.Document.GetLineByNumber(i);
+                    list.Add(App.MainWindow.GameTerminal.Document.GetText(line.Offset, line.Length));
+
+                    i--;
+
+                    // Break if the line contains the search string.
+                    if (i < 0 || list.Last().StartsWith(startLineStartsWith))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+            });
+
+            // If there is no starting pattern nothing should be returned.
+            if (!found)
+            {
+                return Array.Empty<string>();
+            }
+
+            list.Reverse();
+
+            // Find the line where the next occurrence is found, then remove all the lines after that line.
+            int lastLine = 0;
+
+            for (int x = 0; x < list.Count; x++)
+            {
+                // Break if the line contains the end line search string so we don't remove anymore.
+                if (list[x].StartsWith(endLineStartsWith))
+                {
+                    lastLine = x;
+                    break;
+                }
+            }
+
+            // Remove everything after the last line.
+            for (int x = list.Count - 1; x >= 0; x--)
+            {
+                if (x > lastLine)
+                {
+                    list.RemoveAt(x);
+                }
             }
 
             return list.ToArray();

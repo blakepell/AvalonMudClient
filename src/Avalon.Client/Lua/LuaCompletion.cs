@@ -85,6 +85,13 @@ namespace Avalon.Lua
                 data.Add(new LuaCompletionData("Left", "Returns the specified number of characters from the left side of the string. If more characters were requested than exist the full string is returned.\r\nLeft(string str, int length)"));
                 data.Add(new LuaCompletionData("Right", "Returns the specified number of characters from the right side of the string. If more characters were requested than exist the full string is returned.\r\nRight(string str, int length)"));
                 data.Add(new LuaCompletionData("Substring", "Returns the substring starting at the specified index for the specified length.\r\nSyntax: Substring(string str, int startIndex)\r\nSyntax: Substring(string str, int startIndex, int length)"));
+                data.Add(new LuaCompletionData("RemoveElementsEmpty", "Removes all empty/whitespace elements from an array.\r\nSyntax: RemoveElementsEmpty(string[] array)"));
+                data.Add(new LuaCompletionData("RemoveElementsContains", "Removes all elements from an array that contain the specified text.\r\nSyntax: RemoveElementsContains(string[] array, string str)"));
+                data.Add(new LuaCompletionData("RemoveElementsEndingWith", "Removes all elements from an array that end with the specified text.\r\nSyntax: RemoveElementsEndingWith(string[] array, string str)"));
+                data.Add(new LuaCompletionData("RemoveElementsStartsWith", "Removes all elements from an array that start with the specified text.\r\nSyntax: RemoveElementsStartsWith(string[] array, string str)"));
+                data.Add(new LuaCompletionData("LastLinesBetweenContains", "Removes all elements from an array between the last occurrence of lines that contain a start and optional ending pattern.\r\nSyntax: LastLinesBetweenContains(string startLineContains)\r\nSyntax: LastLinesBetweenContains(string startLineContains, string endLineContains)"));
+                data.Add(new LuaCompletionData("LastLinesBetweenStartsWith", "Removes all elements from an array between the last occurrence of lines that start with a start and optional ending pattern.\r\nSyntax: LastLinesBetweenStartsWith(string startLineStartsWith)\r\nSyntax: LastLinesBetweenStartsWith(string startLineStartsWith, string endLineStartsWith)"));
+                data.Add(new LuaCompletionData("RemoveAnsiCodes", "Removes all ANSI codes from a string or array.\r\nSyntax: RemoveAnsiCodes(string[] array)\r\nSyntax: RemoveAnsiCodes(string str)"));
             }
         }
 

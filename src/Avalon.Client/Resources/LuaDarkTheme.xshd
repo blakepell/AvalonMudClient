@@ -167,6 +167,13 @@
         <Key word = "Left" />
         <Key word = "Right" />
         <Key word = "Substring" />
+        <Key word = "RemoveElementsEmpty" />
+        <Key word = "RemoveElementsContains" />
+        <Key word = "RemoveElementsEndingWith" />
+        <Key word = "RemoveElementsStartsWith" />
+        <Key word = "LastLinesBetweenContains" />
+        <Key word = "LastLinesBetweenStartsWith" />
+        <Key word = "RemoveAnsiCodes" />
       </KeyWords>
     </RuleSet>
   </RuleSets>
