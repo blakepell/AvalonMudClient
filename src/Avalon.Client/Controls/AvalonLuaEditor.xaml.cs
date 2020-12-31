@@ -1,4 +1,5 @@
-﻿using Avalon.Lua;
+﻿using System;
+using Avalon.Lua;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Highlighting;
@@ -34,11 +35,28 @@ namespace Avalon.Controls
             Editor.TextArea.TextEntered += AvalonLuaEditor_TextEntered;
         }
 
+        /// <summary>
+        /// Runs a Lua script in the control.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonRunLua_OnClick(object sender, RoutedEventArgs e)
         {
             // Call our single point of Lua entry.
-            var lua = App.MainWindow.Interp.LuaCaller;
-            _ = lua.ExecuteAsync(Editor.Text);
+            try
+            {
+                var lua = App.MainWindow.Interp.LuaCaller;
+                _ = lua.ExecuteAsync(Editor.Text);
+            }
+            catch (Exception ex)
+            {
+                App.Conveyor.EchoError(ex.Message);
+
+                if (ex.InnerException != null)
+                {
+                    App.Conveyor.EchoError(ex.InnerException.Message);
+                }
+            }
         }
 
         /// <summary>
