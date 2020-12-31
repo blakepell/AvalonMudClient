@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms.VisualStyles;
 using System.Windows.Threading;
+using Avalon.Extensions;
 
 namespace Avalon.Lua
 {
@@ -1109,7 +1110,7 @@ namespace Avalon.Lua
                 while (string.IsNullOrEmpty(text) && i > 0)
                 {
                     var line = App.MainWindow.GameTerminal.Document.GetLineByNumber(i);
-                    list.Add(App.MainWindow.GameTerminal.Document.GetText(line.Offset, line.Length));
+                    list.Add(App.MainWindow.GameTerminal.Document.GetText(line.Offset, line.Length).RemoveAnsiCodes());
 
                     i--;
 
@@ -1146,7 +1147,7 @@ namespace Avalon.Lua
                 while (string.IsNullOrEmpty(text) && i > 0)
                 {
                     var line = App.MainWindow.GameTerminal.Document.GetLineByNumber(i);
-                    list.Add(App.MainWindow.GameTerminal.Document.GetText(line.Offset, line.Length));
+                    list.Add(App.MainWindow.GameTerminal.Document.GetText(line.Offset, line.Length).RemoveAnsiCodes());
 
                     i--;
 
@@ -1208,7 +1209,7 @@ namespace Avalon.Lua
                 while (string.IsNullOrEmpty(text) && i > 0)
                 {
                     var line = App.MainWindow.GameTerminal.Document.GetLineByNumber(i);
-                    list.Add(App.MainWindow.GameTerminal.Document.GetText(line.Offset, line.Length));
+                    list.Add(App.MainWindow.GameTerminal.Document.GetText(line.Offset, line.Length).RemoveAnsiCodes());
 
                     i--;
 
@@ -1246,7 +1247,7 @@ namespace Avalon.Lua
                 while (string.IsNullOrEmpty(text) && i > 0)
                 {
                     var line = App.MainWindow.GameTerminal.Document.GetLineByNumber(i);
-                    list.Add(App.MainWindow.GameTerminal.Document.GetText(line.Offset, line.Length));
+                    list.Add(App.MainWindow.GameTerminal.Document.GetText(line.Offset, line.Length).RemoveAnsiCodes());
 
                     i--;
 

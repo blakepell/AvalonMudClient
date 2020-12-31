@@ -320,6 +320,16 @@ namespace Avalon.Extensions
         }
 
         /// <summary>
+        /// Removes all ANSI codes from the specified string.
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <returns></returns>
+        public static string RemoveAnsiCodes(this string buf)
+        {
+            return Colorizer.RemoveAllAnsiCodes(buf);
+        }
+
+        /// <summary>
         /// Pulses the <see cref="Control.Background"/> property a specified color.
         /// </summary>
         /// <param name="c"></param>
