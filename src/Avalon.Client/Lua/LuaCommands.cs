@@ -4,6 +4,7 @@ using Avalon.Common.Colors;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -707,6 +708,11 @@ namespace Avalon.Lua
         /// <param name="searchValue"></param>
         public bool ArrayContains(string[] array, string searchValue)
         {
+            if (array == null)
+            {
+                return false;
+            }
+
             foreach (var s in array)
             {
                 if (s == searchValue)
@@ -724,6 +730,11 @@ namespace Avalon.Lua
         /// <param name="str"></param>
         public string RemoveAnsiCodes(string str)
         {
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                return "";
+            }
+
             return Colorizer.RemoveAllAnsiCodes(str);
         }
 
@@ -733,6 +744,11 @@ namespace Avalon.Lua
         /// <param name="array"></param>
         public string[] RemoveAnsiCodes(string[] array)
         {
+            if (array == null)
+            {
+                return null;
+            }
+
             var list = new List<string>();
 
             foreach (string line in array)
@@ -749,8 +765,7 @@ namespace Avalon.Lua
         /// <param name="array"></param>
         public string[] RemoveElementsEmpty(string[] array)
         {
-            var returnList = array.Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
-            return returnList;
+            return array?.Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
         }
 
         /// <summary>
@@ -760,7 +775,7 @@ namespace Avalon.Lua
         /// <param name="str"></param>
         public string[] RemoveElementsStartsWith(string[] array, string str)
         {
-            return array.Where(x => !x.StartsWith(str)).ToArray();
+            return array?.Where(x => !x.StartsWith(str)).ToArray();
         }
 
         /// <summary>
@@ -770,7 +785,7 @@ namespace Avalon.Lua
         /// <param name="str"></param>
         public string[] RemoveElementsEndingWith(string[] array, string str)
         {
-            return array.Where(x => !x.EndsWith(str)).ToArray();
+            return array?.Where(x => !x.EndsWith(str)).ToArray();
         }
 
         /// <summary>
@@ -780,7 +795,7 @@ namespace Avalon.Lua
         /// <param name="str"></param>
         public string[] RemoveElementsContains(string[] array, string str)
         {
-            return array.Where(x => !x.Contains(str)).ToArray();
+            return array?.Where(x => !x.Contains(str)).ToArray();
         }
 
         /// <summary>
@@ -1405,7 +1420,6 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="text"></param>
         /// <param name="searchText"></param>
-        /// <returns></returns>
         public bool EndsWith(string text, string searchText)
         {
             if (text == null || searchText == null)
@@ -1452,23 +1466,47 @@ namespace Avalon.Lua
         }
 
         /// <summary>
-        /// Selects one value from the database.
+        /// Selects one value from the database.  If an error occurs it is written to the terminal.
+        /// and an empty string is returned.
         /// </summary>
         /// <param name="sql"></param>
         /// <param name="parameters"></param>
         public object DbSelectValue(string sql, params string[] parameters)
         {
-            return Application.Current.Dispatcher.Invoke(() => App.MainWindow.SqlTasks.SelectValue(sql, parameters));
+            return Application.Current.Dispatcher.Invoke(() =>
+            {
+                try
+                {
+                    return App.MainWindow.SqlTasks.SelectValue(sql, parameters);
+                }
+                catch (Exception ex)
+                {
+                    App.Conveyor.EchoError(ex.Message);
+                    return "";
+                }
+            });
         }
 
         /// <summary>
-        /// Selects a record set that can be iterated over in Lua as a table.
+        /// Selects a record set that can be iterated over in Lua as a table.  If an error occurs an it is
+        /// written to the terminal and an empty result is returned.
         /// </summary>
         /// <param name="sql"></param>
         /// <param name="parameters"></param>
         public IEnumerable<Dictionary<string, object>> DbSelect(string sql, params string[] parameters)
         {
-            return Application.Current.Dispatcher.Invoke(() => App.MainWindow.SqlTasks.Select(sql, parameters));
+            return Application.Current.Dispatcher.Invoke(() =>
+            {
+                try
+                {
+                    return App.MainWindow.SqlTasks.Select(sql, parameters);
+                }
+                catch (Exception ex)
+                {
+                    App.Conveyor.EchoError(ex.Message);
+                    return Enumerable.Empty<Dictionary<string, object>>();
+                }
+            });
         }
 
         /// <summary>

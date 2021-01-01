@@ -8,13 +8,13 @@
     <Authors>Blake Pell</Authors>
     <Company></Company>
     <Description>Avalon Mud Client</Description>
-    <Copyright>2003-2020</Copyright>
+    <Copyright>2003-2021</Copyright>
     <RootNamespace>Avalon</RootNamespace>
     <AssemblyName>Avalon</AssemblyName>
     <ApplicationIcon>Sword.ico</ApplicationIcon>
-    <Version>2020.12.31.1</Version>
-    <AssemblyVersion>2020.12.31.1</AssemblyVersion>
-    <FileVersion>2020.12.31.1</FileVersion>
+    <Version>2021.1.1.1</Version>
+    <AssemblyVersion>2021.1.1.1</AssemblyVersion>
+    <FileVersion>2021.1.1.1</FileVersion>
     <LangVersion>8.0</LangVersion>    
     <Product>Avalon Mud Client</Product>
     <RepositoryUrl>https://github.com/blakepell/AvalonMudClient</RepositoryUrl>
