@@ -81,6 +81,7 @@ local dir = lua.RandomChoice({"north", "south"});
 |lua.EndsWith|(string) text, (string) searchText|If a string ends with another string.|
 |lua.LuaScriptsActive||The number of Lua scripts that are actively running.|
 |lua.DbExecute|(string) sql, (object) params|Executes a parameterized SQL statement intended for write operations.|
+|lua.DbExecuteImmediate|(string) sql, (object) params|Executes a SQL command immediately outside of a transaction.  Used for scenarios where statements can't run in a transaction such as `CREATE TABLE`.|
 |lua.DbSelect|(string) sql, (object) params|Executes a parameterized SQL statement and returns a record set as a Lua table that can be iterated over.|
 |lua.DbSelectValue|(string) sql, (object) params|Executes a parameterized SQL statement and returns a single value (the first column of the first row).|
 |lua.HttpGet|(string) urlDownloads a string using an HTTP GET.|

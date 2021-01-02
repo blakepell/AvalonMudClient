@@ -1464,6 +1464,16 @@ namespace Avalon.Lua
         {
             Application.Current.Dispatcher.Invoke(() => App.MainWindow.SqlTasks.Add(sql, parameters));
         }
+        
+        /// <summary>
+        /// Executes a SQL command immediately outside of a transaction.
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="parameters"></param>
+        public void DbExecuteImmediate(string sql, params string[] parameters)
+        {
+            Application.Current.Dispatcher.Invoke(() => App.MainWindow.SqlTasks.ExecuteNonQueryAsync(sql, parameters));
+        }
 
         /// <summary>
         /// Selects one value from the database.  If an error occurs it is written to the terminal.
