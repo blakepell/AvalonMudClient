@@ -21,7 +21,6 @@ namespace Avalon
     /// </summary>
     public class Conveyor : IConveyor
     {
-
         /// <summary>
         /// Gets a variable from the settings.  This is not thread safe, calls to this from outside
         /// threads should run through the Dispatcher.
@@ -53,7 +52,11 @@ namespace Avalon
 
             if (variable != null)
             {
-                variable.Value = value;
+                // Only change the string if the value has changed.
+                if (!string.Equals(variable.Value, value, StringComparison.Ordinal))
+                {
+                    variable.Value = value;
+                }
             }
             else
             {
@@ -666,15 +669,6 @@ namespace Avalon
         }
 
         /// <summary>
-        /// Imports a JSON package into the currently loaded profile.
-        /// </summary>
-        /// <param name="json"></param>
-        public void ImportPackageFromJson(string json)
-        {
-            App.Settings.ImportPackageFromJson(json);
-        }
-
-        /// <summary>
         /// Prompts the user with an input box and returns the string content.
         /// </summary>
         /// <param name="caption"></param>
@@ -1051,7 +1045,7 @@ namespace Avalon
                 await App.MainWindow.Interp.Send(cmd);
                 return;
             }
-
+            
             await Application.Current.Dispatcher.InvokeAsync(new Action(async () =>
             {
                 await App.MainWindow.Interp.Send(cmd);

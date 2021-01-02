@@ -8,7 +8,6 @@ namespace Avalon.Controls
     /// </summary>
     public partial class VariableRepeater
     {
-
         public VariableRepeater()
         {
             InitializeComponent();

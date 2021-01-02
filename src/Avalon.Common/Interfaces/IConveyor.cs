@@ -76,8 +76,6 @@ namespace Avalon.Common.Interfaces
 
         void InputBoxToVariable(string caption, string title, string variable);
 
-        void ImportPackageFromJson(string json);
-
         void Focus(FocusTarget target);
 
         StringBuilder Scrape { get; set; }
