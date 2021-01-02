@@ -7,6 +7,7 @@ using RestSharp.Serializers.NewtonsoftJson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -290,6 +291,19 @@ namespace Avalon.Controls
             if (package == null)
             {
                 return;
+            }
+
+            // Check to make sure the package is combatible with the current version of the mud client.
+            if (!package.MinimumClientVersion.StartsWith("0"))
+            {
+                var packageMinimumClientVersion = new Version(package.MinimumClientVersion);
+                var thisVersion = Assembly.GetExecutingAssembly().GetName().Version;
+
+                if (packageMinimumClientVersion > thisVersion)
+                {
+                    await this.MsgBox("This package requires a newer version of Avalon.  You may update your client from Help->Update Client and Plugins.", "Version Issue");
+                    return;
+                }
             }
 
             var result = await InputBox($"Are you sure you want to install: {package.Name} version {package.Version}?", "Confirm Install");
