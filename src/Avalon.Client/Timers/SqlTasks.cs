@@ -275,6 +275,29 @@ namespace Avalon.Timers
             }
         }
 
+
+        /// <summary>
+        /// Executes a single SQL non query command outside of a transaction.  Required for things
+        /// like creating tables.
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="parameters"></param>
+        public async Task ExecuteNonQueryAsync(string sql, params string[] parameters)
+        {
+            // Get a new command for a select so it doesn't overlap with any writes using the cached pool.
+            using (var cmd = this.Connection.CreateCommand())
+            {
+                cmd.CommandText = sql;
+
+                for (int i = 0; i < parameters.Length; i++)
+                {
+                    cmd.Parameters.AddWithValue($"@{i + 1}", parameters[i]);
+                }
+
+                await cmd.ExecuteNonQueryAsync();
+            }
+        }
+
         /// <summary>
         /// Returns the first column of the first row.
         /// </summary>
