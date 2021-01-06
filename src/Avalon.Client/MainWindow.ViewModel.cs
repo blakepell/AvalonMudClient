@@ -77,7 +77,7 @@ namespace Avalon
         }
 
         public static readonly DependencyProperty StatusBarTextProperty = DependencyProperty.Register(
-            nameof(StatusBarText), typeof(string), typeof(MainWindowViewModel), new PropertyMetadata("Status: None"));
+            nameof(StatusBarText), typeof(string), typeof(MainWindowViewModel), new PropertyMetadata(""));
 
         /// <summary>
         /// Sets the visibility of the icon that is paired with the StatusBarText property.
@@ -89,7 +89,7 @@ namespace Avalon
         }
 
         public static readonly DependencyProperty StatusBarTextIconVisibilityProperty = DependencyProperty.Register(
-            nameof(StatusBarTextIconVisibility), typeof(Visibility), typeof(MainWindowViewModel), new PropertyMetadata(default(Visibility)));
+            nameof(StatusBarTextIconVisibility), typeof(Visibility), typeof(MainWindowViewModel), new PropertyMetadata(Visibility.Hidden));
 
     }
 }

@@ -93,7 +93,7 @@ namespace Avalon.Lua
                 data.Add(new LuaCompletionData("LastLinesBetweenContains", "Removes all elements from an array between the last occurrence of lines that contain a start and optional ending pattern.\r\nSyntax: LastLinesBetweenContains(string startLineContains)\r\nSyntax: LastLinesBetweenContains(string startLineContains, string endLineContains)"));
                 data.Add(new LuaCompletionData("LastLinesBetweenStartsWith", "Removes all elements from an array between the last occurrence of lines that start with a start and optional ending pattern.\r\nSyntax: LastLinesBetweenStartsWith(string startLineStartsWith)\r\nSyntax: LastLinesBetweenStartsWith(string startLineStartsWith, string endLineStartsWith)"));
                 data.Add(new LuaCompletionData("RemoveAnsiCodes", "Removes all ANSI codes from a string or array.\r\nSyntax: RemoveAnsiCodes(string[] array)\r\nSyntax: RemoveAnsiCodes(string str)"));
-                data.Add(new LuaCompletionData("SetStatusText", "Sets the text of the status bar.", "Syntax: SetStatusText(string message)"));
+                data.Add(new LuaCompletionData("SetStatusText", "Sets the text of the status bar.\r\nSyntax: SetStatusText(string message)"));
             }
         }
 

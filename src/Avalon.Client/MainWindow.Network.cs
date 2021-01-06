@@ -27,7 +27,6 @@ namespace Avalon
             Interp.Connect(HandleLineReceived, this.HandleDataReceived, HandleConnectionClosed);
             TitleBar.IsConnected = true;
             MenuNetworkButton.Header = "Disconnect";
-            App.Conveyor.SetText($"Connected to {App.Settings.ProfileSettings.IpAddress}:{App.Settings.ProfileSettings.Port}", TextTarget.StatusBarText);
             TextInput.Focus();
 
             // If a command has been defined to send after connect then check it and fire it off here.
@@ -55,7 +54,6 @@ namespace Avalon
             Interp.Disconnect();
             TitleBar.IsConnected = false;
             MenuNetworkButton.Header = "Connect";
-            App.Conveyor.SetText($"Disconnected from server at {DateTime.Now}", TextTarget.StatusBarText);
         }
 
         /// <summary>
@@ -91,7 +89,6 @@ namespace Avalon
         {
             TitleBar.IsConnected = false;
             App.Conveyor.EchoLog($"Disconnected: {DateTime.Now}", LogType.Warning);
-            App.Conveyor.SetText($"Disconnected from server at {DateTime.Now}", TextTarget.StatusBarText);
             Interp.Telnet = null;
         }
 
