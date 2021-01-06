@@ -4,7 +4,6 @@ using Avalon.Common.Colors;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -12,7 +11,6 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Forms.VisualStyles;
 using System.Windows.Threading;
 using Avalon.Extensions;
 
@@ -1554,6 +1552,14 @@ namespace Avalon.Lua
             Application.Current.Dispatcher.Invoke(() => App.MainWindow.SqlTasks.Flush());
         }
 
+        /// <summary>
+        /// Sets the status bar text.
+        /// </summary>
+        /// <param name="buf"></param>
+        public void SetStatusText(string buf)
+        {
+            App.Conveyor.SetText(buf, TextTarget.StatusBarText);
+        }
 
         private readonly IInterpreter _interpreter;
     }

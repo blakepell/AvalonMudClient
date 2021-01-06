@@ -884,6 +884,28 @@ namespace Avalon
         }
 
         /// <summary>
+        /// Sets the focus to the given UI element.
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <param name="target"></param>
+        public void SetText(string buf, TextTarget target)
+        {
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => SetText(buf, target)));
+                return;
+            }
+
+            switch (target)
+            {
+                case TextTarget.StatusBarText:
+                    App.MainWindow.ViewModel.StatusBarText = buf ?? "";
+                    break;
+            }
+        }
+
+        /// <summary>
         /// Returns information about the current WindowPosition.
         /// </summary>
         public WindowPosition GetWindowPosition

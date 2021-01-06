@@ -175,6 +175,7 @@
         <Key word = "LastLinesBetweenStartsWith" />
         <Key word = "RemoveAnsiCodes" />
         <Key word = "DbExecuteImmediate" />
+        <Key word = "SetStatusText" />
       </KeyWords>
     </RuleSet>
   </RuleSets>

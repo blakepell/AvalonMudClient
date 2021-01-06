@@ -544,10 +544,23 @@
         <StatusBar Grid.Row="2" Background="#007ACC" Foreground="White" BorderBrush="#444444" BorderThickness="0,.9,0,0">
             <StatusBarItem Width="47">
                 <StackPanel Orientation="Horizontal">
+                    <!--<iconPacks:PackIconMaterial Kind="Ghost" Margin="0,0,0,0" Visibility="{Binding Path=StatusBarTextIconVisibility}" />-->
                 </StackPanel>
             </StatusBarItem>
-            <!--<Separator Width="1" />-->
+            <!--<Separator Width="2" Margin="4,0,0,0" />-->
             <StatusBarItem>
+                <Button FontFamily="Segoe UI" FontSize="12" Cursor="Hand">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <!-- Transparent background allows margin to participate in the hit test for the cursor -->
+                            <StackPanel Orientation="Horizontal" Background="Transparent">
+                                <iconPacks:PackIconMaterial Kind="InformationOutline" Margin="0,0,0,0" Visibility="{Binding Path=StatusBarTextIconVisibility}" />
+                                <TextBlock Margin="5, 0, 0, 0" FontFamily="Segoe UI" FontSize="12"
+                                           Text="{Binding Path= StatusBarText}"></TextBlock>
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
             </StatusBarItem>
             <StatusBarItem DockPanel.Dock="Right">
                 <StackPanel Orientation="Horizontal">

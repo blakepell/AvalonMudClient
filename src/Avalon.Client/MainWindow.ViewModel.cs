@@ -62,5 +62,34 @@ namespace Avalon
         public static readonly DependencyProperty SpellCheckEnabledProperty =
             DependencyProperty.Register(nameof(SpellCheckEnabled), typeof(bool), typeof(MainWindow), new PropertyMetadata(true));
 
+
+        /// <summary>
+        /// User generated status bar text.
+        /// </summary>
+        public string StatusBarText
+        {
+            get => (string) GetValue(StatusBarTextProperty);
+            set
+            {
+                SetValue(StatusBarTextProperty, value);
+                this.StatusBarTextIconVisibility = string.IsNullOrWhiteSpace(value) ? Visibility.Hidden : Visibility.Visible;
+            }
+        }
+
+        public static readonly DependencyProperty StatusBarTextProperty = DependencyProperty.Register(
+            nameof(StatusBarText), typeof(string), typeof(MainWindowViewModel), new PropertyMetadata("Status: None"));
+
+        /// <summary>
+        /// Sets the visibility of the icon that is paired with the StatusBarText property.
+        /// </summary>
+        public Visibility StatusBarTextIconVisibility
+        {
+            get => (Visibility) GetValue(StatusBarTextIconVisibilityProperty);
+            set => SetValue(StatusBarTextIconVisibilityProperty, value);
+        }
+
+        public static readonly DependencyProperty StatusBarTextIconVisibilityProperty = DependencyProperty.Register(
+            nameof(StatusBarTextIconVisibility), typeof(Visibility), typeof(MainWindowViewModel), new PropertyMetadata(default(Visibility)));
+
     }
 }
