@@ -338,14 +338,26 @@ namespace Avalon.Network
         /// </summary>
         public bool IsConnected()
         {
-            if (_tcpClient.Client.Poll(0, SelectMode.SelectRead))
+            try
             {
-                byte[] buff = new byte[1];
-                if (_tcpClient.Client.Receive(buff, SocketFlags.Peek) == 0)
+                if (!_tcpClient.Connected)
                 {
-                    // Client disconnected
                     return false;
                 }
+
+                if (_tcpClient.Client.Poll(0, SelectMode.SelectRead))
+                {
+                    byte[] buff = new byte[1];
+                    if (_tcpClient.Client.Receive(buff, SocketFlags.Peek) == 0)
+                    {
+                        // Client disconnected
+                        return false;
+                    }
+                }
+            }
+            catch
+            {
+                return false;
             }
 
             return true;

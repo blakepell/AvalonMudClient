@@ -136,7 +136,12 @@ namespace Avalon
                 }
                 catch (Exception ex)
                 {
-                    EchoText(ex.Message, AnsiColors.Red);
+                    App.Conveyor.EchoError(ex.Message);
+                    
+                    if (this.Telnet == null || !this.Telnet.IsConnected())
+                    {
+                        App.Conveyor.SetText("Disconnected from server.", TextTarget.StatusBarText);
+                    }
                 }
             }
         }
