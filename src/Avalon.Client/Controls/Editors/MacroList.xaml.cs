@@ -108,9 +108,9 @@ namespace Avalon.Controls
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                // TODO - Error Logging
+                App.Conveyor.EchoError($"Error in FixMacros(): {ex.Message}");
             }
         }
 
