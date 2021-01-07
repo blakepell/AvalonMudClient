@@ -180,7 +180,7 @@ namespace Avalon
                 // Open code completion after the user has pressed dot:
                 _completionWindow = new CompletionWindow(AvalonLuaEditor.TextArea);
                 var data = _completionWindow.CompletionList.CompletionData;
-                LuaCompletion.LoadCompletionDataSnippits(data);
+                LuaCompletion.LoadCompletionDatasnippets(data);
 
                 _completionWindow.Show();
                 _completionWindow.Closed += (sender, args) => _completionWindow = null;

@@ -59,7 +59,7 @@ namespace Avalon.Lua
 
         public void Complete(TextArea textArea, ISegment completionSegment, EventArgs insertionRequestEventArgs)
         {
-            // TODO, these need to be in external snippit files that are read dynamically.
+            // TODO, these need to be in external snippet files that are read dynamically.
             if (this.Text == "Scheduled Tasks")
             {
                 var sb = Argus.Memory.StringBuilderPool.Take();

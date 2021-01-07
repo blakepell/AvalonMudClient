@@ -73,8 +73,8 @@ namespace Avalon.Timers
                 return;
             }
 
-            // TODO - Make this a setting, 40 seconds is the default for DSL (minus the jiggle time where the tick can lag a small amount), make this configurable.
-            _secondsUntilTick = 40 - (int)(_stopWatch.ElapsedMilliseconds / 1000);
+            // Set the duration until the next tick is processed.  The setting by default is 40 but is configurable per profile.
+            _secondsUntilTick = App.Settings.ProfileSettings.TickDurationInSeconds - (int)(_stopWatch.ElapsedMilliseconds / 1000);
 
             // Only update the UI if it's changed and the value is greater than or equal to 0.
             if (Conveyor.GetTickTime() != _secondsUntilTick && _secondsUntilTick >= 0)

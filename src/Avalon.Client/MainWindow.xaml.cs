@@ -174,7 +174,7 @@ namespace Avalon
                 // Setup the tick timer.
                 TickTimer = new TickTimer(App.Conveyor);
 
-                // TODO - Setting to disable and command to view these tasks.
+                // TODO - Setting to disable.
                 // Setup the scheduled and batch tasks.
                 this.ScheduledTasks = new ScheduledTasks(this.Interp);
                 this.BatchTasks = new BatchTasks(this.Interp);

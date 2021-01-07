@@ -94,9 +94,14 @@ namespace Avalon.Common.Settings
         public string ExecuteCommandsOnTick { get; set; } = "";
 
         [CategoryAttribute("TickTimer")]
-        [DescriptionAttribute("Commands to execute on tick.")]
+        [DescriptionAttribute("If the send command on tick is enabled.")]
         [Browsable(true)]
         public bool EnableCommandsOnTick { get; set; } = false;
+
+        [CategoryAttribute("TickTimer")]
+        [DescriptionAttribute("The duration of a tick in seconds.  The default is 40.")]
+        [Browsable(true)]
+        public int TickDurationInSeconds { get; set; } = 40;
 
         [CategoryAttribute("Misc")]
         [DescriptionAttribute("Whether the game will insert a command if the user enters a command more than 15 times.")]

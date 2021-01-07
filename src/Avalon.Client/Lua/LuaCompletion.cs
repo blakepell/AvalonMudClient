@@ -97,7 +97,7 @@ namespace Avalon.Lua
             }
         }
 
-        public static void LoadCompletionDataSnippits(IList<ICompletionData> data)
+        public static void LoadCompletionDatasnippets(IList<ICompletionData> data)
         {
             data.Add(new LuaCompletionData("Scheduled Tasks", "A snippet to show how to use scheduled tasks", ""));
             data.Add(new LuaCompletionData("For Loop", "A snippet to show how to use scheduled tasks", ""));
