@@ -234,28 +234,33 @@ namespace Avalon
                     // Increment that we used it
                     alias.Count++;
 
-                    // If the alias is defined as Lua it will be processed verbatim.  A lua alias anywhere in the command short circuits 
-                    // any other input and only that Lua command gets run (and only the first one).
-                    // TODO: Make this work better.  Is an alias the right way to do this?
+                    // If the alias is Lua then variables will be swapped in if necessary and then executed.
                     if (alias.IsLua)
                     {
                         list.Clear();
 
-                        // TODO: Put this into it's own function.
-                        // Alias where the arguments are specified, we will support up to 9 arguments at this time.
-                        string lua = alias.Command;
-
-                        // %0 will represent the entire matched string.
-                        lua = lua.Replace("%0", first.Item2.Replace("\"", "\\\""));
-
-                        // %1-%9
-                        for (int i = 1; i <= 9; i++)
+                        // Alias where the arguments are specified, we will support up to 9 arguments at this time.  Only do
+                        // the replacements if the string contains a percent sign.
+                        if (alias.Command.Contains("%", StringComparison.Ordinal))
                         {
-                            lua = lua.Replace($"%{i}", first.Item2.ParseWord(i, " ").Replace("\"", "\\\""));
-                        }
+                            var sb = new StringBuilder(alias.Command);
 
-                        // This is all that's going to execute as it clears the list.. we can "fire and forget".
-                        this.LuaCaller.ExecuteAsync(lua);
+                            // %0 will represent the entire matched string.
+                            sb.Replace("%0", first.Item2.Replace("\"", "\\\""));
+
+                            // %1-%9
+                            for (int i = 1; i <= 9; i++)
+                            {
+                                sb.Replace($"%{i}", first.Item2.ParseWord(i, " ").Replace("\"", "\\\""));
+                            }
+
+                            // This is all that's going to execute as it clears the list.. we can "fire and forget".
+                            this.LuaCaller.ExecuteAsync(sb.ToString());
+                        }
+                        else
+                        {
+                            this.LuaCaller.ExecuteAsync(alias.Command);
+                        }
 
                         return list;
                     }
@@ -270,23 +275,29 @@ namespace Avalon
                     else
                     {
                         // Alias where the arguments are specified, we will support up to 9 arguments at this time.
-                        string aliasStr = alias.Command;
-
-                        // %0 will represent the entire matched string.
-                        aliasStr = aliasStr.Replace("%0", first.Item2);
-
-                        // %1-%9
-                        for (int i = 1; i <= 9; i++)
+                        if (alias.Command.Contains("%", StringComparison.Ordinal))
                         {
-                            aliasStr = aliasStr.Replace($"%{i}", first.Item2.ParseWord(i, " "));
+                            var sb = new StringBuilder(alias.Command);
+
+                            // %0 will represent the entire matched string.
+                            sb.Replace("%0", first.Item2);
+
+                            // %1-%9
+                            for (int i = 1; i <= 9; i++)
+                            {
+                                sb.Replace($"%{i}", first.Item2.ParseWord(i, " "));
+                            }
+
+                            list.AddRange(ParseCommand(sb.ToString()));
+                            _aliasRecursionDepth--;
                         }
-
-                        list.AddRange(ParseCommand(aliasStr));
-                        _aliasRecursionDepth--;
+                        else
+                        {
+                            list.AddRange(ParseCommand(alias.Command));
+                            _aliasRecursionDepth--;
+                        }
                     }
-
                 }
-
             }
 
             // Return the final list.
@@ -320,7 +331,7 @@ namespace Avalon
             {
                 // If the command was a duplicate of the last command entered also don't enter it.
                 // We will have people spamming stuff in the game and it doesn't make sense (nor does
-                // any other client) dupliate those in the input history.
+                // any other client) duplicate those in the input history.
                 if (InputHistory.Count > 0 && InputHistory.Last() == cmd)
                 {
                     return;
