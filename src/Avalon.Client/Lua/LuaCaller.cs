@@ -232,7 +232,14 @@ namespace Avalon.Lua
 
             if (ex.InnerException != null)
             {
-                _interpreter.Conveyor.EchoLog($"Lua Inner Exception: {((InterpreterException)ex.InnerException)?.DecoratedMessage}", LogType.Error);
+                if (ex.InnerException is InterpreterException innerEx)
+                {
+                    _interpreter.Conveyor.EchoLog($"Lua Inner Exception: {innerEx?.DecoratedMessage}", LogType.Error);
+                }
+                else
+                {
+                    _interpreter.Conveyor.EchoLog($"Lua Inner Exception: {ex.InnerException.Message}", LogType.Error);
+                }
 
                 if (ex.InnerException.Message.Contains("abort"))
                 {
