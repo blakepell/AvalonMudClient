@@ -94,6 +94,12 @@ local dir = lua.RandomChoice({"north", "south"});
 |lua.Right|(string) str, (int) length|Returns the specified number of characters from the right side of the string. If more characters were requested than exist the full string is returned.|
 |lua.Substring|(string) str, (int) startIndex|
 |lua.Substring|(string) str, (int) startIndex, (int) length|Returns the substring starting at the specified index.|
+|lua.IndexOf|(string) str, (string) search|Returns the zero based index of the first occurrence of a string in another string.|
+|lua.IndexOf|(string) search, (int(string) str,) startIndex|Returns the zero based index of the first occurrence of a string in another string.|
+|lua.IndexOf|(string) str, (string) search, (int) startIndex, (int) length|Returns the zero based index of the first occurrence of a string in another string.|
+|lua.LastIndexOf|(string) str, (string) search|Returns the zero based index of the last occurrence of a string in another string.|
+|lua.LastIndexOf|(string) search, (int(string) str,) startIndex|Returns the zero based index of the last occurrence of a string in another string.|
+|lua.LastIndexOf|(string) str, (string) search, (int) startIndex, (int) length|Returns the zero based index of the last occurrence of a string in another string.|
 |lua.RemoveElementsEmpty|string[] array|Removes all empty/whitespace elements from an array.|
 |lua.RemoveElementsContains|string[] array, string str|Removes all elements from an array that contain the specified text.|
 |lua.RemoveElementsEndingWith|string[] array, string str|Removes all elements from an array that end with the specified text.|

@@ -366,6 +366,72 @@ namespace Avalon.Lua
         }
 
         /// <summary>
+        /// Returns the zero based index of the first occurrence of a string in another string.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="search"></param>
+        public int IndexOf(string str, string search)
+        {
+            return str.IndexOf(search, StringComparison.Ordinal);
+        }
+
+        /// <summary>
+        /// Returns the zero based index of the first occurrence of a string in another string.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="search"></param>
+        /// <param name="start"></param>
+        public int IndexOf(string str, string search, int start)
+        {
+            return str.IndexOf(search, start, StringComparison.Ordinal);
+        }
+
+        /// <summary>
+        /// Returns the zero based index of the first occurrence of a string in another string.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="search"></param>
+        /// <param name="start"></param>
+        /// <param name="length"></param>
+        public int IndexOf(string str, string search, int start, int length)
+        {
+            return str.IndexOf(search, start, length, StringComparison.Ordinal);
+        }
+
+        /// <summary>
+        /// Returns the zero based index of the last occurrence of a string in another string.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="search"></param>
+        public int LastIndexOf(string str, string search)
+        {
+            return str.LastIndexOf(search, StringComparison.Ordinal);
+        }
+
+        /// <summary>
+        /// Returns the zero based index of the last occurrence of a string in another string.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="search"></param>
+        /// <param name="start"></param>
+        public int LastIndexOf(string str, string search, int start)
+        {
+            return str.LastIndexOf(search, start, StringComparison.Ordinal);
+        }
+
+        /// <summary>
+        /// Returns the zero based index of the last occurrence of a string in another string.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="search"></param>
+        /// <param name="start"></param>
+        /// <param name="length"></param>
+        public int LastIndexOf(string str, string search, int start, int length)
+        {
+            return str.LastIndexOf(search, start, length, StringComparison.Ordinal);
+        }
+
+        /// <summary>
         /// Returns the current time formatted as either 12-hour or 24-hour.
         /// </summary>
         /// <param name="meridiemTime">Whether or not to return the time in AM/PM format.</param>

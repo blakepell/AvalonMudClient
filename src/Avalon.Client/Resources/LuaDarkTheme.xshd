@@ -167,6 +167,8 @@
         <Key word = "Left" />
         <Key word = "Right" />
         <Key word = "Substring" />
+        <Key word = "IndexOf" />
+        <Key word = "LastIndexOf" />
         <Key word = "RemoveElementsEmpty" />
         <Key word = "RemoveElementsContains" />
         <Key word = "RemoveElementsEndingWith" />
