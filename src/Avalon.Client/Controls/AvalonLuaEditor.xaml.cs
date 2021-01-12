@@ -150,7 +150,13 @@ namespace Avalon.Controls
         public static string GetWordBefore(TextEditor textEditor)
         {
             var wordBeforeDot = string.Empty;
-            var caretPosition = textEditor.CaretOffset - 2;
+            int caretPosition = textEditor.CaretOffset - 2;
+
+            if (caretPosition < 0)
+            {
+                return wordBeforeDot;
+            }
+
             var lineOffset = textEditor.Document.GetOffset(textEditor.Document.GetLocation(caretPosition));
             string text = textEditor.Document.GetText(lineOffset, 1);
 
