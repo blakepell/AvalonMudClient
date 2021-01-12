@@ -717,7 +717,6 @@ namespace Avalon.Lua
         /// Trims whitespace off of the start of a string.
         /// </summary>
         /// <param name="buf"></param>
-        /// <returns></returns>
         public string TrimStart(string buf)
         {
             return buf?.TrimStart() ?? "";
@@ -728,7 +727,6 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="buf"></param>
         /// <param name="trimOff"></param>
-        /// <returns></returns>
         public string TrimStart(string buf, string trimOff)
         {
             return buf?.TrimStart(trimOff) ?? "";
@@ -738,7 +736,6 @@ namespace Avalon.Lua
         /// Trims whitespace off the end of a string.
         /// </summary>
         /// <param name="buf"></param>
-        /// <returns></returns>
         public string TrimEnd(string buf)
         {
             return buf?.TrimEnd() ?? "";
@@ -749,7 +746,6 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="buf"></param>
         /// <param name="trimOff"></param>
-        /// <returns></returns>
         public string TrimEnd(string buf, string trimOff)
         {
             return buf?.TrimEnd(trimOff) ?? "";
@@ -1404,7 +1400,6 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="value"></param>
         /// <param name="interval"></param>
-        /// <returns></returns>
         public bool IsInterval(int value, int interval)
         {           
             return value.IsInterval(interval);
@@ -1412,7 +1407,7 @@ namespace Avalon.Lua
 
         /// <summary>
         /// Returns the value if it falls in the range of the max and min.  Otherwise it returns
-        /// the upper or lower boundary depnding on which one the value passed.
+        /// the upper or lower boundary depending on which one the value passed.
         /// </summary>
         /// <param name="value"></param>
         /// <param name="min"></param>
@@ -1428,7 +1423,6 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="buf"></param>
         /// <param name="length"></param>
-        /// <returns></returns>
         public string DeleteLeft(string buf, int length)
         {
             return buf.DeleteLeft(length);
@@ -1440,7 +1434,6 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="buf"></param>
         /// <param name="length"></param>
-        /// <returns></returns>
         public string DeleteRight(string buf, int length)
         {
             return buf.DeleteRight(length);
@@ -1459,7 +1452,6 @@ namespace Avalon.Lua
         /// Returns the second word in the specified string.
         /// </summary>
         /// <param name="buf"></param>
-        /// <returns></returns>
         public string SecondWord(string buf)
         {
             return buf.SecondWord();
@@ -1469,7 +1461,6 @@ namespace Avalon.Lua
         /// Returns the third word in the specified string.
         /// </summary>
         /// <param name="buf"></param>
-        /// <returns></returns>
         public string ThirdWord(string buf)
         {
             return buf.ThirdWord();
@@ -1591,7 +1582,6 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="buf"></param>
         /// <param name="totalWidth"></param>
-        /// <returns></returns>
         public string PadRight(string buf, int totalWidth)
         {            
             return buf.PadRight(totalWidth);
@@ -1812,7 +1802,6 @@ namespace Avalon.Lua
         /// Downloads a string from a URL using the GET method.
         /// </summary>
         /// <param name="url"></param>
-        /// <returns></returns>
         public string HttpGet(string url)
         {
             using (var client = new WebClient())
