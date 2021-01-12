@@ -110,6 +110,28 @@ local dir = lua.RandomChoice({"north", "south"});
 |lua.LastLinesBetweenStartsWith|string startLineStartsWith, string endLineStartsWith|Removes all elements from an array between the last occurrence of lines that start with a start and optional ending pattern.|
 |lua.RemoveAnsiCodes|string[] array|Removes all ANSI codes from a string or array.|
 |lua.RemoveAnsiCodes|string str|Removes all ANSI codes from a string or array.|
+|lua.IsNumber|string value|Returns whether the string is a number.|
+|lua.IsEven|int value|Returns whether a provided number is even.|
+|lua.IsOdd|int value|Returns whether a provided number is odd.|
+|lua.IsInterval|int value, int interval|Returns whether the number is of a specified interval.|
+|lua.Clamp|int value, int min, int max|Returns the value if it falls in the range of the max and min.  Otherwise it returns the upper or lower boundary depending on which one the value passed|
+|lua.DeleteLeft|string value, int length|Deletes the specified number of characters off the start of the string.  If the length is greater than the length of the string an empty string is returned.|
+|lua.DeleteRight|string value, int length|Deletes the specified number of characters off the end of the string.  If the length is greater than the length of the string an empty string is returned.|
+|lua.FirstWord|string value|Returns the first word in the specified string.|
+|lua.SecondWord|string value|Returns the second word in the specified string.|
+|lua.ThirdWord|string value|Returns the third word in the specified string.|
+|lua.ParseWord|string value, int wordNumber, int delimiter|Returns the word by index from the provided string as delimited by spaces.  The delimiter can also be provided to specify a different split character.|
+|lua.RemoveWord|string value, int wordNumber|Returns a string with the specified word removed by index.|
+|lua.Between|string value, string beginMarker, string endMarker|Returns the string between the start marker and the end marker.|
+|lua.ToBase64|string value|Converts a string to Base64.|
+|lua.FromBase64|string value|Converts a Base64 string back to it's original state.|
+|lua.HtmlEncode|string value|HTML encodes a string.|
+|lua.HtmlDecode|string value|HTML decodes a string.|
+|lua.UrlEncode|string value|URL encodes a string.|
+|lua.UrlDecode|string value|URL decodes a string.|
+|lua.WordCount|string value|Returns the word count in the specified string.|
+|lua.PadLeft|string value|Returns a string that right aligns the instance by padding characters onto the the left until the total width is attained.  If the total width is less than the provided string the provided string is returned.|
+|lua.PadRight|string value|Returns a string that right aligns the instance by padding characters onto the the left until the total width is attained.  If the total width is less than the provided string the provided string is returned.|
 |global|None|Used to set global variables only global to Lua.|Returns the substring starting at the specified index for the specified length.|
 
 ## Lua Global Variables
