@@ -17,6 +17,7 @@ namespace Avalon.Controls
     /// The AnsiColorizer handles the coloring and styling of text inside of the Terminal.  Hiding
     /// of the ANSI sequences is now handled in the <see cref="HideAnsiElementGenerator"/>.
     /// TODO - Background colors: http://pueblo.sourceforge.net/doc/manual/ansi_color_codes.html
+    /// TODO - https://stackoverflow.com/questions/11806764/adding-syntax-highlighting-rules-to-avalonedit-programmatically
     /// </remarks>
     public class AnsiColorizer : DocumentColorizingTransformer
     {
