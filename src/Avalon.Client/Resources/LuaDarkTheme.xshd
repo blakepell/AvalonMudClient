@@ -178,6 +178,28 @@
         <Key word = "RemoveAnsiCodes" />
         <Key word = "DbExecuteImmediate" />
         <Key word = "SetStatusText" />
+        <Key word = "IsNumber" />
+        <Key word = "IsEven" />
+        <Key word = "IsOdd" />
+        <Key word = "IsInterval" />
+        <Key word = "Clamp" />
+        <Key word = "DeleteLeft" />
+        <Key word = "DeleteRight" />
+        <Key word = "FirstWord" />
+        <Key word = "SecondWord" />
+        <Key word = "ThirdWord" />
+        <Key word = "ParseWord" />
+        <Key word = "RemoveWord" />
+        <Key word = "Between" />
+        <Key word = "ToBase64" />
+        <Key word = "FromBase64" />
+        <Key word = "HtmlEncode" />
+        <Key word = "HtmlDecode" />
+        <Key word = "UrlEncode" />
+        <Key word = "UrlDecode" />
+        <Key word = "WordCount" />
+        <Key word = "PadLeft" />
+        <Key word = "PadRight" />
       </KeyWords>
     </RuleSet>
   </RuleSets>
