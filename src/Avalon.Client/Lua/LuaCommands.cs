@@ -880,7 +880,7 @@ namespace Avalon.Lua
         /// <param name="value"></param>
         /// <param name="delimiter"></param>
         public string ListAddStart(string sourceList, string value, char delimiter = '|')
-        {
+        {            
             return $"{value}|{sourceList}".Trim('|');
         }
 
@@ -1370,6 +1370,231 @@ namespace Avalon.Lua
             }
 
             return list.ToArray();
+        }
+
+        /// <summary>
+        /// Returns whether the string is a number.
+        /// </summary>
+        /// <param name="buf"></param>
+        public bool IsNumber(string buf)        
+        {
+            return buf.IsNumeric();
+        }
+
+        /// <summary>
+        /// If the number is even.
+        /// </summary>
+        /// <param name="value"></param>
+        public bool IsEven(int value)
+        {
+            return value.IsEven();
+        }
+
+        /// <summary>
+        /// If the number is odd.
+        /// </summary>
+        /// <param name="value"></param>
+        public bool IsOdd(int value)
+        {            
+            return value.IsOdd();
+        }
+
+        /// <summary>
+        /// If the number is of the specified interval.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="interval"></param>
+        /// <returns></returns>
+        public bool IsInterval(int value, int interval)
+        {           
+            return value.IsInterval(interval);
+        }
+
+        /// <summary>
+        /// Returns the value if it falls in the range of the max and min.  Otherwise it returns
+        /// the upper or lower boundary depnding on which one the value passed.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        public int Clamp(int value, int min, int max)
+        {            
+            return value.Clamp(min, max);
+        }
+
+        /// <summary>
+        /// Deletes the specified number of characters off the start of the string.  If the length
+        /// is greater than the length of the string an empty string is returned.
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public string DeleteLeft(string buf, int length)
+        {
+            return buf.DeleteLeft(length);
+        }
+
+        /// <summary>
+        /// Deletes the specified number of characters off the end of the string.  If the length
+        /// is greater than the length of the string an empty string is returned.
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public string DeleteRight(string buf, int length)
+        {
+            return buf.DeleteRight(length);
+        }
+
+        /// <summary>
+        /// Returns the first word in the specified string.
+        /// </summary>
+        /// <param name="buf"></param>
+        public string FirstWord(string buf)
+        {
+            return buf.FirstWord();
+        }
+
+        /// <summary>
+        /// Returns the second word in the specified string.
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <returns></returns>
+        public string SecondWord(string buf)
+        {
+            return buf.SecondWord();
+        }
+
+        /// <summary>
+        /// Returns the third word in the specified string.
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <returns></returns>
+        public string ThirdWord(string buf)
+        {
+            return buf.ThirdWord();
+        }
+
+        /// <summary>
+        /// Returns the word by index from the provided string as delimited by spaces.  The delimiter
+        /// can also be provided to specify a different split character.
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <param name="wordNumber"></param>
+        /// <param name="delimiter"></param>
+        public string ParseWord(string buf, int wordNumber, string delimiter = " ")
+        {
+            return buf.ParseWord(wordNumber, delimiter);
+        }
+
+        /// <summary>
+        /// Returns a string with the specified word removed by index.
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <param name="wordIndex"></param>
+        public string RemoveWord(string buf, int wordIndex)
+        {
+            return buf.RemoveWord(wordIndex);
+        }
+
+        /// <summary>
+        /// Returns the string between the start marker and the end marker.
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <param name="beginMarker"></param>
+        /// <param name="endMarker"></param>
+        public string Between(string buf, string beginMarker, string endMarker)
+        {            
+            return buf.Between(beginMarker, endMarker);
+        }
+
+        /// <summary>
+        /// Converts a string to Base64.
+        /// </summary>
+        /// <param name="buf"></param>
+        public string ToBase64(string buf)
+        {
+            return buf.ToBase64();
+        }
+
+        /// <summary>
+        /// Converts a Base64 string back to it's original state.
+        /// </summary>
+        /// <param name="buf"></param>
+        public string FromBase64(string buf)
+        {
+            
+            return buf.FromBase64();
+        }
+
+        /// <summary>
+        /// HTML Encodes a string.
+        /// </summary>
+        /// <param name="buf"></param>
+        public string HtmlEncode(string buf)
+        {
+            return buf.HtmlEncode();
+        }
+
+        /// <summary>
+        /// HTML decodes a string.
+        /// </summary>
+        /// <param name="buf"></param>
+        public string HtmlDecode(string buf)
+        {            
+            return buf.HtmlDecode();
+        }
+
+        /// <summary>
+        /// URL Encodes a string.
+        /// </summary>
+        /// <param name="buf"></param>
+        public string UrlEncode(string buf)
+        {
+            return buf.UrlEncode();
+        }
+
+        /// <summary>
+        /// URL Decodes a string.
+        /// </summary>
+        /// <param name="buf"></param>
+        public string UrlDecode(string buf)
+        {
+            return buf.UrlDecode();
+        }
+
+        /// <summary>
+        /// Returns the word count in the specified string.
+        /// </summary>
+        /// <param name="buf"></param>
+        public int WordCount(string buf)
+        {
+            return buf.WordCount();
+        }
+
+        /// <summary>
+        /// Returns a string that right aligns the instance by padding characters onto the the left
+        /// until the total width is attained.  If the total width is less than the provided string
+        /// the provided string is returned.
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <param name="totalWidth"></param>
+        public string PadLeft(string buf, int totalWidth)
+        {
+            return buf.PadLeft(totalWidth);
+        }
+
+        /// <summary>
+        /// Returns a string that left aligns the instance by padding characters onto the the right
+        /// until the total width is attained.  If the total width is less than the provided string
+        /// the provided string is returned.
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <param name="totalWidth"></param>
+        /// <returns></returns>
+        public string PadRight(string buf, int totalWidth)
+        {            
+            return buf.PadRight(totalWidth);
         }
 
         /// <summary>
