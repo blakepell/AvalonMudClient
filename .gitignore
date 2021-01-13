@@ -39,9 +39,10 @@ bld/
 # Visual Studio 2017 auto generated files
 Generated\ Files/
 
-#Avalon Installation Program
+#Avalon Installation Program Bits
 AvalonSetup-x64.exe
 AvalonSetup-x86.exe
+build/Plugins
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
