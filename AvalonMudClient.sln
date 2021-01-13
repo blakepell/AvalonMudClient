@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		build\Publish.ps1 = build\Publish.ps1
 		build\PublishPlugins.ps1 = build\PublishPlugins.ps1
+		build\UpdateVersion.ps1 = build\UpdateVersion.ps1
 		build\x64Installer.iss = build\x64Installer.iss
 		build\x86Installer.iss = build\x86Installer.iss
 	EndProjectSection
@@ -21,7 +22,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Avalon.Plugins.DarkAndShatt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Avalon.Sqlite", "src\Avalon.SQLite\Avalon.Sqlite.csproj", "{235DEDF3-24AF-4194-BFF5-027C6D17C4AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalon.Web", "src\Avalon.Web\Avalon.Web.csproj", "{D24714B5-1103-4B43-A9BE-1A93E0CA1A7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Avalon.Web", "src\Avalon.Web\Avalon.Web.csproj", "{D24714B5-1103-4B43-A9BE-1A93E0CA1A7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
