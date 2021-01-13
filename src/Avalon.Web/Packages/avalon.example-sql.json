@@ -5,19 +5,23 @@
   "Author": "Rhien",
   "GameAddress": "",
   "Category": "Examples",
-  "Version": 2,
-  "MinimumClientVersion": "2020.12.21.1",
+  "Version": 3,
+  "MinimumClientVersion": "2021.1.31.1",
+  "SetupCommand": "",
+  "SetupLuaScript": "",
+  "UninstallCommand": "",
+  "UninstallLuaScript": "",
   "AliasList": [
     {
       "AliasExpression": "example-sql",
-      "Command": "-- Lua SQL example.  This will create a table, put a record into it, select it out and then\r\n-- drop the table.\r\nlua.Send(\"#example\")\r\n\r\n-- Explain to the user what this is supposed to do.\r\nlua.Echo(\"{x {c={C>{x This example will create a database table, insert one row into it and then{x\")\r\nlua.Echo(\"{x {c={C>{x select that value out and show it to the mud client.{x\")\r\nlua.Echo(\"{x {c={C>{x {Y{_Important Note{x: This example requires that developer mode is turned on in the settings.{x\\r\\n\")\r\n\r\n-- Create the test table if it doesn't exist\r\nlua.Echo(\"{x {g={G>{x Creating database table {ctest{x with two columns, {cid{x and {cvalue{x.\")\r\nlua.DbExecute(\"CREATE TABLE IF NOT EXISTS test (id INTEGER PRIMARY KEY AUTOINCREMENT, value TEXT)\")\r\n\r\nlua.Echo(\"{x {g={G>{x Inserting one row into the table with the current time.\")\r\nlocal dt = lua.GetTime()\r\nlua.DbExecute(\"INSERT INTO test (value) VALUES (@1)\", dt)\r\n\r\nlua.Echo(\" {g={G>{x Selecting that value from the table.\")\r\n\r\n-- Make sure the data is written to the table since Avalon uses buffered writes.\r\nlua.DbFlush()\r\n\r\n-- We're just getting the top record.\r\nlocal value = lua.DbSelectValue(\"SELECT value FROM test LIMIT 1\")\r\nlua.Echo(\"{x {g={G>{x The value selected from the database now available to Lua is {y\" .. value .. \"{x\")\r\n\r\n-- Cleanup, drop the table.\r\nlua.Echo(\" {g={G>{x Dropping the table from the database.\")\r\nlua.DbExecute(\"DROP TABLE test\")",
+      "Command": "-- Lua SQL example.  This will create a table, put a record into it, select it out and then\r\n-- drop the table.\r\nlua.Send(\"#example\")\r\n\r\n-- Explain to the user what this is supposed to do.\r\nlua.Echo(\"    This example will create a database table, insert one row into it and then\")\r\nlua.Echo(\"    select that value out and show it to the mud client.\")\r\nlua.Echo(\"    {Y{_Important Note{x: {CThis example requires that developer mode is turned on in the settings.{x\\r\\n\")\r\n\r\n\r\n-- The table must be created with DbExecuteImmediate so that it's run before any batch commands\r\n-- as well as outside of a transaction.  Tables cannot be created or deleted inside of a transction\r\n-- like DbExecute uses.\r\nlua.LogInfo(\"Creating database table {ctest{x with two columns, {cid{x and {cvalue{x.\")\r\nlua.DbExecuteImmediate(\"CREATE TABLE IF NOT EXISTS test (id INTEGER PRIMARY KEY AUTOINCREMENT, value TEXT)\")\r\n\r\nlua.LogInfo(\"Inserting one row into the table with the current time.\")\r\n\r\nlocal dt = lua.GetTime()\r\nlua.DbExecute(\"INSERT INTO test (value) VALUES (@1)\", dt)\r\n\r\n-- Since we want to select the value immediately we will force the batch to write\r\n-- to the database now instead of on it's regular interval.\r\nlua.DbFlush()\r\n\r\n-- Get the value from the database\r\nlua.LogInfo(\"Selecting that value from the table.\")\r\nlocal value = lua.DbSelectValue(\"select value from test LIMIT 1\")\r\nlua.LogSuccess(\"The value selected from the database now available to Lua is {y\" .. value .. \"{x\")\r\n\r\n-- Cleanup, drop the table.\r\nlua.LogInfo(\"Dropping the table from the database.\")\r\nlua.DbExecuteImmediate(\"DROP TABLE test\")",
       "Enabled": true,
       "Character": "",
       "Group": "Examples",
       "IsLua": true,
       "Lock": false,
       "Count": 0,
-      "PackageId": ""
+      "PackageId": "1c8027a0-c82e-42f8-85e7-7a0edc53d1d0"
     }
   ],
   "TriggerList": [],
