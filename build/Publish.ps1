@@ -29,6 +29,9 @@ Write-Host "Updating csproj and iss files to version: '$NewVersion'"
 & $PSScriptRoot\UpdateVersion.ps1 -project $project_issx86 -version $newVersion
 & $PSScriptRoot\UpdateVersion.ps1 -project $project_issx64 -version $newVersion
 
+# Optional plugin build
+$pluginsBuild = Read-Host "Do you want to publish any plugin projects (y/n)"
+
 # Make the build folders if they don't exist.
 New-Item -ItemType Directory -Force -Path $x64output
 New-Item -ItemType Directory -Force -Path $x86output
@@ -50,3 +53,8 @@ Invoke-Expression "& $installer"
 
 $installer = '"C:\Program Files (x86)\Inno Setup 6\iscc.exe" ".\x86Installer.iss"'
 Invoke-Expression "& $installer"
+
+# If they wanted to build the plugins also then do that.
+if ($pluginsBuild -eq 'y') {
+    & $PSScriptRoot\PublishPlugins.ps1
+}

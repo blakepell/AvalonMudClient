@@ -40,8 +40,8 @@ bld/
 Generated\ Files/
 
 #Avalon Installation Program Bits
-AvalonSetup-x64.exe
-AvalonSetup-x86.exe
+build/*.dll
+build/*.exe
 build/Plugins
 
 # MSTest test Results
