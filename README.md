@@ -64,9 +64,8 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
 
 ### Short Term Road-map
 
- - Finish SQLite DB Support
  - Documentation
- - Ensure touch screen scrolling is smooth on all termianls and controls.
+ - Ensure touch screen scrolling is smooth on all terminals and controls.
 
 ### Long Term Road-map
 
