@@ -27,6 +27,7 @@ namespace Avalon.HashCommands
                                    try
                                    {
                                        GC.Collect();
+                                       GC.WaitForPendingFinalizers();
                                        GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
                                        GC.WaitForPendingFinalizers();
 
