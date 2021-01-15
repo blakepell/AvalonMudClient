@@ -10,6 +10,7 @@ using Avalon.Common.Models;
 using System.Threading.Tasks;
 using Avalon.Colors;
 using System.Collections.Generic;
+using MahApps.Metro.IconPacks;
 
 namespace Avalon
 {
@@ -884,16 +885,17 @@ namespace Avalon
         }
 
         /// <summary>
-        /// Sets the focus to the given UI element.
+        /// Sets the text on a supported UI text element.
         /// </summary>
         /// <param name="buf"></param>
         /// <param name="target"></param>
-        public void SetText(string buf, TextTarget target)
+        /// <param name="icon"></param>
+        public void SetText(string buf, TextTarget target = TextTarget.StatusBarText, PackIconMaterialKind icon = PackIconMaterialKind.None)
         {
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
             if (!Application.Current.Dispatcher.CheckAccess())
             {
-                Application.Current.Dispatcher.BeginInvoke(new Action(() => SetText(buf, target)));
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => SetText(buf, target, icon)));
                 return;
             }
 
@@ -902,6 +904,44 @@ namespace Avalon
                 case TextTarget.StatusBarText:
                     App.MainWindow.ViewModel.StatusBarText = buf ?? "";
                     break;
+                default:
+                    App.Conveyor.EchoError($"SetText: TextTarget {(int)target} was not found.");
+                    break;
+            }
+
+            this.SetIcon(icon, target);
+        }
+
+        /// <summary>
+        /// Sets the associated <see cref="PackIconMaterialKind"/> to the <see cref="TextTarget"/>.
+        /// </summary>
+        /// <param name="icon"></param>
+        /// <param name="target"></param>
+        public void SetIcon(PackIconMaterialKind icon = PackIconMaterialKind.None, TextTarget target = TextTarget.StatusBarText)
+        {
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => SetIcon(icon, target)));
+                return;
+            }
+
+            try
+            {
+                switch (target)
+                {
+                    case TextTarget.StatusBarText:
+                        App.MainWindow.ViewModel.StatusBarTextIconVisibility = icon == PackIconMaterialKind.None ? Visibility.Collapsed : Visibility.Visible;
+                        App.MainWindow.ViewModel.StatusBarTextIconKind = icon;
+                        break;
+                    default:
+                        App.Conveyor.EchoError($"SetIcon: TextTarget {(int)target} was not found.");
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                App.Conveyor.EchoError($"An error occurred setting a status bar icon: {ex.Message}");
             }
         }
 
@@ -1067,7 +1107,7 @@ namespace Avalon
                 await App.MainWindow.Interp.Send(cmd);
                 return;
             }
-            
+
             await Application.Current.Dispatcher.InvokeAsync(new Action(async () =>
             {
                 await App.MainWindow.Interp.Send(cmd);

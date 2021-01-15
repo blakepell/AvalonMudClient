@@ -106,6 +106,7 @@
                 italic = "false"
                 color="#DCDCAA">
         <Key word = "Send" />
+        <Key word = "SetText" />
         <Key word = "GetVariable" />
         <Key word = "SetVariable" />
         <Key word = "Echo" />
@@ -177,7 +178,6 @@
         <Key word = "LastLinesBetweenStartsWith" />
         <Key word = "RemoveAnsiCodes" />
         <Key word = "DbExecuteImmediate" />
-        <Key word = "SetStatusText" />
         <Key word = "IsNumber" />
         <Key word = "IsEven" />
         <Key word = "IsOdd" />

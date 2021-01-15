@@ -99,7 +99,7 @@
         <KeyBinding Command="local:MainWindow.FontSizeChange" Key="OemPlus" Modifiers="Ctrl" CommandParameter="+" />
         <KeyBinding Command="local:MainWindow.FontSizeChange" Key="OemMinus" Modifiers="Ctrl" CommandParameter="-" />
     </Window.InputBindings>
-    <!-- Main Grid --> 
+    <!-- Main Grid -->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
@@ -542,19 +542,16 @@
         <!-- Status Bar -->
         <!-- #007ACC, #CA5100, #8A179A, #121112 -->
         <StatusBar Grid.Row="2" Background="#007ACC" Foreground="White" BorderBrush="#444444" BorderThickness="0,.9,0,0">
-            <!--<StatusBarItem Width="47">
-                <StackPanel Orientation="Horizontal">
-                    --><!--<iconPacks:PackIconMaterial Kind="Ghost" Margin="0,0,0,0" Visibility="{Binding Path=StatusBarTextIconVisibility}" />--><!--
-                </StackPanel>
-            </StatusBarItem>-->
-            <!--<Separator Width="2" Margin="4,0,0,0" />-->
+            <StatusBarItem Width="47">
+            </StatusBarItem>
+            <Separator Width=".9" Height="19" Margin="3,0,0,0" Visibility="{Binding Path=StatusBarSeparatorVisibility}" />
             <StatusBarItem>
                 <Button FontFamily="Segoe UI" FontSize="12" Cursor="Hand">
                     <Button.Template>
                         <ControlTemplate>
                             <!-- Transparent background allows margin to participate in the hit test for the cursor -->
                             <StackPanel Orientation="Horizontal" Background="Transparent">
-                                <iconPacks:PackIconMaterial Kind="InformationOutline" Margin="5,0,0,0" Visibility="{Binding Path=StatusBarTextIconVisibility}" />
+                                <iconPacks:PackIconMaterial Kind="{Binding Path=StatusBarTextIconKind}" Margin="5,0,0,0" Visibility="{Binding Path=StatusBarTextIconVisibility}" />
                                 <TextBlock Margin="5, 0, 0, 0" FontFamily="Segoe UI" FontSize="12"
                                            Text="{Binding Path= StatusBarText}"></TextBlock>
                             </StackPanel>

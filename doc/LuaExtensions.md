@@ -34,7 +34,9 @@ local dir = lua.RandomChoice({"north", "south"});
 |lua.RandomChoice|Values (string array)|Returns a random value from the provide list of values in the string array|
 |lua.Guid|None|Returns a unique global unique identifier value (GUID)|
 |lua.SetTitle|title (string)|Sets the title of the mud client window.|
-|lua.SetStatusText|text (string)|Sets the status bar text just below the command input text box.|
+|lua.SetText|text (string)|Sets the text on the specified UI element.  If the target is omitted the main status bar label is used.|
+|lua.SetText|text (string), iconName (string)|Sets the text on the specified UI element.  If the target is omitted the main status bar label is used.|
+|lua.SetText|text (string), target (int),  iconName (string)|Sets the text on the specified UI element.  If the target is omitted the main status bar label is used.|
 |lua.GetScrapedText|None|Gets the value of the current screen scrape buffer.|
 |lua.Contains|text (string), search text (string)|Determines if one string contains another.  Case sensitive.|
 |lua.Contains|text (string), search text (string), ignore case (bool)|Determines if one string contains another with the option to ignore case.|

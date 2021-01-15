@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using Avalon.Extensions;
+using MahApps.Metro.IconPacks;
 
 namespace Avalon.Lua
 {
@@ -1833,12 +1834,48 @@ namespace Avalon.Lua
         }
 
         /// <summary>
-        /// Sets the status bar text.
+        /// Sets the main status bar text with an optional icon lookup by name.
         /// </summary>
         /// <param name="buf"></param>
-        public void SetStatusText(string buf)
+        /// <param name="iconName"></param>
+        public void SetText(string buf, string iconName)
         {
-            App.Conveyor.SetText(buf, TextTarget.StatusBarText);
+            this.SetText(buf, TextTarget.StatusBarText, iconName);
+        }
+
+        /// <summary>
+        /// Sets the text on a specified status bar an optional Enum value for the icon.
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <param name="target"></param>
+        /// <param name="icon"></param>
+        public void SetText(string buf, TextTarget target = TextTarget.StatusBarText, PackIconMaterialKind icon = PackIconMaterialKind.None)
+        {
+            App.Conveyor.SetText(buf, target, icon);
+        }
+
+        /// <summary>
+        /// Sets the text on a specified status bar an optional text value look for the icon.
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <param name="target"></param>
+        /// <param name="iconName"></param>
+        public void SetText(string buf, TextTarget target = TextTarget.StatusBarText, string iconName = "None")
+        {
+            PackIconMaterialKind icon = PackIconMaterialKind.None;
+
+            try
+            {
+                icon = (PackIconMaterialKind)Enum.Parse(typeof(PackIconMaterialKind), iconName, true);
+            }
+            catch (Exception ex)
+            {
+                App.Conveyor.EchoLog(string.IsNullOrWhiteSpace(iconName)
+                                        ? $"A valid icon name is required: {ex.Message}"
+                                        : $"Icon name '{iconName}' was not found: {ex.Message}", LogType.Error);
+            }
+
+            App.Conveyor.SetText(buf, target, icon);
         }
 
         private readonly IInterpreter _interpreter;
