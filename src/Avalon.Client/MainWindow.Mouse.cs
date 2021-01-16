@@ -1,7 +1,8 @@
-﻿using System.Windows.Input;
+﻿using Avalon.Controls;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using Avalon.Controls;
+using System.Windows.Input;
 
 namespace Avalon
 {
@@ -36,17 +37,10 @@ namespace Avalon
 
             if (e.ExtentHeightChange == 0)
             {
-                // Content unchanged : user scroll event
-                if (e.VerticalOffset == sv.ScrollableHeight)
-                {
-                    // Scroll bar is in bottom, set the auto scroll.
-                    term.IsAutoScrollEnabled = true;
-                }
-                else
-                {
-                    // Scroll bar isn't in bottom, unset the auto scroll.
-                    term.IsAutoScrollEnabled = false;
-                }
+                // Content unchanged: User Scroll Event
+                // If the scroll bar isn't on the bottom or within our threshold we won't
+                // auto-scroll, otherwise, we will.
+                term.IsAutoScrollEnabled = Math.Abs(e.VerticalOffset - sv.ScrollableHeight) < 20;
             }
         }
 
