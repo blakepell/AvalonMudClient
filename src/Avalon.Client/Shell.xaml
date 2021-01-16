@@ -11,7 +11,12 @@
         Title="{Binding Path=HeaderTitle}" Height="600" Width="800"
         Closed="ShellWindow_Closed" Loaded="ShellWindow_Loaded"
         Style="{DynamicResource WindowChrome}"
-        Background="#1A1A1A" ResizeMode="CanResize" AllowsTransparency="True" WindowStyle="None" BorderThickness="1" BorderBrush="Gray"
+        Background="{StaticResource BrushWindowBackground}" 
+        ResizeMode="CanResize" 
+        AllowsTransparency="True"
+        WindowStyle="None"
+        BorderThickness="1"
+        BorderBrush="{StaticResource BrushWindowBorderBrushSecondary}"
         >
     <Window.Resources>
         <Style x:Key="WindowChrome">
@@ -48,7 +53,12 @@
                     Click="ButtonPrimary_Click"></Button>
         </StackPanel>
 
-        <StatusBar Grid.Row="3" Background="#333333" Foreground="White" BorderBrush="#555555" BorderThickness="0,.9,0,0" Visibility="{Binding Path=StatusBarVisibility}">
+        <StatusBar Grid.Row="3" 
+                   Background="{StaticResource BrushAccentSecondary}" 
+                   Foreground="{StaticResource BrushForeground}" 
+                   BorderBrush="{StaticResource BrushWindowBorderBrushSecondary}"
+                   BorderThickness="0,.9,0,0"
+                   Visibility="{Binding Path=StatusBarVisibility}">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>
@@ -66,7 +76,9 @@
                     <ui:ProgressRing x:Name="ProgressRingUpdating" Margin="0,0,5,0" IsActive="{Binding Path=ProgressRingIsActive}" Visibility="{Binding Path=ProgressRingVisibility}" />
                 </StackPanel>
             </StatusBarItem>
-            <Separator Grid.Column="1" Width=".9" Background="#555555" Visibility="{Binding Path=ProgressRingVisibility}" />
+            <Separator Grid.Column="1" Width=".9" Height="23" 
+                       Background="{StaticResource BrushWindowBorderBrushSecondary}" 
+                       Visibility="{Binding Path=ProgressRingVisibility}" />
             <StatusBarItem Grid.Column="2">
                 <TextBlock Text="{Binding Path=StatusBarLeftText}" Margin="5,0,0,0" />
             </StatusBarItem>

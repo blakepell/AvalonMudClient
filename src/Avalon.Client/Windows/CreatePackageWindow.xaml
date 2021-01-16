@@ -7,7 +7,9 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="True" 
         TextOptions.TextFormattingMode="Ideal"
-        ui:TitleBar.Background="#2D2D30" Background="#171717" BorderBrush="#007ACC"
+        ui:TitleBar.Background="{StaticResource BrushWindowTitleBarBackground}" 
+        Background="{StaticResource BrushWindowBackground}" 
+        BorderBrush="{StaticResource BrushAccent}"
         xmlns:controls="clr-namespace:Avalon.Controls"
         Title="Create Package" Height="450" Width="800">
     <Grid>
@@ -20,17 +22,26 @@
             <TabControl.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="/Resources/TabControlStylesSecondary.xaml" />
+                        <ResourceDictionary Source="/Resources/TabControlStyles.xaml" />
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </TabControl.Resources>
-            <controls:TabItemEx x:Name="TabAliases"  Header="Aliases" Icon="Shuffle" ui:ControlHelper.CornerRadius="0">
+            <controls:TabItemEx x:Name="TabAliases">
+                <controls:TabItemEx.Header>
+                    <Label FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14" Margin="0,0,15,2">Aliases</Label>
+                </controls:TabItemEx.Header>
                 <controls:AliasList x:Name="AliasList"></controls:AliasList>
             </controls:TabItemEx>
-            <controls:TabItemEx x:Name="TabTriggers" Header="Triggers" Icon="Directions" ui:ControlHelper.CornerRadius="0">
+            <controls:TabItemEx x:Name="TabTriggers">
+                <controls:TabItemEx.Header>
+                    <Label FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14" Margin="0,0,15,2">Triggers</Label>
+                </controls:TabItemEx.Header>
                 <controls:TriggerList x:Name="TriggerList"></controls:TriggerList>
             </controls:TabItemEx>
-            <controls:TabItemEx x:Name="TabDirections" Header="Directions" Icon="Map" ui:ControlHelper.CornerRadius="0">
+            <controls:TabItemEx x:Name="TabDirections">
+                <controls:TabItemEx.Header>
+                    <Label FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14" Margin="0,0,15,2">Directions</Label>
+                </controls:TabItemEx.Header>
                 <controls:DirectionList x:Name="DirectionList"></controls:DirectionList>
             </controls:TabItemEx>
         </controls:TabControlEx>

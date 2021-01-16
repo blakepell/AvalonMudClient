@@ -45,7 +45,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:TabItemEx">
-                    <Border Name="Border" BorderThickness="0,2,0,0" BorderBrush="#222222" CornerRadius="0,0,0,0" Margin="1,0,0,0">
+                    <Border Name="Border" BorderThickness="0,2,0,0" BorderBrush="{StaticResource BrushTabBackground}" CornerRadius="0,0,0,0" Margin="1,0,0,0">
                         <StackPanel Orientation="Horizontal">
                             <Viewbox Height="16"
                                      Width="16" 
@@ -66,13 +66,13 @@
                             <Setter TargetName="ContentSite" Property="TextElement.FontWeight" Value="Bold" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="#171717" />
-                            <Setter TargetName="Border" Property="BorderBrush" Value="#007ACC" />
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource BrushTabBackgroundSelected}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource BrushAccent}" />
                             <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="White" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="False">
-                            <Setter TargetName="Border" Property="Background" Value="#222222" />
-                            <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="Gray" />
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource BrushTabBackground}" />
+                            <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="{StaticResource BrushTabForeground}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -80,9 +80,9 @@
                                 <Condition Property="IsSelected" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="Border" Property="Background" Value="#171717" />
-                                <Setter TargetName="Border" Property="BorderBrush" Value="#007ACC" />
-                                <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="Gray" />
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource BrushTabBackgroundSelected}" />
+                                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource BrushAccent}" />
+                                <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="{StaticResource BrushTabForeground}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
                         <MultiTrigger>
@@ -91,9 +91,9 @@
                                 <Condition Property="IsSelected" Value="False" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="Border" Property="Background" Value="#171717" />
-                                <Setter TargetName="Border" Property="BorderBrush" Value="#004777" />
-                                <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="Gray" />
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource BrushTabBackgroundSelected}" />
+                                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource BrushAccentHover}" />
+                                <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="{StaticResource BrushTabForeground}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>

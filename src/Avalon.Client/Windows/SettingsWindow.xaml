@@ -7,7 +7,9 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         xmlns:controls="clr-namespace:Avalon.Controls"
         ui:WindowHelper.UseModernWindowStyle="True" UseLayoutRounding="True"
-        ui:TitleBar.Background="#1E1E1E" Background="#2D2D30" BorderBrush="#007ACC"
+        ui:TitleBar.Background="#1E1E1E" 
+        Background="{StaticResource BrushWindowBackground}" 
+        BorderBrush="{StaticResource BrushAccent}"
         mc:Ignorable="d"
         Loaded="SettingsWindow_OnLoaded"
         Title="Profile Settings" Height="600" Width="600">

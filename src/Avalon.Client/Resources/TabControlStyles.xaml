@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ui="http://schemas.modernwpf.com/2019"
                     xmlns:controls="clr-namespace:Avalon.Controls">
     <Style TargetType="{x:Type controls:TabControlEx}">
         <Setter Property="Template">
@@ -14,25 +13,28 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <TabPanel 
+                        <TabPanel                            
                             Name="HeaderPanel"
                             Grid.Row="0" Grid.Column="0"
                             Panel.ZIndex="1"
                             Margin="0,0,0,0" 
                             IsItemsHost="True"
                             KeyboardNavigation.TabIndex="1"
-                            Background="#222222" />
+                            Background="{StaticResource BrushTabBackground}" />
+                        <!-- The .9 is weird on the border thickness but fixes a weird double pixel border on 4k monitors -->
                         <Border 
                             Name="Border" 
                             Grid.Row="1" Grid.Column="0"
-                            BorderThickness="0,0,0,0"
-                            CornerRadius="0" Background="#111111"
+                            BorderThickness="0,.9,0,0"
+                            BorderBrush="{StaticResource BrushTabBorder}"
+                            Margin="0"
+                            CornerRadius="0" 
                             KeyboardNavigation.TabNavigation="Local"
                             KeyboardNavigation.DirectionalNavigation="Contained"
                             KeyboardNavigation.TabIndex="2">
-                            <ContentPresenter
+                            <ContentPresenter 
                                 Name="PART_SelectedContentHost"
-                                Margin="4,2,4,4"
+                                Margin="0,0,0,0"
                                 ContentSource="SelectedContent" />
                         </Border>
                     </Grid>
@@ -44,19 +46,18 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:TabItemEx">
-                    <Border Name="Border" BorderThickness="0,2,0,0" BorderBrush="#222222" CornerRadius="0,0,0,0" Margin="1,0,0,0">
-                        <StackPanel Orientation="Horizontal">
-                            <Viewbox Height="16"
-                                     Width="16" 
-                                     Margin="15,12,7,12">
-                                <ui:SymbolIcon Foreground="White" Symbol="{TemplateBinding Icon}" />
-                            </Viewbox>
-                            <ContentPresenter x:Name="ContentSite"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center"
-                                ContentSource="Header"
-                                Margin="0,12,15,10"/>
-                        </StackPanel>
+                    <Border BorderThickness="0,0,.9,0" BorderBrush="{StaticResource BrushTabBorder}">
+                        <Border BorderThickness="0,0,0,0">
+                            <Border Name="Border" BorderThickness="0,2,0,0" BorderBrush="{StaticResource BrushTabBackground}" CornerRadius="0,0,0,0" Margin="0,0,0,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="15,5,0,5"/>
+                                </StackPanel>
+                            </Border>
+                        </Border>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="True">
@@ -65,13 +66,14 @@
                             <Setter TargetName="ContentSite" Property="TextElement.FontWeight" Value="Bold" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="#171717" />
-                            <Setter TargetName="Border" Property="BorderBrush" Value="#007ACC" />
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource BrushTabBackgroundSelected}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource BrushAccent}" />
                             <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="White" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="False">
-                            <Setter TargetName="Border" Property="Background" Value="#222222" />
-                            <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="Gray" />
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource BrushTabBackground}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource BrushTabBorder}"/>
+                            <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="{StaticResource BrushTabForeground}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -79,9 +81,9 @@
                                 <Condition Property="IsSelected" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="Border" Property="Background" Value="#171717" />
-                                <Setter TargetName="Border" Property="BorderBrush" Value="#007ACC" />
-                                <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="Gray" />
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource BrushTabBackgroundSelected}" />
+                                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource BrushAccent}" />
+                                <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="{StaticResource BrushTabForeground}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
                         <MultiTrigger>
@@ -90,9 +92,9 @@
                                 <Condition Property="IsSelected" Value="False" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="Border" Property="Background" Value="#171717" />
-                                <Setter TargetName="Border" Property="BorderBrush" Value="#004777" />
-                                <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="Gray" />
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource BrushTabBackgroundSelected}" />
+                                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource BrushAccentHover}" />
+                                <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="{StaticResource BrushTabForeground}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>

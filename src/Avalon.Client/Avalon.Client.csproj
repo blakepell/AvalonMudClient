@@ -91,6 +91,7 @@
 
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="Resources\Themes\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -114,7 +115,7 @@
     <Page Update="Controls\WindowTitleBar.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Resources\TabControlStylesSlim.xaml">
+    <Page Update="Resources\TabControlStyles.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\MacroEditWindow.xaml">

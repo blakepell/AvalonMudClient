@@ -13,13 +13,17 @@
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
         ui:WindowHelper.UseModernWindowStyle="False" 
         x:Name="mainPage" TextOptions.TextFormattingMode="Ideal"
-        ui:TitleBar.Background="#1E1E1E"
         Loaded="MainWindow_Loaded"
         UseLayoutRounding="True" SnapsToDevicePixels="True"
         PreviewKeyDown="MainWindow_OnPreviewKeyDown"
         Activated="MainWindow_Activated"
         SizeChanged="MainPage_SizeChanged"
-        ResizeMode="CanResize" AllowsTransparency="True" WindowStyle="None" BorderThickness=".9" BorderBrush="#444444" Style="{DynamicResource WindowChrome}"
+        ResizeMode="CanResize" 
+        AllowsTransparency="True" 
+        WindowStyle="None"
+        BorderThickness=".9"
+        BorderBrush="{StaticResource BrushWindowBorderBrush}"
+        Style="{DynamicResource WindowChrome}"
         >
     <!-- Resources (e.g. context menu) -->
     <Window.Resources>
@@ -113,7 +117,7 @@
         <!-- SplitView for the main part of the main grid -->
         <ui:SplitView x:Name="SplitViewMain" x:FieldModifier="public"
             Grid.Row="1"
-            PaneBackground="#171717"
+            PaneBackground="{StaticResource BrushWindowBackground}"
             IsPaneOpen="False"
             OpenPaneLength="300"
             CompactPaneLength="50"
@@ -169,7 +173,7 @@
                     </ResourceDictionary>
                 </Grid.Resources>
 
-                <Menu x:Name="MenuGame" Grid.Row="0" Grid.Column="0" BorderBrush="#444444" BorderThickness=".9,0,0,.9" Background="#171717">
+                <Menu x:Name="MenuGame" Grid.Row="0" Grid.Column="0" BorderBrush="#444444" BorderThickness=".9,0,0,.9" Background="{StaticResource BrushWindowBackground}">
                     <MenuItem Header="_File">
                         <MenuItem x:Name="MenuNetworkButton" Header="Connect" Click="MenuNetworkButton_Click">
                             <MenuItem.Icon>
@@ -356,7 +360,10 @@
                     </MenuItem>
                 </Menu>
 
-                <ui:CommandBar x:Name="PrimaryCommandBar" Grid.Row="0" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,0,.9" Background="#171717">
+                <ui:CommandBar x:Name="PrimaryCommandBar" Grid.Row="0" Grid.Column="1" 
+                               BorderBrush="Gray" 
+                               BorderThickness="0,0,0,.9" 
+                               Background="{StaticResource BrushWindowBackground}">
                     <ui:CommandBar.SecondaryCommands>
                         <ui:AppBarToggleButton x:Name="ButtonAliasesEnabled" Icon="Shuffle" Label="Aliases Enabled" />
                         <ui:AppBarToggleButton x:Name="ButtonTriggersEnabled" Icon="Directions" Label="Triggers Enabled"></ui:AppBarToggleButton>
@@ -408,7 +415,7 @@
                         <TabControl.Resources>
                             <ResourceDictionary>
                                 <ResourceDictionary.MergedDictionaries>
-                                    <ResourceDictionary Source="/Resources/TabControlStylesSlim.xaml" />
+                                    <ResourceDictionary Source="/Resources/TabControlStyles.xaml" />
                                 </ResourceDictionary.MergedDictionaries>
                             </ResourceDictionary>
                         </TabControl.Resources>
@@ -490,12 +497,12 @@
                 </Border>
 
                 <Border x:Name="VariableRepeaterBorder" Grid.Row="3" Grid.RowSpan="3" Grid.Column="1"                            
-                            Background="#171717" BorderThickness=".9,.9,0,0" BorderBrush="#444444">
+                            Background="{StaticResource BrushWindowBackground}" BorderThickness=".9,.9,0,0" BorderBrush="#444444">
                     <controls:VariableRepeater x:Name="VariableRepeater" x:FieldModifier="public" />
                 </Border>
 
                 <Border x:Name="BorderInfoBar" Grid.Row="4" Grid.Column="0" BorderBrush="#444444" BorderThickness=".9,.9,0,0">
-                    <controls:InfoBar x:Name="InfoBar" x:FieldModifier="public" Background="#171717"></controls:InfoBar>
+                    <controls:InfoBar x:Name="InfoBar" x:FieldModifier="public" Background="{StaticResource BrushWindowBackground}"></controls:InfoBar>
                 </Border>
 
                 <Border x:Name="BorderTextInput" Grid.Row="5" Grid.Column="0" BorderBrush="#444444" BorderThickness=".0,0,0,0">
@@ -541,7 +548,7 @@
 
         <!-- Status Bar -->
         <!-- #007ACC, #CA5100, #8A179A, #121112 -->
-        <StatusBar Grid.Row="2" Background="#007ACC" Foreground="White" BorderBrush="#444444" BorderThickness="0,.9,0,0">
+        <StatusBar Grid.Row="2" Background="{StaticResource BrushAccent}" Foreground="White" BorderBrush="#444444" BorderThickness="0,.9,0,0">
             <StatusBarItem Width="47">
             </StatusBarItem>
             <Separator Width=".9" Height="19" Margin="3,0,0,0" Visibility="{Binding Path=StatusBarSeparatorVisibility}" />
