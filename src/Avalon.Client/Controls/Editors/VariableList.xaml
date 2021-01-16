@@ -30,14 +30,17 @@
         </StackPanel>
 
         <DataGrid x:Name="DataList" x:FieldModifier="public" RowHeight="10"
-                  Grid.Row="1" HeadersVisibility="Column" BorderBrush="Gray" BorderThickness="1"
+                  Grid.Row="1" HeadersVisibility="Column"
+                  BorderBrush="{StaticResource BrushWindowBorderBrushSecondary}"
+                  BorderThickness="1"
                   Margin="5,0,5,5"
                   CanUserAddRows="True"
                   AutoGenerateColumns="False"
                   GridLinesVisibility="All"
                   EnableColumnVirtualization="True"
                   EnableRowVirtualization="True"
-                  VirtualizingPanel.VirtualizationMode="Standard"
+                  VirtualizingStackPanel.IsVirtualizing="True"
+                  VirtualizingPanel.VirtualizationMode="Recycling"
                   CellEditEnding="DataList_CellEditEnding">
             <DataGrid.Resources>
                 <ResourceDictionary>

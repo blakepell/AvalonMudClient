@@ -39,7 +39,8 @@
                   GridLinesVisibility="All"
                   EnableColumnVirtualization="True"
                   EnableRowVirtualization="True"
-                  VirtualizingPanel.VirtualizationMode="Standard"
+                  VirtualizingStackPanel.IsVirtualizing="True"
+                  VirtualizingPanel.VirtualizationMode="Recycling"
                   CellEditEnding="DataList_OnCellEditEnding"
                   InitializingNewItem="DataList_InitializingNewItem">
             <DataGrid.Resources>

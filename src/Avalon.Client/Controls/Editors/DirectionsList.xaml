@@ -50,7 +50,8 @@
                   RowStyle="{StaticResource DefaultRowStyle}"
                   EnableColumnVirtualization="True"
                   EnableRowVirtualization="True"
-                  VirtualizingPanel.VirtualizationMode="Standard"
+                  VirtualizingStackPanel.IsVirtualizing="True"
+                  VirtualizingPanel.VirtualizationMode="Recycling"
                   CellEditEnding="DataList_OnCellEditEnding">
             <DataGrid.Resources>
                 <ResourceDictionary>

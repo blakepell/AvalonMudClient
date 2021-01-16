@@ -40,6 +40,8 @@
                   CanUserAddRows="True"
                   CanUserDeleteRows="True"
                   AutoGenerateColumns="False"
+                  VirtualizingStackPanel.IsVirtualizing="True"
+                  VirtualizingPanel.VirtualizationMode="Recycling"
                   GridLinesVisibility="All">
             <DataGrid.Resources>
                 <ResourceDictionary>
