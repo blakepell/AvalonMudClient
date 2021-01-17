@@ -9,7 +9,7 @@
         Loaded="Window_Loaded"
         AllowsTransparency="True" Opacity=".9" WindowStyle="None"
         Height="300" Width="400" WindowStartupLocation="CenterOwner"
-        BorderThickness="0" BorderBrush="#007ACC">
+        BorderThickness="0" BorderBrush="{StaticResource BrushAccent}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>

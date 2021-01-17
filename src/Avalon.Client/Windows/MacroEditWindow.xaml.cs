@@ -71,11 +71,6 @@ namespace Avalon
         }
 
         /// <summary>
-        /// The default status bar color.
-        /// </summary>
-        private SolidColorBrush _defaultStatusColor = (SolidColorBrush)(new BrushConverter().ConvertFrom("#007ACC"));
-
-        /// <summary>
         /// Constructor.
         /// </summary>
         public MacroEditWindow()

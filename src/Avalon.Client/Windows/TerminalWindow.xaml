@@ -7,7 +7,7 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="True" 
         TextOptions.TextFormattingMode="Ideal"
-        ui:TitleBar.Background="{StaticResource BrushWindowTitleBarBackground}" BorderBrush="#007ACC"
+        ui:TitleBar.Background="{StaticResource BrushWindowTitleBarBackground}" BorderBrush="{StaticResource BrushAccent}"
         xmlns:controls="clr-namespace:Avalon.Controls"
         Loaded="TerminalWindowWindow_Loaded" AllowsTransparency="True" WindowStyle="None"
         Title="Terminal Window" Height="600" Width="800" Closed="TerminalWindowWindow_Closed">
@@ -29,7 +29,7 @@
         </controls:AvalonTerminal>
 
         <DockPanel Grid.Row="1">
-            <StatusBar Background="#007ACC" Foreground="White">
+            <StatusBar Background="{StaticResource BrushAccent}" Foreground="White">
                 <TextBlock x:Name="TextBlockStatus" Text="" TextWrapping="NoWrap"></TextBlock>
             </StatusBar>
         </DockPanel>

@@ -7,7 +7,7 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="True" 
         TextOptions.TextFormattingMode="Ideal"
-        ui:TitleBar.Background="{StaticResource BrushWindowTitleBarBackground}" Background="#171717" BorderBrush="#007ACC"
+        ui:TitleBar.Background="{StaticResource BrushWindowTitleBarBackground}" Background="#171717" BorderBrush="{StaticResource BrushAccent}"
         Title="Regular Expression Tester" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
@@ -60,7 +60,7 @@
                         Style="{DynamicResource RegularButtonAccent}" 
                         x:Name="ButtonSave" Click="ButtonSave_OnClick" Visibility="{Binding SaveButtonVisible}">Save</Button>
             </StackPanel>
-            <StatusBar x:Name="StatusBarWindow" Background="#007ACC" Foreground="White">
+            <StatusBar x:Name="StatusBarWindow" Background="{StaticResource BrushAccent}" Foreground="White">
                 <TextBlock x:Name="TextBlockStatus" Text="" TextWrapping="NoWrap"></TextBlock>
             </StatusBar>
         </DockPanel>

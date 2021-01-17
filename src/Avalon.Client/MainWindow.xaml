@@ -10,7 +10,6 @@
         xmlns:editors="clr-namespace:Avalon.Controls.AutoCompleteTextBox.Editors"
         xmlns:providers="clr-namespace:Avalon.Controls.AutoCompleteTextBox"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
         ui:WindowHelper.UseModernWindowStyle="False" 
         x:Name="mainPage" TextOptions.TextFormattingMode="Ideal"
         Loaded="MainWindow_Loaded"
@@ -615,5 +614,4 @@
             </StatusBarItem>
         </StatusBar>
     </Grid>
-
 </Window>

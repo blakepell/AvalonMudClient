@@ -17,7 +17,8 @@
                 <TextBlock Text="{Binding Path=FormattedLabel}"
                            FontFamily="Consolas"
                            FontSize="12" Height="16" Width="70"
-                           Foreground="White" 
+                           Foreground="White"
+                           TextTrimming="CharacterEllipsis"
                            HorizontalAlignment="Left" VerticalAlignment="Center"
                            Margin="5,5,5,0"                                                      
                            />
@@ -25,7 +26,9 @@
                            FontFamily="Consolas"
                            FontSize="12" Height="16"
                            Foreground="{Binding Path=Self, Converter={StaticResource ColorConverter}, UpdateSourceTrigger=PropertyChanged}" 
-                           HorizontalAlignment="Left" VerticalAlignment="Center"
+                           HorizontalAlignment="Left" 
+                           VerticalAlignment="Center"
+                           TextTrimming="CharacterEllipsis"
                            Margin="0,5,0,0"
                            />
             </StackPanel>

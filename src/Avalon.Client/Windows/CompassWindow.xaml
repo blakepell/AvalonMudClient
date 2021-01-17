@@ -23,7 +23,7 @@
                           Height="200" Width="200" FontSize="32"></controls:Compass>
 
         <DockPanel Grid.Row="1">
-            <StatusBar Background="#007ACC" Foreground="White">
+            <StatusBar Background="{StaticResource BrushAccent}" Foreground="White">
                 <TextBlock x:Name="TextBlockStatus" Text="" TextWrapping="NoWrap"></TextBlock>
             </StatusBar>
         </DockPanel>

@@ -40,7 +40,7 @@
                         x:Name="ButtonSave" Style="{DynamicResource RegularButtonAccent}"
                         Click="ButtonSave_OnClick">Save</Button>
             </StackPanel>
-            <StatusBar Background="#007ACC" Foreground="White">
+            <StatusBar Background="{StaticResource BrushAccent}" Foreground="White">
                 <TextBlock x:Name="TextBlockStatus" Text="" TextWrapping="NoWrap"></TextBlock>
             </StatusBar>
         </DockPanel>

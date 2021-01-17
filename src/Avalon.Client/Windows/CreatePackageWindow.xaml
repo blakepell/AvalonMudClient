@@ -55,7 +55,7 @@
                         Style="{DynamicResource RegularButtonAccent}" 
                         x:Name="ButtonCreate" Click="ButtonCreate_Click">Create</Button>
             </StackPanel>
-            <StatusBar Background="#007ACC" Foreground="White">
+            <StatusBar Background="{StaticResource BrushAccent}" Foreground="White">
                 <TextBlock x:Name="TextBlockStatus" Text="Use Ctrl and a mouse click to select multiple items." TextWrapping="NoWrap"></TextBlock>
             </StatusBar>
         </DockPanel>

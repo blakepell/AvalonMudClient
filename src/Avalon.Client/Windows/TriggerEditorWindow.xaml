@@ -125,7 +125,7 @@
                             x:Name="ButtonCancel" Click="ButtonCancel_OnClick" DockPanel.Dock="Right" HorizontalAlignment="Right">Cancel</Button>
                 </DockPanel>
             </DockPanel>
-            <StatusBar Background="#007ACC" Foreground="White" DockPanel.Dock="Bottom">
+            <StatusBar Background="{StaticResource BrushAccent}" Foreground="White" DockPanel.Dock="Bottom">
                 <TextBlock x:Name="TextBlockStatus" Text="Trigger Editor" TextWrapping="NoWrap"></TextBlock>
             </StatusBar>
         </DockPanel>

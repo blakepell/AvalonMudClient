@@ -44,7 +44,7 @@
                             DockPanel.Dock="Right" HorizontalAlignment="Right">Cancel</Button>
                 </DockPanel>
             </DockPanel>
-            <StatusBar Background="#007ACC" Foreground="White" DockPanel.Dock="Bottom">
+            <StatusBar Background="{StaticResource BrushAccent}" Foreground="White" DockPanel.Dock="Bottom">
                 <TextBlock x:Name="TextBlockStatus" Text="Info: Commands to Execute on Tick" TextWrapping="NoWrap"></TextBlock>
             </StatusBar>
         </DockPanel>

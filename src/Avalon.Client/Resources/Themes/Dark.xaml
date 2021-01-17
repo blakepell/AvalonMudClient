@@ -24,7 +24,8 @@
     <!-- Brushes: Same key exists in all themes, references theme specific colors -->
 
     <!-- Window -->
-    <SolidColorBrush x:Key="BrushForeground" Color="White"></SolidColorBrush>
+    <SolidColorBrush x:Key="BrushPrimaryText" Color="White"></SolidColorBrush>
+    <SolidColorBrush x:Key="BrushSecondaryText" Color="{StaticResource ColorDarkGrey11}"></SolidColorBrush>
 
     <SolidColorBrush x:Key="BrushAccent" Color="{StaticResource ColorAccent}"/>
     <SolidColorBrush x:Key="BrushAccentHover" Color="{StaticResource ColorAccentHover}"></SolidColorBrush>

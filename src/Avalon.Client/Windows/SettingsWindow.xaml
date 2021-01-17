@@ -51,7 +51,7 @@
                 <StatusBar Foreground="White" Height="25">
                         <StatusBar.Style>
                             <Style TargetType="{x:Type StatusBar}">
-                                <Setter Property="Background" Value="#007ACC"/>
+                            <Setter Property="Background" Value="{StaticResource BrushAccent}"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Path=IsActive,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False">
                                     <Setter Property="Background" Value="#555555"/>
