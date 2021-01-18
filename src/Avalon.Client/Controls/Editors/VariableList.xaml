@@ -10,12 +10,23 @@
              Loaded="VariableList_OnLoaded"
              Unloaded="VariableList_OnUnloaded">
     <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/Resources/ColorList.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60*"></ColumnDefinition>
+            <ColumnDefinition Width="40*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <Grid Margin="0,10,5,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -29,44 +40,120 @@
             </Grid>
         </StackPanel>
 
-        <DataGrid x:Name="DataList" x:FieldModifier="public" RowHeight="10"
-                  Grid.Row="1" HeadersVisibility="Column"
-                  BorderBrush="{StaticResource BrushWindowBorderBrushSecondary}"
-                  BorderThickness="1"
+        <DataGrid x:Name="DataList" x:FieldModifier="public"
+                  Grid.Column="0"
+                  Grid.Row="1"
+                  HeadersVisibility="Column"
                   Margin="5,0,5,5"
                   CanUserAddRows="True"
+                  CanUserDeleteRows="True"
                   AutoGenerateColumns="False"
-                  GridLinesVisibility="All"
                   EnableColumnVirtualization="True"
+                  SelectionMode="Single"
                   EnableRowVirtualization="True"
                   VirtualizingStackPanel.IsVirtualizing="True"
                   VirtualizingPanel.VirtualizationMode="Recycling"
-                  CellEditEnding="DataList_CellEditEnding">
+                  SelectionChanged="DataList_OnSelectionChanged">
             <DataGrid.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="/Resources/ColorList.xaml" />
-                        <ResourceDictionary Source="/Resources/DataGridStyles.xaml" />
+                        <ResourceDictionary Source="/Resources/DataGridReadOnly.xaml" />
                     </ResourceDictionary.MergedDictionaries>
+                    <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource DataGridRowStyle}" />
                 </ResourceDictionary>
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTemplateColumn>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Click="ButtonEdit_OnClick" ui:ControlHelper.CornerRadius="0" Margin="0,0,0,0" HorizontalAlignment="Stretch">Edit</Button>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Key" Binding="{Binding Key,UpdateSourceTrigger=PropertyChanged}" Width="40*" />
-                <DataGridTextColumn Header="Value" Binding="{Binding Value,UpdateSourceTrigger=PropertyChanged}" Width="40*" />
-                <DataGridCheckBoxColumn Header="Visible" Binding="{Binding IsVisible,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
-                <DataGridTextColumn Header="Label" Binding="{Binding Label,UpdateSourceTrigger=PropertyChanged}" Width="40*" />
-                <DataGridTextColumn Header="Display Order" Binding="{Binding DisplayOrder,UpdateSourceTrigger=PropertyChanged}" Width="40*" />
-                <DataGridComboBoxColumn Header="Foreground Color" SelectedItemBinding="{Binding ForegroundColor,UpdateSourceTrigger=PropertyChanged}" ItemsSource="{StaticResource ColorList}" Width="40*">
-                </DataGridComboBoxColumn>
-                <DataGridTextColumn Header="Character" Binding="{Binding Character,UpdateSourceTrigger=PropertyChanged}" Width="20*" />
+                <DataGridTextColumn Width="175" Binding="{Binding Key,UpdateSourceTrigger=PropertyChanged}"
+                                    CellStyle="{StaticResource DataGridCellPrimaryWithEllipsis}" IsReadOnly="True" Visibility="Visible">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="Key"/>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Width="200" Binding="{Binding Value,UpdateSourceTrigger=PropertyChanged}"
+                                    CellStyle="{StaticResource DataGridCellPrimaryWithEllipsis}" IsReadOnly="True" Visibility="Visible">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="Value"/>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+
+                <DataGridCheckBoxColumn Width="60" Header="Visible"
+                                        Binding="{Binding IsVisible,UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridCheckBoxColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="IsEnabled" Value="False" />
+                        </Style>
+                    </DataGridCheckBoxColumn.CellStyle>
+                    <DataGridCheckBoxColumn.ElementStyle>
+                        <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}" />
+                    </DataGridCheckBoxColumn.ElementStyle>
+                </DataGridCheckBoxColumn>
+
+                <DataGridTextColumn Binding="{Binding DisplayOrder,UpdateSourceTrigger=PropertyChanged}" 
+                                    CellStyle="{StaticResource DataGridCellSecondaryWithEllipsis}"
+                                    Width="70">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="Order" />
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
+
+        <ui:SimpleStackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <ui:SimpleStackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical" Margin="0,0,0,0">
+                    <TextBlock FontSize="14" Foreground="White" Margin="0,0,0,0">Key:</TextBlock>
+                    <TextBox ui:ControlHelper.CornerRadius="0" Margin="0,5,0,0" x:Name="TextKey"
+                             Text="{Binding Key,UpdateSourceTrigger=PropertyChanged}">
+                    </TextBox>
+                </ui:SimpleStackPanel>
+
+                <ui:SimpleStackPanel Grid.Row="0" Grid.Column="1"  Orientation="Vertical" Margin="5,0,0,0">
+                    <TextBlock FontSize="14" Foreground="White" Margin="0,0,0,0">Display Label:</TextBlock>
+                    <TextBox ui:ControlHelper.CornerRadius="0" Margin="0,5,0,0" x:Name="TextLabel"
+                             Text="{Binding Label,UpdateSourceTrigger=PropertyChanged}">
+                    </TextBox>
+                </ui:SimpleStackPanel>
+            </Grid>
+
+            <TextBlock FontSize="14" Foreground="White" Margin="0,10,0,0">Value:</TextBlock>
+            <TextBox ui:ControlHelper.CornerRadius="0" Margin="0,5,0,0" x:Name="TextValue"
+                     Text="{Binding Value,UpdateSourceTrigger=PropertyChanged}">
+            </TextBox>
+
+            <Grid Margin="0,5,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <ui:SimpleStackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical" Margin="0,0,0,0">
+                    <TextBlock FontSize="14" Foreground="White" Margin="0,0,0,0">Display Order:</TextBlock>
+
+                    <ui:NumberBox x:Name="TextOrder" 
+                                  Text="{Binding DisplayOrder,UpdateSourceTrigger=PropertyChanged}"
+                                  ui:ControlHelper.CornerRadius="0" SmallChange="1" LargeChange="10" Margin="0,5,0,0" 
+                                  SpinButtonPlacementMode="Inline" PreviewTextInput="TextPriority_PreviewTextInput"></ui:NumberBox>
+
+                </ui:SimpleStackPanel>
+
+                <ui:SimpleStackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical" Margin="5,0,0,0">
+                    <TextBlock FontSize="14" Foreground="White" Margin="0,0,0,0">Foreground Color:</TextBlock>
+                    <ComboBox ui:ControlHelper.CornerRadius="0" Margin="0,5,0,0" HorizontalAlignment="Stretch"
+                              SelectedItem="{Binding ForegroundColor,UpdateSourceTrigger=PropertyChanged}"
+                              ItemsSource="{StaticResource ColorList}"></ComboBox>
+                </ui:SimpleStackPanel>
+            </Grid>
+
+            <CheckBox IsChecked="{Binding IsVisible,UpdateSourceTrigger=PropertyChanged}" Margin="0,5,0,0">
+                <TextBlock Text="Visible in Variable Repeater" FontSize="14" Foreground="White"></TextBlock>
+            </CheckBox>
+        </ui:SimpleStackPanel>
+
     </Grid>
-</UserControl>
+</UserControl>    

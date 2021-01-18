@@ -2,7 +2,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:core="clr-namespace:System;assembly=mscorlib">
 
+    <Style x:Key="SegoeAssets">
+        <Setter Property="TextElement.FontFamily" Value="/Avalon;component/Resources/Fonts/segmdl2.ttf#Segoe MDL2 Assets" />
+    </Style>
+
     <!-- Palette: Specific to this theme -->
+    <Color x:Key="Color"></Color>
+    <Color x:Key="ColorWhiteMuted">#E2E2E2</Color>
     <Color x:Key="ColorAccent">#007ACC</Color>
     <Color x:Key="ColorAccentHover">#004777</Color>
     <Color x:Key="ColorTitleBarBackground">#2D2D30</Color>
@@ -25,6 +31,7 @@
 
     <!-- Window -->
     <SolidColorBrush x:Key="BrushPrimaryText" Color="White"></SolidColorBrush>
+    <SolidColorBrush x:Key="BrushPrimaryTextMuted" Color="{StaticResource ColorWhiteMuted}"></SolidColorBrush>
     <SolidColorBrush x:Key="BrushSecondaryText" Color="{StaticResource ColorDarkGrey11}"></SolidColorBrush>
 
     <SolidColorBrush x:Key="BrushAccent" Color="{StaticResource ColorAccent}"/>
@@ -42,4 +49,11 @@
     <SolidColorBrush x:Key="BrushTabBackground" Color="{StaticResource ColorDarkGrey4}"></SolidColorBrush>
     <SolidColorBrush x:Key="BrushTabBorder" Color="{StaticResource ColorDarkGrey11}"></SolidColorBrush>
     <SolidColorBrush x:Key="BrushTabForeground" Color="White"></SolidColorBrush>
+
+    <!-- Controls -->
+    <SolidColorBrush x:Key="BrushItemSeparator" Color="{StaticResource ColorDarkGrey6}" Opacity="0.5"/>
+    <SolidColorBrush x:Key="BrushControlBorder" Color="{StaticResource ColorDarkGrey7}"/>
+    <SolidColorBrush x:Key="BrushItemHovered" Color="{StaticResource ColorDarkGrey9}" Opacity="0.05"/>
+    <SolidColorBrush x:Key="BrushItemSelected" Color="{StaticResource ColorDarkGrey9}" Opacity="0.15"/>
+
 </ResourceDictionary>

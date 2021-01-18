@@ -2,10 +2,12 @@
 using Avalon.Common.Models;
 using ModernWpf;
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Threading;
+using Argus.Extensions;
 
 namespace Avalon.Controls
 {
@@ -25,7 +27,7 @@ namespace Avalon.Controls
             InitializeComponent();
             _typingTimer = new DispatcherTimer();
             _typingTimer.Tick += this._typingTimer_Tick;
-            DataContext = this;
+            DataContext = null;
         }
 
         private void VariableList_OnLoaded(object sender, RoutedEventArgs e)
@@ -74,6 +76,15 @@ namespace Avalon.Controls
 
             // Unsubscribe to the tick event so it doesn't leak.
             _typingTimer.Tick -= this._typingTimer_Tick;
+
+            // Remove anything with a null or blank key.
+            for (int i = App.Settings.ProfileSettings.Variables.Count - 1; i >= 0; i--)
+            {
+                if (App.Settings.ProfileSettings.Variables[i].Key.IsNullOrEmptyOrWhiteSpace())
+                {
+                    App.Settings.ProfileSettings.Variables.RemoveAt(i);
+                }
+            }
         }
 
         /// <summary>
@@ -87,31 +98,12 @@ namespace Avalon.Controls
                 DataList.ItemsSource = null;
             }
 
-            var lcv = new ListCollectionView(App.Settings.ProfileSettings.Variables)
+            DataList.ItemsSource = new ListCollectionView(App.Settings.ProfileSettings.Variables)
             {
                 Filter = Filter
             };
 
-            DataList.ItemsSource = lcv;
             DataList.Items.Refresh();
-        }
-
-        /// <summary>
-        /// The number of items currently selected.
-        /// </summary>
-        public int SelectedCount()
-        {
-            return DataList?.SelectedItems.Count ?? 0;
-        }
-
-        /// <summary>
-        /// A element has been updated.  Update the UI.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DataList_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
-        {
-            App.MainWindow.VariableRepeater.Bind();
         }
 
         /// <summary>
@@ -159,45 +151,55 @@ namespace Avalon.Controls
             _typingTimer.Start();
         }
 
-        private void ButtonEdit_OnClick(object sender, RoutedEventArgs e)
-        {
-            // Get the variable from the current line.
-            var variable = ((FrameworkElement)sender).DataContext as Variable;
-
-            // Hmm, no variable.. gracefully exit.
-            if (variable == null)
-            {
-                return;
-            }
-
-            // Set the initial text for the editor.
-            var win = new StringEditor
-            {
-                Text = variable.Value,
-                EditorMode = StringEditor.EditorType.Text,
-                StatusText = $"Variable: {variable.Key}",
-                Owner = App.MainWindow,
-                WindowStartupLocation = WindowStartupLocation.CenterOwner
-            };
-
-            // Show the string dialog
-            var result = win.ShowDialog();
-
-            // If the result
-            if (result != null && result.Value)
-            {
-                variable.Value = win.Text;
-            }
-        }
-
+        /// <summary>
+        /// Close the window with an Ok or success.
+        /// </summary>
         public void PrimaryButtonClick()
         {
-            // Do nothing.
+            App.MainWindow.VariableRepeater.Bind();
         }
 
+        /// <summary>
+        /// Close the window with a cancel or close.
+        /// </summary>
         public void SecondaryButtonClick()
         {
-            // Do nothing.
+            App.MainWindow.VariableRepeater.Bind();
+        }
+
+        /// <summary>
+        /// Event that fires when the selected variable changes.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DataList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems != null && e.AddedItems.Count > 0)
+            {
+                var v = e.AddedItems[0] as Variable;
+
+                if (v == null)
+                {
+                    App.Settings.ProfileSettings.Variables.Add(new Variable("", ""));
+                    return;
+                }
+
+                this.DataContext = v;
+                App.MainWindow.VariableRepeater.Bind();
+            }
+        }
+
+        /// <summary>
+        /// Limits the number box to only digits.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TextPriority_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            if (e.Text.Any(c => !char.IsDigit(c)))
+            {
+                e.Handled = true;
+            }
         }
     }
 }
