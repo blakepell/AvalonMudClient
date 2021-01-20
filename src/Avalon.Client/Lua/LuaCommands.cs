@@ -106,6 +106,24 @@ namespace Avalon.Lua
         }
 
         /// <summary>
+        /// Shows a variable in the variable repeater if the key is found.
+        /// </summary>
+        /// <param name="key"></param>
+        public void ShowVariable(string key)
+        {
+            Application.Current.Dispatcher.Invoke(() => _interpreter.Conveyor.ShowVariable(key));
+        }
+
+        /// <summary>
+        /// Hides a variable in the variable repeater if the key is found.
+        /// </summary>
+        /// <param name="key"></param>
+        public void HideVariable(string key)
+        {
+            Application.Current.Dispatcher.Invoke(() => _interpreter.Conveyor.HideVariable(key));
+        }
+
+        /// <summary>
         /// Removes a <see cref="Variable"/> from the global variable list.
         /// </summary>
         /// <param name="key"></param>

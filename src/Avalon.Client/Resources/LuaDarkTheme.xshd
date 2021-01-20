@@ -109,6 +109,8 @@
         <Key word = "SetText" />
         <Key word = "GetVariable" />
         <Key word = "SetVariable" />
+        <Key word = "ShowVariable" />
+        <Key word = "HideVariable" />
         <Key word = "Echo" />
         <Key word = "EchoEvent" />
         <Key word = "Coalesce" />

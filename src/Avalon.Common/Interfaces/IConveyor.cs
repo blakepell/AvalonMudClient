@@ -22,6 +22,10 @@ namespace Avalon.Common.Interfaces
 
         void SetVariable(string key, string value, string color);
 
+        void HideVariable(string key);
+
+        void ShowVariable(string key);
+
         string ReplaceVariablesWithValue(string text);
 
         void RemoveVariable(string key);

@@ -38,6 +38,7 @@ namespace Avalon.Common.Models
             {
                 _key = value;
                 OnPropertyChanged(nameof(Key));
+                OnPropertyChanged("Self");
             }
         }
 
@@ -67,7 +68,8 @@ namespace Avalon.Common.Models
             {
                 _character = value;
                 OnPropertyChanged(nameof(Character));
-            }            
+                OnPropertyChanged("Self");
+            }
         }
 
         private bool _isVisible = false;
@@ -82,6 +84,7 @@ namespace Avalon.Common.Models
                 {
                     _isVisible = value;
                     OnPropertyChanged(nameof(IsVisible));
+                    OnPropertyChanged("Self");
                 }
             }
         }

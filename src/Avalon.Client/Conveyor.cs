@@ -84,18 +84,52 @@ namespace Avalon
                     variable.Value = value;
                 }
 
-                // If the color has changed, try to lookup the new color
-                if (!string.Equals(variable.ForegroundColor, color, StringComparison.Ordinal))
+                // If the color is specified and has changed then set the new value.  We don't want blank to set
+                // the color to nothing other it would always reset user set values if not specified.
+                if (!string.IsNullOrWhiteSpace(color) && !string.Equals(variable.ForegroundColor, color, StringComparison.Ordinal))
                 {
                     variable.ForegroundColor = color;
                 }
-
             }
             else
             {
                 App.Settings.ProfileSettings.Variables.Add(string.IsNullOrWhiteSpace(color)
                     ? new Variable(key, value)
                     : new Variable(key, value, color));
+            }
+        }
+
+        /// <summary>
+        /// Shows the variable if found in the variable repeater.
+        /// </summary>
+        /// <param name="key"></param>
+        public void ShowVariable(string key)
+        {
+            var variable = App.Settings.ProfileSettings.Variables.FirstOrDefault(x => string.Equals(x.Key, key, StringComparison.OrdinalIgnoreCase));
+
+            if (variable != null)
+            {
+                variable.IsVisible = true;
+
+                // Because the Linq query changes the ItemsSource the bind will need to be called again.
+                App.MainWindow.VariableRepeater.Bind();
+            }
+        }
+
+        /// <summary>
+        /// Hides the variable if found in the variable repeater.
+        /// </summary>
+        /// <param name="key"></param>
+        public void HideVariable(string key)
+        {
+            var variable = App.Settings.ProfileSettings.Variables.FirstOrDefault(x => string.Equals(x.Key, key, StringComparison.OrdinalIgnoreCase));
+
+            if (variable != null)
+            {
+                variable.IsVisible = false;
+
+                // Because the Linq query changes the ItemsSource the bind will need to be called again.
+                App.MainWindow.VariableRepeater.Bind();
             }
         }
 

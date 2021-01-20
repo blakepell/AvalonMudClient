@@ -14,6 +14,8 @@ local dir = lua.RandomChoice({"north", "south"});
 |lua.GetVariable|(string) key|Gets a global variable|
 |lua.SetVariable|(string) key, (string) value|Sets a global variable.|
 |lua.SetVariable|(string) key, (string) value, (string) color|Sets a global variable.|
+|lua.ShowVariable|(string) key|Shows a variable in the variable repeater if the key is found.|
+|lua.HideVariable|(string) key|Hides a variable in the variable repeater if the key is found.
 |lua.RemoveVariable|(string) key|Removes a global variable.|
 |lua.Echo|(string) text|Echos text to the terminal window.|
 |lua.Echo|(string) msg, (string color), (bool) reverse|Echos text to the terminal window in a given color.|
