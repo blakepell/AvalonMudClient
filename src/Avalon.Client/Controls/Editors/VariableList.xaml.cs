@@ -185,6 +185,10 @@ namespace Avalon.Controls
                 }
 
                 this.DataContext = v;
+                LuaEditor.SaveObject = v;
+                LuaEditor.SaveProperty = "OnChangeEvent";
+                LuaEditor.Editor.Text = !string.IsNullOrWhiteSpace(v.OnChangeEvent) ? v.OnChangeEvent : string.Empty;
+
                 App.MainWindow.VariableRepeater.Bind();
             }
         }

@@ -56,6 +56,19 @@ namespace Avalon
                 // Only change the string if the value has changed.
                 if (!string.Equals(variable.Value, value, StringComparison.Ordinal))
                 {
+                    // Only fire the OnChanged event if the variable was changed, we will fire and
+                    // forget this Lua script.  This is going to run.  %1 will be the old value and
+                    // %2 will be the new value.  In order to have both the old and new value we are
+                    // running before the actual update so the variable will won't have changed yet
+                    // but will be provided to the script.  We're also (for now) firing and forgetting
+                    // the Lua call so we can't be sure the value will consistently be set which is why
+                    // we'll do the string replacement here.
+                    if (!string.IsNullOrWhiteSpace(variable.OnChangeEvent))
+                    {
+                        // TODO - Endless loop protection if they set the value of this variable in the Lua script.
+                        this.ExecuteLuaAsync(variable.OnChangeEvent.Replace("%1", variable.Value).Replace("%2", value));
+                    }
+
                     variable.Value = value;
                 }
             }

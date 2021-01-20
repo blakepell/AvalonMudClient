@@ -18,6 +18,19 @@ namespace Avalon.Extensions
     /// </summary>
     public static class ExtensionMethods
     {
+        /// <summary>
+        /// Sets a property's value via reflection.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="this"></param>
+        /// <param name="propertyName"></param>
+        /// <param name="value"></param>
+        public static void Set<T>(this T @this, string propertyName, object value)
+        {
+            var t = @this.GetType();
+            var prop = t.GetProperty(propertyName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+            prop.SetValue(@this, value, null);
+        }
 
         /// <summary>
         /// Removes all line endings from a string using a char array for performance vs.

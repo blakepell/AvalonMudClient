@@ -43,5 +43,15 @@
         /// </summary>
         string ForegroundColor { get; set; }
 
+        /// <summary>
+        /// Lua code that will execute when the variable is changed.
+        /// </summary>
+        string OnChangeEvent { get; set; }
+
+        /// <summary>
+        /// Lua code that will execute when the variable is clicked on in the UI if supported.
+        /// </summary>
+        string OnClickEvent { get; set; }
+
     }
 }

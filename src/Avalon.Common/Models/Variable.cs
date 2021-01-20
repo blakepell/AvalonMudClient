@@ -155,6 +155,39 @@ namespace Avalon.Common.Models
             }
         }
 
+
+        private string _onChangeEvent;
+
+        /// <inheritdoc />
+        public string OnChangeEvent
+        {
+            get => _onChangeEvent;
+            set
+            {
+                if (value != _onChangeEvent)
+                {
+                    _onChangeEvent = value;
+                    OnPropertyChanged(nameof(this.OnChangeEvent));
+                }
+            }
+        }
+
+        private string _onClickEvent;
+
+        /// <inheritdoc />
+        public string OnClickEvent
+        {
+            get => _onClickEvent;
+            set
+            {
+                if (value != _onClickEvent)
+                {
+                    _onClickEvent = value;
+                    OnPropertyChanged(nameof(this.OnClickEvent));
+                }
+            }
+        }
+
         /// <summary>
         /// A self reference used to ease binding scenario.  This property will be marked as
         /// changed when the value of the object changes.  This must be ignored in serialization
@@ -170,6 +203,5 @@ namespace Avalon.Common.Models
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
     }
 }

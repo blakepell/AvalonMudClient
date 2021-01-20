@@ -1,5 +1,7 @@
 ﻿using System;
+using Avalon.Extensions;
 using Avalon.Lua;
+using Argus.Extensions;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Highlighting;
@@ -22,15 +24,53 @@ namespace Avalon.Controls
         /// </summary>
         CompletionWindow _completionWindow;
 
+        public static readonly DependencyProperty InfoButtonVisibilityProperty = DependencyProperty.Register(
+            nameof(InfoButtonVisibility), typeof(Visibility), typeof(AvalonLuaEditor), new PropertyMetadata(Visibility.Visible));
+
+        /// <summary>
+        /// Whether the Lua Info button is visible.
+        /// </summary>
+        public Visibility InfoButtonVisibility
+        {
+            get => (Visibility) GetValue(InfoButtonVisibilityProperty);
+            set => SetValue(InfoButtonVisibilityProperty, value);
+        }
+
+
+        public static readonly DependencyProperty SaveButtonVisibilityProperty = DependencyProperty.Register(
+            nameof(SaveButtonVisibility), typeof(Visibility), typeof(AvalonLuaEditor), new PropertyMetadata(Visibility.Visible));
+
+        /// <summary>
+        /// Whether the Lua Save button is visible.
+        /// </summary>
+        public Visibility SaveButtonVisibility
+        {
+            get => (Visibility)GetValue(SaveButtonVisibilityProperty);
+            set => SetValue(SaveButtonVisibilityProperty, value);
+        }
+
+        /// <summary>
+        /// A reference to the object that the Lua editor should save to when save
+        /// is clicked.
+        /// </summary>
+        public object SaveObject { get; set; }
+
+        /// <summary>
+        /// The name of the property that the Lua editor should save to when save
+        /// is clicked.
+        /// </summary>
+        public string SaveProperty { get; set; }
+
         public AvalonLuaEditor()
         {
             InitializeComponent();
+            this.DataContext = this;
         }
 
         private void AvalonLuaEditor_OnLoaded(object sender, RoutedEventArgs e)
         {
             this.SetupLuaEditor();
-
+            
             Editor.TextArea.TextEntering += AvalonLuaEditor_TextEntering;
             Editor.TextArea.TextEntered += AvalonLuaEditor_TextEntered;
         }
@@ -202,6 +242,23 @@ namespace Avalon.Controls
         private void ButtonInfo_OnClick(object sender, RoutedEventArgs e)
         {
             _ = App.MainWindow.Interp.Send("#lua-debug", true, false);
+        }
+
+        private void ButtonSaveLua_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.SaveObject == null || string.IsNullOrWhiteSpace(this.SaveProperty))
+            {
+                return;
+            }
+
+            try
+            {
+                this.SaveObject.Set(this.SaveProperty, this.Editor.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

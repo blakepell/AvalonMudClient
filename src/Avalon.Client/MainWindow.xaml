@@ -482,7 +482,7 @@
                                     <Label FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14" Margin="0,0,15,0">Lua</Label>
                                 </StackPanel>
                             </controls:TabItemEx.Header>
-                            <controls:AvalonLuaEditor x:Name="LuaEditor"></controls:AvalonLuaEditor>
+                            <controls:AvalonLuaEditor x:Name="LuaEditor" SaveButtonVisibility="Collapsed"></controls:AvalonLuaEditor>
                         </controls:TabItemEx>
                     </controls:TabControlEx>
                 </Border>
