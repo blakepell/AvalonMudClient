@@ -88,6 +88,24 @@ namespace Avalon.Lua
         }
 
         /// <summary>
+        /// Sets a <see cref="Variable"/> in the profile's global variable list.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="color">A known color</param>
+        public void SetVariable(string key, string value, string color)
+        {
+            if (key == null)
+            {
+                return;
+            }
+
+            value ??= "";
+
+            Application.Current.Dispatcher.Invoke(() => _interpreter.Conveyor.SetVariable(key, value, color));
+        }
+
+        /// <summary>
         /// Removes a <see cref="Variable"/> from the global variable list.
         /// </summary>
         /// <param name="key"></param>

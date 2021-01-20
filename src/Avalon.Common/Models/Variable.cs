@@ -21,11 +21,11 @@ namespace Avalon.Common.Models
             this.Value = value;
         }
 
-        public Variable(string key, string value, string character)
+        public Variable(string key, string value, string color)
         {
             this.Key = key;
             this.Value = value;
-            this.Character = character;
+            this.ForegroundColor = color;
         }
 
         private string _key = "";
@@ -98,6 +98,7 @@ namespace Avalon.Common.Models
                 {
                     _displayOrder = value;
                     OnPropertyChanged(nameof(DisplayOrder));
+                    OnPropertyChanged("Self");
                 }
             }
         }
@@ -117,6 +118,7 @@ namespace Avalon.Common.Models
                     _label = value;
                     OnPropertyChanged(nameof(Label));
                     OnPropertyChanged(nameof(FormattedLabel));
+                    OnPropertyChanged("Self");
                 }
             }
         }
@@ -151,6 +153,7 @@ namespace Avalon.Common.Models
                 {
                     _foregroundColor = value;
                     OnPropertyChanged(nameof(this.ForegroundColor));
+                    OnPropertyChanged("Self");
                 }
             }
         }

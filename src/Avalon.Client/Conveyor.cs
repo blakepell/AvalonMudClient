@@ -49,6 +49,18 @@ namespace Avalon
         /// <param name="value"></param>
         public void SetVariable(string key, string value)
         {
+            this.SetVariable(key, value, "");
+        }
+
+        /// <summary>
+        /// Sets a variable in the settings.  This is not thread safe, calls to this from outside
+        /// threads should run through the Dispatcher.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="color">The known color</param>
+        public void SetVariable(string key, string value, string color)
+        {
             var variable = App.Settings.ProfileSettings.Variables.FirstOrDefault(x => string.Equals(x.Key, key, StringComparison.OrdinalIgnoreCase));
 
             if (variable != null)
@@ -71,10 +83,19 @@ namespace Avalon
 
                     variable.Value = value;
                 }
+
+                // If the color has changed, try to lookup the new color
+                if (!string.Equals(variable.ForegroundColor, color, StringComparison.Ordinal))
+                {
+                    variable.ForegroundColor = color;
+                }
+
             }
             else
             {
-                App.Settings.ProfileSettings.Variables.Add(new Variable(key, value));
+                App.Settings.ProfileSettings.Variables.Add(string.IsNullOrWhiteSpace(color)
+                    ? new Variable(key, value)
+                    : new Variable(key, value, color));
             }
         }
 
