@@ -38,6 +38,16 @@ The above trigger would match the following prompt.  It would set each of the na
 
 On the main window of the mud client there is a variable repeater.  It can be made visible or not visible on the `...` menu in the upper right hand area of the mud client.  When a CLR variable is created you can edit it via the `Variables` window which can be accessed via the `Edit->Edit Variables` menu or by pressing the `Control+Alt+V` hot key.  By check the `Visible` check box on the variable you want it will then always show with it's updated value on the main mud window making it a handy way to show important game data.  Those variables can be sorted via the `Display Order` value.  The order will be `Display Order` lowest to highest then alphabetical.  If all `Display Order` values are 0 then the sort defaults alphabetical.
 
+### Variable Events
+
+The following events are available for use with variables.  Events in Avalon will execute Lua scripts if they are provided.
+
+|Event|Description|Notes|
+|-----|-----------|-----|
+|OnChange|Executes when the variable's value changes.  If the value is set to the same value the variable already is this event will not fire.|In the OnChange Lua script, %1 will have the old value substituted in and %2 will have the new value substituted in.|
+
+**Note** In the variable editor, the Lua scripts must have the `Save` button clicked in order for the Lua script to be updated.  The Lua editor does not support data binding that automatically updated values as the other field on this form.  This is desirable as it helps to prevent partially coded Lua scripts from executing. 
+
 ### Important Variables of Note
 
 The following variables have special importance in the mud client and when sent enable special functionality.
