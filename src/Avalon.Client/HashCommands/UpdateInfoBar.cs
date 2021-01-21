@@ -32,7 +32,7 @@ namespace Avalon.HashCommands
             }
             catch (Exception ex)
             {
-                Interpreter.EchoText($"ERROR: #update-info-bar => {ex.Message}", AnsiColors.Red);
+                App.Conveyor.EchoError($"ERROR: #update-info-bar => {ex.Message}");
             }
         }
 
