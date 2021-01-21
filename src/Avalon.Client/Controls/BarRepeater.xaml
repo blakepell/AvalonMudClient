@@ -11,13 +11,13 @@
             <Grid>
                 <ui:ProgressBar Maximum="{Binding Path=(local:BarRepeater+Bar.Maximum), Mode=OneWay}" Value="{Binding Path=(local:BarRepeater+Bar.Value), Mode=OneWay}" ui:CornerRadius="0" 
                                 Background="#171717" Foreground="{Binding Path=(local:BarRepeater+Bar.Background), Mode=OneWay}" IsIndeterminate="False"
-                                Height="20" Width="250"></ui:ProgressBar>
+                                Height="20" Width="170" Margin="5,0,0,0"></ui:ProgressBar>
                 <TextBlock Text="{Binding Path=(local:BarRepeater+Bar.Text)}" 
                            FontFamily="Consolas"
-                           FontSize="14"
+                           FontSize="11" FontWeight="Normal"
                            Foreground="White" 
                            HorizontalAlignment="Left" VerticalAlignment="Center"
-                           Margin="10,0,0,0"
+                           Margin="13,0,0,0"
                            Tag="{Binding Path=(local:BarRepeater+Bar.Command)}"
                            PreviewMouseLeftButtonUp="TextBlock_PreviewMouseLeftButtonUp"
                            />
@@ -25,10 +25,10 @@
         </DataTemplate>
         <ui:UniformGridLayout
             x:Key="UniformGridLayout"
-            MinItemWidth="215"
+            MinItemWidth="175"
             MinItemHeight="26"
             MinRowSpacing="0"
-            MinColumnSpacing="5" />                
+            MinColumnSpacing="0" />                
     </UserControl.Resources>
     <Grid HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
@@ -60,7 +60,7 @@
 
         <ui:ItemsRepeaterScrollHost Grid.Row="1">
             <ScrollViewer x:Name="scrollViewer" HorizontalScrollBarVisibility="Disabled">
-                <ui:ItemsRepeater x:Name="repeater" Margin="4,4,0,4" HorizontalAlignment="Left"
+                <ui:ItemsRepeater x:Name="repeater" Margin="0,4,0,4" HorizontalAlignment="Left"
                                 Layout="{StaticResource UniformGridLayout}"
                                 ItemTemplate="{StaticResource HorizontalBarTemplate}" />
             </ScrollViewer>
