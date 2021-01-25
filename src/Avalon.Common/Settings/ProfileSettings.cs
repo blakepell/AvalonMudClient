@@ -123,6 +123,12 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public string AutoExecuteCommand { get; set; } = "";
 
+
+        [CategoryAttribute("Game")]
+        [DescriptionAttribute("A command used to cancel commands already sent to the server.  This would need is one provided by the game server and not not apply to all muds.")]
+        [Browsable(true)]
+        public string GameServerCancelCommand { get; set; } = "~";
+
         private bool _spellChecking = false;
 
         [CategoryAttribute("Misc")]

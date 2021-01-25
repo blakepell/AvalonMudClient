@@ -311,9 +311,11 @@ namespace Avalon.Lua
                     IncrementCounter(LuaCounter.ErrorCount);
                     LogException(ex: ex);
 
-                    // TODO - Make this a setting so that it can be tailored (the command that is sent, e.g. the ~).
                     // Cancel pending sends with the mud in case something went haywire
-                    await _interpreter.Send("~", true, false);
+                    if (!string.IsNullOrWhiteSpace(App.Settings.ProfileSettings.GameServerCancelCommand))
+                    {
+                        await _interpreter.Send(App.Settings.ProfileSettings.GameServerCancelCommand, true, false);
+                    }
                 }
                 finally
                 {
@@ -380,9 +382,11 @@ namespace Avalon.Lua
                     IncrementCounter(LuaCounter.ErrorCount);
                     LogException(ex: ex);
 
-                    // TODO - Make this a setting so that it can be tailored (the command that is sent, e.g. the ~).
                     // Cancel pending sends with the mud in case something went haywire
-                    _interpreter.Send("~", true, false);
+                    if (!string.IsNullOrWhiteSpace(App.Settings.ProfileSettings.GameServerCancelCommand))
+                    {
+                        _interpreter.Send(App.Settings.ProfileSettings.GameServerCancelCommand, true, false);
+                    }
                 }
                 finally
                 {
