@@ -45,7 +45,7 @@
             <DockPanel Grid.Row="1">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Top">
                     <Button Margin="5,5,5,10" Width="100" x:Name="ButtonClose" 
-                            Style="{DynamicResource RegularButtonAccent}"
+                            Style="{StaticResource RegularButtonAccent}"
                             Click="ButtonClose_OnClick">Close</Button>
                 </StackPanel>
                 <StatusBar Foreground="White" Height="25">

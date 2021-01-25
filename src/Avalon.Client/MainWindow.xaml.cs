@@ -1189,16 +1189,16 @@ namespace Avalon
         /// <param name="e"></param>
         private async void MenuItemOpenLastEdittedAliasOrTrigger_Click(object sender, RoutedEventArgs e)
         {
-            if (App.InstanceGlobals.LastEditted == InstanceGlobals.EditItem.None)
+            if (App.InstanceGlobals.LastEdited == InstanceGlobals.EditItem.None)
             {
                 await this.MsgBox("No triggers or aliases have been editted this session.", "Edit Last Alias or Trigger");
                 return;
             }
 
-            if (App.InstanceGlobals.LastEditted == InstanceGlobals.EditItem.Alias)
+            if (App.InstanceGlobals.LastEdited == InstanceGlobals.EditItem.Alias)
             {
                 // Get the alias from the current line.
-                var alias = App.Settings.ProfileSettings.AliasList.FirstOrDefault(x => x.AliasExpression.Equals(App.InstanceGlobals.LastEdittedId, StringComparison.OrdinalIgnoreCase));
+                var alias = App.Settings.ProfileSettings.AliasList.FirstOrDefault(x => x.AliasExpression.Equals(App.InstanceGlobals.LastEditedId, StringComparison.OrdinalIgnoreCase));
 
                 // Hmm, no alias.. gracefully exit.
                 if (alias == null)
@@ -1237,10 +1237,10 @@ namespace Avalon
                 }
 
             }
-            else if (App.InstanceGlobals.LastEditted == InstanceGlobals.EditItem.Trigger)
+            else if (App.InstanceGlobals.LastEdited == InstanceGlobals.EditItem.Trigger)
             {
                 // Get the Trigger from the current line.
-                var trigger = App.Settings.ProfileSettings.TriggerList.FirstOrDefault(x => x.Identifier.Equals(App.InstanceGlobals.LastEdittedId, StringComparison.OrdinalIgnoreCase));
+                var trigger = App.Settings.ProfileSettings.TriggerList.FirstOrDefault(x => x.Identifier.Equals(App.InstanceGlobals.LastEditedId, StringComparison.OrdinalIgnoreCase));
 
                 // Hmm, no Trigger.. gracefully exit.
                 if (trigger == null)
@@ -1255,8 +1255,8 @@ namespace Avalon
                 };
 
                 // Save the last item and type so the Control+Alt+L alias can re-open it.
-                App.InstanceGlobals.LastEdittedId = trigger.Identifier;
-                App.InstanceGlobals.LastEditted = InstanceGlobals.EditItem.Trigger;
+                App.InstanceGlobals.LastEditedId = trigger.Identifier;
+                App.InstanceGlobals.LastEdited = InstanceGlobals.EditItem.Trigger;
 
                 // Startup position of the dialog should be in the center of the parent window.  The
                 // owner has to be set for this to work.

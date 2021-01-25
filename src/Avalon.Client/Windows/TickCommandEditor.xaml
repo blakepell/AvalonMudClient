@@ -36,11 +36,11 @@
                     <CheckBox x:Name="CheckBoxEnabled" DockPanel.Dock="Left" Margin="5,0,0,0">Enable Tick Commands</CheckBox>
                     <Button Margin="5,10,5,10" Width="100" 
                             x:Name="ButtonSave" Click="ButtonSave_OnClick"
-                            Style="{DynamicResource RegularButtonAccent}"
+                            Style="{StaticResource RegularButtonAccent}"
                             DockPanel.Dock="Right" HorizontalAlignment="Right">Save</Button>
                     <Button Margin="5,10,5,10" Width="100" 
                             x:Name="ButtonCancel" Click="ButtonCancel_OnClick" 
-                            Style="{DynamicResource RegularButton}"
+                            Style="{StaticResource RegularButton}"
                             DockPanel.Dock="Right" HorizontalAlignment="Right">Cancel</Button>
                 </DockPanel>
             </DockPanel>

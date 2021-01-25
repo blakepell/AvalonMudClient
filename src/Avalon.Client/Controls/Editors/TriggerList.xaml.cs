@@ -221,8 +221,8 @@ namespace Avalon.Controls
             };
 
             // Save the last item and type so the Control+Alt+L alias can re-open it.
-            App.InstanceGlobals.LastEdittedId = trigger.Identifier;
-            App.InstanceGlobals.LastEditted = InstanceGlobals.EditItem.Trigger;
+            App.InstanceGlobals.LastEditedId = trigger.Identifier;
+            App.InstanceGlobals.LastEdited = InstanceGlobals.EditItem.Trigger;
 
             // Startup position of the dialog should be in the center of the parent window.  The
             // owner has to be set for this to work.

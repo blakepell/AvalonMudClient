@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
 
         <DockPanel Grid.Row="0">
-            <Button x:Name="ButtonNewMacro" Click="ButtonNewMacro_Click" Style="{DynamicResource RegularButtonAccent}" 
+            <Button x:Name="ButtonNewMacro" Click="ButtonNewMacro_Click" Style="{StaticResource RegularButtonAccent}" 
                     Margin="5,10,5,10" Width="100">New Macro</Button>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right">
@@ -58,10 +58,8 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <!--<DataGridTextColumn Header="Key" Binding="{Binding Key,UpdateSourceTrigger=PropertyChanged}" Width="10*" IsReadOnly="True" />-->
                 <DataGridTextColumn Header="Key Description" Binding="{Binding KeyDescription,UpdateSourceTrigger=PropertyChanged}" Width="10*" IsReadOnly="True" />
                 <DataGridTextColumn Header="Command" Binding="{Binding Command,UpdateSourceTrigger=PropertyChanged}" Width="80*" />
-                <!--<DataGridTextColumn Header="Character" Binding="{Binding Character,UpdateSourceTrigger=PropertyChanged}" Width="20*" />-->
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

@@ -34,10 +34,10 @@
         <DockPanel Grid.Row="1">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Top">
                 <Button Margin="5,10,5,10" Width="100" 
-                        x:Name="ButtonCancel" Style="{DynamicResource RegularButton}"
+                        x:Name="ButtonCancel" Style="{StaticResource RegularButton}"
                         Click="ButtonCancel_OnClick">Cancel</Button>
                 <Button Margin="5,10,5,10" Width="100" 
-                        x:Name="ButtonSave" Style="{DynamicResource RegularButtonAccent}"
+                        x:Name="ButtonSave" Style="{StaticResource RegularButtonAccent}"
                         Click="ButtonSave_OnClick">Save</Button>
             </StackPanel>
             <StatusBar Background="{StaticResource BrushAccent}" Foreground="White">

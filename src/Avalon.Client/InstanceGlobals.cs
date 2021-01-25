@@ -6,16 +6,15 @@
     /// </summary>
     public class InstanceGlobals
     {
+        /// <summary>
+        /// The guid of the last item edited.
+        /// </summary>
+        public string LastEditedId { get; set; } = "";
 
         /// <summary>
-        /// The guid of the last item editted.
+        /// The last item type that was edited.
         /// </summary>
-        public string LastEdittedId { get; set; } = "";
-
-        /// <summary>
-        /// The last item type that was editted.
-        /// </summary>
-        public EditItem LastEditted { get; set; } = EditItem.None;
+        public EditItem LastEdited { get; set; } = EditItem.None;
 
         /// <summary>
         /// Editor types.
@@ -26,6 +25,5 @@
             Alias,
             Trigger
         }
-
     }
 }

@@ -13,7 +13,7 @@
     </UserControl.Resources>
     <DockPanel LastChildFill="True" Background="#111111" MouseDown="DockPanel_MouseDown">
         <!-- SplitView Button -->
-        <Button x:Name="PART_SplitViewOpen" Style="{DynamicResource WindowButton}"
+        <Button x:Name="PART_SplitViewOpen" Style="{StaticResource WindowButton}"
                     Height="50" Width="50"
                     IsTabStop="False" WindowChrome.IsHitTestVisibleInChrome="True"
                     BorderBrush="{x:Null}" Background="{x:Null}"

@@ -209,8 +209,8 @@ namespace Avalon.Controls
             }
 
             // Save the last item and type so the Control+Alt+L alias can re-open it.
-            App.InstanceGlobals.LastEdittedId = alias.AliasExpression;
-            App.InstanceGlobals.LastEditted = InstanceGlobals.EditItem.Alias;
+            App.InstanceGlobals.LastEditedId = alias.AliasExpression;
+            App.InstanceGlobals.LastEdited = InstanceGlobals.EditItem.Alias;
 
             // Show what alias is being edited in the status bar of the string editor window.
             win.StatusText = $"Alias: {alias.AliasExpression}";
