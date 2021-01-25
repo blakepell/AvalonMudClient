@@ -14,6 +14,7 @@ using System.Windows;
 using System.Windows.Threading;
 using Avalon.Extensions;
 using MahApps.Metro.IconPacks;
+using System.ComponentModel;
 
 namespace Avalon.Lua
 {
@@ -42,6 +43,7 @@ namespace Avalon.Lua
         /// Sends text to the server.
         /// </summary>
         /// <param name="cmd"></param>
+        [Description("Sends text to the server.")]
         public async void Send(string cmd)
         {
             if (cmd == null)
@@ -59,6 +61,7 @@ namespace Avalon.Lua
         /// Gets a <see cref="Variable"/> from the profile's global variable list.
         /// </summary>
         /// <param name="key"></param>
+        [Description("Gets a variable from the profile's global variable list.")]
         public string GetVariable(string key)
         {
             if (key == null)
@@ -75,6 +78,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
+        [Description("Sets the value of a variable in the profile's global variable list.")]
         public void SetVariable(string key, string value)
         {
             if (key == null)
@@ -93,6 +97,7 @@ namespace Avalon.Lua
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <param name="color">A known color</param>
+        [Description("Sets the value of a variable in the profile's global variable list.")]
         public void SetVariable(string key, string value, string color)
         {
             if (key == null)
@@ -109,6 +114,7 @@ namespace Avalon.Lua
         /// Shows a variable in the variable repeater if the key is found.
         /// </summary>
         /// <param name="key"></param>
+        [Description("Shows a variable in the main terminal's variable repeater.")]
         public void ShowVariable(string key)
         {
             Application.Current.Dispatcher.Invoke(() => _interpreter.Conveyor.ShowVariable(key));
@@ -118,6 +124,7 @@ namespace Avalon.Lua
         /// Hides a variable in the variable repeater if the key is found.
         /// </summary>
         /// <param name="key"></param>
+        [Description("Hides a variable in the main terminal's variable repeater.")]
         public void HideVariable(string key)
         {
             Application.Current.Dispatcher.Invoke(() => _interpreter.Conveyor.HideVariable(key));
@@ -127,6 +134,7 @@ namespace Avalon.Lua
         /// Removes a <see cref="Variable"/> from the global variable list.
         /// </summary>
         /// <param name="key"></param>
+        [Description("Removes a variable from the global variable list.")]
         public void RemoveVariable(string key)
         {
             Application.Current.Dispatcher.Invoke(() => _interpreter.Conveyor.RemoveVariable(key));
@@ -136,6 +144,7 @@ namespace Avalon.Lua
         /// Echos text to the main terminal.
         /// </summary>
         /// <param name="msg"></param>
+        [Description("Writes text to the main terminal.")]
         public void Echo(string msg)
         {
             if (msg == null)
@@ -161,6 +170,7 @@ namespace Avalon.Lua
         /// Echos text to the main terminal.
         /// </summary>
         /// <param name="msg"></param>
+        [Description("Writes text to the main terminal.")]
         public void Echo(string msg, string color, bool reverse)
         {
             if (msg == null)
@@ -190,6 +200,7 @@ namespace Avalon.Lua
         /// Echos an event to the main terminal.
         /// </summary>
         /// <param name="msg"></param>
+        [Description("Writes a text event to the main terminal.")]
         public void EchoEvent(string msg)
         {
             if (msg == null)
@@ -217,6 +228,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="windowName"></param>
         /// <param name="text"></param>
+        [Description("Writes text to a custom default terminal.")]
         public void EchoWindow(string windowName, string text)
         {
             Application.Current.Dispatcher.Invoke(() =>
@@ -252,6 +264,7 @@ namespace Avalon.Lua
         /// Makes an info echo.
         /// </summary>
         /// <param name="msg"></param>
+        [Description("Writes an info log message to the main terminal.")]
         public void LogInfo(string msg, params object[] args)
         {
             if (msg == null)
@@ -269,6 +282,7 @@ namespace Avalon.Lua
         /// Makes an warning echo.
         /// </summary>
         /// <param name="msg"></param>
+        [Description("Writes a warning log message to the main terminal.")]
         public void LogWarning(string msg, params object[] args)
         {
             if (msg == null)
@@ -286,6 +300,7 @@ namespace Avalon.Lua
         /// Makes an error echo.
         /// </summary>
         /// <param name="msg"></param>
+        [Description("Writes an error log entry to the main terminal.")]
         public void LogError(string msg, params object[] args)
         {
             if (msg == null)
@@ -303,6 +318,7 @@ namespace Avalon.Lua
         /// Makes a success log echo.
         /// </summary>
         /// <param name="msg"></param>
+        [Description("Writes a success log entry to the main terminal.")]
         public void LogSuccess(string msg, params object[] args)
         {
             if (msg == null)
@@ -320,6 +336,7 @@ namespace Avalon.Lua
         /// Clears the text in a terminal of a specified window name.
         /// </summary>
         /// <param name="windowName"></param>
+        [Description("Clears the default terminal in the specified window.")]
         public void ClearWindow(string windowName)
         {
             Application.Current.Dispatcher.Invoke(() =>
@@ -344,6 +361,7 @@ namespace Avalon.Lua
         /// Returns the first non null and non empty value.  If none are found a blank
         /// string will be returned.
         /// </summary>
+        [Description("Returns the first non null and non empty value.  If none are found a blank is returned.")]
         public string Coalesce(string valueOne, string valueTwo)
         {
             if (!string.IsNullOrWhiteSpace(valueOne))
@@ -365,6 +383,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="str"></param>
         /// <param name="length"></param>
+        [Description("Returns the specified number of characters from the left side of the string.")]
         public string Left(string str, int length)
         {
             return str.SafeLeft(length);
@@ -376,6 +395,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="str"></param>
         /// <param name="length"></param>
+        [Description("Returns the specified number of characters from the right side of the string.")]
         public string Right(string str, int length)
         {
             return str.SafeRight(length);
@@ -386,6 +406,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="str"></param>
         /// <param name="startIndex"></param>
+        [Description("Returns the substring start for the specified parameters.")]
         public string Substring(string str, int startIndex)
         {
             return str.SafeSubstring(startIndex);
@@ -397,6 +418,7 @@ namespace Avalon.Lua
         /// <param name="str"></param>
         /// <param name="startIndex"></param>
         /// <param name="length"></param>
+        [Description("Returns the substring start for the specified parameters.")]
         public string Substring(string str, int startIndex, int length)
         {
             return str.SafeSubstring(startIndex, length);
@@ -407,6 +429,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="str"></param>
         /// <param name="search"></param>
+        [Description("Returns the zero based index of the first occurence of a string in another string.")]
         public int IndexOf(string str, string search)
         {
             return str.IndexOf(search, StringComparison.Ordinal);
@@ -418,6 +441,7 @@ namespace Avalon.Lua
         /// <param name="str"></param>
         /// <param name="search"></param>
         /// <param name="start"></param>
+        [Description("Returns the zero based index of the first occurence of a string in another string.")]
         public int IndexOf(string str, string search, int start)
         {
             return str.IndexOf(search, start, StringComparison.Ordinal);
@@ -430,6 +454,7 @@ namespace Avalon.Lua
         /// <param name="search"></param>
         /// <param name="start"></param>
         /// <param name="length"></param>
+        [Description("Returns the zero based index of the first occurence of a string in another string.")]
         public int IndexOf(string str, string search, int start, int length)
         {
             return str.IndexOf(search, start, length, StringComparison.Ordinal);
@@ -440,6 +465,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="str"></param>
         /// <param name="search"></param>
+        [Description("Returns the zero based index of the last occurence of a string in another string.")]
         public int LastIndexOf(string str, string search)
         {
             return str.LastIndexOf(search, StringComparison.Ordinal);
@@ -451,6 +477,7 @@ namespace Avalon.Lua
         /// <param name="str"></param>
         /// <param name="search"></param>
         /// <param name="start"></param>
+        [Description("Returns the zero based index of the last occurence of a string in another string.")]
         public int LastIndexOf(string str, string search, int start)
         {
             return str.LastIndexOf(search, start, StringComparison.Ordinal);
@@ -463,6 +490,7 @@ namespace Avalon.Lua
         /// <param name="search"></param>
         /// <param name="start"></param>
         /// <param name="length"></param>
+        [Description("Returns the zero based index of the last occurence of a string in another string.")]
         public int LastIndexOf(string str, string search, int start, int length)
         {
             return str.LastIndexOf(search, start, length, StringComparison.Ordinal);
@@ -472,6 +500,7 @@ namespace Avalon.Lua
         /// Returns the current time formatted as either 12-hour or 24-hour.
         /// </summary>
         /// <param name="meridiemTime">Whether or not to return the time in AM/PM format.</param>
+        [Description("Returns the current time formatted as either 12-hour or 24-hour.")]
         public string GetTime(bool meridiemTime = false)
         {
             if (meridiemTime)
@@ -484,7 +513,8 @@ namespace Avalon.Lua
 
         /// <summary>
         /// Returns the current hour.
-        /// </summary>
+        /// </summary>]
+        [Description("Returns the current hour.")]
         public int GetHour()
         {
             return DateTime.Now.Hour;
@@ -493,6 +523,7 @@ namespace Avalon.Lua
         /// <summary>
         /// Returns the current minute.
         /// </summary>
+        [Description("Returns the current minute.")]
         public int GetMinute()
         {
             return DateTime.Now.Minute;
@@ -501,6 +532,7 @@ namespace Avalon.Lua
         /// <summary>
         /// Returns the current second.
         /// </summary>
+        [Description("Returns the current second.")]
         public int GetSecond()
         {
             return DateTime.Now.Second;
@@ -509,6 +541,7 @@ namespace Avalon.Lua
         /// <summary>
         /// Returns the current millisecond.
         /// </summary>
+        [Description("Returns the current millisecond.")]
         public int GetMillisecond()
         {
             return DateTime.Now.Millisecond;
@@ -517,6 +550,7 @@ namespace Avalon.Lua
         /// <summary>
         /// The minutes elapsed since the start of the day.
         /// </summary>
+        [Description("Returns the number of minutes that have elapsed since the start of the day.")]
         public int DailyMinutesElapsed()
         {
             var dt = DateTime.Now;
@@ -526,6 +560,7 @@ namespace Avalon.Lua
         /// <summary>
         /// The seconds elapsed since the start of the day.
         /// </summary>
+        [Description("Returns the number of seconds that have elapsed since the start of the day.")]
         public int DailySecondsElapsed()
         {
             var dt = DateTime.Now;
@@ -536,6 +571,7 @@ namespace Avalon.Lua
         /// <summary>
         /// The milliseconds elapsed since the start of the day.
         /// </summary>
+        [Description("Returns the number of milliseconds that have elapsed since the start of the day.")]
         public int DailyMillisecondsElapsed()
         {
             var dt = DateTime.Now;
@@ -550,6 +586,7 @@ namespace Avalon.Lua
         /// to work).  This will be an incredibly useful and powerful command for those crafting Lua scripts.
         /// </summary>
         /// <param name="milliseconds"></param>
+        [Description("Pauses a Lua script for the designated amount of milliseconds.")]
         public void Sleep(int milliseconds)
         {
             Task.Delay(milliseconds).Wait();
@@ -560,6 +597,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="low"></param>
         /// <param name="high"></param>
+        [Description("Returns a random number between the lower and upper bound.")]
         public int RandomNumber(int low, int high)
         {
             lock (_randomLock)
@@ -573,6 +611,7 @@ namespace Avalon.Lua
         /// Returns a random element from the string array provided.
         /// </summary>
         /// <param name="choices"></param>
+        [Description("Returns a random entry from the provided string array.")]
         public string RandomChoice(string[] choices)
         {
             if (choices == null)
@@ -595,6 +634,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="choices"></param>
         /// <param name="delimiter"></param>
+        [Description("Returns a random entry from the string provided the string and the delimiter.")]
         public string RandomChoice(string choices, string delimiter)
         {
             if (choices == null || delimiter == null)
@@ -608,6 +648,7 @@ namespace Avalon.Lua
         /// <summary>
         /// Returns a new GUID.
         /// </summary>
+        [Description("Creates a new GUID (Global unique identifier).")]
         public string Guid()
         {
             return System.Guid.NewGuid().ToString();
@@ -617,6 +658,7 @@ namespace Avalon.Lua
         /// Sets the mud client's title.
         /// </summary>
         /// <param name="title"></param>
+        [Description("Sets the mud client's title.")]
         public void SetTitle(string title)
         {
             if (title == null)
@@ -631,6 +673,7 @@ namespace Avalon.Lua
         /// <summary>
         /// The text that is currently in the scrape buffer.
         /// </summary>
+        [Description("Gets any text that is currently in the scrape buffer.")]
         public string GetScrapedText()
         {
             string buf = "";
@@ -646,6 +689,7 @@ namespace Avalon.Lua
         /// <summary>
         /// Turns text capturing on.
         /// </summary>
+        [Description("Turns text scraping on.")]
         public void CaptureOn()
         {
             Application.Current.Dispatcher.Invoke((Action)(() =>
@@ -657,6 +701,7 @@ namespace Avalon.Lua
         /// <summary>
         /// Turns text capturing off.
         /// </summary>
+        [Description("Turns text scraping off.")]
         public void CaptureOff()
         {
             Application.Current.Dispatcher.Invoke((Action)(() =>
@@ -668,6 +713,7 @@ namespace Avalon.Lua
         /// <summary>
         /// Clears the text capturing buffer.
         /// </summary>
+        [Description("Clears the scrape/capture buffer.")]
         public void CaptureClear()
         {
             Application.Current.Dispatcher.Invoke((Action)(() =>
@@ -682,6 +728,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="buf"></param>
         /// <param name="contains"></param>
+        [Description("Checks if a string exists in another string.")]
         public bool Contains(string buf, string contains)
         {
             return Contains(buf, contains, false);
@@ -693,6 +740,7 @@ namespace Avalon.Lua
         /// <param name="buf"></param>
         /// <param name="contains"></param>
         /// <param name="ignoreCase"></param>
+        [Description("Checks if a string exists in another string.")]
         public bool Contains(string buf, string contains, bool ignoreCase)
         {
             if (ignoreCase)
@@ -711,6 +759,7 @@ namespace Avalon.Lua
         /// <param name="includeAlso">A string treated like a char array, if any individual characters exist in
         /// the base string then those characters will be allowed through.  This will allow for exceptions with
         /// punctuation, white space, etc.</param>
+        [Description("Removes non alpha characters but allows for an exceptions list of chars to be provieed that should be left.")]
         public string RemoveNonAlpha(string buf, string includeAlso = "")
         {
             if (buf.IsNullOrEmptyOrWhiteSpace())
@@ -735,6 +784,7 @@ namespace Avalon.Lua
         /// Trims whitespace off of the front and end of a string.
         /// </summary>
         /// <param name="buf"></param>
+        [Description("Trims whitespace off the front and end of the string.")]
         public string Trim(string buf)
         {
             return buf?.Trim() ?? "";
@@ -745,6 +795,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="buf"></param>
         /// <param name="trimOff"></param>
+        [Description("Trims whitespace off the front and end of the string.")]
         public string Trim(string buf, string trimOff)
         {
             return buf?.Trim(trimOff) ?? "";
@@ -754,6 +805,7 @@ namespace Avalon.Lua
         /// Trims whitespace off of the start of a string.
         /// </summary>
         /// <param name="buf"></param>
+        [Description("Trims whitespace off the start of a string.")]
         public string TrimStart(string buf)
         {
             return buf?.TrimStart() ?? "";
@@ -764,6 +816,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="buf"></param>
         /// <param name="trimOff"></param>
+        [Description("Trims whitespace off the start of a string.")]
         public string TrimStart(string buf, string trimOff)
         {
             return buf?.TrimStart(trimOff) ?? "";
@@ -773,6 +826,7 @@ namespace Avalon.Lua
         /// Trims whitespace off the end of a string.
         /// </summary>
         /// <param name="buf"></param>
+        [Description("Trims whitespace off the end of a string.")]
         public string TrimEnd(string buf)
         {
             return buf?.TrimEnd() ?? "";
@@ -783,6 +837,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="buf"></param>
         /// <param name="trimOff"></param>
+        [Description("Trims whitespace off the end of a string.")]
         public string TrimEnd(string buf, string trimOff)
         {
             return buf?.TrimEnd(trimOff) ?? "";
@@ -793,6 +848,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="buf"></param>
         /// <param name="delimiter"></param>
+        [Description("Splits a string into a string array using the specified delimiter")]
         public string[] Split(string buf, string delimiter)
         {
             return buf?.Split(delimiter);
@@ -803,6 +859,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="array"></param>
         /// <param name="searchValue"></param>
+        [Description("Searches an array for whether a specified value exists within it.")]
         public bool ArrayContains(string[] array, string searchValue)
         {
             if (array == null)
@@ -825,6 +882,7 @@ namespace Avalon.Lua
         /// Removes all ANSI control sequences.
         /// </summary>
         /// <param name="str"></param>
+        [Description("Removes all ANSI control sequences.")]
         public string RemoveAnsiCodes(string str)
         {
             if (string.IsNullOrWhiteSpace(str))
@@ -839,6 +897,7 @@ namespace Avalon.Lua
         /// Removes all ANSI control sequences.
         /// </summary>
         /// <param name="array"></param>
+        [Description("Removes all ANSI control sequences.")]
         public string[] RemoveAnsiCodes(string[] array)
         {
             if (array == null)
@@ -860,6 +919,7 @@ namespace Avalon.Lua
         /// Removes empty elements from an array.
         /// </summary>
         /// <param name="array"></param>
+        [Description("Removes empty elements from an array.")]
         public string[] RemoveElementsEmpty(string[] array)
         {
             return array?.Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
@@ -870,6 +930,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="array"></param>
         /// <param name="str"></param>
+        [Description("Removes elements from an array starting with a specified string.")]
         public string[] RemoveElementsStartsWith(string[] array, string str)
         {
             return array?.Where(x => !x.StartsWith(str)).ToArray();
@@ -880,16 +941,18 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="array"></param>
         /// <param name="str"></param>
+        [Description("Remove elements from an array ending with a specified string.")]
         public string[] RemoveElementsEndingWith(string[] array, string str)
         {
             return array?.Where(x => !x.EndsWith(str)).ToArray();
         }
 
         /// <summary>
-        /// Removes elements from an array containing with a specified string.
+        /// Removes elements from an array containing a specified string.
         /// </summary>
         /// <param name="array"></param>
         /// <param name="str"></param>
+        [Description("Removes elements from an array containing a specified string.")]
         public string[] RemoveElementsContains(string[] array, string str)
         {
             return array?.Where(x => !x.Contains(str)).ToArray();
@@ -901,6 +964,7 @@ namespace Avalon.Lua
         /// <param name="sourceList"></param>
         /// <param name="value"></param>
         /// <param name="delimiter"></param>
+        [Description("Adds an item to a string list.")]
         public string ListAdd(string sourceList, string value, char delimiter = '|')
         {
             return $"{sourceList}|{value}".Trim('|');
@@ -912,17 +976,19 @@ namespace Avalon.Lua
         /// <param name="sourceList"></param>
         /// <param name="value"></param>
         /// <param name="delimiter"></param>
+        [Description("Adds an item to a string list at the start.")]
         public string ListAddStart(string sourceList, string value, char delimiter = '|')
         {            
             return $"{value}|{sourceList}".Trim('|');
         }
 
         /// <summary>
-        /// Adds an item to a list only if it doesn't exist.  Duplicates
+        /// Adds an item to a list only if it doesn't exist.
         /// </summary>
         /// <param name="sourceList"></param>
         /// <param name="value"></param>
         /// <param name="delimiter"></param>
+        [Description("Adds an item to a list only if it doesn't already exist.")]
         public string ListAddIfNotExist(string sourceList, string value, char delimiter = '|')
         {
             if (ListExists(sourceList, value, delimiter))
@@ -939,6 +1005,7 @@ namespace Avalon.Lua
         /// <param name="sourceList"></param>
         /// <param name="value"></param>
         /// <param name="delimiter"></param>
+        [Description("Removes an item from a string list.")]
         public string ListRemove(string sourceList, string value, char delimiter = '|')
         {
             var list = sourceList.Split(delimiter);
@@ -968,6 +1035,7 @@ namespace Avalon.Lua
         /// <param name="sourceList"></param>
         /// <param name="items"></param>
         /// <param name="delimiter"></param>
+        [Description("Removes 1 to n items from the end of a list.")]
         public string ListRemove(string sourceList, int items, char delimiter = '|')
         {
             var list = sourceList.Split(delimiter);
@@ -996,6 +1064,7 @@ namespace Avalon.Lua
         /// <param name="sourceList"></param>
         /// <param name="value"></param>
         /// <param name="delimiter"></param>
+        [Description("If an item exists in a string list.")]
         public bool ListExists(string sourceList, string value, char delimiter = '|')
         {
             var list = sourceList.Split(delimiter);
@@ -1008,6 +1077,7 @@ namespace Avalon.Lua
         /// <param name="buf"></param>
         /// <param name="searchValue"></param>
         /// <param name="replaceValue"></param>
+        [Description("Returns a new string with all occurrences of a string replaced with another string.")]
         public string Replace(string buf, string searchValue, string replaceValue)
         {
             if (buf == null)
@@ -1023,6 +1093,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="groupName"></param>
         /// <returns>Returns true if the group was found, false if it was not.</returns>
+        [Description("Enables all aliases and triggers in a group.")]
         public bool EnableGroup(string groupName)
         {
             if (groupName == null)
@@ -1038,6 +1109,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="groupName"></param>
         /// <returns>Returns true if the group was found, false if it was not.</returns>
+        [Description("Disables all aliases and triggers in a group.")]
         public bool DisableGroup(string groupName)
         {
             if (groupName == null)
@@ -1054,6 +1126,7 @@ namespace Avalon.Lua
         /// <param name="command"></param>
         /// <param name="isLua"></param>
         /// <param name="seconds"></param>
+        [Description("Adds a scheduled task (command or Lua) to be executed after a designated time.")]
         public void AddScheduledTask(string command, bool isLua, int seconds)
         {
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
@@ -1071,6 +1144,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="command"></param>
         /// <param name="isLua"></param>
+        [Description("Adds a batch task (command or Lua) to be executed in order when the batch is run.")]
         public void AddBatchTask(string command, bool isLua)
         {
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
@@ -1087,6 +1161,7 @@ namespace Avalon.Lua
         /// Starts the current batch processing.
         /// </summary>
         /// <param name="secondsInBetweenCommands"></param>
+        [Description("Starts the current batch processing.")]
         public void StartBatch(int secondsInBetweenCommands)
         {
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
@@ -1102,6 +1177,7 @@ namespace Avalon.Lua
         /// <summary>
         /// Clears all tasks from the scheduled tasks queue.
         /// </summary>
+        [Description("Clears all tasks from the scheduled tasks queue.")]
         public void ClearTasks()
         {
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
@@ -1118,6 +1194,7 @@ namespace Avalon.Lua
         /// Formats a number as string with commas and no decimal places.
         /// </summary>
         /// <param name="value"></param>
+        [Description("Formats a number as a string.")]
         public string FormatNumber(string value)
         {
             if (value == null)
@@ -1133,6 +1210,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="value"></param>
         /// <param name="decimalPlaces"></param>
+        [Description("Formats a number as a string.")]
         public string FormatNumber(string value, int decimalPlaces)
         {
             if (value == null)
@@ -1146,6 +1224,7 @@ namespace Avalon.Lua
         /// <summary>
         /// Returns the last non-empty line in the game terminal.
         /// </summary>
+        [Description("Returns the last non-empty line in the game terminal.")]
         public string LastNonEmptyLine()
         {
             string buf = "";
@@ -1162,6 +1241,7 @@ namespace Avalon.Lua
         /// Returns a string array of the requested number of last lines from the game terminal.
         /// </summary>
         /// <param name="numberToTake"></param>
+        [Description("Returns a string array of the requested number of last lines from the game terminal.")]
         public string[] LastLines(int numberToTake)
         {
             return LastLines(numberToTake, true);
@@ -1172,6 +1252,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="numberToTake"></param>
         /// <param name="reverseOrder">Whether the order of the array should be reversed.  True will return oldest line to newest, False will be newest to oldest.</param>
+        [Description("Returns a string array of the requested number of last lines from the game terminal.")]
         public string[] LastLines(int numberToTake, bool reverseOrder)
         {
             var list = new List<string>();
@@ -1210,6 +1291,7 @@ namespace Avalon.Lua
         /// Returns the last lines oldest to newest where the start line contains the search pattern.
         /// </summary>
         /// <param name="startLineContains"></param>
+        [Description("Returns the last lines oldest to newest where the search pattern matches.")]
         public string[] LastLinesBetweenContains(string startLineContains)
         {
             var list = new List<string>();
@@ -1246,6 +1328,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="startLineContains"></param>
         /// <param name="endLineContains"></param>
+        [Description("Returns the last lines oldest to newest where the search pattern matches.")]
         public string[] LastLinesBetweenContains(string startLineContains, string endLineContains)
         {
             bool found = false;
@@ -1309,6 +1392,7 @@ namespace Avalon.Lua
         /// Returns the last lines oldest to newest where the start line contains the search pattern.
         /// </summary>
         /// <param name="startLineStartsWith"></param>
+        [Description("Returns the last lines oldest to newest where the search pattern matches.")]
         public string[] LastLinesBetweenStartsWith(string startLineStartsWith)
         {
             var list = new List<string>();
@@ -1346,6 +1430,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="startLineStartsWith"></param>
         /// <param name="endLineStartsWith"></param>
+        [Description("Returns the last lines oldest to newest where the search pattern matches.")]
         public string[] LastLinesBetweenStartsWith(string startLineStartsWith, string endLineStartsWith)
         {
             bool found = false;
@@ -1409,6 +1494,7 @@ namespace Avalon.Lua
         /// Returns whether the string is a number.
         /// </summary>
         /// <param name="buf"></param>
+        [Description("Whether the string provided is a number or not.")]
         public bool IsNumber(string buf)        
         {
             return buf.IsNumeric();
@@ -1418,6 +1504,7 @@ namespace Avalon.Lua
         /// If the number is even.
         /// </summary>
         /// <param name="value"></param>
+        [Description("Whether the number provided is an even number.")]
         public bool IsEven(int value)
         {
             return value.IsEven();
@@ -1427,6 +1514,7 @@ namespace Avalon.Lua
         /// If the number is odd.
         /// </summary>
         /// <param name="value"></param>
+        [Description("Whether the number provided is an odd number.")]
         public bool IsOdd(int value)
         {            
             return value.IsOdd();
@@ -1437,6 +1525,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="value"></param>
         /// <param name="interval"></param>
+        [Description("Whether the number provided is of the specified interval.")]
         public bool IsInterval(int value, int interval)
         {           
             return value.IsInterval(interval);
@@ -1449,6 +1538,7 @@ namespace Avalon.Lua
         /// <param name="value"></param>
         /// <param name="min"></param>
         /// <param name="max"></param>
+        [Description("Returns the value if it falls in the range of the max and min.")]
         public int Clamp(int value, int min, int max)
         {            
             return value.Clamp(min, max);
@@ -1460,6 +1550,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="buf"></param>
         /// <param name="length"></param>
+        [Description("Deletes the specified number of characters off the start of the string.")]
         public string DeleteLeft(string buf, int length)
         {
             return buf.DeleteLeft(length);
@@ -1471,6 +1562,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="buf"></param>
         /// <param name="length"></param>
+        [Description("Deletes the specified number of characters off the end of the string.")]
         public string DeleteRight(string buf, int length)
         {
             return buf.DeleteRight(length);
@@ -1480,6 +1572,7 @@ namespace Avalon.Lua
         /// Returns the first word in the specified string.
         /// </summary>
         /// <param name="buf"></param>
+        [Description("Returns the first word in the specified string.")]
         public string FirstWord(string buf)
         {
             return buf.FirstWord();
@@ -1489,6 +1582,7 @@ namespace Avalon.Lua
         /// Returns the second word in the specified string.
         /// </summary>
         /// <param name="buf"></param>
+        [Description("Returns the second word in the specified string.")]
         public string SecondWord(string buf)
         {
             return buf.SecondWord();
@@ -1498,6 +1592,7 @@ namespace Avalon.Lua
         /// Returns the third word in the specified string.
         /// </summary>
         /// <param name="buf"></param>
+        [Description("Returns the third word in the specified string.")]
         public string ThirdWord(string buf)
         {
             return buf.ThirdWord();
@@ -1510,6 +1605,7 @@ namespace Avalon.Lua
         /// <param name="buf"></param>
         /// <param name="wordNumber"></param>
         /// <param name="delimiter"></param>
+        [Description("Returns the word by index in the specified string.")]
         public string ParseWord(string buf, int wordNumber, string delimiter = " ")
         {
             return buf.ParseWord(wordNumber, delimiter);
@@ -1520,6 +1616,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="buf"></param>
         /// <param name="wordIndex"></param>
+        [Description("Returns word by index from the provided string.")]
         public string RemoveWord(string buf, int wordIndex)
         {
             return buf.RemoveWord(wordIndex);
@@ -1531,6 +1628,7 @@ namespace Avalon.Lua
         /// <param name="buf"></param>
         /// <param name="beginMarker"></param>
         /// <param name="endMarker"></param>
+        [Description("Returns the string between the start and the end marker.")]
         public string Between(string buf, string beginMarker, string endMarker)
         {            
             return buf.Between(beginMarker, endMarker);
@@ -1540,6 +1638,7 @@ namespace Avalon.Lua
         /// Converts a string to Base64.
         /// </summary>
         /// <param name="buf"></param>
+        [Description("Converts the string to Base64.")]
         public string ToBase64(string buf)
         {
             return buf.ToBase64();
@@ -1549,6 +1648,7 @@ namespace Avalon.Lua
         /// Converts a Base64 string back to it's original state.
         /// </summary>
         /// <param name="buf"></param>
+        [Description("Converts the string from Base64.")]
         public string FromBase64(string buf)
         {
             
@@ -1559,6 +1659,7 @@ namespace Avalon.Lua
         /// HTML Encodes a string.
         /// </summary>
         /// <param name="buf"></param>
+        [Description("HTML Encodes the string.")]
         public string HtmlEncode(string buf)
         {
             return buf.HtmlEncode();
@@ -1568,6 +1669,7 @@ namespace Avalon.Lua
         /// HTML decodes a string.
         /// </summary>
         /// <param name="buf"></param>
+        [Description("HTML Decodes the string.")]
         public string HtmlDecode(string buf)
         {            
             return buf.HtmlDecode();
@@ -1577,6 +1679,7 @@ namespace Avalon.Lua
         /// URL Encodes a string.
         /// </summary>
         /// <param name="buf"></param>
+        [Description("URL encodes the string.")]
         public string UrlEncode(string buf)
         {
             return buf.UrlEncode();
@@ -1586,6 +1689,7 @@ namespace Avalon.Lua
         /// URL Decodes a string.
         /// </summary>
         /// <param name="buf"></param>
+        [Description("URL decodes the string.")]
         public string UrlDecode(string buf)
         {
             return buf.UrlDecode();
@@ -1595,18 +1699,20 @@ namespace Avalon.Lua
         /// Returns the word count in the specified string.
         /// </summary>
         /// <param name="buf"></param>
+        [Description("Counts the number of words in the specified string.")]
         public int WordCount(string buf)
         {
             return buf.WordCount();
         }
 
         /// <summary>
-        /// Returns a string that right aligns the instance by padding characters onto the the left
+        /// Returns a string that right aligns the instance by padding characters onto the left
         /// until the total width is attained.  If the total width is less than the provided string
         /// the provided string is returned.
         /// </summary>
         /// <param name="buf"></param>
         /// <param name="totalWidth"></param>
+        [Description("Pads the left side of a string until the string is the specified number of characters.")]
         public string PadLeft(string buf, int totalWidth)
         {
             return buf.PadLeft(totalWidth);
@@ -1619,6 +1725,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="buf"></param>
         /// <param name="totalWidth"></param>
+        [Description("Pads the right side of a string until the string is the specified number of characters.")]
         public string PadRight(string buf, int totalWidth)
         {            
             return buf.PadRight(totalWidth);
@@ -1628,6 +1735,7 @@ namespace Avalon.Lua
         /// Returns the MD5 hash for the given string.
         /// </summary>
         /// <param name="value"></param>
+        [Description("Returns the MD5 hash for the provided string.")]
         public string MD5(string value)
         {
             return Argus.Cryptography.HashUtilities.MD5Hash(value);
@@ -1637,6 +1745,7 @@ namespace Avalon.Lua
         /// Returns the SHA256 hash for the given string.
         /// </summary>
         /// <param name="value"></param>
+        [Description("Provides the SHA256 hash for the given string.")]
         public string SHA256(string value)
         {
             return Argus.Cryptography.HashUtilities.Sha256Hash(value);
@@ -1646,6 +1755,7 @@ namespace Avalon.Lua
         /// Returns the SHA512 hash for the given string.
         /// </summary>
         /// <param name="value"></param>
+        [Description("Provides the SHA512 hash for the given string.")]
         public string SHA512(string value)
         {
             return Argus.Cryptography.HashUtilities.Sha512Hash(value);
@@ -1657,6 +1767,7 @@ namespace Avalon.Lua
         /// <param name="text"></param>
         /// <param name="searchText"></param>
         /// <remarks>Either parameter being null returns either the text if it's not null or a blank string if it was null.</remarks>
+        [Description("Removes all lines from a string that start with the specified text.")]
         public string RemoveLinesStartingWith(string text, string searchText)
         {
             if (text.IsNullOrEmptyOrWhiteSpace() || searchText.IsNullOrEmptyOrWhiteSpace())
@@ -1688,7 +1799,9 @@ namespace Avalon.Lua
         /// Removes all lines from a string that end with the specified text.
         /// </summary>
         /// <param name="text"></param>
+        /// <param name="searchText"></param>
         /// <remarks>Either parameter being null returns either the text if it's not null or a blank string if it was null.</remarks>
+        [Description("Removes all lines from a string that end with the specified text5.")]
         public string RemoveLinesEndingWith(string text, string searchText)
         {
             if (text.IsNullOrEmptyOrWhiteSpace() || searchText.IsNullOrEmptyOrWhiteSpace())
@@ -1721,6 +1834,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="text"></param>
         /// <param name="searchText"></param>
+        [Description("If a string starts with another string.")]
         public bool StartsWith(string text, string searchText)
         {
             if (text == null || searchText == null)
@@ -1736,6 +1850,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="text"></param>
         /// <param name="searchText"></param>
+        [Description("If a string ends with another string.")]
         public bool EndsWith(string text, string searchText)
         {
             if (text == null || searchText == null)
@@ -1749,6 +1864,7 @@ namespace Avalon.Lua
         /// <summary>
         /// The number of Lua scripts that are actively running.
         /// </summary>
+        [Description("The number of Lua scripts that are currently running.")]
         public int LuaScriptsActive()
         {
             return ((Interpreter)_interpreter).LuaCaller.ActiveLuaScripts;
@@ -1757,6 +1873,7 @@ namespace Avalon.Lua
         /// <summary>
         /// The current location of the profile save directory.
         /// </summary>
+        [Description("The profile directory for the mud client.")]
         public string ProfileDirectory()
         {
             return App.Settings.AvalonSettings.SaveDirectory;
@@ -1766,6 +1883,7 @@ namespace Avalon.Lua
         /// Where the avalon setting file is stored that among other things has where the profile
         /// save directory is (in case that is in Dropbox, OneDrive, etc.).
         /// </summary>
+        [Description("The app data directory for the mud client.")]
         public string AppDataDirectory()
         {
             return App.Settings.AppDataDirectory;
@@ -1776,16 +1894,18 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="sql"></param>
         /// <param name="parameters"></param>
+        [Description("Executes a parameterized SQL statement via the buffered execute queue.")]
         public void DbExecute(string sql, params string[] parameters)
         {
             Application.Current.Dispatcher.Invoke(() => App.MainWindow.SqlTasks.Add(sql, parameters));
         }
-        
+
         /// <summary>
         /// Executes a SQL command immediately outside of a transaction.
         /// </summary>
         /// <param name="sql"></param>
         /// <param name="parameters"></param>
+        [Description("Executes a parameterized SQL statement immediately and outside of a transaction.")]
         public void DbExecuteImmediate(string sql, params string[] parameters)
         {
             Application.Current.Dispatcher.Invoke(() => App.MainWindow.SqlTasks.ExecuteNonQueryAsync(sql, parameters));
@@ -1797,6 +1917,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="sql"></param>
         /// <param name="parameters"></param>
+        [Description("Selects one value from the database via a parameterized query.")]
         public object DbSelectValue(string sql, params string[] parameters)
         {
             return Application.Current.Dispatcher.Invoke(() =>
@@ -1819,6 +1940,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="sql"></param>
         /// <param name="parameters"></param>
+        [Description("Selects a record set from the database via a paramaterized query.")]
         public IEnumerable<Dictionary<string, object>> DbSelect(string sql, params string[] parameters)
         {
             return Application.Current.Dispatcher.Invoke(() =>
@@ -1836,9 +1958,19 @@ namespace Avalon.Lua
         }
 
         /// <summary>
+        /// Forces all pending database operations to be committed.
+        /// </summary>
+        [Description("Flushes all pending database operations that are in the buffered queue to the database.")]
+        public void DbFlush()
+        {
+            Application.Current.Dispatcher.Invoke(() => App.MainWindow.SqlTasks.Flush());
+        }
+
+        /// <summary>
         /// Downloads a string from a URL using the GET method.
         /// </summary>
         /// <param name="url"></param>
+        [Description("Downloads a string from a URL using the GET method.")]
         public string HttpGet(string url)
         {
             using (var client = new WebClient())
@@ -1853,6 +1985,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="url"></param>
         /// <param name="data"></param>
+        [Description("Downloads a string from a URL using the POST method.")]
         public string HttpPost(string url, string data)
         {
             using (var client = new WebClient())
@@ -1862,18 +1995,11 @@ namespace Avalon.Lua
         }
 
         /// <summary>
-        /// Forces all pending database operations to be committed.
-        /// </summary>
-        public void DbFlush()
-        {
-            Application.Current.Dispatcher.Invoke(() => App.MainWindow.SqlTasks.Flush());
-        }
-
-        /// <summary>
         /// Sets the main status bar text with an optional icon lookup by name.
         /// </summary>
         /// <param name="buf"></param>
         /// <param name="iconName"></param>
+        [Description("Sets the status bar text.")]
         public void SetText(string buf, string iconName)
         {
             this.SetText(buf, TextTarget.StatusBarText, iconName);
@@ -1885,6 +2011,7 @@ namespace Avalon.Lua
         /// <param name="buf"></param>
         /// <param name="target"></param>
         /// <param name="icon"></param>
+        [Description("Sets the status bar text.")]
         public void SetText(string buf, TextTarget target = TextTarget.StatusBarText, PackIconMaterialKind icon = PackIconMaterialKind.None)
         {
             App.Conveyor.SetText(buf, target, icon);
@@ -1896,6 +2023,7 @@ namespace Avalon.Lua
         /// <param name="buf"></param>
         /// <param name="target"></param>
         /// <param name="iconName"></param>
+        [Description("Sets the status bar text.")]
         public void SetText(string buf, TextTarget target = TextTarget.StatusBarText, string iconName = "None")
         {
             PackIconMaterialKind icon = PackIconMaterialKind.None;

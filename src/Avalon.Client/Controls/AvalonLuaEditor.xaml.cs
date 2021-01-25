@@ -135,13 +135,19 @@ namespace Avalon.Controls
                 return;
             }
 
+            // If the auto complete window is already showing don't show it again.
+            if (_completionWindow != null)
+            {
+                return;
+            }
+
             string word = GetWordBefore(Editor);
 
             if (word == "lua")
             {
-                // Open code completion after the user has pressed dot:
+                // Open code completion after the user has pressed dot
                 _completionWindow = new CompletionWindow(Editor.TextArea);
-                var data = _completionWindow.CompletionList.CompletionData;
+                var data = _completionWindow.CompletionList.CompletionData;                
                 LuaCompletion.LoadCompletionData(data, word);
             }
 

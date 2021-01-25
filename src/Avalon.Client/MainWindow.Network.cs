@@ -24,7 +24,7 @@ namespace Avalon
             ActivatePlugins();
 
             // Connect, then put the focus into the input text box.
-            Interp.Connect(HandleLineReceived, this.HandleDataReceived, HandleConnectionClosed);
+            Interp.Connect(HandleLineReceived, this.HandleDataReceived, HandleConnectionClosed);            
             TitleBar.IsConnected = true;
             MenuNetworkButton.Header = "Disconnect";
             TextInput.Focus();
