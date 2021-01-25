@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Avalon.Extensions;
 using Avalon.Lua;
 using Argus.Extensions;
@@ -7,10 +8,13 @@ using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Xml;
+using Avalon.Colors;
 
 namespace Avalon.Controls
 {
@@ -61,6 +65,12 @@ namespace Avalon.Controls
         /// </summary>
         public string SaveProperty { get; set; }
 
+        /// <summary>
+        /// Whether or not the syntax highlighting has been loaded, for use if Loaded is called multiple
+        /// times which seems to be happening when the control is made visible.
+        /// </summary>
+        private bool _isSyntaxLoaded = false;
+
         public AvalonLuaEditor()
         {
             InitializeComponent();
@@ -104,13 +114,68 @@ namespace Avalon.Controls
         /// </summary>
         public void SetupLuaEditor()
         {
+            // If the syntax has already been loaded, get out.
+            if (_isSyntaxLoaded)
+            {
+                return;
+            }
+
+            try
+            {
+                LoadSyntaxHighlighting(Editor);
+            }
+            catch (Exception ex)
+            {
+                App.Conveyor.EchoError($"Error setting up Lua syntax highlighting: {ex.Message}");
+            }
+
+            _isSyntaxLoaded = true;
+        }
+
+        /// <summary>
+        /// Loads the syntax highlighting rules, both from the stored resource and dynamically.
+        /// </summary>
+        /// <param name="te"></param>
+        /// <remarks>
+        /// This was made a static method so that other instances of that require our Lua syntax highlighting
+        /// but might not be using this control can reference this code.
+        /// </remarks>
+        public static void LoadSyntaxHighlighting(TextEditor te)
+        {
             var asm = Assembly.GetExecutingAssembly();
 
             using (var s = asm.GetManifestResourceStream($"{asm.GetName().Name}.Resources.LuaDarkTheme.xshd"))
             {
                 using (var reader = new XmlTextReader(s))
                 {
-                    Editor.SyntaxHighlighting = HighlightingLoader.Load(reader, HighlightingManager.Instance);
+                    te.SyntaxHighlighting = HighlightingLoader.Load(reader, HighlightingManager.Instance);
+
+                    // Dynamic syntax highlighting for your own purpose
+                    var rules = te.SyntaxHighlighting.MainRuleSet.Rules;
+
+                    var rule = new HighlightingRule();
+                    rule.Color = new HighlightingColor()
+                    {
+                        Foreground = new CustomizedBrush((Color)ColorConverter.ConvertFromString(("#DCDCAA")))
+                    };
+
+                    // Construct our custom highlighting rule via reflection.
+                    var t = typeof(LuaCommands);
+                    var sb = new StringBuilder();
+                    sb.Append(@"\b(");
+
+                    // This should get all of our methods but exclude ones that are defined on
+                    // object like ToString, GetHashCode, Equals, etc.
+                    foreach (var method in t.GetMethods().Where(m => m.DeclaringType != typeof(object)))
+                    {
+                        sb.AppendFormat("{0}|", method.Name);
+                    }
+
+                    sb.TrimEnd('|');
+                    sb.Append(@")\w*\b");
+
+                    rule.Regex = new Regex(sb.ToString());
+                    rules.Add(rule);
                 }
             }
         }

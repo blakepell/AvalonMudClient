@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml;
+using Avalon.Controls;
 using Avalon.Lua;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
@@ -51,20 +52,8 @@ namespace Avalon
                         break;
                     case EditorType.Lua:
                         this.Title = "Lua Editor";
-
-                        var asm = Assembly.GetExecutingAssembly();
-                        string resourceName = $"{asm.GetName().Name}.Resources.LuaDarkTheme.xshd";
-
-                        using (var s = asm.GetManifestResourceStream(resourceName))
-                        {
-                            using (var reader = new XmlTextReader(s))
-                            {
-                                AvalonLuaEditor.SyntaxHighlighting = HighlightingLoader.Load(reader, HighlightingManager.Instance);
-                            }
-                        }
-
+                        Avalon.Controls.AvalonLuaEditor.LoadSyntaxHighlighting(AvalonLuaEditor);
                         this.StatusText = "Press [F1] for code snippets or type 'lua.' to see custom functions.";
-
                         break;
                 }
             }
@@ -144,17 +133,6 @@ namespace Avalon
                     _completionWindow.Show();
                     _completionWindow.Closed += (sender, args) => _completionWindow = null;
                 }
-
-                //_completionWindow.PreviewTextInput += (sender, args) =>
-                //{
-                //    if (args.Text == "(")
-                //    {
-                //        _completionWindow.CompletionList.RequestInsertion(EventArgs.Empty);
-                //    }
-                //    var c = args.Text[args.Text.Length - 1];
-                //    args.Handled = !char.IsLetterOrDigit(c) && c != '_';
-                //};
-
             }
         }
 

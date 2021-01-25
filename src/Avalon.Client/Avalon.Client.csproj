@@ -70,7 +70,6 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\LuaDarkTheme.xshd" />
-    <EmbeddedResource Include="Resources\LuaLightTheme.xshd" />
   </ItemGroup>
 
   <ItemGroup>

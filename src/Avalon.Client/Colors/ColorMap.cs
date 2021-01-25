@@ -26,8 +26,8 @@ namespace Avalon.Colors
                 _solidColorBrush = value;
 
                 // So, anything created from the WPF Brushes as most of ours are already frozen.  If
-                // new colors are used in the future we can lock them here so they are still performant.
-                // However, if we allow these colors to be changed we will need to unlocked them first.
+                // new colors are used in the future we can lock them here so perform well.  That said,
+                // if we allow these colors to be changed we will need to unlocked them first.
                 if (!_solidColorBrush.IsFrozen && _solidColorBrush.CanFreeze)
                 {
                     _solidColorBrush.Freeze();
