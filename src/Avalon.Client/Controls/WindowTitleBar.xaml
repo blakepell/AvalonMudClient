@@ -32,9 +32,9 @@
         </Viewbox>
 
         <!-- Title of the Window -->
-        <Label Foreground="#DADADA" Content="{Binding Title, ElementName=Me}"
+        <TextBlock Foreground="#DADADA" Text="{Binding Title, ElementName=Me}"
                    FontWeight="Normal" FontStyle="Normal" FontFamily="Segoe UI" FontSize="15" 
-                   Margin="7,15,0,0"></Label>
+                   Margin="7,15,0,0"></TextBlock>
 
         <!-- Right aligned controls including the window controls for maximize, minimize, restore and close -->
         <!--<Rectangle HorizontalAlignment="Stretch" Margin="10,10,10,10" Stroke="#383838" Fill="White" />-->
