@@ -7,7 +7,8 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="True" 
         TextOptions.TextFormattingMode="Ideal"
-        ui:TitleBar.Background="{StaticResource BrushWindowTitleBarBackground}" BorderBrush="{StaticResource BrushAccent}"
+        ui:TitleBar.Background="{StaticResource BrushWindowTitleBarBackground}"
+        BorderBrush="{StaticResource BrushAccent}"
         xmlns:controls="clr-namespace:Avalon.Controls"
         Loaded="TerminalWindowWindow_Loaded" AllowsTransparency="True" WindowStyle="None"
         Title="Terminal Window" Height="600" Width="800" Closed="TerminalWindowWindow_Closed">

@@ -7,7 +7,9 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="True" 
         TextOptions.TextFormattingMode="Ideal"
-        ui:TitleBar.Background="{StaticResource BrushWindowTitleBarBackground}" Background="#171717" BorderBrush="{StaticResource BrushAccent}"
+        ui:TitleBar.Background="{StaticResource BrushWindowTitleBarBackground}"
+        Background="#171717"
+        BorderBrush="{StaticResource BrushAccent}"
         xmlns:local="clr-namespace:Avalon.Controls"
         Title="List Manager" Height="400" Width="600">
     <Grid>

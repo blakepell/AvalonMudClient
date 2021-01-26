@@ -7,7 +7,9 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="True" 
         TextOptions.TextFormattingMode="Ideal"
-        ui:TitleBar.Background="{StaticResource BrushWindowTitleBarBackground}" Background="#171717" BorderBrush="{StaticResource BrushAccent}"
+        ui:TitleBar.Background="{StaticResource BrushWindowTitleBarBackground}"
+        Background="#171717"
+        BorderBrush="{StaticResource BrushAccent}"
         Title="Regular Expression Tester" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>

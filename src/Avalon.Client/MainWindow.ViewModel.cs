@@ -14,6 +14,7 @@ namespace Avalon
             this.LuaScriptsActive = 0;
             this.PendingSqlStatements = 0;
         }
+
         /// <summary>
         /// The current number of tasks that are currently scheduled.
         /// </summary>
