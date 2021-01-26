@@ -182,7 +182,7 @@ namespace Avalon
 
                 try
                 {
-                    this.SqlTasks.OpenAsync();
+                    await this.SqlTasks.OpenAsync();
                 }
                 catch (Exception ex)
                 {
@@ -534,7 +534,7 @@ namespace Avalon
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ButtonOpenProfile_OnClick(object sender, RoutedEventArgs e)
+        private async void ButtonOpenProfile_OnClick(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -557,6 +557,9 @@ namespace Avalon
 
                     // We have a new profile, refresh the auto complete command list.
                     RefreshAutoCompleteEntries();
+
+                    // Close and open a connection to the database for the new profile.
+                    await SqlTasks.OpenAsync($"Data Source={App.Settings.ProfileSettings.SqliteDatabase}");
 
                     // Auto connect if it's setup to do so (this will disconnect from the previous server if it was connected.
                     if (App.Settings.ProfileSettings.AutoConnect)

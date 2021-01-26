@@ -32,7 +32,6 @@ namespace Avalon.Timers
     /// </remarks>
     public class SqlTasks : IDisposable
     {
-
         /// <summary>
         /// The dispatch timer used for checking the queue.
         /// </summary>
@@ -275,6 +274,25 @@ namespace Avalon.Timers
             }
         }
 
+        /// <summary>
+        /// Opens a connection to a database provided via a new connection string.  Any resources
+        /// from previous connections if they exist will be released.
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <returns></returns>
+        public async Task OpenAsync(string connectionString)
+        {
+            this.ClearCache();
+
+            if (this.Connection != null)
+            {
+                await this.Connection.CloseAsync();
+                await this.Connection.DisposeAsync();
+            }
+
+            this.Connection = new SqliteConnection(connectionString);
+            await this.Connection.OpenAsync();
+        }
 
         /// <summary>
         /// Executes a single SQL non query command outside of a transaction.  Required for things
