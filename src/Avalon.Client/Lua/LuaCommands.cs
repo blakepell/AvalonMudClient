@@ -264,7 +264,7 @@ namespace Avalon.Lua
         /// Makes an info echo.
         /// </summary>
         /// <param name="msg"></param>
-        [Description("Writes an info log message to the main terminal.")]
+        [Description("Writes an info log message to the main terminal.  Parameter arguments are supported but not required.")]
         public void LogInfo(string msg, params object[] args)
         {
             if (msg == null)
@@ -282,7 +282,7 @@ namespace Avalon.Lua
         /// Makes an warning echo.
         /// </summary>
         /// <param name="msg"></param>
-        [Description("Writes a warning log message to the main terminal.")]
+        [Description("Writes a warning log message to the main terminal.  Parameter arguments are supported but not required.")]
         public void LogWarning(string msg, params object[] args)
         {
             if (msg == null)
@@ -300,7 +300,7 @@ namespace Avalon.Lua
         /// Makes an error echo.
         /// </summary>
         /// <param name="msg"></param>
-        [Description("Writes an error log entry to the main terminal.")]
+        [Description("Writes an error log entry to the main terminal.  Parameter arguments are supported but not required.")]
         public void LogError(string msg, params object[] args)
         {
             if (msg == null)
@@ -318,7 +318,7 @@ namespace Avalon.Lua
         /// Makes a success log echo.
         /// </summary>
         /// <param name="msg"></param>
-        [Description("Writes a success log entry to the main terminal.")]
+        [Description("Writes a success log entry to the main terminal.  Parameter arguments are supported but not required.")]
         public void LogSuccess(string msg, params object[] args)
         {
             if (msg == null)
@@ -1224,7 +1224,7 @@ namespace Avalon.Lua
         /// <summary>
         /// Returns the last non-empty line in the game terminal.
         /// </summary>
-        [Description("Returns the last non-empty line in the game terminal.")]
+        [Description("Returns the last non-empty line in the game terminal.\r\nNote: The last non-empty line might not be the line that fired a trigger.")]
         public string LastNonEmptyLine()
         {
             string buf = "";
@@ -2040,6 +2040,66 @@ namespace Avalon.Lua
             }
 
             App.Conveyor.SetText(buf, target, icon);
+        }
+
+        /// <summary>
+        /// Replaces the last occurrence of a string with another string in the main game terminal.
+        /// </summary>
+        /// <param name="searchText"></param>
+        /// <param name="replacementText"></param>
+        [Description("Replaces the last occurrence of a string with another string in the main game terminal.")]
+        public void TerminalReplaceLastInstance(string searchText, string replacementText)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var sb = Argus.Memory.StringBuilderPool.Take(replacementText);
+                Colorizer.MudToAnsiColorCodes(sb);
+                App.MainWindow.GameTerminal.ReplaceLastInstance(searchText, sb.ToString());
+                Argus.Memory.StringBuilderPool.Return(sb);
+            });
+        }
+
+        /// <summary>
+        /// Replaces all instances of one string with another string in the main game terminal.
+        /// </summary>
+        /// <param name="searchText"></param>
+        /// <param name="replacementText"></param>
+        [Description("Replaces all instances of one string with another string in the main game terminal.")]
+        public void TerminalReplaceAll(string searchText, string replacementText)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var sb = Argus.Memory.StringBuilderPool.Take(replacementText);
+                Colorizer.MudToAnsiColorCodes(sb);
+                App.MainWindow.GameTerminal.ReplaceAll(searchText, sb.ToString(), false);
+                Argus.Memory.StringBuilderPool.Return(sb);
+            });
+        }
+
+        /// <summary>
+        /// Removes a line from the game terminal.
+        /// </summary>
+        /// <param name="lineNumber"></param>
+        [Description("Removes the specified line from the main game terminal.")]
+        public void TerminalRemoveLine(int lineNumber)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                App.MainWindow.GameTerminal.RemoveLine(lineNumber);
+            });
+        }
+
+        /// <summary>
+        /// Scrolls the main game terminal to the last line.
+        /// </summary>
+        /// <param name="lineNumber"></param>
+        [Description("Scrolls the main game terminal to the last line.")]
+        public void TerminalScrollToLastLine(int lineNumber)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                App.MainWindow.GameTerminal.ScrollToEnd();
+            });
         }
 
         private readonly IInterpreter _interpreter;
