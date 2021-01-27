@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Threading.Tasks;
 using System.Windows.Media.Animation;
 using System.Reflection;
+using System.Text;
 
 namespace Avalon.Extensions
 {
@@ -18,6 +19,33 @@ namespace Avalon.Extensions
     /// </summary>
     public static class ExtensionMethods
     {
+        /// <summary>
+        /// Finds the first index of a char in a <see cref="StringBuilder"/>.  If not match is found
+        /// a -1 is returned.
+        /// </summary>
+        /// <param name="sb"></param>
+        /// <param name="c"></param>
+        public static int IndexOf(this StringBuilder sb, char c)
+        {
+            int pos = 0;
+            foreach (var chunk in sb.GetChunks())
+            {
+                var span = chunk.Span;
+
+                for (int i = 0; i < span.Length; i++)
+                {
+                    if (span[i] == c)
+                    {
+                        return pos + i;
+                    }
+                }
+
+                pos += span.Length;
+            }
+
+            return -1;
+        }
+
         /// <summary>
         /// Sets a property's value via reflection.
         /// </summary>
