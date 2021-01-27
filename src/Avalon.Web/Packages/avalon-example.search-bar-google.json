@@ -1,0 +1,13 @@
+{
+  "Id": "2926e46b-414e-4689-902a-b0693e2baa1b",
+  "Name": "Google Search from the Search Box",
+  "Description": "Installing this package will set the search bar to search the Google.",
+  "Author": "Rhien",
+  "GameAddress": "",
+  "Category": "Search Bar",
+  "Version": 1,
+  "SetupCommand": "#setting -p -s \"SearchBarCommand\" -v \"#shell-url https://www.google.com/search?q=\"",
+  "AliasList": [],
+  "TriggerList": [],
+  "DirectionList": []
+}
