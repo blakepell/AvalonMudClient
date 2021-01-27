@@ -656,6 +656,35 @@ namespace Avalon.Controls
         }
 
         /// <summary>
+        /// marker
+        /// </summary>
+        /// <param name="lineNumber"></param>
+        /// <param name="text"></param>
+        public void ReplaceLine(int lineNumber, string text)
+        {
+            if (lineNumber < 1 || lineNumber > this.LineCount)
+            {
+                return;
+            }
+
+            var line = this.Document.GetLineByNumber(lineNumber);
+
+            if (line == null)
+            {
+                return;
+            }
+
+            // Remove the line from the collapsed line section if it exists (before deleting it).
+            this.Gag.UncollapseLine(lineNumber);
+
+            // Save the offset (we might not need to do this, check if line still has the offset
+            // after it's been removed).
+            int offset = line.Offset;
+            this.Document.Remove(line.Offset, line.TotalLength);
+            this.Document.Insert(offset, text);
+        }
+
+        /// <summary>
         /// Clears all of the text and uncollapses all of the lines.  Must be used instead of setting the text
         /// or crashes will eventually occur if gagging existed.
         /// </summary>
@@ -700,7 +729,7 @@ namespace Avalon.Controls
         public void Replace(string searchFor, string replaceWith, bool selectedOnly)
         {
             int index;
-
+            
             if (selectedOnly)
             {
                 index = this.Document.IndexOf(searchFor, this.SelectionStart, this.SelectionLength, StringComparison.Ordinal);
