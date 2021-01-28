@@ -656,7 +656,7 @@ namespace Avalon.Controls
         }
 
         /// <summary>
-        /// marker
+        /// Replaces the specified line in the terminal with a new line.
         /// </summary>
         /// <param name="lineNumber"></param>
         /// <param name="text"></param>
@@ -677,11 +677,9 @@ namespace Avalon.Controls
             // Remove the line from the collapsed line section if it exists (before deleting it).
             this.Gag.UncollapseLine(lineNumber);
 
-            // Save the offset (we might not need to do this, check if line still has the offset
-            // after it's been removed).
-            int offset = line.Offset;
+            // Remove the line at the offset, then insert new text.
             this.Document.Remove(line.Offset, line.TotalLength);
-            this.Document.Insert(offset, text);
+            this.Document.Insert(line.Offset, text);
         }
 
         /// <summary>
