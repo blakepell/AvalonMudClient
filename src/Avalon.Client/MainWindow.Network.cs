@@ -145,6 +145,12 @@ namespace Avalon
                 // Remove unwanted characters
                 sb.RemoveUnsupportedCharacters();
 
+                // Nothing is there, perhaps because it was all replaced.  Get out early.
+                if (sb.Length == 0)
+                {
+                    return;
+                }
+
                 // Append the data to the terminal as it comes in.
                 GameTerminal.Append(sb);
 
