@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Media;
 using Avalon.Common.Colors;
+using Avalon.Extensions;
 
 namespace Avalon.Colors
 {
@@ -110,6 +111,12 @@ namespace Avalon.Colors
         /// <param name="sb"></param>
         public static void AnsiToMudColorCodes(StringBuilder sb)
         {
+            // If there are no mud color codes don't bother loop through looking for them.
+            if (sb.IndexOf('\x1B') == -1)
+            {
+                return;
+            }
+
             foreach (var item in ColorMap)
             {
                 sb.Replace(item.AnsiColor.ToString(), item.AnsiColor.MudColorCode);
@@ -122,6 +129,12 @@ namespace Avalon.Colors
         /// <param name="sb"></param>
         public static void MudToAnsiColorCodes(StringBuilder sb)
         {
+            // If there are no color codes don't bother loop through the replacements.
+            if (sb.IndexOf('{') == -1)
+            {
+                return;
+            }
+
             // First the colors
             foreach (var item in ColorMap.Where(x => !string.IsNullOrWhiteSpace(x.AnsiColor.MudColorCode)))
             {

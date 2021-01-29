@@ -28,6 +28,7 @@ namespace Avalon.Extensions
         public static int IndexOf(this StringBuilder sb, char c)
         {
             int pos = 0;
+
             foreach (var chunk in sb.GetChunks())
             {
                 var span = chunk.Span;
