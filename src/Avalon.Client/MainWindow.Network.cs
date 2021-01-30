@@ -176,18 +176,17 @@ namespace Avalon
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void InterpreterEcho(object sender, EventArgs e)
+        private void InterpreterEcho(object sender, EchoEventArgs e)
         {
-            var ea = e as EchoEventArgs;
             AvalonTerminal term;
 
-            if (ea == null)
+            if (e == null)
             {
                 this.Interp.Conveyor.EchoError(" Null EchoEventArgs in InterpreterEcho");
                 return;
             }
 
-            switch (ea.Terminal)
+            switch (e.Terminal)
             {
                 case TerminalTarget.None:
                 case TerminalTarget.Main:
@@ -210,27 +209,26 @@ namespace Avalon
                     break;
             }
 
-            if (ea.UseDefaultColors)
+            if (e.UseDefaultColors)
             {
-                term.Append(ea.Text);
+                term.Append(e.Text);
 
                 // If the back buffer setting is enabled put the data also in there.
-                if (App.Settings.AvalonSettings.BackBufferEnabled && ea.Terminal == TerminalTarget.Main)
+                if (App.Settings.AvalonSettings.BackBufferEnabled && e.Terminal == TerminalTarget.Main)
                 {
-                    GameBackBufferTerminal.Append(ea.Text, false);
+                    GameBackBufferTerminal.Append(e.Text, false);
                 }
             }
             else
             {
-                term.Append(ea.Text, ea.ForegroundColor, ea.ReverseColors);
+                term.Append(e.Text, e.ForegroundColor, e.ReverseColors);
 
                 // If the back buffer setting is enabled put the data also in there.
-                if (App.Settings.AvalonSettings.BackBufferEnabled && ea.Terminal == TerminalTarget.Main)
+                if (App.Settings.AvalonSettings.BackBufferEnabled && e.Terminal == TerminalTarget.Main)
                 {
-                    GameBackBufferTerminal.Append(ea.Text, ea.ForegroundColor, ea.ReverseColors, false);
+                    GameBackBufferTerminal.Append(e.Text, e.ForegroundColor, e.ReverseColors, false);
                 }
             }
         }
-
     }
 }

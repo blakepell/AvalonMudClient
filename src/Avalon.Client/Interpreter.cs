@@ -498,7 +498,7 @@ namespace Avalon
         /// <summary>
         /// Event handler when the interpreter needs to send data to echo on the client.
         /// </summary>
-        public event EventHandler Echo;
+        public event EventHandler<EchoEventArgs> Echo;
 
         /// <summary>
         /// Event handler when the interpreter needs to send data to echo on the client.

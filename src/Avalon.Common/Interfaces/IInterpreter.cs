@@ -101,7 +101,7 @@ namespace Avalon.Common.Interfaces
         /// <summary>
         /// Event handler when the interpreter needs to send data to echo on the client.
         /// </summary>
-        event EventHandler Echo;
+        event EventHandler<EchoEventArgs> Echo;
 
         /// <summary>
         /// The current position in the history the caller is at
