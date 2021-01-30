@@ -87,7 +87,6 @@ namespace Avalon
                         // Spam guard
                         if (App.Settings.ProfileSettings.SpamGuard)
                         {
-                            // TODO, make this check carriage return and > 1 instead of > 2
                             if (_spamGuardLastCommand == item && item.Length > 2)
                             {
                                 // Increment, we don't need to change the last command, it was the same.
@@ -101,8 +100,8 @@ namespace Avalon
 
                             if (_spamGuardCounter == 15)
                             {
-                                EchoText("where", AnsiColors.Yellow);
-                                await Telnet.SendAsync("where");
+                                EchoText(App.Settings.ProfileSettings.SpamGuardCommand, AnsiColors.Yellow);
+                                await Telnet.SendAsync(App.Settings.ProfileSettings.SpamGuardCommand);
                                 _spamGuardCounter = 0;
                             }
                         }

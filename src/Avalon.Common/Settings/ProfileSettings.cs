@@ -108,6 +108,11 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public bool SpamGuard { get; set; } = true;
 
+        [CategoryAttribute("Misc")]
+        [DescriptionAttribute("The command to send to the game when the spam guard has been activated.")]
+        [Browsable(true)]
+        public string SpamGuardCommand { get; set; } = "where";
+
         [CategoryAttribute("Performance")]
         [DescriptionAttribute("Whether the game tracks the last date each trigger was fired.")]
         [Browsable(true)]
