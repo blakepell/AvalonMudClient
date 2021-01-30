@@ -367,7 +367,7 @@ namespace Avalon
         /// <param name="e"></param>
         private void FocusByNameInternal(object sender, ExecutedRoutedEventArgs e)
         {
-            var param = (string)e.Parameter;
+            string param = e.Parameter as string;
 
             if (string.IsNullOrWhiteSpace(param))
             {
@@ -383,7 +383,7 @@ namespace Avalon
         /// </summary>
         private void SelectElementInternal(object sender, ExecutedRoutedEventArgs e)
         {
-            var element = this.FindDescendantByName((string)e.Parameter);
+            var element = this.FindDescendantByName(e.Parameter as string);
 
             if (element is TabItemEx tabItem)
             {
@@ -398,7 +398,12 @@ namespace Avalon
         /// <param name="e"></param>
         private void ChangeTerminalFontSize(object sender, ExecutedRoutedEventArgs e)
         {
-            var param = (string)e.Parameter;
+            string param = e.Parameter as string;
+
+            if (string.IsNullOrWhiteSpace(param))
+            {
+                return;
+            }
 
             if (param.Equals("+", System.StringComparison.OrdinalIgnoreCase))
             {
