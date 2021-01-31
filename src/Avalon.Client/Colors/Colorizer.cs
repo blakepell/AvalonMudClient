@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Media;
+using Argus.Extensions;
 using Avalon.Common.Colors;
-using Avalon.Extensions;
 
 namespace Avalon.Colors
 {

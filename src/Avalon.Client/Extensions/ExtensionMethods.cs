@@ -20,48 +20,6 @@ namespace Avalon.Extensions
     public static class ExtensionMethods
     {
         /// <summary>
-        /// Finds the first index of a char in a <see cref="StringBuilder"/>.  If not match is found
-        /// a -1 is returned.
-        /// </summary>
-        /// <param name="sb"></param>
-        /// <param name="c"></param>
-        public static int IndexOf(this StringBuilder sb, char c)
-        {
-            int pos = 0;
-
-            foreach (var chunk in sb.GetChunks())
-            {
-                var span = chunk.Span;
-
-                for (int i = 0; i < span.Length; i++)
-                {
-                    if (span[i] == c)
-                    {
-                        return pos + i;
-                    }
-                }
-
-                pos += span.Length;
-            }
-
-            return -1;
-        }
-
-        /// <summary>
-        /// Sets a property's value via reflection.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="this"></param>
-        /// <param name="propertyName"></param>
-        /// <param name="value"></param>
-        public static void Set<T>(this T @this, string propertyName, object value)
-        {
-            var t = @this.GetType();
-            var prop = t.GetProperty(propertyName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
-            prop.SetValue(@this, value, null);
-        }
-
-        /// <summary>
         /// Removes all line endings from a string using a char array for performance vs.
         /// a string replace.
         /// </summary>
