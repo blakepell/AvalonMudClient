@@ -155,12 +155,12 @@ namespace Avalon
                     // Increment the counter.
                     item.Count++;
 
-                    // Line Highlighting if the trigger is supposed to.
+                    // Line Highlighting if the trigger is supposed to.  Insert the ANSI color at the start of the line.
                     if (item.HighlightLine)
                     {
                         // TODO - Allow the highlighted color to be set for each trigger.
                         int start = GameTerminal.Document.Text.LastIndexOf(line.FormattedText, StringComparison.Ordinal);
-                        GameTerminal.Document.Replace(start, line.FormattedText.Length, $"{AnsiColors.DarkCyan}{line.Text}");
+                        GameTerminal.Document.Insert(start, AnsiColors.DarkCyan);
                     }
 
                     // Only send if it has something in it.  Use the processed command.
