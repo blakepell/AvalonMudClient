@@ -177,7 +177,7 @@ namespace Avalon.Utilities
                         on = false;
                     }
 
-                    if (on == true && sb[i] == ';')
+                    if (on && sb[i] == ';')
                     {
                         sb[i] = ' ';
                     }
@@ -299,7 +299,7 @@ namespace Avalon.Utilities
                         on = false;
                     }
 
-                    if (on == true && sb[i] == ';')
+                    if (on && sb[i] == ';')
                     {
                         sb[i] = ' ';
                     }

@@ -29,10 +29,10 @@
                                     <ScaleTransform ScaleX="0" ScaleY="0" />
                                 </TransformGroup>
                             </Border.RenderTransform>
-                            <Border.BitmapEffect>
+                            <Border.Effect>
                                 <!-- Give some depth to the badge with a drop-shadow -->
-                                <DropShadowBitmapEffect Color="Black" Direction="270" ShadowDepth="3" Softness="0.2" Opacity="1"/>
-                            </Border.BitmapEffect>
+                                <DropShadowEffect Color="Black" Direction="320" ShadowDepth="3" BlurRadius="0.2" Opacity=".7"/>
+                            </Border.Effect>
                             <Border CornerRadius="8" Padding="5 0 5 0">
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" Opacity="0.8">

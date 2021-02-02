@@ -60,19 +60,16 @@ namespace Avalon
                 if (updateVersion == thisVersion)
                 {
                     TextBlockInfo.Text = "You are using the current version.";
-                    return;
                 }
                 else if (updateVersion > thisVersion)
                 {
                     TextBlockInfo.Text = $"There is an update available to version {updateVersion}";
                     this.PrimaryButtonText = "Update";
-                    return;
                 }
                 else if (updateVersion < thisVersion)
                 {
                     TextBlockInfo.Text = "You are using a version that is newer than the general release.";
                     this.PrimaryButtonText = "";
-                    return;
                 }
 
             }

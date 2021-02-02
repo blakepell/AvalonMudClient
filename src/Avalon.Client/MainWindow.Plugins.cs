@@ -112,7 +112,7 @@ namespace Avalon
 
                         if (trigger.SystemTrigger)
                         {
-                            // System triggers get loaded everytime
+                            // System triggers get loaded every time
                             App.SystemTriggers.Add(trigger);
                         }
                         else
@@ -124,7 +124,7 @@ namespace Avalon
                     }
 
                     // Not the fastest, but now that we've added or updated the trigger list from a plugin, sort all the plugins
-                    // by priority.  This copies the list, sorts it, then clears the original list and reputs the items into it
+                    // by priority.  This copies the list, sorts it, then clears the original list and re-adds the items into it
                     // as to not break binding.
                     App.Conveyor.SortTriggersByPriority();
 

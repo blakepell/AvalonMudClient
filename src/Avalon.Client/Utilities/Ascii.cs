@@ -3,7 +3,7 @@
     public static class Ascii
     {
         /// <summary>
-        /// For use echo'ing before an example alias/trigger runs.
+        /// For use echoing before an example alias/trigger runs.
         /// </summary>
         public const string Example = @"
 {g    _             _                 _____                           _      

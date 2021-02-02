@@ -1,22 +1,17 @@
-﻿using System.Reflection;
+﻿using Avalon.Lua;
+using ICSharpCode.AvalonEdit;
+using ICSharpCode.AvalonEdit.CodeCompletion;
+using ModernWpf.Controls;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
-using System.Xml;
-using Avalon.Controls;
-using Avalon.Lua;
-using ICSharpCode.AvalonEdit;
-using ICSharpCode.AvalonEdit.CodeCompletion;
-using ICSharpCode.AvalonEdit.Highlighting;
-using ICSharpCode.AvalonEdit.Highlighting.Xshd;
-using ModernWpf.Controls;
 
 namespace Avalon
 {
     /// <summary>
     /// A simple Lua highlighted text editor for use with editing Lua scripts.
     /// </summary>
-    public partial class StringEditor : Window
+    public partial class StringEditor
     {
         /// <summary>
         /// The value of the Lua text editor.

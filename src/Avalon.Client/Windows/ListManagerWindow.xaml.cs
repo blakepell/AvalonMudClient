@@ -6,7 +6,7 @@ namespace Avalon
     /// <summary>
     /// A simple Lua highlighted text editor for use with editing Lua scripts.
     /// </summary>
-    public partial class ListManagerWindow : Window
+    public partial class ListManagerWindow
     {
         public List<string> SourceList => ListMan.SourceList;
 

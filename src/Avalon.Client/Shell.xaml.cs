@@ -63,7 +63,7 @@ namespace Avalon
             set => SetValue(PrimaryButtonVisibilityProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for PrimaryButtonVisbility.  This enables animation, styling, binding, etc...
+        // Using a DependencyProperty as the backing store for PrimaryButtonVisibility.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PrimaryButtonVisibilityProperty =
             DependencyProperty.Register("PrimaryButtonVisibility", typeof(Visibility), typeof(Shell), new PropertyMetadata(Visibility.Visible));
 
@@ -83,7 +83,7 @@ namespace Avalon
             set => SetValue(SecondaryButtonVisibilityProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for SecondaryButtonVisbility.  This enables animation, styling, binding, etc...
+        // Using a DependencyProperty as the backing store for SecondaryButtonVisibility.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SecondaryButtonVisibilityProperty =
             DependencyProperty.Register("SecondaryButtonVisibility", typeof(Visibility), typeof(Shell), new PropertyMetadata(Visibility.Visible));
 

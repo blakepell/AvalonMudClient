@@ -7,7 +7,7 @@ namespace Avalon.HashCommands
 {
 
     /// <summary>
-    /// Flashes the window in the taskbar.
+    /// Flashes the window in the task bar.
     /// </summary>
     public class Flash : HashCommand
     {
@@ -21,7 +21,7 @@ namespace Avalon.HashCommands
 
         public override string Name { get; } = "#flash";
 
-        public override string Description { get; } = "Makes the window on the Windows taskbar flash.";
+        public override string Description { get; } = "Makes the window on the Windows task bar flash.";
 
         public override void Execute()
         {

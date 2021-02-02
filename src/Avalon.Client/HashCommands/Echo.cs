@@ -88,7 +88,7 @@ namespace Avalon.HashCommands
                             Argus.Memory.StringBuilderPool.Return(sb);
                         }
 
-                        // This has been echo'd to the window, return and don't fall through.
+                        // This has been echoed to the window, return and don't fall through.
                         return;
                     }
 
@@ -139,7 +139,7 @@ namespace Avalon.HashCommands
             /// <summary>
             /// What terminal should the echo be sent to.
             /// </summary>
-            [Option('t', "term", Required = false, HelpText = "The terminal that shuld be echoed to.  The main terminal is the default if not specified.")]
+            [Option('t', "term", Required = false, HelpText = "The terminal that should be echoed to.  The main terminal is the default if not specified.")]
             public TerminalTarget Terminal { get; set; } = TerminalTarget.Main;
 
             /// <summary>
@@ -151,7 +151,7 @@ namespace Avalon.HashCommands
             /// <summary>
             /// Includes a timestamp at the front of the line.
             /// </summary>
-            [Option('d', "datetime", Required = false, HelpText = "Whether a timestamp should preceed the echo.")]
+            [Option('d', "datetime", Required = false, HelpText = "Whether a timestamp should precede the echo.")]
             public bool Timestamp { get; set; } = false;
 
             /// <summary>

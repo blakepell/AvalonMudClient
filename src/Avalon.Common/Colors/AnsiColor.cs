@@ -23,14 +23,6 @@ namespace Avalon.Common.Colors
         }
 
         /// <summary>
-        /// A ReadOnlySpan over the underlying string.
-        /// </summary>
-        public ReadOnlySpan<char> AsSpan()
-        {
-            return this.AnsiCode.AsSpan();
-        }
-
-        /// <summary>
         /// The ANSI sequence.
         /// </summary>
         public abstract string AnsiCode { get; }

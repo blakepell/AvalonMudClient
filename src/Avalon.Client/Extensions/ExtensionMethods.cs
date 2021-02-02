@@ -1,16 +1,15 @@
-﻿using Avalon.Common.Colors;
-using System;
+﻿using Argus.Extensions;
 using Avalon.Colors;
+using Avalon.Common.Colors;
 using Avalon.Common.Models;
-using Argus.Extensions;
+using System;
+using System.Reflection;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows;
 using System.Windows.Media;
-using System.Threading.Tasks;
 using System.Windows.Media.Animation;
-using System.Reflection;
-using System.Text;
 
 namespace Avalon.Extensions
 {
@@ -101,7 +100,7 @@ namespace Avalon.Extensions
         }
 
         /// <summary>
-        /// Reports the zero based index of the first occurence of a ANSI escape code that
+        /// Reports the zero based index of the first occurrence of a ANSI escape code that
         /// isn't one of the special formatting codes that we support (underline, reverse
         /// text, etc.).
         /// </summary>

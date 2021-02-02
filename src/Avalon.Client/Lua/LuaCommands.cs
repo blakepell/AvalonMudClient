@@ -37,7 +37,7 @@ namespace Avalon.Lua
         /// <summary>
         /// Locking object for the random number generator
         /// </summary>
-        private static object _randomLock = new object();
+        private static readonly object _randomLock = new object();
 
         /// <summary>
         /// Sends text to the server.
@@ -429,7 +429,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="str"></param>
         /// <param name="search"></param>
-        [Description("Returns the zero based index of the first occurence of a string in another string.")]
+        [Description("Returns the zero based index of the first occurrence of a string in another string.")]
         public int IndexOf(string str, string search)
         {
             return str.IndexOf(search, StringComparison.Ordinal);
@@ -441,7 +441,7 @@ namespace Avalon.Lua
         /// <param name="str"></param>
         /// <param name="search"></param>
         /// <param name="start"></param>
-        [Description("Returns the zero based index of the first occurence of a string in another string.")]
+        [Description("Returns the zero based index of the first occurrence of a string in another string.")]
         public int IndexOf(string str, string search, int start)
         {
             return str.IndexOf(search, start, StringComparison.Ordinal);
@@ -454,7 +454,7 @@ namespace Avalon.Lua
         /// <param name="search"></param>
         /// <param name="start"></param>
         /// <param name="length"></param>
-        [Description("Returns the zero based index of the first occurence of a string in another string.")]
+        [Description("Returns the zero based index of the first occurrence of a string in another string.")]
         public int IndexOf(string str, string search, int start, int length)
         {
             return str.IndexOf(search, start, length, StringComparison.Ordinal);
@@ -465,7 +465,7 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="str"></param>
         /// <param name="search"></param>
-        [Description("Returns the zero based index of the last occurence of a string in another string.")]
+        [Description("Returns the zero based index of the last occurrence of a string in another string.")]
         public int LastIndexOf(string str, string search)
         {
             return str.LastIndexOf(search, StringComparison.Ordinal);
@@ -477,7 +477,7 @@ namespace Avalon.Lua
         /// <param name="str"></param>
         /// <param name="search"></param>
         /// <param name="start"></param>
-        [Description("Returns the zero based index of the last occurence of a string in another string.")]
+        [Description("Returns the zero based index of the last occurrence of a string in another string.")]
         public int LastIndexOf(string str, string search, int start)
         {
             return str.LastIndexOf(search, start, StringComparison.Ordinal);
@@ -490,7 +490,7 @@ namespace Avalon.Lua
         /// <param name="search"></param>
         /// <param name="start"></param>
         /// <param name="length"></param>
-        [Description("Returns the zero based index of the last occurence of a string in another string.")]
+        [Description("Returns the zero based index of the last occurrence of a string in another string.")]
         public int LastIndexOf(string str, string search, int start, int length)
         {
             return str.LastIndexOf(search, start, length, StringComparison.Ordinal);
@@ -678,10 +678,10 @@ namespace Avalon.Lua
         {
             string buf = "";
 
-            Application.Current.Dispatcher.Invoke((Action)(() =>
+            Application.Current.Dispatcher.Invoke(() =>
             {
                 buf = _interpreter.Conveyor.Scrape.ToString();
-            }));
+            });
 
             return buf;
         }
@@ -692,10 +692,10 @@ namespace Avalon.Lua
         [Description("Turns text scraping on.")]
         public void CaptureOn()
         {
-            Application.Current.Dispatcher.Invoke((Action)(() =>
-           {
-               _interpreter.Conveyor.ScrapeEnabled = true;
-           }), DispatcherPriority.Send);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                _interpreter.Conveyor.ScrapeEnabled = true;
+            }, DispatcherPriority.Send);
         }
 
         /// <summary>
@@ -704,10 +704,10 @@ namespace Avalon.Lua
         [Description("Turns text scraping off.")]
         public void CaptureOff()
         {
-            Application.Current.Dispatcher.Invoke((Action)(() =>
+            Application.Current.Dispatcher.Invoke(() =>
             {
                 _interpreter.Conveyor.ScrapeEnabled = false;
-            }), DispatcherPriority.Send);
+            }, DispatcherPriority.Send);
         }
 
         /// <summary>
@@ -716,11 +716,11 @@ namespace Avalon.Lua
         [Description("Clears the scrape/capture buffer.")]
         public void CaptureClear()
         {
-            Application.Current.Dispatcher.Invoke((Action)(() =>
+            Application.Current.Dispatcher.Invoke(() =>
             {
                 _interpreter.Conveyor.ScrapeEnabled = false;
                 _interpreter.Conveyor.Scrape.Clear();
-            }));
+            });
         }
 
         /// <summary>

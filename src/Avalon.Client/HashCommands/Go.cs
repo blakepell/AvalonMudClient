@@ -46,7 +46,7 @@ namespace Avalon.HashCommands
             }
 
             // Starting room is correct, start walking
-            if (dest != null && string.Equals(dest.StartingRoom, room, System.StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(dest.StartingRoom, room, System.StringComparison.OrdinalIgnoreCase))
             {
                 // Parse the speed walk and send it to the hash command.
                 Interpreter.Send(Utilities.Utilities.Speedwalk(dest.Speedwalk));

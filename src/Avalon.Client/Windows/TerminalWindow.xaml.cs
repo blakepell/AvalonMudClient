@@ -8,7 +8,7 @@ namespace Avalon
     /// <summary>
     /// A simple Lua highlighted text editor for use with editing Lua scripts.
     /// </summary>
-    public partial class TerminalWindow : Window, ITerminalWindow
+    public partial class TerminalWindow : ITerminalWindow
     {
         /// <summary>
         /// The value of the Lua text editor.

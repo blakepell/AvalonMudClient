@@ -11,10 +11,10 @@ namespace Avalon
 {
     /// <summary>
     /// Trigger editor.  We are not binding here because we don't want the Trigger to be updated as
-    /// the trigger is being editted which can cause RegEx errors in the client and we don't want
+    /// the trigger is being edited which can cause RegEx errors in the client and we don't want
     /// it partially updated.  Save must be clicked for this Trigger to go into effect.
     /// </summary>
-    public partial class TriggerEditorWindow : Window
+    public partial class TriggerEditorWindow
     {
         public Trigger Trigger { get; set; }
 

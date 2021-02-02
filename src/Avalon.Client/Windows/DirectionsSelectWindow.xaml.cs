@@ -183,8 +183,6 @@ namespace Avalon.Windows
                 {
                     this.DecrementSelection();
                 }
-
-                return;
             }
             else if (e.Key == Key.Escape)
             {
@@ -224,7 +222,7 @@ namespace Avalon.Windows
 
         /// <summary>
         /// Handles when the search box text changes.  This will refresh the view that filters the
-        /// list box as well as move the currently selected item to the top everytime the refresh
+        /// list box as well as move the currently selected item to the top every time the refresh
         /// takes place.
         /// </summary>
         /// <param name="sender"></param>

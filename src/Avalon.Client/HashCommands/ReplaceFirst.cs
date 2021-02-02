@@ -83,7 +83,7 @@ namespace Avalon.HashCommands
             /// <summary>
             /// What terminal should the echo be sent to.
             /// </summary>
-            [Option('t', "term", Required = false, HelpText = "The terminal that shuld be echoed to.  The main terminal is the default if not specified.")]
+            [Option('t', "term", Required = false, HelpText = "The terminal that should be echoed to.  The main terminal is the default if not specified.")]
             public TerminalTarget Terminal { get; set; } = TerminalTarget.Main;
 
         }

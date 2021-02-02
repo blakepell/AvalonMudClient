@@ -59,7 +59,7 @@ namespace Avalon.Controls
 
             if (_searchBorder != null)
             {
-                _searchBorder.MouseLeftButtonUp += SearchButton_MouseLeftButtonUphandler;
+                _searchBorder.MouseLeftButtonUp += SearchButton_MouseLeftButtonUpHandler;
             }
         }
 
@@ -98,7 +98,7 @@ namespace Avalon.Controls
             public string SearchText { get; set; }
         }
 
-        private void SearchButton_MouseLeftButtonUphandler(object sender, MouseButtonEventArgs e)
+        private void SearchButton_MouseLeftButtonUpHandler(object sender, MouseButtonEventArgs e)
         {
             if (this.HasText)
             {

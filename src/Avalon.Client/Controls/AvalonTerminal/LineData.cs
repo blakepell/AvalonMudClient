@@ -11,7 +11,7 @@
 
         public string Text { get; set; }
 
-        public string UnformattedText => Avalon.Colors.Colorizer.RemoveAllAnsiCodes(this.Text);
+        public string UnformattedText => Colors.Colorizer.RemoveAllAnsiCodes(this.Text);
 
         public bool IsGagged { get; set; }
 

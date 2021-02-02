@@ -1,9 +1,8 @@
-﻿using ModernWpf.Controls;
+﻿using MahApps.Metro.IconPacks;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.IO;
-using MahApps.Metro.IconPacks;
+using System.Runtime.CompilerServices;
 
 namespace Avalon.Controls
 {

@@ -109,7 +109,7 @@ namespace Avalon
                 Text = Colorizer.RemoveAllAnsiCodes(e),
             };
 
-            // Beep is checked here because it should only happen one time, not everytime a trigger is checked which for
+            // Beep is checked here because it should only happen one time, not every time a trigger is checked which for
             // gags can be a lot.  We'll do this when the line comes in -if- the user has the setting for it turned on.
             // One beep per line max, everything else is ignored.
             if (App.Settings.ProfileSettings.AnsiBeep && e.Contains('\a'))
@@ -170,7 +170,7 @@ namespace Avalon
         }
 
         /// <summary>
-        /// Handles text from the interpreter that needs to be echo'd out to the terminal.  This text
+        /// Handles text from the interpreter that needs to be echoed out to the terminal.  This text
         /// does not get checked for triggers, it's an echo that's coming from the interpreter or
         /// the possibly the Conveyor.
         /// </summary>

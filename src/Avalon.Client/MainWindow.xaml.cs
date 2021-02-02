@@ -1,27 +1,22 @@
-﻿using Avalon.Common.Colors;
+﻿using Argus.Extensions;
+using Avalon.Common.Models;
 using Avalon.Common.Settings;
 using Avalon.Controls;
 using Avalon.Controls.AutoCompleteTextBox;
 using Avalon.Timers;
+using Avalon.Utilities;
+using Microsoft.Win32;
+using ModernWpf.Controls;
 using MoonSharp.Interpreter;
 using System;
-using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using Microsoft.Win32;
 using System.Reflection;
 using System.Threading.Tasks;
-using Avalon.Common.Models;
-using ModernWpf.Controls;
-using System.Diagnostics;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
-using System.Xml;
-using Argus.Extensions;
-using Avalon.Utilities;
-using ICSharpCode.AvalonEdit.Highlighting;
-using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 
 namespace Avalon
 {
@@ -195,7 +190,7 @@ namespace Avalon
                 RefreshAutoCompleteEntries();
 
                 // Update static variables from places that might be expensive to populate from (like Environment.Username).  Normally
-                // something like that isn't expensive but when run on variable replacement it can be more noticable.
+                // something like that isn't expensive but when run on variable replacement it can be more noticeable.
                 Utilities.Utilities.UpdateCommonVariables();
 
                 // Load any plugin classes from the plugins folder.  They will be "activated" when a mud who matches
@@ -328,7 +323,7 @@ namespace Avalon
 
         /// <summary>
         /// Updates any properties that need to be updated after the settings are updated.  This deals primarily
-        /// with properties that aren't bound through depedency properties.
+        /// with properties that aren't bound through dependency properties.
         /// </summary>
         public void UpdateUISettings()
         {
@@ -1186,15 +1181,15 @@ namespace Avalon
         }
 
         /// <summary>
-        /// Attempts to open the editor last editted alias or trigger.
+        /// Attempts to open the editor last edited alias or trigger.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void MenuItemOpenLastEdittedAliasOrTrigger_Click(object sender, RoutedEventArgs e)
+        private async void MenuItemOpenLastEditedAliasOrTrigger_Click(object sender, RoutedEventArgs e)
         {
             if (App.InstanceGlobals.LastEdited == InstanceGlobals.EditItem.None)
             {
-                await this.MsgBox("No triggers or aliases have been editted this session.", "Edit Last Alias or Trigger");
+                await this.MsgBox("No triggers or aliases have been edited this session.", "Edit Last Alias or Trigger");
                 return;
             }
 
@@ -1206,7 +1201,7 @@ namespace Avalon
                 // Hmm, no alias.. gracefully exit.
                 if (alias == null)
                 {
-                    await this.MsgBox("No alias you wish to edit could not be found or no longer existts.", "Edit Last Alias or Trigger");
+                    await this.MsgBox("No alias you wish to edit could not be found or no longer exists.", "Edit Last Alias or Trigger");
                     return;
                 }
 
@@ -1248,7 +1243,7 @@ namespace Avalon
                 // Hmm, no Trigger.. gracefully exit.
                 if (trigger == null)
                 {
-                    await this.MsgBox("No trigger you wish to edit could not be found or no longer existts.", "Edit Last Alias or Trigger");
+                    await this.MsgBox("No trigger you wish to edit could not be found or no longer exists.", "Edit Last Alias or Trigger");
                     return;
                 }
 
@@ -1281,7 +1276,7 @@ namespace Avalon
         }
 
         /// <summary>
-        /// If the variable bar is supressed update the layout of other row/columns.
+        /// If the variable bar is suppressed update the layout of other row/columns.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

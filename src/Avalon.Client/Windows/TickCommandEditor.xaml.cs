@@ -5,7 +5,7 @@ namespace Avalon
     /// <summary>
     /// A simple Lua highlighted text editor for use with editing Lua scripts.
     /// </summary>
-    public partial class TickCommandEditor : Window
+    public partial class TickCommandEditor
     {
         /// <summary>
         /// The value of the Lua text editor.

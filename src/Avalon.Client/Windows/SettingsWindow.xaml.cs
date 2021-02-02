@@ -5,7 +5,7 @@ namespace Avalon
     /// <summary>
     /// Interaction logic for global client settings.
     /// </summary>
-    public partial class SettingsWindow : Window
+    public partial class SettingsWindow
     {
         public SettingsWindow()
         {

@@ -1,7 +1,6 @@
 ﻿using Avalon.Common.Models;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace Avalon
 {
@@ -28,7 +27,7 @@ namespace Avalon
         /// <summary>
         /// The values of the original macro so we can back it out if the use cancels.
         /// </summary>
-        private Macro _originalMacro = new Macro();
+        private readonly Macro _originalMacro = new Macro();
 
         /// <summary>
         /// The macro passed into the dialog.

@@ -9,7 +9,7 @@ namespace Avalon
     /// <summary>
     /// Interaction logic for ExportPackage.xaml
     /// </summary>
-    public partial class CreatePackageWindow : Window
+    public partial class CreatePackageWindow
     {
         public CreatePackageWindow()
         {

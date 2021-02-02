@@ -36,7 +36,7 @@ namespace Avalon.Controls
         }
 
         /// <summary>
-        /// Specifc directions.
+        /// Specific directions.
         /// </summary>
         public enum Direction
         {

@@ -92,7 +92,7 @@ namespace Avalon.HashCommands
             }
 
             // Split to args array
-            var args = sb.ToString().Split(new char[] { splitter }, StringSplitOptions.RemoveEmptyEntries);
+            var args = sb.ToString().Split(new[] { splitter }, StringSplitOptions.RemoveEmptyEntries);
 
             // Clean the '"' signs from the args as needed.
             for (int i = 0; i < args.Length; i++)

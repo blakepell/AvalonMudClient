@@ -1,8 +1,6 @@
-﻿using ModernWpf.Controls;
-
-namespace Avalon
+﻿namespace Avalon
 {
-    public partial class YesNoDialog : ContentDialog
+    public partial class YesNoDialog
     {
         public YesNoDialog()
         {

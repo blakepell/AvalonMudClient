@@ -71,7 +71,7 @@ namespace Avalon
 
 
         /// <summary>
-        /// Whether or not highlighting is occuring.
+        /// Whether or not highlighting is occurring.
         /// </summary>
         private bool _highlighting = false;
 

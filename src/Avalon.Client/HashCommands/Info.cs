@@ -15,20 +15,20 @@ namespace Avalon.HashCommands
         public override void Execute()
         {
             var sb = Argus.Memory.StringBuilderPool.Take();
-            sb.AppendLine($"Main Terminal: ");
-            sb.AppendLine($"  {{G*{{x IsAutoScrollEnabled={{y{App.MainWindow.GameTerminal.IsAutoScrollEnabled}{{x");
+            sb.AppendLine("Main Terminal: ");
+            sb.Append("  {G*{x IsAutoScrollEnabled={y").Append(App.MainWindow.GameTerminal.IsAutoScrollEnabled).AppendLine("{x");
 
-            sb.AppendLine($"Terminal 1: ");
-            sb.AppendLine($"  {{G*{{x IsAutoScrollEnabled={{y{App.MainWindow.Terminal1.IsAutoScrollEnabled}{{x");
+            sb.AppendLine("Terminal 1: ");
+            sb.Append("  {G*{x IsAutoScrollEnabled={y").Append(App.MainWindow.Terminal1.IsAutoScrollEnabled).AppendLine("{x");
 
-            sb.AppendLine($"Terminal 2: ");
-            sb.AppendLine($"  {{G*{{x IsAutoScrollEnabled={{y{App.MainWindow.Terminal2.IsAutoScrollEnabled}{{x");
+            sb.AppendLine("Terminal 2: ");
+            sb.Append("  {G*{x IsAutoScrollEnabled={y").Append(App.MainWindow.Terminal2.IsAutoScrollEnabled).AppendLine("{x");
 
-            sb.AppendLine($"Terminal 2: ");
-            sb.AppendLine($"  {{G*{{x IsAutoScrollEnabled={{y{App.MainWindow.Terminal3.IsAutoScrollEnabled}{{x");
+            sb.AppendLine("Terminal 2: ");
+            sb.Append("  {G*{x IsAutoScrollEnabled={y").Append(App.MainWindow.Terminal3.IsAutoScrollEnabled).AppendLine("{x");
 
 
-            sb.AppendFormat("StringBuilder Pool: {{y{0}{{x Idle, {{y64{{x Max Idle Capacity\r\n", Argus.Memory.StringBuilderPool.Count());
+            sb.AppendFormat("\r\nStringBuilder Pool: {{y{0}{{x Idle, {{y64{{x Max Idle Capacity\r\n", Argus.Memory.StringBuilderPool.Count());
             App.Conveyor.EchoText(sb.ToString());
 
             Argus.Memory.StringBuilderPool.Return(sb);

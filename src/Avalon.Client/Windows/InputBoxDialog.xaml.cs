@@ -6,7 +6,7 @@ namespace Avalon
     /// <summary>
     /// An input box that can ask for string data.
     /// </summary>
-    public partial class InputBoxDialog : ContentDialog
+    public partial class InputBoxDialog
     {
         public InputBoxDialog()
         {

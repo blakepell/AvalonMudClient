@@ -293,7 +293,7 @@ namespace Avalon.Controls
                 return;
             }
 
-            // Check to make sure the package is combatible with the current version of the mud client.
+            // Check to make sure the package is compatible with the current version of the mud client.
             if (!package.MinimumClientVersion.StartsWith("0"))
             {
                 var packageMinimumClientVersion = new Version(package.MinimumClientVersion);

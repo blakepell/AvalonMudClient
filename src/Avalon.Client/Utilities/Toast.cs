@@ -43,7 +43,7 @@ namespace Avalon.Utilities
         public void ShowNotification(string title, string msg, ToolTipIcon iconType)
         {
             // Apparently the timeout is deprecated as of Vista and no longer works, it defaults to a system
-            // setting in the accessibilities section.
+            // setting in the accessibility section.
             _notifyIcon.Visible = true;
             _notifyIcon.ShowBalloonTip(5000, title, msg, iconType);
         }

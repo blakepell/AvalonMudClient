@@ -1,6 +1,5 @@
 ﻿using Avalon.Common.Interfaces;
 using CommandLine;
-using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -99,7 +98,7 @@ namespace Avalon.HashCommands
         /// </summary>
         public class Arguments
         {
-            [Option('i', "info", Required = false, HelpText = "Information about the current Lua enviornment.")]
+            [Option('i', "info", Required = false, HelpText = "Information about the current Lua environment.")]
             public bool Info { get; set; } = false;
 
             [Option('g', "global", Required = false, HelpText = "A list of Lua global variables currently stored.")]

@@ -78,7 +78,7 @@
     <!-- Hot keys -->
     <Window.CommandBindings>
         <CommandBinding Command="local:MainWindow.LoadPlugin" Executed="MenuItemManuallyLoadPlugin_Click" />
-        <CommandBinding Command="local:MainWindow.EditLastItem" Executed="MenuItemOpenLastEdittedAliasOrTrigger_Click" />
+        <CommandBinding Command="local:MainWindow.EditLastItem" Executed="MenuItemOpenLastEditedAliasOrTrigger_Click" />
         <CommandBinding Command="local:MainWindow.SelectElement" Executed="SelectElementInternal" />
         <CommandBinding Command="local:MainWindow.FontSizeChange" Executed="ChangeTerminalFontSize" />
         <CommandBinding Command="local:MainWindow.FocusByName" Executed="FocusByNameInternal" />
@@ -266,7 +266,7 @@
                         </MenuItem>
                     </MenuItem>
                     <MenuItem Header="_View">
-                        <MenuItem Header="Open Last Editted Alias or Trigger" Click="MenuItemOpenLastEdittedAliasOrTrigger_Click" InputGestureText="Ctrl+Alt+L">
+                        <MenuItem Header="Open Last Edited Alias or Trigger" Click="MenuItemOpenLastEditedAliasOrTrigger_Click" InputGestureText="Ctrl+Alt+L">
                             <MenuItem.Icon>
                                 <ui:SymbolIcon Symbol="BackToWindow" />
                             </MenuItem.Icon>

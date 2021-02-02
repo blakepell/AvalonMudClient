@@ -216,13 +216,13 @@ namespace Avalon
                     return;
                 }
 
-                Application.Current.Dispatcher.Invoke(new Action(() =>
+                Application.Current.Dispatcher.Invoke(() =>
                 {
                     // Set both the official Windows title of the title bar and the faux custom title bar
                     // that we created on our UI.
                     App.MainWindow.Title = value;
                     App.MainWindow.TitleBar.Title = value;
-                }));
+                });
             }
         }
 
@@ -1234,7 +1234,7 @@ namespace Avalon
         public ProfileSettings ProfileSettings => App.Settings.ProfileSettings;
 
         /// <summary>
-        /// Retuns the client settings that are specific to the workstation
+        /// Returns the client settings that are specific to the workstation
         /// </summary>        
         public AvalonSettings ClientSettings => App.Settings.AvalonSettings;
 

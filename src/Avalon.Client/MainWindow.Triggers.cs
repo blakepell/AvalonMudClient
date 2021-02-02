@@ -51,7 +51,7 @@ namespace Avalon
                         // If it has text but it's not lua, send it to the interpreter.
                         await Interp.Send(item.Command, item.IsSilent, false);
                     }
-                    else if (!string.IsNullOrEmpty(item.Command) && item.IsLua == true)
+                    else if (!string.IsNullOrEmpty(item.Command) && item.IsLua)
                     {
                         // If it has text and it IS lua, send it to the LUA engine.
                         await Interp.LuaCaller.ExecuteAsync(item.Command);
@@ -164,12 +164,12 @@ namespace Avalon
                     }
 
                     // Only send if it has something in it.  Use the processed command.
-                    if (!string.IsNullOrEmpty(item.ProcessedCommand) && item.IsLua == false)
+                    if (!string.IsNullOrEmpty(item.ProcessedCommand) && !item.IsLua)
                     {
                         // If it has text but it's not lua, send it to the interpreter.
                         await Interp.Send(item.ProcessedCommand, false, false);
                     }
-                    else if (!string.IsNullOrEmpty(item.ProcessedCommand) && item.IsLua == true)
+                    else if (!string.IsNullOrEmpty(item.ProcessedCommand) && item.IsLua)
                     {
                         // If it has text and it IS lua, send it to the LUA engine.
                         await Interp.LuaCaller.ExecuteAsync(item.ProcessedCommand);
