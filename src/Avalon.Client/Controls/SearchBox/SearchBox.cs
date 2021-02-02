@@ -37,13 +37,13 @@ namespace Avalon.Controls
         public static readonly DependencyProperty BorderSelectionColorProperty =
             DependencyProperty.Register(nameof(BorderSelectionColor), typeof(SolidColorBrush), typeof(TextBox), new PropertyMetadata((SolidColorBrush)(new BrushConverter().ConvertFrom("#007ACC"))));
 
-        new public double Height
+        public new double Height
         {
             get => (double)GetValue(HeightProperty);
             set => SetValue(HeightProperty, value);
         }
 
-        new public static readonly DependencyProperty HeightProperty =
+        public new static readonly DependencyProperty HeightProperty =
             DependencyProperty.Register("Height", typeof(double), typeof(SearchBox), new PropertyMetadata(28.0));
 
         static SearchBox()

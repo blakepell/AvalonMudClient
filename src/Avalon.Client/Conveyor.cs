@@ -839,7 +839,7 @@ namespace Avalon
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
             if (!Application.Current.Dispatcher.CheckAccess())
             {
-                Application.Current.Dispatcher.BeginInvoke(new Action(() => ProgressBarRepeaterClear()));
+                Application.Current.Dispatcher.BeginInvoke(new Action(ProgressBarRepeaterClear));
                 return;
             }
 
@@ -1130,7 +1130,7 @@ namespace Avalon
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
             if (!Application.Current.Dispatcher.CheckAccess())
             {
-                Application.Current.Dispatcher.BeginInvoke(new Action(() => SortTriggersByPriority()));
+                Application.Current.Dispatcher.BeginInvoke(new Action(SortTriggersByPriority));
                 return;
             }
 

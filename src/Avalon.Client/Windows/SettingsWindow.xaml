@@ -32,12 +32,12 @@
                 </TabControl.Resources>
                 <controls:TabItemEx x:Name="TabProfileSettings" Header="Profile Settings" Icon="Contact" ui:ControlHelper.CornerRadius="0">
                     <WindowsFormsHost Margin="-1,-2,-2,0">
-                        <swf:PropertyGrid x:Name="profilePropertyGrid"/>
+                        <swf:PropertyGrid x:Name="ProfilePropertyGrid"/>
                     </WindowsFormsHost>
                 </controls:TabItemEx>
                 <controls:TabItemEx x:Name="TabClientSettings" Header="Client Settings" Icon="XboxOneConsole" ui:ControlHelper.CornerRadius="0">
                     <WindowsFormsHost Margin="-1,-2,-2,0">
-                        <swf:PropertyGrid x:Name="clientPropertyGrid"/>
+                        <swf:PropertyGrid x:Name="ClientPropertyGrid"/>
                     </WindowsFormsHost>
                 </controls:TabItemEx>
             </controls:TabControlEx>

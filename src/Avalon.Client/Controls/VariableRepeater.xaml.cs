@@ -15,7 +15,7 @@ namespace Avalon.Controls
 
         public void Bind()
         {
-            repeater.ItemsSource = App.Settings.ProfileSettings.Variables.Where(x => x.IsVisible).OrderBy(x => x.DisplayOrder);
+            VariableItemsRepeater.ItemsSource = App.Settings.ProfileSettings.Variables.Where(x => x.IsVisible).OrderBy(x => x.DisplayOrder);
         }
 
     }

@@ -19,8 +19,8 @@ namespace Avalon
         /// <param name="e"></param>
         private void SettingsWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
-            profilePropertyGrid.SelectedObject = App.Settings.ProfileSettings;
-            clientPropertyGrid.SelectedObject = App.Settings.AvalonSettings;
+            ProfilePropertyGrid.SelectedObject = App.Settings.ProfileSettings;
+            ClientPropertyGrid.SelectedObject = App.Settings.AvalonSettings;
             TextSettingsFilename.Text = App.Settings.AvalonSettings.LastLoadedProfilePath;
         }
 

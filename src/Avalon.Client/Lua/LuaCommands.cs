@@ -1183,7 +1183,7 @@ namespace Avalon.Lua
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
             if (!Application.Current.Dispatcher.CheckAccess())
             {
-                Application.Current.Dispatcher.BeginInvoke(new Action(() => ClearTasks()));
+                Application.Current.Dispatcher.BeginInvoke(new Action(ClearTasks));
                 return;
             }
 

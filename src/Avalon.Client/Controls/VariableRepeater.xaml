@@ -41,8 +41,8 @@
             MinColumnSpacing="5" />
     </UserControl.Resources>
     <ui:ItemsRepeaterScrollHost HorizontalAlignment="Stretch">
-            <ScrollViewer x:Name="scrollViewer" HorizontalScrollBarVisibility="Disabled">
-                <ui:ItemsRepeater x:Name="repeater" Margin="0,0,0,0" HorizontalAlignment="Left"
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+                <ui:ItemsRepeater x:Name="VariableItemsRepeater" Margin="0,0,0,0" HorizontalAlignment="Left"
                                 Layout="{StaticResource UniformGridLayout}"
                                 ItemTemplate="{StaticResource HorizontalBarTemplate}">
                 </ui:ItemsRepeater>

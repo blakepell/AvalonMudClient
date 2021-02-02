@@ -135,15 +135,7 @@ namespace Avalon.Controls
             set
             {
                 this.SetValue(TickTimerProperty, value);
-
-                if (value <= 5)
-                {
-                    this.SetValue(TickColorBrushProperty, Brushes.Red);
-                }
-                else
-                {
-                    this.SetValue(TickColorBrushProperty, Brushes.DarkGray);
-                }
+                this.SetValue(TickColorBrushProperty, value <= 5 ? Brushes.Red : Brushes.DarkGray);
             } 
         }
 

@@ -153,10 +153,12 @@ namespace Avalon.Controls
                     // Dynamic syntax highlighting for your own purpose
                     var rules = te.SyntaxHighlighting.MainRuleSet.Rules;
 
-                    var rule = new HighlightingRule();
-                    rule.Color = new HighlightingColor()
+                    var rule = new HighlightingRule
                     {
-                        Foreground = new CustomizedBrush((Color)ColorConverter.ConvertFromString(("#DCDCAA")))
+                        Color = new HighlightingColor()
+                        {
+                            Foreground = new CustomizedBrush((Color) ColorConverter.ConvertFromString(("#DCDCAA")))
+                        }
                     };
 
                     // Construct our custom highlighting rule via reflection.

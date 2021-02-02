@@ -172,7 +172,7 @@ namespace Avalon
 
                             if (totalReads % 2000 == 0)
                             {
-                                TextBlockInfo.Text = string.Format("Total bytes downloaded for {0}: {1:n0}", pluginName, totalRead);
+                                TextBlockInfo.Text = $"Total bytes downloaded for {pluginName}: {totalRead:n0}";
                             }
                         }
                     }
@@ -206,7 +206,7 @@ namespace Avalon
 
                             if (totalReads % 2000 == 0)
                             {
-                                TextBlockInfo.Text = string.Format("Total bytes downloaded for installer update: {0:n0}", totalRead);
+                                TextBlockInfo.Text = $"Total bytes downloaded for installer update: {totalRead:n0}";
                             }
                         }
                     }

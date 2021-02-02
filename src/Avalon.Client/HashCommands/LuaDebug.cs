@@ -61,8 +61,8 @@ namespace Avalon.HashCommands
                         sb.AppendFormat(" {{G * {{WLua Error Count:{{x            {{C{0}{{x\r\n", lua.LuaErrorCount);
 
 
-                        sb.AppendFormat(" {{G * {{WLua Global Code Storage:{{x    {{C{0} bytes{{x\r\n", String.Format("{0:n0}", Encoding.UTF8.GetByteCount(App.Settings.ProfileSettings.LuaGlobalScript)));
-                        sb.AppendFormat(" {{G * {{WLua Overall Code Storage:{{x   {{C{0} bytes{{x\r\n", String.Format("{0:n0}", totalBytes));
+                        sb.AppendFormat(" {{G * {{WLua Global Code Storage:{{x    {{C{0} bytes{{x\r\n", $"{Encoding.UTF8.GetByteCount(App.Settings.ProfileSettings.LuaGlobalScript):n0}");
+                        sb.AppendFormat(" {{G * {{WLua Overall Code Storage:{{x   {{C{0} bytes{{x\r\n", $"{totalBytes:n0}");
                     }
 
                     if (o.GlobalsList || runAll)
