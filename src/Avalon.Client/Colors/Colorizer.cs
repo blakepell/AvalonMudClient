@@ -86,6 +86,13 @@ namespace Avalon.Colors
         /// <param name="buf"></param>
         public static string RemoveAllAnsiCodes(string buf)
         {
+            // If there are ANSI codes don't bother RegEx matching, return the provided
+            // value back to the caller.
+            if (buf.IndexOf('\x1B') == -1)
+            {
+                return buf;
+            }
+
             return _escapeSequenceRegEx.Replace(buf, "");
         }
 
@@ -95,7 +102,12 @@ namespace Avalon.Colors
         /// <param name="sb"></param>
         public static void RemoveAllAnsiCodes(StringBuilder sb)
         {
-            // Speed 1.25%
+            // If there are ANSI codes don't bother RegEx matching.
+            if (sb.IndexOf('\x1B') == -1)
+            {
+                return;
+            }
+
             var result = _escapeSequenceRegEx.Matches(sb.ToString());
 
             for (int i = result.Count - 1; i > -1; i--)
