@@ -48,14 +48,7 @@ namespace Avalon.Extensions
         /// <param name="value"></param>
         public static Visibility ToVisibleOrCollapse(this bool value)
         {
-            if (value)
-            {
-                return Visibility.Visible;
-            }
-            else
-            {
-                return Visibility.Collapsed;
-            }
+            return value ? Visibility.Visible : Visibility.Collapsed;
         }
 
         /// <summary>
@@ -64,14 +57,7 @@ namespace Avalon.Extensions
         /// <param name="value"></param>
         public static Visibility ToVisibleOrHidden(this bool value)
         {
-            if (value)
-            {
-                return Visibility.Visible;
-            }
-            else
-            {
-                return Visibility.Hidden;
-            }
+            return value ? Visibility.Visible : Visibility.Hidden;
         }
 
         /// <summary>
@@ -90,13 +76,11 @@ namespace Avalon.Extensions
         /// <param name="text"></param>
         public static Line ToLine(this string text)
         {
-            var line = new Line
+            return new Line
             {
                 Text = Colorizer.RemoveAllAnsiCodes(text),
                 FormattedText = text,
             };
-
-            return line;
         }
 
         /// <summary>
@@ -322,7 +306,6 @@ namespace Avalon.Extensions
         /// Removes all ANSI codes from the specified string.
         /// </summary>
         /// <param name="buf"></param>
-        /// <returns></returns>
         public static string RemoveAnsiCodes(this string buf)
         {
             return Colorizer.RemoveAllAnsiCodes(buf);
