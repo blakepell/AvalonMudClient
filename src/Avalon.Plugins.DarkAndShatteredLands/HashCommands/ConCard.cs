@@ -70,9 +70,10 @@ namespace Avalon.Plugins.DarkAndShatteredLands.HashCommands
                     {
                         ReverseColors = true,
                         ForegroundColor = AnsiColors.Green,
-                        FormattedText = "\r\nCard not yet submitted.\r\n",
                         IgnoreLastColor = true
                     };
+
+                    line.FormattedText.AppendLine("\r\nCard not yet submitted.");
 
                     this.Interpreter.Conveyor.EchoText(line, TerminalTarget.Main);
 
@@ -85,9 +86,10 @@ namespace Avalon.Plugins.DarkAndShatteredLands.HashCommands
                     {
                         ReverseColors = true,
                         ForegroundColor = AnsiColors.Red,
-                        FormattedText = "\r\n500 - Internal server error.\r\n",
                         IgnoreLastColor = true
                     };
+
+                    line.FormattedText.AppendLine("\r\n500 - Internal server error.");
 
                     this.Interpreter.Conveyor.EchoText(line, TerminalTarget.Main);
                     this.Interpreter.Conveyor.EchoText("There is a problem with the resource you are looking for, and it cannot be displayed.", TerminalTarget.Main);
@@ -98,9 +100,10 @@ namespace Avalon.Plugins.DarkAndShatteredLands.HashCommands
                     {
                         ReverseColors = true,
                         ForegroundColor = AnsiColors.Yellow,
-                        FormattedText = "\r\nInvalid Card\r\n",
                         IgnoreLastColor = true
                     };
+
+                    line.FormattedText.AppendLine("\r\nInvalid Card");
 
                     this.Interpreter.Conveyor.EchoText(line, TerminalTarget.Main);
                     this.Interpreter.Conveyor.EchoText("The Abhorrant says \"That card is invalid.Please check your cards code and try again.\"", TerminalTarget.Main);
@@ -111,9 +114,10 @@ namespace Avalon.Plugins.DarkAndShatteredLands.HashCommands
                     {
                         ReverseColors = true,
                         ForegroundColor = AnsiColors.Green,
-                        FormattedText = "\r\nCard Processed\r\n",
                         IgnoreLastColor = true
                     };
+
+                    line.FormattedText.AppendLine("\r\nCard Processed");
 
                     this.Interpreter.Conveyor.EchoText(line, TerminalTarget.Main);
 
@@ -126,9 +130,10 @@ namespace Avalon.Plugins.DarkAndShatteredLands.HashCommands
                     {
                         ReverseColors = true,
                         ForegroundColor = AnsiColors.Yellow,
-                        FormattedText = "\r\nUnknown State\r\n",
                         IgnoreLastColor = true
                     };
+
+                    line.FormattedText.Append("\r\nUnknown State\r\n");
 
                     this.Interpreter.Conveyor.EchoText(line, TerminalTarget.Main);
 

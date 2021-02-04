@@ -275,10 +275,7 @@ namespace Avalon
                 return;
             }
 
-            var sb = Argus.Memory.StringBuilderPool.Take(line.FormattedText);
-            Colorizer.MudToAnsiColorCodes(sb);
-            line.FormattedText = sb.ToString();
-            Argus.Memory.StringBuilderPool.Return(sb);
+            Colorizer.MudToAnsiColorCodes(line.FormattedText);
 
             switch (target)
             {
@@ -390,7 +387,7 @@ namespace Avalon
 
             var sb = Argus.Memory.StringBuilderPool.Take(line.FormattedText);
             Colorizer.MudToAnsiColorCodes(sb);
-            line.FormattedText = sb.ToString();
+            line.FormattedText.Append(sb);
             Argus.Memory.StringBuilderPool.Return(sb);
 
             win.AppendText(line);
@@ -412,19 +409,19 @@ namespace Avalon
             switch (type)
             {
                 case LogType.Information:
-                    line.FormattedText = $"{{c={{C>{{x {text}\r\n";
+                    line.FormattedText.AppendLine($"{{c={{C>{{x {text}");
                     break;
                 case LogType.Success:
-                    line.FormattedText = $"{{g={{G>{{x {text}\r\n";
+                    line.FormattedText.AppendLine($"{{g={{G>{{x {text}");
                     break;
                 case LogType.Warning:
-                    line.FormattedText = $"{{y={{Y>{{x {text}\r\n";
+                    line.FormattedText.AppendLine($"{{y={{Y>{{x {text}");
                     break;
                 case LogType.Error:
-                    line.FormattedText = $"{{r={{R>{{x {text}\r\n";
+                    line.FormattedText.AppendLine($"{{r={{R>{{x {text}");
                     break;
                 case LogType.Debug:
-                    line.FormattedText = $"{{b={{B>{{x {text}\r\n";
+                    line.FormattedText.AppendLine($"{{b={{B>{{x {text}");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);

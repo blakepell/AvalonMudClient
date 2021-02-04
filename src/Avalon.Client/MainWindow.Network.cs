@@ -103,11 +103,9 @@ namespace Avalon
         {
             // The "Text" on a line isn't always important which is why we don't always set it.  It
             // is critical in this location though in order to match triggers.
-            var line = new Line
-            {
-                FormattedText = e,
-                Text = Colorizer.RemoveAllAnsiCodes(e),
-            };
+            var line = App.LineMemoryPool.Get();
+            line.FormattedText.Append(e);
+            line.Text = Colorizer.RemoveAllAnsiCodes(e);
 
             // Beep is checked here because it should only happen one time, not every time a trigger is checked which for
             // gags can be a lot.  We'll do this when the line comes in -if- the user has the setting for it turned on.
@@ -125,6 +123,8 @@ namespace Avalon
             {
                 App.Conveyor.Scrape.Append(line.Text.AsSpan()).AppendLine();
             }
+
+            App.LineMemoryPool.Return(line);
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace Avalon
         private void InterpreterEcho(object sender, EchoEventArgs e)
         {
             AvalonTerminal term;
-
+            
             if (e == null)
             {
                 this.Interp.Conveyor.EchoError(" Null EchoEventArgs in InterpreterEcho");

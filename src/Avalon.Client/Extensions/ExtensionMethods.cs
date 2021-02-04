@@ -90,10 +90,9 @@ namespace Avalon.Extensions
         /// <param name="text"></param>
         public static Line ToLine(this string text)
         {
-            var line = new Line
+            var line = new Line(text)
             {
                 Text = Colorizer.RemoveAllAnsiCodes(text),
-                FormattedText = text,
             };
 
             return line;

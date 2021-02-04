@@ -61,10 +61,8 @@ namespace Avalon
                     if (item.MoveTo != TerminalTarget.None)
                     {
                         // Create a brand new line (not a shared reference) where this can be shown in the communication window.
-                        var commLine = new Line
-                        {
-                            FormattedText = $"[{Utilities.Utilities.Timestamp()}]: {line.FormattedText}\r\n"
-                        };
+                        var commLine = new Line();
+                        commLine.FormattedText.Append($"[{Utilities.Utilities.Timestamp()}]: {line.FormattedText}\r\n");
 
                         if (item.MoveTo == TerminalTarget.Terminal1)
                         {
@@ -159,7 +157,7 @@ namespace Avalon
                     if (item.HighlightLine)
                     {
                         // TODO - Allow the highlighted color to be set for each trigger.
-                        int start = GameTerminal.Document.Text.LastIndexOf(line.FormattedText, StringComparison.Ordinal);
+                        int start = GameTerminal.Document.Text.LastIndexOf(line.FormattedText.ToString(), StringComparison.Ordinal);
                         GameTerminal.Document.Insert(start, AnsiColors.DarkCyan);
                     }
 
@@ -179,10 +177,8 @@ namespace Avalon
                     if (item.MoveTo != TerminalTarget.None)
                     {
                         // Create a brand new line (not a shared reference) where this can be shown in the communication window.
-                        var commLine = new Line
-                        {
-                            FormattedText = $"[{Utilities.Utilities.Timestamp()}]: {line.FormattedText}\r\n"
-                        };
+                        var commLine = new Line();
+                        commLine.FormattedText.Append($"[{Utilities.Utilities.Timestamp()}]: {line.FormattedText}\r\n");
 
                         if (item.MoveTo == TerminalTarget.Terminal1)
                         {

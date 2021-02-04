@@ -1,4 +1,5 @@
-﻿using Avalon.Common.Colors;
+﻿using System.Text;
+using Avalon.Common.Colors;
 
 namespace Avalon.Common.Models
 {
@@ -8,6 +9,41 @@ namespace Avalon.Common.Models
     public class Line
     {
         /// <summary>
+        /// Creates a new <see cref="Line"/> object.
+        /// </summary>
+        public Line()
+        {
+            // Because this will be pooled we'll make the line a reasonable amount that is
+            // unlikely to increase in size.
+            this.FormattedText = new StringBuilder(1024);
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="Line"/> object.
+        /// </summary>
+        /// <param name="text">The text which will populate the <see cref="FormattedText"/> property.</param>
+        public Line(string text)
+        {
+            // Because this will be pooled we'll make the line a reasonable amount that is
+            // unlikely to increase in size.
+            this.FormattedText = new StringBuilder(1024);
+            this.FormattedText.Append(text);
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="Line"/> object.
+        /// </summary>
+        /// <param name="sb">The text via <see cref="StringBuilder"/> which will populate the <see cref="FormattedText"/> property.</param>
+        public Line(StringBuilder sb)
+        {
+            // Because this will be pooled we'll make the line a reasonable amount that is
+            // unlikely to increase in size.  Because the StringBuilder provided here might be
+            // from it's own pool we'll copy the contents into this copy.
+            this.FormattedText = new StringBuilder(1024);
+            this.FormattedText.Append(sb);
+        }
+
+        /// <summary>
         /// The raw text with formatting removed.  This is the text that triggers were processed against.
         /// </summary>
         public string Text { get; set; }
@@ -15,7 +51,7 @@ namespace Avalon.Common.Models
         /// <summary>
         /// The formatted text which includes the ANSI color codes.
         /// </summary>
-        public string FormattedText { get; set; }
+        public StringBuilder FormattedText { get; set; }
 
         /// <summary>
         /// Whether or not the terminal window should ignore the last color tracking for this line.  This
@@ -40,5 +76,20 @@ namespace Avalon.Common.Models
         /// </summary>
         public bool ScrollToLastLine { get; set; } = true;
 
+        /// <summary>
+        /// Resets a line to it's default state.
+        /// </summary>
+        /// <remarks>
+        /// The reset function was primarily in place for use with a line memory pool.
+        /// </remarks>
+        public void Reset()
+        {
+            this.Text = null;
+            this.FormattedText.Clear();
+            this.ForegroundColor = null;
+            this.IgnoreLastColor = false;
+            this.ReverseColors = false;
+            this.ScrollToLastLine = true;
+        }
     }
 }

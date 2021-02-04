@@ -27,10 +27,13 @@ namespace Avalon.HashCommands
             sb.AppendLine("Terminal 2: ");
             sb.Append("  {G*{x IsAutoScrollEnabled={y").Append(App.MainWindow.Terminal3.IsAutoScrollEnabled).AppendLine("{x");
 
+            sb.AppendLine();
 
-            sb.AppendFormat("\r\nStringBuilder Pool: {{y{0}{{x Idle, {{y64{{x Max Idle Capacity\r\n", Argus.Memory.StringBuilderPool.Count());
+            sb.AppendFormat("StringBuilder Memory Pool: {{y{0}{{x Idle, {{y64{{x Max Idle Capacity\r\n", Argus.Memory.StringBuilderPool.Count());
+            sb.AppendFormat("Line Memory Pool: {{y{0}{{x Idle of Max {{y{1}{{x Max Idle Capacity\r\n", App.LineMemoryPool.Count(), App.LineMemoryPool.Max);
+            sb.AppendFormat("Line Memory Pool: {{y{0}{{x Objects Created {{y{1}{{x Objects Reused\r\n", App.LineMemoryPool.CounterNewObjects, App.LineMemoryPool.CounterReusedObjects);
+
             App.Conveyor.EchoText(sb.ToString());
-
             Argus.Memory.StringBuilderPool.Return(sb);
         }
     }

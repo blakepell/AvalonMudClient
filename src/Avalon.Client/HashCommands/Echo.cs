@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Argus.Extensions;
 using Avalon.Colors;
 using Avalon.Common.Colors;
 using Avalon.Common.Interfaces;
@@ -15,7 +16,7 @@ namespace Avalon.HashCommands
     /// </summary>
     public class Echo : HashCommand
     {
-        public Echo(IInterpreter interp) : base (interp)
+        public Echo(IInterpreter interp) : base(interp)
         {
         }
 
@@ -30,14 +31,6 @@ namespace Avalon.HashCommands
                 .WithParsed(o =>
                 {
                     var foregroundColor = Colorizer.ColorMapByName(o.Color);
-                    string timeStamp = "";
-
-                    if (o.Timestamp)
-                    {
-                        timeStamp = $"[{Utilities.Utilities.Timestamp()}]: ";
-                    }
-
-                    string text = $"{timeStamp}{o.Text}";
 
                     if (!string.IsNullOrWhiteSpace(o.WindowName))
                     {
@@ -48,49 +41,35 @@ namespace Avalon.HashCommands
                         {
                             return;
                         }
+
+                        var line = App.LineMemoryPool.Get();
+                        line.FormattedText.AppendFormatIf(o.Timestamp, "[{0}]: ", Utilities.Utilities.Timestamp());
+                        line.FormattedText.Append(o.Text);
+                        line.FormattedText.AppendFormatIf(!o.NoLineBreak, "\r\n");
+
+                        Colorizer.MudToAnsiColorCodes(line.FormattedText);
+
+                        if (foregroundColor != null)
+                        {
+                            line.FormattedText.Insert(0, foregroundColor.AnsiColor.AnsiCode);
+
+                            if (o.Reverse)
+                            {
+                                line.FormattedText.Insert(0, AnsiColors.Reverse.AnsiCode);
+                            }
+                        }
                         else
                         {
-                            var sb = Argus.Memory.StringBuilderPool.Take(text);
-                            Colorizer.MudToAnsiColorCodes(sb);
-                            
-                            // Put a line break on if one doesn't exist.
-                            if (!o.NoLineBreak)
-                            {
-                                sb.Append("\r\n");
-                            }
-
-                            if (foregroundColor != null)
-                            {
-                                var line = new Line
-                                {
-                                    FormattedText = $"{foregroundColor.AnsiColor.AnsiCode}{sb}"
-                                };
-
-                                if (o.Reverse)
-                                {
-                                    line.FormattedText = $"{AnsiColors.Reverse.AnsiCode}{line.FormattedText}";
-                                }
-
-                                win.AppendText(line);
-                            }
-                            else
-                            {
-                                var line = new Line
-                                {
-                                    FormattedText = sb.ToString(),
-                                    ForegroundColor = AnsiColors.Default,
-                                    ReverseColors = false
-                                };
-
-                                win.AppendText(line);
-                            }
-
-                            Argus.Memory.StringBuilderPool.Return(sb);
+                            line.ForegroundColor = AnsiColors.Default;
                         }
 
-                        // This has been echoed to the window, return and don't fall through.
+                        win.AppendText(line);
+                        App.LineMemoryPool.Return(line);
+
                         return;
                     }
+
+                    string text = o.Timestamp ? $"[{Utilities.Utilities.Timestamp()}]: {o.Text}" : o.Text;
 
                     // This is the default echo implementation.
                     if (foregroundColor != null)
@@ -99,7 +78,7 @@ namespace Avalon.HashCommands
                     }
                     else
                     {
-                        Interpreter.EchoText($"{text}", AnsiColors.Default, false, o.Terminal, true);
+                        Interpreter.EchoText(text, AnsiColors.Default, false, o.Terminal, true);
                     }
 
                 });

@@ -156,11 +156,12 @@ namespace Avalon.Lua
             {
                 var line = new Line
                 {
-                    FormattedText = $"{msg}\r\n",
                     ForegroundColor = AnsiColors.Cyan,
                     ReverseColors = false,
                     IgnoreLastColor = true
                 };
+
+                line.FormattedText.AppendLine(msg);
 
                 _interpreter.Conveyor.EchoText(line, TerminalTarget.Main);
             });
@@ -186,11 +187,12 @@ namespace Avalon.Lua
             {
                 var line = new Line
                 {
-                    FormattedText = $"{msg}\r\n",
                     ForegroundColor = foreground,
                     ReverseColors = reverse,
                     IgnoreLastColor = true
                 };
+
+                line.FormattedText.AppendLine(msg);
 
                 _interpreter.Conveyor.EchoText(line, TerminalTarget.Main);
             });
@@ -212,11 +214,12 @@ namespace Avalon.Lua
             {
                 var line = new Line
                 {
-                    FormattedText = $"{msg}\r\n",
                     ForegroundColor = AnsiColors.Cyan,
                     ReverseColors = true,
                     IgnoreLastColor = true
                 };
+
+                line.FormattedText.AppendLine(msg);
 
                 _interpreter.Conveyor.EchoText(line, TerminalTarget.Main);
             });
@@ -249,10 +252,11 @@ namespace Avalon.Lua
 
                 var line = new Line
                 {
-                    FormattedText = sb.ToString(),
                     ForegroundColor = AnsiColors.Default,
                     ReverseColors = false
                 };
+
+                line.FormattedText.Append(sb);
 
                 win.AppendText(line);
 

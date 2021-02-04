@@ -16,6 +16,8 @@ using System.Text;
 using System.Linq;
 using ICSharpCode.AvalonEdit;
 using System.Windows.Media;
+using Argus.Memory;
+using Avalon.Common.Models;
 
 namespace Avalon
 {
@@ -73,6 +75,8 @@ namespace Avalon
         /// </summary>
         internal static SoundPlayer Beep;
 
+        internal static ObjectPool<Line> LineMemoryPool { get; set; }
+
         /// <summary>
         /// Runs as the first thing in the programs pipeline.
         /// </summary>
@@ -82,6 +86,17 @@ namespace Avalon
         {
             try
             {
+                // Initializes the memory pool for Line objects.  Set the Action to be called
+                // that will reset the Line when it is returned to the pool.
+                App.LineMemoryPool = new ObjectPool<Line>
+                {
+                    ReturnAction = a =>
+                    {
+                        a.Reset();
+                    }
+                };
+
+
                 // Setup the Conveyor for this instance of the mud client.  This can be passed to
                 // the business logic layer via because it inherits the IConveyor interface.
                 App.Conveyor = new Conveyor();

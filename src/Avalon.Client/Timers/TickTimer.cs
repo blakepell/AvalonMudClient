@@ -85,15 +85,15 @@ namespace Avalon.Timers
             // Only show a tick warning once if it's in their settings and it's exactly 5 seconds until a tick.
             if (_secondsUntilTick == 5 && _echoWarningShown == false && Conveyor.ProfileSettings.EchoTickWarning)
             {
-                var line = new Line
-                {
-                    FormattedText = "Tick in 5 seconds.\r\n", 
-                    IgnoreLastColor = true, 
-                    ForegroundColor = AnsiColors.Cyan,
-                    ReverseColors = true
-                };
+                var line = App.LineMemoryPool.Get();
+                line.FormattedText.AppendLine("Tick in 5 seconds.\r\n");
+                line.IgnoreLastColor = true;
+                line.ForegroundColor = AnsiColors.Cyan;
+                line.ReverseColors = true;
 
                 Conveyor.EchoText(line, TerminalTarget.Main);
+
+                App.LineMemoryPool.Return(line);
                 _echoWarningShown = true;
             }
 

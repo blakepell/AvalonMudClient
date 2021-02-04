@@ -8,6 +8,7 @@ using Avalon.Colors;
 using Avalon.Common.Models;
 using System;
 using System.Linq;
+using Argus.Extensions;
 
 namespace Avalon.Controls
 {
@@ -170,14 +171,14 @@ namespace Avalon.Controls
         /// </remarks>
         public void Append(string text)
         {
-            var line = new Line
-            {
-                FormattedText = text,
-                IgnoreLastColor = false,
-                ForegroundColor = AnsiColors.Default
-            };
+            var line = App.LineMemoryPool.Get();
+            line.FormattedText.Append(text);
+            line.IgnoreLastColor = false;
+            line.ForegroundColor = AnsiColors.Default;
 
             Append(line);
+
+            App.LineMemoryPool.Return(line);
         }
 
 
@@ -192,14 +193,14 @@ namespace Avalon.Controls
         /// </remarks>
         public void Append(StringBuilder sb)
         {
-            var line = new Line
-            {
-                FormattedText = sb.ToString(),
-                IgnoreLastColor = false,
-                ForegroundColor = AnsiColors.Default
-            };
+            var line = App.LineMemoryPool.Get();
+            line.FormattedText.Append(sb);
+            line.IgnoreLastColor = false;
+            line.ForegroundColor = AnsiColors.Default;
 
             Append(line);
+
+            App.LineMemoryPool.Return(line);
         }
 
         /// <summary>
@@ -214,15 +215,15 @@ namespace Avalon.Controls
         /// </remarks>
         public void Append(string text, bool scrollToLastLine)
         {
-            var line = new Line
-            {
-                FormattedText = text,
-                IgnoreLastColor = false,
-                ForegroundColor = AnsiColors.Default,
-                ScrollToLastLine = scrollToLastLine
-            };
+            var line = App.LineMemoryPool.Get();
+            line.FormattedText.Append(text);
+            line.IgnoreLastColor = false;
+            line.ForegroundColor = AnsiColors.Default;
+            line.ScrollToLastLine = scrollToLastLine;
 
             Append(line);
+
+            App.LineMemoryPool.Return(line);
         }
 
         /// <summary>
@@ -237,15 +238,15 @@ namespace Avalon.Controls
         /// </remarks>
         public void Append(StringBuilder sb, bool scrollToLastLine)
         {
-            var line = new Line
-            {
-                FormattedText = sb.ToString(),
-                IgnoreLastColor = false,
-                ForegroundColor = AnsiColors.Default,
-                ScrollToLastLine = scrollToLastLine
-            };
+            var line = App.LineMemoryPool.Get();
+            line.FormattedText.Append(sb);
+            line.IgnoreLastColor = false;
+            line.ForegroundColor = AnsiColors.Default;
+            line.ScrollToLastLine = scrollToLastLine;
 
             Append(line);
+
+            App.LineMemoryPool.Return(line);
         }
 
         /// <summary>
@@ -260,14 +261,14 @@ namespace Avalon.Controls
         /// </remarks>
         public void Append(string text, AnsiColor foregroundColor)
         {
-            var line = new Line
-            {
-                FormattedText = text,
-                IgnoreLastColor = true,
-                ForegroundColor = foregroundColor
-            };
+            var line = App.LineMemoryPool.Get();
+            line.FormattedText.Append(text);
+            line.IgnoreLastColor = true;
+            line.ForegroundColor = foregroundColor;
 
             Append(line);
+
+            App.LineMemoryPool.Return(line);
         }
 
         /// <summary>
@@ -282,14 +283,14 @@ namespace Avalon.Controls
         /// </remarks>
         public void Append(StringBuilder sb, AnsiColor foregroundColor)
         {
-            var line = new Line
-            {
-                FormattedText = sb.ToString(),
-                IgnoreLastColor = true,
-                ForegroundColor = foregroundColor
-            };
+            var line = App.LineMemoryPool.Get();
+            line.FormattedText.Append(sb);
+            line.IgnoreLastColor = true;
+            line.ForegroundColor = foregroundColor;
 
             Append(line);
+
+            App.LineMemoryPool.Return(line);
         }
 
         /// <summary>
@@ -305,15 +306,15 @@ namespace Avalon.Controls
         /// </remarks>
         public void Append(string text, AnsiColor foregroundColor, bool reverseColors)
         {
-            var line = new Line
-            {
-                FormattedText = text,
-                IgnoreLastColor = true,
-                ForegroundColor = foregroundColor,
-                ReverseColors = reverseColors
-            };
+            var line = App.LineMemoryPool.Get();
+            line.FormattedText.Append(text);
+            line.IgnoreLastColor = true;
+            line.ForegroundColor = foregroundColor;
+            line.ReverseColors = reverseColors;
 
             Append(line);
+
+            App.LineMemoryPool.Return(line);
         }
 
         /// <summary>
@@ -329,15 +330,15 @@ namespace Avalon.Controls
         /// </remarks>
         public void Append(StringBuilder sb, AnsiColor foregroundColor, bool reverseColors)
         {
-            var line = new Line
-            {
-                FormattedText = sb.ToString(),
-                IgnoreLastColor = true,
-                ForegroundColor = foregroundColor,
-                ReverseColors = reverseColors
-            };
+            var line = App.LineMemoryPool.Get();
+            line.FormattedText.Append(sb);
+            line.IgnoreLastColor = true;
+            line.ForegroundColor = foregroundColor;
+            line.ReverseColors = reverseColors;
 
             Append(line);
+
+            App.LineMemoryPool.Return(line);
         }
 
         /// <summary>
@@ -354,16 +355,16 @@ namespace Avalon.Controls
         /// </remarks>
         public void Append(string text, AnsiColor foregroundColor, bool reverseColors, bool scrollToLastLine)
         {
-            var line = new Line
-            {
-                FormattedText = text,
-                IgnoreLastColor = true,
-                ForegroundColor = foregroundColor,
-                ReverseColors = reverseColors,
-                ScrollToLastLine = scrollToLastLine
-            };
+            var line = App.LineMemoryPool.Get();
+            line.FormattedText.Append(text);
+            line.IgnoreLastColor = true;
+            line.ForegroundColor = foregroundColor;
+            line.ReverseColors = reverseColors;
+            line.ScrollToLastLine = scrollToLastLine;
 
             Append(line);
+
+            App.LineMemoryPool.Return(line);
         }
 
         /// <summary>
@@ -380,16 +381,17 @@ namespace Avalon.Controls
         /// </remarks>
         public void Append(StringBuilder sb, AnsiColor foregroundColor, bool reverseColors, bool scrollToLastLine)
         {
-            var line = new Line
-            {
-                FormattedText = sb.ToString(),
-                IgnoreLastColor = true,
-                ForegroundColor = foregroundColor,
-                ReverseColors = reverseColors,
-                ScrollToLastLine = scrollToLastLine
-            };
+            var line = App.LineMemoryPool.Get();
+            line.FormattedText.Append(sb);
+            line.IgnoreLastColor = true;
+            line.ForegroundColor = foregroundColor;
+            line.ReverseColors = reverseColors;
+            line.ScrollToLastLine = scrollToLastLine;
 
             Append(line);
+
+            App.LineMemoryPool.Return(line);
+
         }
 
         /// <summary>
@@ -415,9 +417,9 @@ namespace Avalon.Controls
                 // line will already have the last color code on it.  Instead of setting the last color
                 // to a blank if it's not a new line we'll use the _useLastColorCode bool as to not
                 // allocate a lot of unneeded strings.
-                if (line.FormattedText.EndsWith('\n'))
+                if (line.FormattedText.EndsWith("\n"))
                 {
-                    _lastColorCode = _lastColorRegEx.Match(line.FormattedText).Value;
+                    _lastColorCode = _lastColorRegEx.Match(line.FormattedText.ToString()).Value;
                     _useLastColorCode = true;
                 }
                 else
@@ -435,7 +437,7 @@ namespace Avalon.Controls
                 }
             }
 
-            this.AppendText(line.FormattedText);
+            this.AppendText(line.FormattedText.ToString());
 
             // Check to see if we should scroll to the last line after appending.  This will be true for probably
             // all terminal windows except the back buffer.  The AutoScroll property can override this behavior in
@@ -452,18 +454,16 @@ namespace Avalon.Controls
         /// <param name="text"></param>
         public void AppendAnsi(string text)
         {
-            var line = new Line
-            {
-                IgnoreLastColor = false,
-                ForegroundColor = AnsiColors.Default
-            };
-
-            var sb = Argus.Memory.StringBuilderPool.Take(text);
-            Colorizer.MudToAnsiColorCodes(sb);
-            line.FormattedText = sb.ToString();
-            Argus.Memory.StringBuilderPool.Return(sb);
+            var line = App.LineMemoryPool.Get();
+            line.IgnoreLastColor = false;
+            line.ForegroundColor = AnsiColors.Default;
+            line.FormattedText.Append(text);
+            Colorizer.MudToAnsiColorCodes(line.FormattedText);
 
             Append(line);
+
+            App.LineMemoryPool.Return(line);
+
         }
 
         /// <summary>
@@ -472,16 +472,15 @@ namespace Avalon.Controls
         /// <param name="sb"></param>
         public void AppendAnsi(StringBuilder sb)
         {
-            var line = new Line
-            {
-                IgnoreLastColor = false,
-                ForegroundColor = AnsiColors.Default
-            };
-
-            Colorizer.MudToAnsiColorCodes(sb);
-            line.FormattedText = sb.ToString();
+            var line = App.LineMemoryPool.Get();
+            line.IgnoreLastColor = false;
+            line.ForegroundColor = AnsiColors.Default;
+            line.FormattedText.Append(sb);
+            Colorizer.MudToAnsiColorCodes(line.FormattedText);
 
             Append(line);
+
+            App.LineMemoryPool.Return(line);
         }
 
         /// <summary>
