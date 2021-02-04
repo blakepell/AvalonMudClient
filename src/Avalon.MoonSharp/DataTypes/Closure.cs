@@ -74,7 +74,6 @@ namespace MoonSharp.Interpreter
 		/// <summary>
 		/// Calls this function with the specified args
 		/// </summary>
-		/// <returns></returns>
 		/// <exception cref="System.ArgumentException">Thrown if function is not of DataType.Function</exception>
 		public DynValue Call()
 		{
@@ -85,7 +84,6 @@ namespace MoonSharp.Interpreter
 		/// Calls this function with the specified args
 		/// </summary>
 		/// <param name="args">The arguments to pass to the function.</param>
-		/// <returns></returns>
 		/// <exception cref="System.ArgumentException">Thrown if function is not of DataType.Function</exception>
 		public DynValue Call(params object[] args)
 		{
@@ -96,7 +94,6 @@ namespace MoonSharp.Interpreter
 		/// Calls this function with the specified args
 		/// </summary>
 		/// <param name="args">The arguments to pass to the function.</param>
-		/// <returns></returns>
 		/// <exception cref="System.ArgumentException">Thrown if function is not of DataType.Function</exception>
 		public DynValue Call(params DynValue[] args)
 		{
@@ -110,7 +107,6 @@ namespace MoonSharp.Interpreter
         /// This method is supported only on .NET 4.x and .NET 4.x PCL targets.
         /// </summary>
         /// <param name="function">The function.</param>
-        /// <returns></returns>
         /// <exception cref="System.ArgumentException">Thrown if function is not of DataType.Function</exception>
         public Task<DynValue> CallAsync(ExecutionControlToken ecToken)
         {
@@ -124,7 +120,6 @@ namespace MoonSharp.Interpreter
 		/// </summary>
 		/// <param name="function">The function.</param>
 		/// <param name="args">The arguments to pass to the function.</param>
-		/// <returns></returns>
 		/// <exception cref="System.ArgumentException">Thrown if function is not of DataType.Function</exception>
         public Task<DynValue> CallAsync(ExecutionControlToken ecToken, params object[] args)
         {
@@ -138,7 +133,6 @@ namespace MoonSharp.Interpreter
 		/// </summary>
 		/// <param name="function">The function.</param>
 		/// <param name="args">The arguments to pass to the function.</param>
-		/// <returns></returns>
 		/// <exception cref="System.ArgumentException">Thrown if function is not of DataType.Function</exception>
         public Task<DynValue> CallAsync(ExecutionControlToken ecToken, params DynValue[] args)
         {
@@ -148,7 +142,6 @@ namespace MoonSharp.Interpreter
         /// <summary>
         /// Gets a delegate wrapping calls to this scripted function
         /// </summary>
-        /// <returns></returns>
         public ScriptFunctionDelegate GetDelegate()
 		{
 			return args => this.Call(args).ToObject();
@@ -158,7 +151,6 @@ namespace MoonSharp.Interpreter
 		/// Gets a delegate wrapping calls to this scripted function
 		/// </summary>
 		/// <typeparam name="T">The type of return value of the delegate.</typeparam>
-		/// <returns></returns>
 		public ScriptFunctionDelegate<T> GetDelegate<T>()
 		{
 			return args => this.Call(args).ToObject<T>();
@@ -196,7 +188,6 @@ namespace MoonSharp.Interpreter
 		/// <summary>
 		/// Gets the type of the upvalues contained in this closure
 		/// </summary>
-		/// <returns></returns>
 		public UpvaluesType GetUpvaluesType()
 		{
 			int count = GetUpvaluesCount();

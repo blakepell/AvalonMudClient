@@ -44,7 +44,6 @@ namespace MoonSharp.Interpreter
 		/// </summary>
 		/// <param name="name">The name.</param>
 		/// <param name="envSymbol">The _ENV symbol.</param>
-		/// <returns></returns>
 		public static SymbolRef Global(string name, SymbolRef envSymbol)
 		{
 			return new SymbolRef() { i_Index = -1, i_Type = SymbolRefType.Global, i_Env = envSymbol, i_Name = name };
@@ -55,7 +54,6 @@ namespace MoonSharp.Interpreter
 		/// </summary>
 		/// <param name="name">The name.</param>
 		/// <param name="index">The index of the var in local scope.</param>
-		/// <returns></returns>
 		internal static SymbolRef Local(string name, int index)
 		{
 			//Debug.Assert(index >= 0, "Symbol Index < 0");
@@ -67,7 +65,6 @@ namespace MoonSharp.Interpreter
 		/// </summary>
 		/// <param name="name">The name.</param>
 		/// <param name="index">The index of the var in closure scope.</param>
-		/// <returns></returns>
 		internal static SymbolRef Upvalue(string name, int index)
 		{
 			//Debug.Assert(index >= 0, "Symbol Index < 0");

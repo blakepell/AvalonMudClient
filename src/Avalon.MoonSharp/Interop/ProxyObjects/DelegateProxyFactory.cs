@@ -35,7 +35,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// Takes an instance of a target object and returns a proxy object wrapping it
 		/// </summary>
 		/// <param name="o"></param>
-		/// <returns></returns>
 		public object CreateProxyObject(object o)
 		{
 			return CreateProxyObject((TTarget)o);
@@ -44,7 +43,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// <summary>
 		/// Gets the proxied type
 		/// </summary>
-		/// <returns></returns>
 		public Type TargetType
 		{
 			get { return typeof(TTarget); }

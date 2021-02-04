@@ -49,7 +49,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// <summary>
 		/// Gets the type-unsafe assigner corresponding to this object.
 		/// </summary>
-		/// <returns></returns>
 		public PropertyTableAssigner GetTypeUnsafeAssigner()
 		{
 			return m_InternalAssigner;

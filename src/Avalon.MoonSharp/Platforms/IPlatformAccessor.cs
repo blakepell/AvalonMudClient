@@ -53,7 +53,6 @@ namespace MoonSharp.Interpreter.Platforms
 		/// Default handler for interactive line input calls. Can be customized in ScriptOptions.
 		/// If a meaningful implementation cannot be provided, this method should return null.
 		/// </summary>
-		/// <returns></returns>
 		string DefaultInput(string prompt);
 
 		/// <summary>
@@ -65,21 +64,18 @@ namespace MoonSharp.Interpreter.Platforms
 		/// <param name="filename">The filename.</param>
 		/// <param name="encoding">The encoding.</param>
 		/// <param name="mode">The mode (as per Lua usage - e.g. 'w+', 'rb', etc.).</param>
-		/// <returns></returns>
 		Stream IO_OpenFile(Script script, string filename, Encoding encoding, string mode);
 
 		/// <summary>
 		/// Gets a standard stream (stdin, stdout, stderr).
 		/// </summary>
 		/// <param name="type">The type.</param>
-		/// <returns></returns>
 		Stream IO_GetStandardStream(StandardFileType type);
 
 		/// <summary>
 		/// Gets a temporary filename. Used in 'io' and 'os' modules.
 		/// Can have an invalid implementation if 'io' and 'os' modules are filtered out.
 		/// </summary>
-		/// <returns></returns>
 		string IO_OS_GetTempFilename();
 
 		/// <summary>
@@ -117,7 +113,6 @@ namespace MoonSharp.Interpreter.Platforms
 		/// Can have an invalid implementation if the 'os' module is filtered out.
 		/// </summary>
 		/// <param name="cmdline">The cmdline.</param>
-		/// <returns></returns>
 		int OS_Execute(string cmdline);
 
 	}

@@ -78,7 +78,6 @@ namespace MoonSharp.Interpreter.Interop.UserDataRegistries
 		/// Gets all the extension methods which can match a given name
 		/// </summary>
 		/// <param name="name">The name.</param>
-		/// <returns></returns>
 		public static IEnumerable<IOverloadableMemberDescriptor> GetExtensionMethodsByName(string name)
 		{
 			lock (s_Lock)
@@ -89,7 +88,6 @@ namespace MoonSharp.Interpreter.Interop.UserDataRegistries
 		/// Gets a number which gets incremented everytime the extension methods registry changes.
 		/// Use this to invalidate caches based on extension methods
 		/// </summary>
-		/// <returns></returns>
 		public static int GetExtensionMethodsChangeVersion()
 		{
 			return s_ExtensionMethodChangeVersion;
@@ -101,7 +99,6 @@ namespace MoonSharp.Interpreter.Interop.UserDataRegistries
 		/// </summary>
 		/// <param name="name">The name.</param>
 		/// <param name="extendedType">The extended type.</param>
-		/// <returns></returns>
 		public static List<IOverloadableMemberDescriptor> GetExtensionMethodsByNameAndType(string name, Type extendedType)
 		{
 			List<UnresolvedGenericMethod> unresolvedGenerics = null;

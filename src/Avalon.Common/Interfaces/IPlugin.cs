@@ -19,7 +19,6 @@ namespace Avalon.Common.Interfaces
         /// IP address so system triggers only load for a mud you're connecting to in case you have multiple
         /// sets of plugins.
         /// </summary>
-        /// <returns></returns>
         string IpAddress { get; set; }
 
         /// <summary>

@@ -89,7 +89,6 @@ namespace MoonSharp.Interpreter.Platforms
 		/// Converts a Lua string access mode to a FileAccess enum
 		/// </summary>
 		/// <param name="mode">The mode.</param>
-		/// <returns></returns>
 		public static FileAccess ParseFileAccess(string mode)
 		{
 			mode = mode.Replace("b", "");
@@ -110,7 +109,6 @@ namespace MoonSharp.Interpreter.Platforms
 		/// Converts a Lua string access mode to a ParseFileMode enum
 		/// </summary>
 		/// <param name="mode">The mode.</param>
-		/// <returns></returns>
 		public static FileMode ParseFileMode(string mode)
 		{
 			mode = mode.Replace("b", "");
@@ -137,7 +135,6 @@ namespace MoonSharp.Interpreter.Platforms
 		/// <param name="filename">The filename.</param>
 		/// <param name="encoding">The encoding.</param>
 		/// <param name="mode">The mode (as per Lua usage - e.g. 'w+', 'rb', etc.).</param>
-		/// <returns></returns>
 		public override Stream IO_OpenFile(Script script, string filename, Encoding encoding, string mode)
 		{
 			return new FileStream(filename, ParseFileMode(mode), ParseFileAccess(mode), FileShare.ReadWrite | FileShare.Delete);
@@ -161,7 +158,6 @@ namespace MoonSharp.Interpreter.Platforms
 		/// Gets a standard stream (stdin, stdout, stderr).
 		/// </summary>
 		/// <param name="type">The type.</param>
-		/// <returns></returns>
 		/// <exception cref="System.ArgumentException">type</exception>
 		public override Stream IO_GetStandardStream(StandardFileType type)
 		{
@@ -192,7 +188,6 @@ namespace MoonSharp.Interpreter.Platforms
 		/// Gets a temporary filename. Used in 'io' and 'os' modules.
 		/// Can have an invalid implementation if 'io' and 'os' modules are filtered out.
 		/// </summary>
-		/// <returns></returns>
 		public override string IO_OS_GetTempFilename()
 		{
 			return Path.GetTempFileName();
@@ -249,7 +244,6 @@ namespace MoonSharp.Interpreter.Platforms
 		/// Can have an invalid implementation if the 'os' module is filtered out.
 		/// </summary>
 		/// <param name="cmdline">The cmdline.</param>
-		/// <returns></returns>
 		public override int OS_Execute(string cmdline)
 		{
 			// This is windows only!
@@ -276,7 +270,6 @@ namespace MoonSharp.Interpreter.Platforms
 		/// <summary>
 		/// Gets the platform name prefix
 		/// </summary>
-		/// <returns></returns>
 		/// <exception cref="System.NotImplementedException"></exception>
 		public override string GetPlatformNamePrefix()
 		{

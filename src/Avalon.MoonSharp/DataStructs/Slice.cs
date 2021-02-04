@@ -34,7 +34,6 @@ namespace MoonSharp.Interpreter.DataStructs
 		/// Gets or sets the element at the specified index.
 		/// </summary>
 		/// <param name="index">The index.</param>
-		/// <returns></returns>
 		public T this[int index]
 		{
 			get 

@@ -23,7 +23,6 @@ namespace MoonSharp.Interpreter.Interop
         /// <param name="obj">The object (null if a static request is done)</param>
         /// <param name="index">The index.</param>
         /// <param name="isDirectIndexing">If set to true, it's indexed with a name, if false it's indexed through brackets.</param>
-        /// <returns></returns>
         DynValue Index(ExecutionControlToken ecToken, Script script, object obj, DynValue index, bool isDirectIndexing);
         /// <summary>
         /// Performs an "index" "set" operation.
@@ -34,13 +33,11 @@ namespace MoonSharp.Interpreter.Interop
         /// <param name="index">The index.</param>
         /// <param name="value">The value to be set</param>
         /// <param name="isDirectIndexing">If set to true, it's indexed with a name, if false it's indexed through brackets.</param>
-        /// <returns></returns>
         bool SetIndex(ExecutionControlToken ecToken, Script script, object obj, DynValue index, DynValue value, bool isDirectIndexing);
 		/// <summary>
 		/// Converts this userdata to string
 		/// </summary>
 		/// <param name="obj">The object.</param>
-		/// <returns></returns>
 		string AsString(object obj);
         /// <summary>
         /// 
@@ -60,7 +57,6 @@ namespace MoonSharp.Interpreter.Interop
         /// <param name="script">The script originating the request</param>
         /// <param name="obj">The object (null if a static request is done)</param>
         /// <param name="metaname">The name of the metamember.</param>
-        /// <returns></returns>
         DynValue MetaIndex(ExecutionControlToken ecToken, Script script, object obj, string metaname);
 		/// <summary>
 		/// Determines whether the specified object is compatible with the specified type.
@@ -69,7 +65,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// </summary>
 		/// <param name="type">The type.</param>
 		/// <param name="obj">The object.</param>
-		/// <returns></returns>
 		bool IsTypeCompatible(Type type, object obj);
 	}
 }

@@ -472,7 +472,6 @@ namespace MoonSharp.Interpreter
 		/// </summary>
 		/// <param name="type">The lua non-function data type.</param>
 		/// <param name="debugText">The debug text to aid location (appears as "near 'xxx'").</param>
-		/// <returns></returns>
 		public static ScriptRuntimeException AttemptToCallNonFunc(DataType type, string debugText = null)
 		{
 			string functype = type.ToErrorTypeString();
@@ -500,7 +499,6 @@ namespace MoonSharp.Interpreter
 		/// </summary>
 		/// <param name="typeDescr">The type descriptor.</param>
 		/// <param name="desc">The member descriptor.</param>
-		/// <returns></returns>
 		public static ScriptRuntimeException AccessInstanceMemberOnStatics(IUserDataDescriptor typeDescr, IMemberDescriptor desc)
 		{
 			return new ScriptRuntimeException("attempt to access instance member {0}.{1} from a static userdata", typeDescr.Name, desc.Name);
@@ -509,7 +507,6 @@ namespace MoonSharp.Interpreter
 		/// <summary>
 		/// Rethrows this instance if 
 		/// </summary>
-		/// <returns></returns>
 		public override void Rethrow()
 		{
 			if (Script.GlobalOptions.RethrowExceptionNested)

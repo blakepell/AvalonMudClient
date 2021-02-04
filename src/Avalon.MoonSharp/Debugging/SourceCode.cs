@@ -55,7 +55,6 @@ namespace MoonSharp.Interpreter.Debugging
 		/// Gets the code snippet represented by a source ref
 		/// </summary>
 		/// <param name="sourceCodeRef">The source code reference.</param>
-		/// <returns></returns>
 		public string GetCodeSnippet(SourceRef sourceCodeRef)
 		{
 			if (sourceCodeRef.FromLine == sourceCodeRef.ToLine)

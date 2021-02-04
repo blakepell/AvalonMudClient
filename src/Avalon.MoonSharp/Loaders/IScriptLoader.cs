@@ -26,7 +26,6 @@ namespace MoonSharp.Interpreter.Loaders
 		/// </summary>
 		/// <param name="filename">The filename.</param>
 		/// <param name="globalContext">The global context.</param>
-		/// <returns></returns>
 		[Obsolete("This serves almost no purpose. Kept here just to preserve backward compatibility.")]
 		string ResolveFileName(string filename, Table globalContext);
 		/// <summary>
@@ -34,7 +33,6 @@ namespace MoonSharp.Interpreter.Loaders
 		/// </summary>
 		/// <param name="modname">The modname.</param>
 		/// <param name="globalContext">The global context.</param>
-		/// <returns></returns>
 		string ResolveModuleName(string modname, Table globalContext);
 	}
 }

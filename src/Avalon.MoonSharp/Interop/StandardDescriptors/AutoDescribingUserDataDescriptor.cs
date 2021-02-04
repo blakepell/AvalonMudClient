@@ -47,7 +47,6 @@ namespace MoonSharp.Interpreter
 		/// <param name="obj">The object (null if a static request is done)</param>
 		/// <param name="index">The index.</param>
 		/// <param name="isDirectIndexing">If set to true, it's indexed with a name, if false it's indexed through brackets.</param>
-		/// <returns></returns>
 		public DynValue Index(ExecutionControlToken ecToken, Script script, object obj, DynValue index, bool isDirectIndexing)
 		{
 			IUserDataType u = obj as IUserDataType;
@@ -67,7 +66,6 @@ namespace MoonSharp.Interpreter
         /// <param name="index">The index.</param>
         /// <param name="value">The value to be set</param>
         /// <param name="isDirectIndexing">If set to true, it's indexed with a name, if false it's indexed through brackets.</param>
-        /// <returns></returns>
         public bool SetIndex(ExecutionControlToken ecToken, Script script, object obj, DynValue index, DynValue value, bool isDirectIndexing)
 		{
 			IUserDataType u = obj as IUserDataType;
@@ -82,7 +80,6 @@ namespace MoonSharp.Interpreter
 		/// Converts this userdata to string
 		/// </summary>
 		/// <param name="obj">The object.</param>
-		/// <returns></returns>
 		public string AsString(object obj)
 		{
 			if (obj != null)
@@ -105,7 +102,6 @@ namespace MoonSharp.Interpreter
         /// <param name="script">The script originating the request</param>
         /// <param name="obj">The object (null if a static request is done)</param>
         /// <param name="metaname">The name of the metamember.</param>
-        /// <returns></returns>
         public DynValue MetaIndex(ExecutionControlToken ecToken, Script script, object obj, string metaname)
 		{
 			IUserDataType u = obj as IUserDataType;
@@ -124,7 +120,6 @@ namespace MoonSharp.Interpreter
 		/// </summary>
 		/// <param name="type">The type.</param>
 		/// <param name="obj">The object.</param>
-		/// <returns></returns>
 		public bool IsTypeCompatible(Type type, object obj)
 		{
 			return Framework.Do.IsInstanceOfType(type, obj);

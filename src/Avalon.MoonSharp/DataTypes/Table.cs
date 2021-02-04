@@ -109,7 +109,6 @@ namespace MoonSharp.Interpreter
 		/// The <see cref="System.Object"/>.
 		/// </value>
 		/// <param name="key">The key.</param>
-		/// <returns></returns>
 		public object this[object key]
 		{
 			get
@@ -652,7 +651,6 @@ namespace MoonSharp.Interpreter
 		/// <summary>
 		/// Enumerates the key/value pairs.
 		/// </summary>
-		/// <returns></returns>
 		public IEnumerable<TablePair> Pairs
 		{
 			get
@@ -664,7 +662,6 @@ namespace MoonSharp.Interpreter
 		/// <summary>
 		/// Enumerates the keys.
 		/// </summary>
-		/// <returns></returns>
 		public IEnumerable<DynValue> Keys
 		{
 			get
@@ -676,7 +673,6 @@ namespace MoonSharp.Interpreter
 		/// <summary>
 		/// Enumerates the values
 		/// </summary>
-		/// <returns></returns>
 		public IEnumerable<DynValue> Values
 		{
 			get

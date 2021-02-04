@@ -53,7 +53,6 @@ namespace MoonSharp.Interpreter.REPL
 		/// </summary>
 		/// <param name="modname">The modname.</param>
 		/// <param name="globalContext">The global context.</param>
-		/// <returns></returns>
 		public override string ResolveModuleName(string modname, Table globalContext)
 		{
 			DynValue s = globalContext.RawGet("LUA_PATH");

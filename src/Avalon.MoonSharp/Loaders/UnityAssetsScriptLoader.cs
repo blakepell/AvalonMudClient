@@ -151,7 +151,6 @@ your own IScriptLoader (possibly extending ScriptLoaderBase).", file, DEFAULT_PA
 		/// Checks if a given file exists
 		/// </summary>
 		/// <param name="file">The file.</param>
-		/// <returns></returns>
 		public override bool ScriptFileExists(string file)
 		{
 			file = GetFileName(file);
@@ -162,7 +161,6 @@ your own IScriptLoader (possibly extending ScriptLoaderBase).", file, DEFAULT_PA
 		/// <summary>
 		/// Gets the list of loaded scripts filenames (useful for debugging purposes).
 		/// </summary>
-		/// <returns></returns>
 		public string[] GetLoadedScripts()
 		{
 			return m_Resources.Keys.ToArray();

@@ -142,7 +142,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// <param name="obj">The object.</param>
 		/// <param name="context">The context.</param>
 		/// <param name="args">The arguments.</param>
-		/// <returns></returns>
 		/// <exception cref="ScriptRuntimeException">function call doesn't match any overload</exception>
 		private DynValue PerformOverloadedCall(Script script, object obj, ScriptExecutionContext context, CallbackArguments args)
 		{
@@ -300,7 +299,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// <param name="args">The arguments.</param>
 		/// <param name="method">The method.</param>
 		/// <param name="isExtMethod">if set to <c>true</c>, is an extension method.</param>
-		/// <returns></returns>
 		private int CalcScoreForOverload(ScriptExecutionContext context, CallbackArguments args, IOverloadableMemberDescriptor method, bool isExtMethod)
 		{
 			int totalScore = ScriptToClrConversions.WEIGHT_EXACT_MATCH;
@@ -419,7 +417,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// </summary>
 		/// <param name="script">The script for which the callback must be generated.</param>
 		/// <param name="obj">The object (null for static).</param>
-		/// <returns></returns>
 		public Func<ScriptExecutionContext, CallbackArguments, DynValue> GetCallback(Script script, object obj)
 		{
 			return (context, args) => PerformOverloadedCall(script, obj, context, args);
@@ -437,7 +434,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// </summary>
 		/// <param name="script">The script for which the callback must be generated.</param>
 		/// <param name="obj">The object (null for static).</param>
-		/// <returns></returns>
 		public CallbackFunction GetCallbackFunction(Script script, object obj = null)
 		{
 			return new CallbackFunction(GetCallback(script, obj), this.Name);

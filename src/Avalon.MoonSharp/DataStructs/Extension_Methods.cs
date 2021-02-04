@@ -15,7 +15,6 @@ namespace MoonSharp.Interpreter
 		/// <typeparam name="TValue">The type of the value.</typeparam>
 		/// <param name="dictionary">The dictionary.</param>
 		/// <param name="key">The key.</param>
-		/// <returns></returns>
 		public static TValue GetOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key)
 		{
 			TValue v;
@@ -35,7 +34,6 @@ namespace MoonSharp.Interpreter
 		/// <param name="dictionary">The dictionary.</param>
 		/// <param name="key">The key.</param>
 		/// <param name="creator">A function which will create the value if it doesn't exist.</param>
-		/// <returns></returns>
 		public static TValue GetOrCreate<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, Func<TValue> creator)
 		{
 			TValue v;

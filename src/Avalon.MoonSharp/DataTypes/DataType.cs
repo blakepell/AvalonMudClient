@@ -78,7 +78,6 @@ namespace MoonSharp.Interpreter
 		/// Determines whether this data type can have type metatables.
 		/// </summary>
 		/// <param name="type">The type.</param>
-		/// <returns></returns>
 		public static bool CanHaveTypeMetatables(this DataType type)
 		{
 			return (int)type < (int)MaxMetaTypes;
@@ -88,7 +87,6 @@ namespace MoonSharp.Interpreter
 		/// Converts the DataType to the string returned by the "type(...)" Lua function
 		/// </summary>
 		/// <param name="type">The type.</param>
-		/// <returns></returns>
 		/// <exception cref="ScriptRuntimeException">The DataType is not a Lua type</exception>
 		public static string ToErrorTypeString(this DataType type)
 		{
@@ -127,7 +125,6 @@ namespace MoonSharp.Interpreter
 		/// to support debuggers
 		/// </summary>
 		/// <param name="type">The type.</param>
-		/// <returns></returns>
 		/// <exception cref="ScriptRuntimeException">The DataType is not a Lua type</exception>
 		public static string ToLuaDebuggerString(this DataType type)
 		{
@@ -139,7 +136,6 @@ namespace MoonSharp.Interpreter
 		/// Converts the DataType to the string returned by the "type(...)" Lua function
 		/// </summary>
 		/// <param name="type">The type.</param>
-		/// <returns></returns>
 		/// <exception cref="ScriptRuntimeException">The DataType is not a Lua type</exception>
 		public static string ToLuaTypeString(this DataType type)
 		{

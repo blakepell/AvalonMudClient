@@ -312,7 +312,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// </summary>
 		/// <param name="type">The type.</param>
 		/// <param name="obj">The object.</param>
-		/// <returns></returns>
 		public override bool IsTypeCompatible(Type type, object obj)
 		{
 			if (obj != null)
@@ -330,7 +329,6 @@ namespace MoonSharp.Interpreter.Interop
         /// <param name="script"></param>
         /// <param name="obj"></param>
         /// <param name="metaname"></param>
-        /// <returns></returns>
         public override DynValue MetaIndex(ExecutionControlToken ecToken, Script script, object obj, string metaname)
 		{
 			if (metaname == "__concat" && IsFlags)

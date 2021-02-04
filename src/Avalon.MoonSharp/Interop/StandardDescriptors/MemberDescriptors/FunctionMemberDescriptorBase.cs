@@ -77,7 +77,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// </summary>
 		/// <param name="script">The script for which the callback must be generated.</param>
 		/// <param name="obj">The object (null for static).</param>
-		/// <returns></returns>
 		public Func<ScriptExecutionContext, CallbackArguments, DynValue> GetCallback(Script script, object obj = null)
 		{
 			return (c, a) => Execute(script, obj, c, a);
@@ -88,7 +87,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// </summary>
 		/// <param name="script">The script for which the callback must be generated.</param>
 		/// <param name="obj">The object (null for static).</param>
-		/// <returns></returns>
 		public CallbackFunction GetCallbackFunction(Script script, object obj = null)
 		{
 			return new CallbackFunction(GetCallback(script, obj), this.Name);
@@ -99,7 +97,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// </summary>
 		/// <param name="script">The script for which the callback must be generated.</param>
 		/// <param name="obj">The object (null for static).</param>
-		/// <returns></returns>
 		public DynValue GetCallbackAsDynValue(Script script, object obj = null)
 		{
 			return DynValue.NewCallback(this.GetCallbackFunction(script, obj));
@@ -111,7 +108,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// <param name="script">The script.</param>
 		/// <param name="mi">The mi.</param>
 		/// <param name="obj">The object.</param>
-		/// <returns></returns>
 		public static DynValue CreateCallbackDynValue(Script script, MethodInfo mi, object obj = null)
 		{
 			var desc = new MethodMemberDescriptor(mi);
@@ -265,7 +261,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// <param name="obj">The object.</param>
 		/// <param name="context">The context.</param>
 		/// <param name="args">The arguments.</param>
-		/// <returns></returns>
 		public abstract DynValue Execute(Script script, object obj, ScriptExecutionContext context, CallbackArguments args);
 
 

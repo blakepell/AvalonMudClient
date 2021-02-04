@@ -279,7 +279,6 @@ namespace Avalon.Timers
         /// from previous connections if they exist will be released.
         /// </summary>
         /// <param name="connectionString"></param>
-        /// <returns></returns>
         public async Task OpenAsync(string connectionString)
         {
             this.ClearCache();

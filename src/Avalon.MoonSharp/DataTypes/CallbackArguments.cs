@@ -77,7 +77,6 @@ namespace MoonSharp.Interpreter
 		/// </summary>
 		/// <param name="index">The index.</param>
 		/// <param name="translateVoids">if set to <c>true</c> all voids are translated to nils.</param>
-		/// <returns></returns>
 		public DynValue RawGet(int index, bool translateVoids)
 		{
 			DynValue v;
@@ -111,7 +110,6 @@ namespace MoonSharp.Interpreter
 		/// Converts the arguments to an array
 		/// </summary>
 		/// <param name="skip">The number of elements to skip (default= 0).</param>
-		/// <returns></returns>
 		public DynValue[] GetArray(int skip = 0)
 		{
 			if (skip >= m_Count)
@@ -133,7 +131,6 @@ namespace MoonSharp.Interpreter
 		/// <param name="funcName">Name of the function.</param>
 		/// <param name="type">The type desired.</param>
 		/// <param name="allowNil">if set to <c>true</c> nil values are allowed.</param>
-		/// <returns></returns>
 		public DynValue AsType(int argNum, string funcName, DataType type, bool allowNil = false)
 		{
 			return this[argNum].CheckType(funcName, type, argNum, allowNil ? TypeValidationFlags.AllowNil | TypeValidationFlags.AutoConvert : TypeValidationFlags.AutoConvert);
@@ -147,7 +144,6 @@ namespace MoonSharp.Interpreter
 		/// <param name="argNum">The argument number.</param>
 		/// <param name="funcName">Name of the function.</param>
 		/// <param name="allowNil">if set to <c>true</c> nil values are allowed.</param>
-		/// <returns></returns>
 		public T AsUserData<T>(int argNum, string funcName, bool allowNil = false)
 		{
 			return this[argNum].CheckUserDataType<T>(funcName, argNum, allowNil ? TypeValidationFlags.AllowNil : TypeValidationFlags.None);
@@ -158,7 +154,6 @@ namespace MoonSharp.Interpreter
 		/// </summary>
 		/// <param name="argNum">The argument number.</param>
 		/// <param name="funcName">Name of the function.</param>
-		/// <returns></returns>
 		public int AsInt(int argNum, string funcName)
 		{
 			DynValue v = AsType(argNum, funcName, DataType.Number, false);
@@ -171,7 +166,6 @@ namespace MoonSharp.Interpreter
 		/// </summary>
 		/// <param name="argNum">The argument number.</param>
 		/// <param name="funcName">Name of the function.</param>
-		/// <returns></returns>
 		public long AsLong(int argNum, string funcName)
 		{
 			DynValue v = AsType(argNum, funcName, DataType.Number, false);
@@ -187,7 +181,6 @@ namespace MoonSharp.Interpreter
 		/// <param name="executionContext">The execution context.</param>
 		/// <param name="argNum">The argument number.</param>
 		/// <param name="funcName">Name of the function.</param>
-		/// <returns></returns>
 		/// <exception cref="ScriptRuntimeException">'tostring' must return a string to '{0}'</exception>
 		public string AsStringUsingMeta(ScriptExecutionContext executionContext, int argNum, string funcName)
 		{
@@ -212,7 +205,6 @@ namespace MoonSharp.Interpreter
 		/// Returns a copy of CallbackArguments where the first ("self") argument is skipped if this was a method call,
 		/// otherwise returns itself.
 		/// </summary>
-		/// <returns></returns>
 		public CallbackArguments SkipMethodCall()
 		{
 			if (this.IsMethodCall)

@@ -12,7 +12,6 @@ namespace MoonSharp.Interpreter.Interop.RegistrationPolicies
 		/// </summary>
 		/// <param name="newDescriptor">The new descriptor, or null if this is a deregistration.</param>
 		/// <param name="oldDescriptor">The old descriptor, or null if no descriptor was previously registered for this type.</param>
-		/// <returns></returns>
 		IUserDataDescriptor HandleRegistration(IUserDataDescriptor newDescriptor, IUserDataDescriptor oldDescriptor);
 
 		/// <summary>

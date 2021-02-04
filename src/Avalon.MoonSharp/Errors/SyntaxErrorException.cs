@@ -62,7 +62,6 @@ namespace MoonSharp.Interpreter
 		/// <summary>
 		/// Rethrows this instance if 
 		/// </summary>
-		/// <returns></returns>
 		public override void Rethrow()
 		{
 			if (Script.GlobalOptions.RethrowExceptionNested)

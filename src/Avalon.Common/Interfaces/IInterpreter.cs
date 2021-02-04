@@ -54,19 +54,16 @@ namespace Avalon.Common.Interfaces
         /// <summary>
         /// Returns the next item in history.
         /// </summary>
-        /// <returns></returns>
         string InputHistoryNext();
 
         /// <summary>
         /// Returns the current history position.
         /// </summary>
-        /// <returns></returns>
         string InputHistoryCurrent();
 
         /// <summary>
         /// Returns the previous item in the history.
         /// </summary>
-        /// <returns></returns>
         string InputHistoryPrevious();
 
         /// <summary>

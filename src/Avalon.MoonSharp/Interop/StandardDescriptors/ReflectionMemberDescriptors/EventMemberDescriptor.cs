@@ -52,7 +52,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// </summary>
 		/// <param name="ei">The EventInfo.</param>
 		/// <param name="throwException">if set to <c>true</c> an exception with the proper error message is thrown if not compatible.</param>
-		/// <returns></returns>
 		/// <exception cref="System.ArgumentException">
 		/// Thrown if throwException is <c>true</c> and one of this applies:
 		/// The event is declared in a value type
@@ -158,7 +157,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// </summary>
 		/// <param name="script">The script.</param>
 		/// <param name="obj">The object for which the facade should be written.</param>
-		/// <returns></returns>
 		public DynValue GetValue(Script script, object obj)
 		{
 			this.CheckAccess(MemberDescriptorAccess.CanRead, obj);

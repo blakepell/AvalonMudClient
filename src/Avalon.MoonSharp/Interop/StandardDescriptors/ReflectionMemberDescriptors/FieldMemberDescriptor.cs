@@ -98,7 +98,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// </summary>
 		/// <param name="script">The script.</param>
 		/// <param name="obj">The object.</param>
-		/// <returns></returns>
 		public DynValue GetValue(Script script, object obj)
 		{
 			this.CheckAccess(MemberDescriptorAccess.CanRead, obj);

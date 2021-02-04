@@ -585,7 +585,6 @@ namespace Avalon
         /// <summary>
         /// Gets the seconds left on the tick timer on the main InfoBar.
         /// </summary>
-        /// <returns></returns>
         public int GetTickTime()
         {
             return App.MainWindow.InfoBar.TickTimer;
@@ -594,7 +593,6 @@ namespace Avalon
         /// <summary>
         /// Gets the game time from the main InfoBar.
         /// </summary>
-        /// <returns></returns>
         public string GetGameTime()
         {
             return GetVariable("GameTime");

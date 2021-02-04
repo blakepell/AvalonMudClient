@@ -71,7 +71,6 @@ namespace MoonSharp.Interpreter.Interop.UserDataRegistries
 		/// of a base type or implemented interfaces.
 		/// </summary>
 		/// <param name="type">The type</param>
-		/// <returns></returns>
 		internal static bool IsTypeRegistered(Type type)
 		{
 			lock (s_Lock)
@@ -122,7 +121,6 @@ namespace MoonSharp.Interpreter.Interop.UserDataRegistries
 		/// <param name="proxyFactory">The proxy factory.</param>
 		/// <param name="accessMode">The access mode.</param>
 		/// <param name="friendlyName">Name of the friendly.</param>
-		/// <returns></returns>
 		internal static IUserDataDescriptor RegisterProxyType_Impl(IProxyFactory proxyFactory, InteropAccessMode accessMode, string friendlyName)
 		{
 			IUserDataDescriptor proxyDescriptor = RegisterType_Impl(proxyFactory.ProxyType, accessMode, friendlyName, null);
@@ -137,7 +135,6 @@ namespace MoonSharp.Interpreter.Interop.UserDataRegistries
 		/// <param name="accessMode">The access mode (used only if a default type descriptor is created).</param>
 		/// <param name="friendlyName">Friendly name of the descriptor.</param>
 		/// <param name="descriptor">The descriptor, or null to use a default one.</param>
-		/// <returns></returns>
 		internal static IUserDataDescriptor RegisterType_Impl(Type type, InteropAccessMode accessMode, string friendlyName, IUserDataDescriptor descriptor)
 		{
 			accessMode = ResolveDefaultAccessModeForType(accessMode, type);
@@ -216,7 +213,6 @@ namespace MoonSharp.Interpreter.Interop.UserDataRegistries
 		/// </summary>
 		/// <param name="accessMode">The access mode.</param>
 		/// <param name="type">The type.</param>
-		/// <returns></returns>
 		internal static InteropAccessMode ResolveDefaultAccessModeForType(InteropAccessMode accessMode, Type type)
 		{
 			if (accessMode == InteropAccessMode.Default)
@@ -242,7 +238,6 @@ namespace MoonSharp.Interpreter.Interop.UserDataRegistries
 		/// </summary>
 		/// <param name="type">The CLR type for which the descriptor is desired.</param>
 		/// <param name="searchInterfaces">if set to <c>true</c> interfaces are used in the search.</param>
-		/// <returns></returns>
 		internal static IUserDataDescriptor GetDescriptorForType(Type type, bool searchInterfaces)
 		{
 			lock (s_Lock)
@@ -346,7 +341,6 @@ namespace MoonSharp.Interpreter.Interop.UserDataRegistries
 		/// side effects.
 		/// </summary>
 		/// <param name="t">The t.</param>
-		/// <returns></returns>
 		public static bool IsTypeBlacklisted(Type t)
 		{
 			if (Framework.Do.IsValueType(t) && Framework.Do.GetInterfaces(t).Contains(typeof(System.Collections.IEnumerator)))

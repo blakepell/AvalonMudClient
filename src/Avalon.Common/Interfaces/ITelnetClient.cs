@@ -10,7 +10,6 @@ namespace Avalon.Common.Interfaces
         /// When this task completes you are connected. 
         /// You cannot call this method twice; if you need to reconnect, dispose of this instance and create a new one.
         /// </summary>
-        /// <returns></returns>
         Task ConnectAsync();
 
         /// <summary>
@@ -21,20 +20,17 @@ namespace Avalon.Common.Interfaces
         /// <param name="socks4ProxyHost"></param>
         /// <param name="socks4ProxyPort"></param>
         /// <param name="socks4ProxyUser"></param>
-        /// <returns></returns>
         Task ConnectAsync(string socks4ProxyHost, int socks4ProxyPort, string socks4ProxyUser);
 
         /// <summary>
         /// Sends a message to the server.
         /// </summary>
         /// <param name="message"></param>
-        /// <returns></returns>
         Task SendAsync(string message);
 
         /// <summary>
         /// Main task that waits for messages from the server.
         /// </summary>
-        /// <returns></returns>
         Task WaitForMessageAsync();
 
         /// <summary>

@@ -41,7 +41,6 @@ namespace MoonSharp.Interpreter.Interop.Converters
 		/// </summary>
 		/// <param name="table">The table.</param>
 		/// <param name="t">The type.</param>
-		/// <returns></returns>
 		internal static bool CanConvertTableToType(Table table, Type t)
 		{
 			if (Framework.Do.IsAssignableFrom(t, typeof(Dictionary<object, object>)))

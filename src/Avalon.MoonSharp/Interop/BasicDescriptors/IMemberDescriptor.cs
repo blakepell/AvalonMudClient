@@ -51,7 +51,6 @@ namespace MoonSharp.Interpreter.Interop.BasicDescriptors
 		/// </summary>
 		/// <param name="access">The access.</param>
 		/// <param name="flag">The flag.</param>
-		/// <returns></returns>
 		public static bool HasAllFlags(this MemberDescriptorAccess access, MemberDescriptorAccess flag)
 		{
 			return (access & flag) == flag;
@@ -61,7 +60,6 @@ namespace MoonSharp.Interpreter.Interop.BasicDescriptors
 		/// Determines whether this instance can be read
 		/// </summary>
 		/// <param name="desc">The descriptor instance.</param>
-		/// <returns></returns>
 		public static bool CanRead(this IMemberDescriptor desc)
 		{
 			return desc.MemberAccess.HasAllFlags(MemberDescriptorAccess.CanRead);
@@ -71,7 +69,6 @@ namespace MoonSharp.Interpreter.Interop.BasicDescriptors
 		/// Determines whether this instance can be written to
 		/// </summary>
 		/// <param name="desc">The descriptor instance.</param>
-		/// <returns></returns>
 		public static bool CanWrite(this IMemberDescriptor desc)
 		{
 			return desc.MemberAccess.HasAllFlags(MemberDescriptorAccess.CanWrite);
@@ -81,7 +78,6 @@ namespace MoonSharp.Interpreter.Interop.BasicDescriptors
 		/// Determines whether this instance can be executed (called as a function)
 		/// </summary>
 		/// <param name="desc">The descriptor instance.</param>
-		/// <returns></returns>
 		public static bool CanExecute(this IMemberDescriptor desc)
 		{
 			return desc.MemberAccess.HasAllFlags(MemberDescriptorAccess.CanExecute);
@@ -93,7 +89,6 @@ namespace MoonSharp.Interpreter.Interop.BasicDescriptors
 		/// <param name="desc">The descriptor instance.</param>
 		/// <param name="script">The script.</param>
 		/// <param name="obj">The object.</param>
-		/// <returns></returns>
 		public static DynValue GetGetterCallbackAsDynValue(this IMemberDescriptor desc, Script script, object obj)
 		{
 			return DynValue.NewCallback((p1, p2) => desc.GetValue(script, obj));
@@ -104,7 +99,6 @@ namespace MoonSharp.Interpreter.Interop.BasicDescriptors
 		/// </summary>
 		/// <param name="desc">The descriptor instance.</param>
 		/// <param name="access">The access mode(s).</param>
-		/// <returns></returns>
 		public static IMemberDescriptor WithAccessOrNull(this IMemberDescriptor desc, MemberDescriptorAccess access)
 		{
 			if (desc == null)

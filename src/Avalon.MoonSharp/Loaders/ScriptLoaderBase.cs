@@ -12,7 +12,6 @@ namespace MoonSharp.Interpreter.Loaders
 		/// Checks if a script file exists. 
 		/// </summary>
 		/// <param name="name">The script filename.</param>
-		/// <returns></returns>
 		public abstract bool ScriptFileExists(string name);
 
 		/// <summary>
@@ -34,7 +33,6 @@ namespace MoonSharp.Interpreter.Loaders
 		/// </summary>
 		/// <param name="modname">The modname.</param>
 		/// <param name="paths">The paths.</param>
-		/// <returns></returns>
 		protected virtual string ResolveModuleName(string modname, string[] paths)
 		{
 			if (paths == null) 
@@ -61,7 +59,6 @@ namespace MoonSharp.Interpreter.Loaders
 		/// </summary>
 		/// <param name="modname">The modname.</param>
 		/// <param name="globalContext">The global context.</param>
-		/// <returns></returns>
 		public virtual string ResolveModuleName(string modname, Table globalContext)
 		{
 			if (!this.IgnoreLuaPathGlobal)
@@ -124,7 +121,6 @@ namespace MoonSharp.Interpreter.Loaders
 		/// </summary>
 		/// <param name="filename">The filename.</param>
 		/// <param name="globalContext">The global context.</param>
-		/// <returns></returns>
 		public virtual string ResolveFileName(string filename, Table globalContext)
 		{
 			return filename;

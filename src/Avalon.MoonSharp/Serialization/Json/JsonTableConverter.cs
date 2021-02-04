@@ -19,7 +19,6 @@ namespace MoonSharp.Interpreter.Serialization.Json
 		/// Converts a table to a json string
 		/// </summary>
 		/// <param name="table">The table.</param>
-		/// <returns></returns>
 		public static string TableToJson(this Table table)
 		{
 			StringBuilder sb = new StringBuilder();

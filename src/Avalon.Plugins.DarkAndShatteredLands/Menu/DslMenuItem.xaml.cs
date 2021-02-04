@@ -15,7 +15,6 @@ namespace Avalon.Plugins.DarkAndShatteredLands
         /// <summary>
         /// Gets a casted copy of the interpreter
         /// </summary>
-        /// <returns></returns>
         private IInterpreter GetInterpreter()
         {
             try

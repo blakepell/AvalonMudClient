@@ -391,7 +391,6 @@ namespace MoonSharp.Interpreter
 		/// </summary>
 		/// <param name="address">The address.</param>
 		/// <param name="envTable">The env table to create a 0-upvalue</param>
-		/// <returns></returns>
 		private DynValue MakeClosure(int address, Table envTable = null)
 		{
 			this.CheckScriptOwnership(envTable);
@@ -511,7 +510,6 @@ namespace MoonSharp.Interpreter
 		/// Calls the specified function.
 		/// </summary>
 		/// <param name="function">The Lua/MoonSharp function to be called</param>
-		/// <returns></returns>
 		/// <exception cref="System.ArgumentException">Thrown if function is not of DataType.Function</exception>
 		public DynValue Call(object function)
 		{
@@ -523,7 +521,6 @@ namespace MoonSharp.Interpreter
 		/// </summary>
 		/// <param name="function">The Lua/MoonSharp function to be called </param>
 		/// <param name="args">The arguments to pass to the function.</param>
-		/// <returns></returns>
 		/// <exception cref="System.ArgumentException">Thrown if function is not of DataType.Function</exception>
 		public DynValue Call(object function, params object[] args)
 		{
@@ -661,7 +658,6 @@ namespace MoonSharp.Interpreter
         /// </summary>
         /// <param name="function">The function.</param>
         /// <param name="stream">The stream.</param>
-        /// <returns></returns>
         /// <exception cref="System.ArgumentException">function arg is not a function!
         /// or
         /// stream is readonly!
@@ -735,7 +731,6 @@ namespace MoonSharp.Interpreter
         /// </summary>
         /// <param name="ecToken">The execution control token to be associated with the execution of this function</param>
         /// <param name="function">The Lua/MoonSharp function to be called</param>
-        /// <returns></returns>
         /// <exception cref="System.ArgumentException">Thrown if function is not of DataType.Function</exception>
         public Task<DynValue> CallAsync(ExecutionControlToken ecToken, object function)
         {
@@ -751,7 +746,6 @@ namespace MoonSharp.Interpreter
         /// <param name="ecToken">The execution control token to be associated with the execution of this function</param>
         /// <param name="function">The Lua/MoonSharp function to be called</param>
         /// <param name="args">The arguments to pass to the function.</param>
-        /// <returns></returns>
         /// <exception cref="System.ArgumentException">Thrown if function is not of DataType.Function</exception>
         public Task<DynValue> CallAsync(ExecutionControlToken ecToken, object function, params object[] args)
         {
@@ -764,7 +758,6 @@ namespace MoonSharp.Interpreter
         /// This method is supported only on .NET 4.x and .NET 4.x PCL targets.
         /// </summary>
         /// <param name="code">The code of the expression.</param>
-        /// <returns></returns>
         public Task<DynamicExpression> CreateDynamicExpressionAsync(string code)
         {
             return Task.Factory.StartNew(() => CreateDynamicExpression(code));
@@ -838,7 +831,6 @@ namespace MoonSharp.Interpreter
 		/// Gets the source code.
 		/// </summary>
 		/// <param name="sourceCodeID">The source code identifier.</param>
-		/// <returns></returns>
 		public SourceCode GetSourceCode(int sourceCodeID)
 		{
 			return m_Sources[sourceCodeID];
@@ -863,7 +855,6 @@ namespace MoonSharp.Interpreter
 		/// </summary>
 		/// <param name="modname">The module name</param>
 		/// <param name="globalContext">The global context.</param>
-		/// <returns></returns>
 		/// <exception cref="ScriptRuntimeException">Raised if module is not found</exception>
 		public DynValue RequireModule(string modname, Table globalContext = null)
 		{
@@ -885,7 +876,6 @@ namespace MoonSharp.Interpreter
 		/// Gets a type metatable.
 		/// </summary>
 		/// <param name="type">The type.</param>
-		/// <returns></returns>
 		public Table GetTypeMetatable(DataType type)
 		{
 			int t = (int)type;
@@ -929,7 +919,6 @@ namespace MoonSharp.Interpreter
 		/// Creates a new dynamic expression.
 		/// </summary>
 		/// <param name="code">The code of the expression.</param>
-		/// <returns></returns>
 		public DynamicExpression CreateDynamicExpression(string code)
 		{
 			DynamicExprExpression dee = Loader_Fast.LoadDynamicExpr(this, new SourceCode("__dynamic", code, -1, this));
@@ -941,7 +930,6 @@ namespace MoonSharp.Interpreter
 		/// </summary>
 		/// <param name="code">The code of the not-so-dynamic expression.</param>
 		/// <param name="constant">The constant to return.</param>
-		/// <returns></returns>
 		public DynamicExpression CreateConstantDynamicExpression(string code, DynValue constant)
 		{
 			this.CheckScriptOwnership(constant);

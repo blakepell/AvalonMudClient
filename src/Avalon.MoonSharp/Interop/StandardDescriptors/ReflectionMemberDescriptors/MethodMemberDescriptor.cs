@@ -125,7 +125,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// </summary>
 		/// <param name="methodBase">The MethodBase.</param>
 		/// <param name="throwException">if set to <c>true</c> an exception with the proper error message is thrown if not compatible.</param>
-		/// <returns></returns>
 		/// <exception cref="System.ArgumentException">
 		/// Thrown if throwException is <c>true</c> and one of this applies:
 		/// The method contains unresolved generic parameters, or has an unresolved generic return type
@@ -173,7 +172,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// <param name="obj">The object.</param>
 		/// <param name="context">The context.</param>
 		/// <param name="args">The arguments.</param>
-		/// <returns></returns>
 		public override DynValue Execute(Script script, object obj, ScriptExecutionContext context, CallbackArguments args)
 		{
 			this.CheckAccess(MemberDescriptorAccess.CanExecute, obj);

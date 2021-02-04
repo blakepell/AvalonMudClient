@@ -122,7 +122,6 @@ namespace MoonSharp.Interpreter.Interop.BasicDescriptors
 		/// Finds the member with a given name. If not found, null is returned.
 		/// </summary>
 		/// <param name="memberName">Name of the member.</param>
-		/// <returns></returns>
 		public IMemberDescriptor FindMember(string memberName)
 		{
 			return m_Members.GetOrDefault(memberName);
@@ -215,7 +214,6 @@ namespace MoonSharp.Interpreter.Interop.BasicDescriptors
         /// <param name="obj">The object (null if a static request is done)</param>
         /// <param name="index">The index.</param>
         /// <param name="isDirectIndexing">If set to true, it's indexed with a name, if false it's indexed through brackets.</param>
-        /// <returns></returns>
         public virtual DynValue Index(ExecutionControlToken ecToken, Script script, object obj, DynValue index, bool isDirectIndexing)
 		{
 			if (!isDirectIndexing)
@@ -258,7 +256,6 @@ namespace MoonSharp.Interpreter.Interop.BasicDescriptors
 		/// <param name="script">The script.</param>
 		/// <param name="obj">The object.</param>
 		/// <param name="indexName">Member name to be indexed.</param>
-		/// <returns></returns>
 		/// <exception cref="System.NotImplementedException"></exception>
 		private DynValue TryIndexOnExtMethod(Script script, object obj, string indexName)
 		{
@@ -279,7 +276,6 @@ namespace MoonSharp.Interpreter.Interop.BasicDescriptors
 		/// Determines whether the descriptor contains the specified member (by exact name)
 		/// </summary>
 		/// <param name="exactName">Name of the member.</param>
-		/// <returns></returns>
 		public bool HasMember(string exactName)
 		{
 			return m_Members.ContainsKey(exactName);
@@ -289,7 +285,6 @@ namespace MoonSharp.Interpreter.Interop.BasicDescriptors
 		/// Determines whether the descriptor contains the specified member in the meta list (by exact name)
 		/// </summary>
 		/// <param name="exactName">Name of the meta-member.</param>
-		/// <returns></returns>
 		public bool HasMetaMember(string exactName)
 		{
 			return m_MetaMembers.ContainsKey(exactName);
@@ -302,7 +297,6 @@ namespace MoonSharp.Interpreter.Interop.BasicDescriptors
 		/// <param name="script">The script.</param>
 		/// <param name="obj">The object.</param>
 		/// <param name="indexName">Member name to be indexed.</param>
-		/// <returns></returns>
 		protected virtual DynValue TryIndex(Script script, object obj, string indexName)
 		{
 			IMemberDescriptor desc;
@@ -323,7 +317,6 @@ namespace MoonSharp.Interpreter.Interop.BasicDescriptors
 		/// <param name="index">The index.</param>
 		/// <param name="value">The value to be set</param>
 		/// <param name="isDirectIndexing">If set to true, it's indexed with a name, if false it's indexed through brackets.</param>
-		/// <returns></returns>
 		public virtual bool SetIndex(ExecutionControlToken ecToken, Script script, object obj, DynValue index, DynValue value, bool isDirectIndexing)
 		{
 			if (!isDirectIndexing)
@@ -359,7 +352,6 @@ namespace MoonSharp.Interpreter.Interop.BasicDescriptors
 		/// <param name="obj">The object.</param>
 		/// <param name="indexName">Member name to be indexed.</param>
 		/// <param name="value">The value.</param>
-		/// <returns></returns>
 		protected virtual bool TrySetIndex(Script script, object obj, string indexName, DynValue value)
 		{
 			IMemberDescriptor descr = m_Members.GetOrDefault(indexName);
@@ -389,7 +381,6 @@ namespace MoonSharp.Interpreter.Interop.BasicDescriptors
 		/// Just a wrapper over the <see cref="DescriptorHelpers"/> method with the same name,
  		/// </summary>
 		/// <param name="name">The name.</param>
-		/// <returns></returns>
 		protected static string Camelify(string name)
 		{
 			return DescriptorHelpers.Camelify(name);
@@ -400,7 +391,6 @@ namespace MoonSharp.Interpreter.Interop.BasicDescriptors
 		/// Just a wrapper over the <see cref="DescriptorHelpers"/> method with the same name,
 		/// </summary>
 		/// <param name="name">The name.</param>
-		/// <returns></returns>
 		protected static string UpperFirstLetter(string name)
 		{
 			return DescriptorHelpers.UpperFirstLetter(name);
@@ -410,7 +400,6 @@ namespace MoonSharp.Interpreter.Interop.BasicDescriptors
 		/// Converts this userdata to string
 		/// </summary>
 		/// <param name="obj">The object.</param>
-		/// <returns></returns>
 		public virtual string AsString(object obj)
 		{
 			return (obj != null) ? obj.ToString() : null;
@@ -426,7 +415,6 @@ namespace MoonSharp.Interpreter.Interop.BasicDescriptors
 		/// <param name="obj">The object.</param>
 		/// <param name="index">The indexer parameter</param>
 		/// <param name="value">The dynvalue to set on a setter, or null.</param>
-		/// <returns></returns>
 		/// <exception cref="System.NotImplementedException"></exception>
 		protected virtual DynValue ExecuteIndexer(ExecutionControlToken ecToken, IMemberDescriptor mdesc, Script script, object obj, DynValue index, DynValue value)
 		{
@@ -491,7 +479,6 @@ namespace MoonSharp.Interpreter.Interop.BasicDescriptors
         /// <param name="obj">The object (null if a static request is done)</param>
         /// <param name="metaname">The name of the metamember.</param>
         /// </summary>
-        /// <returns></returns>
         public virtual DynValue MetaIndex(ExecutionControlToken ecToken, Script script, object obj, string metaname)
 		{
 			IMemberDescriptor desc = m_MetaMembers.GetOrDefault(metaname);
@@ -658,7 +645,6 @@ namespace MoonSharp.Interpreter.Interop.BasicDescriptors
 		/// </summary>
 		/// <param name="type">The type.</param>
 		/// <param name="obj">The object.</param>
-		/// <returns></returns>
 		public virtual bool IsTypeCompatible(Type type, object obj)
 		{
 			return Framework.Do.IsInstanceOfType(type, obj);

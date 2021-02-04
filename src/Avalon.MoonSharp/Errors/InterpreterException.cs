@@ -99,12 +99,9 @@ namespace MoonSharp.Interpreter
 		/// <summary>
 		/// Rethrows this instance if 
 		/// </summary>
-		/// <returns></returns>
 		public virtual void Rethrow()
 		{
 		}
-
-
 
 	}
 }

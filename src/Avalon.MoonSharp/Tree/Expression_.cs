@@ -160,7 +160,6 @@ namespace MoonSharp.Interpreter.Tree
 		/// Primaries the exp.
 		/// </summary>
 		/// <param name="lcontext">The lcontext.</param>
-		/// <returns></returns>
 		internal static Expression PrimaryExp(ScriptLoadingContext lcontext)
 		{
 			Expression e = PrefixExp(lcontext);

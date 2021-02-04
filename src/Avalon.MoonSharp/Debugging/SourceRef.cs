@@ -143,7 +143,6 @@ namespace MoonSharp.Interpreter.Debugging
 		/// <param name="sourceIdx">Index of the source.</param>
 		/// <param name="line">The line.</param>
 		/// <param name="col">The column.</param>
-		/// <returns></returns>
 		public bool IncludesLocation(int sourceIdx, int line, int col)
 		{
 			if (sourceIdx != SourceIdx || line < FromLine || line > ToLine)
@@ -162,7 +161,6 @@ namespace MoonSharp.Interpreter.Debugging
 		/// <summary>
 		/// Sets the CannotBreakpoint flag.
 		/// </summary>
-		/// <returns></returns>
 		public SourceRef SetNoBreakPoint()
 		{
 			CannotBreakpoint = true;
@@ -174,7 +172,6 @@ namespace MoonSharp.Interpreter.Debugging
 		/// </summary>
 		/// <param name="script">The script.</param>
 		/// <param name="forceClassicFormat">if set to <c>true</c> the classic Lua format is forced.</param>
-		/// <returns></returns>
 		public string FormatLocation(Script script, bool forceClassicFormat = false)
 		{
 			SourceCode sc = script.GetSourceCode(this.SourceIdx);

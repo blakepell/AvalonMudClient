@@ -158,7 +158,6 @@ namespace MoonSharp.Interpreter
 		/// Internal use only, for external use, see Script.CoroutineCreate
 		/// </summary>
 		/// <param name="coroutine">The coroutine object.</param>
-		/// <returns></returns>
 		public static DynValue NewCoroutine(Coroutine coroutine)
 		{
 			return new DynValue()
@@ -252,7 +251,6 @@ namespace MoonSharp.Interpreter
 		/// </summary>
 		/// <param name="tailFn">The function to be called.</param>
 		/// <param name="args">The arguments.</param>
-		/// <returns></returns>
 		public static DynValue NewTailCallReq(DynValue tailFn, params DynValue[] args)
 		{
 			return new DynValue()
@@ -274,7 +272,6 @@ namespace MoonSharp.Interpreter
 		/// of functionality (state savings, coroutines, etc) keeps working at full power.
 		/// </summary>
 		/// <param name="tailCallData">The data for the tail call.</param>
-		/// <returns></returns>
 		public static DynValue NewTailCallReq(TailCallData tailCallData)
 		{
 			return new DynValue()
@@ -290,7 +287,6 @@ namespace MoonSharp.Interpreter
 		/// Creates a new request for a yield of the current coroutine.
 		/// </summary>
 		/// <param name="args">The yield argumenst.</param>
-		/// <returns></returns>
 		public static DynValue NewYieldReq(DynValue[] args)
 		{
 			return new DynValue()
@@ -304,7 +300,6 @@ namespace MoonSharp.Interpreter
 		/// Creates a new request for a yield of the current coroutine.
 		/// </summary>
 		/// <param name="args">The yield argumenst.</param>
-		/// <returns></returns>
 		internal static DynValue NewForcedYieldReq()
 		{
 			return new DynValue()
@@ -389,7 +384,6 @@ namespace MoonSharp.Interpreter
 		/// <summary>
 		/// Clones this instance.
 		/// </summary>
-		/// <returns></returns>
 		public DynValue Clone()
 		{
 			return Clone(this.ReadOnly);
@@ -399,7 +393,6 @@ namespace MoonSharp.Interpreter
 		/// Clones this instance, overriding the "readonly" status.
 		/// </summary>
 		/// <param name="readOnly">if set to <c>true</c> the new instance is set as readonly, or writeable otherwise.</param>
-		/// <returns></returns>
 		public DynValue Clone(bool readOnly)
 		{
 			DynValue v = new DynValue();
@@ -775,7 +768,6 @@ namespace MoonSharp.Interpreter
 		/// <summary>
 		/// Gets the length of a string or table value.
 		/// </summary>
-		/// <returns></returns>
 		/// <exception cref="ScriptRuntimeException">Value is not a table or string.</exception>
 		public DynValue GetLength()
 		{
@@ -846,7 +838,6 @@ namespace MoonSharp.Interpreter
 		/// </summary>
 		/// <param name="script">The script.</param>
 		/// <param name="obj">The object.</param>
-		/// <returns></returns>
 		public static DynValue FromObject(Script script, object obj)
 		{
 			return MoonSharp.Interpreter.Interop.Converters.ClrToScriptConversions.ObjectToDynValue(script, obj);
@@ -894,7 +885,6 @@ namespace MoonSharp.Interpreter
 		/// <param name="desiredType">The desired data type.</param>
 		/// <param name="argNum">The argument number, for error message purposes.</param>
 		/// <param name="flags">The TypeValidationFlags.</param>
-		/// <returns></returns>
 		/// <exception cref="ScriptRuntimeException">Thrown
 		/// if the value is not of the specified type or - considering the TypeValidationFlags - is not convertible
 		/// to the specified type.</exception>
@@ -943,7 +933,6 @@ namespace MoonSharp.Interpreter
 		/// <param name="funcName">Name of the function.</param>
 		/// <param name="argNum">The argument number.</param>
 		/// <param name="flags">The flags.</param>
-		/// <returns></returns>
 		public T CheckUserDataType<T>(string funcName, int argNum = -1, TypeValidationFlags flags = TypeValidationFlags.Default)
 		{
 			DynValue v = this.CheckType(funcName, DataType.UserData, argNum, flags);

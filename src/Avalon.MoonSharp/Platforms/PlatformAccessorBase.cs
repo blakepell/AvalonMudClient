@@ -12,7 +12,6 @@ namespace MoonSharp.Interpreter.Platforms
 		/// <summary>
 		/// Gets the platform name prefix
 		/// </summary>
-		/// <returns></returns>
 		public abstract string GetPlatformNamePrefix();
 
 		/// <summary>
@@ -169,7 +168,6 @@ namespace MoonSharp.Interpreter.Platforms
 		/// <param name="filename">The filename.</param>
 		/// <param name="encoding">The encoding.</param>
 		/// <param name="mode">The mode (as per Lua usage - e.g. 'w+', 'rb', etc.).</param>
-		/// <returns></returns>
 		public abstract Stream IO_OpenFile(Script script, string filename, Encoding encoding, string mode);
 
 
@@ -177,7 +175,6 @@ namespace MoonSharp.Interpreter.Platforms
 		/// Gets a standard stream (stdin, stdout, stderr).
 		/// </summary>
 		/// <param name="type">The type.</param>
-		/// <returns></returns>
 		public abstract Stream IO_GetStandardStream(StandardFileType type);
 
 
@@ -185,7 +182,6 @@ namespace MoonSharp.Interpreter.Platforms
 		/// Gets a temporary filename. Used in 'io' and 'os' modules.
 		/// Can have an invalid implementation if 'io' and 'os' modules are filtered out.
 		/// </summary>
-		/// <returns></returns>
 		public abstract string IO_OS_GetTempFilename();
 
 
@@ -230,7 +226,6 @@ namespace MoonSharp.Interpreter.Platforms
 		/// Can have an invalid implementation if the 'os' module is filtered out.
 		/// </summary>
 		/// <param name="cmdline">The cmdline.</param>
-		/// <returns></returns>
 		public abstract int OS_Execute(string cmdline);
 
 

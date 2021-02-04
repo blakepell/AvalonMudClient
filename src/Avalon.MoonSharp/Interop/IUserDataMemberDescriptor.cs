@@ -23,7 +23,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// </summary>
 		/// <param name="script">The script.</param>
 		/// <param name="obj">The object.</param>
-		/// <returns></returns>
 		DynValue GetValue(Script script, object obj);
 		/// <summary>
 		/// Sets the value of the member
@@ -31,7 +30,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// <param name="script">The script.</param>
 		/// <param name="obj">The object.</param>
 		/// <param name="value">The value.</param>
-		/// <returns></returns>
 		bool SetValue(Script script, object obj, DynValue value);
 		/// <summary>
 		/// Gets the type of the member.

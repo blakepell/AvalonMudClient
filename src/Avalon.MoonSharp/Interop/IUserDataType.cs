@@ -15,7 +15,6 @@ namespace MoonSharp.Interpreter.Interop
         /// <param name="script">The script originating the request</param>
         /// <param name="index">The index.</param>
         /// <param name="isDirectIndexing">If set to true, it's indexed with a name, if false it's indexed through brackets.</param>
-        /// <returns></returns>
         DynValue Index(ExecutionControlToken ecToken, Script script, DynValue index, bool isDirectIndexing);
         /// <summary>
         /// Performs an "index" "set" operation.
@@ -25,7 +24,6 @@ namespace MoonSharp.Interpreter.Interop
         /// <param name="index">The index.</param>
         /// <param name="value">The value to be set</param>
         /// <param name="isDirectIndexing">If set to true, it's indexed with a name, if false it's indexed through brackets.</param>
-        /// <returns></returns>
         bool SetIndex(ExecutionControlToken ecToken, Script script, DynValue index, DynValue value, bool isDirectIndexing);
         /// <summary>
         /// 
@@ -44,7 +42,6 @@ namespace MoonSharp.Interpreter.Interop
         /// <param name="ecToken">The execution control token of the script processing thread</param>
         /// <param name="script">The script originating the request</param>
         /// <param name="metaname">The name of the metamember.</param>
-        /// <returns></returns>
         DynValue MetaIndex(ExecutionControlToken ecToken, Script script, string metaname);
 	}
 }

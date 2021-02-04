@@ -55,7 +55,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// <param name="obj">The object.</param>
 		/// <param name="context">The context.</param>
 		/// <param name="args">The arguments.</param>
-		/// <returns></returns>
 		public override DynValue Execute(Script script, object obj, ScriptExecutionContext context, CallbackArguments args)
 		{
 			if (m_CallbackFunc != null)

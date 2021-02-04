@@ -33,7 +33,6 @@ namespace MoonSharp.Interpreter
 		/// Evaluates the expression
 		/// </summary>
 		/// <param name="context">The context.</param>
-		/// <returns></returns>
 		public DynValue Evaluate(ScriptExecutionContext context = null)
 		{
 			context = context ?? OwnerScript.CreateDynamicExecutionContext(ExecutionControlToken.Dummy);
@@ -50,7 +49,6 @@ namespace MoonSharp.Interpreter
 		/// Finds a symbol in the expression
 		/// </summary>
 		/// <param name="context">The context.</param>
-		/// <returns></returns>
 		public SymbolRef FindSymbol(ScriptExecutionContext context)
 		{
 			this.CheckScriptOwnership(context.GetScript());
@@ -76,7 +74,6 @@ namespace MoonSharp.Interpreter
 		/// <summary>
 		/// Determines whether this instance is a constant expression
 		/// </summary>
-		/// <returns></returns>
 		public bool IsConstant()
 		{
 			return m_Constant != null;

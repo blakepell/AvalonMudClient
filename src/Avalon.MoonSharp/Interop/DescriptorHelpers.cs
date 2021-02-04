@@ -134,7 +134,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// Determines whether the specified PropertyInfo is visible publicly (either the getter or the setter is public).
 		/// </summary>
 		/// <param name="pi">The PropertyInfo.</param>
-		/// <returns></returns>
 		public static bool IsPropertyInfoPublic(this PropertyInfo pi)
 		{
 			MethodInfo getter = Framework.Do.GetGetMethod(pi);
@@ -148,7 +147,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// <see cref="MoonSharpUserDataMetamethodAttribute" /> .
 		/// </summary>
 		/// <param name="mi">The mi.</param>
-		/// <returns></returns>
 		public static List<string> GetMetaNamesFromAttributes(this MethodInfo mi)
 		{
 			return mi.GetCustomAttributes(typeof(MoonSharpUserDataMetamethodAttribute), true)
@@ -161,7 +159,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// Gets the Types implemented in the assembly, catching the ReflectionTypeLoadException just in case..
 		/// </summary>
 		/// <param name="asm">The assebly</param>
-		/// <returns></returns>
 		public static Type[] SafeGetTypes(this Assembly asm)
 		{
 			try
@@ -181,7 +178,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// Gets the name of a conversion method to be exposed to Lua scripts
 		/// </summary>
 		/// <param name="type">The type.</param>
-		/// <returns></returns>
 		public static string GetConversionMethodName(this Type type)
 		{
 			StringBuilder sb = new StringBuilder(type.Name);
@@ -197,7 +193,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// Gets all implemented types by a given type
 		/// </summary>
 		/// <param name="t">The t.</param>
-		/// <returns></returns>
 		public static IEnumerable<Type> GetAllImplementedTypes(this Type t)
 		{
 			for (Type ot = t; ot != null; ot = Framework.Do.GetBaseType(ot))
@@ -252,7 +247,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// Converts the specified name from underscore_case to camelCase.
 		/// </summary>
 		/// <param name="name">The name.</param>
-		/// <returns></returns>
 		public static string Camelify(string name)
 		{
 			StringBuilder sb = new StringBuilder(name.Length);
@@ -282,7 +276,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// Converts the specified name to one with an uppercase first letter (something to Something).
 		/// </summary>
 		/// <param name="name">The name.</param>
-		/// <returns></returns>
 		public static string UpperFirstLetter(string name)
 		{
 			if (!string.IsNullOrEmpty(name))

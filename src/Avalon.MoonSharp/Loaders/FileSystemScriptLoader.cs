@@ -12,7 +12,6 @@ namespace MoonSharp.Interpreter.Loaders
 		/// Checks if a script file exists.
 		/// </summary>
 		/// <param name="name">The script filename.</param>
-		/// <returns></returns>
 		public override bool ScriptFileExists(string name)
 		{
 			return File.Exists(name);

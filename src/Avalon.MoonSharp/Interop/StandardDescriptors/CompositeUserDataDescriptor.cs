@@ -60,7 +60,6 @@ namespace MoonSharp.Interpreter.Interop
         /// <param name="obj">The object (null if a static request is done)</param>
         /// <param name="index">The index.</param>
         /// <param name="isDirectIndexing">If set to true, it's indexed with a name, if false it's indexed through brackets.</param>
-        /// <returns></returns>
         public DynValue Index(ExecutionControlToken ecToken, Script script, object obj, DynValue index, bool isNameIndex)
 		{
 			foreach (IUserDataDescriptor dd in m_Descriptors)
@@ -82,7 +81,6 @@ namespace MoonSharp.Interpreter.Interop
         /// <param name="index">The index.</param>
         /// <param name="value">The value to be set</param>
         /// <param name="isDirectIndexing">If set to true, it's indexed with a name, if false it's indexed through brackets.</param>
-        /// <returns></returns>
         public bool SetIndex(ExecutionControlToken ecToken, Script script, object obj, DynValue index, DynValue value, bool isNameIndex)
 		{
 			foreach (IUserDataDescriptor dd in m_Descriptors)
@@ -97,7 +95,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// Converts this userdata to string
 		/// </summary>
 		/// <param name="obj">The object.</param>
-		/// <returns></returns>
 		public string AsString(object obj)
 		{
 			return (obj != null) ? obj.ToString() : null;
@@ -118,7 +115,6 @@ namespace MoonSharp.Interpreter.Interop
         /// <param name="script">The script originating the request</param>
         /// <param name="obj">The object (null if a static request is done)</param>
         /// <param name="metaname">The name of the metamember.</param>
-        /// <returns></returns>
         public DynValue MetaIndex(ExecutionControlToken ecToken, Script script, object obj, string metaname)
 		{
 			foreach (IUserDataDescriptor dd in m_Descriptors)
@@ -139,7 +135,6 @@ namespace MoonSharp.Interpreter.Interop
 		/// </summary>
 		/// <param name="type">The type.</param>
 		/// <param name="obj">The object.</param>
-		/// <returns></returns>
 		public bool IsTypeCompatible(Type type, object obj)
 		{
 			return Framework.Do.IsInstanceOfType(type, obj);

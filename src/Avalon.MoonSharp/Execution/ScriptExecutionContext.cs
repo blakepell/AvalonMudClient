@@ -61,7 +61,6 @@ namespace MoonSharp.Interpreter
 		/// Gets the metatable associated with the given value.
 		/// </summary>
 		/// <param name="value">The value.</param>
-		/// <returns></returns>
 		public Table GetMetatable(DynValue value)
 		{
 			return m_Processor.GetMetatable(value);
@@ -73,7 +72,6 @@ namespace MoonSharp.Interpreter
 		/// </summary>
 		/// <param name="value">The value.</param>
 		/// <param name="metamethod">The metamethod name.</param>
-		/// <returns></returns>
 		public DynValue GetMetamethod(DynValue value, string metamethod)
 		{
 			return m_Processor.GetMetamethod(m_EcToken, value, metamethod);
@@ -100,7 +98,6 @@ namespace MoonSharp.Interpreter
 		/// <summary>
 		/// Gets the script object associated with this request
 		/// </summary>
-		/// <returns></returns>
 		public Script GetScript()
 		{
 			return m_Processor.GetScript();
@@ -124,7 +121,6 @@ namespace MoonSharp.Interpreter
 		/// <param name="args">The arguments.</param>
 		/// <param name="functionName">Name of the function - for error messages.</param>
 		/// <param name="callback">The callback.</param>
-		/// <returns></returns>
 		public DynValue EmulateClassicCall(CallbackArguments args, string functionName, Func<LuaState, int> callback)
 		{
 			LuaState L = new LuaState(this, args, functionName);
@@ -137,7 +133,6 @@ namespace MoonSharp.Interpreter
 		/// </summary>
 		/// <param name="func">The function; it must be a Function or ClrFunction or have a call metamethod defined.</param>
 		/// <param name="args">The arguments.</param>
-		/// <returns></returns>
 		/// <exception cref="ScriptRuntimeException">If the function yields, returns a tail call request with continuations/handlers or, of course, if it encounters errors.</exception>
 		public DynValue Call(DynValue func, params DynValue[] args)
 		{
@@ -273,7 +268,6 @@ namespace MoonSharp.Interpreter
         /// 
         /// </summary>
         /// <param name="timeout">Timeout.</param>
-        /// <returns></returns>
         public void PauseExecution(TimeSpan timeout)
         {
             m_EcToken.Wait(timeout);

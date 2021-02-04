@@ -156,7 +156,6 @@ namespace MoonSharp.Interpreter.Interop.Converters
 		/// </summary>
 		/// <param name="script">The script.</param>
 		/// <param name="obj">The object.</param>
-		/// <returns></returns>
 		public static DynValue EnumerationToDynValue(Script script, object obj)
 		{
 			if (obj is System.Collections.IEnumerable)

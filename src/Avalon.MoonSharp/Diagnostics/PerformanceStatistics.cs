@@ -48,7 +48,6 @@ namespace MoonSharp.Interpreter.Diagnostics
 		/// Gets the result of the specified performance counter .
 		/// </summary>
 		/// <param name="pc">The PerformanceCounter.</param>
-		/// <returns></returns>
 		public PerformanceResult GetPerformanceCounterResult(PerformanceCounter pc)
 		{
 			var pco = m_Stopwatches[(int)pc];
@@ -58,7 +57,6 @@ namespace MoonSharp.Interpreter.Diagnostics
 		/// <summary>
 		/// Starts a stopwatch.
 		/// </summary>
-		/// <returns></returns>
 		internal IDisposable StartStopwatch(PerformanceCounter pc)
 		{
 			var pco = m_Stopwatches[(int)pc];
@@ -68,7 +66,6 @@ namespace MoonSharp.Interpreter.Diagnostics
 		/// <summary>
 		/// Starts a stopwatch.
 		/// </summary>
-		/// <returns></returns>
 		internal static IDisposable StartGlobalStopwatch(PerformanceCounter pc)
 		{
 			var pco = m_GlobalStopwatches[(int)pc];
@@ -78,7 +75,6 @@ namespace MoonSharp.Interpreter.Diagnostics
 		/// <summary>
 		/// Gets a string with a complete performance log.
 		/// </summary>
-		/// <returns></returns>
 		public string GetPerformanceLog()
 		{
 			StringBuilder sb = new StringBuilder();

@@ -35,7 +35,6 @@ namespace MoonSharp.Interpreter.DataStructs
 		/// </summary>
 		/// <param name="key">The key.</param>
 		/// <param name="value">The value.</param>
-		/// <returns></returns>
 		public bool Add(K key, V value)
 		{
 			List<V> list;
@@ -106,7 +105,6 @@ namespace MoonSharp.Interpreter.DataStructs
 		/// </summary>
 		/// <param name="key">The key.</param>
 		/// <param name="value">The value.</param>
-		/// <returns></returns>
 		public bool RemoveValue(K key, V value)
 		{
 			List<V> list;
