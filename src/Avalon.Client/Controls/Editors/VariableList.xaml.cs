@@ -14,7 +14,7 @@ namespace Avalon.Controls
     /// <summary>
     /// Interaction logic for the VariableList editor.
     /// </summary>
-    public partial class VariableList : UserControl, IShellControl
+    public partial class VariableList : IShellControl
     {
 
         /// <summary>
@@ -27,6 +27,9 @@ namespace Avalon.Controls
             InitializeComponent();
             _typingTimer = new DispatcherTimer();
             _typingTimer.Tick += this._typingTimer_Tick;
+
+            // Set the DataContext to null, we are using the DataContext for the item that has been
+            // clicked on that will be edited.
             DataContext = null;
         }
 
@@ -68,11 +71,7 @@ namespace Avalon.Controls
         /// <param name="e"></param>
         private void VariableList_OnUnloaded(object sender, RoutedEventArgs e)
         {
-            if (DataList.ItemsSource is ListCollectionView lcv)
-            {
-                lcv.DetachFromSourceCollection();
-                DataList.ItemsSource = null;
-            }
+            this.Unbind();
 
             // Unsubscribe to the tick event so it doesn't leak.
             _typingTimer.Tick -= this._typingTimer_Tick;
@@ -92,11 +91,7 @@ namespace Avalon.Controls
         /// </summary>
         public void Reload()
         {
-            if (DataList.ItemsSource is ListCollectionView lcvOld)
-            {
-                lcvOld.DetachFromSourceCollection();
-                DataList.ItemsSource = null;
-            }
+            this.Unbind();
 
             DataList.ItemsSource = new ListCollectionView(App.Settings.ProfileSettings.Variables)
             {
@@ -104,6 +99,21 @@ namespace Avalon.Controls
             };
 
             DataList.Items.Refresh();
+        }
+
+        /// <summary>
+        /// Removes and cleans up the binding if one exists on the DataGrid.
+        /// </summary>
+        private void Unbind()
+        {
+            if (DataList.ItemsSource is ListCollectionView lcvOld)
+            {
+                // Detach, clear the value and remove the reference.  I've read in a few places doing so
+                // helps with the garbage collector cleaning this stuff up.
+                lcvOld.DetachFromSourceCollection();
+                DataList.ClearValue(ItemsControl.ItemsSourceProperty);
+                DataList.ItemsSource = null;
+            }
         }
 
         /// <summary>
@@ -184,6 +194,8 @@ namespace Avalon.Controls
                     return;
                 }
 
+                // Set the context to the variable that the user has clicked on and will possibly be editing.  The
+                // Lua editor needs to know where it's saving to, set that up also.
                 this.DataContext = v;
                 LuaEditor.SaveObject = v;
                 LuaEditor.SaveProperty = "OnChangeEvent";
