@@ -43,7 +43,8 @@ namespace Avalon.Utilities
             }
             else if (windowName == "Variables")
             {
-                var win = new Shell(new VariableList(), null)
+                // Pass the variable list collection we want to bind to this control.
+                var win = new Shell(new VariableList(App.Settings.ProfileSettings.Variables), null)
                 {
                     Name = "Variables",
                     HeaderTitle = "Variables",

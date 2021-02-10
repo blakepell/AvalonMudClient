@@ -1,14 +1,13 @@
-﻿<UserControl x:Class="Avalon.Controls.VariableList"
+﻿<local:VariableListBase x:Class="Avalon.Controls.VariableList"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Avalon.Controls"
              xmlns:ui="http://schemas.modernwpf.com/2019"
+             xmlns:editors="clr-namespace:Avalon.Controls.AutoCompleteTextBox.Editors"
              mc:Ignorable="d" ui:ThemeManager.RequestedTheme="Dark" 
-             d:DesignHeight="450" d:DesignWidth="800"
-             Loaded="VariableList_OnLoaded"
-             Unloaded="VariableList_OnUnloaded">
+             d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.Resources>
             <ResourceDictionary>
@@ -33,10 +32,7 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Padding="5,5,10,0">Filter:</Label>
-                <local:SearchBox x:Name="TextFilter" Grid.Column="1" Width="200"
-                                 TextChanged="TextFilter_TextChanged"
-                                 FontSize="14">
-                </local:SearchBox>
+                <local:SearchBox x:Name="TextFilter" Grid.Column="1" Width="200" FontSize="14" />
             </Grid>
         </StackPanel>
 
@@ -109,23 +105,23 @@
 
                     <ui:SimpleStackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical" Margin="0,0,0,0">
                         <TextBlock FontSize="14" Foreground="White" Margin="0,0,0,0">Key:</TextBlock>
-                        <TextBox ui:ControlHelper.CornerRadius="0" Margin="0,5,0,0" x:Name="TextKey"
+                        <editors:EditorTextBox ui:ControlHelper.CornerRadius="0" Margin="0,5,0,0" x:Name="TextKey"
                              Text="{Binding Key,UpdateSourceTrigger=PropertyChanged}">
-                        </TextBox>
+                        </editors:EditorTextBox>
                     </ui:SimpleStackPanel>
 
                     <ui:SimpleStackPanel Grid.Row="0" Grid.Column="1"  Orientation="Vertical" Margin="5,0,0,0">
                         <TextBlock FontSize="14" Foreground="White" Margin="0,0,0,0">Display Label:</TextBlock>
-                        <TextBox ui:ControlHelper.CornerRadius="0" Margin="0,5,0,0" x:Name="TextLabel"
-                             Text="{Binding Label,UpdateSourceTrigger=PropertyChanged}">
-                        </TextBox>
+                        <editors:EditorTextBox BorderThickness="1" ui:ControlHelper.CornerRadius="0" Margin="0,5,0,0" x:Name="TextLabel"
+                                               Text="{Binding Label,UpdateSourceTrigger=PropertyChanged}">
+                        </editors:EditorTextBox>
                     </ui:SimpleStackPanel>
                 </Grid>
 
                 <TextBlock FontSize="14" Foreground="White" Margin="0,10,0,0">Value:</TextBlock>
-                <TextBox ui:ControlHelper.CornerRadius="0" Margin="0,5,0,0" x:Name="TextValue"
+                <editors:EditorTextBox ui:ControlHelper.CornerRadius="0" Margin="0,5,0,0" x:Name="TextValue"
                      Text="{Binding Value,UpdateSourceTrigger=PropertyChanged}">
-                </TextBox>
+                </editors:EditorTextBox>
 
                 <Grid Margin="0,5,0,0">
                     <Grid.ColumnDefinitions>
@@ -136,7 +132,7 @@
                     <ui:SimpleStackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical" Margin="0,0,0,0">
                         <TextBlock FontSize="14" Foreground="White" Margin="0,0,0,0">Display Order:</TextBlock>
 
-                        <ui:NumberBox x:Name="TextOrder" 
+                        <ui:NumberBox x:Name="TextOrder" BorderThickness="1"
                                   Text="{Binding DisplayOrder,UpdateSourceTrigger=PropertyChanged}"
                                   ui:ControlHelper.CornerRadius="0" SmallChange="1" LargeChange="10" Margin="0,5,0,0" 
                                   SpinButtonPlacementMode="Inline" PreviewTextInput="TextPriority_PreviewTextInput"></ui:NumberBox>
@@ -145,7 +141,7 @@
 
                     <ui:SimpleStackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical" Margin="5,0,0,0">
                         <TextBlock FontSize="14" Foreground="White" Margin="0,0,0,0">Foreground Color:</TextBlock>
-                        <ComboBox ui:ControlHelper.CornerRadius="0" Margin="0,5,0,0" HorizontalAlignment="Stretch"
+                        <ComboBox ui:ControlHelper.CornerRadius="0" Margin="0,5,0,0" HorizontalAlignment="Stretch" BorderThickness="1"
                               SelectedItem="{Binding ForegroundColor,UpdateSourceTrigger=PropertyChanged}"
                               ItemsSource="{StaticResource ColorList}"></ComboBox>
                     </ui:SimpleStackPanel>
@@ -163,4 +159,4 @@
         </DockPanel>
 
     </Grid>
-</UserControl>    
+</local:VariableListBase>    

@@ -1,6 +1,7 @@
 ﻿using Avalon.Common.Interfaces;
 using Newtonsoft.Json;
 using System.ComponentModel;
+using Argus.Extensions;
 
 namespace Avalon.Common.Models
 {
@@ -8,7 +9,7 @@ namespace Avalon.Common.Models
     /// A variable that is persisted with the profile that can be used to track
     /// data as well as be coupled with aliases/triggers and the script engine.
     /// </summary>
-    public class Variable : INotifyPropertyChanged, IVariable
+    public class Variable : INotifyPropertyChanged, IVariable, IModelInfo
     {
         public Variable()
         {
@@ -201,6 +202,13 @@ namespace Avalon.Common.Models
         /// </summary>
         [JsonIgnore]
         public Variable Self => this;
+
+        /// <inheritdoc />
+        public bool IsEmpty()
+        {
+            // A variable is considered empty if the Key is blank.
+            return this.Key.IsNullOrEmptyOrWhiteSpace();
+        }
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
