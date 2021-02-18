@@ -1,4 +1,5 @@
-﻿using Avalon.Colors;
+﻿using System;
+using Avalon.Colors;
 using ICSharpCode.AvalonEdit.Rendering;
 using System.Collections.Generic;
 using System.Linq;
@@ -136,32 +137,40 @@ namespace Avalon.Controls
             string text = _sb.ToString();
 
             // TODO - Performance Will running this linq query every time get slow?  Do we need to manually add the gag triggers in only when updated?
-            // Once a trigger is found that this thing basically gets out.  It might behoof us here to run the system triggers
+            // Once a trigger is found that this thing basically gets out.  It might behoove us here to run the system triggers
             // first and maybe have a priority sequence so they can be run in a certain order.  The example being, the prompt
             // will be gagged the most, it should run first and if it is, nothing else has to run here.
             // Also of note, the documentation for CollapseLines indicates that "if you want a VisualLineElement to span from line N to line M, then you 
             // need to collapse only the lines N+1 to M. Do not collapse line N itself (cause collapsing the next line looks weird at first read).
 
+            // TODO: This try catch is not ideal, but will catch Collection was modified errors.  The collection needs to be concurrent or isolated.
             // System Triggers moved to be first.
-            foreach (var trigger in App.SystemTriggers.Where(x => x.Gag && x.Enabled))
+            try
             {
-                // These triggers match for the gag but do NOT execute the trigger's command (VERY important because it would cause the triggers
-                // to get fired multiple times as the line is re-rendered on the screen.. that is -bad-).
-                if (trigger.Regex?.IsMatch(text) == true && endLine?.NextLine != null)
+                foreach (var trigger in App.SystemTriggers.Where(x => x.Gag && x.Enabled))
                 {
-                    CollapsedLineSections.Add(endLine.LineNumber, CurrentContext.TextView.CollapseLines(endLine.NextLine, endLine.NextLine));
-                    return startOffset;
+                    // These triggers match for the gag but do NOT execute the trigger's command (VERY important because it would cause the triggers
+                    // to get fired multiple times as the line is re-rendered on the screen.. that is -bad-).
+                    if (trigger.Regex?.IsMatch(text) == true && endLine?.NextLine != null)
+                    {
+                        CollapsedLineSections.Add(endLine.LineNumber, CurrentContext.TextView.CollapseLines(endLine.NextLine, endLine.NextLine));
+                        return startOffset;
+                    }
+                }
+
+                // Regular triggers, same comments as above.
+                foreach (var trigger in App.Settings.ProfileSettings.TriggerList.Where(x => x.Gag && x.Enabled))
+                {
+                    if (trigger.Regex?.IsMatch(text) == true && endLine?.NextLine != null)
+                    {
+                        CollapsedLineSections.Add(endLine.LineNumber, CurrentContext.TextView.CollapseLines(endLine.NextLine, endLine.NextLine));
+                        return startOffset;
+                    }
                 }
             }
-
-            // Regular triggers, same comments as above.
-            foreach (var trigger in App.Settings.ProfileSettings.TriggerList.Where(x => x.Gag && x.Enabled))
+            catch
             {
-                if (trigger.Regex?.IsMatch(text) == true && endLine?.NextLine != null)
-                {
-                    CollapsedLineSections.Add(endLine.LineNumber, CurrentContext.TextView.CollapseLines(endLine.NextLine, endLine.NextLine));
-                    return startOffset;
-                }
+                // TODO: Error Logging
             }
 
             return -1;

@@ -117,7 +117,14 @@ namespace Avalon
                 App.Beep.Play();
             }
 
-            CheckTriggers(line);
+            try
+            {
+                CheckTriggers(line);
+            }
+            catch (Exception ex)
+            {
+                App.Conveyor.EchoError($"HandleLineReceived => CheckTriggers: ${ex.Message}");
+            }
 
             // Check to see if we're scraping and if so append to the StringBuilder that holds the scraped text.
             // Scraping will only occur when full lines come through.
