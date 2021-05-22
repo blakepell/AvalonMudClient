@@ -1,4 +1,13 @@
-﻿using ICSharpCode.AvalonEdit.CodeCompletion;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using ICSharpCode.AvalonEdit.CodeCompletion;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -26,7 +35,7 @@ namespace Avalon.Lua
                     // Initialize the Lua completion data once.
                     _luaCompletionData = new Dictionary<string, ICompletionData>();
 
-                    var t = typeof(LuaCommands);
+                    var t = typeof(ScriptCommands);
 
                     // This should get all of our methods but exclude ones that are defined on
                     // object like ToString, GetHashCode, Equals, etc.

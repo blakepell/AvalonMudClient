@@ -1,4 +1,13 @@
-﻿using System;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Windows.Threading;
 using System.Linq;
@@ -44,7 +53,7 @@ namespace Avalon.Timers
             {
                 if (task.IsLua)
                 {
-                    await this.Interpreter.LuaCaller.ExecuteAsync(task.Command);
+                    _ = await this.Interpreter.ScriptHost.MoonSharp.ExecuteAsync<object>(task.Command);
                 }
                 else
                 {

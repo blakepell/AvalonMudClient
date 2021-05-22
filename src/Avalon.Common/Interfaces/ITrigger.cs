@@ -1,4 +1,13 @@
-﻿using System;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using System;
 using System.Text.RegularExpressions;
 using Avalon.Common.Models;
 
@@ -42,35 +51,10 @@ namespace Avalon.Common.Interfaces
         string Group { get; set; }
 
         /// <summary>
-        /// Matches a trigger.  Also allows for the variable replacement triggers to be explicitly ignored by the caller
-        /// regardless of how they're setup by the user.  This is important because the screen rendering code from AvalonEdit
-        /// will hit those triggers over and over as each line comes in.  Variable replace should be ignored in those cases
-        /// because they've already been processed (and in some cases it will cause them to re-process out of order).  If you're
-        /// reading variables in from a prompt and getting say, a room name, you want that to process once, when you're there
-        /// and not out of order.  To be clear, this isn't replace @ variables in the pattern, it's the part that sets the
-        /// the variable later down the line.  The first "variable replacement" has to happen in both cases.
+        /// Matches a trigger against a provided line of text.
         /// </summary>
         /// <param name="line"></param>
-        /// <param name="skipVariableSet">Default false: Whether to explicitly skip variable setting (not replacing).</param>
-        bool IsMatch(string line, bool skipVariableSet = false);
-
-        /// <summary>
-        /// Whether the triggers output should be silent (not echo to the main terminal).
-        /// </summary>
-        bool IsSilent { get; set; }
-
-        /// <summary>
-        /// Whether or not variables should be replaced in the pattern.  This is offered as
-        /// a performance tweak so the player has to opt into it.
-        /// </summary>
-        bool VariableReplacement { get; set; }
-
-        /// <summary>
-        /// Whether or not the matching line should be gagged from terminal.  A gagged line is hidden from view
-        /// as if it does not exist but does in fact still exist in the terminal.  If triggers are disabled you
-        /// will see gagged lines re-appear.  Further, gagged lines will appear in clipboard actions such as copy.
-        /// </summary>
-        bool Gag { get; set; }
+        bool IsMatch(string line);
 
         /// <summary>
         /// Indicates whether a trigger was loaded from a plugin or not.
@@ -83,30 +67,10 @@ namespace Avalon.Common.Interfaces
         bool Enabled { get; set; }
 
         /// <summary>
-        /// Whether the command should be executed as a Lua script.
-        /// </summary>
-        bool IsLua { get; set; }
-
-        /// <summary>
-        /// What terminal window to move the triggered line to.
-        /// </summary>
-        TerminalTarget MoveTo { get; set; }
-
-        /// <summary>
-        /// Whether or not the matching line should be highlighted.
-        /// </summary>
-        bool HighlightLine { get; set; }
-
-        /// <summary>
         /// Whether the trigger is locked.  This will stop a trigger from being auto-updated in a package.  It should
         /// be noted that a lock does not however stop a user from editing the trigger.
         /// </summary>
         bool Lock { get; set; }
-
-        /// <summary>
-        /// If set to true will disable the trigger after it fires.
-        /// </summary>
-        bool DisableAfterTriggered { get; set; }
 
         /// <summary>
         /// The number of times a trigger has fired.
@@ -135,22 +99,6 @@ namespace Avalon.Common.Interfaces
         bool SystemTrigger { get; set; }
 
         /// <summary>
-        /// If StopProcessing is true then the trigger processing function will stop processing any triggers after
-        /// the trigger that fired here.  In order for that to happen, the trigger will need to match.  This will
-        /// allow a player to allow for a very efficient trigger loop (but could also cause problems if use incorrectly
-        /// in that it will stop trigger processing when this fires).  One thing to note, this is for general purpose
-        /// triggers that the user executes but it does not apply to Gag triggers.  Gag triggers inherently work will
-        /// gag an entire line and they stop processing as soon as one matches.
-        /// </summary>
-        bool StopProcessing { get; set; }
-
-        /// <summary>
-        /// A reference to the game's Conveyor so that the trigger can interact with the UI if it's
-        /// a CLR trigger.
-        /// </summary>
-        IConveyor Conveyor { get; set; }
-
-        /// <summary>
         /// The underlying regular expression provided in case an outside caller wants to call it directly such
         /// as in gagging operations where a command won't be executed.
         /// </summary>
@@ -170,5 +118,16 @@ namespace Avalon.Common.Interfaces
         /// </summary>
         public string PackageId { get; set; }
 
+        /// <summary>
+        /// A reference to the game's Conveyor so that the trigger can interact with the UI if it's
+        /// a CLR trigger.
+        /// </summary>
+        public IConveyor Conveyor { get; set; }
+
+        /// <summary>
+        /// How the command should be executed (as a command or sent to a different output like
+        /// a script engine or even to a file).
+        /// </summary>
+        public ExecuteType ExecuteAs { get; set; }
     }
 }

@@ -1,4 +1,13 @@
-﻿using System;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -203,7 +212,7 @@ namespace Avalon.Controls
             };
 
             // Set the initial type for highlighting.
-            if (alias.IsLua)
+            if (alias.ExecuteAs == ExecuteType.LuaMoonsharp || alias.ExecuteAs == ExecuteType.LuaNLua)
             {
                 win.EditorMode = StringEditor.EditorType.Lua;
             }

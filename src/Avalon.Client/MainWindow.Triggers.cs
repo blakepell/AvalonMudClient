@@ -1,6 +1,19 @@
-﻿using System;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using System;
+using System.Linq;
+using Argus.Extensions;
+using Avalon.Colors;
 using Avalon.Common.Colors;
 using Avalon.Common.Models;
+using Cysharp.Text;
 
 namespace Avalon
 {
@@ -28,33 +41,43 @@ namespace Avalon
                 return;
             }
 
+            // Replacement triggers come, they actually alter the line in the terminal.
+            this.ProcessReplacementTriggers(line);
+
             // Go through the immutable system triggers, system triggers are silent in that
             // they won't echo to the terminal window, they also don't adhere to attributes like
             // character or enabled.  These can and will have CLR implementations and can be loaded
             // from other DLL's as plugins.  System triggers are also unique in that they are designed
             // to be loaded from a plugin and they don't save their state in the profile.
-            foreach (var item in App.SystemTriggers)
+            foreach (var item in App.InstanceGlobals.SystemTriggers)
             {
                 // Skip it if it's not enabled.
                 if (!item.Enabled)
                 {
                     continue;
                 }
-                
+
                 if (item.IsMatch(line.Text))
                 {
                     // Run any CLR that might exist.
                     item.Execute();
 
-                    if (!string.IsNullOrEmpty(item.Command) && item.IsLua == false)
+                    if (item.ExecuteAs == ExecuteType.Command && !string.IsNullOrEmpty(item.Command))
                     {
                         // If it has text but it's not lua, send it to the interpreter.
                         await Interp.Send(item.Command, item.IsSilent, false);
                     }
-                    else if (!string.IsNullOrEmpty(item.Command) && item.IsLua)
+                    else if ((item.IsLua || item.ExecuteAs == ExecuteType.LuaMoonsharp) && !string.IsNullOrEmpty(item.Command))
                     {
-                        // If it has text and it IS lua, send it to the LUA engine.
-                        await Interp.LuaCaller.ExecuteAsync(item.Command);
+                        var paramList = new string[item.Match.Groups.Count];
+                        paramList[0] = line.Text;
+
+                        for (int i = 1; i < item.Match.Groups.Count; i++)
+                        {
+                            paramList[i] = item.Match.Groups[i].Value;
+                        }
+
+                        string luaResult = Interp.ScriptHost.MoonSharp.ExecuteFunction<string>(item.FunctionName, item.Command, paramList);
                     }
 
                     // Check if we're supposed to move this line somewhere else.
@@ -126,23 +149,11 @@ namespace Avalon
                 }
             }
 
-            // Go through the TriggerList which are user defined triggers
-            foreach (var item in App.Settings.ProfileSettings.TriggerList)
+            // Go through the TriggerList which are user defined triggers.
+            foreach (var item in App.Settings.ProfileSettings.TriggerList.EnabledEnumerable())
             {
-                // Skip it if it's not enabled.
-                if (!item.Enabled)
-                {
-                    continue;
-                }
-                
                 // Skip it if it's not global or for this character.
                 if (!string.IsNullOrWhiteSpace(item.Character) && item.Character != App.Conveyor.GetVariable("Character"))
-                {
-                    continue;
-                }
-
-                // If there is no pattern skip it, we don't want to send thousands of commands on empty patterns.
-                if (string.IsNullOrWhiteSpace(item.Pattern))
                 {
                     continue;
                 }
@@ -164,15 +175,32 @@ namespace Avalon
                     }
 
                     // Only send if it has something in it.  Use the processed command.
-                    if (!string.IsNullOrEmpty(item.ProcessedCommand) && !item.IsLua)
+                    if (item.ExecuteAs == ExecuteType.Command && !string.IsNullOrEmpty(item.ProcessedCommand))
                     {
                         // If it has text but it's not lua, send it to the interpreter.
                         await Interp.Send(item.ProcessedCommand, false, false);
                     }
-                    else if (!string.IsNullOrEmpty(item.ProcessedCommand) && item.IsLua)
+                    else if ((item.IsLua || item.ExecuteAs == ExecuteType.LuaMoonsharp) && !string.IsNullOrWhiteSpace(item.Command))
                     {
-                        // If it has text and it IS lua, send it to the LUA engine.
-                        await Interp.LuaCaller.ExecuteAsync(item.ProcessedCommand);
+                        var paramList = new string[item.Match.Groups.Count];
+                        paramList[0] = line.Text;
+
+                        for (int i = 1; i < item.Match.Groups.Count; i++)
+                        {
+                            paramList[i] = item.Match.Groups[i].Value;
+                        }
+
+                        // Not sure why the try/catch calling CheckTriggers wasn't catching Lua errors.  Eat
+                        // the error here and allow the script host to process it's exception handler which will
+                        // echo it to the terminal.
+                        try
+                        {
+                            // We'll send the function we want to call but also the code, if the code has changed
+                            // it nothing will be reloaded thus saving memory and calls.  This is why replacing %1
+                            // variables is problematic here and why we are forcing the use of Lua varargs (...)
+                            _ = await Interp.ScriptHost.MoonSharp.ExecuteFunctionAsync<object>(item.FunctionName, item.Command, paramList);
+                        }
+                        catch { }
                     }
 
                     // Check if we're supposed to move this line somewhere else.
@@ -243,8 +271,84 @@ namespace Avalon
 
                         return;
                     }
-
                 }
+            }
+        }
+
+        /// <summary>
+        /// Process the replacement triggers.  These will do a simple replacement on the line OR execute a Lua script
+        /// that will return a string value that will become the new line.  For performance we allow this to be turned
+        /// off in the settings.
+        /// </summary>
+        /// <param name="line"></param>
+        public void ProcessReplacementTriggers(Line line)
+        {
+            if (App.Settings.ProfileSettings.ReplacementTriggersEnabled)
+            {
+                bool found = false;
+                var sb = ZString.CreateStringBuilder();
+
+                foreach (var trigger in App.Settings.ProfileSettings.TriggerList.EnabledLineTransformersEnumerable())
+                {
+                    if (!trigger.Enabled)
+                    {
+                        continue;
+                    }
+
+                    // Simple replacement can go ahead and flop %1.. variables in, the Lua version shouldn't
+                    // do that in IsMatch as it will pass those variables to Lua which should handle them.
+                    var match = trigger.IsMatch(line.Text);
+
+                    if (match)
+                    {
+                        // We know if it's a success and it's found hasn't been set yet that we will need
+                        // to process it AND the StringBuilder needs to be populated because this is the
+                        // first match (of potentially more).  No point in populating the StringBuilder until
+                        // we know we're going to need it.
+                        if (!found)
+                        {
+                            sb.AppendLine(line.Text);
+                        }
+
+                        found = true;
+
+                        try
+                        {
+                            if (!string.IsNullOrEmpty(trigger.ProcessedCommand))
+                            {
+                                sb.Replace(trigger.Match.Value, trigger.ProcessedCommand);
+                                found = true;
+                            }
+                        }
+                        catch
+                        {
+                            // The error handler for the Lua will have already fired, we don't need to do any special
+                            // processing at this juncture other than saying we didn't find anything to replace.
+                            found = false;
+                        }
+                    }
+                }
+
+                if (found)
+                {
+                    // Since looking at the document text creates a string every time, we're going to try to look at only the 
+                    // last line plus the line terminator, since this should be processed right after a line is rendered to the
+                    // terminal should work (because creating a 50,000 line string every pass is a not great approach).
+                    int pos = Math.Clamp(GameTerminal.Document.TextLength - line.FormattedText.Length - 2, 0, GameTerminal.Document.TextLength);
+                    int start = GameTerminal.Document.LastIndexOf(line.FormattedText, pos, GameTerminal.Document.TextLength - pos, StringComparison.Ordinal);
+
+                    // Colorize, then remove 1 for the line ending.
+                    // TODO if entire line is removed it messes up the gag.. figure that out.
+                    if (start >= 0)
+                    {
+                        Colorizer.MudToAnsiColorCodes(ref sb);
+                        this.GameTerminal.Document.Remove(start, line.FormattedText.Length + 1);
+                        this.GameTerminal.Document.Insert(start, sb.ToString());
+                    }
+                }
+
+                // Return the ZString StringBuilder via Dispose.
+                sb.Dispose();
             }
         }
     }

@@ -1,117 +1,142 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Cysharp.Text;
 
 namespace MoonSharp.Interpreter.Serialization
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	public static class SerializationExtensions
-	{
-		static HashSet<string> LUAKEYWORDS = new HashSet<string>()
-		{
-			"and", "break", "do", "else", "elseif", "end", "false", "for", "function", "goto", "if", "in", "local", "nil", "not", "or", "repeat", "return", "then", "true", "until", "while"
-		};
+    public static class SerializationExtensions
+    {
+        private static HashSet<string> LUAKEYWORDS = new HashSet<string>
+        {
+            "and", "break", "do", "else", "elseif", "end", "false", "for", "function", "goto", "if", "in", "local",
+            "nil", "not", "or", "repeat", "return", "then", "true", "until", "while"
+        };
 
+        public static string Serialize(this Table table, bool prefixReturn = false, int tabs = 0)
+        {
+            if (table.OwnerScript != null)
+            {
+                throw new ScriptRuntimeException("Table is not a prime table.");
+            }
 
-		public static string Serialize(this Table table, bool prefixReturn = false, int tabs = 0)
-		{
-			if (table.OwnerScript != null)
-				throw new ScriptRuntimeException("Table is not a prime table.");
+            string tabStr = new string('\t', tabs);
 
-			string tabstr = new string('\t', tabs);
-			StringBuilder sb = new StringBuilder();
+            using (var sb = ZString.CreateStringBuilder())
+            {
+                if (prefixReturn)
+                {
+                    sb.Append("return ");
+                }
 
-			//sb.Append(tabstr);
+                if (!table.Values.Any())
+                {
+                    sb.Append("${ }");
+                    return sb.ToString();
+                }
 
-			if (prefixReturn)
-				sb.Append("return ");
+                sb.AppendLine("${");
 
-			if (!table.Values.Any())
-			{
-				sb.Append("${ }");
-				return sb.ToString();
-			}
+                foreach (var tp in table.Pairs)
+                {
+                    sb.Append(tabStr);
+                    string key = IsStringIdentifierValid(tp.Key) ? tp.Key.String : $"[{SerializeValue(tp.Key, tabs + 1)}]";
+                    sb.AppendFormat("\t{0} = {1},\n", key, SerializeValue(tp.Value, tabs + 1));
+                }
 
-			sb.AppendLine("${");
+                sb.Append(tabStr);
+                sb.Append("}");
 
-			foreach (TablePair tp in table.Pairs)
-			{
-				sb.Append(tabstr);
+                if (tabs == 0)
+                {
+                    sb.AppendLine();
+                }
 
-				string key = 
-					IsStringIdentifierValid(tp.Key) ? 
-					tp.Key.String : "[" + SerializeValue(tp.Key, tabs + 1) +"]";
+                return sb.ToString();
+            }
+        }
 
-				sb.AppendFormat("\t{0} = {1},\n",
-					key, SerializeValue(tp.Value, tabs + 1));
-			}
+        private static bool IsStringIdentifierValid(DynValue dynValue)
+        {
+            if (dynValue.Type != DataType.String)
+            {
+                return false;
+            }
 
-			sb.Append(tabstr);
-			sb.Append("}");
+            if (dynValue.String.Length == 0)
+            {
+                return false;
+            }
 
-			if (tabs == 0)
-				sb.AppendLine();
+            if (LUAKEYWORDS.Contains(dynValue.String))
+            {
+                return false;
+            }
 
-			return sb.ToString();
-		}
+            if (!char.IsLetter(dynValue.String[0]) && (dynValue.String[0] != '_'))
+            {
+                return false;
+            }
 
-		private static bool IsStringIdentifierValid(DynValue dynValue)
-		{
-			if (dynValue.Type != DataType.String)
-				return false;
+            foreach (char c in dynValue.String)
+            {
+                if (!char.IsLetterOrDigit(c) && c != '_')
+                {
+                    return false;
+                }
+            }
 
-			if (dynValue.String.Length == 0)
-				return false;
+            return true;
+        }
 
-			if (LUAKEYWORDS.Contains(dynValue.String))
-				return false;
+        public static string SerializeValue(this DynValue dynValue, int tabs = 0)
+        {
+            if (dynValue.Type == DataType.Nil || dynValue.Type == DataType.Void)
+            {
+                return "nil";
+            }
 
-			if (!char.IsLetter(dynValue.String[0]) && (dynValue.String[0] != '_'))
-				return false;
+            if (dynValue.Type == DataType.Tuple)
+            {
+                return (dynValue.Tuple.Any() ? SerializeValue(dynValue.Tuple[0], tabs) : "nil");
+            }
 
-			foreach (char c in dynValue.String)
-			{
-				if (!char.IsLetterOrDigit(c) && c != '_')
-					return false;
-			}
+            if (dynValue.Type == DataType.Number)
+            {
+                return dynValue.Number.ToString("r");
+            }
 
-			return true;
-		}
+            if (dynValue.Type == DataType.Boolean)
+            {
+                return dynValue.Boolean ? "true" : "false";
+            }
 
-		public static string SerializeValue(this DynValue dynValue, int tabs = 0)
-		{
-			if (dynValue.Type == DataType.Nil || dynValue.Type == DataType.Void)
-				return "nil";
-			else if (dynValue.Type == DataType.Tuple)
-				return (dynValue.Tuple.Any() ? SerializeValue(dynValue.Tuple[0], tabs) : "nil");
-			else if (dynValue.Type == DataType.Number)
-				return dynValue.Number.ToString("r");
-			else if (dynValue.Type == DataType.Boolean)
-				return dynValue.Boolean ? "true" : "false";
-			else if (dynValue.Type == DataType.String)
-				return EscapeString(dynValue.String ?? "");
-			else if (dynValue.Type == DataType.Table && dynValue.Table.OwnerScript == null)
-				return Serialize(dynValue.Table, false, tabs);
-			else
-				throw new ScriptRuntimeException("Value is not a primitive value or a prime table.");
-		}
+            if (dynValue.Type == DataType.String)
+            {
+                return EscapeString(dynValue.String ?? "");
+            }
 
-		private static string EscapeString(string s)
-		{
-			s = s.Replace(@"\", @"\\");
-			s = s.Replace("\n", @"\n");
-			s = s.Replace("\r", @"\r");
-			s = s.Replace("\t", @"\t");
-			s = s.Replace("\a", @"\a");
-			s = s.Replace("\f", @"\f");
-			s = s.Replace("\b", @"\b");
-			s = s.Replace("\v", @"\v");
-			s = s.Replace("\"", "\\\"");
-			s = s.Replace("\'", @"\'");
-			return "\"" + s + "\"";
-		}
+            if (dynValue.Type == DataType.Table && dynValue.Table.OwnerScript == null)
+            {
+                return Serialize(dynValue.Table, false, tabs);
+            }
 
-	}
+            throw new ScriptRuntimeException("Value is not a primitive value or a prime table.");
+        }
+
+        private static string EscapeString(string s)
+        {
+            s = s.Replace(@"\", @"\\");
+            s = s.Replace("\n", @"\n");
+            s = s.Replace("\r", @"\r");
+            s = s.Replace("\t", @"\t");
+            s = s.Replace("\a", @"\a");
+            s = s.Replace("\f", @"\f");
+            s = s.Replace("\b", @"\b");
+            s = s.Replace("\v", @"\v");
+            s = s.Replace("\"", "\\\"");
+            s = s.Replace("\'", @"\'");
+            return "\"" + s + "\"";
+        }
+    }
 }

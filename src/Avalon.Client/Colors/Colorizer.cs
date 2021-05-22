@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Media;
 using Argus.Extensions;
 using Avalon.Common.Colors;
+using Cysharp.Text;
 
 namespace Avalon.Colors
 {
@@ -136,6 +137,26 @@ namespace Avalon.Colors
         }
 
         /// <summary>
+        /// Converts ANSI color codes into mud color codes.  Note: This updates the StringBuilder directly.
+        /// </summary>
+        /// <param name="sb"></param>
+        public static void AnsiToMudColorCodes(ref Utf16ValueStringBuilder sb)
+        {
+            var span = sb.AsSpan();
+
+            // If there are no color codes don't bother loop through the replacements.
+            if (!span.Contains('\x1B'))
+            {
+                return;
+            }
+
+            foreach (var item in ColorMap)
+            {
+                sb.Replace(item.AnsiColor.ToString(), item.AnsiColor.MudColorCode);
+            }
+        }
+
+        /// <summary>
         /// Converts mud color codes into ANSI color codes.  Note: This updates the StringBuilder directly.
         /// </summary>
         /// <param name="sb"></param>
@@ -148,17 +169,43 @@ namespace Avalon.Colors
             }
 
             // First the colors
-            foreach (var item in ColorMap.Where(x => !string.IsNullOrWhiteSpace(x.AnsiColor.MudColorCode)))
+            foreach (var item in ColorMap)
             {
                 sb.Replace(item.AnsiColor.MudColorCode, item.AnsiColor.ToString());
             }
 
             // Next the styles
-            foreach (var item in StyleMap.Where(x => !string.IsNullOrWhiteSpace(x.AnsiColor.MudColorCode)))
+            foreach (var item in StyleMap)
             {
                 sb.Replace(item.AnsiColor.MudColorCode, item.AnsiColor.ToString());
             }
         }
 
+        /// <summary>
+        /// Converts mud color codes into ANSI color codes.  Note: This updates the StringBuilder directly.
+        /// </summary>
+        /// <param name="sb"></param>
+        public static void MudToAnsiColorCodes(ref Utf16ValueStringBuilder sb)
+        {
+            var span = sb.AsSpan();
+
+            // If there are no color codes don't bother loop through the replacements.
+            if (!span.Contains('{'))
+            {
+                return;
+            }
+
+            // First the colors
+            foreach (var item in ColorMap)
+            {
+                sb.Replace(item.AnsiColor.MudColorCode, item.AnsiColor.ToString());
+            }
+
+            // Next the styles
+            foreach (var item in StyleMap)
+            {
+                sb.Replace(item.AnsiColor.MudColorCode, item.AnsiColor.ToString());
+            }
+        }
     }
 }

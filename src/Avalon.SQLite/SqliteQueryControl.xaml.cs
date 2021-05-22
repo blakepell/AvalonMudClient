@@ -1,4 +1,13 @@
-﻿using Dapper;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using Dapper;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Highlighting;
@@ -266,7 +275,7 @@ namespace Avalon.Sqlite
                     await conn.CloseAsync();
                 }
 
-                TextBlockStatus.Text = $"{DataTable?.Rows.Count} records returned.";
+                TextBlockStatus.Text = $"{DataTable?.Rows.Count.ToString()} records returned.";
 
                 // Refresh the DB schema if we happen to see creates, drops or alters in the SQL.
                 string sql = SqlEditor.Text.ToLower();
@@ -400,7 +409,7 @@ namespace Avalon.Sqlite
                 {
                     foreach (var field in table.Fields)
                     {
-                        data.Add(new CompletionData(field.Name, $"Type: {field.Type}\r\nNot Null: {field.NotNull}\r\nDefault Value: {field.DefaultValue}"));
+                        data.Add(new CompletionData(field.Name, $"Type: {field.Type}\r\nNot Null: {field.NotNull.ToString()}\r\nDefault Value: {field.DefaultValue}"));
                     }
                 }
 

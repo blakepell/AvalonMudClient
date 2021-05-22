@@ -3,50 +3,51 @@ using MoonSharp.Interpreter.Execution.VM;
 
 namespace MoonSharp.Interpreter.Tree.Statements
 {
-	class ChunkStatement : Statement, IClosureBuilder
-	{
-		Statement m_Block;
-		RuntimeScopeFrame m_StackFrame;
-		SymbolRef m_Env;
-		SymbolRef m_VarArgs;
+    internal class ChunkStatement : Statement, IClosureBuilder
+    {
+        private Statement _block;
+        private SymbolRef _env;
+        private RuntimeScopeFrame _stackFrame;
+        private SymbolRef _varArgs;
 
-		public ChunkStatement(ScriptLoadingContext lcontext)
-			: base(lcontext)
-		{
-			lcontext.Scope.PushFunction(this, true);
-			m_Env = lcontext.Scope.DefineLocal(WellKnownSymbols.ENV);
-			m_VarArgs = lcontext.Scope.DefineLocal(WellKnownSymbols.VARARGS);
+        public ChunkStatement(ScriptLoadingContext lcontext) : base(lcontext)
+        {
+            lcontext.Scope.PushFunction(this, true);
+            _env = lcontext.Scope.DefineLocal(WellKnownSymbols.ENV);
+            _varArgs = lcontext.Scope.DefineLocal(WellKnownSymbols.VARARGS);
+            _block = new CompositeStatement(lcontext);
 
-			m_Block = new CompositeStatement(lcontext);
+            if (lcontext.Lexer.Current.Type != TokenType.Eof)
+            {
+                throw new SyntaxErrorException(lcontext.Lexer.Current, "<eof> expected near '{0}'",
+                    lcontext.Lexer.Current.Text);
+            }
 
-			if (lcontext.Lexer.Current.Type != TokenType.Eof)
-				throw new SyntaxErrorException(lcontext.Lexer.Current, "<eof> expected near '{0}'", lcontext.Lexer.Current.Text);
+            _stackFrame = lcontext.Scope.PopFunction();
+        }
 
-			m_StackFrame = lcontext.Scope.PopFunction();
-		}
+        public SymbolRef CreateUpvalue(BuildTimeScope scope, SymbolRef symbol)
+        {
+            return null;
+        }
 
 
-		public override void Compile(Execution.VM.ByteCode bc)
-		{
-			Instruction meta = bc.Emit_Meta("<chunk-root>", OpCodeMetadataType.ChunkEntrypoint);
-			int metaip = bc.GetJumpPointForLastInstruction();
+        public override void Compile(ByteCode bc)
+        {
+            var meta = bc.Emit_Meta("<chunk-root>", OpCodeMetadataType.ChunkEntrypoint);
+            int metaip = bc.GetJumpPointForLastInstruction();
 
-			bc.Emit_BeginFn(m_StackFrame);
-			bc.Emit_Args(m_VarArgs);
+            bc.Emit_BeginFn(_stackFrame);
+            bc.Emit_Args(_varArgs);
 
-			bc.Emit_Load(SymbolRef.Upvalue(WellKnownSymbols.ENV, 0));
-			bc.Emit_Store(m_Env, 0, 0);
-			bc.Emit_Pop();
+            bc.Emit_Load(SymbolRef.Upvalue(WellKnownSymbols.ENV, 0));
+            bc.Emit_Store(_env, 0, 0);
+            bc.Emit_Pop();
 
-			m_Block.Compile(bc);
-			bc.Emit_Ret(0);
+            _block.Compile(bc);
+            bc.Emit_Ret(0);
 
-			meta.NumVal = bc.GetJumpPointForLastInstruction() - metaip;
-		}
-
-		public SymbolRef CreateUpvalue(BuildTimeScope scope, SymbolRef symbol)
-		{
-			return null;
-		}
-	}
+            meta.NumVal = bc.GetJumpPointForLastInstruction() - metaip;
+        }
+    }
 }

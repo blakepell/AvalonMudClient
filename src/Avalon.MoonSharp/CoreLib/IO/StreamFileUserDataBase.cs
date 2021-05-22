@@ -2,139 +2,142 @@
 
 namespace MoonSharp.Interpreter.CoreLib.IO
 {
-	/// <summary>
-	/// Abstract class implementing a file Lua userdata. Methods are meant to be called by Lua code.
-	/// </summary>
-	internal abstract class StreamFileUserDataBase : FileUserDataBase
-	{
-		protected Stream m_Stream;
-		protected StreamReader m_Reader;
-		protected StreamWriter m_Writer;
-		protected bool m_Closed = false;
+    /// <summary>
+    /// Abstract class implementing a file Lua userdata. Methods are meant to be called by Lua code.
+    /// </summary>
+    internal abstract class StreamFileUserDataBase : FileUserDataBase
+    {
+        protected bool _closed;
+        protected StreamReader _reader;
+        protected Stream _stream;
+        protected StreamWriter _writer;
 
 
-		protected void Initialize(Stream stream, StreamReader reader, StreamWriter writer)
-		{
-			m_Stream = stream;
-			m_Reader = reader;
-			m_Writer = writer;
-		}
+        protected void Initialize(Stream stream, StreamReader reader, StreamWriter writer)
+        {
+            _stream = stream;
+            _reader = reader;
+            _writer = writer;
+        }
 
 
-		private void CheckFileIsNotClosed()
-		{
-			if (m_Closed)
-				throw new ScriptRuntimeException("attempt to use a closed file");
-		}
+        private void CheckFileIsNotClosed()
+        {
+            if (_closed)
+            {
+                throw new ScriptRuntimeException("attempt to use a closed file");
+            }
+        }
 
 
-		protected override bool Eof()
-		{
-			CheckFileIsNotClosed();
+        protected override bool Eof()
+        {
+            this.CheckFileIsNotClosed();
 
-			if (m_Reader != null)
-				return m_Reader.EndOfStream;
-			else
-				return false;
-		}
+            if (_reader != null)
+            {
+                return _reader.EndOfStream;
+            }
 
-		protected override string ReadLine()
-		{
-			CheckFileIsNotClosed();
-			return m_Reader.ReadLine();
-		}
+            return false;
+        }
 
-		protected override string ReadToEnd()
-		{
-			CheckFileIsNotClosed();
-			return m_Reader.ReadToEnd();
-		}
+        protected override string ReadLine()
+        {
+            this.CheckFileIsNotClosed();
+            return _reader.ReadLine();
+        }
 
-		protected override string ReadBuffer(int p)
-		{
-			CheckFileIsNotClosed();
-			char[] buffer = new char[p];
-			int length = m_Reader.ReadBlock(buffer, 0, p);
-			return new string(buffer, 0, length);
-		}
+        protected override string ReadToEnd()
+        {
+            this.CheckFileIsNotClosed();
+            return _reader.ReadToEnd();
+        }
 
-		protected override char Peek()
-		{
-			CheckFileIsNotClosed();
-			return (char)m_Reader.Peek();
-		}
+        protected override string ReadBuffer(int p)
+        {
+            this.CheckFileIsNotClosed();
+            var buffer = new char[p];
+            int length = _reader.ReadBlock(buffer, 0, p);
+            return new string(buffer, 0, length);
+        }
 
-		protected override void Write(string value)
-		{
-			CheckFileIsNotClosed();
-			m_Writer.Write(value);
-		}
+        protected override char Peek()
+        {
+            this.CheckFileIsNotClosed();
+            return (char) _reader.Peek();
+        }
 
-		protected override string Close()
-		{
-			CheckFileIsNotClosed();
+        protected override void Write(string value)
+        {
+            this.CheckFileIsNotClosed();
+            _writer.Write(value);
+        }
 
-			if (m_Writer != null)
-				m_Writer.Dispose();
+        protected override string Close()
+        {
+            this.CheckFileIsNotClosed();
 
-			if (m_Reader != null)
-				m_Reader.Dispose();
+            _writer?.Dispose();
+            _reader?.Dispose();
+            _stream.Dispose();
 
-			m_Stream.Dispose();
+            _closed = true;
 
-			m_Closed = true;
+            return null;
+        }
 
-			return null;
-		}
+        public override bool flush()
+        {
+            this.CheckFileIsNotClosed();
 
-		public override bool flush()
-		{
-			CheckFileIsNotClosed();
+            _writer?.Flush();
 
-			if (m_Writer != null)
-				m_Writer.Flush();
+            return true;
+        }
 
-			return true;
-		}
+        public override long seek(string whence, long offset = 0)
+        {
+            this.CheckFileIsNotClosed();
 
-		public override long seek(string whence, long offset = 0)
-		{
-			CheckFileIsNotClosed();
-			if (whence != null)
-			{
-				if (whence == "set")
-				{
-					m_Stream.Seek(offset, SeekOrigin.Begin);
-				}
-				else if (whence == "cur")
-				{
-					m_Stream.Seek(offset, SeekOrigin.Current);
-				}
-				else if (whence == "end")
-				{
-					m_Stream.Seek(offset, SeekOrigin.End);
-				}
-				else
-				{
-					throw ScriptRuntimeException.BadArgument(0, "seek", "invalid option '" + whence + "'");
-				}
-			}
+            if (whence != null)
+            {
+                if (whence == "set")
+                {
+                    _stream.Seek(offset, SeekOrigin.Begin);
+                }
+                else if (whence == "cur")
+                {
+                    _stream.Seek(offset, SeekOrigin.Current);
+                }
+                else if (whence == "end")
+                {
+                    _stream.Seek(offset, SeekOrigin.End);
+                }
+                else
+                {
+                    throw ScriptRuntimeException.BadArgument(0, "seek", "invalid option '" + whence + "'");
+                }
+            }
 
-			return m_Stream.Position;
-		}
+            return _stream.Position;
+        }
 
-		public override bool setvbuf(string mode)
-		{
-			CheckFileIsNotClosed();
-			if (m_Writer != null)
-				m_Writer.AutoFlush = (mode == "no" || mode == "line");
-			return true;
-		}
+        public override bool setvbuf(string mode)
+        {
+            this.CheckFileIsNotClosed();
 
-		protected internal override bool isopen()
-		{
-			return !m_Closed;
-		}
+            if (_writer != null)
+            {
+                _writer.AutoFlush = (mode == "no" || mode == "line");
+            }
 
-	}
+            return true;
+        }
+
+        protected internal override bool isopen()
+        {
+            return !_closed;
+        }
+    }
 }

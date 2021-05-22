@@ -1,10 +1,20 @@
-﻿using Avalon.Colors;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using Avalon.Colors;
 using Avalon.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Media;
 using Trigger = Avalon.Common.Triggers.Trigger;
 
 namespace Avalon
@@ -56,6 +66,7 @@ namespace Avalon
             CheckBoxSilent.IsChecked = trigger.IsSilent;
             CheckBoxDisableAfterTriggered.IsChecked = trigger.DisableAfterTriggered;
             CheckBoxStopProcessing.IsChecked = trigger.StopProcessing;
+            CheckBoxLineTransformer.IsChecked = trigger.LineTransformer;
 
             var dict = new Dictionary<int, string>
             {
@@ -67,6 +78,17 @@ namespace Avalon
 
             ComboBoxRedirectTo.ItemsSource = dict;
             ComboBoxRedirectTo.SelectedValue = (int)trigger.MoveTo;
+
+            // Not using the enum here pains me.
+            var dictExecuteAs = new Dictionary<int, string>
+            {
+                { 0, "Command" },
+                { 1, "Lua: MoonSharp" },
+                { 2, "Lua: NLua" }
+            };
+
+            ComboBoxExecuteAs.ItemsSource = dictExecuteAs;
+            ComboBoxExecuteAs.SelectedValue = (int)trigger.ExecuteAs;
         }
 
         /// <summary>
@@ -113,6 +135,7 @@ namespace Avalon
                 this.Trigger.IsSilent = (bool)CheckBoxSilent.IsChecked;
                 this.Trigger.DisableAfterTriggered = (bool)CheckBoxDisableAfterTriggered.IsChecked;
                 this.Trigger.StopProcessing = (bool)CheckBoxStopProcessing.IsChecked;
+                this.Trigger.LineTransformer = (bool)CheckBoxLineTransformer.IsChecked;
 
                 // Set it to the default trigger priority if it is NaN.
                 if (double.IsNaN(TextPriority.Value))
@@ -130,8 +153,13 @@ namespace Avalon
                     this.Trigger.MoveTo = (TerminalTarget)ComboBoxRedirectTo.SelectedValue;
                 }
 
+                if (ComboBoxExecuteAs.SelectedValue != null)
+                {
+                    this.Trigger.ExecuteAs = (ExecuteType) ComboBoxExecuteAs.SelectedValue;
+                }
+
                 // Just in case this will make sure the Conveyor is setup on this trigger.
-                Utilities.Utilities.TriggerConveyorSetup();
+                Utilities.Utilities.TriggerSetup();
 
                 this.Close();
             }
@@ -149,7 +177,9 @@ namespace Avalon
                 Text = this.TextCommand.Text
             };
 
-            if (this.Trigger.IsLua)
+            if (this.Trigger.IsLua 
+                || this.Trigger.ExecuteAs == ExecuteType.LuaMoonsharp 
+                || this.Trigger.ExecuteAs == ExecuteType.LuaNLua)
             {
                 win.EditorMode = StringEditor.EditorType.Lua;
             }

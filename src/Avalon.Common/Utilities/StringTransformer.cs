@@ -1,4 +1,13 @@
-﻿using System;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,16 +28,6 @@ namespace Avalon.Common.Utilities
     /// </remarks>
     public class StringTransformer
     {
-        //*********************************************************************************************************************
-        //
-        //             Class:  StringTransformer
-        //      Organization:  http://www.blakepell.com
-        //      Initial Date:  04/25/2020
-        //      Last Updated:  12/06/2020
-        //     Programmer(s):  Blake Pell, blakepell@hotmail.com
-        //
-        //*********************************************************************************************************************
-
         /// <summary>
         /// A single internal StringBuilder used to process and return the output.
         /// </summary>

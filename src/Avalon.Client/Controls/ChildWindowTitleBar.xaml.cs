@@ -1,4 +1,13 @@
-﻿using ModernWpf;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using ModernWpf;
 using ModernWpf.Controls;
 using System;
 using System.Windows;
@@ -119,17 +128,6 @@ namespace Avalon.Controls
             {
                 this.FindAscendant<Window>().DragMove();
             }
-        }
-
-        /// <summary>
-        /// Toggles the opening and closing of the split view menu.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void PART_SplitViewOpen_Click(object sender, RoutedEventArgs e)
-        {
-            var win = this.FindAscendant<MainWindow>();
-            win.SplitViewMain.IsPaneOpen = !win.SplitViewMain.IsPaneOpen;
         }
 
         /// <summary>

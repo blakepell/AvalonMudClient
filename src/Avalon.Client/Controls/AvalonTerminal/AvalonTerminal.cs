@@ -1,4 +1,13 @@
-﻿using System.Text;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using System.Text;
 using Avalon.Common.Colors;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -8,6 +17,8 @@ using Avalon.Colors;
 using Avalon.Common.Models;
 using System;
 using System.Linq;
+using ICSharpCode.AvalonEdit.Folding;
+using ICSharpCode.AvalonEdit.Rendering;
 
 namespace Avalon.Controls
 {
@@ -84,34 +95,54 @@ namespace Avalon.Controls
             this.SizeChanged += this.AvalonTerminal_SizeChanged;
 
             // Find out if we're wrapped.
-            this.TextArea.TextView.VisualLineConstructionStarting += this.TextView_VisualLineConstructionStarting;            
+            this.TextArea.TextView.VisualLinesChanged += this.TextView_VisualLinesChanged;
+
+            // When the control is unloaded we'll unwind anything that needs cleaned up like event handlers.
+            this.Unloaded += AvalonTerminal_Unloaded;
         }
 
         /// <summary>
-        /// Code to execute when the visual lines begin construction (I think this happens just before).
+        /// Cleans up any resources that need to be properly cleaned up when the control unloads.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void TextView_VisualLineConstructionStarting(object sender, ICSharpCode.AvalonEdit.Rendering.VisualLineConstructionStartEventArgs e)
+        private void AvalonTerminal_Unloaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                this.PreviewKeyDown -= OnPreviewKeyDown;
+                this.SizeChanged -= this.AvalonTerminal_SizeChanged;
+                this.TextArea.TextView.VisualLinesChanged -= this.TextView_VisualLinesChanged;
+                this.Unloaded -= this.AvalonTerminal_Unloaded;
+            }
+            catch (Exception ex)
+            {
+                App.Conveyor.EchoError($"Error unloading terminal: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Attempts to determine if any of the visual lines are currently wrapped.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TextView_VisualLinesChanged(object sender, EventArgs e)
         {
             if (this.TextArea.TextView.VisualLinesValid && this.TextArea.TextView.VisualLines.Any())
             {
-                foreach (var item in this.TextArea.TextView.VisualLines)
+                for (int index = 0; index < this.TextArea.TextView.VisualLines.Count; index++)
                 {
-                    // If it's more than one line AND it's not gagged (very important).
-                    if (item.TextLines.Count > 1 && !this.Gag.CollapsedLineSections.ContainsKey(item.FirstDocumentLine.LineNumber))
+                    var line = this.TextArea.TextView.VisualLines[index];
+
+                    if (line.TextLines[0].DependentLength > 0 && !this.Gag.CollapsedLineSections.ContainsKey(line.FirstDocumentLine.LineNumber))
                     {
                         this.HasVisibleWrappedLines = true;
                         return;
                     }
                 }
-            }
-            else
-            {
-                return;
-            }
 
-            this.HasVisibleWrappedLines = false;
+                this.HasVisibleWrappedLines = false;
+            }
         }
 
         /// <summary>
@@ -441,7 +472,7 @@ namespace Avalon.Controls
             // all terminal windows except the back buffer.  The AutoScroll property can override this behavior in
             // terms of being able to turn it off.
             if (this.IsAutoScrollEnabled && line.ScrollToLastLine)
-            {                
+            {
                 this.ScrollToLastLine();
             }
         }
@@ -506,7 +537,8 @@ namespace Avalon.Controls
         {
             if (this.HasVisibleWrappedLines)
             {
-                this.ScrollTo(this.LineCount, 0);
+                this.ScrollToEnd();
+                //this.ScrollTo(this.LineCount, 0);
             }
             else
             {
@@ -527,7 +559,8 @@ namespace Avalon.Controls
             }
             else
             {
-                this.ScrollTo(this.LineCount, 0);
+                this.ScrollToEnd(); 
+                //this.ScrollTo(this.LineCount, 0);
             }
         }
 
@@ -537,7 +570,7 @@ namespace Avalon.Controls
         /// <param name="index"></param>
         public void ScrollToIndex(int index)
         {
-            if (index >=0 && index < this.Document.TextLength)
+            if (index >= 0 && index < this.Document.TextLength)
             {
                 this.ScrollToLine(this.Document.GetLocation(index).Line);
             }
@@ -598,7 +631,7 @@ namespace Avalon.Controls
             {
                 return;
             }
-            
+
             var line = this.Document.GetLineByNumber(lineNumber);
 
             if (line == null)
@@ -714,7 +747,7 @@ namespace Avalon.Controls
             {
                 this.Gag.UncollapseAll();
             }
-            
+
             this.Document.Replace(start, searchFor.Length, replaceWith);
         }
 
@@ -727,7 +760,7 @@ namespace Avalon.Controls
         public void Replace(string searchFor, string replaceWith, bool selectedOnly)
         {
             int index;
-            
+
             if (selectedOnly)
             {
                 index = this.Document.IndexOf(searchFor, this.SelectionStart, this.SelectionLength, StringComparison.Ordinal);
@@ -815,7 +848,7 @@ namespace Avalon.Controls
             {
                 _lastFindIndex = 0;
             }
-            
+
             if (string.IsNullOrEmpty(searchFor) || this.Document.TextLength == 0)
             {
                 _lastFindIndex = 0;
@@ -825,7 +858,7 @@ namespace Avalon.Controls
             int index = this.Document.Text.IndexOf(searchFor, _lastFindIndex, StringComparison.Ordinal);
 
             if (index != -1)
-            {                
+            {
                 // Select the text that we found
                 this.Select(index, searchFor.Length);
 
@@ -846,8 +879,8 @@ namespace Avalon.Controls
         /// </summary>
         /// <param name="lineNumber"></param>
         public string GetText(int lineNumber)
-        {                        
-            var line = this.Document.GetLineByNumber(lineNumber);            
+        {
+            var line = this.Document.GetLineByNumber(lineNumber);
             return this.Document.GetText(line.Offset, line.Length);
         }
 
@@ -882,9 +915,9 @@ namespace Avalon.Controls
                 IsDeleted = line.IsDeleted,
                 LinesWithWrap = linesWithWrap
             };
-            
+
             lineData.IsEmptyOrWhitespace = string.IsNullOrWhiteSpace(lineData.Text);
-            
+
             return lineData;
         }
 
@@ -894,13 +927,13 @@ namespace Avalon.Controls
         public string LastNonEmptyLine
         {
             get
-            {                                
+            {
                 string text = "";
                 int i = this.Document.LineCount;
 
                 while (string.IsNullOrEmpty(text) && i > 0)
-                {                    
-                    var line = this.Document.GetLineByNumber(i);                                        
+                {
+                    var line = this.Document.GetLineByNumber(i);
                     text = this.Document.GetText(line.Offset, line.Length);
                     i--;
                 }

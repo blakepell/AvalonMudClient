@@ -1,4 +1,13 @@
-﻿using ICSharpCode.AvalonEdit.Rendering;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using ICSharpCode.AvalonEdit.Rendering;
 using System.Windows.Media.TextFormatting;
 
 namespace Avalon.Controls
@@ -14,7 +23,19 @@ namespace Avalon.Controls
 
         public override TextRun CreateTextRun(int startVisualColumn, ITextRunConstructionContext context)
         {
-            return new TextHidden(1);
+            return StaticElements.TextHiddenElement;
         }
+    }
+
+    /// <summary>
+    /// Static elements for reuse.
+    /// </summary>
+    public static class StaticElements
+    {
+        /// <summary>
+        /// Since the TextHidden(1) is used a lot and it never changes, we're going to make one
+        /// static copy of it to save a lot of allocations.
+        /// </summary>
+        public static TextHidden TextHiddenElement = new TextHidden(1);
     }
 }

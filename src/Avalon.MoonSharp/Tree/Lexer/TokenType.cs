@@ -1,5 +1,4 @@
-﻿
-namespace MoonSharp.Interpreter.Tree
+﻿namespace MoonSharp.Interpreter.Tree
 {
 	enum TokenType
 	{
@@ -69,7 +68,4 @@ namespace MoonSharp.Interpreter.Tree
 		Brk_Open_Curly_Shared,
 		Op_Dollar,
 	}
-
-
-
 }

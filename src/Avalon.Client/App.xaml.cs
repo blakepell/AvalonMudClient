@@ -1,4 +1,13 @@
-﻿using System.Collections.Generic;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using System.Collections.Generic;
 using System.Windows;
 using Avalon.Common.Settings;
 using Avalon.Common.Interfaces;
@@ -42,12 +51,6 @@ namespace Avalon
         internal static ISettingsProvider Settings { get; set; }
 
         /// <summary>
-        /// These are immutable triggers that are set by the mud client that will be isolated from
-        /// the user defined triggers.  (TODO: Factor into abstract layer)
-        /// </summary>
-        internal static List<ITrigger> SystemTriggers { get; set; } = new List<ITrigger>();
-
-        /// <summary>
         /// A list of plugins that were loaded via reflection on startup.
         /// </summary>
         internal static List<Plugin> Plugins { get; set; } = new List<Plugin>();
@@ -62,11 +65,6 @@ namespace Avalon
         /// the mud client.
         /// </summary>
         internal static InstanceGlobals InstanceGlobals { get; set; } = new InstanceGlobals();
-
-        /// <summary>
-        /// An override to force skipping a save on exit in case someone borked their settings up.
-        /// </summary>
-        internal static bool SkipSaveOnExit { get; set; } = false;
 
         /// <summary>
         /// The SoundPlayer used to play the ANSI beep.
@@ -136,7 +134,7 @@ namespace Avalon
         {
             // Save the users current profile on exit if the setting is set to do so, but also if the override
             // to skip it hasn't been flagged.
-            if (Settings.ProfileSettings.SaveSettingsOnExit && SkipSaveOnExit == false)
+            if (Settings.ProfileSettings.SaveSettingsOnExit && !InstanceGlobals.SkipSaveOnExit)
             {
                 // For saving of the grid layout into the settings object.
                 App.MainWindow.SaveGridState();

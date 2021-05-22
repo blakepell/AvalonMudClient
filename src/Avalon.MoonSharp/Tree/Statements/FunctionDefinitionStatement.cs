@@ -1,136 +1,132 @@
 ﻿using System.Collections.Generic;
 using MoonSharp.Interpreter.Debugging;
 using MoonSharp.Interpreter.Execution;
-
+using MoonSharp.Interpreter.Execution.VM;
 using MoonSharp.Interpreter.Tree.Expressions;
 
 namespace MoonSharp.Interpreter.Tree.Statements
 {
-	class FunctionDefinitionStatement : Statement
-	{
-		SymbolRef m_FuncSymbol;
-		SourceRef m_SourceRef;
+    internal class FunctionDefinitionStatement : Statement
+    {
+        private string _friendlyName;
+        private FunctionDefinitionExpression _funcDef;
+        private SymbolRef _funcSymbol;
+        private bool _isMethodCallingConvention;
+        private bool _local;
+        private string _methodName;
+        private SourceRef _sourceRef;
+        private List<string> _tableAccessors;
 
-		bool m_Local = false;
-		bool m_IsMethodCallingConvention = false;
-		string m_MethodName = null;
+        public FunctionDefinitionStatement(ScriptLoadingContext lcontext, bool local, Token localToken) : base(lcontext)
+        {
+            // here lexer must be at the 'function' keyword
+            var funcKeyword = CheckTokenType(lcontext, TokenType.Function);
+            funcKeyword = localToken ?? funcKeyword; // for debugger purposes
 
-		string m_FriendlyName;
-		List<string> m_TableAccessors;
-		FunctionDefinitionExpression m_FuncDef;
+            _local = local;
 
-		public FunctionDefinitionStatement(ScriptLoadingContext lcontext, bool local, Token localToken)
-			: base(lcontext)
-		{
-			// here lexer must be at the 'function' keyword
-			Token funcKeyword = CheckTokenType(lcontext, TokenType.Function);
-			funcKeyword = localToken ?? funcKeyword; // for debugger purposes
-			
-			m_Local = local;
+            if (_local)
+            {
+                var name = CheckTokenType(lcontext, TokenType.Name);
+                _funcSymbol = lcontext.Scope.TryDefineLocal(name.Text);
+                _friendlyName = $"{name.Text} (local)";
+                _sourceRef = funcKeyword.GetSourceRef(name);
+            }
+            else
+            {
+                var name = CheckTokenType(lcontext, TokenType.Name);
+                string firstName = name.Text;
 
-			if (m_Local)
-			{
-				Token name = CheckTokenType(lcontext, TokenType.Name);
-				m_FuncSymbol = lcontext.Scope.TryDefineLocal(name.Text);
-				m_FriendlyName = string.Format("{0} (local)", name.Text);
-				m_SourceRef = funcKeyword.GetSourceRef(name);
-			}
-			else
-			{
-				Token name = CheckTokenType(lcontext, TokenType.Name);
-				string firstName = name.Text;
+                _sourceRef = funcKeyword.GetSourceRef(name);
 
-				m_SourceRef = funcKeyword.GetSourceRef(name);
+                _funcSymbol = lcontext.Scope.Find(firstName);
+                _friendlyName = firstName;
 
-				m_FuncSymbol = lcontext.Scope.Find(firstName);
-				m_FriendlyName = firstName;
+                if (lcontext.Lexer.Current.Type != TokenType.Brk_Open_Round)
+                {
+                    _tableAccessors = new List<string>();
 
-				if (lcontext.Lexer.Current.Type != TokenType.Brk_Open_Round)
-				{
-					m_TableAccessors = new List<string>();
+                    while (lcontext.Lexer.Current.Type != TokenType.Brk_Open_Round)
+                    {
+                        var separator = lcontext.Lexer.Current;
 
-					while (lcontext.Lexer.Current.Type != TokenType.Brk_Open_Round)
-					{
-						Token separator = lcontext.Lexer.Current;
+                        if (separator.Type != TokenType.Colon && separator.Type != TokenType.Dot)
+                        {
+                            UnexpectedTokenType(separator);
+                        }
 
-						if (separator.Type != TokenType.Colon && separator.Type != TokenType.Dot)
-							UnexpectedTokenType(separator);
-						
-						lcontext.Lexer.Next();
+                        lcontext.Lexer.Next();
 
-						Token field = CheckTokenType(lcontext, TokenType.Name);
+                        var field = CheckTokenType(lcontext, TokenType.Name);
 
-						m_FriendlyName += separator.Text + field.Text;
-						m_SourceRef = funcKeyword.GetSourceRef(field);
+                        _friendlyName += $"{separator.Text}{field.Text}";
+                        _sourceRef = funcKeyword.GetSourceRef(field);
 
-						if (separator.Type == TokenType.Colon)
-						{
-							m_MethodName = field.Text;
-							m_IsMethodCallingConvention = true;
-							break;
-						}
-						else
-						{
-							m_TableAccessors.Add(field.Text);
-						}
-					}
+                        if (separator.Type == TokenType.Colon)
+                        {
+                            _methodName = field.Text;
+                            _isMethodCallingConvention = true;
+                            break;
+                        }
 
-					if (m_MethodName == null && m_TableAccessors.Count > 0)
-					{
-						m_MethodName = m_TableAccessors[m_TableAccessors.Count - 1];
-						m_TableAccessors.RemoveAt(m_TableAccessors.Count - 1);
-					}
-				}
-			}
+                        _tableAccessors.Add(field.Text);
+                    }
 
-			m_FuncDef = new FunctionDefinitionExpression(lcontext, m_IsMethodCallingConvention, false);
-			lcontext.Source.Refs.Add(m_SourceRef);
-		}
+                    if (_methodName == null && _tableAccessors.Count > 0)
+                    {
+                        _methodName = _tableAccessors[_tableAccessors.Count - 1];
+                        _tableAccessors.RemoveAt(_tableAccessors.Count - 1);
+                    }
+                }
+            }
 
-		public override void Compile(Execution.VM.ByteCode bc)
-		{
-			using (bc.EnterSource(m_SourceRef))
-			{
-				if (m_Local)
-				{
-					bc.Emit_Literal(DynValue.Nil);
-					bc.Emit_Store(m_FuncSymbol, 0, 0);
-					m_FuncDef.Compile(bc, () => SetFunction(bc, 2), m_FriendlyName);
-				}
-				else if (m_MethodName == null)
-				{
-					m_FuncDef.Compile(bc, () => SetFunction(bc, 1), m_FriendlyName);
-				}
-				else
-				{
-					m_FuncDef.Compile(bc, () => SetMethod(bc), m_FriendlyName);
-				}
-			}
-		}
+            _funcDef = new FunctionDefinitionExpression(lcontext, _isMethodCallingConvention, false);
+            lcontext.Source.Refs.Add(_sourceRef);
+        }
 
-		private int SetMethod(Execution.VM.ByteCode bc)
-		{
-			int cnt = 0;
+        public override void Compile(ByteCode bc)
+        {
+            using (bc.EnterSource(_sourceRef))
+            {
+                if (_local)
+                {
+                    bc.Emit_Literal(DynValue.Nil);
+                    bc.Emit_Store(_funcSymbol, 0, 0);
+                    _funcDef.Compile(bc, () => this.SetFunction(bc, 2), _friendlyName);
+                }
+                else if (_methodName == null)
+                {
+                    _funcDef.Compile(bc, () => this.SetFunction(bc, 1), _friendlyName);
+                }
+                else
+                {
+                    _funcDef.Compile(bc, () => this.SetMethod(bc), _friendlyName);
+                }
+            }
+        }
 
-			cnt += bc.Emit_Load(m_FuncSymbol);
+        private int SetMethod(ByteCode bc)
+        {
+            int cnt = 0;
 
-			foreach (string str in m_TableAccessors)
-			{
-				bc.Emit_Index(DynValue.NewString(str), true);
-				cnt += 1;
-			}
+            cnt += bc.Emit_Load(_funcSymbol);
 
-			bc.Emit_IndexSet(0, 0, DynValue.NewString(m_MethodName), true);
+            foreach (string str in _tableAccessors)
+            {
+                bc.Emit_Index(DynValue.NewString(str), true);
+                cnt += 1;
+            }
 
-			return 1 + cnt;
-		}
+            bc.Emit_IndexSet(0, 0, DynValue.NewString(_methodName), true);
 
-		private int SetFunction(Execution.VM.ByteCode bc, int numPop)
-		{
-			int num = bc.Emit_Store(m_FuncSymbol, 0, 0);
-			bc.Emit_Pop(numPop);
-			return num + 1;
-		}
+            return 1 + cnt;
+        }
 
-	}
+        private int SetFunction(ByteCode bc, int numPop)
+        {
+            int num = bc.Emit_Store(_funcSymbol, 0, 0);
+            bc.Emit_Pop(numPop);
+            return num + 1;
+        }
+    }
 }

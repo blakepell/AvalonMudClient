@@ -1,4 +1,13 @@
-﻿using Argus.Extensions;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using Argus.Extensions;
 using Avalon.Common.Interfaces;
 using CommandLine;
 using System;
@@ -44,7 +53,7 @@ namespace Avalon.HashCommands
                             this.Interpreter.Conveyor.WindowList[i].Close();
                         }
 
-                        this.Interpreter.Conveyor.EchoLog($"{count} {"window".IfCountPluralize(count, "windows")} {"was".IfCountPluralize(count, "were")} closed", Common.Models.LogType.Information);
+                        this.Interpreter.Conveyor.EchoLog($"{count.ToString()} {"window".IfCountPluralize(count, "windows")} {"was".IfCountPluralize(count, "were")} closed", Common.Models.LogType.Information);
 
                         return;
                     }
@@ -111,7 +120,7 @@ namespace Avalon.HashCommands
                         foreach (var win in this.Interpreter.Conveyor.WindowList)
                         {
                             i++;
-                            sb.AppendLine($"{i}.) {win.Name}");
+                            sb.AppendLine($"{i.ToString()}.) {win.Name}");
                         }
 
                         this.Interpreter.Conveyor.EchoText(sb.ToString());
@@ -124,8 +133,8 @@ namespace Avalon.HashCommands
                     // Main window handling
                     if (o.Info)
                     {
-                        this.Interpreter.Conveyor.EchoText($"Width = {App.MainWindow.Width},  Height = {App.MainWindow.Height}");
-                        this.Interpreter.Conveyor.EchoText($"Left = {App.MainWindow.Left},  Height = {App.MainWindow.Top}");
+                        this.Interpreter.Conveyor.EchoText($"Width = {{y{App.MainWindow.Width.ToString()}{{x,  Height = {{y{App.MainWindow.Height.ToString()}{{x\r\n");
+                        this.Interpreter.Conveyor.EchoText($"Left = {{y{App.MainWindow.Left.ToString()}{{x,  Height = {{y{App.MainWindow.Top.ToString()}{{x\r\n");
                     }
 
                     if (o.Height > 0)

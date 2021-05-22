@@ -1,4 +1,13 @@
-﻿namespace Avalon.Common.Models
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+namespace Avalon.Common.Models
 {
     /// <summary>
     /// The severity or type of log message.

@@ -1,7 +1,19 @@
-﻿using System;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using System;
+using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using Argus.Extensions;
 using Avalon.Colors;
 using Avalon.Common.Models;
 using Avalon.Controls;
@@ -24,7 +36,7 @@ namespace Avalon
             ActivatePlugins();
 
             // Connect, then put the focus into the input text box.
-            Interp.Connect(HandleLineReceived, this.HandleDataReceived, HandleConnectionClosed);            
+            Interp.Connect(HandleLineReceived, this.HandleDataReceived, HandleConnectionClosed);
             TitleBar.IsConnected = true;
             MenuNetworkButton.Header = "Disconnect";
             TextInput.Focus();
@@ -160,7 +172,7 @@ namespace Avalon
 
                 // Append the data to the terminal as it comes in.
                 GameTerminal.Append(sb);
-
+                
                 // If the back buffer setting is enabled put the data also in there.
                 if (App.Settings.AvalonSettings.BackBufferEnabled)
                 {

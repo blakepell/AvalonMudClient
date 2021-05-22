@@ -4,53 +4,43 @@ using MoonSharp.Interpreter.Compatibility;
 
 namespace MoonSharp.Interpreter.Interop
 {
-	/// <summary>
-	/// A user data descriptor which aggregates multiple descriptors and tries dispatching members
-	/// on them, in order.
-	/// 
-	/// Used, for example, for objects implementing multiple interfaces but for which no descriptor is 
-	/// specifically registered.
-	/// </summary>
-	public class CompositeUserDataDescriptor : IUserDataDescriptor
-	{
-		private List<IUserDataDescriptor> m_Descriptors;
-		private Type m_Type;
+    /// <summary>
+    /// A user data descriptor which aggregates multiple descriptors and tries dispatching members
+    /// on them, in order.
+    /// 
+    /// Used, for example, for objects implementing multiple interfaces but for which no descriptor is 
+    /// specifically registered.
+    /// </summary>
+    public class CompositeUserDataDescriptor : IUserDataDescriptor
+    {
+        private List<IUserDataDescriptor> m_Descriptors;
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CompositeUserDataDescriptor"/> class.
-		/// </summary>
-		/// <param name="descriptors">The descriptors.</param>
-		/// <param name="type">The type.</param>
-		public CompositeUserDataDescriptor(List<IUserDataDescriptor> descriptors, Type type)
-		{
-			m_Descriptors = descriptors;
-			m_Type = type;
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CompositeUserDataDescriptor"/> class.
+        /// </summary>
+        /// <param name="descriptors">The descriptors.</param>
+        /// <param name="type">The type.</param>
+        public CompositeUserDataDescriptor(List<IUserDataDescriptor> descriptors, Type type)
+        {
+            m_Descriptors = descriptors;
+            this.Type = type;
+        }
 
-		/// <summary>
-		/// Gets the descriptors aggregated by this object, allowing changes to the descriptor list
-		/// </summary>
-		public IList<IUserDataDescriptor> Descriptors 
-		{ 
-			get { return m_Descriptors; } 
-		}
+        /// <summary>
+        /// Gets the descriptors aggregated by this object, allowing changes to the descriptor list
+        /// </summary>
+        public IList<IUserDataDescriptor> Descriptors => m_Descriptors;
 
 
-		/// <summary>
-		/// Gets the name of the descriptor (usually, the name of the type described).
-		/// </summary>
-		public string Name
-		{
-			get { return "^" + m_Type.FullName; }
-		}
+        /// <summary>
+        /// Gets the name of the descriptor (usually, the name of the type described).
+        /// </summary>
+        public string Name => "^" + this.Type.FullName;
 
-		/// <summary>
-		/// Gets the type this descriptor refers to
-		/// </summary>
-		public Type Type
-		{
-			get { return m_Type; }
-		}
+        /// <summary>
+        /// Gets the type this descriptor refers to
+        /// </summary>
+        public Type Type { get; }
 
         /// <summary>
         /// Performs an "index" "get" operation.
@@ -59,18 +49,22 @@ namespace MoonSharp.Interpreter.Interop
         /// <param name="script">The script originating the request</param>
         /// <param name="obj">The object (null if a static request is done)</param>
         /// <param name="index">The index.</param>
-        /// <param name="isDirectIndexing">If set to true, it's indexed with a name, if false it's indexed through brackets.</param>
-        public DynValue Index(ExecutionControlToken ecToken, Script script, object obj, DynValue index, bool isNameIndex)
-		{
-			foreach (IUserDataDescriptor dd in m_Descriptors)
-			{
-				DynValue v = dd.Index(ecToken, script, obj, index, isNameIndex);
+        /// <param name="isNameIndex">If set to true, it's indexed with a name, if false it's indexed through brackets.</param>
+        public DynValue Index(ExecutionControlToken ecToken, Script script, object obj, DynValue index,
+            bool isNameIndex)
+        {
+            foreach (var dd in m_Descriptors)
+            {
+                var v = dd.Index(ecToken, script, obj, index, isNameIndex);
 
-				if (v != null)
-					return v;
-			}
-			return null;
-		}
+                if (v != null)
+                {
+                    return v;
+                }
+            }
+
+            return null;
+        }
 
         /// <summary>
         /// Performs an "index" "set" operation.
@@ -80,25 +74,29 @@ namespace MoonSharp.Interpreter.Interop
         /// <param name="obj">The object (null if a static request is done)</param>
         /// <param name="index">The index.</param>
         /// <param name="value">The value to be set</param>
-        /// <param name="isDirectIndexing">If set to true, it's indexed with a name, if false it's indexed through brackets.</param>
-        public bool SetIndex(ExecutionControlToken ecToken, Script script, object obj, DynValue index, DynValue value, bool isNameIndex)
-		{
-			foreach (IUserDataDescriptor dd in m_Descriptors)
-			{
-				if (dd.SetIndex(ecToken, script, obj, index, value, isNameIndex))
-					return true;
-			}
-			return false;
-		}
+        /// <param name="isNameIndex">If set to true, it's indexed with a name, if false it's indexed through brackets.</param>
+        public bool SetIndex(ExecutionControlToken ecToken, Script script, object obj, DynValue index, DynValue value,
+            bool isNameIndex)
+        {
+            foreach (var dd in m_Descriptors)
+            {
+                if (dd.SetIndex(ecToken, script, obj, index, value, isNameIndex))
+                {
+                    return true;
+                }
+            }
 
-		/// <summary>
-		/// Converts this userdata to string
-		/// </summary>
-		/// <param name="obj">The object.</param>
-		public string AsString(object obj)
-		{
-			return (obj != null) ? obj.ToString() : null;
-		}
+            return false;
+        }
+
+        /// <summary>
+        /// Converts this userdata to string
+        /// </summary>
+        /// <param name="obj">The object.</param>
+        public string AsString(object obj)
+        {
+            return (obj != null) ? obj.ToString() : null;
+        }
 
 
         /// <summary>
@@ -116,28 +114,31 @@ namespace MoonSharp.Interpreter.Interop
         /// <param name="obj">The object (null if a static request is done)</param>
         /// <param name="metaname">The name of the metamember.</param>
         public DynValue MetaIndex(ExecutionControlToken ecToken, Script script, object obj, string metaname)
-		{
-			foreach (IUserDataDescriptor dd in m_Descriptors)
-			{
-				DynValue v = dd.MetaIndex(ecToken, script, obj, metaname);
+        {
+            foreach (var dd in m_Descriptors)
+            {
+                var v = dd.MetaIndex(ecToken, script, obj, metaname);
 
-				if (v != null)
-					return v;
-			}
-			return null;
-		}
+                if (v != null)
+                {
+                    return v;
+                }
+            }
+
+            return null;
+        }
 
 
-		/// <summary>
-		/// Determines whether the specified object is compatible with the specified type.
-		/// Unless a very specific behaviour is needed, the correct implementation is a 
-		/// simple " return type.IsInstanceOfType(obj); "
-		/// </summary>
-		/// <param name="type">The type.</param>
-		/// <param name="obj">The object.</param>
-		public bool IsTypeCompatible(Type type, object obj)
-		{
-			return Framework.Do.IsInstanceOfType(type, obj);
-		}
-	}
+        /// <summary>
+        /// Determines whether the specified object is compatible with the specified type.
+        /// Unless a very specific behaviour is needed, the correct implementation is a 
+        /// simple " return type.IsInstanceOfType(obj); "
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <param name="obj">The object.</param>
+        public bool IsTypeCompatible(Type type, object obj)
+        {
+            return Framework.Do.IsInstanceOfType(type, obj);
+        }
+    }
 }

@@ -1,8 +1,17 @@
-﻿using Avalon.Controls;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using Argus.Extensions;
+using Avalon.Controls;
 using ModernWpf;
-using System.Windows.Input;
-using Avalon.Extensions;
 using System.Linq;
+using System.Windows.Input;
 
 namespace Avalon
 {

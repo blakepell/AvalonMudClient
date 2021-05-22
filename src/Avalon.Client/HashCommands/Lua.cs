@@ -1,4 +1,13 @@
-﻿using Avalon.Common.Interfaces;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using Avalon.Common.Interfaces;
 using System.Threading.Tasks;
 
 namespace Avalon.HashCommands
@@ -17,8 +26,8 @@ namespace Avalon.HashCommands
         public override async Task ExecuteAsync()
         {
             // Call our single point of Lua entry.
-            var lua = ((Interpreter)this.Interpreter).LuaCaller;
-            await lua.ExecuteAsync(Parameters);
+            var lua = ((Interpreter)this.Interpreter).ScriptHost.MoonSharp;
+            _ = await lua.ExecuteAsync<object>(Parameters);
         }
     }
 }

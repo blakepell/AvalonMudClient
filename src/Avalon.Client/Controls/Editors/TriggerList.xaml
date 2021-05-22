@@ -5,11 +5,23 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Avalon.Controls"
              xmlns:ui="http://schemas.modernwpf.com/2019"
+             xmlns:utilities="clr-namespace:Avalon.Utilities"
+             xmlns:models="clr-namespace:Avalon.Common.Models;assembly=Avalon.Common"
              mc:Ignorable="d" ui:ThemeManager.RequestedTheme="Dark" 
              d:DesignHeight="450" d:DesignWidth="800"
              Loaded="TriggerList_OnLoaded"
              Unloaded="TriggerList_OnUnloaded">
     <Grid>
+        <Grid.Resources>
+            <ObjectDataProvider x:Key="ExecuteTypes"
+                                MethodName="GetValuesAndDescriptions"
+                                ObjectType="utilities:EnumUtility">
+                <ObjectDataProvider.MethodParameters>
+                    <x:TypeExtension TypeName="models:ExecuteType" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </Grid.Resources>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
@@ -71,6 +83,10 @@
                 <DataGridTextColumn Header="Group" Binding="{Binding Group,UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridCheckBoxColumn Header="Enabled" Binding="{Binding Enabled,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
                 <DataGridCheckBoxColumn Header="Lua" Binding="{Binding IsLua,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
+                <DataGridComboBoxColumn Header="Execute As" 
+                                        ItemsSource="{Binding Source={StaticResource ExecuteTypes}}" 
+                                        SelectedValuePath="Value" DisplayMemberPath="Description" SelectedValueBinding="{Binding ExecuteAs, UpdateSourceTrigger=PropertyChanged}">
+                </DataGridComboBoxColumn>
                 <DataGridCheckBoxColumn Header="Var Replace" Binding="{Binding VariableReplacement,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
                 <DataGridCheckBoxColumn Header="Gag" Binding="{Binding Gag,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
                 <DataGridCheckBoxColumn Header="Stop After" Binding="{Binding StopProcessing,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>

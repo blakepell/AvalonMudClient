@@ -1,42 +1,43 @@
 ﻿using MoonSharp.Interpreter.Debugging;
 using MoonSharp.Interpreter.Execution;
+using MoonSharp.Interpreter.Execution.VM;
 
 namespace MoonSharp.Interpreter.Tree.Statements
 {
-	class ScopeBlockStatement : Statement
-	{
-		Statement m_Block;
-		RuntimeScopeBlock m_StackFrame;
-		SourceRef m_Do, m_End;
+    internal class ScopeBlockStatement : Statement
+    {
+        private Statement _block;
+        private SourceRef _do, _end;
+        private RuntimeScopeBlock _stackFrame;
 
-		public ScopeBlockStatement(ScriptLoadingContext lcontext)
-			: base(lcontext)
-		{
-			lcontext.Scope.PushBlock();
+        public ScopeBlockStatement(ScriptLoadingContext lcontext) : base(lcontext)
+        {
+            lcontext.Scope.PushBlock();
 
-			m_Do = CheckTokenType(lcontext, TokenType.Do).GetSourceRef();
+            _do = CheckTokenType(lcontext, TokenType.Do).GetSourceRef();
 
-			m_Block = new CompositeStatement(lcontext);
+            _block = new CompositeStatement(lcontext);
 
-			m_End = CheckTokenType(lcontext, TokenType.End).GetSourceRef();
+            _end = CheckTokenType(lcontext, TokenType.End).GetSourceRef();
 
-			m_StackFrame = lcontext.Scope.PopBlock();
-			lcontext.Source.Refs.Add(m_Do);
-			lcontext.Source.Refs.Add(m_End);
-		}
+            _stackFrame = lcontext.Scope.PopBlock();
+            lcontext.Source.Refs.Add(_do);
+            lcontext.Source.Refs.Add(_end);
+        }
 
+        public override void Compile(ByteCode bc)
+        {
+            using (bc.EnterSource(_do))
+            {
+                bc.Emit_Enter(_stackFrame);
+            }
 
+            _block.Compile(bc);
 
-		public override void Compile(Execution.VM.ByteCode bc)
-		{
-			using(bc.EnterSource(m_Do))
-				bc.Emit_Enter(m_StackFrame);
-
-			m_Block.Compile(bc);
-
-			using (bc.EnterSource(m_End))
-				bc.Emit_Leave(m_StackFrame);
-		}
-
-	}
+            using (bc.EnterSource(_end))
+            {
+                bc.Emit_Leave(_stackFrame);
+            }
+        }
+    }
 }

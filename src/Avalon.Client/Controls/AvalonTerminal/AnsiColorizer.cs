@@ -1,4 +1,14 @@
-﻿using Avalon.Common.Colors;
+﻿
+/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using Avalon.Common.Colors;
 using Avalon.Extensions;
 using Argus.Extensions;
 using ICSharpCode.AvalonEdit.Document;
@@ -42,6 +52,8 @@ namespace Avalon.Controls
                         endMarker = text.Length;
                     }
 
+                    // TODO: To get rid of the closure allocation here I believe AvalonEdit would need to be updated
+                    //       to support the action accepting additional state info, like the foreground/background brush.
                     // All of the text that needs to be colored
                     base.ChangeLinePart(
                         line.Offset + index,    // startOffset

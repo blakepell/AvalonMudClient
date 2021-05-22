@@ -1,135 +1,140 @@
 ﻿using System.Collections.Generic;
 using MoonSharp.Interpreter.Execution;
+using MoonSharp.Interpreter.Execution.VM;
 
 namespace MoonSharp.Interpreter.Tree.Expressions
 {
-	class TableConstructor : Expression 
-	{
-		bool m_Shared = false;
-		List<Expression> m_PositionalValues = new List<Expression>();
-		List<KeyValuePair<Expression, Expression>> m_CtorArgs = new List<KeyValuePair<Expression, Expression>>();
+    internal class TableConstructor : Expression
+    {
+        private List<KeyValuePair<Expression, Expression>> _ctorArgs = new List<KeyValuePair<Expression, Expression>>();
 
-		public TableConstructor(ScriptLoadingContext lcontext, bool shared)
-			: base(lcontext)
-		{
-			m_Shared = shared;
+        private List<Expression> _positionalValues = new List<Expression>();
+        private bool _shared;
 
-			// here lexer is at the '{', go on
-			CheckTokenType(lcontext, TokenType.Brk_Open_Curly, TokenType.Brk_Open_Curly_Shared);
+        public TableConstructor(ScriptLoadingContext lcontext, bool shared) : base(lcontext)
+        {
+            _shared = shared;
 
-			while (lcontext.Lexer.Current.Type != TokenType.Brk_Close_Curly)
-			{
-				switch (lcontext.Lexer.Current.Type)
-				{
-					case TokenType.Name:
-						{
-							Token assign = lcontext.Lexer.PeekNext();
+            // here lexer is at the '{', go on
+            CheckTokenType(lcontext, TokenType.Brk_Open_Curly, TokenType.Brk_Open_Curly_Shared);
 
-							if (assign.Type == TokenType.Op_Assignment)
-								StructField(lcontext);
-							else
-								ArrayField(lcontext);
-						}
-						break;
-					case TokenType.Brk_Open_Square:
-						MapField(lcontext);
-						break;
-					default:
-						ArrayField(lcontext);
-						break;
-				}
+            while (lcontext.Lexer.Current.Type != TokenType.Brk_Close_Curly)
+            {
+                switch (lcontext.Lexer.Current.Type)
+                {
+                    case TokenType.Name:
+                    {
+                        var assign = lcontext.Lexer.PeekNext();
 
-				Token curr = lcontext.Lexer.Current;
+                        if (assign.Type == TokenType.Op_Assignment)
+                        {
+                            this.StructField(lcontext);
+                        }
+                        else
+                        {
+                            this.ArrayField(lcontext);
+                        }
+                    }
+                        break;
+                    case TokenType.Brk_Open_Square:
+                        this.MapField(lcontext);
+                        break;
+                    default:
+                        this.ArrayField(lcontext);
+                        break;
+                }
 
-				if (curr.Type == TokenType.Comma || curr.Type == TokenType.SemiColon)
-				{
-					lcontext.Lexer.Next();
-				}
-				else
-				{
-					break;
-				}
-			}
+                var curr = lcontext.Lexer.Current;
 
-			CheckTokenType(lcontext, TokenType.Brk_Close_Curly);
-		}
+                if (curr.Type == TokenType.Comma || curr.Type == TokenType.SemiColon)
+                {
+                    lcontext.Lexer.Next();
+                }
+                else
+                {
+                    break;
+                }
+            }
 
-		private void MapField(ScriptLoadingContext lcontext)
-		{
-			lcontext.Lexer.Next(); // skip '['
+            CheckTokenType(lcontext, TokenType.Brk_Close_Curly);
+        }
 
-			Expression key = Expr(lcontext);
+        private void MapField(ScriptLoadingContext lcontext)
+        {
+            lcontext.Lexer.Next(); // skip '['
 
-			CheckTokenType(lcontext, TokenType.Brk_Close_Square);
+            var key = Expr(lcontext);
 
-			CheckTokenType(lcontext, TokenType.Op_Assignment);
+            CheckTokenType(lcontext, TokenType.Brk_Close_Square);
 
-			Expression value = Expr(lcontext);
+            CheckTokenType(lcontext, TokenType.Op_Assignment);
 
-			m_CtorArgs.Add(new KeyValuePair<Expression, Expression>(key, value));
-		}
+            var value = Expr(lcontext);
 
-		private void StructField(ScriptLoadingContext lcontext)
-		{
-			Expression key = new LiteralExpression(lcontext, DynValue.NewString(lcontext.Lexer.Current.Text));
-			lcontext.Lexer.Next();
+            _ctorArgs.Add(new KeyValuePair<Expression, Expression>(key, value));
+        }
 
-			CheckTokenType(lcontext, TokenType.Op_Assignment);
+        private void StructField(ScriptLoadingContext lcontext)
+        {
+            Expression key = new LiteralExpression(lcontext, DynValue.NewString(lcontext.Lexer.Current.Text));
+            lcontext.Lexer.Next();
 
-			Expression value = Expr(lcontext);
+            CheckTokenType(lcontext, TokenType.Op_Assignment);
 
-			m_CtorArgs.Add(new KeyValuePair<Expression, Expression>(key, value));
-		}
+            var value = Expr(lcontext);
 
-
-		private void ArrayField(ScriptLoadingContext lcontext)
-		{
-			Expression e = Expr(lcontext);
-			m_PositionalValues.Add(e);
-		}
+            _ctorArgs.Add(new KeyValuePair<Expression, Expression>(key, value));
+        }
 
 
-		public override void Compile(Execution.VM.ByteCode bc)
-		{
-			bc.Emit_NewTable(m_Shared);
-
-			foreach (var kvp in m_CtorArgs)
-			{
-				kvp.Key.Compile(bc);
-				kvp.Value.Compile(bc);
-				bc.Emit_TblInitN();
-			}
-
-			for (int i = 0; i < m_PositionalValues.Count; i++ )
-			{
-				m_PositionalValues[i].Compile(bc);
-				bc.Emit_TblInitI(i == m_PositionalValues.Count - 1);
-			}
-		}
+        private void ArrayField(ScriptLoadingContext lcontext)
+        {
+            var e = Expr(lcontext);
+            _positionalValues.Add(e);
+        }
 
 
-		public override DynValue Eval(ScriptExecutionContext context)
-		{
-			if (!this.m_Shared)
-			{
-				throw new DynamicExpressionException("Dynamic Expressions cannot define new non-prime tables.");
-			}
+        public override void Compile(ByteCode bc)
+        {
+            bc.Emit_NewTable(_shared);
 
-			DynValue tval = DynValue.NewPrimeTable();
-			Table t = tval.Table;
+            foreach (var kvp in _ctorArgs)
+            {
+                kvp.Key.Compile(bc);
+                kvp.Value.Compile(bc);
+                bc.Emit_TblInitN();
+            }
 
-			int idx = 0;
-			foreach (Expression e in m_PositionalValues)
-			{
-				t.Set(++idx, e.Eval(context));
-			}
+            for (int i = 0; i < _positionalValues.Count; i++)
+            {
+                _positionalValues[i].Compile(bc);
+                bc.Emit_TblInitI(i == _positionalValues.Count - 1);
+            }
+        }
 
-			foreach (KeyValuePair<Expression, Expression> kvp in this.m_CtorArgs)
-			{
-				t.Set(kvp.Key.Eval(context), kvp.Value.Eval(context));
-			}
 
-			return tval;
-		}
-	}
+        public override DynValue Eval(ScriptExecutionContext context)
+        {
+            if (!_shared)
+            {
+                throw new DynamicExpressionException("Dynamic Expressions cannot define new non-prime tables.");
+            }
+
+            var tval = DynValue.NewPrimeTable();
+            var t = tval.Table;
+
+            int idx = 0;
+            foreach (var e in _positionalValues)
+            {
+                t.Set(++idx, e.Eval(context));
+            }
+
+            foreach (var kvp in _ctorArgs)
+            {
+                t.Set(kvp.Key.Eval(context), kvp.Value.Eval(context));
+            }
+
+            return tval;
+        }
+    }
 }

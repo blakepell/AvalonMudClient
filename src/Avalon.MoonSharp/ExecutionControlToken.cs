@@ -5,50 +5,39 @@ namespace MoonSharp.Interpreter
 {
     /// <summary>
     /// This class provides an interface to control execution of Lua scripts ran asynchronously.
-    /// 
-    /// This class is supported only on .NET 4.x and .NET 4.x PCL targets. 
-    /// On other targets, it acts as a dummy.
     /// </summary>
     public class ExecutionControlToken
     {
-        public static readonly ExecutionControlToken Dummy = new ExecutionControlToken() { m_IsDummy = true };
+        public static readonly ExecutionControlToken Dummy = new() {_isDummy = true};
 
-        CancellationTokenSource m_CancellationTokenSource = new CancellationTokenSource();
+        private CancellationTokenSource _cancellationTokenSource = new();
 
-        bool m_IsDummy;
+        private bool _isDummy;
 
         /// <summary>
         ///  Creates an usable execution control token.
         /// </summary>
-        /// <returns>
         public ExecutionControlToken()
         {
-            m_IsDummy = false;
+            _isDummy = false;
         }
+
+        internal bool IsAbortRequested => _cancellationTokenSource.IsCancellationRequested;
 
         /// <summary>
         ///  Aborts the execution of the script that is associated with this token.
         /// </summary>
         public void Terminate()
         {
-            if (!m_IsDummy)
+            if (!_isDummy)
             {
-                m_CancellationTokenSource.Cancel(true);
-            }
-        }
-
-        internal bool IsAbortRequested
-        {
-            get
-            {
-                return m_CancellationTokenSource.IsCancellationRequested;
+                _cancellationTokenSource.Cancel(true);
             }
         }
 
         internal void Wait(TimeSpan timeSpan)
         {
-            m_CancellationTokenSource.Token.WaitHandle.WaitOne(timeSpan);
-            
+            _cancellationTokenSource.Token.WaitHandle.WaitOne(timeSpan);
         }
     }
 }

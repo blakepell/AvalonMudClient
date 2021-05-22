@@ -1,4 +1,13 @@
-﻿using System;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using System;
 using Avalon.Colors;
 using ICSharpCode.AvalonEdit.Rendering;
 using System.Collections.Generic;
@@ -136,7 +145,6 @@ namespace Avalon.Controls
             // Create only one string that will pass multiple times into the trigger's IsMatch function.
             string text = _sb.ToString();
 
-            // TODO - Performance Will running this linq query every time get slow?  Do we need to manually add the gag triggers in only when updated?
             // Once a trigger is found that this thing basically gets out.  It might behoove us here to run the system triggers
             // first and maybe have a priority sequence so they can be run in a certain order.  The example being, the prompt
             // will be gagged the most, it should run first and if it is, nothing else has to run here.
@@ -147,11 +155,11 @@ namespace Avalon.Controls
             // System Triggers moved to be first.
             try
             {
-                foreach (var trigger in App.SystemTriggers.Where(x => x.Gag && x.Enabled))
+                foreach (var trigger in App.InstanceGlobals.SystemTriggers.Where(x => x.Gag && x.Enabled))
                 {
                     // These triggers match for the gag but do NOT execute the trigger's command (VERY important because it would cause the triggers
                     // to get fired multiple times as the line is re-rendered on the screen.. that is -bad-).
-                    if (trigger.Regex?.IsMatch(text) == true && endLine?.NextLine != null)
+                    if (endLine?.NextLine != null && trigger.Regex?.IsMatch(text) == true)
                     {
                         CollapsedLineSections.Add(endLine.LineNumber, CurrentContext.TextView.CollapseLines(endLine.NextLine, endLine.NextLine));
                         return startOffset;
@@ -159,9 +167,9 @@ namespace Avalon.Controls
                 }
 
                 // Regular triggers, same comments as above.
-                foreach (var trigger in App.Settings.ProfileSettings.TriggerList.Where(x => x.Gag && x.Enabled))
+                foreach (var trigger in App.Settings.ProfileSettings.TriggerList.GagEnumerable())
                 {
-                    if (trigger.Regex?.IsMatch(text) == true && endLine?.NextLine != null)
+                    if (endLine?.NextLine != null && trigger.Regex?.IsMatch(text) == true)
                     {
                         CollapsedLineSections.Add(endLine.LineNumber, CurrentContext.TextView.CollapseLines(endLine.NextLine, endLine.NextLine));
                         return startOffset;

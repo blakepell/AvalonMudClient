@@ -1,4 +1,13 @@
-﻿using Avalon.Common.Triggers;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using Avalon.Common.Triggers;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
@@ -145,12 +154,12 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
         {
             if (this.Affects.Count > 1)
             {
-                // Sort in decending order.
+                // Sort in descending order.
                 this.Affects.Sort((x, y) => y.Duration.CompareTo(x.Duration));
 
                 var temp = new List<Affect>();
 
-                // Now put any permaentely ones at the top of the list.
+                // Now put any permanently ones at the top of the list.
                 for (int i = this.Affects.Count - 1; i >= 0; i--)
                 {
                     if (this.Affects[i].Duration == -1)

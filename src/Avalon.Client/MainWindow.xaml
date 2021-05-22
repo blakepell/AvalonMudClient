@@ -366,6 +366,7 @@
                     <ui:CommandBar.SecondaryCommands>
                         <ui:AppBarToggleButton x:Name="ButtonAliasesEnabled" Icon="Shuffle" Label="Aliases Enabled" />
                         <ui:AppBarToggleButton x:Name="ButtonTriggersEnabled" Icon="Directions" Label="Triggers Enabled"></ui:AppBarToggleButton>
+                        <ui:AppBarToggleButton x:Name="ButtonReplacementTriggersEnabled" Icon="Rename" Label="Replacement Triggers Enabled"></ui:AppBarToggleButton>
                         <ui:AppBarSeparator />
                         <ui:AppBarToggleButton x:Name="ButtonVariableRepeaterVisible" Icon="Account" Label="Variable Repeater Visible" Click="ButtonVariableRepeaterVisible_Click"></ui:AppBarToggleButton>
                         <ui:AppBarSeparator />
@@ -420,10 +421,10 @@
                         </TabControl.Resources>
                         <controls:TabItemEx x:Name="CustomTab1">
                             <controls:TabItemEx.Header>
-                                <StackPanel Orientation="Horizontal">
+                                <ui:SimpleStackPanel Orientation="Horizontal">
                                     <Label x:Name="CustomTab1Label" x:FieldModifier="public" FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14">Custom Tab 1</Label>
                                     <controls:Badge x:Name="CustomTab1Badge" x:FieldModifier="public"></controls:Badge>
-                                </StackPanel>
+                                </ui:SimpleStackPanel>
                             </controls:TabItemEx.Header>
                             <controls:AvalonTerminal
                                     x:Name="Terminal1" ShowLineNumbers="False" WordWrap="True" GagEnabled="False"
@@ -440,10 +441,10 @@
                         </controls:TabItemEx>
                         <controls:TabItemEx x:Name="CustomTab2">
                             <controls:TabItemEx.Header>
-                                <StackPanel Orientation="Horizontal">
+                                <ui:SimpleStackPanel Orientation="Horizontal">
                                     <Label x:Name="CustomTab2Label" x:FieldModifier="public" FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14">Custom Tab 2</Label>
                                     <controls:Badge x:Name="CustomTab2Badge" x:FieldModifier="public"></controls:Badge>
-                                </StackPanel>
+                                </ui:SimpleStackPanel>
                             </controls:TabItemEx.Header>
                             <controls:AvalonTerminal
                                     x:Name="Terminal2" ShowLineNumbers="False" WordWrap="True" GagEnabled="False"
@@ -459,10 +460,10 @@
                         </controls:TabItemEx>
                         <controls:TabItemEx x:Name="CustomTab3">
                             <controls:TabItemEx.Header>
-                                <StackPanel Orientation="Horizontal">
+                                <ui:SimpleStackPanel Orientation="Horizontal">
                                     <Label x:Name="CustomTab3Label" x:FieldModifier="public" FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14">Custom Tab 3</Label>
                                     <controls:Badge x:Name="CustomTab3Badge" x:FieldModifier="public"></controls:Badge>
-                                </StackPanel>
+                                </ui:SimpleStackPanel>
                             </controls:TabItemEx.Header>
                             <controls:AvalonTerminal
                                     x:Name="Terminal3" ShowLineNumbers="False" WordWrap="True" GagEnabled="False"
@@ -478,9 +479,9 @@
                         </controls:TabItemEx>
                         <controls:TabItemEx>
                             <controls:TabItemEx.Header>
-                                <StackPanel Orientation="Horizontal">
+                                <ui:SimpleStackPanel Orientation="Horizontal">
                                     <Label FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14" Margin="0,0,15,0">Lua</Label>
-                                </StackPanel>
+                                </ui:SimpleStackPanel>
                             </controls:TabItemEx.Header>
                             <controls:AvalonLuaEditor x:Name="LuaEditor" SaveButtonVisibility="Collapsed"></controls:AvalonLuaEditor>
                         </controls:TabItemEx>
@@ -556,27 +557,27 @@
                     <Button.Template>
                         <ControlTemplate>
                             <!-- Transparent background allows margin to participate in the hit test for the cursor -->
-                            <StackPanel Orientation="Horizontal" Background="Transparent">
+                            <ui:SimpleStackPanel Orientation="Horizontal" Background="Transparent">
                                 <iconPacks:PackIconMaterial Kind="{Binding Path=StatusBarTextIconKind}" Margin="5,0,0,0" Visibility="{Binding Path=StatusBarTextIconVisibility}" />
                                 <TextBlock Margin="5, 0, 0, 0" FontFamily="Segoe UI" FontSize="12"
                                            Text="{Binding Path= StatusBarText}"></TextBlock>
-                            </StackPanel>
+                            </ui:SimpleStackPanel>
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
             </StatusBarItem>
             <StatusBarItem DockPanel.Dock="Right">
-                <StackPanel Orientation="Horizontal">
+                <ui:SimpleStackPanel Orientation="Horizontal">
                     <Button FontFamily="Segoe UI" FontSize="12" Click="SqlStatus_OnClick" Cursor="Hand">
                         <Button.Template>
                             <ControlTemplate>
                                 <!-- Transparent background allows margin to participate in the hit test for the cursor -->
-                                <StackPanel Orientation="Horizontal" Background="Transparent">
+                                <ui:SimpleStackPanel Orientation="Horizontal" Background="Transparent">
                                     <iconPacks:PackIconMaterial Kind="Database" Margin="10,0,0,0" />
                                     <TextBlock Margin="5, 0, 0, 0">Database:</TextBlock>
                                     <TextBlock Margin="5, 0, 0, 0"
                                                Text="{Binding Path= PendingSqlStatements}"></TextBlock>
-                                </StackPanel>
+                                </ui:SimpleStackPanel>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
@@ -585,12 +586,12 @@
                         <Button.Template>
                             <ControlTemplate>
                                 <!-- Transparent background allows margin to participate in the hit test for the cursor -->
-                                <StackPanel Orientation="Horizontal" Background="Transparent">
+                                <ui:SimpleStackPanel Orientation="Horizontal" Background="Transparent">
                                     <iconPacks:PackIconMaterial Kind="LanguageLua" Margin="10,0,0,0" />
                                     <TextBlock Margin="5, 0, 0, 0">Lua:</TextBlock>
                                     <TextBlock Margin="5, 0, 0, 0"
                                                Text="{Binding Path= LuaScriptsActive}"></TextBlock>
-                                </StackPanel>
+                                </ui:SimpleStackPanel>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
@@ -598,16 +599,16 @@
                     <Button FontFamily="Segoe UI" FontSize="12" Click="ScheduledTaskStatus_OnClick" Cursor="Hand">
                         <Button.Template>
                             <ControlTemplate>
-                                <StackPanel Orientation="Horizontal" Background="Transparent">
+                                <ui:SimpleStackPanel Orientation="Horizontal" Background="Transparent">
                                     <iconPacks:PackIconMaterial Kind="CalendarCheck" Margin="10,0,0,0" />
                                     <TextBlock Margin="5,0,0,0">Scheduled Tasks:</TextBlock>
                                     <TextBlock Margin="5, 0, 0, 0" 
                                                Text="{Binding Path= ScheduledTasksActive}"></TextBlock>
-                                </StackPanel>
+                                </ui:SimpleStackPanel>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                </StackPanel>
+                </ui:SimpleStackPanel>
             </StatusBarItem>
             <StatusBarItem>
                 <TextBlock></TextBlock>

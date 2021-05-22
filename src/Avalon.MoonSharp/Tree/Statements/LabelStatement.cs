@@ -1,62 +1,63 @@
 ﻿using System.Collections.Generic;
 using MoonSharp.Interpreter.Debugging;
 using MoonSharp.Interpreter.Execution;
+using MoonSharp.Interpreter.Execution.VM;
 
 namespace MoonSharp.Interpreter.Tree.Statements
 {
-	class LabelStatement : Statement
-	{
-		public string Label { get; private set; }
-		public int Address { get; private set; }
-		public SourceRef SourceRef { get; private set; }
-		public Token NameToken { get; private set; }
+    internal class LabelStatement : Statement
+    {
+        private List<GotoStatement> _gotos = new List<GotoStatement>();
+        private RuntimeScopeBlock _stackFrame;
 
-		internal int DefinedVarsCount { get; private set; }
-		internal string LastDefinedVarName { get; private set; }
+        public LabelStatement(ScriptLoadingContext lcontext)
+            : base(lcontext)
+        {
+            CheckTokenType(lcontext, TokenType.DoubleColon);
+            this.NameToken = CheckTokenType(lcontext, TokenType.Name);
+            CheckTokenType(lcontext, TokenType.DoubleColon);
 
-		List<GotoStatement> m_Gotos = new List<GotoStatement>();
-		RuntimeScopeBlock m_StackFrame;
+            this.SourceRef = this.NameToken.GetSourceRef();
+            this.Label = this.NameToken.Text;
+
+            lcontext.Scope.DefineLabel(this);
+        }
+
+        public string Label { get; }
+        public int Address { get; private set; }
+        public SourceRef SourceRef { get; }
+        public Token NameToken { get; }
+
+        internal int DefinedVarsCount { get; private set; }
+        internal string LastDefinedVarName { get; private set; }
+
+        internal void SetDefinedVars(int definedVarsCount, string lastDefinedVarsName)
+        {
+            this.DefinedVarsCount = definedVarsCount;
+            this.LastDefinedVarName = lastDefinedVarsName;
+        }
+
+        internal void RegisterGoto(GotoStatement gotostat)
+        {
+            _gotos.Add(gotostat);
+        }
 
 
-		public LabelStatement(ScriptLoadingContext lcontext)
-			: base(lcontext)
-		{
-			CheckTokenType(lcontext, TokenType.DoubleColon);
-			NameToken = CheckTokenType(lcontext, TokenType.Name);
-			CheckTokenType(lcontext, TokenType.DoubleColon);
+        public override void Compile(ByteCode bc)
+        {
+            bc.Emit_Clean(_stackFrame);
 
-			SourceRef = NameToken.GetSourceRef();
-			Label = NameToken.Text;
+            this.Address = bc.GetJumpPointForLastInstruction();
 
-			lcontext.Scope.DefineLabel(this);
-		}
+            foreach (var gotostat in _gotos)
+            {
+                gotostat.SetAddress(this.Address);
+            }
+        }
 
-		internal void SetDefinedVars(int definedVarsCount, string lastDefinedVarsName)
-		{
-			DefinedVarsCount = definedVarsCount;
-			LastDefinedVarName = lastDefinedVarsName;
-		}
-
-		internal void RegisterGoto(GotoStatement gotostat)
-		{
-			m_Gotos.Add(gotostat);
-		}
-
-
-		public override void Compile(Execution.VM.ByteCode bc)
-		{
-			bc.Emit_Clean(m_StackFrame);
-
-			Address = bc.GetJumpPointForLastInstruction();
-
-			foreach (var gotostat in m_Gotos)
-				gotostat.SetAddress(this.Address);
-		}
-
-		internal void SetScope(RuntimeScopeBlock runtimeScopeBlock)
-		{
-			m_StackFrame = runtimeScopeBlock;
-		}
-	}
+        internal void SetScope(RuntimeScopeBlock runtimeScopeBlock)
+        {
+            _stackFrame = runtimeScopeBlock;
+        }
+    }
 }
-

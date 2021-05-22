@@ -1,4 +1,13 @@
-﻿using System;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using System;
 using Avalon.Common.Interfaces;
 using CommandLine;
 
@@ -26,6 +35,7 @@ namespace Avalon.HashCommands
                                {
                                    try
                                    {
+                                       App.MainWindow.Interp.ScriptHost.Reset();
                                        GC.Collect();
                                        GC.WaitForPendingFinalizers();
                                        GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);

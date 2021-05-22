@@ -2,35 +2,35 @@
 
 namespace MoonSharp.Interpreter.Execution.VM
 {
-	sealed partial class Processor
-	{
-		private SourceRef GetCurrentSourceRef(int instructionPtr)
-		{
-			if (instructionPtr >= 0 && instructionPtr < m_RootChunk.Code.Count)
-			{
-				return m_RootChunk.Code[instructionPtr].SourceCodeRef;
-			}
-			return null;
-		}
+    internal sealed partial class Processor
+    {
+        private SourceRef GetCurrentSourceRef(int instructionPtr)
+        {
+            if (instructionPtr >= 0 && instructionPtr < _rootChunk.Code.Count)
+            {
+                return _rootChunk.Code[instructionPtr].SourceCodeRef;
+            }
+
+            return null;
+        }
 
 
-		private void FillDebugData(InterpreterException ex, int ip)
-		{
-			// adjust IP
-			if (ip == YIELD_SPECIAL_TRAP)
-				ip = m_SavedInstructionPtr;
-			else
-				ip -= 1;
+        private void FillDebugData(InterpreterException ex, int ip)
+        {
+            // adjust IP
+            if (ip == YIELD_SPECIAL_TRAP)
+            {
+                ip = _savedInstructionPtr;
+            }
+            else
+            {
+                ip -= 1;
+            }
 
-			ex.InstructionPtr = ip;
+            ex.InstructionPtr = ip;
 
-			SourceRef sref = GetCurrentSourceRef(ip);
-
-			ex.DecorateMessage(m_Script, sref, ip);
-
-			ex.CallStack = Debugger_GetCallStack(sref);
-		}
-
-
-	}
+            var sref = this.GetCurrentSourceRef(ip);
+            ex.DecorateMessage(_script, sref, ip);
+        }
+    }
 }

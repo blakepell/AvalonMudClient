@@ -1,4 +1,13 @@
-﻿using System;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using System;
 using System.Linq;
 using Avalon.Common.Interfaces;
 
@@ -26,7 +35,7 @@ namespace Avalon.HashCommands
 
 
             sb.Append("\r\nThere are currently {y").Append(this.Interpreter.Conveyor.ProfileSettings.TriggerList.Count).Append("{x user triggers loaded.\r\n");
-            sb.Append("There are currently {y").Append(App.SystemTriggers.Count).Append("{x system triggers loaded via plugin.\r\n\r\n");
+            sb.Append("There are currently {y").Append(App.InstanceGlobals.SystemTriggers.Count).Append("{x system triggers loaded via plugin.\r\n\r\n");
 
             foreach (var trigger in list)
             {

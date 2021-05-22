@@ -1,13 +1,12 @@
-﻿
-namespace MoonSharp.Interpreter.Interop
+﻿namespace MoonSharp.Interpreter.Interop
 {
-	/// <summary>
-	/// As a convenience, every type deriving from IUserDataType is "self-described". That is, no descriptor is needed/generated
-	/// and the object itself is used to describe the type for interop. See also <see cref="UserData"/>, <see cref="IUserDataDescriptor"/> 
-	/// and <see cref="StandardUserDataDescriptor"/> .
-	/// </summary>
-	public interface IUserDataType
-	{
+    /// <summary>
+    /// As a convenience, every type deriving from IUserDataType is "self-described". That is, no descriptor is needed/generated
+    /// and the object itself is used to describe the type for interop. See also <see cref="UserData"/>, <see cref="IUserDataDescriptor"/> 
+    /// and <see cref="StandardUserDataDescriptor"/> .
+    /// </summary>
+    public interface IUserDataType
+    {
         /// <summary>
         /// Performs an "index" "get" operation.
         /// </summary>
@@ -16,6 +15,7 @@ namespace MoonSharp.Interpreter.Interop
         /// <param name="index">The index.</param>
         /// <param name="isDirectIndexing">If set to true, it's indexed with a name, if false it's indexed through brackets.</param>
         DynValue Index(ExecutionControlToken ecToken, Script script, DynValue index, bool isDirectIndexing);
+
         /// <summary>
         /// Performs an "index" "set" operation.
         /// </summary>
@@ -24,7 +24,9 @@ namespace MoonSharp.Interpreter.Interop
         /// <param name="index">The index.</param>
         /// <param name="value">The value to be set</param>
         /// <param name="isDirectIndexing">If set to true, it's indexed with a name, if false it's indexed through brackets.</param>
-        bool SetIndex(ExecutionControlToken ecToken, Script script, DynValue index, DynValue value, bool isDirectIndexing);
+        bool SetIndex(ExecutionControlToken ecToken, Script script, DynValue index, DynValue value,
+            bool isDirectIndexing);
+
         /// <summary>
         /// 
         /// Gets a "meta" operation on this userdata. If a descriptor does not support this functionality,
@@ -43,5 +45,5 @@ namespace MoonSharp.Interpreter.Interop
         /// <param name="script">The script originating the request</param>
         /// <param name="metaname">The name of the metamember.</param>
         DynValue MetaIndex(ExecutionControlToken ecToken, Script script, string metaname);
-	}
+    }
 }

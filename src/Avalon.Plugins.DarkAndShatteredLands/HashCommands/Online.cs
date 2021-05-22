@@ -1,11 +1,19 @@
-﻿using Avalon.Common.Interfaces;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using Argus.Extensions;
+using Avalon.Common.Interfaces;
 using Avalon.HashCommands;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Argus.Extensions;
-using System.Net.Http;
 using System.Diagnostics;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Avalon.Plugins.DarkAndShatteredLands.HashCommands
 {

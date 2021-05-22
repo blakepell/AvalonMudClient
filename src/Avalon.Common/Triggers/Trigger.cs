@@ -1,20 +1,32 @@
-﻿using Argus.Extensions;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using Argus.Extensions;
 using Avalon.Common.Interfaces;
+using Avalon.Common.Models;
+using Avalon.Common.Scripting;
+using Cysharp.Text;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
-using Avalon.Common.Models;
 
 namespace Avalon.Common.Triggers
 {
     /// <summary>
     /// A trigger is an action that is executed based off of a pattern that is sent from the game.
     /// </summary>
-    public class Trigger : ITrigger, ICloneable, INotifyPropertyChanged
+    public class Trigger : ITrigger, ICloneable, INotifyPropertyChanged, IModelInfo
     {
         public Trigger()
         {
+            this.Identifier = Guid.NewGuid().ToString();
         }
 
         public Trigger(string pattern, string command, string character = "", bool isSilent = false, string identifier = "",
@@ -61,7 +73,7 @@ namespace Avalon.Common.Triggers
         }
 
         /// <inheritdoc/>
-        public bool IsMatch(string line, bool skipVariableSet = false)
+        public virtual bool IsMatch(string line)
         {
             Match match;
 
@@ -99,57 +111,72 @@ namespace Avalon.Common.Triggers
             // Save the match for CLR processing if needed.
             this.Match = match;
 
-            // Do we skip the variable set (used mainly when this is called from gags)... also skips the TriggeringText and
-            // ProcessedCommand sets because they're not needed in this case.  I haven't had ANY issues with this in a lot of
-            // testing but since Trigger is a reference we need to be careful about race conditions that might arise from
-            // using the below properties if anything that's async takes advantage of this (you could get some hard to track down
-            // bugs in that case where one trigger set the ProcessedCommand and another set it to another value before the first
-            // had finished its Command).
-            if (skipVariableSet == false)
+            if (this.LineTransformer && this.ExecuteAs == ExecuteType.LuaMoonsharp)
             {
+                var paramList = new string[match.Groups.Count];
+                paramList[0] = line;
+
+                for (int i = 1; i < match.Groups.Count; i++)
+                {
+                    paramList[i] = match.Groups[i].Value;
+                }
+
+                // We'll send the function we want to call but also the code, if the code has changed
+                // it nothing will be reloaded thus saving memory and calls.  This is why replacing %1
+                // variables is problematic here and why we are forcing the use of Lua varargs (...)
+                try
+                {
+                    this.ProcessedCommand = this.ScriptHost.MoonSharp.ExecuteFunction<string>(this.FunctionName, this.Command, paramList);
+                }
+                catch
+                {
+                    this.Conveyor.EchoError("The previous exception was from a line transformer trigger.");
+                    return false;
+                }
+            }
+            else if (this.LineTransformer && this.ExecuteAs == ExecuteType.Command)
+            {
+                // If this is the route then it will be a 1:1 replacement, no script needs to be run.
+                this.ProcessedCommand = this.Command;
+            }
+            else
+            {
+                // This is the block that swaps matched groups into the processed command as the user
+                // has requested (e.g. %0, %1, %2, %3, etc.)
+
                 // Save the text that triggered this trigger so that it can be used if needed elsewhere like in
                 // a CLR trigger.
                 TriggeringText = line;
 
-                // Setup the command that we may or may not process
-                ProcessedCommand = this.Command ?? "";
+                using (var sb = ZString.CreateStringBuilder())
+                {
+                    // Set the command that we may or may not process.  Allow the user to have the content of
+                    // the last trigger if they need it.
+                    sb.Append(this.Command?.Replace("%0", TriggeringText) ?? "");
 
-                // Allow the user to have the content of the last trigger if they need it.
-                if (this.IsLua == false)
-                {
-                    ProcessedCommand = ProcessedCommand.Replace("%0", TriggeringText);
-                }
-                else
-                {
-                    ProcessedCommand = ProcessedCommand.Replace("%0", TriggeringText.Replace("\"", "\\\""));
-                }
-
-                // Go through any groups backwards that came back in the trigger match.  Groups are matched in reverse
-                // order so that %1 doesn't overwrite %12 and leave a trailing 2.
-                for (int i = match.Groups.Count - 1; i >= 0; i--)
-                {
-                    // If it's a named match, we specifically named it in the trigger and thus we're going
-                    // to automatically store it in a variable that can then be used later by aliases, triggers, etc.
-                    // If there are variables that came back that aren't named, throw those into the more generic
-                    // %1, %2, %3 values.
-                    if (!string.IsNullOrWhiteSpace(match.Groups[i].Name) && !match.Groups[i].Name.IsNumeric() && !string.IsNullOrWhiteSpace(match.Groups[i].Value))
+                    // Go through any groups backwards that came back in the trigger match.  Groups are matched in reverse
+                    // order so that %1 doesn't overwrite %12 and leave a trailing 2.
+                    for (int i = match.Groups.Count - 1; i >= 0; i--)
                     {
-                        Conveyor.SetVariable(match.Groups[i].Name, match.Groups[i].Value);
-                    }
-                    else
-                    {
-                        // TODO - Consider StringBuilder
-                        // TODO - Consider doing both the variables sets, and then ALSO the pattern matches.
-                        // Replace %1, %2, etc. variables with their values from the pattern match.
-                        if (this.IsLua == false)
+                        // If it's a named match, we specifically named it in the trigger and thus we're going
+                        // to automatically store it in a variable that can then be used later by aliases, triggers, etc.
+                        // If there are variables that came back that aren't named, throw those into the more generic
+                        // %1, %2, %3 values.  TODO - Is this right.. seems like it should do both if needed?
+                        if (!string.IsNullOrWhiteSpace(match.Groups[i].Name) && !match.Groups[i].Name.IsNumeric() && !string.IsNullOrWhiteSpace(match.Groups[i].Value))
                         {
-                            ProcessedCommand = ProcessedCommand.Replace($"%{i}", match.Groups[i].Value);
+                            Conveyor.SetVariable(match.Groups[i].Name, match.Groups[i].Value);
                         }
                         else
                         {
-                            ProcessedCommand = ProcessedCommand.Replace($"%{i}", match.Groups[i].Value.Replace("\"", "\\\""));
+                            // Replace %1, %2, etc. variables with their values from the pattern match.  ToString() was
+                            // called to avoid a boxing allocation.  If it's Lua we're not going to swap these values
+                            // in.  The reason for this is that Lua parameters are passed in via parameters so the script
+                            // can be re-used which is MUCH more memory and CPU efficient.
+                            sb.Replace($"%{i.ToString()}", match.Groups[i].Value);
                         }
                     }
+
+                    ProcessedCommand = sb.ToString();
                 }
             }
 
@@ -162,31 +189,25 @@ namespace Avalon.Common.Triggers
             return match.Success;
         }
 
-        /// <summary>
-        /// The command after it's been processed.  This is what should get sent to the game.
-        /// </summary>
-        [JsonIgnore]
-        public string ProcessedCommand { get; private set; } = "";
-
-        /// <summary>
-        /// The text that triggered the trigger.
-        /// </summary>
-        [JsonIgnore]
-        public string TriggeringText { get; private set; } = "";
-
-        [JsonIgnore]
-        public Match Match { get; set; }
-
-        private string _command = "";
-
-        /// <inheritdoc/>
-        public virtual string Command
+        public virtual void Execute()
         {
-            get => _command;
+
+        }
+
+        private string _identifier;
+
+        /// <inheritdoc />
+        public string Identifier
+        {
+            get
+            {
+                return _identifier;
+            }
             set
             {
-                _command = value;
-                OnPropertyChanged(nameof(Command));
+                this.FunctionName = string.Concat("x", value.Replace("-", "").DeleteLeft(1));
+                _identifier = value;
+                OnPropertyChanged(nameof(Identifier));
             }
         }
 
@@ -198,12 +219,12 @@ namespace Avalon.Common.Triggers
             get => _pattern;
             set
             {
-                _pattern = value;
-                OnPropertyChanged(nameof(Pattern));
-
                 try
                 {
-                    this.Regex = new Regex(_pattern, RegexOptions.Compiled);
+                    // Only set the pattern if it compiled.
+                    this.Regex = new Regex(value, RegexOptions.Compiled);
+                    _pattern = value;
+                    OnPropertyChanged(nameof(Pattern));
                 }
                 catch (Exception ex)
                 {
@@ -212,21 +233,16 @@ namespace Avalon.Common.Triggers
             }
         }
 
-        /// <inheritdoc/>
-        public virtual void Execute()
-        {
-        }
-
-        private string _character = "";
+        private string _command = "";
 
         /// <inheritdoc/>
-        public string Character
+        public virtual string Command
         {
-            get => _character;
+            get => _command;
             set
             {
-                _character = value;
-                OnPropertyChanged(nameof(Character));
+                _command = value;
+                OnPropertyChanged(nameof(Command));
             }
         }
 
@@ -243,40 +259,6 @@ namespace Avalon.Common.Triggers
             }
         }
 
-        private bool _isSilent = false;
-
-        /// <inheritdoc/>
-        public bool IsSilent
-        {
-            get => _isSilent;
-
-            set
-            {
-                if (value != _isSilent)
-                {
-                    _isSilent = value;
-                    OnPropertyChanged(nameof(IsSilent));
-                }
-            }
-        }
-
-        private bool _isLua = false;
-
-        /// <inheritdoc/>
-        public bool IsLua
-        {
-            get => _isLua;
-
-            set
-            {
-                if (value != _isLua)
-                {
-                    _isLua = value;
-                    OnPropertyChanged(nameof(IsLua));
-                }
-            }
-        }
-
         private bool _plugin = false;
 
         /// <inheritdoc/>
@@ -290,23 +272,6 @@ namespace Avalon.Common.Triggers
                 {
                     _plugin = value;
                     OnPropertyChanged(nameof(Plugin));
-                }
-            }
-        }
-
-        private bool _disableAfterTriggered = false;
-
-        /// <inheritdoc/>
-        public bool DisableAfterTriggered
-        {
-            get => _disableAfterTriggered;
-
-            set
-            {
-                if (value != _disableAfterTriggered)
-                {
-                    _disableAfterTriggered = value;
-                    OnPropertyChanged(nameof(DisableAfterTriggered));
                 }
             }
         }
@@ -328,22 +293,6 @@ namespace Avalon.Common.Triggers
             }
         }
 
-        /// <inheritdoc/>
-        public DateTime LastMatched { get; set; } = DateTime.MinValue;
-
-        private bool _variableReplacement = false;
-
-        /// <inheritdoc/>
-        public bool VariableReplacement
-        {
-            get => _variableReplacement;
-            set
-            {
-                _variableReplacement = value;
-                OnPropertyChanged(nameof(VariableReplacement));
-            }
-        }
-
         private bool _enabled = true;
 
         /// <inheritdoc/>
@@ -356,58 +305,6 @@ namespace Avalon.Common.Triggers
                 OnPropertyChanged(nameof(Enabled));
             }
         }
-
-        private bool _gag = false;
-
-        /// <inheritdoc/>
-        public bool Gag
-        {
-            get => _gag;
-            set
-            {
-                if (value != _gag)
-                {
-                    _gag = value;
-                    OnPropertyChanged(nameof(Gag));
-                }
-            }
-        }
-
-        private TerminalTarget _moveTo = TerminalTarget.None;
-
-        /// <inheritdoc/>
-        public TerminalTarget MoveTo
-        {
-            get => _moveTo;
-            set
-            {
-                if (value != _moveTo)
-                {
-                    _moveTo = value;
-                    OnPropertyChanged(nameof(MoveTo));
-                }
-            }
-        }
-
-        private bool _highlightLine = false;
-
-        /// <inheritdoc />
-        public bool HighlightLine
-        {
-            get => _highlightLine;
-            set
-            {
-                if (value != _highlightLine)
-                {
-                    _highlightLine = value;
-                    OnPropertyChanged(nameof(HighlightLine));
-                }
-            }
-        }
-
-        /// <inheritdoc />
-        [JsonIgnore]
-        public IConveyor Conveyor { get; set; }
 
         private int _count = 0;
 
@@ -435,10 +332,252 @@ namespace Avalon.Common.Triggers
             }
         }
 
+        private string _character = "";
+
+        /// <inheritdoc/>
+        public string Character
+        {
+            get => _character;
+            set
+            {
+                _character = value;
+                OnPropertyChanged(nameof(Character));
+            }
+        }
+
+        private ExecuteType _executeType = ExecuteType.Command;
+
+        /// <inheritdoc/>
+        public ExecuteType ExecuteAs
+        {
+            get => _executeType;
+            set
+            {
+                _executeType = value;
+                OnPropertyChanged(nameof(ExecuteAs));
+            }
+        }
+
+        /// <inheritdoc />
+        [JsonIgnore]
+        public Regex Regex { get; set; }
+
+        /// <inheritdoc />
+        public bool SystemTrigger { get; set; } = false;
+
+        /// <inheritdoc />
+        public string PackageId { get; set; } = "";
+
+        /// <inheritdoc/>
+        public DateTime LastMatched { get; set; } = DateTime.MinValue;
+
+        /// <summary>
+        /// The name of the function for the OnMatchedEvent.
+        /// </summary>
+        [JsonIgnore]
+        public string FunctionName { get; set; }
+
+        /// <inheritdoc />
+        [JsonIgnore]
+        public IConveyor Conveyor { get; set; }
+
+        /// <summary>
+        /// A reference to the scripting environment.
+        /// </summary>
+        [JsonIgnore]
+        public ScriptHost ScriptHost { get; set; }
+
+        private bool _temp = false;
+
+        /// <summary>
+        /// If the trigger is temporary and should not be saved with the profile.
+        /// </summary>
+        public bool Temp
+        {
+            get => _temp;
+            set
+            {
+                _temp = value;
+                OnPropertyChanged(nameof(Temp));
+            }
+        }
+
+        /// <summary>
+        /// Clones the trigger.
+        /// </summary>
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+
+        /// <summary>
+        /// The command after it's been processed.  This is what should get sent to the game.
+        /// </summary>
+        [JsonIgnore]
+        public string ProcessedCommand { get; private set; } = "";
+
+        /// <summary>
+        /// The text that triggered the trigger.
+        /// </summary>
+        [JsonIgnore]
+        public string TriggeringText { get; private set; } = "";
+
+        [JsonIgnore]
+        public Match Match { get; set; }
+
+        private bool _isSilent = false;
+
+        /// <summary>
+        /// Whether the triggers output should be silent (not echo to the main terminal).
+        /// </summary>
+        public bool IsSilent
+        {
+            get => _isSilent;
+
+            set
+            {
+                if (value != _isSilent)
+                {
+                    _isSilent = value;
+                    OnPropertyChanged(nameof(IsSilent));
+                }
+            }
+        }
+
+        private bool _isLua = false;
+
+        /// <summary>
+        /// Whether the command should be executed as a Lua script.
+        /// </summary>
+        public bool IsLua
+        {
+            get => _isLua;
+
+            set
+            {
+                if (value != _isLua)
+                {
+                    _isLua = value;
+                    OnPropertyChanged(nameof(IsLua));
+                }
+            }
+        }
+
+        private bool _disableAfterTriggered = false;
+
+        /// <summary>
+        /// If set to true will disable the trigger after it fires.
+        /// </summary>
+        public bool DisableAfterTriggered
+        {
+            get => _disableAfterTriggered;
+
+            set
+            {
+                if (value != _disableAfterTriggered)
+                {
+                    _disableAfterTriggered = value;
+                    OnPropertyChanged(nameof(DisableAfterTriggered));
+                }
+            }
+        }
+
+        private bool _variableReplacement = false;
+
+        /// <summary>
+        /// Whether or not variables should be replaced in the pattern.  This is offered as
+        /// a performance tweak so the player has to opt into it.
+        /// </summary>
+        public bool VariableReplacement
+        {
+            get => _variableReplacement;
+            set
+            {
+                _variableReplacement = value;
+                OnPropertyChanged(nameof(VariableReplacement));
+            }
+        }
+
+        private bool _lineTransformer = false;
+
+        /// <summary>
+        /// Whether or not this trigger represents a line transformer.
+        /// </summary>
+        public bool LineTransformer
+        {
+            get => _lineTransformer;
+            set
+            {
+                _lineTransformer = value;
+                OnPropertyChanged(nameof(LineTransformer));
+            }
+        }
+
+        private bool _gag = false;
+
+        /// <summary>
+        /// Whether or not the matching line should be gagged from terminal.  A gagged line is hidden from view
+        /// as if it does not exist but does in fact still exist in the terminal.  If triggers are disabled you
+        /// will see gagged lines re-appear.  Further, gagged lines will appear in clipboard actions such as copy.
+        /// </summary>
+        public bool Gag
+        {
+            get => _gag;
+            set
+            {
+                if (value != _gag)
+                {
+                    _gag = value;
+                    OnPropertyChanged(nameof(Gag));
+                }
+            }
+        }
+
+        private TerminalTarget _moveTo = TerminalTarget.None;
+
+        /// <summary>
+        /// What terminal window to move the triggered line to.
+        /// </summary>
+        public TerminalTarget MoveTo
+        {
+            get => _moveTo;
+            set
+            {
+                if (value != _moveTo)
+                {
+                    _moveTo = value;
+                    OnPropertyChanged(nameof(MoveTo));
+                }
+            }
+        }
+
+        private bool _highlightLine = false;
+
+        /// <summary>
+        /// Whether or not the matching line should be highlighted.
+        /// </summary>
+        public bool HighlightLine
+        {
+            get => _highlightLine;
+            set
+            {
+                if (value != _highlightLine)
+                {
+                    _highlightLine = value;
+                    OnPropertyChanged(nameof(HighlightLine));
+                }
+            }
+        }
+
         private bool _stopProcessing = false;
 
         /// <summary>
-        /// <inheritdoc />
+        /// If StopProcessing is true then the trigger processing function will stop processing any triggers after
+        /// the trigger that fired here.  In order for that to happen, the trigger will need to match.  This will
+        /// allow a player to allow for a very efficient trigger loop (but could also cause problems if use incorrectly
+        /// in that it will stop trigger processing when this fires).  One thing to note, this is for general purpose
+        /// triggers that the user executes but it does not apply to Gag triggers.  Gag triggers inherently work will
+        /// gag an entire line and they stop processing as soon as one matches.
         /// </summary>
         public bool StopProcessing
         {
@@ -451,24 +590,14 @@ namespace Avalon.Common.Triggers
         }
 
         /// <inheritdoc />
-        public string Identifier { get; set; } = Guid.NewGuid().ToString();
-
-        /// <inheritdoc />
-        public string PackageId { get; set; } = "";
-
-        /// <inheritdoc />
-        public bool SystemTrigger { get; set; } = false;
-
-        /// <inheritdoc />
-        [JsonIgnore]
-        public Regex Regex { get; set; }
-
-        /// <summary>
-        /// Clones the trigger.
-        /// </summary>
-        public object Clone()
+        public bool IsEmpty()
         {
-            return this.MemberwiseClone();
+            if (string.IsNullOrWhiteSpace(this.Pattern))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         protected virtual void OnPropertyChanged(string propertyName)

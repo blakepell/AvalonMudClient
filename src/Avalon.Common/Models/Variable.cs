@@ -1,4 +1,13 @@
-﻿using Avalon.Common.Interfaces;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using Avalon.Common.Interfaces;
 using Newtonsoft.Json;
 using System.ComponentModel;
 using Argus.Extensions;
@@ -175,22 +184,6 @@ namespace Avalon.Common.Models
                 {
                     _onChangeEvent = value;
                     OnPropertyChanged(nameof(this.OnChangeEvent));
-                }
-            }
-        }
-
-        private string _onClickEvent;
-
-        /// <inheritdoc />
-        public string OnClickEvent
-        {
-            get => _onClickEvent;
-            set
-            {
-                if (value != _onClickEvent)
-                {
-                    _onClickEvent = value;
-                    OnPropertyChanged(nameof(this.OnClickEvent));
                 }
             }
         }

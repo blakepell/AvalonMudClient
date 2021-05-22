@@ -1,4 +1,13 @@
-﻿namespace Avalon.Common.Interfaces
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+namespace Avalon.Common.Interfaces
 {
     /// <summary>
     /// Interface that helps to expose common Model functionality to the UI when it
@@ -11,6 +20,6 @@
         /// If the object is considered empty.  This should return false if the model is
         /// always considered to be not empty.
         /// </summary>
-        bool IsEmpty() => true;
+        bool IsEmpty() => false;
     }
 }

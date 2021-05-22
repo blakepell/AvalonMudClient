@@ -1,16 +1,28 @@
-﻿using Argus.Extensions;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using Argus.Extensions;
+using Avalon.Colors;
 using Avalon.Common.Colors;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
-using Avalon.Network;
+using Avalon.Common.Scripting;
 using Avalon.Lua;
+using Avalon.Network;
+using Cysharp.Text;
+using MoonSharp.Interpreter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Avalon.Colors;
-using System.Text;
 
 namespace Avalon
 {
@@ -36,8 +48,75 @@ namespace Avalon
                 HashCommands.Add(cmd);
             }
 
-            // Initialize the Lua wrapper we'll make calls from in this class.
-            this.LuaCaller = new LuaCaller(this);
+            // Setup the scripting environment.  Error handlers are set here allowing the actual scripting
+            // environment to stay generic while the client worries about the implementation details.
+            _random = new Random();
+            _scriptCommands = new ScriptCommands(this, _random);
+
+            this.MoonSharpInit();
+            this.NLuaInit();
+        }
+
+        /// <summary>
+        /// Sets up the MoonSharp Lua script engine.
+        /// </summary>
+        private void MoonSharpInit()
+        {
+            this.ScriptHost = new ScriptHost();
+            this.ScriptHost.RegisterObject<ScriptCommands>(_scriptCommands.GetType(), _scriptCommands, "lua");
+
+            // Events for before and after execution of a script.
+            this.ScriptHost.MoonSharp.PreScriptExecute += (sender, e) =>
+            {
+                App.MainWindow.ViewModel.LuaScriptsActive = this.ScriptHost.Statistics.ScriptsActive;
+            };
+
+            this.ScriptHost.MoonSharp.PostScriptExecute += (sender, e) =>
+            {
+                App.MainWindow.ViewModel.LuaScriptsActive = this.ScriptHost.Statistics.ScriptsActive;
+            };
+
+            this.ScriptHost.MoonSharp.ExceptionHandler = (ex) =>
+            {
+                // InterpreterException's give us more info, like the line number and column the
+                // error occurred on.
+                if (ex is InterpreterException luaEx)
+                {
+                    this.Conveyor.EchoError($"Lua Exception: {luaEx.DecoratedMessage}");
+                }
+                else
+                {
+                    this.Conveyor.EchoError($"Lua Exception: {ex.Message}");
+                }
+
+                if (ex.InnerException is InterpreterException innerEx)
+                {
+                    this.Conveyor.EchoError($"Lua Inner Exception: {innerEx?.DecoratedMessage}");
+                }
+            };
+
+            // Populate the script engine's memory pool.
+            this.ScriptHost.MoonSharp.MemoryPool.Fill(5);
+            App.Conveyor.EchoInfo("{CM{coon{CS{charp{x Lua Memory Pool Initialized with 5/10 instances.");
+        }
+
+        /// <summary>
+        /// Sets up the NLua script engine.
+        /// </summary>
+        public void NLuaInit()
+        {
+            this.ScriptHost.NLua.ExceptionHandler = (ex) =>
+            {
+                if (ex is NLua.Exceptions.LuaException exLua)
+                {
+                    this.Conveyor.EchoError($"NLua Inner Exception: {ex.Message}");
+                    this.Conveyor.EchoError($"NLua Stack Trace: {ex.StackTrace}");
+                }
+                else
+                {
+                    this.Conveyor.EchoError($"NLua Exception: {ex.Message}");
+                }
+            };
         }
 
         /// <summary>
@@ -111,7 +190,20 @@ namespace Avalon
                     else
                     {
                         string firstWord = item.FirstWord();
-                        var hashCmd = HashCommands.Find(x => x.Name.Equals(firstWord, StringComparison.Ordinal));
+
+                        // Avoided a closure allocation by loop instead of using Linq.
+                        IHashCommand? hashCmd = null;
+
+                        for (int index = 0; index < this.HashCommands.Count; index++)
+                        {
+                            var x = this.HashCommands[index];
+
+                            if (x.Name.Equals(firstWord, StringComparison.Ordinal))
+                            {
+                                hashCmd = x;
+                                break;
+                            }
+                        }
 
                         if (hashCmd == null)
                         {
@@ -127,6 +219,7 @@ namespace Avalon
                             }
                             else
                             {
+                                // ReSharper disable once MethodHasAsyncOverload
                                 hashCmd.Execute();
                             }
                         }
@@ -136,7 +229,7 @@ namespace Avalon
                 catch (Exception ex)
                 {
                     App.Conveyor.EchoError(ex.Message);
-                    
+
                     if (this.Telnet == null || !this.Telnet.IsConnected())
                     {
                         App.Conveyor.SetText("Disconnected from server.", TextTarget.StatusBarText);
@@ -159,14 +252,30 @@ namespace Avalon
                     Telnet = null;
                 }
 
+                // If there was a last host and it was not the current IP to connect to it likely means
+                // a new profile was loaded, in that case we're going to reset the ScriptingHost to it's default
+                // so things aren't hanging around.
+                if (!string.IsNullOrWhiteSpace(_lastHost) && !string.Equals(_lastHost, App.Settings.ProfileSettings.IpAddress))
+                {
+                    this.ScriptHost?.Reset();
+                    Conveyor.EchoLog("Host change detected: Scripting environment reset.", LogType.Information);
+
+                    // Populate the script engine's memory pool.
+                    this.ScriptHost?.MoonSharp.MemoryPool.Fill(5);
+                    App.Conveyor.EchoInfo("{CM{coon{CS{charp{x Lua Memory Pool Initialized with 5/10 instances.");
+                }
+
+                // We can set this now, when we come back in if the IP changes they we'll reset above.
+                _lastHost = App.Settings.ProfileSettings.IpAddress;
+
                 Conveyor.EchoLog($"Connecting: {App.Settings.ProfileSettings.IpAddress}:{App.Settings.ProfileSettings.Port}", LogType.Information);
 
                 var ctc = new CancellationTokenSource();
-                Telnet = new TelnetClient(App.Settings.ProfileSettings.IpAddress, App.Settings.ProfileSettings.Port, TimeSpan.FromSeconds(0), ctc.Token);
-                Telnet.ConnectionClosed += connectionClosed;
-                Telnet.LineReceived += lineReceived;
-                Telnet.DataReceived += dataReceived;
-                await Telnet.ConnectAsync();
+                this.Telnet = new TelnetClient(App.Settings.ProfileSettings.IpAddress, App.Settings.ProfileSettings.Port, TimeSpan.FromSeconds(0), ctc.Token);
+                this.Telnet.ConnectionClosed += connectionClosed;
+                this.Telnet.LineReceived += lineReceived;
+                this.Telnet.DataReceived += dataReceived;
+                await this.Telnet.ConnectAsync();
             }
             catch (Exception ex)
             {
@@ -181,8 +290,8 @@ namespace Avalon
         /// </summary>
         public void Disconnect()
         {
-            Telnet?.Dispose();
-            Telnet = null;
+            this.Telnet?.Dispose();
+            this.Telnet = null;
         }
 
         /// <summary>
@@ -195,7 +304,7 @@ namespace Avalon
 
             if (_aliasRecursionDepth >= 10)
             {
-                Conveyor.EchoLog($"Alias error: Reached max recursion depth of {_aliasRecursionDepth}.\r\n", LogType.Error);
+                Conveyor.EchoLog($"Alias error: Reached max recursion depth of {_aliasRecursionDepth.ToString()}.\r\n", LogType.Error);
                 return new List<string>();
             }
 
@@ -208,11 +317,23 @@ namespace Avalon
 
             // Split the list
             var list = new List<string>();
-            
+
             foreach (var item in cmd.Split(';'))
             {
                 var first = item.FirstArgument();
-                var alias = App.Settings.ProfileSettings.AliasList.FirstOrDefault(x => x.AliasExpression == first.Item1 && x.Enabled && (string.IsNullOrEmpty(x.Character) || x.Character == characterName));
+
+                Alias? alias = null;
+
+                for (int index = 0; index < App.Settings.ProfileSettings.AliasList.Count; index++)
+                {
+                    var x = App.Settings.ProfileSettings.AliasList[index];
+
+                    if (x.AliasExpression == first.Item1 && x.Enabled && (string.IsNullOrEmpty(x.Character) || x.Character == characterName))
+                    {
+                        alias = x;
+                        break;
+                    }
+                }
 
                 if (alias == null)
                 {
@@ -234,32 +355,10 @@ namespace Avalon
                     alias.Count++;
 
                     // If the alias is Lua then variables will be swapped in if necessary and then executed.
-                    if (alias.IsLua)
+                    if (alias.IsLua || alias.ExecuteAs == ExecuteType.LuaMoonsharp)
                     {
                         list.Clear();
-
-                        // Alias where the arguments are specified, we will support up to 9 arguments at this time.  Only do
-                        // the replacements if the string contains a percent sign.
-                        if (alias.Command.Contains("%", StringComparison.Ordinal))
-                        {
-                            var sb = new StringBuilder(alias.Command);
-
-                            // %0 will represent the entire matched string.
-                            sb.Replace("%0", first.Item2.Replace("\"", "\\\""));
-
-                            // %1-%9
-                            for (int i = 1; i <= 9; i++)
-                            {
-                                sb.Replace($"%{i}", first.Item2.ParseWord(i, " ").Replace("\"", "\\\""));
-                            }
-
-                            // This is all that's going to execute as it clears the list.. we can "fire and forget".
-                            this.LuaCaller.ExecuteAsync(sb.ToString());
-                        }
-                        else
-                        {
-                            this.LuaCaller.ExecuteAsync(alias.Command);
-                        }
+                        _ = this.ScriptHost.MoonSharp.ExecuteFunctionAsync<object>(alias.AliasExpression, alias.Command, item.Split(' ', StringSplitOptions.RemoveEmptyEntries));
 
                         return list;
                     }
@@ -276,7 +375,8 @@ namespace Avalon
                         // Alias where the arguments are specified, we will support up to 9 arguments at this time.
                         if (alias.Command.Contains("%", StringComparison.Ordinal))
                         {
-                            var sb = new StringBuilder(alias.Command);
+                            var sb = ZString.CreateStringBuilder();
+                            sb.Append(alias.Command);
 
                             // %0 will represent the entire matched string.
                             sb.Replace("%0", first.Item2);
@@ -284,10 +384,12 @@ namespace Avalon
                             // %1-%9
                             for (int i = 1; i <= 9; i++)
                             {
-                                sb.Replace($"%{i}", first.Item2.ParseWord(i, " "));
+                                sb.Replace($"%{i.ToString()}", first.Item2.ParseWord(i, " "));
                             }
 
                             list.AddRange(ParseCommand(sb.ToString()));
+                            sb.Dispose();
+
                             _aliasRecursionDepth--;
                         }
                         else
@@ -438,7 +540,7 @@ namespace Avalon
             var e = new EchoEventArgs
             {
                 Text = $"{sb}\r\n",
-                UseDefaultColors = true,                
+                UseDefaultColors = true,
                 ForegroundColor = AnsiColors.Default,
                 Terminal = TerminalTarget.Main
             };
@@ -517,6 +619,11 @@ namespace Avalon
         private int _spamGuardCounter = 0;
 
         /// <summary>
+        /// The last host the client connected to (used to determine if the host has changed).
+        /// </summary>
+        private string _lastHost = "";
+
+        /// <summary>
         /// The history of all commands.
         /// </summary>
         public List<string> InputHistory = new List<string>();
@@ -542,11 +649,6 @@ namespace Avalon
         public IConveyor Conveyor { get; set; }
 
         /// <summary>
-        /// A class to handle executing Lua scripts.
-        /// </summary>
-        public LuaCaller LuaCaller { get; set; }
-
-        /// <summary>
         /// Whether or not the commands should be recorded into 
         /// </summary>
         public bool IsRecordingCommands { get; set; } = false;
@@ -555,6 +657,22 @@ namespace Avalon
         /// Commands that have been recorded
         /// </summary>
         public List<string> RecordedCommands { get; set; } = new List<string>();
+
+        /// <summary>
+        /// The Scripting host that contains all of our supported scripting environments.
+        /// </summary>
+        public ScriptHost ScriptHost { get; set; }
+
+        /// <summary>
+        /// An interop object that allows scripts to interact with the .NET environment.
+        /// </summary>
+        private static ScriptCommands _scriptCommands;
+
+        /// <summary>
+        /// Single static Random object that will need to be locked between usages.  Calls to _random
+        /// should be locked for thread safety as Random is not thread safe.
+        /// </summary>
+        private static Random _random;
 
     }
 

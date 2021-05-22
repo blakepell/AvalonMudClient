@@ -4,145 +4,159 @@ using MoonSharp.Interpreter.Tree.Statements;
 
 namespace MoonSharp.Interpreter.Execution.Scopes
 {
-	internal class BuildTimeScopeBlock
-	{
-		internal BuildTimeScopeBlock Parent { get; private set; }
-		internal List<BuildTimeScopeBlock> ChildNodes { get; private set; }
+    internal class BuildTimeScopeBlock
+    {
+        private Dictionary<string, SymbolRef> _definedNames = new Dictionary<string, SymbolRef>();
+        private string _lastDefinedName;
+        private Dictionary<string, LabelStatement> _localLabels;
+        private List<GotoStatement> _pendingGotos;
 
-		internal RuntimeScopeBlock ScopeBlock { get; private set; }
+        internal BuildTimeScopeBlock(BuildTimeScopeBlock parent)
+        {
+            this.Parent = parent;
+            this.ChildNodes = new List<BuildTimeScopeBlock>();
+            this.ScopeBlock = new RuntimeScopeBlock();
+        }
 
-		Dictionary<string, SymbolRef> m_DefinedNames = new Dictionary<string, SymbolRef>();
+        internal BuildTimeScopeBlock Parent { get; }
+        internal List<BuildTimeScopeBlock> ChildNodes { get; }
+        internal RuntimeScopeBlock ScopeBlock { get; }
 
-
-
-		internal void Rename(string name)
-		{
-			SymbolRef sref = m_DefinedNames[name];
-			m_DefinedNames.Remove(name);
-			m_DefinedNames.Add(string.Format("@{0}_{1}", name, Guid.NewGuid().ToString("N")), sref);
-		}
-
-		internal BuildTimeScopeBlock(BuildTimeScopeBlock parent)
-		{
-			Parent = parent;
-			ChildNodes = new List<BuildTimeScopeBlock>();
-			ScopeBlock = new RuntimeScopeBlock();
-		}
-
-
-		internal BuildTimeScopeBlock AddChild()
-		{
-			BuildTimeScopeBlock block = new BuildTimeScopeBlock(this);
-			ChildNodes.Add(block);
-			return block;
-		}
-
-		internal SymbolRef Find(string name)
-		{
-			return m_DefinedNames.GetOrDefault(name);
-		}
-
-		internal SymbolRef Define(string name)
-		{
-			SymbolRef l = SymbolRef.Local(name, -1);
-			m_DefinedNames.Add(name, l);
-			m_LastDefinedName = name;
-			return l;
-		}
-
-		internal int ResolveLRefs(BuildTimeScopeFrame buildTimeScopeFrame)
-		{
-			int firstVal = -1;
-			int lastVal = -1;
-
-			foreach (SymbolRef lref in m_DefinedNames.Values)
-			{
-				int pos = buildTimeScopeFrame.AllocVar(lref);
-
-				if (firstVal < 0)
-					firstVal = pos;
-
-				lastVal = pos;
-			}
-
-			this.ScopeBlock.From = firstVal;
-			this.ScopeBlock.ToInclusive = this.ScopeBlock.To = lastVal;
-
-			if (firstVal < 0)
-				this.ScopeBlock.From = buildTimeScopeFrame.GetPosForNextVar();
-
-			foreach (var child in ChildNodes)
-			{
-				this.ScopeBlock.ToInclusive = Math.Max(this.ScopeBlock.ToInclusive, child.ResolveLRefs(buildTimeScopeFrame));
-			}
-
-			if (m_LocalLabels != null)
-				foreach (var label in m_LocalLabels.Values)
-					label.SetScope(this.ScopeBlock);
-
-			return this.ScopeBlock.ToInclusive;
-		}
+        internal void Rename(string name)
+        {
+            var sref = _definedNames[name];
+            _definedNames.Remove(name);
+            _definedNames.Add($"@{name}_{Guid.NewGuid().ToString("N")}", sref);
+        }
 
 
-		List<GotoStatement> m_PendingGotos;
-		Dictionary<string, LabelStatement> m_LocalLabels;
-		string m_LastDefinedName;
+        internal BuildTimeScopeBlock AddChild()
+        {
+            var block = new BuildTimeScopeBlock(this);
+            this.ChildNodes.Add(block);
+            return block;
+        }
 
-		internal void DefineLabel(LabelStatement label)
-		{
-			if (m_LocalLabels == null)
-				m_LocalLabels = new Dictionary<string, LabelStatement>();
+        internal SymbolRef Find(string name)
+        {
+            return _definedNames.GetOrDefault(name);
+        }
 
-			if (m_LocalLabels.ContainsKey(label.Label))
-			{
-				throw new SyntaxErrorException(label.NameToken, "label '{0}' already defined on line {1}", label.Label, m_LocalLabels[label.Label].SourceRef.FromLine);
-			}
-			else
-			{
-				m_LocalLabels.Add(label.Label, label);
-				label.SetDefinedVars(m_DefinedNames.Count, m_LastDefinedName);
-			}
-		}
+        internal SymbolRef Define(string name)
+        {
+            var l = SymbolRef.Local(name, -1);
+            _definedNames.Add(name, l);
+            _lastDefinedName = name;
+            return l;
+        }
 
-		internal void RegisterGoto(GotoStatement gotostat)
-		{
-			if (m_PendingGotos == null)
-				m_PendingGotos = new List<GotoStatement>();
+        internal int ResolveLRefs(BuildTimeScopeFrame buildTimeScopeFrame)
+        {
+            int firstVal = -1;
+            int lastVal = -1;
 
-			m_PendingGotos.Add(gotostat);
-			gotostat.SetDefinedVars(m_DefinedNames.Count, m_LastDefinedName);
-		}
+            foreach (var lref in _definedNames.Values)
+            {
+                int pos = buildTimeScopeFrame.AllocVar(lref);
 
-		internal void ResolveGotos()
-		{
-			if (m_PendingGotos == null)
-				return;
+                if (firstVal < 0)
+                {
+                    firstVal = pos;
+                }
 
-			foreach (GotoStatement gotostat in m_PendingGotos)
-			{
-				LabelStatement label;
+                lastVal = pos;
+            }
 
-				if (m_LocalLabels != null && m_LocalLabels.TryGetValue(gotostat.Label, out label))
-				{
-					if (label.DefinedVarsCount > gotostat.DefinedVarsCount)
-						throw new SyntaxErrorException(gotostat.GotoToken,
-							"<goto {0}> at line {1} jumps into the scope of local '{2}'", gotostat.Label, 
-							gotostat.GotoToken.FromLine,
-							label.LastDefinedVarName);
+            this.ScopeBlock.From = firstVal;
+            this.ScopeBlock.ToInclusive = this.ScopeBlock.To = lastVal;
 
-					label.RegisterGoto(gotostat);
-				}
-				else
-				{
-					if (Parent == null)
-						throw new SyntaxErrorException(gotostat.GotoToken, "no visible label '{0}' for <goto> at line {1}", gotostat.Label,
-							gotostat.GotoToken.FromLine);
+            if (firstVal < 0)
+            {
+                this.ScopeBlock.From = buildTimeScopeFrame.GetPosForNextVar();
+            }
 
-					Parent.RegisterGoto(gotostat);
-				}
-			}
+            foreach (var child in this.ChildNodes)
+            {
+                this.ScopeBlock.ToInclusive =
+                    Math.Max(this.ScopeBlock.ToInclusive, child.ResolveLRefs(buildTimeScopeFrame));
+            }
 
-			m_PendingGotos.Clear();
-		}
-	}
+            if (_localLabels != null)
+            {
+                foreach (var label in _localLabels.Values)
+                {
+                    label.SetScope(this.ScopeBlock);
+                }
+            }
+
+            return this.ScopeBlock.ToInclusive;
+        }
+
+        internal void DefineLabel(LabelStatement label)
+        {
+            if (_localLabels == null)
+            {
+                _localLabels = new Dictionary<string, LabelStatement>();
+            }
+
+            if (_localLabels.ContainsKey(label.Label))
+            {
+                throw new SyntaxErrorException(label.NameToken, "label '{0}' already defined on line {1}", label.Label,
+                    _localLabels[label.Label].SourceRef.FromLine);
+            }
+
+            _localLabels.Add(label.Label, label);
+            label.SetDefinedVars(_definedNames.Count, _lastDefinedName);
+        }
+
+        internal void RegisterGoto(GotoStatement gotostat)
+        {
+            if (_pendingGotos == null)
+            {
+                _pendingGotos = new List<GotoStatement>();
+            }
+
+            _pendingGotos.Add(gotostat);
+            gotostat.SetDefinedVars(_definedNames.Count, _lastDefinedName);
+        }
+
+        internal void ResolveGotos()
+        {
+            if (_pendingGotos == null)
+            {
+                return;
+            }
+
+            foreach (var gotostat in _pendingGotos)
+            {
+                LabelStatement label;
+
+                if (_localLabels != null && _localLabels.TryGetValue(gotostat.Label, out label))
+                {
+                    if (label.DefinedVarsCount > gotostat.DefinedVarsCount)
+                    {
+                        throw new SyntaxErrorException(gotostat.GotoToken,
+                            "<goto {0}> at line {1} jumps into the scope of local '{2}'", gotostat.Label,
+                            gotostat.GotoToken.FromLine,
+                            label.LastDefinedVarName);
+                    }
+
+                    label.RegisterGoto(gotostat);
+                }
+                else
+                {
+                    if (this.Parent == null)
+                    {
+                        throw new SyntaxErrorException(gotostat.GotoToken,
+                            "no visible label '{0}' for <goto> at line {1}", gotostat.Label,
+                            gotostat.GotoToken.FromLine);
+                    }
+
+                    this.Parent.RegisterGoto(gotostat);
+                }
+            }
+
+            _pendingGotos.Clear();
+        }
+    }
 }

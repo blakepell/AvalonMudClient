@@ -1,4 +1,13 @@
-﻿using Avalon.Common.Interfaces;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
 using Newtonsoft.Json;
 using System;
@@ -157,7 +166,7 @@ namespace Avalon.Common.Settings
                     this.ProfileSettings.FileName = Path.GetFileName(settingsFile);
                     this.AvalonSettings.LastLoadedProfilePath = settingsFile;
                 }
-                catch
+                catch (Exception ex)
                 {
                     // No file or an error, default back to the safe storage location.
                     this.ProfileSettings = new ProfileSettings();
@@ -207,6 +216,17 @@ namespace Avalon.Common.Settings
                 this.ProfileSettings.MacroList.Add(new Macro(101, "F12", ""));       // Key.F12
             }
 
+            // Remove any temporary triggers that were saved.
+            if (this.ProfileSettings.TriggerList.Any())
+            {
+                for (int i = this.ProfileSettings.TriggerList.Count - 1; i >= 0; i--)
+                {
+                    if (this.ProfileSettings.TriggerList[i].Temp)
+                    {
+                        this.ProfileSettings.TriggerList.RemoveAt(i);
+                    }
+                }
+            }
         }
 
         /// <summary>

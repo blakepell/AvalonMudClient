@@ -1,10 +1,20 @@
-﻿using System;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Threading;
 using Argus.Extensions;
 using Avalon.Common.Interfaces;
+using Avalon.Utilities;
 using ModernWpf;
 
 namespace Avalon.Controls
@@ -64,7 +74,7 @@ namespace Avalon.Controls
 
             if (win != null)
             {
-                win.StatusBarRightText = $"{App.Settings.ProfileSettings.TriggerList.Count} Triggers";
+                win.StatusBarRightText = $"{App.Settings.ProfileSettings.TriggerList.Count.ToString()} Triggers";
             }
         }
 
@@ -112,7 +122,7 @@ namespace Avalon.Controls
                 Filter = Filter
             };
 
-            TriggerConveyorSetup();
+            Utilities.Utilities.TriggerSetup();
 
             DataList.Items.Refresh();
 
@@ -136,25 +146,6 @@ namespace Avalon.Controls
         public int SelectedCount()
         {
             return DataList?.SelectedItems.Count ?? 0;
-        }
-
-        /// <summary>
-        /// Sets all triggers up with the Conveyor from the MainWindow if they haven't been wired up already.
-        /// </summary>
-        public void TriggerConveyorSetup()
-        {
-            if (App.Settings?.ProfileSettings?.TriggerList == null)
-            {
-                return;
-            }
-
-            foreach (var trigger in App.Settings.ProfileSettings.TriggerList)
-            {
-                if (trigger.Conveyor == null && App.Conveyor != null)
-                {
-                    trigger.Conveyor = App.Conveyor;
-                }
-            }
         }
 
         /// <summary>
@@ -239,7 +230,7 @@ namespace Avalon.Controls
         /// <param name="e"></param>
         private void DataList_OnCellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            TriggerConveyorSetup();
+            Utilities.Utilities.TriggerSetup();
         }
 
         private void DataList_InitializingNewItem(object sender, InitializingNewItemEventArgs e)
@@ -250,6 +241,11 @@ namespace Avalon.Controls
             if (trigger != null & App.Conveyor != null)
             {
                 trigger.Conveyor = App.Conveyor;
+            }
+
+            if (trigger != null & App.MainWindow.Interp.ScriptHost != null)
+            {
+                trigger.ScriptHost = App.MainWindow.Interp.ScriptHost;
             }
         }
 

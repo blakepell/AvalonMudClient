@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using MoonSharp.Interpreter.Compatibility;
 
@@ -12,8 +11,11 @@ namespace MoonSharp.Interpreter.Tree
         {
             string txt = T.Text;
             double res;
+
             if (!double.TryParse(txt, NumberStyles.Float, CultureInfo.InvariantCulture, out res))
+            {
                 throw new SyntaxErrorException(T, "malformed number near '{0}'", txt);
+            }
 
             return res;
         }
@@ -22,14 +24,18 @@ namespace MoonSharp.Interpreter.Tree
         {
             string txt = T.Text;
             if ((txt.Length < 2) || (txt[0] != '0' && (char.ToUpper(txt[1]) != 'X')))
+            {
                 throw new InternalErrorException("hex numbers must start with '0x' near '{0}'.", txt);
+            }
 
             ulong res;
 
             if (!ulong.TryParse(txt.Substring(2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out res))
+            {
                 throw new SyntaxErrorException(T, "malformed number near '{0}'", txt);
+            }
 
-            return (double)res;
+            return res;
         }
 
         public static string ReadHexProgressive(string s, ref double d, out int digits)
@@ -40,9 +46,9 @@ namespace MoonSharp.Interpreter.Tree
             {
                 char c = s[i];
 
-                if (LexerUtils.CharIsHexDigit(c))
+                if (CharIsHexDigit(c))
                 {
-                    int v = LexerUtils.HexDigit2Value(c);
+                    int v = HexDigit2Value(c);
                     d *= 16.0;
                     d += v;
                     ++digits;
@@ -63,7 +69,9 @@ namespace MoonSharp.Interpreter.Tree
             try
             {
                 if ((s.Length < 2) || (s[0] != '0' && (char.ToUpper(s[1]) != 'X')))
+                {
                     throw new InternalErrorException("hex float must start with '0x' near '{0}'", s);
+                }
 
                 s = s.Substring(2);
 
@@ -83,7 +91,9 @@ namespace MoonSharp.Interpreter.Tree
                 if (s.Length > 0 && char.ToUpper(s[0]) == 'P')
                 {
                     if (s.Length == 1)
+                    {
                         throw new SyntaxErrorException(T, "invalid hex float format near '{0}'", s);
+                    }
 
                     s = s.Substring(s[1] == '+' ? 2 : 1);
 
@@ -92,8 +102,7 @@ namespace MoonSharp.Interpreter.Tree
                     exp += exp1;
                 }
 
-                double result = value * Math.Pow(2, exp);
-                return result;
+                return value * Math.Pow(2, exp);
             }
             catch (FormatException)
             {
@@ -105,13 +114,21 @@ namespace MoonSharp.Interpreter.Tree
         public static int HexDigit2Value(char c)
         {
             if (c >= '0' && c <= '9')
+            {
                 return c - '0';
-            else if (c >= 'A' && c <= 'F')
+            }
+
+            if (c >= 'A' && c <= 'F')
+            {
                 return 10 + (c - 'A');
-            else if (c >= 'a' && c <= 'f')
+            }
+
+            if (c >= 'a' && c <= 'f')
+            {
                 return 10 + (c - 'a');
-            else
-                throw new InternalErrorException("invalid hex digit near '{0}'", c);
+            }
+
+            throw new InternalErrorException("invalid hex digit near '{0}'", c);
         }
 
         public static bool CharIsDigit(char c)
@@ -122,16 +139,20 @@ namespace MoonSharp.Interpreter.Tree
         public static bool CharIsHexDigit(char c)
         {
             return CharIsDigit(c) ||
-                c == 'a' || c == 'b' || c == 'c' || c == 'd' || c == 'e' || c == 'f' ||
-                c == 'A' || c == 'B' || c == 'C' || c == 'D' || c == 'E' || c == 'F';
+                   c == 'a' || c == 'b' || c == 'c' || c == 'd' || c == 'e' || c == 'f' ||
+                   c == 'A' || c == 'B' || c == 'C' || c == 'D' || c == 'E' || c == 'F';
         }
 
         public static string AdjustLuaLongString(string str)
         {
             if (str.StartsWith("\r\n"))
+            {
                 str = str.Substring(2);
+            }
             else if (str.StartsWith("\n"))
+            {
                 str = str.Substring(1);
+            }
 
             return str;
         }
@@ -139,66 +160,147 @@ namespace MoonSharp.Interpreter.Tree
         public static string UnescapeLuaString(Token token, string str)
         {
             if (!Framework.Do.StringContainsChar(str, '\\'))
+            {
                 return str;
+            }
 
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
             bool escape = false;
             bool hex = false;
-            int unicode_state = 0;
-            string hexprefix = "";
+            int unicodeState = 0;
+            string hexPrefix = "";
             string val = "";
             bool zmode = false;
 
             foreach (char c in str)
             {
-            redo:
+                redo:
                 if (escape)
                 {
-                    if (val.Length == 0 && !hex && unicode_state == 0)
+                    if (val.Length == 0 && !hex && unicodeState == 0)
                     {
-                        if (c == 'a') { sb.Append('\a'); escape = false; zmode = false; }
-                        else if (c == '\r') { }  // this makes \\r\n -> \\n
-                        else if (c == '\n') { sb.Append('\n'); escape = false; }
-                        else if (c == 'b') { sb.Append('\b'); escape = false; }
-                        else if (c == 'f') { sb.Append('\f'); escape = false; }
-                        else if (c == 'n') { sb.Append('\n'); escape = false; }
-                        else if (c == 'r') { sb.Append('\r'); escape = false; }
-                        else if (c == 't') { sb.Append('\t'); escape = false; }
-                        else if (c == 'v') { sb.Append('\v'); escape = false; }
-                        else if (c == '\\') { sb.Append('\\'); escape = false; zmode = false; }
-                        else if (c == '"') { sb.Append('\"'); escape = false; zmode = false; }
-                        else if (c == '\'') { sb.Append('\''); escape = false; zmode = false; }
-                        else if (c == '[') { sb.Append('['); escape = false; zmode = false; }
-                        else if (c == ']') { sb.Append(']'); escape = false; zmode = false; }
-                        else if (c == 'x') { hex = true; }
-                        else if (c == 'u') { unicode_state = 1; }
-                        else if (c == 'z') { zmode = true; escape = false; }
-                        else if (CharIsDigit(c)) { val = val + c; }
-                        else throw new SyntaxErrorException(token, "invalid escape sequence near '\\{0}'", c);
+                        if (c == 'a')
+                        {
+                            sb.Append('\a');
+                            escape = false;
+                            zmode = false;
+                        }
+                        else if (c == '\r')
+                        {
+                        } // this makes \\r\n -> \\n
+                        else if (c == '\n')
+                        {
+                            sb.Append('\n');
+                            escape = false;
+                        }
+                        else if (c == 'b')
+                        {
+                            sb.Append('\b');
+                            escape = false;
+                        }
+                        else if (c == 'f')
+                        {
+                            sb.Append('\f');
+                            escape = false;
+                        }
+                        else if (c == 'n')
+                        {
+                            sb.Append('\n');
+                            escape = false;
+                        }
+                        else if (c == 'r')
+                        {
+                            sb.Append('\r');
+                            escape = false;
+                        }
+                        else if (c == 't')
+                        {
+                            sb.Append('\t');
+                            escape = false;
+                        }
+                        else if (c == 'v')
+                        {
+                            sb.Append('\v');
+                            escape = false;
+                        }
+                        else if (c == '\\')
+                        {
+                            sb.Append('\\');
+                            escape = false;
+                            zmode = false;
+                        }
+                        else if (c == '"')
+                        {
+                            sb.Append('\"');
+                            escape = false;
+                            zmode = false;
+                        }
+                        else if (c == '\'')
+                        {
+                            sb.Append('\'');
+                            escape = false;
+                            zmode = false;
+                        }
+                        else if (c == '[')
+                        {
+                            sb.Append('[');
+                            escape = false;
+                            zmode = false;
+                        }
+                        else if (c == ']')
+                        {
+                            sb.Append(']');
+                            escape = false;
+                            zmode = false;
+                        }
+                        else if (c == 'x')
+                        {
+                            hex = true;
+                        }
+                        else if (c == 'u')
+                        {
+                            unicodeState = 1;
+                        }
+                        else if (c == 'z')
+                        {
+                            zmode = true;
+                            escape = false;
+                        }
+                        else if (CharIsDigit(c))
+                        {
+                            val = val + c;
+                        }
+                        else
+                        {
+                            throw new SyntaxErrorException(token, "invalid escape sequence near '\\{0}'", c);
+                        }
                     }
                     else
                     {
-                        if (unicode_state == 1)
+                        if (unicodeState == 1)
                         {
                             if (c != '{')
+                            {
                                 throw new SyntaxErrorException(token, "'{' expected near '\\u'");
+                            }
 
-                            unicode_state = 2;
+                            unicodeState = 2;
                         }
-                        else if (unicode_state == 2)
+                        else if (unicodeState == 2)
                         {
                             if (c == '}')
                             {
                                 int i = int.Parse(val, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
                                 sb.Append(ConvertUtf32ToChar(i));
-                                unicode_state = 0;
+                                unicodeState = 0;
                                 val = string.Empty;
                                 escape = false;
                             }
                             else if (val.Length >= 8)
                             {
-                                throw new SyntaxErrorException(token, "'}' missing, or unicode code point too large after '\\u'");
+                                throw new SyntaxErrorException(token,
+                                    "'}' missing, or unicode code point too large after '\\u'");
                             }
                             else
                             {
@@ -220,7 +322,8 @@ namespace MoonSharp.Interpreter.Tree
                             }
                             else
                             {
-                                throw new SyntaxErrorException(token, "hexadecimal digit expected near '\\{0}{1}{2}'", hexprefix, val, c);
+                                throw new SyntaxErrorException(token, "hexadecimal digit expected near '\\{0}{1}{2}'",
+                                    hexPrefix, val, c);
                             }
                         }
                         else if (val.Length > 0)
@@ -235,7 +338,9 @@ namespace MoonSharp.Interpreter.Tree
                                 int i = int.Parse(val, CultureInfo.InvariantCulture);
 
                                 if (i > 255)
+                                {
                                     throw new SyntaxErrorException(token, "decimal escape too large near '\\{0}'", val);
+                                }
 
                                 sb.Append(ConvertUtf32ToChar(i));
 
@@ -243,7 +348,9 @@ namespace MoonSharp.Interpreter.Tree
                                 escape = false;
 
                                 if (!CharIsDigit(c))
+                                {
                                     goto redo;
+                                }
                             }
                         }
                     }
@@ -284,12 +391,7 @@ namespace MoonSharp.Interpreter.Tree
 
         private static string ConvertUtf32ToChar(int i)
         {
-#if PCL || ENABLE_DOTNET
-			return ((char)i).ToString();
-#else
             return char.ConvertFromUtf32(i);
-#endif
         }
-
     }
 }

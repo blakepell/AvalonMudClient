@@ -3,117 +3,124 @@ using MoonSharp.Interpreter.Debugging;
 using MoonSharp.Interpreter.Execution;
 using MoonSharp.Interpreter.Execution.VM;
 
-
 namespace MoonSharp.Interpreter.Tree.Statements
 {
-	class IfStatement : Statement
-	{
-		private class IfBlock
-		{
-			public Expression Exp;
-			public Statement Block;
-			public RuntimeScopeBlock StackFrame;
-			public SourceRef Source;
-		}
+    internal class IfStatement : Statement
+    {
+        private IfBlock _else;
+        private SourceRef _end;
 
-		List<IfBlock> m_Ifs = new List<IfBlock>();
-		IfBlock m_Else = null;
-		SourceRef m_End;
+        private List<IfBlock> _ifs = new List<IfBlock>();
 
-		public IfStatement(ScriptLoadingContext lcontext)
-			: base(lcontext)
-		{
-			while (lcontext.Lexer.Current.Type != TokenType.Else && lcontext.Lexer.Current.Type != TokenType.End)
-			{
-				m_Ifs.Add(CreateIfBlock(lcontext));
-			}
+        public IfStatement(ScriptLoadingContext lcontext) : base(lcontext)
+        {
+            while (lcontext.Lexer.Current.Type != TokenType.Else && lcontext.Lexer.Current.Type != TokenType.End)
+            {
+                _ifs.Add(this.CreateIfBlock(lcontext));
+            }
 
-			if (lcontext.Lexer.Current.Type == TokenType.Else)
-			{
-				m_Else = CreateElseBlock(lcontext);
-			}
+            if (lcontext.Lexer.Current.Type == TokenType.Else)
+            {
+                _else = this.CreateElseBlock(lcontext);
+            }
 
-			m_End = CheckTokenType(lcontext, TokenType.End).GetSourceRef();
-			lcontext.Source.Refs.Add(m_End);
-		}
+            _end = CheckTokenType(lcontext, TokenType.End).GetSourceRef();
+            lcontext.Source.Refs.Add(_end);
+        }
 
-		IfBlock CreateIfBlock(ScriptLoadingContext lcontext)
-		{
-			Token type = CheckTokenType(lcontext, TokenType.If, TokenType.ElseIf);
+        private IfBlock CreateIfBlock(ScriptLoadingContext lcontext)
+        {
+            var type = CheckTokenType(lcontext, TokenType.If, TokenType.ElseIf);
 
-			lcontext.Scope.PushBlock();
+            lcontext.Scope.PushBlock();
 
-			var ifblock = new IfBlock();
+            var ifblock = new IfBlock
+            {
+                Exp = Expression.Expr(lcontext),
+                Source = type.GetSourceRef(CheckTokenType(lcontext, TokenType.Then)),
+                Block = new CompositeStatement(lcontext),
+                StackFrame = lcontext.Scope.PopBlock()
+            };
 
-			ifblock.Exp = Expression.Expr(lcontext);
-			ifblock.Source = type.GetSourceRef(CheckTokenType(lcontext, TokenType.Then));
-			ifblock.Block = new CompositeStatement(lcontext);
-			ifblock.StackFrame = lcontext.Scope.PopBlock();
-			lcontext.Source.Refs.Add(ifblock.Source);
+            lcontext.Source.Refs.Add(ifblock.Source);
 
+            return ifblock;
+        }
 
-			return ifblock;
-		}
+        private IfBlock CreateElseBlock(ScriptLoadingContext lcontext)
+        {
+            var type = CheckTokenType(lcontext, TokenType.Else);
 
-		IfBlock CreateElseBlock(ScriptLoadingContext lcontext)
-		{
-			Token type = CheckTokenType(lcontext, TokenType.Else);
+            lcontext.Scope.PushBlock();
 
-			lcontext.Scope.PushBlock();
+            var ifblock = new IfBlock
+            {
+                Block = new CompositeStatement(lcontext),
+                StackFrame = lcontext.Scope.PopBlock(),
+                Source = type.GetSourceRef()
+            };
 
-			var ifblock = new IfBlock();
-			ifblock.Block = new CompositeStatement(lcontext);
-			ifblock.StackFrame = lcontext.Scope.PopBlock();
-			ifblock.Source = type.GetSourceRef();
-			lcontext.Source.Refs.Add(ifblock.Source);
-			return ifblock;
-		}
+            lcontext.Source.Refs.Add(ifblock.Source);
+            return ifblock;
+        }
 
 
-		public override void Compile(Execution.VM.ByteCode bc)
-		{
-			List<Instruction> endJumps = new List<Instruction>();
+        public override void Compile(ByteCode bc)
+        {
+            var endJumps = new List<Instruction>();
+            Instruction lastIfJmp = null;
 
-			Instruction lastIfJmp = null;
+            foreach (var ifblock in _ifs)
+            {
+                using (bc.EnterSource(ifblock.Source))
+                {
+                    if (lastIfJmp != null)
+                    {
+                        lastIfJmp.NumVal = bc.GetJumpPointForNextInstruction();
+                    }
 
-			foreach (var ifblock in m_Ifs)
-			{
-				using (bc.EnterSource(ifblock.Source))
-				{
-					if (lastIfJmp != null)
-						lastIfJmp.NumVal = bc.GetJumpPointForNextInstruction();
+                    ifblock.Exp.Compile(bc);
+                    lastIfJmp = bc.Emit_Jump(OpCode.Jf, -1);
+                    bc.Emit_Enter(ifblock.StackFrame);
+                    ifblock.Block.Compile(bc);
+                }
 
-					ifblock.Exp.Compile(bc);
-					lastIfJmp = bc.Emit_Jump(OpCode.Jf, -1);
-					bc.Emit_Enter(ifblock.StackFrame);
-					ifblock.Block.Compile(bc);
-				}
+                using (bc.EnterSource(_end))
+                {
+                    bc.Emit_Leave(ifblock.StackFrame);
+                }
 
-				using (bc.EnterSource(m_End))
-					bc.Emit_Leave(ifblock.StackFrame);
+                endJumps.Add(bc.Emit_Jump(OpCode.Jump, -1));
+            }
 
-				endJumps.Add(bc.Emit_Jump(OpCode.Jump, -1));
-			}
+            lastIfJmp.NumVal = bc.GetJumpPointForNextInstruction();
 
-			lastIfJmp.NumVal = bc.GetJumpPointForNextInstruction();
+            if (_else != null)
+            {
+                using (bc.EnterSource(_else.Source))
+                {
+                    bc.Emit_Enter(_else.StackFrame);
+                    _else.Block.Compile(bc);
+                }
 
-			if (m_Else != null)
-			{
-				using (bc.EnterSource(m_Else.Source))
-				{
-					bc.Emit_Enter(m_Else.StackFrame);
-					m_Else.Block.Compile(bc);
-				}
+                using (bc.EnterSource(_end))
+                {
+                    bc.Emit_Leave(_else.StackFrame);
+                }
+            }
 
-				using (bc.EnterSource(m_End))
-					bc.Emit_Leave(m_Else.StackFrame);
-			}
+            foreach (var endjmp in endJumps)
+            {
+                endjmp.NumVal = bc.GetJumpPointForNextInstruction();
+            }
+        }
 
-			foreach(var endjmp in endJumps)
-				endjmp.NumVal = bc.GetJumpPointForNextInstruction();
-		}
-
-
-
-	}
+        private class IfBlock
+        {
+            public Statement Block;
+            public Expression Exp;
+            public SourceRef Source;
+            public RuntimeScopeBlock StackFrame;
+        }
+    }
 }

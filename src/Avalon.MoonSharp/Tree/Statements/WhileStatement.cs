@@ -2,78 +2,73 @@
 using MoonSharp.Interpreter.Execution;
 using MoonSharp.Interpreter.Execution.VM;
 
-
 namespace MoonSharp.Interpreter.Tree.Statements
 {
-	class WhileStatement : Statement
-	{
-		Expression m_Condition;
-		Statement m_Block;
-		RuntimeScopeBlock m_StackFrame;
-		SourceRef m_Start, m_End;
+    internal class WhileStatement : Statement
+    {
+        private Statement _block;
+        private Expression _condition;
+        private RuntimeScopeBlock _stackFrame;
+        private SourceRef _start, _end;
 
-		public WhileStatement(ScriptLoadingContext lcontext)
-			: base(lcontext)
-		{
-			Token whileTk = CheckTokenType(lcontext, TokenType.While);
+        public WhileStatement(ScriptLoadingContext lcontext)
+            : base(lcontext)
+        {
+            var whileTk = CheckTokenType(lcontext, TokenType.While);
 
-			m_Condition = Expression.Expr(lcontext);
+            _condition = Expression.Expr(lcontext);
+            _start = whileTk.GetSourceRefUpTo(lcontext.Lexer.Current);
 
-			m_Start = whileTk.GetSourceRefUpTo(lcontext.Lexer.Current);
+            lcontext.Scope.PushBlock();
+            CheckTokenType(lcontext, TokenType.Do);
+            _block = new CompositeStatement(lcontext);
+            _end = CheckTokenType(lcontext, TokenType.End).GetSourceRef();
+            _stackFrame = lcontext.Scope.PopBlock();
 
-			//m_Start = BuildSourceRef(context.Start, exp.Stop);
-			//m_End = BuildSourceRef(context.Stop, context.END());
-
-			lcontext.Scope.PushBlock();
-			CheckTokenType(lcontext, TokenType.Do);
-			m_Block = new CompositeStatement(lcontext);
-			m_End = CheckTokenType(lcontext, TokenType.End).GetSourceRef();
-			m_StackFrame = lcontext.Scope.PopBlock();
-
-			lcontext.Source.Refs.Add(m_Start);
-			lcontext.Source.Refs.Add(m_End);
-		}
+            lcontext.Source.Refs.Add(_start);
+            lcontext.Source.Refs.Add(_end);
+        }
 
 
-		public override void Compile(ByteCode bc)
-		{
-			Loop L = new Loop()
-			{
-				Scope = m_StackFrame
-			};
+        public override void Compile(ByteCode bc)
+        {
+            var l = new Loop
+            {
+                Scope = _stackFrame
+            };
 
 
-			bc.LoopTracker.Loops.Push(L);
+            bc.LoopTracker.Loops.Push(l);
 
-			bc.PushSourceRef(m_Start);
+            bc.PushSourceRef(_start);
 
-			int start = bc.GetJumpPointForNextInstruction();
+            int start = bc.GetJumpPointForNextInstruction();
 
-			m_Condition.Compile(bc);
-			var jumpend = bc.Emit_Jump(OpCode.Jf, -1);
+            _condition.Compile(bc);
+            var jumpend = bc.Emit_Jump(OpCode.Jf, -1);
 
-			bc.Emit_Enter(m_StackFrame);
+            bc.Emit_Enter(_stackFrame);
 
-			m_Block.Compile(bc);
+            _block.Compile(bc);
 
-			bc.PopSourceRef();
-			bc.Emit_Debug("..end");
-			bc.PushSourceRef(m_End);
-	
-			bc.Emit_Leave(m_StackFrame);
-			bc.Emit_Jump(OpCode.Jump, start);
-			
-			bc.LoopTracker.Loops.Pop();
+            bc.PopSourceRef();
+            bc.PushSourceRef(_end);
 
-			int exitpoint = bc.GetJumpPointForNextInstruction();
+            bc.Emit_Leave(_stackFrame);
+            bc.Emit_Jump(OpCode.Jump, start);
 
-			foreach (Instruction i in L.BreakJumps)
-				i.NumVal = exitpoint;
+            bc.LoopTracker.Loops.Pop();
 
-			jumpend.NumVal = exitpoint;
+            int exitPoint = bc.GetJumpPointForNextInstruction();
 
-			bc.PopSourceRef();
-		}
+            foreach (var i in l.BreakJumps)
+            {
+                i.NumVal = exitPoint;
+            }
 
-	}
+            jumpend.NumVal = exitPoint;
+
+            bc.PopSourceRef();
+        }
+    }
 }

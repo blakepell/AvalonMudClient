@@ -1,4 +1,13 @@
-﻿using Avalon.Lua;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using Avalon.Lua;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using ModernWpf.Controls;
@@ -183,11 +192,11 @@ namespace Avalon
             // for any blatant syntax errors.
             if (this.EditorMode == EditorType.Lua && App.Settings.AvalonSettings.ValidateLua)
             {
-                var luaResult = await App.MainWindow.Interp.LuaCaller.ValidateAsync(this.Text);
-                
+                var luaResult = await App.MainWindow.Interp.ScriptHost.MoonSharp.ValidateAsync(this.Text);
+
                 if (!luaResult.Success && luaResult.Exception != null)
                 {
-                    string buf = $"An error occurred on line {luaResult.Exception.ToLineNumber}\r\nMessage: {luaResult?.Exception?.Message ?? "N/A"}\r\n\r\nWould you still like to save?";
+                    string buf = $"An error occurred on line {luaResult.Exception.ToLineNumber.ToString()}\r\nMessage: {luaResult?.Exception?.Message ?? "N/A"}\r\n\r\nWould you still like to save?";
 
                     var confirmDialog = new YesNoDialog()
                     {

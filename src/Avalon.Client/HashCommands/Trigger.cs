@@ -1,4 +1,13 @@
-﻿using Avalon.Common.Interfaces;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using Avalon.Common.Interfaces;
 using CommandLine;
 using System.Linq;
 
@@ -31,7 +40,7 @@ namespace Avalon.HashCommands
                     }
 
                     // System triggers that match the ID.
-                    foreach (var t in App.SystemTriggers.Where(x => x.Identifier == o.Id))
+                    foreach (var t in App.InstanceGlobals.SystemTriggers.Where(x => x.Identifier == o.Id))
                     {
                         if (o.Enable)
                         {
@@ -59,7 +68,7 @@ namespace Avalon.HashCommands
 
                             if (o.Verbose)
                             {
-                                this.Interpreter.Conveyor.EchoLog($"A trigger with the ID of '{o.Id}' had stop processing set to {t.StopProcessing}.", Common.Models.LogType.Success);
+                                this.Interpreter.Conveyor.EchoLog($"A trigger with the ID of '{o.Id}' had stop processing set to {t.StopProcessing.ToString()}.", Common.Models.LogType.Success);
                             }
                         }
 
@@ -120,7 +129,7 @@ namespace Avalon.HashCommands
 
                             if (o.Verbose)
                             {
-                                this.Interpreter.Conveyor.EchoLog($"A trigger with the ID of '{o.Id}' had stop processing set to {t.StopProcessing}.", Common.Models.LogType.Success);
+                                this.Interpreter.Conveyor.EchoLog($"A trigger with the ID of '{o.Id}' had stop processing set to {t.StopProcessing.ToString()}.", Common.Models.LogType.Success);
                             }
                         }
 
@@ -181,7 +190,6 @@ namespace Avalon.HashCommands
                             this.Interpreter.Conveyor.EchoLog($"A trigger with the ID of '{o.Id}' has been created.", Common.Models.LogType.Success);
                         }
                     }
-
                 });
 
             // Display the help or error output from the parameter parsing.
@@ -220,7 +228,6 @@ namespace Avalon.HashCommands
 
             [Option('s', "stop", Required = false, HelpText = "[true|false] Whether the trigger should stop the processing the remaining lower priority triggers.")]
             public string StopProcessing { get; set; }
-
 
         }
     }

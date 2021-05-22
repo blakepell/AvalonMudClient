@@ -2,151 +2,99 @@
 
 namespace MoonSharp.Interpreter.Execution.VM
 {
-	sealed partial class Processor
-	{
-		private void ClearBlockData(Instruction I)
-		{
-			int from = I.NumVal;
-			int to = I.NumVal2;
+    internal sealed partial class Processor
+    {
+        private void ClearBlockData(Instruction I)
+        {
+            int from = I.NumVal;
+            int to = I.NumVal2;
 
-			var array = this.m_ExecutionStack.Peek().LocalScope;
+            var array = _executionStack.Peek().LocalScope;
 
-			if (to >= 0 && from >= 0 && to >= from)
-			{
-				Array.Clear(array, from, to - from + 1);
-			}
-		}
-
-
-		public DynValue GetGenericSymbol(SymbolRef symref)
-		{
-			switch (symref.i_Type)
-			{
-				case  SymbolRefType.DefaultEnv:
-					return DynValue.NewTable(this.GetScript().Globals);
-				case SymbolRefType.Global:
-					return GetGlobalSymbol(GetGenericSymbol(symref.i_Env), symref.i_Name);
-				case SymbolRefType.Local:
-					return GetTopNonClrFunction().LocalScope[symref.i_Index];
-				case SymbolRefType.Upvalue:
-					return GetTopNonClrFunction().ClosureScope[symref.i_Index];
-				default:
-					throw new InternalErrorException("Unexpected {0} LRef at resolution: {1}", symref.i_Type, symref.i_Name);
-			}
-		}
-
-		private DynValue GetGlobalSymbol(DynValue dynValue, string name)
-		{
-			if (dynValue.Type != DataType.Table)
-				throw new InvalidOperationException(string.Format("_ENV is not a table but a {0}", dynValue.Type));
-
-			return dynValue.Table.Get(name);
-		}
-
-		private void SetGlobalSymbol(DynValue dynValue, string name, DynValue value)
-		{
-			if (dynValue.Type != DataType.Table)
-				throw new InvalidOperationException(string.Format("_ENV is not a table but a {0}", dynValue.Type));
-
-			dynValue.Table.Set(name, value ?? DynValue.Nil);
-		}
+            if (to >= 0 && from >= 0 && to >= from)
+            {
+                Array.Clear(array, from, to - from + 1);
+            }
+        }
 
 
-		public void AssignGenericSymbol(SymbolRef symref, DynValue value)
-		{
-			switch (symref.i_Type)
-			{
-				case SymbolRefType.Global:
-					SetGlobalSymbol(GetGenericSymbol(symref.i_Env), symref.i_Name, value);
-					break;
-				case SymbolRefType.Local:
-					{
-						var stackframe = GetTopNonClrFunction();
+        public DynValue GetGenericSymbol(SymbolRef symref)
+        {
+            switch (symref._type)
+            {
+                case SymbolRefType.DefaultEnv:
+                    return DynValue.NewTable(this.GetScript().Globals);
+                case SymbolRefType.Local:
+                    return this.GetTopNonClrFunction().LocalScope[symref._index];
+                case SymbolRefType.Upvalue:
+                    return this.GetTopNonClrFunction().ClosureScope[symref._index];
+                default:
+                    throw new InternalErrorException("Unexpected {0} LRef at resolution: {1}", symref._type,
+                        symref._name);
+            }
+        }
 
-						DynValue v = stackframe.LocalScope[symref.i_Index];
-						if (v == null)
-							stackframe.LocalScope[symref.i_Index] = v = DynValue.NewNil();
+        private CallStackItem GetTopNonClrFunction()
+        {
+            CallStackItem stackframe = null;
 
-						v.Assign(value);
-					}
-					break;
-				case SymbolRefType.Upvalue:
-					{
-						var stackframe = GetTopNonClrFunction();
+            for (int i = 0; i < _executionStack.Count; i++)
+            {
+                stackframe = _executionStack.Peek(i);
 
-						DynValue v = stackframe.ClosureScope[symref.i_Index];
-						if (v == null)
-							stackframe.ClosureScope[symref.i_Index] = v = DynValue.NewNil();
+                if (stackframe.ClrFunction == null)
+                {
+                    break;
+                }
+            }
 
-						v.Assign(value);
-					}
-					break;
-				case SymbolRefType.DefaultEnv:
-					{
-						throw new ArgumentException("Can't AssignGenericSymbol on a DefaultEnv symbol");
-					}
-				default:
-					throw new InternalErrorException("Unexpected {0} LRef at resolution: {1}", symref.i_Type, symref.i_Name);
-			}
-		}
-
-		CallStackItem GetTopNonClrFunction()
-		{
-			CallStackItem stackframe = null;
-
-			for (int i = 0; i < m_ExecutionStack.Count; i++)
-			{
-				stackframe = m_ExecutionStack.Peek(i);
-
-				if (stackframe.ClrFunction == null)
-					break;
-			}
-
-			return stackframe;
-		}
+            return stackframe;
+        }
 
 
-		public SymbolRef FindSymbolByName(string name)
-		{
-			if (m_ExecutionStack.Count > 0)
-			{
-				CallStackItem stackframe = GetTopNonClrFunction();
+        public SymbolRef FindSymbolByName(string name)
+        {
+            if (_executionStack.Count > 0)
+            {
+                var stackframe = this.GetTopNonClrFunction();
 
-				if (stackframe != null)
-				{
-					if (stackframe.Debug_Symbols != null)
-					{
-						for (int i = stackframe.Debug_Symbols.Length - 1; i >= 0; i--)
-						{
-							var l = stackframe.Debug_Symbols[i];
+                if (stackframe != null)
+                {
+                    if (stackframe.Debug_Symbols != null)
+                    {
+                        for (int i = stackframe.Debug_Symbols.Length - 1; i >= 0; i--)
+                        {
+                            var l = stackframe.Debug_Symbols[i];
 
-							if (l.i_Name == name && stackframe.LocalScope[i] != null)
-								return l;
-						}
-					}
+                            if (l._name == name && stackframe.LocalScope[i] != null)
+                            {
+                                return l;
+                            }
+                        }
+                    }
 
+                    var closure = stackframe.ClosureScope;
 
-					var closure = stackframe.ClosureScope;
+                    if (closure != null)
+                    {
+                        for (int i = 0; i < closure.Symbols.Length; i++)
+                        {
+                            if (closure.Symbols[i] == name)
+                            {
+                                return SymbolRef.Upvalue(name, i);
+                            }
+                        }
+                    }
+                }
+            }
 
-					if (closure != null)
-					{
-						for (int i = 0; i < closure.Symbols.Length; i++)
-							if (closure.Symbols[i] == name)
-								return SymbolRef.Upvalue(name, i);
-					}
-				}
-			}
+            if (name != WellKnownSymbols.ENV)
+            {
+                var env = this.FindSymbolByName(WellKnownSymbols.ENV);
+                return SymbolRef.Global(name, env);
+            }
 
-			if (name != WellKnownSymbols.ENV)
-			{
-				SymbolRef env = FindSymbolByName(WellKnownSymbols.ENV);
-				return SymbolRef.Global(name, env);
-			}
-			else
-			{
-				return SymbolRef.DefaultEnv;
-			}
-		}
-
-	}
+            return SymbolRef.DefaultEnv;
+        }
+    }
 }

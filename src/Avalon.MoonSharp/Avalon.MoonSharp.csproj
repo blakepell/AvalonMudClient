@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0</TargetFrameworks>
-    <Version>2021.2.18.1</Version>
+    <TargetFrameworks>net5.0</TargetFrameworks>
+    <Version>2021.4.25.1</Version>
     <Authors>Marco Mastropaolo, Blake Pell</Authors>
     <Company>Marco Mastropaolo, Blake Pell</Company>
-    <Description>Unofficial Moonsharp Lua interpreter forked and targetted for .NET Standard 2 and .NET Core 3.</Description>
+    <Description>Unofficial Moonsharp Lua interpreter forked and targetted .NET 5.</Description>
     <PackageTags>moonsharp lua uwp netcoreapp</PackageTags>
     <Copyright>2020-2021</Copyright>
-    <AssemblyVersion>2021.2.18.1</AssemblyVersion>
-    <FileVersion>2021.2.18.1</FileVersion>
+    <AssemblyVersion>2021.4.25.1</AssemblyVersion>
+    <FileVersion>2021.4.25.1</FileVersion>
     <PackageId>MoonSharp.Core</PackageId>
     <Product>MoonSharp (Unofficial)</Product>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -18,15 +18,15 @@
     <PackageProjectUrl>https://github.com/blakepell/Moonsharp</PackageProjectUrl>
     <RepositoryUrl>https://github.com/blakepell/Moonsharp</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>- This is a .NET Standard 2.0/.NET Core 3/.Net Core 5 port of the Moonsharp library (which can be used with UWP and .NET Core 3/5).
-- Includes async execution control coded by GitHub user ixjf (that has not been merged into MoonSharp proper)
-- This is an unofficial release with minimal changes to the source outside of compilation targets.  There is again traction on the main project, hopefully the need for this package will cease to exist in the future and it can be deprecated.
-- License is inherited from the official Moonsharp project.</PackageReleaseNotes>
+    <PackageReleaseNotes>Project will now target only the framework required by Avalon.</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
     <None Include="LICENSE.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ZString" Version="2.4.1" />
   </ItemGroup>
 </Project>

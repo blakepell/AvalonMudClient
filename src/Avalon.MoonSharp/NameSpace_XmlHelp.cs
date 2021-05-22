@@ -1,5 +1,4 @@
-﻿
-namespace MoonSharp.Interpreter 
+﻿namespace MoonSharp.Interpreter 
 {
 	/// <summary>
 	/// Namespace containing all the most commonly used classes for MoonSharp operation.
@@ -44,7 +43,7 @@ namespace MoonSharp.Interpreter.Diagnostics
 namespace MoonSharp.Interpreter.Interop
 {
 	/// <summary>
-	/// Namespace containing classes used to customize and support advanced interoperations between
+	/// Namespace containing classes used to customize and support advanced inter-operations between
 	/// scripts and CLR code.
 	/// </summary>
 	internal static class NamespaceDoc { }
@@ -87,9 +86,3 @@ namespace MoonSharp.Interpreter.REPL
 	/// </summary>
 	internal static class NamespaceDoc { }
 }
-
-
-
-
-
-

@@ -1,7 +1,17 @@
-﻿using Avalon.Common.Interfaces;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
 using System.Text;
 using System.Windows;
+using Avalon.Colors;
 
 namespace Avalon
 {
@@ -65,7 +75,6 @@ namespace Avalon
         /// <summary>
         /// Appends text to the terminal.
         /// </summary>
-        /// <param name="text"></param>
         public void AppendText(string text)
         {
             Terminal.Append(text, true);
@@ -87,6 +96,29 @@ namespace Avalon
         public void AppendText(StringBuilder sb)
         {
             Terminal.Append(sb, true);
+        }
+
+        /// <summary>
+        /// Appends text to the terminal window and converts mud color codes into ANSI color.
+        /// </summary>
+        /// <param name="text"></param>
+        public void AppendAnsi(string text)
+        {
+            var sb = Argus.Memory.StringBuilderPool.Take();
+            sb.AppendLine(text);
+            Colorizer.MudToAnsiColorCodes(sb);
+            Terminal.AppendAnsi(sb);
+            Argus.Memory.StringBuilderPool.Return(sb);
+        }
+
+        /// <summary>
+        /// Appends text to the terminal window and converts mud color codes into ANSI color.
+        /// </summary>
+        /// <param name="sb"></param>
+        public void AppendAnsi(StringBuilder sb)
+        {
+            Colorizer.MudToAnsiColorCodes(sb);
+            Terminal.AppendAnsi(sb);
         }
 
         /// <summary>

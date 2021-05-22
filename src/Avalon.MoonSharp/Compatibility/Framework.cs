@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using MoonSharp.Interpreter.Compatibility.Frameworks;
+﻿using MoonSharp.Interpreter.Compatibility.Frameworks;
 
 namespace MoonSharp.Interpreter.Compatibility
 {
-	public static class Framework
-	{
-		static FrameworkCurrent s_FrameworkCurrent = new FrameworkCurrent();
+    public static class Framework
+    {
+        private static FrameworkCurrent _frameworkCurrent = new FrameworkCurrent();
 
-		public static FrameworkBase Do { get { return s_FrameworkCurrent; } }
-	}
+        public static FrameworkBase Do => _frameworkCurrent;
+    }
 }

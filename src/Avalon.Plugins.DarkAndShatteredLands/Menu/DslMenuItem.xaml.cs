@@ -1,11 +1,16 @@
-﻿using Avalon.Common.Interfaces;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using Avalon.Common.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net;
-using System.Text;
 using System.Windows.Controls;
-using Argus.Extensions;
 
 namespace Avalon.Plugins.DarkAndShatteredLands
 {

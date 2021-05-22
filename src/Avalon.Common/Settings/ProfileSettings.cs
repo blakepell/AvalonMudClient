@@ -1,11 +1,20 @@
-﻿using Argus.ComponentModel;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using Avalon.Common.Attributes;
 using Avalon.Common.Models;
 using Avalon.Common.Triggers;
+using Avalon.Common.Utilities;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using Newtonsoft.Json;
-using Avalon.Common.Attributes;
-using System.Collections.Generic;
 
 namespace Avalon.Common.Settings
 {
@@ -69,6 +78,21 @@ namespace Avalon.Common.Settings
             {
                 _triggersEnabled = value;
                 OnPropertyChanged(nameof(TriggersEnabled));
+            }
+        }
+
+        private bool _replacementTriggersEnabled = true;
+
+        [CategoryAttribute("Performance")]
+        [DescriptionAttribute("Whether replacement triggers will be processed when incoming data is sent to the main main terminal.")]
+        [Browsable(false)]
+        public bool ReplacementTriggersEnabled
+        {
+            get => _replacementTriggersEnabled;
+            set
+            {
+                _replacementTriggersEnabled = value;
+                OnPropertyChanged(nameof(ReplacementTriggersEnabled));
             }
         }
 
@@ -216,13 +240,13 @@ namespace Avalon.Common.Settings
         public ObservableCollection<Alias> AliasList { get; set; } = new ObservableCollection<Alias>();
 
         [Browsable(false)]
-        public SpecialObservableCollection<Direction> DirectionList { get; set; } = new SpecialObservableCollection<Direction>();
+        public FullyObservableCollection<Direction> DirectionList { get; set; } = new FullyObservableCollection<Direction>();
 
         [Browsable(false)]
-        public SpecialObservableCollection<Trigger> TriggerList { get; set; } = new SpecialObservableCollection<Trigger>();
+        public TriggerObservableCollection TriggerList { get; set; } = new TriggerObservableCollection();
 
         [Browsable(false)]
-        public SpecialObservableCollection<Variable> Variables { get; set; } = new SpecialObservableCollection<Variable>();
+        public FullyObservableCollection<Variable> Variables { get; set; } = new FullyObservableCollection<Variable>();
 
         protected virtual void OnPropertyChanged(string propertyName)
         {

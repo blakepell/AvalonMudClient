@@ -1,4 +1,13 @@
-﻿namespace Avalon.Common.Interfaces
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+namespace Avalon.Common.Interfaces
 {
     /// <summary>
     /// A variable that is persisted with the profile that can be used to track
@@ -47,11 +56,6 @@
         /// Lua code that will execute when the variable is changed.
         /// </summary>
         string OnChangeEvent { get; set; }
-
-        /// <summary>
-        /// Lua code that will execute when the variable is clicked on in the UI if supported.
-        /// </summary>
-        string OnClickEvent { get; set; }
 
     }
 }

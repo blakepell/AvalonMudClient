@@ -1,94 +1,107 @@
-﻿
-namespace MoonSharp.Interpreter.Execution.VM
+﻿namespace MoonSharp.Interpreter.Execution.VM
 {
-	sealed partial class Processor
-	{
-		internal Table GetMetatable(DynValue value)
-		{
-			if (value.Type == DataType.Table)
-			{
-				return value.Table.MetaTable;
-			}
-			else if (value.Type.CanHaveTypeMetatables())
-			{
-				return m_Script.GetTypeMetatable(value.Type);
-			}
-			else
-			{
-				return null;
-			}
-		}
+    internal sealed partial class Processor
+    {
+        internal Table GetMetatable(DynValue value)
+        {
+            if (value.Type == DataType.Table)
+            {
+                return value.Table.MetaTable;
+            }
 
-		internal DynValue GetBinaryMetamethod(ExecutionControlToken ecToken, DynValue op1, DynValue op2, string eventName)
-		{
-			var op1_MetaTable = GetMetatable(op1);
-			if (op1_MetaTable != null)
-			{
-				DynValue meta1 = op1_MetaTable.RawGet(eventName);
-				if (meta1 != null && meta1.IsNotNil())
-					return meta1;
-			}
+            if (value.Type.CanHaveTypeMetatables())
+            {
+                return _script.GetTypeMetatable(value.Type);
+            }
 
-			var op2_MetaTable = GetMetatable(op2);
-			if (op2_MetaTable != null)
-			{
-				DynValue meta2 = op2_MetaTable.RawGet(eventName);
-				if (meta2 != null && meta2.IsNotNil())
-					return meta2;
-			}
+            return null;
+        }
 
-			if (op1.Type == DataType.UserData)
-			{
-				DynValue meta = op1.UserData.Descriptor.MetaIndex(ecToken, this.m_Script,
-					op1.UserData.Object, eventName);
+        internal DynValue GetBinaryMetamethod(ExecutionControlToken ecToken, DynValue op1, DynValue op2,
+            string eventName)
+        {
+            var op1_MetaTable = this.GetMetatable(op1);
+            if (op1_MetaTable != null)
+            {
+                var meta1 = op1_MetaTable.RawGet(eventName);
+                if (meta1 != null && meta1.IsNotNil())
+                {
+                    return meta1;
+                }
+            }
 
-				if (meta != null)
-					return meta;
-			}
+            var op2_MetaTable = this.GetMetatable(op2);
+            if (op2_MetaTable != null)
+            {
+                var meta2 = op2_MetaTable.RawGet(eventName);
+                if (meta2 != null && meta2.IsNotNil())
+                {
+                    return meta2;
+                }
+            }
 
-			if (op2.Type == DataType.UserData)
-			{
-				DynValue meta = op2.UserData.Descriptor.MetaIndex(ecToken, this.m_Script,
-					op2.UserData.Object, eventName);
+            if (op1.Type == DataType.UserData)
+            {
+                var meta = op1.UserData.Descriptor.MetaIndex(ecToken, _script,
+                    op1.UserData.Object, eventName);
 
-				if (meta != null)
-					return meta;
-			}
+                if (meta != null)
+                {
+                    return meta;
+                }
+            }
 
-			return null;
-		}
+            if (op2.Type == DataType.UserData)
+            {
+                var meta = op2.UserData.Descriptor.MetaIndex(ecToken, _script,
+                    op2.UserData.Object, eventName);
 
-		internal DynValue GetMetamethod(ExecutionControlToken ecToken, DynValue value, string metamethod)
-		{
-			if (value.Type == DataType.UserData)
-			{
-				DynValue v = value.UserData.Descriptor.MetaIndex(ecToken, m_Script, value.UserData.Object, metamethod);
-				if (v != null)
-					return v;
-			}
+                if (meta != null)
+                {
+                    return meta;
+                }
+            }
 
-			return GetMetamethodRaw(value, metamethod);
-		}
+            return null;
+        }
+
+        internal DynValue GetMetamethod(ExecutionControlToken ecToken, DynValue value, string metamethod)
+        {
+            if (value.Type == DataType.UserData)
+            {
+                var v = value.UserData.Descriptor.MetaIndex(ecToken, _script, value.UserData.Object, metamethod);
+                if (v != null)
+                {
+                    return v;
+                }
+            }
+
+            return this.GetMetamethodRaw(value, metamethod);
+        }
 
 
-		internal DynValue GetMetamethodRaw(DynValue value, string metamethod)
-		{
-			var metatable = GetMetatable(value);
+        internal DynValue GetMetamethodRaw(DynValue value, string metamethod)
+        {
+            var metatable = this.GetMetatable(value);
 
-			if (metatable == null)
-				return null;
+            if (metatable == null)
+            {
+                return null;
+            }
 
-			var metameth = metatable.RawGet(metamethod);
-			
-			if (metameth == null || metameth.IsNil())
-				return null;
+            var metameth = metatable.RawGet(metamethod);
 
-			return metameth;
-		}
+            if (metameth == null || metameth.IsNil())
+            {
+                return null;
+            }
 
-		internal Script GetScript()
-		{
-			return m_Script;
-		}
-	}
+            return metameth;
+        }
+
+        internal Script GetScript()
+        {
+            return _script;
+        }
+    }
 }

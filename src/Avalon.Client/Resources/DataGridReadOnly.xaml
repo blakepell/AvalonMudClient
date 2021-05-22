@@ -23,7 +23,7 @@
         <Setter Property="AutoGenerateColumns" Value="False"/>
         <Setter Property="FontSize" Value="13" />
         <Setter Property="FontFamily" Value="Segoe UI" />
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Visible" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
         <Setter Property="HorizontalGridLinesBrush" Value="Transparent"/>
         <Setter Property="VerticalGridLinesBrush" Value="Transparent"/>
@@ -119,8 +119,9 @@
     <Style TargetType="{x:Type DataGridColumnHeader}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{StaticResource BrushSecondaryText}"/>
-        <Setter Property="FontSize" Value="12"/>
-        <Setter Property="Margin" Value="10,0,10,15"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="Margin" Value="10,0,10,10"/>
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">

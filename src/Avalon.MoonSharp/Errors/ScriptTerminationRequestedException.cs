@@ -5,7 +5,7 @@ namespace MoonSharp.Interpreter
     /// <summary>
     /// Exception thrown when an async script is requested to abort
     /// </summary>
-	[Serializable]
+    [Serializable]
     public class ScriptTerminationRequestedException : InterpreterException
     {
         /// <summary>
@@ -14,7 +14,7 @@ namespace MoonSharp.Interpreter
         internal ScriptTerminationRequestedException()
             : base("script has been requested to abort")
         {
-            DecoratedMessage = Message;
+            this.DecoratedMessage = this.Message;
         }
     }
 }

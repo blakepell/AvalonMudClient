@@ -1,5 +1,14 @@
-﻿using Argus.ComponentModel;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
 using Avalon.Common.Models;
+using Avalon.Common.Utilities;
 using System;
 using System.Linq;
 using System.Windows.Controls;
@@ -12,7 +21,7 @@ namespace Avalon.Controls
     /// </summary>
     public class GenericVariableListBase : EditorControlBase<Variable>
     {
-        public GenericVariableListBase(SpecialObservableCollection<Variable> source) : base(source)
+        public GenericVariableListBase(FullyObservableCollection<Variable> source) : base(source)
         {
 
         }
@@ -24,7 +33,7 @@ namespace Avalon.Controls
     /// </summary>
     public class VariableListBase : GenericVariableListBase
     {
-        public VariableListBase(SpecialObservableCollection<Variable> source) : base(source)
+        public VariableListBase(FullyObservableCollection<Variable> source) : base(source)
         {
 
         }
@@ -35,7 +44,7 @@ namespace Avalon.Controls
     /// </summary>
     public partial class VariableList
     {
-        public VariableList(SpecialObservableCollection<Variable> source) : base(source)
+        public VariableList(FullyObservableCollection<Variable> source) : base(source)
         {
             InitializeComponent();
 

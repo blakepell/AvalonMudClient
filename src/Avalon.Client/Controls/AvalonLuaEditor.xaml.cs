@@ -1,4 +1,13 @@
-﻿using System;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using System;
 using System.Linq;
 using Avalon.Extensions;
 using Avalon.Lua;
@@ -92,11 +101,10 @@ namespace Avalon.Controls
         /// <param name="e"></param>
         private void ButtonRunLua_OnClick(object sender, RoutedEventArgs e)
         {
-            // Call our single point of Lua entry.
             try
             {
-                var lua = App.MainWindow.Interp.LuaCaller;
-                _ = lua.ExecuteAsync(Editor.Text);
+                // Executes a single use one time script that will be discarded when done.
+                _ = App.MainWindow.Interp.ScriptHost.MoonSharp.ExecuteStaticAsync<object>(Editor.Text);
             }
             catch (Exception ex)
             {
@@ -162,7 +170,7 @@ namespace Avalon.Controls
                     };
 
                     // Construct our custom highlighting rule via reflection.
-                    var t = typeof(LuaCommands);
+                    var t = typeof(ScriptCommands);
                     var sb = new StringBuilder();
                     sb.Append(@"\b(");
 

@@ -2,69 +2,66 @@
 using MoonSharp.Interpreter.Execution;
 using MoonSharp.Interpreter.Execution.VM;
 
-
 namespace MoonSharp.Interpreter.Tree.Statements
 {
-	class RepeatStatement : Statement
-	{
-		Expression m_Condition;
-		Statement m_Block;
-		RuntimeScopeBlock m_StackFrame;
-		SourceRef m_Repeat, m_Until;
+    internal class RepeatStatement : Statement
+    {
+        private Statement _block;
+        private Expression _condition;
+        private SourceRef _repeat, _until;
+        private RuntimeScopeBlock _stackFrame;
 
-		public RepeatStatement(ScriptLoadingContext lcontext)
-			: base(lcontext)
-		{
-			m_Repeat = CheckTokenType(lcontext, TokenType.Repeat).GetSourceRef();
+        public RepeatStatement(ScriptLoadingContext lcontext) : base(lcontext)
+        {
+            _repeat = CheckTokenType(lcontext, TokenType.Repeat).GetSourceRef();
 
-			lcontext.Scope.PushBlock();
-			m_Block = new CompositeStatement(lcontext);
+            lcontext.Scope.PushBlock();
+            _block = new CompositeStatement(lcontext);
 
-			Token until = CheckTokenType(lcontext, TokenType.Until);
+            var until = CheckTokenType(lcontext, TokenType.Until);
 
-			m_Condition = Expression.Expr(lcontext);
+            _condition = Expression.Expr(lcontext);
 
-			m_Until = until.GetSourceRefUpTo(lcontext.Lexer.Current);
+            _until = until.GetSourceRefUpTo(lcontext.Lexer.Current);
 
-			m_StackFrame = lcontext.Scope.PopBlock();
-			lcontext.Source.Refs.Add(m_Repeat);
-			lcontext.Source.Refs.Add(m_Until);
-		}
+            _stackFrame = lcontext.Scope.PopBlock();
+            lcontext.Source.Refs.Add(_repeat);
+            lcontext.Source.Refs.Add(_until);
+        }
 
-		public override void Compile(ByteCode bc)
-		{
-			Loop L = new Loop()
-			{
-				Scope = m_StackFrame
-			};
+        public override void Compile(ByteCode bc)
+        {
+            var l = new Loop
+            {
+                Scope = _stackFrame
+            };
 
-			bc.PushSourceRef(m_Repeat);
+            bc.PushSourceRef(_repeat);
 
-			bc.LoopTracker.Loops.Push(L);
+            bc.LoopTracker.Loops.Push(l);
 
-			int start = bc.GetJumpPointForNextInstruction();
+            int start = bc.GetJumpPointForNextInstruction();
 
-			bc.Emit_Enter(m_StackFrame);
-			m_Block.Compile(bc);
+            bc.Emit_Enter(_stackFrame);
+            _block.Compile(bc);
 
-			bc.PopSourceRef();
-			bc.PushSourceRef(m_Until);
-			bc.Emit_Debug("..end");
+            bc.PopSourceRef();
+            bc.PushSourceRef(_until);
 
-			m_Condition.Compile(bc);
-			bc.Emit_Leave(m_StackFrame);
-			bc.Emit_Jump(OpCode.Jf, start);
+            _condition.Compile(bc);
+            bc.Emit_Leave(_stackFrame);
+            bc.Emit_Jump(OpCode.Jf, start);
 
-			bc.LoopTracker.Loops.Pop();
+            bc.LoopTracker.Loops.Pop();
 
-			int exitpoint = bc.GetJumpPointForNextInstruction();
+            int exitPoint = bc.GetJumpPointForNextInstruction();
 
-			foreach (Instruction i in L.BreakJumps)
-				i.NumVal = exitpoint;
+            foreach (var i in l.BreakJumps)
+            {
+                i.NumVal = exitPoint;
+            }
 
-			bc.PopSourceRef();
-		}
-
-
-	}
+            bc.PopSourceRef();
+        }
+    }
 }

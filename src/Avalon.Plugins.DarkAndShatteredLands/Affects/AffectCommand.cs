@@ -1,4 +1,13 @@
-﻿namespace Avalon.Plugins.DarkAndShatteredLands.Affects
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+namespace Avalon.Plugins.DarkAndShatteredLands.Affects
 {
     /// <summary>
     /// A class that represents mapping data for how a player can invoke an affect via a command.

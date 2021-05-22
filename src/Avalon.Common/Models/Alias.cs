@@ -1,6 +1,15 @@
-﻿using System;
-using System.ComponentModel;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
 using Avalon.Common.Interfaces;
+using System;
+using System.ComponentModel;
 
 namespace Avalon.Common.Models
 {
@@ -66,6 +75,20 @@ namespace Avalon.Common.Models
 
         /// <inheritdoc />
         public bool IsLua { get; set; } = false;
+
+
+        private ExecuteType _executeType = ExecuteType.Command;
+
+        /// <inheritdoc />
+        public ExecuteType ExecuteAs
+        {
+            get => _executeType;
+            set
+            {
+                _executeType = value;
+                OnPropertyChanged(nameof(ExecuteAs));
+            }
+        }
 
         /// <inheritdoc />
         public bool Lock { get; set; } = false;

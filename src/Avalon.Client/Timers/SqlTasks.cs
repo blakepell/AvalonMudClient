@@ -1,4 +1,13 @@
-﻿using Dapper;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using Dapper;
 using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
@@ -141,18 +150,18 @@ namespace Avalon.Timers
             // a warning message is appropriate.
             if (sw.ElapsedMilliseconds > 5000)
             {
-                App.Conveyor.EchoWarning($"Performance: Database batch took {sw.ElapsedMilliseconds}ms.");
+                App.Conveyor.EchoWarning($"Performance: Database batch took {sw.ElapsedMilliseconds.ToString()}ms.");
             }
 
             if (App.Settings.AvalonSettings.Debug)
             {
                 if (sw.ElapsedMilliseconds < 500)
                 {
-                    App.Conveyor.EchoSuccess($"SQL batch committed in {sw.ElapsedMilliseconds}ms");
+                    App.Conveyor.EchoSuccess($"SQL batch committed in {sw.ElapsedMilliseconds.ToString()}ms");
                 }
                 else
                 {
-                    App.Conveyor.EchoWarning($"SQL batch committed in {sw.ElapsedMilliseconds}ms");
+                    App.Conveyor.EchoWarning($"SQL batch committed in {sw.ElapsedMilliseconds.ToString()}ms");
                 }
             }
         }
@@ -212,7 +221,7 @@ namespace Avalon.Timers
             {
                 var param = new SqliteParameter
                 {
-                    ParameterName = $"@{i}"
+                    ParameterName = $"@{i.ToString()}"
                 };
 
                 cmd.Parameters.Add(param);
@@ -308,7 +317,7 @@ namespace Avalon.Timers
 
                 for (int i = 0; i < parameters.Length; i++)
                 {
-                    cmd.Parameters.AddWithValue($"@{i + 1}", parameters[i]);
+                    _ = cmd.Parameters.AddWithValue($"@{(i + 1).ToString()}", parameters[i]);
                 }
 
                 await cmd.ExecuteNonQueryAsync();
@@ -331,7 +340,7 @@ namespace Avalon.Timers
 
                 for (int i = 0; i < parameters.Length; i++)
                 {
-                    cmd.Parameters.AddWithValue($"@{i + 1}", parameters[i]);
+                    cmd.Parameters.AddWithValue($"@{(i + 1).ToString()}", parameters[i]);
                 }
 
                 return cmd.ExecuteScalar();
@@ -353,7 +362,7 @@ namespace Avalon.Timers
 
                 for (int i = 0; i < parameters.Length; i++)
                 {
-                    cmd.Parameters.AddWithValue($"@{i + 1}", parameters[i]);
+                    cmd.Parameters.AddWithValue($"@{(i + 1).ToString()}", parameters[i]);
                 }
 
                 using (var dr = cmd.ExecuteReader())

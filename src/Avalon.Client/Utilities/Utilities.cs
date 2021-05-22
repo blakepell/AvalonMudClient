@@ -1,13 +1,24 @@
-﻿using Argus.Extensions;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using Argus.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
+using Avalon.Common.Models;
 
 namespace Avalon.Utilities
 {
@@ -17,20 +28,43 @@ namespace Avalon.Utilities
     public static class Utilities
     {
         /// <summary>
-        /// Sets all triggers up with the Conveyor from the MainWindow if they haven't been wired up already.
+        /// Sets all triggers up with the Conveyor and ScriptHost from the MainWindow if they haven't been wired up already.
         /// </summary>
-        public static void TriggerConveyorSetup()
+        public static void TriggerSetup()
         {
-            if (App.Settings?.ProfileSettings?.TriggerList == null)
+            if (App.Settings?.ProfileSettings?.TriggerList != null)
             {
-                return;
-            }
-
-            foreach (var trigger in App.Settings.ProfileSettings.TriggerList)
-            {
-                if (trigger.Conveyor == null && App.Conveyor != null)
+                foreach (var trigger in App.Settings.ProfileSettings.TriggerList)
                 {
-                    trigger.Conveyor = App.Conveyor;
+                    if (trigger.Conveyor == null && App.Conveyor != null)
+                    {
+                        trigger.Conveyor = App.Conveyor;
+                        trigger.ScriptHost = App.MainWindow.Interp.ScriptHost;
+
+                        // If it's got the old IsLua bit and it's set as a Command (the default) set it to MoonSharp.
+                        if (trigger.IsLua && trigger.ExecuteAs == ExecuteType.Command)
+                        {
+                            trigger.ExecuteAs = ExecuteType.LuaMoonsharp;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets up any aliases with logic that should be executed on them.
+        /// </summary>
+        public static void SetupAliases()
+        {
+            if (App.Settings?.ProfileSettings?.AliasList != null)
+            {
+                foreach (var alias in App.Settings.ProfileSettings.AliasList)
+                {
+                    // If it's got the old IsLua bit and it's set as a Command (the default) set it to MoonSharp.
+                    if (alias.IsLua && alias.ExecuteAs == ExecuteType.Command)
+                    {
+                        alias.ExecuteAs = ExecuteType.LuaMoonsharp;
+                    }
                 }
             }
         }
@@ -46,18 +80,20 @@ namespace Avalon.Utilities
         }
 
         /// <summary>
+        /// Characters that will be removed from incoming data via <see cref="RemoveUnsupportedCharacters"/>.
+        /// </summary>
+        private static HashSet<char> _unsupportedChars = new HashSet<char> { (char)1, (char)249, (char)251, (char)252, (char)255, (char)65533 };
+
+        /// <summary>
         /// Removes unsupported characters or other sets of sequences we don't want parsed.
         /// </summary>
         /// <param name="sb"></param>
         public static void RemoveUnsupportedCharacters(this StringBuilder sb)
         {
-            // Remove single characters we're not supporting, rebuild the string.
-            var removeChars = new HashSet<char> { (char)1, (char)249, (char)251, (char)252, (char)255, (char)65533 };
-
             // Go through the StringBuilder backwards and remove any characters in our HashSet.
             for (int i = sb.Length - 1; i >= 0; i--)
             {
-                if (removeChars.Contains(sb[i]))
+                if (_unsupportedChars.Contains(sb[i]))
                 {
                     sb.Remove(i, 1);
                 }
@@ -71,16 +107,6 @@ namespace Avalon.Utilities
             sb.Replace("\x1B[1D", ""); // Left
             sb.Replace("\x1B[5m", ""); // Blink
             sb.Replace("\x1b[2J", ""); // Clear Screen
-            
-            // TODO Background color support
-            //sb.Replace("\x1b[40m", ""); // Black Background
-            //sb.Replace("\x1b[41m", ""); // Red Background
-            //sb.Replace("\x1b[42m", ""); // Green Background
-            //sb.Replace("\x1b[43m", ""); // Yellow Background
-            //sb.Replace("\x1b[44m", ""); // Blue Background
-            //sb.Replace("\x1b[45m", ""); // Purple Background
-            //sb.Replace("\x1b[46m", ""); // Cyan Background
-            //sb.Replace("\x1b[47m", ""); // White Background
         }
 
         /// <summary>
@@ -445,6 +471,5 @@ namespace Avalon.Utilities
             // Set the binding anew.
             BindingOperations.SetBinding(depObj, depProp, binding);
         }
-
     }
 }

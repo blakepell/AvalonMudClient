@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace MoonSharp.Interpreter.Compatibility.Frameworks
 {
-	public abstract class FrameworkBase
+    public abstract class FrameworkBase
 	{
 		public abstract bool StringContainsChar(string str, char chr);
 

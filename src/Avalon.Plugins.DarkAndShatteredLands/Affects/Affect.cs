@@ -1,4 +1,13 @@
-﻿using Argus.Extensions;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using Argus.Extensions;
 
 namespace Avalon.Plugins.DarkAndShatteredLands.Affects
 {
@@ -18,7 +27,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
 
         public override string ToString()
         {
-            return $"{this.Name.PadRightToLength(18)} : modifies {this.Modifies} by {Modifier} for {this.Duration} ticks";
+            return $"{this.Name.PadRightToLength(18)} : modifies {this.Modifies} by {Modifier.ToString()} for {this.Duration.ToString()} ticks";
         }
 
         public string Display()
@@ -33,7 +42,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
             }
             else
             {
-                return $"{this.Name.PadRightToLength(18)} : {this.Duration}";
+                return $"{this.Name.PadRightToLength(18)} : {this.Duration.ToString()}";
             }
         }
 

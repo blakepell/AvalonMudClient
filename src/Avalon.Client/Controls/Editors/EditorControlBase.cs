@@ -1,4 +1,12 @@
-﻿using Argus.ComponentModel;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
 using Avalon.Common.Interfaces;
 using ModernWpf;
 using System;
@@ -7,6 +15,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Threading;
+using Avalon.Common.Utilities;
 
 namespace Avalon.Controls
 {
@@ -44,18 +53,18 @@ namespace Avalon.Controls
         public SearchBox SearchBox { get; set; }
 
         public static readonly DependencyProperty SourceListProperty = DependencyProperty.Register(
-            "PropertyType", typeof(SpecialObservableCollection<T>), typeof(EditorControlBase<T>), new PropertyMetadata(new SpecialObservableCollection<T>()));
+            "PropertyType", typeof(FullyObservableCollection<T>), typeof(EditorControlBase<T>), new PropertyMetadata(new FullyObservableCollection<T>()));
 
         /// <summary>
-        /// The source generic SpecialObservableCollection list.
+        /// The source generic FullyObservableCollection list.
         /// </summary>
-        public SpecialObservableCollection<T> SourceList
+        public FullyObservableCollection<T> SourceList
         {
-            get => (SpecialObservableCollection<T>)GetValue(SourceListProperty);
+            get => (FullyObservableCollection<T>)GetValue(SourceListProperty);
             set => SetValue(SourceListProperty, value);
         }
 
-        public EditorControlBase(SpecialObservableCollection<T> sourceList)
+        public EditorControlBase(FullyObservableCollection<T> sourceList)
         {
             this.SourceList = sourceList;
             this.Loaded += EditorControlBase_Loaded;
@@ -78,7 +87,7 @@ namespace Avalon.Controls
             this.FocusFilter();
 
             // Load the variable list the first time that it's requested.
-            DataList.ItemsSource = new ListCollectionView(App.Settings.ProfileSettings.Variables)
+            DataList.ItemsSource = new ListCollectionView(this.SourceList)
             {
                 Filter = Filter
             };

@@ -1,4 +1,13 @@
-﻿using System.Collections.Generic;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Avalon.Common.Colors;
@@ -117,6 +126,5 @@ namespace Avalon.Common.Interfaces
         WindowPosition GetWindowPosition { get; }
 
         List<IWindow> WindowList { get; set; }
-
     }
 }

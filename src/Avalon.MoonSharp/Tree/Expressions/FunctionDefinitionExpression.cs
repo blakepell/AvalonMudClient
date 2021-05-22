@@ -3,257 +3,265 @@ using System.Collections.Generic;
 using MoonSharp.Interpreter.Debugging;
 using MoonSharp.Interpreter.Execution;
 using MoonSharp.Interpreter.Execution.VM;
-
 using MoonSharp.Interpreter.Tree.Statements;
 
 namespace MoonSharp.Interpreter.Tree.Expressions
 {
-	class FunctionDefinitionExpression : Expression, IClosureBuilder
-	{
-		SymbolRef[] m_ParamNames = null;
-		Statement m_Statement;
-		RuntimeScopeFrame m_StackFrame;
-		List<SymbolRef> m_Closure = new List<SymbolRef>();
-		bool m_HasVarArgs = false;
-		Instruction m_ClosureInstruction = null;
+    internal class FunctionDefinitionExpression : Expression, IClosureBuilder
+    {
+        private SourceRef _begin, _end;
+        private List<SymbolRef> _closure = new List<SymbolRef>();
+        private Instruction _closureInstruction;
+        private SymbolRef _env;
+        private bool _hasVarArgs;
+        private SymbolRef[] _paramNames;
+        private RuntimeScopeFrame _stackFrame;
+        private Statement _statement;
+        private bool _usesGlobalEnv;
+
+        public FunctionDefinitionExpression(ScriptLoadingContext lcontext, bool usesGlobalEnv) : this(lcontext, false, usesGlobalEnv, false)
+        {
+        }
+
+        public FunctionDefinitionExpression(ScriptLoadingContext lcontext, bool pushSelfParam, bool isLambda) : this(lcontext, pushSelfParam, false, isLambda)
+        {
+        }
+
+        private FunctionDefinitionExpression(ScriptLoadingContext lcontext, bool pushSelfParam, bool usesGlobalEnv, bool isLambda) : base(lcontext)
+        {
+            if (_usesGlobalEnv = usesGlobalEnv)
+            {
+                CheckTokenType(lcontext, TokenType.Function);
+            }
+
+            // here lexer should be at the '(' or at the '|'
+            var openRound = CheckTokenType(lcontext, isLambda ? TokenType.Lambda : TokenType.Brk_Open_Round);
+            var paramnames = this.BuildParamList(lcontext, pushSelfParam, openRound, isLambda);
+
+            // here lexer is at first token of body
+            _begin = openRound.GetSourceRefUpTo(lcontext.Lexer.Current);
+
+            // create scope
+            lcontext.Scope.PushFunction(this, _hasVarArgs);
+
+            if (_usesGlobalEnv)
+            {
+                _env = lcontext.Scope.DefineLocal(WellKnownSymbols.ENV);
+            }
+            else
+            {
+                lcontext.Scope.ForceEnvUpValue();
+            }
+
+            _paramNames = this.DefineArguments(paramnames, lcontext);
+
+            if (isLambda)
+            {
+                _statement = this.CreateLambdaBody(lcontext);
+            }
+            else
+            {
+                _statement = this.CreateBody(lcontext);
+            }
+
+            _stackFrame = lcontext.Scope.PopFunction();
+
+            lcontext.Source.Refs.Add(_begin);
+            lcontext.Source.Refs.Add(_end);
+        }
+
+        public SymbolRef CreateUpvalue(BuildTimeScope scope, SymbolRef symbol)
+        {
+            for (int i = 0; i < _closure.Count; i++)
+            {
+                if (_closure[i]._name == symbol._name)
+                {
+                    return SymbolRef.Upvalue(symbol._name, i);
+                }
+            }
+
+            _closure.Add(symbol);
+
+            if (_closureInstruction != null)
+            {
+                _closureInstruction.SymbolList = _closure.ToArray();
+            }
+
+            return SymbolRef.Upvalue(symbol._name, _closure.Count - 1);
+        }
+
+
+        private Statement CreateLambdaBody(ScriptLoadingContext lcontext)
+        {
+            var start = lcontext.Lexer.Current;
+            var e = Expr(lcontext);
+            var end = lcontext.Lexer.Current;
+            var sref = start.GetSourceRefUpTo(end);
+            return new ReturnStatement(lcontext, e, sref);
+        }
+
+
+        private Statement CreateBody(ScriptLoadingContext lcontext)
+        {
+            Statement s = new CompositeStatement(lcontext);
+
+            if (lcontext.Lexer.Current.Type != TokenType.End)
+            {
+                throw new SyntaxErrorException(lcontext.Lexer.Current, "'end' expected near '{0}'",
+                    lcontext.Lexer.Current.Text)
+                {
+                    IsPrematureStreamTermination = (lcontext.Lexer.Current.Type == TokenType.Eof)
+                };
+            }
+
+            _end = lcontext.Lexer.Current.GetSourceRef();
+
+            lcontext.Lexer.Next();
+            return s;
+        }
+
+        private List<string> BuildParamList(ScriptLoadingContext lcontext, bool pushSelfParam, Token openBracketToken, bool isLambda)
+        {
+            var closeToken = isLambda ? TokenType.Lambda : TokenType.Brk_Close_Round;
+
+            var paramnames = new List<string>();
+
+            // method decls with ':' must push an implicit 'self' param
+            if (pushSelfParam)
+            {
+                paramnames.Add("self");
+            }
+
+            while (lcontext.Lexer.Current.Type != closeToken)
+            {
+                var t = lcontext.Lexer.Current;
 
-		bool m_UsesGlobalEnv;
-		SymbolRef m_Env;
+                if (t.Type == TokenType.Name)
+                {
+                    paramnames.Add(t.Text);
+                }
+                else if (t.Type == TokenType.VarArgs)
+                {
+                    _hasVarArgs = true;
+                    paramnames.Add(WellKnownSymbols.VARARGS);
+                }
+                else
+                {
+                    UnexpectedTokenType(t);
+                }
 
-		SourceRef m_Begin, m_End;
+                lcontext.Lexer.Next();
 
+                t = lcontext.Lexer.Current;
 
-		public FunctionDefinitionExpression(ScriptLoadingContext lcontext, bool usesGlobalEnv)
-			: this(lcontext, false, usesGlobalEnv, false)
-		{ }
+                if (t.Type == TokenType.Comma)
+                {
+                    lcontext.Lexer.Next();
+                }
+                else
+                {
+                    CheckMatch(lcontext, openBracketToken, closeToken, isLambda ? "|" : ")");
+                    break;
+                }
+            }
 
-		public FunctionDefinitionExpression(ScriptLoadingContext lcontext, bool pushSelfParam, bool isLambda)
-			: this(lcontext, pushSelfParam, false, isLambda)
-		{ }
+            if (lcontext.Lexer.Current.Type == closeToken)
+            {
+                lcontext.Lexer.Next();
+            }
 
+            return paramnames;
+        }
 
-		private FunctionDefinitionExpression(ScriptLoadingContext lcontext, bool pushSelfParam, bool usesGlobalEnv, bool isLambda)
-			: base(lcontext)
-		{
-			if (m_UsesGlobalEnv = usesGlobalEnv)
-				CheckTokenType(lcontext, TokenType.Function);
-
-			// here lexer should be at the '(' or at the '|'
-			Token openRound = CheckTokenType(lcontext, isLambda ? TokenType.Lambda : TokenType.Brk_Open_Round);
-
-			List<string> paramnames = BuildParamList(lcontext, pushSelfParam, openRound, isLambda);
-			// here lexer is at first token of body
-
-			m_Begin = openRound.GetSourceRefUpTo(lcontext.Lexer.Current);
-
-			// create scope
-			lcontext.Scope.PushFunction(this, m_HasVarArgs);
+        private SymbolRef[] DefineArguments(List<string> paramnames, ScriptLoadingContext lcontext)
+        {
+            var names = new HashSet<string>();
 
-			if (m_UsesGlobalEnv)
-			{
-				m_Env = lcontext.Scope.DefineLocal(WellKnownSymbols.ENV);
-			}
-			else
-			{
-				lcontext.Scope.ForceEnvUpValue();
-			}
-
-			m_ParamNames = DefineArguments(paramnames, lcontext);
+            var ret = new SymbolRef[paramnames.Count];
 
-			if(isLambda)
-				m_Statement = CreateLambdaBody(lcontext);
-			else
-				m_Statement = CreateBody(lcontext);
+            for (int i = paramnames.Count - 1; i >= 0; i--)
+            {
+                if (!names.Add(paramnames[i]))
+                {
+                    paramnames[i] = $"{paramnames[i]}@{i.ToString()}";
+                }
 
-			m_StackFrame = lcontext.Scope.PopFunction();
+                ret[i] = lcontext.Scope.DefineLocal(paramnames[i]);
+            }
 
-			lcontext.Source.Refs.Add(m_Begin);
-			lcontext.Source.Refs.Add(m_End);
-
-		}
-
-
-		private Statement CreateLambdaBody(ScriptLoadingContext lcontext)
-		{
-			Token start = lcontext.Lexer.Current;
-			Expression e = Expression.Expr(lcontext);
-			Token end = lcontext.Lexer.Current;
-			SourceRef sref = start.GetSourceRefUpTo(end);
-			Statement s = new ReturnStatement(lcontext, e, sref);
-			return s;
-		}
-
-
-		private Statement CreateBody(ScriptLoadingContext lcontext)
-		{
-			Statement s = new CompositeStatement(lcontext);
-
-			if (lcontext.Lexer.Current.Type != TokenType.End)
-				throw new SyntaxErrorException(lcontext.Lexer.Current, "'end' expected near '{0}'", lcontext.Lexer.Current.Text)
-				{
-					IsPrematureStreamTermination = (lcontext.Lexer.Current.Type == TokenType.Eof)
-				};
-
-			m_End = lcontext.Lexer.Current.GetSourceRef();
+            return ret;
+        }
 
-			lcontext.Lexer.Next();
-			return s;
-		}
+        public override DynValue Eval(ScriptExecutionContext context)
+        {
+            throw new DynamicExpressionException("Dynamic Expressions cannot define new functions.");
+        }
 
-		private List<string> BuildParamList(ScriptLoadingContext lcontext, bool pushSelfParam, Token openBracketToken, bool isLambda)
-		{
-			TokenType closeToken = isLambda ? TokenType.Lambda : TokenType.Brk_Close_Round;
+        public int CompileBody(ByteCode bc, string friendlyName)
+        {
+            string funcName = friendlyName ?? $"<{_begin.FormatLocation(bc.Script)}>";
 
-			List<string> paramnames = new List<string>();
+            bc.PushSourceRef(_begin);
 
-			// method decls with ':' must push an implicit 'self' param
-			if (pushSelfParam)
-				paramnames.Add("self");
-
-			while (lcontext.Lexer.Current.Type != closeToken)
-			{
-				Token t = lcontext.Lexer.Current;
-
-				if (t.Type == TokenType.Name)
-				{
-					paramnames.Add(t.Text);
-				}
-				else if (t.Type == TokenType.VarArgs)
-				{
-					m_HasVarArgs = true;
-					paramnames.Add(WellKnownSymbols.VARARGS);
-				}
-				else
-					UnexpectedTokenType(t);
+            var I = bc.Emit_Jump(OpCode.Jump, -1);
 
-				lcontext.Lexer.Next();
+            var meta = bc.Emit_Meta(funcName, OpCodeMetadataType.FunctionEntrypoint);
+            int metaip = bc.GetJumpPointForLastInstruction();
 
-				t = lcontext.Lexer.Current;
+            bc.Emit_BeginFn(_stackFrame);
 
-				if (t.Type == TokenType.Comma)
-				{
-					lcontext.Lexer.Next();
-				}
-				else
-				{
-					CheckMatch(lcontext, openBracketToken, closeToken, isLambda ? "|" : ")");
-					break;
-				}
-			}
+            bc.LoopTracker.Loops.Push(new LoopBoundary());
 
-			if (lcontext.Lexer.Current.Type == closeToken)
-				lcontext.Lexer.Next();
+            int entryPoint = bc.GetJumpPointForLastInstruction();
 
-			return paramnames;
-		}
+            if (_usesGlobalEnv)
+            {
+                bc.Emit_Load(SymbolRef.Upvalue(WellKnownSymbols.ENV, 0));
+                bc.Emit_Store(_env, 0, 0);
+                bc.Emit_Pop();
+            }
 
-		private SymbolRef[] DefineArguments(List<string> paramnames, ScriptLoadingContext lcontext)
-		{
-			HashSet<string> names = new HashSet<string>();
+            if (_paramNames.Length > 0)
+            {
+                bc.Emit_Args(_paramNames);
+            }
 
-			SymbolRef[] ret = new SymbolRef[paramnames.Count];
+            _statement.Compile(bc);
 
-			for (int i = paramnames.Count - 1; i >= 0; i--)
-			{
-				if (!names.Add(paramnames[i]))
-					paramnames[i] = paramnames[i] + "@" + i.ToString();
+            bc.PopSourceRef();
+            bc.PushSourceRef(_end);
 
-				ret[i] = lcontext.Scope.DefineLocal(paramnames[i]);
-			}
+            bc.Emit_Ret(0);
 
-			return ret;
-		}
+            bc.LoopTracker.Loops.Pop();
 
-		public SymbolRef CreateUpvalue(BuildTimeScope scope, SymbolRef symbol)
-		{
-			for (int i = 0; i < m_Closure.Count; i++)
-			{
-				if (m_Closure[i].i_Name == symbol.i_Name)
-				{
-					return SymbolRef.Upvalue(symbol.i_Name, i);
-				}
-			}
+            I.NumVal = bc.GetJumpPointForNextInstruction();
+            meta.NumVal = bc.GetJumpPointForLastInstruction() - metaip;
 
-			m_Closure.Add(symbol);
+            bc.PopSourceRef();
 
-			if (m_ClosureInstruction != null)
-			{
-				m_ClosureInstruction.SymbolList = m_Closure.ToArray();
-			}
+            return entryPoint;
+        }
 
-			return SymbolRef.Upvalue(symbol.i_Name, m_Closure.Count - 1);
-		}
+        public int Compile(ByteCode bc, Func<int> afterDecl, string friendlyName)
+        {
+            using (bc.EnterSource(_begin))
+            {
+                var symbs = _closure.ToArray();
 
-		public override DynValue Eval(ScriptExecutionContext context)
-		{
-			throw new DynamicExpressionException("Dynamic Expressions cannot define new functions.");
-		}
+                _closureInstruction = bc.Emit_Closure(symbs, bc.GetJumpPointForNextInstruction());
+                int ops = afterDecl();
 
-		public int CompileBody(ByteCode bc, string friendlyName)
-		{
-			string funcName = friendlyName ?? ("<" + this.m_Begin.FormatLocation(bc.Script, true) + ">");
+                _closureInstruction.NumVal += 2 + ops;
+            }
 
-			bc.PushSourceRef(m_Begin);
+            return this.CompileBody(bc, friendlyName);
+        }
 
-			Instruction I = bc.Emit_Jump(OpCode.Jump, -1);
 
-			Instruction meta = bc.Emit_Meta(funcName, OpCodeMetadataType.FunctionEntrypoint);
-			int metaip = bc.GetJumpPointForLastInstruction();
-
-			bc.Emit_BeginFn(m_StackFrame);
-
-			bc.LoopTracker.Loops.Push(new LoopBoundary());
-
-			int entryPoint = bc.GetJumpPointForLastInstruction();
-
-			if (m_UsesGlobalEnv)
-			{
-				bc.Emit_Load(SymbolRef.Upvalue(WellKnownSymbols.ENV, 0));
-				bc.Emit_Store(m_Env, 0, 0);
-				bc.Emit_Pop();
-			}
-
-			if (m_ParamNames.Length > 0)
-				bc.Emit_Args(m_ParamNames);
-
-			m_Statement.Compile(bc);
-
-			bc.PopSourceRef();
-			bc.PushSourceRef(m_End);
-
-			bc.Emit_Ret(0);
-
-			bc.LoopTracker.Loops.Pop();
-
-			I.NumVal = bc.GetJumpPointForNextInstruction();
-			meta.NumVal = bc.GetJumpPointForLastInstruction() - metaip;
-
-			bc.PopSourceRef();
-
-			return entryPoint;
-		}
-
-		public int Compile(ByteCode bc, Func<int> afterDecl, string friendlyName)
-		{
-			using (bc.EnterSource(m_Begin))
-			{
-				SymbolRef[] symbs = m_Closure
-					//.Select((s, idx) => s.CloneLocalAndSetFrame(m_ClosureFrames[idx]))
-					.ToArray();
-
-				m_ClosureInstruction = bc.Emit_Closure(symbs, bc.GetJumpPointForNextInstruction());
-				int ops = afterDecl();
-
-				m_ClosureInstruction.NumVal += 2 + ops;
-			}
-
-			return CompileBody(bc, friendlyName);
-		}
-
-
-		public override void Compile(ByteCode bc)
-		{
-			Compile(bc, () => 0, null);
-		}
-	}
+        public override void Compile(ByteCode bc)
+        {
+            this.Compile(bc, () => 0, null);
+        }
+    }
 }

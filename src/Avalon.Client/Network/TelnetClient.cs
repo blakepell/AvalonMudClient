@@ -1,4 +1,13 @@
-﻿using System;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -241,13 +250,20 @@ namespace Avalon.Network
                                 continue;
                             }
 
+                            // The dataBuffer being before the check will have the newline or go ahead
+                            // char included which is important since it's written to the screen.  This
+                            // is why the lineBuffer isn't appended to until after the \n (char 10) check.
                             dataBuffer.Append(receiveBuffer[i]);
 
                             // This was a newline or a telnetga (telnet go ahead), process it like it's a line.
                             if (receiveBuffer[i] == 10 || receiveBuffer[i] == GO_AHEAD_CODE)
                             {
                                 // A complete line was found, send it on to the line handler.  Send the real
-                                // time data first to the OnDataReceived.
+                                // time data first to the OnDataReceived so that it renders before any triggers
+                                // that might need to write to the terminal.  The actual data needs to render
+                                // first, THEN any triggers (that might render subsequent text) can go.  We can't
+                                // reuse the dataBuffer for both because it sends immediately if there's no line
+                                // ending found while the lineBuffer hangs onto everything until then.
                                 this.OnDataReceived(dataBuffer.ToString());
                                 this.OnLineReceived(lineBuffer.ToString());
                                 dataBuffer.Clear();
@@ -264,12 +280,6 @@ namespace Avalon.Network
                         {
                             this.OnDataReceived(dataBuffer.ToString());
                             dataBuffer.Clear();
-                        }
-
-                        if (receiveBuffer == null)
-                        {
-                            TraceInformation($"{nameof(WaitForMessageAsync)} aborted: {nameof(_tcpReader)} reached end of stream");
-                            break;
                         }
                     }
                     catch (ObjectDisposedException)

@@ -54,7 +54,6 @@ Hash commands that reside in the main project will be general purpose.  Plugins 
 |#line-count|Shows the number of lines in the terminal window|
 |#lua|Executes Lua asynchronously.|
 |#lua-debug|Provides debugging information about the current Lua environment.|
-|#lua-sync|Executes Lua synchronously.|
 |#macro|Will execute a macro.|
 |#pulse|Pulses the input text box a color like a heart beat.|
 |#recent-triggers|Will show you the recent triggers that have fired and the date/time they fired on.|

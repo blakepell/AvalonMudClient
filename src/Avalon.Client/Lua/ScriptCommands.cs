@@ -1,29 +1,40 @@
-﻿using Argus.Extensions;
+﻿/*
+ * Avalon Mud Client
+ *
+ * @project lead      : Blake Pell
+ * @website           : http://www.blakepell.com
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
+ * @license           : MIT
+ */
+
+using Argus.Extensions;
 using Avalon.Colors;
 using Avalon.Common.Colors;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
+using Avalon.Common.Triggers;
+using Avalon.Extensions;
+using MahApps.Metro.IconPacks;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
-using Avalon.Extensions;
-using MahApps.Metro.IconPacks;
-using System.ComponentModel;
 
 namespace Avalon.Lua
 {
     /// <summary>
     /// C# methods that are exposed to LUA.
     /// </summary>
-    public class LuaCommands
+    public class ScriptCommands
     {
-        public LuaCommands(IInterpreter interp, Random rnd)
+        public ScriptCommands(IInterpreter interp, Random rnd)
         {
             _interpreter = interp;
             _random = rnd;
@@ -589,7 +600,28 @@ namespace Avalon.Lua
         [Description("Pauses a Lua script for the designated amount of milliseconds.")]
         public void Sleep(int milliseconds)
         {
+            // ReSharper disable once AsyncConverter.AsyncWait
             Task.Delay(milliseconds).Wait();
+        }
+
+        /// <summary>
+        /// Pauses the lua script for a designated amount of milliseconds.  This should work with both
+        /// sync and not sync Lua calls.
+        /// </summary>
+        /// <param name="milliseconds"></param>
+        [Description("Pauses a Lua script for the designated amount of milliseconds.")]
+        public void Pause(int milliseconds)
+        {
+            DispatcherFrame df = new DispatcherFrame();
+
+            new Thread(() =>
+            {
+                Thread.Sleep(TimeSpan.FromMilliseconds(milliseconds));
+                df.Continue = false;
+
+            }).Start();
+
+            Dispatcher.PushFrame(df);
         }
 
         /// <summary>
@@ -1867,7 +1899,9 @@ namespace Avalon.Lua
         [Description("The number of Lua scripts that are currently running.")]
         public int LuaScriptsActive()
         {
-            return ((Interpreter)_interpreter).LuaCaller.ActiveLuaScripts;
+            // TODO: Scripting
+            return -1;
+            //return ((Interpreter)_interpreter).LuaCaller.ActiveLuaScripts;
         }
 
         /// <summary>
@@ -2100,6 +2134,76 @@ namespace Avalon.Lua
             {
                 App.MainWindow.GameTerminal.ScrollToEnd();
             });
+        }
+
+        /// <summary>
+        /// Adds or replaces a replacement trigger.  A replacement is first identified by ID if provided and falls
+        /// back to pattern if not.
+        /// </summary>
+        /// <param name="replace"></param>
+        /// <param name="replaceWith"></param>
+        /// <param name="id"></param>
+        /// <param name="temp"></param>
+        [Description("Adds or replaces a replacement trigger.  If a replacement the procedure will first search by ID if specified fall back to pattern if not.")]
+        public void AddLineTransformer(string replace, string replaceWith, string id, bool temp = false)
+        {
+            // TODO, needs script host (get new trigger from conveyor, that way it can inject the proper stuff).
+            // TODO, escape input
+            Common.Triggers.Trigger t;
+            string luaCode = $"return \"{replaceWith}\"";
+
+            if (id == null)
+            {
+                t = App.Settings.ProfileSettings.TriggerList.Find(x => x.Pattern.Equals(replace, StringComparison.Ordinal));
+            }
+            else
+            {
+                t = App.Settings.ProfileSettings.TriggerList.Find(x => x.Identifier.Equals(id, StringComparison.Ordinal));
+            }
+
+            if (t == null)
+            {
+                var trigger = new Common.Triggers.Trigger
+                {
+                    Pattern = replace,
+                    Command = luaCode,
+                    Temp = temp,
+                    LineTransformer = true,
+                    IsLua = true,
+                    ExecuteAs = ExecuteType.LuaMoonsharp,
+                    ScriptHost = App.MainWindow.Interp.ScriptHost,
+                    Conveyor = App.Conveyor
+                };
+
+                if (!string.IsNullOrWhiteSpace(id))
+                {
+                    trigger.Identifier = id;
+                }
+
+                App.Settings.ProfileSettings.TriggerList.Add(trigger);
+            }
+            else
+            {
+                t.Pattern = replace;
+                t.Command = luaCode;
+                t.Temp = temp;
+                t.LineTransformer = true;
+                t.IsLua = true;
+                t.ExecuteAs = ExecuteType.LuaMoonsharp;
+                t.ScriptHost = App.MainWindow.Interp.ScriptHost;
+                t.Conveyor = App.Conveyor;
+            }            
+        }
+
+        /// <summary>
+        /// Deletes a replacement trigger by ID.
+        /// </summary>
+        /// <param name="id"></param>
+        [Description("Deletes replacement trigger by ID.")]
+        public void RemoveLineTransformer(string id)
+        {
+            var t = App.Settings.ProfileSettings.TriggerList.Find(x => x.Identifier.Equals(id, StringComparison.Ordinal));
+            App.Settings.ProfileSettings.TriggerList.Remove(t);
         }
 
         private readonly IInterpreter _interpreter;

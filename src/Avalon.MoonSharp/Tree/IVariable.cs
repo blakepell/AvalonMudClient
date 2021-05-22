@@ -1,8 +1,9 @@
-﻿
+﻿using MoonSharp.Interpreter.Execution.VM;
+
 namespace MoonSharp.Interpreter.Tree
 {
-	interface IVariable
-	{
-		void CompileAssignment(Execution.VM.ByteCode bc, int stackofs, int tupleidx);
-	}
+    internal interface IVariable
+    {
+        void CompileAssignment(ByteCode bc, int stackofs, int tupleidx);
+    }
 }
