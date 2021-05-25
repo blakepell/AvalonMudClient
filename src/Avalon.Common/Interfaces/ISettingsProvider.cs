@@ -8,6 +8,7 @@
  */
 
 using Avalon.Common.Models;
+using Avalon.Common.Scripting;
 using Avalon.Common.Settings;
 using System.Collections.Generic;
 using Trigger = Avalon.Common.Triggers.Trigger;
@@ -80,25 +81,29 @@ namespace Avalon.Common.Interfaces
         /// Imports a package of aliases, triggers and directions from a JSON string.
         /// </summary>
         /// <param name="json"></param>
-        void ImportPackageFromJson(string json);
+        /// <param name="scriptHost">The ScriptHost which should be set as a reference on objects like Triggers that require it.</param>
+        void ImportPackageFromJson(string json, ScriptHost scriptHost);
 
         /// <summary>
         /// Imports an already populated <see cref="Package"/> object, aliases, triggers and directions.
         /// </summary>
         /// <param name="package"></param>
-        public void ImportPackage(Package package);
+        /// <param name="scriptHost">The ScriptHost which should be set as a reference on objects like Triggers that require it.</param>
+        public void ImportPackage(Package package, ScriptHost scriptHost);
 
         /// <summary>
         /// Imports a list of triggers.
         /// </summary>
         /// <param name="list"></param>
-        void ImportTriggers(IList<Trigger> list);
+        /// <param name="scriptHost">The ScriptHost which should be set as a reference on objects like Triggers that require it.</param>
+        void ImportTriggers(IList<Trigger> list, ScriptHost scriptHost);
 
         /// <summary>
         /// Imports a single trigger.
         /// </summary>
         /// <param name="trigger"></param>
-        void ImportTrigger(Trigger trigger);
+        /// <param name="scriptHost">The ScriptHost which should be set as a reference on objects like Triggers that require it.</param>
+        void ImportTrigger(Trigger trigger, ScriptHost scriptHost);
 
         /// <summary>
         /// Imports a list of directions.

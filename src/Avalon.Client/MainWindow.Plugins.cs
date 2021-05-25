@@ -128,7 +128,7 @@ namespace Avalon
                         {
                             // It wasn't a system trigger, try to import it.  The import function will check whether
                             // it can be imported or not (e.g. if it's locked by the user).
-                            App.Settings.ImportTrigger(trigger);
+                            App.Settings.ImportTrigger(trigger, this.Interp.ScriptHost);
                         }
                     }
 

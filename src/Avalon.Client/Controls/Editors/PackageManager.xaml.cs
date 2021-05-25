@@ -344,7 +344,7 @@ namespace Avalon.Controls
                 fullPackage.DirectionList.ForEach(x => x.PackageId = fullPackage.Id);
 
                 // This will update this profile with the items from the json package.
-                App.Settings.ImportPackage(fullPackage);
+                App.Settings.ImportPackage(fullPackage, App.MainWindow.Interp.ScriptHost);
 
                 // Update which ones if any are installed.
                 this.UpdateInstalledList();

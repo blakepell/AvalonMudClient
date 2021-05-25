@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using Argus.IO;
 using Trigger = Avalon.Common.Triggers.Trigger;
+using Avalon.Common.Scripting;
 
 namespace Avalon.Common.Settings
 {
@@ -260,14 +261,14 @@ namespace Avalon.Common.Settings
         /// exist are updated preserving various information such as count..
         /// </summary>
         /// <param name="json"></param>
-        public void ImportPackageFromJson(string json)
+        public void ImportPackageFromJson(string json, ScriptHost scriptHost)
         {
             // Deserialize the JSON file that was provided to us.
             var settings = JsonConvert.DeserializeObject<ProfileSettings>(json);
 
             // Imports the aliases, triggers and directions that are applicable using the shared import methods.
             this.ImportAliases(settings.AliasList);
-            this.ImportTriggers(settings.TriggerList);
+            this.ImportTriggers(settings.TriggerList, scriptHost);
             this.ImportDirections(settings.DirectionList);
         }
 
@@ -275,7 +276,7 @@ namespace Avalon.Common.Settings
         /// Imports a <see cref="Package"/> object.
         /// </summary>
         /// <param name="package"></param>
-        public void ImportPackage(Package package)
+        public void ImportPackage(Package package, ScriptHost scriptHost)
         {
             var item = this.ProfileSettings.InstalledPackages.FirstOrDefault(x => x.PackageId == package.Id);
 
@@ -297,7 +298,7 @@ namespace Avalon.Common.Settings
             }
 
             this.ImportAliases(package.AliasList);
-            this.ImportTriggers(package.TriggerList);
+            this.ImportTriggers(package.TriggerList, scriptHost);
             this.ImportDirections(package.DirectionList);
 
             if (!string.IsNullOrWhiteSpace(package.SetupCommand))
@@ -322,16 +323,16 @@ namespace Avalon.Common.Settings
         }
 
         /// <inheritdoc />
-        public void ImportTriggers(IList<Trigger> list)
+        public void ImportTriggers(IList<Trigger> list, ScriptHost scriptHost)
         {
             foreach (var trigger in list)
             {
-                ImportTrigger(trigger);
+                ImportTrigger(trigger, scriptHost);
             }
         }
 
         /// <inheritdoc />
-        public void ImportTrigger(Trigger trigger)
+        public void ImportTrigger(Trigger trigger, ScriptHost scriptHost)
         {
             // Skip any locked items that exist AND are locked.
             if (this.ProfileSettings.TriggerList.Any(profileTrigger => profileTrigger.Identifier.Equals(trigger.Identifier, StringComparison.OrdinalIgnoreCase) && profileTrigger.Lock))
@@ -358,8 +359,9 @@ namespace Avalon.Common.Settings
 
             trigger.Count = count;
 
-            // Inject the Conveyor into all of the triggers so they're ready to roll.
+            // Inject the Conveyor and ScriptHost into all of the triggers so they're ready to roll.
             trigger.Conveyor = this.Conveyor;
+            trigger.ScriptHost = scriptHost;
 
             this.ProfileSettings.TriggerList.Add(trigger);
         }

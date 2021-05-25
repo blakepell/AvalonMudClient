@@ -714,7 +714,7 @@ namespace Avalon
         {
             bool found = false;
 
-            foreach (var item in App.Settings.ProfileSettings.TriggerList)
+            foreach (var item in App.Settings.ProfileSettings.TriggerList.Enumerable())
             {
                 if (string.Equals(item.Group, groupName, StringComparison.OrdinalIgnoreCase))
                 {
@@ -744,7 +744,7 @@ namespace Avalon
         {
             bool found = false;
 
-            foreach (var item in App.Settings.ProfileSettings.TriggerList)
+            foreach (var item in App.Settings.ProfileSettings.TriggerList.Enumerable())
             {
                 if (string.Equals(item.Group, groupName, StringComparison.OrdinalIgnoreCase))
                 {

@@ -628,7 +628,7 @@ namespace Avalon
                     string json = await File.ReadAllTextAsync(dialog.FileName);
 
                     // This will update this profile with the items from the json package.
-                    App.Settings.ImportPackageFromJson(json);
+                    App.Settings.ImportPackageFromJson(json, this.Interp.ScriptHost);
 
                     // Show the user that the profile was successfully loaded.
                     Interp.EchoText("");

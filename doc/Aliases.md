@@ -11,7 +11,7 @@ An alias is a command that you create that can execute multiple other commands t
 |Enabled|Whether or not the current alias is enabled and can be used.|
 |Character|If the `Character` variable is set, the character that must be active in order for the alias to be usable even if Enabled.  This allows you to have aliases that are only available for given characters if you play multiple characters on a game.|
 |Group|A group name that can be used to group sets of aliases and triggers together.  The `#group-enable` and `#group-diable` hash commands can be used to enable or disable sets of triggers and aliases by the group name you define.|
-|Lua|Whether or not the `Command` should be execute as a Lua script or not.|
+|ExecuteAs|Whether the command should be run as a `Command` or run through a script engine like Lua.|
 |Lock|Lock an alias prevents it from being auto-updated if you import a Package that has an alias of the same name.  If a game you play provides pre-set triggers and aliases you might find that you want to customize some of them but not have them over-written if you update a package that has many aliases/triggers in it.|
 |Count|This is the number of times the alias has been executed.|
 
@@ -19,6 +19,10 @@ Aliases can be globally disabled on the `Alias` window/tab or via the Quick opti
 
 ![alt text](/doc/images/AliasGlobalEnable1.png "Global Alias Enable #1")
 ![alt text](/doc/images/AliasGlobalEnable2.png "Global Alias Enable #2")
+
+## Alias Arguments
+
+<!-- An alias can pass it's arguments in a number of manors.  Simple aliases that execute as commands can use the tradition %n notation.  E.g. `some-alias %1 %2`  -->
 
 A simple alias to cast a spell and then eat created food might look like:
 
