@@ -301,6 +301,9 @@ namespace Avalon
 
                     if (match)
                     {
+                        // Increment the number of times it's successfully matched.
+                        trigger.Count++;
+
                         // We know if it's a success and it's found hasn't been set yet that we will need
                         // to process it AND the StringBuilder needs to be populated because this is the
                         // first match (of potentially more).  No point in populating the StringBuilder until
@@ -325,6 +328,17 @@ namespace Avalon
                             // The error handler for the Lua will have already fired, we don't need to do any special
                             // processing at this juncture other than saying we didn't find anything to replace.
                             found = false;
+                        }
+
+                        if (trigger.StopProcessing)
+                        {
+                            // To help with debugging.
+                            if (App.Settings.AvalonSettings.Debug)
+                            {
+                                App.Conveyor.EchoLog("Line transformer trigger matched that stops the processing of additional triggers.", LogType.Debug);
+                            }
+
+                            break;
                         }
                     }
                 }
