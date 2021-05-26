@@ -189,13 +189,52 @@ namespace MoonSharp.Interpreter.CoreLib
         }
 
         /// <summary>
+        /// Similiar to select but adds one to whatever index was provided.  In Avalon, an alias or
+        /// a trigger includes the alias name or the full line of the trigger text as the first argument.
+        /// Almost always the user will want the 2nd actual arg which to them would look like the first
+        /// argument.  This makes that syntax easier, if the user needs the alias name or the full line
+        /// of triggering text they can use <see cref="select(ScriptExecutionContext, CallbackArguments)"/>.
+        /// getarg(0, ...) would return the alias name or the triggering text, getarg(1, ...) would then return
+        /// the first argument of either.  In the case of a null value a blank string will be returned.
+        /// </summary>
+        /// <param name="executionContext"></param>
+        /// <param name="args"></param>
+        /// <remarks>
+        /// Lua addition for Avalon.
+        /// </remarks>
+        [MoonSharpModuleMethod]
+        public static DynValue getarg(ScriptExecutionContext executionContext, CallbackArguments args)
+        {
+            var v_num = args.AsType(0, "getarg", DataType.Number);
+            int num = (int)v_num.Number + 1;
+            var values = new List<DynValue>();
+
+            if (num > 0)
+            {
+                for (int i = num; i < args.Count; i++)
+                {
+                    values.Add(args[i]);
+                }
+            }
+
+            // Return a blank string if any the argument is out of range and nothing was in
+            // our list.
+            if (values.Count == 0)
+            {
+                values.Add(DynValue.NewString(""));
+            }
+
+            return DynValue.NewTupleNested(values.ToArray());
+        }
+
+        /// <summary>
         /// Returns the first non null value.  If no non null values are found a blank string is returned.
         /// coalesce(..., default_value)
         /// </summary>
         /// <param name="executionContext"></param>
         /// <param name="args"></param>
         /// <remarks>
-        /// Lua addition
+        /// Lua addition for Avalon.
         /// </remarks>
         [MoonSharpModuleMethod]
         public static DynValue coalesce(ScriptExecutionContext executionContext, CallbackArguments args)
