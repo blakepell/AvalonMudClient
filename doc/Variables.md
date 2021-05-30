@@ -84,6 +84,21 @@ Supported types in Lua global variables are:
 
 Although this is a simple concept and implementation they'll provide you an incredibly useful way to allow aliases, triggers, timers and tasks to work together.
 
+### Lua OnChange Event
+
+When a variable changes the mud client will check to see if it has an OnChange event defined.  If it does, it will execute the Lua code for that event.  In the code
+the old value is swapped in for `%1` and the new value is swapped in for `%2`.  The following example shows how when a weight value is read in and set via a trigger
+how a variable repeater variable can then be set to show the weight and max weight as one field to save space.
+
+```
+-- We know this is the weight variable, get the max weight so we can then format
+-- a new variable and THAT will be surfaced on the UI saving space by only having
+-- one item for weight instead of two for weight and max weight.
+local max_weight = lua.GetVariable("MaxWeight")
+local buf = "%2/" .. max_weight
+lua.SetVariable("DisplayWeight", buf)
+```
+
 ### Notes:
 
 - If a CLR variable does not exist when it's requested a blank string will be returned.
