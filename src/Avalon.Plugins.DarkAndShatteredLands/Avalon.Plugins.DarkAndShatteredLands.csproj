@@ -24,7 +24,7 @@
   <ItemGroup>
     <PackageReference Include="Argus.Core" Version="2021.4.22.1" />
     <PackageReference Include="AvalonEdit" Version="6.1.1" />
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.5" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.6" />
     <PackageReference Include="ModernWpfUI" Version="0.9.4" />
   </ItemGroup>
 
