@@ -106,20 +106,19 @@
 
                 <ui:SimpleStackPanel Orientation="Horizontal" Margin="0,5,0,0">
                     <CheckBox x:Name="CheckBoxEnabled" Content="Enabled" ui:ControlHelper.CornerRadius="0" Margin="20,0,0,0"></CheckBox>
-                    <CheckBox x:Name="CheckBoxLua" Content="Lua" ui:ControlHelper.CornerRadius="0" Margin="20,0,0,0"></CheckBox>
                     <CheckBox x:Name="CheckBoxGag" Content="Gag" ui:ControlHelper.CornerRadius="0" Margin="20,0,0,0"></CheckBox>
                     <CheckBox x:Name="CheckBoxVariableReplace" Content="Variable Replace" ui:ControlHelper.CornerRadius="0" Margin="20,0,0,0"></CheckBox>
+                    <CheckBox x:Name="CheckBoxStopProcessing" Content="Stop Processing" ui:ControlHelper.CornerRadius="0" Margin="20,0,0,0"></CheckBox>
                 </ui:SimpleStackPanel>
 
                 <ui:SimpleStackPanel Orientation="Horizontal" Margin="0,5,0,0">
                     <CheckBox x:Name="CheckBoxLock" Content="Lock" ui:ControlHelper.CornerRadius="0" Margin="20,0,0,0"></CheckBox>
                     <CheckBox x:Name="CheckBoxHighlight" Content="Highlight" ui:ControlHelper.CornerRadius="0" Margin="20,0,0,0"></CheckBox>
                     <CheckBox x:Name="CheckBoxSilent" Content="Silent" ui:ControlHelper.CornerRadius="0" Margin="20,0,0,0"></CheckBox>
-                    <CheckBox x:Name="CheckBoxDisableAfterTriggered" Content="Disable after Triggered" ui:ControlHelper.CornerRadius="0" Margin="20,0,0,0"></CheckBox>
+                    <CheckBox x:Name="CheckBoxDisableAfterTriggered" Content="Disable after Triggered" ui:ControlHelper.CornerRadius="0" Margin="28,0,0,0"></CheckBox>
                 </ui:SimpleStackPanel>
 
                 <ui:SimpleStackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                    <CheckBox x:Name="CheckBoxStopProcessing" Content="Stop Processing" ui:ControlHelper.CornerRadius="0" Margin="20,0,0,0"></CheckBox>
                     <CheckBox x:Name="CheckBoxLineTransformer" Content="Line Transformer" ui:ControlHelper.CornerRadius="0" Margin="20,0,0,0"></CheckBox>
                 </ui:SimpleStackPanel>
 

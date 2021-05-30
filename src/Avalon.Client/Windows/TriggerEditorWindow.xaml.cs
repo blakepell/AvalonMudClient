@@ -58,7 +58,6 @@ namespace Avalon
             TextIdentifier.Text = trigger.Identifier;
             TextPriority.Value = trigger.Priority;
             CheckBoxEnabled.IsChecked = trigger.Enabled;
-            CheckBoxLua.IsChecked = trigger.IsLua;
             CheckBoxGag.IsChecked = trigger.Gag;
             CheckBoxVariableReplace.IsChecked = trigger.VariableReplacement;
             CheckBoxLock.IsChecked = trigger.Lock;
@@ -127,7 +126,6 @@ namespace Avalon
                 this.Trigger.Group = TextGroup.Text;
                 this.Trigger.Identifier = TextIdentifier.Text;
                 this.Trigger.Enabled = (bool)CheckBoxEnabled.IsChecked;
-                this.Trigger.IsLua = (bool)CheckBoxLua.IsChecked;
                 this.Trigger.Gag = (bool)CheckBoxGag.IsChecked;
                 this.Trigger.VariableReplacement = (bool)CheckBoxVariableReplace.IsChecked;
                 this.Trigger.Lock = (bool)CheckBoxLock.IsChecked;

@@ -82,7 +82,6 @@
                 <DataGridTextColumn Header="Character" Binding="{Binding Character,UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Group" Binding="{Binding Group,UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridCheckBoxColumn Header="Enabled" Binding="{Binding Enabled,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
-                <DataGridCheckBoxColumn Header="Lua" Binding="{Binding IsLua,UpdateSourceTrigger=PropertyChanged}"></DataGridCheckBoxColumn>
                 <DataGridComboBoxColumn Header="Execute As" 
                                         ItemsSource="{Binding Source={StaticResource ExecuteTypes}}" 
                                         SelectedValuePath="Value" DisplayMemberPath="Description" SelectedValueBinding="{Binding ExecuteAs, UpdateSourceTrigger=PropertyChanged}">
