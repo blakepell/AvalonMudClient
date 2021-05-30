@@ -175,6 +175,13 @@ namespace Avalon
                 Text = this.TextCommand.Text
             };
 
+            if (string.IsNullOrWhiteSpace(TextCommand.Text) 
+                && this.Trigger.ExecuteAs == ExecuteType.LuaMoonsharp
+                && (this.Trigger.LineTransformer || CheckBoxLineTransformer.IsChecked.GetValueOrDefault(false)))
+            {
+                win.Text = "-- Example of a Lua line transformer\r\n --local argOne = getarg(2, ...)\r\n\r\nreturn \"\"";
+            }
+
             if (this.Trigger.IsLua 
                 || this.Trigger.ExecuteAs == ExecuteType.LuaMoonsharp 
                 || this.Trigger.ExecuteAs == ExecuteType.LuaNLua)
@@ -184,7 +191,7 @@ namespace Avalon
 
             // Show what trigger is being edited in the status bar of the string editor window.
             win.StatusText = $"Trigger: {this.Trigger.Pattern}";
-
+            
             // Startup position of the dialog should be in the center of the parent window.  The
             // owner has to be set for this to work.
             win.Owner = App.MainWindow;
