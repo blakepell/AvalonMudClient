@@ -11,7 +11,7 @@
     <Copyright>2003-2021</Copyright>
     <RootNamespace>Avalon</RootNamespace>
     <AssemblyName>Avalon</AssemblyName>
-    <ApplicationIcon>Sword.ico</ApplicationIcon>
+    <ApplicationIcon>DiamondHilt.ico</ApplicationIcon>
     <Version>2021.4.25.1</Version>
     <AssemblyVersion>2021.4.25.1</AssemblyVersion>
     <FileVersion>2021.4.25.1</FileVersion>

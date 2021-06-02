@@ -27,11 +27,11 @@ namespace Avalon.Common.Models
         /// Lua executed through the MoonSharp interpreter.
         /// </summary>
         [Description("Lua: MoonSharp")]
-        LuaMoonsharp = 1,
-        /// <summary>
-        /// Lua executed through the NLua interpreter.
-        /// </summary>
-        [Description("Lua: NLua")]
-        LuaNLua = 2
+        LuaMoonsharp = 1
+        ///// <summary>
+        ///// Lua executed through the NLua interpreter.
+        ///// </summary>
+        //[Description("Lua: NLua")]
+        //LuaNLua = 2
     }
 }

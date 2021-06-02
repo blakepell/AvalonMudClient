@@ -21,10 +21,10 @@ namespace Avalon.Common.Scripting
         /// </summary>
         public MoonSharpEngine MoonSharp { get; set; }
 
-        /// <summary>
-        /// NLua Lua Engine.
-        /// </summary>
-        public NLuaEngine NLua { get; set; }
+        ///// <summary>
+        ///// NLua Lua Engine.
+        ///// </summary>
+        //public NLuaEngine NLua { get; set; }
 
         /// <summary>
         /// The number of scripts that are currently active between all environments.
@@ -38,7 +38,7 @@ namespace Avalon.Common.Scripting
         public ScriptHost()
         {
             this.MoonSharp = new MoonSharpEngine(this);
-            this.NLua = new NLuaEngine(this);
+            //this.NLua = new NLuaEngine(this);
             this.Statistics = new ScriptStatistics();
         }
 
@@ -55,10 +55,10 @@ namespace Avalon.Common.Scripting
                 this.MoonSharp = new MoonSharpEngine(this);
             }
 
-            if (enableNLua)
-            {
-                this.NLua = new NLuaEngine(this);
-            }
+            //if (enableNLua)
+            //{
+            //    this.NLua = new NLuaEngine(this);
+            //}
 
             this.Statistics = new ScriptStatistics();
         }
@@ -72,7 +72,7 @@ namespace Avalon.Common.Scripting
         public void RegisterObject<T>(Type t, object item, string prefix)
         {
             MoonSharp?.RegisterObject<T>(t, item, prefix);
-            NLua?.RegisterObject<T>(t, item, prefix);
+            //NLua?.RegisterObject<T>(t, item, prefix);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Avalon.Common.Scripting
         public void Reset()
         {
             MoonSharp?.Reset();
-            NLua?.Reset();
+            //NLua?.Reset();
         }
     }
 }

@@ -33,7 +33,7 @@ namespace Avalon.HashCommands
                 {
                     var sb = Argus.Memory.StringBuilderPool.Take();
                     var moonSharp = ((Interpreter)this.Interpreter).ScriptHost.MoonSharp;
-                    var nLua = ((Interpreter)this.Interpreter).ScriptHost.NLua;
+                    //var nLua = ((Interpreter)this.Interpreter).ScriptHost.NLua;
                     var scriptHost = ((Interpreter) this.Interpreter).ScriptHost;
 
                     sb.AppendLine();

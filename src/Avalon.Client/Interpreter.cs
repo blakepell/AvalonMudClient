@@ -54,7 +54,7 @@ namespace Avalon
             _scriptCommands = new ScriptCommands(this, _random);
 
             this.MoonSharpInit();
-            this.NLuaInit();
+            //this.NLuaInit();
         }
 
         /// <summary>
@@ -100,24 +100,24 @@ namespace Avalon
             App.Conveyor.EchoInfo("{CM{coon{CS{charp{x Lua Memory Pool Initialized with 5/10 instances.");
         }
 
-        /// <summary>
-        /// Sets up the NLua script engine.
-        /// </summary>
-        public void NLuaInit()
-        {
-            this.ScriptHost.NLua.ExceptionHandler = (ex) =>
-            {
-                if (ex is NLua.Exceptions.LuaException exLua)
-                {
-                    this.Conveyor.EchoError($"NLua Inner Exception: {ex.Message}");
-                    this.Conveyor.EchoError($"NLua Stack Trace: {ex.StackTrace}");
-                }
-                else
-                {
-                    this.Conveyor.EchoError($"NLua Exception: {ex.Message}");
-                }
-            };
-        }
+        ///// <summary>
+        ///// Sets up the NLua script engine.
+        ///// </summary>
+        //public void NLuaInit()
+        //{
+        //    this.ScriptHost.NLua.ExceptionHandler = (ex) =>
+        //    {
+        //        if (ex is NLua.Exceptions.LuaException exLua)
+        //        {
+        //            this.Conveyor.EchoError($"NLua Inner Exception: {ex.Message}");
+        //            this.Conveyor.EchoError($"NLua Stack Trace: {ex.StackTrace}");
+        //        }
+        //        else
+        //        {
+        //            this.Conveyor.EchoError($"NLua Exception: {ex.Message}");
+        //        }
+        //    };
+        //}
 
         /// <summary>
         /// Sends a command string to the mud.

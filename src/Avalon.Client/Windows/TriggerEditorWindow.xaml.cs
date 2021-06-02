@@ -183,8 +183,7 @@ namespace Avalon
             }
 
             if (this.Trigger.IsLua 
-                || this.Trigger.ExecuteAs == ExecuteType.LuaMoonsharp 
-                || this.Trigger.ExecuteAs == ExecuteType.LuaNLua)
+                || this.Trigger.ExecuteAs == ExecuteType.LuaMoonsharp)
             {
                 win.EditorMode = StringEditor.EditorType.Lua;
             }
