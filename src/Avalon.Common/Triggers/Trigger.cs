@@ -130,7 +130,7 @@ namespace Avalon.Common.Triggers
                 }
                 catch
                 {
-                    this.Conveyor.EchoError("The previous exception was from a line transformer trigger.");
+                    this.Conveyor.EchoError($"The previous exception was from a line transformer trigger with the following pattern: {this.Pattern}");
                     return false;
                 }
             }
