@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   inkscape:export-ydpi="3"
+   inkscape:export-xdpi="3"
+   inkscape:export-filename="C:\Users\blake\Downloads\DiamondSword16.png"
+   sodipodi:docname="EmeraldHiltedSword.svg"
+   id="svg947"
+   version="1.1"
+   style="height: 512px; width: 512px;"
+   viewBox="0 0 512 512">
+  <metadata
+     id="metadata953">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs951" />
+  <sodipodi:namedview
+     inkscape:current-layer="svg947"
+     inkscape:window-maximized="0"
+     inkscape:window-y="390"
+     inkscape:window-x="2927"
+     inkscape:cy="402.50659"
+     inkscape:cx="594.45549"
+     inkscape:zoom="0.70710678"
+     showgrid="false"
+     id="namedview949"
+     inkscape:window-height="1458"
+     inkscape:window-width="1985"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10"
+     borderopacity="1"
+     bordercolor="#666666"
+     pagecolor="#ffffff" />
+  <path
+     id="path941"
+     fill-opacity="1"
+     fill="#000000"
+     d="M0 0h512v512H0z" />
+  <g
+     id="g945"
+     style=""
+     transform="translate(2,0)"
+     class="">
+    <path
+       id="path943"
+       fill-opacity="1"
+       fill="#fff"
+       d="M256 25c-13.926 0-31.544 1.105-45.613 5.2-14.07 4.094-23.213 10.325-25.662 20.007-1.661 6.566.726 15.172 7.03 24.953 6.306 9.782 16.126 20.111 26.401 29.264 16.976 15.121 32.104 25.063 37.844 28.752 5.74-3.689 20.868-13.631 37.844-28.752 10.275-9.153 20.095-19.482 26.4-29.264 6.305-9.781 8.692-18.387 7.031-24.953-2.449-9.682-11.592-15.913-25.662-20.008C287.543 26.105 269.926 25 256 25zm-39 102.027v12.758l39 32.5 39-32.5v-12.758c-18.142 14.699-34.277 24.633-34.277 24.633L256 154.572l-4.723-2.912s-16.135-9.934-34.277-24.633zm0 36.188v41.57L241.941 184zm78 0L270.059 184 295 204.785zm-39 32.5l-39 32.5V231h19.273l13.364-13.363L256 211.27 275.729 231H295v-2.785zm175.771 24.783c-15.255 13.207-31.532 20.581-48.66 24.348-19.619 4.314-40.22 4.227-63.14 4.154h-26.244l14 14H384v18h-74.904l-8.4 14H352c31.07 0 60.695 13.027 79.646 28.627L483.273 272zm-351.552.01L28.727 272l51.627 51.627C99.305 308.027 128.93 295 160 295h51.305l-8.4-14H128v-18h76.273l14-14H192c-24 0-44.575.091-63.953-4.215-16.904-3.756-32.736-11.132-47.828-24.277zM256 236.727l-36.668 36.668L256 334.508l36.668-61.113zM201 313v180h46V354.492L222.105 313zm88.895 0L265 354.492V493h46V313z" />
+  </g>
+  <path
+     id="path967"
+     d="m 240,303.96785 c -9.77778,-16.3174 -17.83912,-29.9569 -17.9141,-30.30999 -0.075,-0.35309 7.94778,-8.72069 17.82834,-18.59465 l 17.96467,-17.95267 18.10816,17.92606 c 9.9595,9.85933 18.10817,18.09198 18.10817,18.29476 0,0.46941 -34.99149,58.909 -35.75144,59.70879 -0.4228,0.44497 -5.0642,-6.91097 -18.3438,-29.0723 z"
+     style="fill:#ffffff;stroke-width:0.507937" />
+  <path
+     id="path969"
+     d="m 240,303.96785 c -9.77778,-16.3174 -17.83912,-29.9569 -17.9141,-30.30999 -0.075,-0.35309 7.98216,-8.75507 17.90476,-18.67105 l 18.04109,-18.02906 18.03174,18.02638 c 9.91746,9.91451 18.03175,18.18153 18.03175,18.37115 0,0.45354 -35.01639,58.91129 -35.75144,59.68487 -0.4228,0.44497 -5.0642,-6.91097 -18.3438,-29.0723 z"
+     style="fill:#ffffff;stroke-width:0.507937" />
+  <path
+     id="path1011"
+     d="m 239.63528,303.92201 -18.32951,-30.5492 18.35163,-18.35163 18.35162,-18.35162 18.3461,18.3461 18.3461,18.3461 -18.324,30.55166 c -10.0782,16.80342 -18.3439,30.55304 -18.36821,30.55472 -0.0243,0.002 -8.2925,-13.74407 -18.37373,-30.54613 z"
+     style="fill:#008000;stroke-width:0.0883883" />
+</svg>
