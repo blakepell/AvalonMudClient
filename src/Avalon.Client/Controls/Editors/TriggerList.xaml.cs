@@ -249,6 +249,37 @@ namespace Avalon.Controls
             }
         }
 
+        /// <summary>
+        /// Creates a new trigger and shows the trigger editor dialog.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonNewTrigger_Click(object sender, RoutedEventArgs e)
+        {
+            var trigger = new Common.Triggers.Trigger
+            {
+                Conveyor = App.Conveyor,
+                ScriptHost = App.MainWindow.Interp.ScriptHost
+            };
+
+            App.Settings.ProfileSettings.TriggerList.Add(trigger);
+
+            // Set the initial trigger for the editor.
+            var win = new TriggerEditorWindow(trigger);
+
+            // Save the last item and type so the Control+Alt+L alias can re-open it.
+            App.InstanceGlobals.LastEditedId = trigger.Identifier;
+            App.InstanceGlobals.LastEdited = InstanceGlobals.EditItem.Trigger;
+
+            // Startup position of the dialog should be in the center of the parent window.  The
+            // owner has to be set for this to work.
+            win.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            // Show the Trigger editor window.
+            win.Show();
+        }
+
+
         public void PrimaryButtonClick()
         {
             // Do nothing.

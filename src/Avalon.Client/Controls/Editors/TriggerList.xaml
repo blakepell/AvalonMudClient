@@ -27,7 +27,18 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Button Content="New Trigger"
+                Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left"
+                Style="{StaticResource RegularButtonAccent}" Margin="5,0,0,0"
+                Width="100"
+                Click="ButtonNewTrigger_Click"></Button>
+
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <CheckBox x:Name="CheckBoxTriggersEnabled" Content="Enabled" >
             </CheckBox>
             <Grid Margin="0,10,5,10">
@@ -44,7 +55,8 @@
         </StackPanel>
 
         <DataGrid x:Name="DataList" x:FieldModifier="public" RowHeight="10"
-                  Grid.Row="1" HeadersVisibility="Column" BorderBrush="Gray" BorderThickness="1"
+                  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                  HeadersVisibility="Column" BorderBrush="Gray" BorderThickness="1"
                   Margin="5,0,5,5"
                   CanUserAddRows="True"
                   AutoGenerateColumns="False"
