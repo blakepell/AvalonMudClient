@@ -32,6 +32,8 @@ Write-Host "Updating csproj and iss files to version: '$NewVersion'"
 # Optional plugin build
 $pluginsBuild = Read-Host "Do you want to publish any plugin projects (y/n)"
 
+$installAfter = Read-Host "Do you want to install the x64 at the end (y/n)"
+
 # Make the build folders if they don't exist.
 New-Item -ItemType Directory -Force -Path $x64output
 New-Item -ItemType Directory -Force -Path $x86output
@@ -57,4 +59,9 @@ Invoke-Expression "& $installer"
 # If they wanted to build the plugins also then do that.
 if ($pluginsBuild -eq 'y') {
     & $PSScriptRoot\PublishPlugins.ps1
+}
+
+# If they wanted to install as the last step, do that.
+if ($installAfter -eq 'y') {
+    & $PSScriptRoot\AvalonSetup-x64.exe
 }
