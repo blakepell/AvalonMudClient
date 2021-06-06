@@ -5,8 +5,8 @@
   "Author": "Rhien",
   "GameAddress": "",
   "Category": "Examples",
-  "Version": 3,
-  "MinimumClientVersion": "2021.1.31.1",
+  "Version": 4,
+  "MinimumClientVersion": "2021.6.5.1",
   "SetupCommand": "",
   "SetupLuaScript": "",
   "UninstallCommand": "",
@@ -19,6 +19,7 @@
       "Character": "",
       "Group": "Examples",
       "IsLua": true,
+      "ExecuteAs": 1,
       "Lock": false,
       "Count": 0,
       "PackageId": "1c8027a0-c82e-42f8-85e7-7a0edc53d1d0"

@@ -5,7 +5,8 @@
   "Author": "Rhien",
   "GameAddress": "dsl-mud.org",
   "Category": "Enchantors",
-  "Version": 1,
+  "Version": 2,
+  "MinimumClientVersion": "2021.6.5.1",
   "AliasList": [
     {
       "AliasExpression": "enchant-gem",
@@ -27,6 +28,7 @@
       "Group": "",
       "IsSilent": false,
       "IsLua": true,
+      "ExecuteAs": 1,
       "Plugin": false,
       "DisableAfterTriggered": false,
       "Lock": false,

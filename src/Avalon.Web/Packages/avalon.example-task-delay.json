@@ -14,6 +14,7 @@
       "Character": "",
       "Group": "",
       "IsLua": false,
+      "ExecuteAs": 0,
       "Lock": false,
       "Count": 0,
       "PackageId": ""

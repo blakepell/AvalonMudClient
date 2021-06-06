@@ -5,8 +5,8 @@
   "Author": "Rhien",
   "GameAddress": "dsl-mud.org",
   "Category": "Core",
-  "Version": 2,
-  "MinimumClientVersion": "0.0.0.0",
+  "Version": 3,
+  "MinimumClientVersion": "2021.6.5.1",
   "SetupCommand": "set-prompt",
   "SetupLuaScript": "lua.SetTitle(\"Dark and Shattered Lands\")",
   "AliasList": [
@@ -168,6 +168,7 @@
       "Group": "dsl-mud.org",
       "IsSilent": false,
       "IsLua": true,
+      "ExecuteAs": 1,
       "Plugin": true,
       "DisableAfterTriggered": true,
       "Lock": false,

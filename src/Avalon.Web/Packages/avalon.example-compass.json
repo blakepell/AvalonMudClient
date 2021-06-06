@@ -13,6 +13,7 @@
       "Enabled": true,
       "Character": "",
       "Group": "",
+      "ExecuteAs": 0,
       "IsLua": false,
       "Lock": false,
       "Count": 0,

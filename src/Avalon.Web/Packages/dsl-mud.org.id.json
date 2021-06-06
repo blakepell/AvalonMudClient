@@ -5,15 +5,17 @@
   "Author": "Rhien",
   "GameAddress": "dsl-mud.org",
   "Category": "General",
-  "Version": 1,
+  "Version": 2,
+  "MinimumClientVersion": "2021.6.5.1",
   "AliasList": [
     {
       "AliasExpression": "id",
-      "Command": "-- Syntax: id <start index> <end index> <keyword>\r\n-- Description: Casts the identify spell on a number of items with the same keyword.\r\n-- Example: id 1 5 sword\r\n-- Result: cast identify 1.sword, cast identify 2.sword, etc.\r\n\r\nfor i = %1, %2, 1 \r\ndo\r\n    lua:Send(\"cast identify \" .. i .. \".%3\")\r\nend",
+      "Command": "-- Syntax: id <start index> <end index> <keyword>\r\n-- Description: Casts the identify spell on a number of items with the same keyword.\r\n-- Example: id 1 5 sword\r\n-- Result: cast identify 1.sword, cast identify 2.sword, etc.\r\nlocal startIndex = getarg(1, ...)\r\nlocal endIndex = getarg(2, ...)\r\n\r\nfor i = startIndex, endIndex, 1 \r\ndo\r\n    lua:Send(\"cast identify \" .. i .. \".\" .. item)\r\nend",
       "Enabled": true,
       "Character": "",
       "Group": "",
       "IsLua": true,
+      "ExecuteAs": 1,
       "Lock": false,
       "Count": 0,
       "PackageId": ""

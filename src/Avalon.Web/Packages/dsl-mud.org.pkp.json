@@ -5,7 +5,8 @@
   "Author": "Rhien",
   "GameAddress": "dsl-mud.org",
   "Category": "Info and Alerts",
-  "Version": 1,
+  "Version": 2,
+  "MinimumClientVersion": "2021.6.5.1",
   "AliasList": [
     {
       "AliasExpression": "tnl",
@@ -14,6 +15,7 @@
       "Character": "",
       "Group": "PKP",
       "IsLua": true,
+      "ExecuteAs": 1,
       "Lock": false,
       "Count": 0,
       "PackageId": ""

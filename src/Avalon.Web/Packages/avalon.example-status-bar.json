@@ -14,11 +14,12 @@
   "AliasList": [
     {
       "AliasExpression": "example-status-bar",
-      "Command": "-- This example will demonstrate how to access the status bar from Lua.\r\nlua.Send(\"#example\")\r\nlua.Echo(\"    This example will count to 10 in the blue status bar in the lower\")\r\nlua.Echo(\"    left hand side of the mud client.  The example will begin in 2 \")\r\nlua.Echo(\"    seconds.\")\r\n\r\nlua.Sleep(2000)\r\n\r\nfor i = 1, 10 do\r\n    lua.SetText(i)\r\n    lua.Sleep(1000)\r\nend\r\n\r\nlua.SetText(\"I have completed counting to 10.\", \"CheckboxMarkedCircle\")",
+      "Command": "-- This example will demonstrate how to access the status bar from Lua.\r\nlua:Send(\"#example\")\r\nlua:Echo(\"    This example will count to 10 in the blue status bar in the lower\")\r\nlua:Echo(\"    left hand side of the mud client.  The example will begin in 2 \")\r\nlua:Echo(\"    seconds.\")\r\n\r\nlua.Sleep(2000)\r\n\r\nfor i = 1, 10 do\r\n    lua:SetText(i)\r\n    lua:Sleep(1000)\r\nend\r\n\r\nlua.SetText(\"I have completed counting to 10.\", \"CheckboxMarkedCircle\")",
       "Enabled": true,
       "Character": "",
       "Group": "Examples",
       "IsLua": true,
+      "ExecuteAs": 1,
       "Lock": false,
       "Count": 0,
       "PackageId": ""

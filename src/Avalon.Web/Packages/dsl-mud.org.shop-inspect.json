@@ -5,15 +5,17 @@
   "Author": "Rhien",
   "GameAddress": "dsl-mud.org",
   "Category": "Info and Alerts",
-  "Version": 2,
+  "Version": 4,
+  "MinimumClientVersion": "2021.6.5.1",
   "AliasList": [
     {
       "AliasExpression": "shop-inspect",
-      "Command": "-- Syntax: shop-inspect <start index> <end index> <keyword>\r\nif \"%1\" == \"\" then\r\n\tlua:Echo(\"shop-inspect <start index> <end index> <keyword>\")\r\n\tdo return end\r\nend\r\n\r\n-- The triggers for these only run when the inspection is happening so they save\r\n-- having to be processed all of the time.\r\nlua:EnableGroup(\"Inspect\")\r\n\r\n-- Reset the counter\r\nglobal.inspect_counter = 0\r\nglobal.inspect_results = { }\r\nglobal.inspect_results[95] = \"\"\r\nglobal.inspect_results[96] = \"\"\r\nglobal.inspect_results[97] = \"\"\r\nglobal.inspect_results[98] = \"\"\r\nglobal.inspect_results[99] = \"\"\r\nglobal.inspect_results[100] = \"\"\r\n\r\n-- Setup the keyword, if it has two values make sure both get there\r\n-- e.g. mithril dagger and not just mithril\r\nlocal keyword = \"%3\"\r\n\r\nif \"%4\" ~= \"\" then\r\n\tkeyword = keyword .. \" %4\"\r\nend\r\n\r\n-- Loop through all of the items requested.\r\nfor i = tonumber(%1), tonumber(%2), 1 \r\ndo\r\n\t-- The global will allow us to echo what number the item is\r\n\t-- when the trigger hits\r\n\tglobal.inspect_counter = i\r\n\t\r\n\t-- Send the inspect command to the game\r\n    lua:Send(\"inspect \" .. i .. \".\" .. keyword)\r\n    \r\n    -- Important, we pause for a half a second, this is important because the game\r\n    -- has to respond so we can echo to the terminal if there is a match and what\r\n    -- index that match was (so the person can buy that specific item).  Increase\r\n    -- this number on laggy connections or if they're not getting the data back from\r\n    -- the mud in time.\r\n    lua:Sleep(750)\r\nend\r\n\r\n-- Display the output of the results of what the trigger collected.\r\nlua:Echo(\"\")\r\nlua:Echo(\"Inspection Results for \" .. \"%3 at \" .. lua:GetVariable(\"Room\"))\r\nlua:Echo(\"-------------------------------------------------------------------\")\r\n\r\nfor i = 100, 95, -1\r\ndo\r\n\tlua:Echo(i .. \"%\")\r\n\tlua:Echo(lua:TrimEnd(lua:Coalesce(global.inspect_results[i], \"None\"), \",\"))\r\n\tlua:Echo(\"\")\r\nend\r\n\r\n-- Cleanup the results.\r\nglobal.inspect_results = { }\r\n\r\n-- Disable the inspection trigger so it doesn't fire on a regular basis\r\nlua:DisableGroup(\"Inspect\")",
+      "Command": "-- Syntax: shop-inspect <start index> <end index> <keyword>\r\nlocal argStart = getarg(1, ...)\r\nlocal argEnd = getarg(2, ...)\r\nlocal keyword = getarg(3, ...)\r\nlocal keywordTwo = getarg(4, ...)\r\n\r\nif argStart == \"\" then\r\n\tlua:Echo(\"shop-inspect <start index> <end index> <keyword>\")\r\n\tdo return end\r\nend\r\n\r\n-- The triggers for these only run when the inspection is happening so they save\r\n-- having to be processed all of the time.\r\nlua:EnableGroup(\"Inspect\")\r\n\r\n-- Reset the counter\r\nglobal.inspect_counter = 0\r\nglobal.inspect_results = { }\r\nglobal.inspect_results[95] = \"\"\r\nglobal.inspect_results[96] = \"\"\r\nglobal.inspect_results[97] = \"\"\r\nglobal.inspect_results[98] = \"\"\r\nglobal.inspect_results[99] = \"\"\r\nglobal.inspect_results[100] = \"\"\r\n\r\nif keywordTwo ~= \"\" then\r\n\tkeyword = keyword .. \" \" .. keywordTwo\r\nend\r\n\r\n-- Loop through all of the items requested.\r\nfor i = tonumber(artStart), tonumber(artEnd), 1 \r\ndo\r\n\t-- The global will allow us to echo what number the item is\r\n\t-- when the trigger hits\r\n\tglobal.inspect_counter = i\r\n\t\r\n\t-- Send the inspect command to the game\r\n    lua:Send(\"inspect \" .. i .. \".\" .. keyword)\r\n    \r\n    -- Important, we pause for a half a second, this is important because the game\r\n    -- has to respond so we can echo to the terminal if there is a match and what\r\n    -- index that match was (so the person can buy that specific item).  Increase\r\n    -- this number on laggy connections or if they're not getting the data back from\r\n    -- the mud in time.\r\n    lua:Sleep(750)\r\nend\r\n\r\n-- Display the output of the results of what the trigger collected.\r\nlua:Echo(\"\")\r\nlua:Echo(\"Inspection Results for \" .. keyword .. \" at \" .. lua:GetVariable(\"Room\"))\r\nlua:Echo(\"-------------------------------------------------------------------\")\r\n\r\nfor i = 100, 95, -1\r\ndo\r\n\tlua:Echo(i .. \"%\")\r\n\tlua:Echo(lua:TrimEnd(lua:Coalesce(global.inspect_results[i], \"None\"), \",\"))\r\n\tlua:Echo(\"\")\r\nend\r\n\r\n-- Cleanup the results.\r\nglobal.inspect_results = { }\r\n\r\n-- Disable the inspection trigger so it doesn't fire on a regular basis\r\nlua:DisableGroup(\"Inspect\")",
       "Enabled": true,
       "Character": "",
       "Group": "",
       "IsLua": true,
+      "ExecuteAs": 1,
       "Lock": false,
       "Count": 0,
       "PackageId": ""
@@ -21,12 +23,13 @@
   ],
   "TriggerList": [
     {
-      "Command": "global.inspect_results[%1] = global.inspect_results[%1] .. global.inspect_counter .. \",\"\r\n\r\n-- Echo the number we're on above the item.\r\nlua:EchoEvent(\"#\" .. global.inspect_counter .. \" is \" .. %1 .. \"%\")",
+      "Command": "local argOne = getarg(1, ...)\r\nlocal index = tonumber(argOne)\r\n\r\nglobal.inspect_results[index] = global.inspect_results[index] .. global.inspect_counter .. \",\"\r\n\r\n-- Echo the number we're on above the item.\r\nlua:EchoEvent(\"#\" .. global.inspect_counter .. \" is \" .. argOne .. \"%\")",
       "Pattern": "Condition: excellent \\((95|96|97|98|99|100)%\\)",
       "Character": "",
       "Group": "Inspect",
       "IsSilent": false,
       "IsLua": true,
+      "ExecuteAs": 1,
       "Plugin": false,
       "DisableAfterTriggered": false,
       "Lock": false,

@@ -16,6 +16,7 @@
       "Group": "Immortal",
       "IsSilent": false,
       "IsLua": false,
+      "ExecuteAs": 0,
       "Plugin": false,
       "DisableAfterTriggered": false,
       "Lock": false,
