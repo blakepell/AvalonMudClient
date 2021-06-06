@@ -11,6 +11,7 @@ using Avalon.Lua;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using ModernWpf.Controls;
+using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
@@ -137,6 +138,72 @@ namespace Avalon
                     _completionWindow.Show();
                     _completionWindow.Closed += (sender, args) => _completionWindow = null;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Escapes either the selected text or the entire text box.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemEscapeString_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // If a selection, just do that, otherwise, do the whole thing.
+                if (AvalonLuaEditor.SelectionLength > 0)
+                {
+                    string str = AvalonLuaEditor.SelectedText;
+                    int startPos = AvalonLuaEditor.SelectionStart;
+                    int len = AvalonLuaEditor.SelectionLength;
+                    string escapedText = JsonConvert.ToString(AvalonLuaEditor.Text.Substring(startPos, len));
+
+                    AvalonLuaEditor.Delete();
+                    AvalonLuaEditor.Document.Insert(startPos, escapedText);
+                }
+                else
+                {
+                    AvalonLuaEditor.Text = JsonConvert.ToString(AvalonLuaEditor.Text);
+                }
+
+                this.StatusText = "";
+            }
+            catch (System.Exception ex)
+            {
+                this.StatusText = $"Error escaping string: {ex.Message}";
+            }
+        }
+
+        /// <summary>
+        /// Unescapes the selectect text or the entire box.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemUnescapeString_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // If a selection, just do that, otherwise, do the whole thing.
+                if (AvalonLuaEditor.SelectionLength > 0)
+                {
+                    string str = AvalonLuaEditor.SelectedText;
+                    int startPos = AvalonLuaEditor.SelectionStart;
+                    int len = AvalonLuaEditor.SelectionLength;
+                    string unescapedText = JsonConvert.DeserializeObject<string>(AvalonLuaEditor.Text.Substring(startPos, len));
+
+                    AvalonLuaEditor.Delete();
+                    AvalonLuaEditor.Document.Insert(startPos, unescapedText);
+                }
+                else
+                {
+                    AvalonLuaEditor.Text = JsonConvert.DeserializeObject<string>(AvalonLuaEditor.Text);
+                }
+
+                this.StatusText = "";
+            }
+            catch (System.Exception ex)
+            {
+                this.StatusText = $"Error unescaping string: {ex.Message}";
             }
         }
 
