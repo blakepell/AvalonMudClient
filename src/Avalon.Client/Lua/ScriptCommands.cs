@@ -178,6 +178,32 @@ namespace Avalon.Lua
         }
 
         /// <summary>
+        /// Echos text to the specified terminal.
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="term"></param>
+        [Description("Writes text to the specified terminal. The TerminalTarget an enum but accepts the numeric value.")]
+        public void Echo(string msg, TerminalTarget term)
+        {
+            if (msg == null)
+            {
+                return;
+            }
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var line = new Line
+                {
+                    FormattedText = $"{msg}\r\n",
+                    ForegroundColor = AnsiColors.Default,
+                    IgnoreLastColor = true
+                };
+
+                _interpreter.Conveyor.EchoText(line, term);
+            });
+        }
+
+        /// <summary>
         /// Echos text to the main terminal.
         /// </summary>
         /// <param name="msg"></param>

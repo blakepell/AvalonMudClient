@@ -18,6 +18,7 @@ local dir = lua.RandomChoice({"north", "south"});
 |lua.HideVariable|(string) key|Hides a variable in the variable repeater if the key is found.
 |lua.RemoveVariable|(string) key|Removes a global variable.|
 |lua.Echo|(string) text|Echos text to the terminal window.|
+|lua.Echo|(string) msg, (int) terminal|Echos text to the specified terminal in the main client window.|
 |lua.Echo|(string) msg, (string color), (bool) reverse|Echos text to the terminal window in a given color.|
 |lua.EchoEvent|(string) text|Echos text to the terminal window.|
 |lua.EchoWindow|(string) windowName, (string) text|Appends text to a pop up terminal window.  The window must already exist with the specified name.|
