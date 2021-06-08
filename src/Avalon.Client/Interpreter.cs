@@ -239,6 +239,41 @@ namespace Avalon
         }
 
         /// <summary>
+        /// Sends a command string to the mud and does not do typical line processing like splitting commands, identifying
+        /// if an alias was run, identifying if a hash command was run or tracking the spam guard.
+        /// </summary>
+        /// <param name="cmd">The raw unprocessed command to send.</param>
+        /// <param name="silent">Whether the commands should be outputted to the game window.</param>
+        public async Task SendRaw(string cmd, bool silent)
+        {
+            if (Telnet == null)
+            {
+                Conveyor.EchoLog("You are not connected to the game.", LogType.Error);
+                return;
+            }
+
+            // Show the command in the window that was sent.
+            if (!silent)
+            {
+                EchoText(cmd, AnsiColors.Yellow);
+            }
+
+            try
+            {
+                await Telnet.SendAsync(cmd);
+            }
+            catch (Exception ex)
+            {
+                App.Conveyor.EchoError(ex.Message);
+
+                if (this.Telnet == null || !this.Telnet.IsConnected())
+                {
+                    App.Conveyor.SetText("Disconnected from server.", TextTarget.StatusBarText);
+                }
+            }
+        }
+
+        /// <summary>
         /// Connects to the mud server.  Requires that the event handlers for required events be passed in here where they will
         /// be wired up.
         /// </summary>        

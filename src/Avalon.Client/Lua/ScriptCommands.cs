@@ -69,6 +69,24 @@ namespace Avalon.Lua
         }
 
         /// <summary>
+        /// Sends a raw unprocessed command to the server.
+        /// </summary>
+        /// <param name="cmd"></param>
+        [Description("Sends raw unprocessed text to the server.")]
+        public async void SendRaw(string cmd)
+        {
+            if (cmd == null)
+            {
+                return;
+            }
+
+            Application.Current.Dispatcher.Invoke(new Action(async () =>
+            {
+                await _interpreter.SendRaw(cmd, false);
+            }));
+        }
+
+        /// <summary>
         /// Gets a <see cref="Variable"/> from the profile's global variable list.
         /// </summary>
         /// <param name="key"></param>

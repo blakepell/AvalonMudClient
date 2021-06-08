@@ -33,6 +33,13 @@ namespace Avalon.Common.Interfaces
         Task Send(string cmd, bool silent, bool addToInputHistory);
 
         /// <summary>
+        /// Sends raw unprocessed text to the server.
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <param name="silent">Whether the commands should be outputted to the game window.</param>
+        Task SendRaw(string cmd, bool silent);
+
+        /// <summary>
         /// Connects to the mud server.  Requires that the event handlers for required events be passed in here where they will
         /// be wired up.
         /// </summary>        
