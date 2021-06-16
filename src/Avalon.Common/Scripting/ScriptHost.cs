@@ -7,6 +7,8 @@
  * @license           : MIT
  */
 
+using Argus.Extensions;
+using Cysharp.Text;
 using System;
 
 namespace Avalon.Common.Scripting
@@ -82,6 +84,42 @@ namespace Avalon.Common.Scripting
         {
             MoonSharp?.Reset();
             //NLua?.Reset();
+        }
+
+        /// <summary>
+        /// Returns a supported function name for the provided function name.  When wrapping functions
+        /// with dynamic names a Guid might be used (and this will clean that value up so that all
+        /// scripting environments should be supported by it).
+        /// </summary>
+        /// <param name="functionName">A function name that will remove unsupported characters.</param>
+        /// <param name="prefix">Prefix to help identify where the function was loaded from in case the user
+        /// has different parts of the programming creating functions.</param>
+        public static string GetFunctionName(string functionName, string prefix = null)
+        {
+            using (var sb = ZString.CreateStringBuilder())
+            {
+                sb.Append("func_");
+
+                if (!string.IsNullOrWhiteSpace(prefix))
+                {
+                    sb.Append(prefix);
+                    sb.Append('_');
+                }
+
+                for (int i = 0; i < functionName.Length; i++)
+                {
+                    if (functionName[i].IsLetter() || functionName[i].IsNumber())
+                    {
+                        sb.Append(functionName[i]);
+                    }
+                    else if (functionName[i].Equals('-'))
+                    {
+                        sb.Append('_');
+                    }
+                }
+
+                return sb.ToString();
+            }
         }
     }
 }

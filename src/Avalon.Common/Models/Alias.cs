@@ -8,8 +8,10 @@
  */
 
 using Avalon.Common.Interfaces;
+using Avalon.Common.Scripting;
 using System;
 using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace Avalon.Common.Models
 {
@@ -22,13 +24,14 @@ namespace Avalon.Common.Models
 
         public Alias()
         {
-
+            this.Id = Guid.NewGuid().ToString();
         }
 
         public Alias(string aliasExpression, string command)
         {
             this.AliasExpression = aliasExpression;
             this.Command = command;
+            this.Id = Guid.NewGuid().ToString();
         }
 
         public Alias(string aliasExpression, string command, string group)
@@ -36,6 +39,7 @@ namespace Avalon.Common.Models
             this.AliasExpression = aliasExpression;
             this.Command = command;
             this.Group = group;
+            this.Id = Guid.NewGuid().ToString();
         }
 
         /// <inheritdoc />
@@ -76,6 +80,46 @@ namespace Avalon.Common.Models
         /// <inheritdoc />
         public bool IsLua { get; set; } = false;
 
+        private string _id;
+
+        /// <inheritdoc />
+        public string Id
+        {
+            get
+            {
+                return _id;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    this.FunctionName = ScriptHost.GetFunctionName(value, "a");
+                }
+
+                _id = value;
+                OnPropertyChanged(nameof(Id));
+            }
+        }
+
+        private string _functionName;
+
+        /// <summary>
+        /// The name of the function for the OnMatchedEvent.
+        /// </summary>
+        [JsonIgnore]
+        public string FunctionName
+        {
+            get => _functionName; 
+            set
+            {
+                if (value == null)
+                {
+                    return;
+                }
+
+                _functionName = value;
+            }
+        }
 
         private ExecuteType _executeType = ExecuteType.Command;
 

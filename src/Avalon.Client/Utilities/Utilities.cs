@@ -47,6 +47,12 @@ namespace Avalon.Utilities
                             trigger.ExecuteAs = ExecuteType.LuaMoonsharp;
                         }
                     }
+
+                    // In case any of the function names are null or blank, set them up based off of the ID.
+                    if (string.IsNullOrWhiteSpace(trigger.FunctionName))
+                    {
+                        trigger.FunctionName = Avalon.Common.Scripting.ScriptHost.GetFunctionName(trigger.Identifier, "tr");
+                    }
                 }
             }
         }
@@ -64,6 +70,12 @@ namespace Avalon.Utilities
                     if (alias.IsLua && alias.ExecuteAs == ExecuteType.Command)
                     {
                         alias.ExecuteAs = ExecuteType.LuaMoonsharp;
+                    }
+
+                    // In case any of the function names are null or blank, set them up based off of the ID.
+                    if (string.IsNullOrWhiteSpace(alias.FunctionName))
+                    {
+                        alias.FunctionName = Avalon.Common.Scripting.ScriptHost.GetFunctionName(alias.Id, "a");
                     }
                 }
             }

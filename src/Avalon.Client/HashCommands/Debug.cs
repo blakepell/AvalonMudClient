@@ -14,6 +14,7 @@ using MoonSharp.Interpreter;
 using System;
 using System.Threading.Tasks;
 using Avalon.Common.Models;
+using Argus.Extensions;
 
 namespace Avalon.HashCommands
 {
@@ -21,7 +22,7 @@ namespace Avalon.HashCommands
     {
         public Debug(IInterpreter interp) : base(interp)
         {
-            this.IsAsync = true;
+            this.IsAsync = false;
         }
 
         private DynValue Code { get; set; }
@@ -37,18 +38,33 @@ namespace Avalon.HashCommands
 
         public override void Execute()
         {
-//            var cmds = new Avalon.Lua.ScriptCommands(this.Interpreter, new Random());
-//            var engine = new NLuaEngine();
-//            engine.RegisterObject<ScriptCommands>(cmds, "lua");
-            
-//            engine.Execute<object>($@"
-//lua:LogInfo(""{{GN{{gLua{{x"")
-//x
-//for i = 1, 5 do
-//    lua:LogInfo(tostring(i))
-//    lua:Pause(1000)
-//end
-//");
+            foreach (var item in App.Settings.ProfileSettings.AliasList)
+            {
+                App.Conveyor.EchoLog($"Alias={item.AliasExpression} Id={item.Id}, func={item.FunctionName}", LogType.Debug);
+            }
+
+            foreach (var item in App.Settings.ProfileSettings.TriggerList)
+            {
+                App.Conveyor.EchoLog($"Trigger={item.Pattern.SafeLeft(10)}... Id={item.Identifier}, func={item.FunctionName}", LogType.Debug);
+            }
+
+            foreach (var item in App.MainWindow.Interp.ScriptHost.MoonSharp.Functions)            
+            {
+                App.Conveyor.EchoLog($"Function={item.Key}", LogType.Debug);
+            }
+
+            //            var cmds = new Avalon.Lua.ScriptCommands(this.Interpreter, new Random());
+            //            var engine = new NLuaEngine();
+            //            engine.RegisterObject<ScriptCommands>(cmds, "lua");
+
+            //            engine.Execute<object>($@"
+            //lua:LogInfo(""{{GN{{gLua{{x"")
+            //x
+            //for i = 1, 5 do
+            //    lua:LogInfo(tostring(i))
+            //    lua:Pause(1000)
+            //end
+            //");
         }
 
         //App.Conveyor.EchoText(sw.ElapsedMilliseconds + "\n", TerminalTarget.Terminal1);

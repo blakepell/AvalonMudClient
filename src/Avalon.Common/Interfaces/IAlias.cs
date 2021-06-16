@@ -17,6 +17,14 @@ namespace Avalon.Common.Interfaces
     /// </summary>
     public interface IAlias
     {
+        /// <summary>
+        /// A unique identifier that does not change even when the alias <see cref="AliasExpression"/> changes.
+        /// </summary>
+        string Id { get; set; }
+
+        /// <summary>
+        /// The expression which fires off this <see cref="Alias"/>.
+        /// </summary>
         string AliasExpression { get; set; }
 
         /// <summary>

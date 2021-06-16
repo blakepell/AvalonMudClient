@@ -12,7 +12,6 @@ using Avalon.Colors;
 using Avalon.Common.Colors;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
-using Avalon.Common.Triggers;
 using Avalon.Extensions;
 using MahApps.Metro.IconPacks;
 using System;

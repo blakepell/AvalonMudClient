@@ -83,7 +83,6 @@ namespace Avalon
             {
                 { 0, "Command" },
                 { 1, "Lua: MoonSharp" },
-                { 2, "Lua: NLua" }
             };
 
             ComboBoxExecuteAs.ItemsSource = dictExecuteAs;

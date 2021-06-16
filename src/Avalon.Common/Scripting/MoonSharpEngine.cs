@@ -208,15 +208,18 @@ namespace Avalon.Common.Scripting
             {
                 string md5 = Argus.Cryptography.HashUtilities.MD5Hash(code);
 
+                // If the function name exists in the list and MD5 matches then get out, it's good.
                 if (string.Equals(md5, this.Functions[functionName].Md5Hash))
                 {
                     return;
                 }
 
+                // The code was changed so we're going to need to update it.
                 update = true;
             }
             else
             {
+                // The code didn't exist at all, we're going to need to load it.
                 update = false;
             }
 
@@ -229,6 +232,9 @@ namespace Avalon.Common.Scripting
                     this.MemoryPool.Return(lua);
                 }
 
+                // Insert or update the script against all existing items in the memory pool.  There
+                // is a chance a script object could be in use and in that case it will need to be
+                // loaded later when it's returned.
                 this.MemoryPool.InvokeAll((script) =>
                 {
                     if (update)
@@ -348,7 +354,7 @@ namespace Avalon.Common.Scripting
         /// <param name="args"></param>
         public async Task<T> ExecuteFunctionAsync<T>(string functionName, string code, params string[] args)
         {
-            functionName = GetFunctionName(functionName);
+            functionName = ScriptHost.GetFunctionName(functionName);
             this.LoadFunction(functionName, code);
 
             // Gets a new or used but ready instance of the a Lua object to use.
@@ -412,7 +418,7 @@ namespace Avalon.Common.Scripting
         /// <param name="args">Any param arguments to pass to the function.</param>
         public T ExecuteFunction<T>(string functionName, string code, params string[] args)
         {
-            functionName = GetFunctionName(functionName);
+            functionName = ScriptHost.GetFunctionName(functionName);
             this.LoadFunction(functionName, code);
 
             // Gets a new or used but ready instance of the a Lua object to use.
@@ -621,32 +627,6 @@ namespace Avalon.Common.Scripting
                     Success = false,
                     Exception = ex
                 };
-            }
-        }
-
-        /// <summary>
-        /// Returns the name of a function.
-        /// </summary>
-        /// <param name="functionName"></param>
-        private string GetFunctionName(string functionName)
-        {
-            using (var sb = ZString.CreateStringBuilder())
-            {
-                sb.Append('x');
-
-                for (int i = 0; i < functionName.Length; i++)
-                {
-                    if (functionName[i].IsLetter() || functionName[i].IsNumber())
-                    {
-                        sb.Append(functionName[i]);
-                    }
-                    else if (functionName[i].Equals('-'))
-                    {
-                        sb.Append('_');
-                    }
-                }
-
-                return sb.ToString();
             }
         }
     }

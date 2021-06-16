@@ -205,7 +205,11 @@ namespace Avalon.Common.Triggers
             }
             set
             {
-                this.FunctionName = string.Concat("x", value.Replace("-", "").DeleteLeft(1));
+                if (value != null)
+                {
+                    this.FunctionName = ScriptHost.GetFunctionName(value, "tr");
+                }
+
                 _identifier = value;
                 OnPropertyChanged(nameof(Identifier));
             }
