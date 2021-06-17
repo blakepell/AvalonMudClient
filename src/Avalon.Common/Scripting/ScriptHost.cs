@@ -112,7 +112,7 @@ namespace Avalon.Common.Scripting
                     {
                         sb.Append(functionName[i]);
                     }
-                    else if (functionName[i].Equals('-'))
+                    else if (functionName[i].Equals('-') || functionName[i].Equals('_'))
                     {
                         sb.Append('_');
                     }

@@ -76,22 +76,32 @@ namespace Avalon
                 App.MainWindow.ViewModel.LuaScriptsActive = this.ScriptHost.Statistics.ScriptsActive;
             };
 
-            this.ScriptHost.MoonSharp.ExceptionHandler = (ex) =>
+            this.ScriptHost.MoonSharp.ExceptionHandler = (exd) =>
             {
                 // InterpreterException's give us more info, like the line number and column the
                 // error occurred on.
-                if (ex is InterpreterException luaEx)
+                if (exd.Exception is InterpreterException luaEx)
                 {
                     this.Conveyor.EchoError($"Lua Exception: {luaEx.DecoratedMessage}");
                 }
                 else
                 {
-                    this.Conveyor.EchoError($"Lua Exception: {ex.Message}");
+                    this.Conveyor.EchoError($"Lua Exception: {exd.Exception.Message}");
                 }
 
-                if (ex.InnerException is InterpreterException innerEx)
+                if (exd.Exception.InnerException is InterpreterException innerEx)
                 {
                     this.Conveyor.EchoError($"Lua Inner Exception: {innerEx?.DecoratedMessage}");
+                }
+
+                if (!string.IsNullOrWhiteSpace(exd.FunctionName))
+                {
+                    this.Conveyor.EchoError($"Lua Function: {exd.FunctionName}");
+                }
+
+                if (!string.IsNullOrWhiteSpace(exd.Description))
+                {
+                    this.Conveyor.EchoDebug($"Lua Internal Data: {exd.Description}");
                 }
             };
 

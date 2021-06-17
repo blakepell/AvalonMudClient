@@ -36,7 +36,7 @@ namespace Avalon.Common.Scripting
         public Dictionary<string, object> SharedObjects { get; set; } = new();
 
         /// <inheritdoc cref="ExceptionHandler"/>
-        public Action<Exception> ExceptionHandler { get; set; }
+        public Action<ScriptExceptionData> ExceptionHandler { get; set; }
 
         /// <summary>
         /// Event for before a script executes.
@@ -119,7 +119,14 @@ namespace Avalon.Common.Scripting
                 }
                 catch (Exception ex)
                 {
-                    this?.ExceptionHandler(ex);
+                    var exd = new ScriptExceptionData
+                    {
+                        Exception = ex,
+                        FunctionName = func.Key,
+                        Description = $"InitializeScript: Error Loading {func.Key}"
+                    };
+
+                    this?.ExceptionHandler(exd);
                 }
             }
         }
@@ -260,7 +267,14 @@ namespace Avalon.Common.Scripting
             }
             catch (Exception ex)
             {
-                this?.ExceptionHandler(ex);
+                var exd = new ScriptExceptionData
+                {
+                    Exception = ex,
+                    FunctionName = functionName,
+                    Description = $"LoadFunction: {functionName}"
+                };
+
+                this?.ExceptionHandler(exd);
                 throw;
             }
         }
@@ -286,7 +300,14 @@ namespace Avalon.Common.Scripting
             }
             catch (Exception ex)
             {
-                this?.ExceptionHandler(ex);
+                var exd = new ScriptExceptionData
+                {
+                    Exception = ex,
+                    FunctionName = "",
+                    Description = $"Execute<T>"
+                };
+
+                this?.ExceptionHandler(exd);
                 throw;
             }
             finally
@@ -321,7 +342,14 @@ namespace Avalon.Common.Scripting
             }
             catch (Exception ex)
             {
-                this?.ExceptionHandler(ex);
+                var exd = new ScriptExceptionData
+                {
+                    Exception = ex,
+                    FunctionName = "",
+                    Description = $"ExecuteAsync<T>"
+                };
+
+                this?.ExceptionHandler(exd);
                 throw;
             }
             finally
@@ -354,7 +382,6 @@ namespace Avalon.Common.Scripting
         /// <param name="args"></param>
         public async Task<T> ExecuteFunctionAsync<T>(string functionName, string code, params string[] args)
         {
-            functionName = ScriptHost.GetFunctionName(functionName);
             this.LoadFunction(functionName, code);
 
             // Gets a new or used but ready instance of the a Lua object to use.
@@ -366,11 +393,17 @@ namespace Avalon.Common.Scripting
             // If the function doesn't exist load it with the code provided.
             if (fnc.IsNil())
             {
-                var notFoundException = new Exception($"Function '{functionName}' was not loaded.");
-                this?.ExceptionHandler(notFoundException);
+                var exd = new ScriptExceptionData
+                {
+                    Exception = new Exception($"Function '{functionName}' was not found after it was loaded."),
+                    FunctionName = functionName,
+                    Description = $"ExecuteFunctionAsync<T>: Error Loading {functionName}"
+                };
+
+                this?.ExceptionHandler(exd);
                 MemoryPool.Return(lua);
 
-                throw notFoundException;
+                throw exd.Exception;
             }
 
             DynValue ret;
@@ -385,7 +418,14 @@ namespace Avalon.Common.Scripting
             }
             catch (Exception ex)
             {
-                this?.ExceptionHandler(ex);
+                var exd = new ScriptExceptionData
+                {
+                    Exception = ex,
+                    FunctionName = functionName,
+                    Description = $"ExecuteFunctionAsync<T>: Error running function {functionName}"
+                };
+
+                this?.ExceptionHandler(exd);
                 throw;
             }
             finally
@@ -418,7 +458,6 @@ namespace Avalon.Common.Scripting
         /// <param name="args">Any param arguments to pass to the function.</param>
         public T ExecuteFunction<T>(string functionName, string code, params string[] args)
         {
-            functionName = ScriptHost.GetFunctionName(functionName);
             this.LoadFunction(functionName, code);
 
             // Gets a new or used but ready instance of the a Lua object to use.
@@ -430,11 +469,17 @@ namespace Avalon.Common.Scripting
             // If the function doesn't exist load it with the code provided.
             if (fnc.IsNil())
             {
-                var notFoundException = new Exception($"Function '{functionName}' was not loaded.");
-                this?.ExceptionHandler(notFoundException);
+                var exd = new ScriptExceptionData
+                {
+                    Exception = new Exception($"Function '{functionName}' was not found after it was loaded."),
+                    FunctionName = functionName,
+                    Description = $"ExecuteFunction<T>: Error Loading {functionName}"
+                };
+
+                this?.ExceptionHandler(exd);
                 MemoryPool.Return(lua);
 
-                throw notFoundException;
+                throw exd.Exception;
             }
 
             DynValue ret;
@@ -448,7 +493,14 @@ namespace Avalon.Common.Scripting
             }
             catch (Exception ex)
             {
-                this?.ExceptionHandler(ex);
+                var exd = new ScriptExceptionData
+                {
+                    Exception = ex,
+                    FunctionName = functionName,
+                    Description = $"ExecuteFunction<T>: Error running function {functionName}"
+                };
+
+                this?.ExceptionHandler(exd);
                 throw;
             }
             finally
@@ -484,7 +536,14 @@ namespace Avalon.Common.Scripting
             }
             catch (Exception ex)
             {
-                this?.ExceptionHandler(ex);
+                var exd = new ScriptExceptionData
+                {
+                    Exception = ex,
+                    FunctionName = "",
+                    Description = $"ExecuteStatic<T>"
+                };
+
+                this?.ExceptionHandler(exd);
                 throw;
             }
             finally
@@ -520,7 +579,14 @@ namespace Avalon.Common.Scripting
             }
             catch (Exception ex)
             {
-                this?.ExceptionHandler(ex);
+                var exd = new ScriptExceptionData
+                {
+                    Exception = ex,
+                    FunctionName = "",
+                    Description = $"ExecuteStaticAsync<T>"
+                };
+
+                this?.ExceptionHandler(exd);
                 throw;
             }
             finally

@@ -140,7 +140,7 @@ namespace Avalon.Common.Scripting
         /// script engine.  This allows for ease of use in exception handling when a fire and
         /// forget async call is made.
         /// </summary>
-        Action<Exception> ExceptionHandler { get; set; }
+        Action<ScriptExceptionData> ExceptionHandler { get; set; }
 
     }
 }
