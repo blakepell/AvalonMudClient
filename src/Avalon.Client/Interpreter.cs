@@ -403,7 +403,7 @@ namespace Avalon
                     if (alias.IsLua || alias.ExecuteAs == ExecuteType.LuaMoonsharp)
                     {
                         list.Clear();
-                        _ = this.ScriptHost.MoonSharp.ExecuteFunctionAsync<object>(alias.AliasExpression, alias.Command, item.Split(' ', StringSplitOptions.RemoveEmptyEntries));
+                        _ = this.ScriptHost.MoonSharp.ExecuteFunctionAsync<object>(alias.FunctionName, alias.Command, item.Split(' ', StringSplitOptions.RemoveEmptyEntries));
 
                         return list;
                     }
