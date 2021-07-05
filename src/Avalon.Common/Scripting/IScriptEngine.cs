@@ -39,14 +39,6 @@ namespace Avalon.Common.Scripting
         public void RegisterObject<T>(Type t, object item, string prefix);
 
         /// <summary>
-        /// Loads a function into the script engine and/or all instances of the script engines in
-        /// memory pools that exist.
-        /// </summary>
-        /// <param name="functionName"></param>
-        /// <param name="code"></param>
-        void LoadFunction(string functionName, string code);
-
-        /// <summary>
         /// Executes code synchronously and returns <see cref="T"/> or null based.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -67,14 +59,6 @@ namespace Avalon.Common.Scripting
         /// <param name="functionName"></param>
         /// <param name="code"></param>
         /// <param name="args"></param>
-        Task<T> ExecuteFunctionAsync<T>(string functionName, string code, params string[] args);
-
-        /// <summary>
-        /// Executes a function.  If the function isn't stored a copy will be loaded.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="functionName"></param>
-        /// <param name="args"></param>
         Task<T> ExecuteFunctionAsync<T>(string functionName, params string[] args);
 
         /// <summary>
@@ -84,15 +68,7 @@ namespace Avalon.Common.Scripting
         /// <param name="functionName"></param>
         /// <param name="code"></param>
         /// <param name="args"></param>
-        public T ExecuteFunction<T>(string functionName, string code, params string[] args);
-
-        /// <summary>
-        /// Executes a function.  If the function isn't stored a copy will be loaded.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="functionName"></param>
-        /// <param name="args"></param>
-        T ExecuteFunction<T>(string functionName, params string[] args);
+        public T ExecuteFunction<T>(string functionName, params string[] args);
 
         /// <summary>
         /// Executes code in a new static instance of the script environment that will be 

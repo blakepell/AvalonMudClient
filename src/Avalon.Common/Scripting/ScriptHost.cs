@@ -10,6 +10,8 @@
 using Argus.Extensions;
 using Cysharp.Text;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Avalon.Common.Scripting
 {
@@ -23,15 +25,16 @@ namespace Avalon.Common.Scripting
         /// </summary>
         public MoonSharpEngine MoonSharp { get; set; }
 
-        ///// <summary>
-        ///// NLua Lua Engine.
-        ///// </summary>
-        //public NLuaEngine NLua { get; set; }
-
         /// <summary>
         /// The number of scripts that are currently active between all environments.
         /// </summary>
         public ScriptStatistics Statistics { get; }
+
+        /// <summary>
+        /// A list of current instances of any scripts so Script objects from the memory pool can pull
+        /// from here when they need a new copy.  The key will be the function name.
+        /// </summary>
+        public Dictionary<string, SourceCode> SourceCodeIndex { get; set; } = new Dictionary<string, SourceCode>();
 
         /// <summary>
         /// Creates a new instance of the <see cref="ScriptHost"/> with all scripting environments
@@ -40,7 +43,6 @@ namespace Avalon.Common.Scripting
         public ScriptHost()
         {
             this.MoonSharp = new MoonSharpEngine(this);
-            //this.NLua = new NLuaEngine(this);
             this.Statistics = new ScriptStatistics();
         }
 
@@ -49,18 +51,12 @@ namespace Avalon.Common.Scripting
         /// environments initialized for use.
         /// </summary>
         /// <param name="enableMoonSharp"></param>
-        /// <param name="enableNLua"></param>
-        public ScriptHost(bool enableMoonSharp, bool enableNLua)
+        public ScriptHost(bool enableMoonSharp)
         {
             if (enableMoonSharp)
             {
                 this.MoonSharp = new MoonSharpEngine(this);
             }
-
-            //if (enableNLua)
-            //{
-            //    this.NLua = new NLuaEngine(this);
-            //}
 
             this.Statistics = new ScriptStatistics();
         }
@@ -74,7 +70,6 @@ namespace Avalon.Common.Scripting
         public void RegisterObject<T>(Type t, object item, string prefix)
         {
             MoonSharp?.RegisterObject<T>(t, item, prefix);
-            //NLua?.RegisterObject<T>(t, item, prefix);
         }
 
         /// <summary>
@@ -83,7 +78,17 @@ namespace Avalon.Common.Scripting
         public void Reset()
         {
             MoonSharp?.Reset();
-            //NLua?.Reset();
+            SourceCodeIndex.Clear();
+        }
+
+        /// <summary>
+        /// Saves a function into the global code index used to sync scripts across
+        /// scripting environments and memory pool entries of scripting environments.
+        /// </summary>
+        /// <param name="src"></param>
+        public void AddFunction(SourceCode src)
+        {
+            this.SourceCodeIndex[src.FunctionName] = src;
         }
 
         /// <summary>

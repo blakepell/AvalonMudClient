@@ -19,6 +19,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 using Avalon.Common.Models;
+using Avalon.Common.Scripting;
 
 namespace Avalon.Utilities
 {
@@ -53,6 +54,12 @@ namespace Avalon.Utilities
                     {
                         trigger.FunctionName = Avalon.Common.Scripting.ScriptHost.GetFunctionName(trigger.Identifier, "tr");
                     }
+
+                    // Load the scripts into the scripting environment.
+                    if (trigger.ExecuteAs == ExecuteType.LuaMoonsharp)
+                    {
+                        App.MainWindow.Interp.ScriptHost.AddFunction(new SourceCode(trigger.Command, trigger.FunctionName, ScriptType.MoonSharpLua));
+                    }
                 }
             }
         }
@@ -76,6 +83,12 @@ namespace Avalon.Utilities
                     if (string.IsNullOrWhiteSpace(alias.FunctionName))
                     {
                         alias.FunctionName = Avalon.Common.Scripting.ScriptHost.GetFunctionName(alias.Id, "a");
+                    }
+
+                    // Load the scripts into the scripting environment.
+                    if (alias.ExecuteAs == ExecuteType.LuaMoonsharp)
+                    {
+                        App.MainWindow.Interp.ScriptHost.AddFunction(new SourceCode(alias.Command, alias.FunctionName, ScriptType.MoonSharpLua));
                     }
                 }
             }

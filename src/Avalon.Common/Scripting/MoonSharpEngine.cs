@@ -49,11 +49,6 @@ namespace Avalon.Common.Scripting
         public EventHandler<EventArgs> PostScriptExecute { get; set; }
 
         /// <summary>
-        /// The list of functions and code which have been loaded into this environment.
-        /// </summary>
-        public Dictionary<string, SourceCode> Functions { get; set; } = new();
-
-        /// <summary>
         /// <inheritdoc cref="ScriptHost"/>
         /// </summary>
         public ScriptHost ScriptHost { get; set; }
@@ -102,33 +97,6 @@ namespace Avalon.Common.Scripting
 
             // Set the global variables that are specifically only available in Lua.
             script.Globals["global"] = this.GlobalVariables;
-
-            // Try to load all the functions we have stored.
-            foreach (var func in this.Functions)
-            {
-                try
-                {
-                    using (var sb = ZString.CreateStringBuilder())
-                    {
-                        sb.AppendFormat("function {0}(...)\n", func.Key);
-                        sb.Append(func.Value.Code);
-                        sb.Append("\nend");
-
-                        _ = script.DoString(sb.ToString(), codeFriendlyName: func.Key);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    var exd = new ScriptExceptionData
-                    {
-                        Exception = ex,
-                        FunctionName = func.Key,
-                        Description = $"InitializeScript: Error Loading {func.Key}"
-                    };
-
-                    this?.ExceptionHandler(exd);
-                }
-            }
         }
 
         /// <summary>
@@ -163,6 +131,7 @@ namespace Avalon.Common.Scripting
                 this.SharedObjects.Add(prefix, UserData.Create(item));
             }
 
+            // TODO, maybe clear here and refill.
             // Dynamic types from plugins that need to be added into anything currently
             // in the MemoryPool.  They will be added when new MemoryPool items are
             // initialized.
@@ -181,7 +150,6 @@ namespace Avalon.Common.Scripting
         /// <inheritdoc cref="Reset"/>
         public void Reset()
         {
-            this.Functions.Clear();
             MemoryPool.Clear();
             this.GlobalVariables = new MoonSharpGlobalVariables();
         }
@@ -193,90 +161,6 @@ namespace Avalon.Common.Scripting
         public void GarbageCollect()
         {
             GC.Collect(2, GCCollectionMode.Forced);
-        }
-
-        /// <summary>
-        /// Loads a function into all available script objects in the <see cref="MemoryPool"/>.
-        /// </summary>
-        /// <param name="functionName">The name of the function to call.</param>
-        /// <param name="code">The Lua code to load.</param>
-        public void LoadFunction(string functionName, string code)
-        {
-            bool update;
-
-            if (string.IsNullOrWhiteSpace(functionName) || string.IsNullOrWhiteSpace(code))
-            {
-                return;
-            }
-
-            // Check if the function has already been loaded and if it's the same copy.  If it is
-            // then we can ditch out of this early.
-            if (this.Functions.ContainsKey(functionName))
-            {
-                string md5 = Argus.Cryptography.HashUtilities.MD5Hash(code);
-
-                // If the function name exists in the list and MD5 matches then get out, it's good.
-                if (string.Equals(md5, this.Functions[functionName].Md5Hash))
-                {
-                    return;
-                }
-
-                // The code was changed so we're going to need to update it.
-                update = true;
-            }
-            else
-            {
-                // The code didn't exist at all, we're going to need to load it.
-                update = false;
-            }
-
-            try
-            {
-                // Init one new script so the memory pool has something to load the function on.
-                if (this.MemoryPool.Count() == 0)
-                {
-                    var lua = this.MemoryPool.Get();
-                    this.MemoryPool.Return(lua);
-                }
-
-                // Insert or update the script against all existing items in the memory pool.  There
-                // is a chance a script object could be in use and in that case it will need to be
-                // loaded later when it's returned.
-                this.MemoryPool.InvokeAll((script) =>
-                {
-                    if (update)
-                    {
-                        script.Globals.Remove(functionName);
-                    }
-
-                    using (var sb = ZString.CreateStringBuilder())
-                    {
-                        sb.AppendFormat("function {0}(...)\n", functionName);
-                        sb.Append(code);
-                        sb.Append("\nend");
-
-                        _ = script.DoString(sb.ToString(), codeFriendlyName: functionName);
-                    }
-                });
-
-                // When these are loaded from the get go there maybe nothing in the memory pool to run
-                // this against yet.  We will save this, but it could have errors associated with it.  If
-                // a script has an error, it won't get to here.  It has to have been loaded successfully
-                // for us to save it.
-                this.Functions[functionName] = new SourceCode(code);
-            }
-            catch (Exception ex)
-            {
-                var exd = new ScriptExceptionData
-                {
-                    Exception = ex,
-                    FunctionName = functionName,
-                    Description = $"LoadFunction: {functionName}"
-                };
-
-                this?.ExceptionHandler(exd);
-                throw;
-            }
         }
 
         /// <inheritdoc cref="Execute{T}"/>
@@ -362,28 +246,8 @@ namespace Avalon.Common.Scripting
             return ret.ToObject<T>();
         }
 
-        /// <summary>
-        /// Executes a function.  If the function isn't stored a copy will be loaded.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="functionName">The name of the function to call.</param>
-        /// <param name="args">Any param arguments to pass to the function.</param>
-        public Task<T> ExecuteFunctionAsync<T>(string functionName, params string[] args)
+        public async Task<T> ExecuteFunctionAsync<T>(string functionName, params string[] args)
         {
-            return this.ExecuteFunctionAsync<T>(functionName, "", args);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="functionName"></param>
-        /// <param name="code"></param>
-        /// <param name="args"></param>
-        public async Task<T> ExecuteFunctionAsync<T>(string functionName, string code, params string[] args)
-        {
-            this.LoadFunction(functionName, code);
-
             // Gets a new or used but ready instance of the a Lua object to use.
             var lua = MemoryPool.Get();
 
@@ -393,19 +257,84 @@ namespace Avalon.Common.Scripting
             // If the function doesn't exist load it with the code provided.
             if (fnc.IsNil())
             {
-                var exd = new ScriptExceptionData
+                // The script also doesn't exist in the source index, error
+                if (!this.ScriptHost.SourceCodeIndex.ContainsKey(functionName))
                 {
-                    Exception = new Exception($"Function '{functionName}' was not found after it was loaded."),
-                    FunctionName = functionName,
-                    Description = $"ExecuteFunctionAsync<T>: Error Loading {functionName}"
-                };
+                    var exd = new ScriptExceptionData
+                    {
+                        FunctionName = functionName,
+                        Description = $"ExecuteFunctionAsync<T>: (Lua) {functionName} not found in the source code index."
+                    };
 
-                this?.ExceptionHandler(exd);
-                MemoryPool.Return(lua);
+                    this?.ExceptionHandler(exd);
+                    throw new Exception($"ExecuteFunctionAsync<T>: (Lua) {functionName} not found.");
+                }
 
-                throw exd.Exception;
+                // Load the function
+                try
+                {
+                    _ = await lua.DoStringAsync(new ExecutionControlToken(), this.ScriptHost.SourceCodeIndex[functionName].AsFunctionString, codeFriendlyName: functionName);
+                }
+                catch (Exception ex)
+                {
+                    var exd = new ScriptExceptionData
+                    {
+                        Exception = ex,
+                        FunctionName = functionName,
+                        Description = $"ExecuteFunctionAsync<T>: (Lua) {functionName} failed to load."
+                    };
+
+                    this?.ExceptionHandler(exd);
+                    throw new Exception($"ExecuteFunctionAsync<T>: (Lua) {functionName} failed to load.");
+                }
+
+                // Track the hash for this function in this specific script instance.
+                lua.SourceCodeHashIndex[functionName] = this.ScriptHost.SourceCodeIndex[functionName].Md5Hash;
+
+                // Do the get again
+                fnc = lua.Globals.Get(functionName);
+
+                if (fnc.IsNil())
+                {
+                    var exd = new ScriptExceptionData
+                    {
+                        FunctionName = functionName,
+                        Description = $"ExecuteFunctionAsync<T>: (Lua) {functionName} not found after load."
+                    };
+
+                    this?.ExceptionHandler(exd);
+                    throw new Exception($"ExecuteFunctionAsync<T>: (Lua) {functionName} not found after load.");
+                }
+            }
+            else
+            {
+                // The script existed, let's see if it needs to be updated.
+                if (this.ScriptHost.SourceCodeIndex[functionName].Md5Hash != lua.SourceCodeHashIndex[functionName])
+                {
+                    // The MD5 hashes didn't match, out with the old and in with the new.
+                    lua.Globals.Remove(functionName);
+
+                    try
+                    {
+                        _ = await lua.DoStringAsync(new ExecutionControlToken(), this.ScriptHost.SourceCodeIndex[functionName].AsFunctionString, codeFriendlyName: functionName);
+                        fnc = lua.Globals.Get(functionName);
+                    }
+                    catch (Exception ex)
+                    {
+                        var exd = new ScriptExceptionData
+                        {
+                            Exception = ex,
+                            FunctionName = functionName,
+                            Description = $"ExecuteFunctionAsync<T>: (Lua) {functionName} failed to load."
+                        };
+
+                        this?.ExceptionHandler(exd);
+                        throw new Exception($"ExecuteFunctionAsync<T>: (Lua) {functionName} failed to load.");
+                    }
+                }
             }
 
+            // If we got here, we should have a valid function loaded and now all we have to do is execute it.
             DynValue ret;
 
             try
@@ -422,7 +351,7 @@ namespace Avalon.Common.Scripting
                 {
                     Exception = ex,
                     FunctionName = functionName,
-                    Description = $"ExecuteFunctionAsync<T>: Error running function {functionName}"
+                    Description = $"ExecuteFunctionAsync<T>: Lua Error running function {functionName}"
                 };
 
                 this?.ExceptionHandler(exd);
@@ -438,54 +367,100 @@ namespace Avalon.Common.Scripting
             return ret.ToObject<T>();
         }
 
-        /// <summary>
-        /// Executes a function.  If the function isn't stored a copy will be loaded.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="functionName">The name of the function to call.</param>
-        /// <param name="args">Any param arguments to pass to the function.</param>
         public T ExecuteFunction<T>(string functionName, params string[] args)
         {
-            return ExecuteFunction<T>(functionName, "", args);
-        }
-
-        /// <summary>
-        /// Executes a function.  If the function isn't stored a copy will be loaded.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="functionName">The name of the function to call.</param>
-        /// <param name="code">The Lua code to load if the function hasn't already been loaded.</param>
-        /// <param name="args">Any param arguments to pass to the function.</param>
-        public T ExecuteFunction<T>(string functionName, string code, params string[] args)
-        {
-            this.LoadFunction(functionName, code);
-
             // Gets a new or used but ready instance of the a Lua object to use.
             var lua = MemoryPool.Get();
 
             // Get the function reference.
-            DynValue fnc = lua.Globals.Get(functionName);
+            var fnc = lua.Globals.Get(functionName);
 
             // If the function doesn't exist load it with the code provided.
             if (fnc.IsNil())
             {
-                var exd = new ScriptExceptionData
+                // The script also doesn't exist in the source index, error
+                if (!this.ScriptHost.SourceCodeIndex.ContainsKey(functionName))
                 {
-                    Exception = new Exception($"Function '{functionName}' was not found after it was loaded."),
-                    FunctionName = functionName,
-                    Description = $"ExecuteFunction<T>: Error Loading {functionName}"
-                };
+                    var exd = new ScriptExceptionData
+                    {
+                        FunctionName = functionName,
+                        Description = $"ExecuteFunction<T>: (Lua) {functionName} not found in the source code index."
+                    };
 
-                this?.ExceptionHandler(exd);
-                MemoryPool.Return(lua);
+                    this?.ExceptionHandler(exd);
+                    throw new Exception($"ExecuteFunction<T>: (Lua) {functionName} not found.");
+                }
 
-                throw exd.Exception;
+                // Load the function
+                try
+                {
+                    _ = lua.DoString(this.ScriptHost.SourceCodeIndex[functionName].AsFunctionString, codeFriendlyName: functionName);
+                }
+                catch (Exception ex)
+                {
+                    var exd = new ScriptExceptionData
+                    {
+                        Exception = ex,
+                        FunctionName = functionName,
+                        Description = $"ExecuteFunction<T>: (Lua) {functionName} failed to load."
+                    };
+
+                    this?.ExceptionHandler(exd);
+                    throw new Exception($"ExecuteFunction<T>: (Lua) {functionName} failed to load.");
+                }
+
+                // Track the hash for this function in this specific script instance.
+                lua.SourceCodeHashIndex[functionName] = this.ScriptHost.SourceCodeIndex[functionName].Md5Hash;
+
+                // Do the get again
+                fnc = lua.Globals.Get(functionName);
+
+                if (fnc.IsNil())
+                {
+                    var exd = new ScriptExceptionData
+                    {
+                        FunctionName = functionName,
+                        Description = $"ExecuteFunction<T>: (Lua) {functionName} not found after load."
+                    };
+
+                    this?.ExceptionHandler(exd);
+                    throw new Exception($"ExecuteFunction<T>: (Lua) {functionName} not found after load.");
+                }
+            }
+            else
+            {
+                // The script existed, let's see if it needs to be updated.
+                if (this.ScriptHost.SourceCodeIndex[functionName].Md5Hash != lua.SourceCodeHashIndex[functionName])
+                {
+                    // The MD5 hashes didn't match, out with the old and in with the new.
+                    lua.Globals.Remove(functionName);
+
+                    try
+                    {
+                        _ = lua.DoString(this.ScriptHost.SourceCodeIndex[functionName].AsFunctionString, codeFriendlyName: functionName);
+                    }
+                    catch (Exception ex)
+                    {
+                        var exd = new ScriptExceptionData
+                        {
+                            Exception = ex,
+                            FunctionName = functionName,
+                            Description = $"ExecuteFunction<T>: (Lua) {functionName} failed to load."
+                        };
+
+                        this?.ExceptionHandler(exd);
+                        throw new Exception($"ExecuteFunction<T>: (Lua) {functionName} failed to load.");
+
+                    }
+                }
             }
 
+            // If we got here, we should have a valid function loaded and now all we have to do is execute it.
             DynValue ret;
 
             try
             {
+                var executionControlToken = new ExecutionControlToken();
                 this.ScriptHost.Statistics.ScriptsActive++;
                 this.ScriptHost.Statistics.RunCount++;
                 this.OnPreScriptExecuted();
@@ -497,7 +472,7 @@ namespace Avalon.Common.Scripting
                 {
                     Exception = ex,
                     FunctionName = functionName,
-                    Description = $"ExecuteFunction<T>: Error running function {functionName}"
+                    Description = $"ExecuteFunction<T>: Lua Error running function {functionName}"
                 };
 
                 this?.ExceptionHandler(exd);

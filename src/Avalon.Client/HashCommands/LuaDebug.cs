@@ -56,6 +56,7 @@ namespace Avalon.HashCommands
                     });
 
                     sb.AppendFormat(" {{G * {{WMemory Pool Lua Instructions Stored:{{x {{C{0}{{x\r\n", instructionCount.ToString().FormatIfNumber(0));
+                    sb.AppendFormat(" {{G * {{WLua Scripts in the Global Index:{{x     {{C{0}{{x\r\n", scriptHost.SourceCodeIndex.Count);
                     sb.AppendFormat(" {{G * {{WGlobal Variable Count:{{x               {{C{0}{{x\r\n", moonSharp.GlobalVariables.Count.ToString());
 
                     sb.AppendLine();

@@ -4,6 +4,7 @@ using MoonSharp.Interpreter.IO;
 using MoonSharp.Interpreter.Platforms;
 using MoonSharp.Interpreter.Tree.Fast_Interface;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -28,6 +29,14 @@ namespace MoonSharp.Interpreter
         private ByteCode _byteCode;
         private Processor _mainProcessor;
         private Table[] _typeMetaTables = new Table[(int) LuaTypeExtensions.MaxMetaTypes];
+
+        /// <summary>
+        /// A list of MD5 hashes for each function that has been loaded.  Each <see cref="Script"/> will have
+        /// it's own list so the caller will know whether a new version of a function needs to be loaded since
+        /// all <see cref="Script"/> objects in a memory pool might be in a different state if change are frequently
+        /// made to scripts.
+        /// </summary>
+        public Dictionary<string, string> SourceCodeHashIndex { get; set; } = new();
 
         /// <summary>
         /// Returns the number of instructions held by this <see cref="ByteCode"/> class.

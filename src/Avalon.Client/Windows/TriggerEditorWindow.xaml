@@ -120,6 +120,7 @@
 
                 <ui:SimpleStackPanel Orientation="Horizontal" Margin="0,5,0,0">
                     <CheckBox x:Name="CheckBoxLineTransformer" Content="Line Transformer" ui:ControlHelper.CornerRadius="0" Margin="20,0,0,0"></CheckBox>
+                    <CheckBox x:Name="CheckBoxTemp" Content="Temp" ui:ControlHelper.CornerRadius="0" Margin="20,0,0,0"></CheckBox>
                 </ui:SimpleStackPanel>
 
             </ui:SimpleStackPanel>

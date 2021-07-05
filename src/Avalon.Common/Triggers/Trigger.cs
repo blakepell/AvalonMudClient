@@ -126,7 +126,7 @@ namespace Avalon.Common.Triggers
                 // variables is problematic here and why we are forcing the use of Lua varargs (...)
                 try
                 {
-                    this.ProcessedCommand = this.ScriptHost.MoonSharp.ExecuteFunction<string>(this.FunctionName, this.Command, paramList);
+                    this.ProcessedCommand = this.ScriptHost.MoonSharp.ExecuteFunction<string>(this.FunctionName, paramList);
                 }
                 catch
                 {

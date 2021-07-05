@@ -66,6 +66,7 @@ namespace Avalon
             CheckBoxDisableAfterTriggered.IsChecked = trigger.DisableAfterTriggered;
             CheckBoxStopProcessing.IsChecked = trigger.StopProcessing;
             CheckBoxLineTransformer.IsChecked = trigger.LineTransformer;
+            CheckBoxTemp.IsChecked = trigger.Temp;
 
             var dict = new Dictionary<int, string>
             {
@@ -133,6 +134,7 @@ namespace Avalon
                 this.Trigger.DisableAfterTriggered = (bool)CheckBoxDisableAfterTriggered.IsChecked;
                 this.Trigger.StopProcessing = (bool)CheckBoxStopProcessing.IsChecked;
                 this.Trigger.LineTransformer = (bool)CheckBoxLineTransformer.IsChecked;
+                this.Trigger.Temp = (bool)CheckBoxTemp.IsChecked;
 
                 // Set it to the default trigger priority if it is NaN.
                 if (double.IsNaN(TextPriority.Value))

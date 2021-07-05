@@ -77,7 +77,7 @@ namespace Avalon
                             paramList[i] = item.Match.Groups[i].Value;
                         }
 
-                        string luaResult = Interp.ScriptHost.MoonSharp.ExecuteFunction<string>(item.FunctionName, item.Command, paramList);
+                        string luaResult = Interp.ScriptHost.MoonSharp.ExecuteFunction<string>(item.FunctionName, paramList);
                     }
 
                     // Check if we're supposed to move this line somewhere else.
@@ -198,7 +198,7 @@ namespace Avalon
                             // We'll send the function we want to call but also the code, if the code has changed
                             // it nothing will be reloaded thus saving memory and calls.  This is why replacing %1
                             // variables is problematic here and why we are forcing the use of Lua varargs (...)
-                            _ = await Interp.ScriptHost.MoonSharp.ExecuteFunctionAsync<object>(item.FunctionName, item.Command, paramList);
+                            _ = await Interp.ScriptHost.MoonSharp.ExecuteFunctionAsync<object>(item.FunctionName, paramList);
                         }
                         catch { }
                     }
