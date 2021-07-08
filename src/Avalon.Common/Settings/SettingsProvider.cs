@@ -267,7 +267,7 @@ namespace Avalon.Common.Settings
             var settings = JsonConvert.DeserializeObject<ProfileSettings>(json);
 
             // Imports the aliases, triggers and directions that are applicable using the shared import methods.
-            this.ImportAliases(settings.AliasList);
+            this.ImportAliases(settings.AliasList, scriptHost);
             this.ImportTriggers(settings.TriggerList, scriptHost);
             this.ImportDirections(settings.DirectionList);
         }
@@ -297,7 +297,7 @@ namespace Avalon.Common.Settings
                 item.Version = package.Version;
             }
 
-            this.ImportAliases(package.AliasList);
+            this.ImportAliases(package.AliasList, scriptHost);
             this.ImportTriggers(package.TriggerList, scriptHost);
             this.ImportDirections(package.DirectionList);
 
@@ -402,17 +402,17 @@ namespace Avalon.Common.Settings
         }
 
         /// <inheritdoc />
-        public void ImportAliases(IList<Alias> list)
+        public void ImportAliases(IList<Alias> list, ScriptHost scriptHost)
         {
             // An alias must be unique by it's expression.
             foreach (var alias in list)
             {
-                ImportAlias(alias);
+                ImportAlias(alias, scriptHost);
             }
         }
 
         /// <inheritdoc />
-        public void ImportAlias(Alias alias)
+        public void ImportAlias(Alias alias, ScriptHost scriptHost)
         {
             // Skip any locked items that exist AND are locked.
             if (this.ProfileSettings.AliasList.Any(profileAlias => profileAlias.AliasExpression.Equals(alias.AliasExpression, StringComparison.OrdinalIgnoreCase) && profileAlias.Lock))
@@ -437,6 +437,7 @@ namespace Avalon.Common.Settings
                 }
             }
 
+            alias.ScriptHost = scriptHost;
             alias.Count = count;
             this.ProfileSettings.AliasList.Add(alias);
         }

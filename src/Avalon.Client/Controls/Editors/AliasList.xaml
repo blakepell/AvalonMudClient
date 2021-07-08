@@ -51,6 +51,7 @@
                   GridLinesVisibility="All"
                   EnableColumnVirtualization="True"
                   EnableRowVirtualization="True"
+                  InitializingNewItem="DataList_OnInitializingNewItem"
                   VirtualizingStackPanel.IsVirtualizing="True"
                   VirtualizingPanel.VirtualizationMode="Recycling">
             <DataGrid.Resources>

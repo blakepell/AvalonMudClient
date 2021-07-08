@@ -121,12 +121,14 @@ namespace Avalon.Common.Interfaces
         /// Imports a list of aliases.
         /// </summary>
         /// <param name="list"></param>
-        void ImportAliases(IList<Alias> list);
+        /// <param name="scriptHost"></param>
+        void ImportAliases(IList<Alias> list, ScriptHost scriptHost);
 
         /// <summary>
         /// Imports a single alias.
         /// </summary>
         /// <param name="alias"></param>
-        void ImportAlias(Alias alias);
+        /// <param name="scriptHost"></param>
+        void ImportAlias(Alias alias, ScriptHost scriptHost);
     }
 }

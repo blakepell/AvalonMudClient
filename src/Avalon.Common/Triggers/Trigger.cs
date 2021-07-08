@@ -194,6 +194,25 @@ namespace Avalon.Common.Triggers
 
         }
 
+        /// <summary>
+        /// Updates the script environment with the contents of script for this trigger if it's set to execute as
+        /// a script.  This will need to be called from the ExecuteAs property and the <see cref="Command"/> property to avoid
+        /// cases where the lua is set before the <see cref="ExecuteAs"/>.
+        /// </summary>
+        public void UpdateScriptingEnvironment()
+        {
+            if (this.ScriptHost == null)
+            {
+                return;
+            }
+
+            // Load the scripts into the scripting environment.
+            if (this.ExecuteAs == ExecuteType.LuaMoonsharp && !string.IsNullOrWhiteSpace(this.Command))
+            {
+                this.ScriptHost.AddFunction(new SourceCode(this.Command, this.FunctionName, ScriptType.MoonSharpLua));
+            }
+        }
+
         private string _identifier;
 
         /// <inheritdoc />
@@ -247,6 +266,7 @@ namespace Avalon.Common.Triggers
             {
                 _command = value;
                 OnPropertyChanged(nameof(Command));
+                this.UpdateScriptingEnvironment();
             }
         }
 
@@ -359,6 +379,7 @@ namespace Avalon.Common.Triggers
             {
                 _executeType = value;
                 OnPropertyChanged(nameof(ExecuteAs));
+                this.UpdateScriptingEnvironment();
             }
         }
 
@@ -608,10 +629,8 @@ namespace Avalon.Common.Triggers
         {
             var e = new PropertyChangedEventArgs(propertyName);
             PropertyChanged?.Invoke(this, e);
-
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
     }
 }

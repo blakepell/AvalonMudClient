@@ -52,7 +52,7 @@ namespace Avalon.Utilities
                     // In case any of the function names are null or blank, set them up based off of the ID.
                     if (string.IsNullOrWhiteSpace(trigger.FunctionName))
                     {
-                        trigger.FunctionName = Avalon.Common.Scripting.ScriptHost.GetFunctionName(trigger.Identifier, "tr");
+                        trigger.FunctionName = ScriptHost.GetFunctionName(trigger.Identifier, "tr");
                     }
 
                     // Load the scripts into the scripting environment.
@@ -73,6 +73,8 @@ namespace Avalon.Utilities
             {
                 foreach (var alias in App.Settings.ProfileSettings.AliasList)
                 {
+                    alias.ScriptHost = App.MainWindow.Interp.ScriptHost;
+
                     // If it's got the old IsLua bit and it's set as a Command (the default) set it to MoonSharp.
                     if (alias.IsLua && alias.ExecuteAs == ExecuteType.Command)
                     {
@@ -82,7 +84,7 @@ namespace Avalon.Utilities
                     // In case any of the function names are null or blank, set them up based off of the ID.
                     if (string.IsNullOrWhiteSpace(alias.FunctionName))
                     {
-                        alias.FunctionName = Avalon.Common.Scripting.ScriptHost.GetFunctionName(alias.Id, "a");
+                        alias.FunctionName = ScriptHost.GetFunctionName(alias.Id, "a");
                     }
 
                     // Load the scripts into the scripting environment.

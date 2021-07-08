@@ -239,6 +239,21 @@ namespace Avalon.Controls
             }
         }
 
+        /// <summary>
+        /// Housekeeping for when a new <see cref="Alias"/> is created.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DataList_OnInitializingNewItem(object sender, InitializingNewItemEventArgs e)
+        {
+            var alias = e?.NewItem as Alias;
+
+            if (alias != null & App.MainWindow.Interp.ScriptHost != null)
+            {
+                alias.ScriptHost = App.MainWindow.Interp.ScriptHost;
+            }
+        }
+
         public void PrimaryButtonClick()
         {
             // Do nothing.
@@ -248,5 +263,6 @@ namespace Avalon.Controls
         {
             // Do nothing.
         }
+
     }
 }

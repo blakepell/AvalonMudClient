@@ -42,6 +42,25 @@ namespace Avalon.Common.Models
             this.Id = Guid.NewGuid().ToString();
         }
 
+        /// <summary>
+        /// Updates the script environment with the contents of script for this trigger if it's set to execute as
+        /// a script.  This will need to be called from the ExecuteAs property and the <see cref="Command"/> property to avoid
+        /// cases where the lua is set before the <see cref="ExecuteAs"/>.
+        /// </summary>
+        public void UpdateScriptingEnvironment()
+        {
+            if (this.ScriptHost == null)
+            {
+                return;
+            }
+
+            // Load the scripts into the scripting environment.
+            if (this.ExecuteAs == ExecuteType.LuaMoonsharp && !string.IsNullOrWhiteSpace(this.Command))
+            {
+                this.ScriptHost.AddFunction(new SourceCode(this.Command, this.FunctionName, ScriptType.MoonSharpLua));
+            }
+        }
+
         /// <inheritdoc />
         public string AliasExpression { get; set; } = "";
 
@@ -54,7 +73,8 @@ namespace Avalon.Common.Models
             set
             {
                 _command = value;
-                OnPropertyChanged(nameof(Command));
+                OnPropertyChanged(nameof(this.Command));
+                this.UpdateScriptingEnvironment();
             }
         }
 
@@ -67,7 +87,7 @@ namespace Avalon.Common.Models
             set
             {
                 _enabled = value;
-                OnPropertyChanged(nameof(Enabled));
+                OnPropertyChanged(nameof(this.Enabled));
             }
         }
 
@@ -85,10 +105,7 @@ namespace Avalon.Common.Models
         /// <inheritdoc />
         public string Id
         {
-            get
-            {
-                return _id;
-            }
+            get => _id;
             set
             {
                 if (value != null)
@@ -97,7 +114,7 @@ namespace Avalon.Common.Models
                 }
 
                 _id = value;
-                OnPropertyChanged(nameof(Id));
+                OnPropertyChanged(nameof(this.Id));
             }
         }
 
@@ -130,7 +147,8 @@ namespace Avalon.Common.Models
             set
             {
                 _executeType = value;
-                OnPropertyChanged(nameof(ExecuteAs));
+                OnPropertyChanged(nameof(this.ExecuteAs));
+                this.UpdateScriptingEnvironment();
             }
         }
 
@@ -146,12 +164,18 @@ namespace Avalon.Common.Models
             set
             {
                 _count = value;
-                OnPropertyChanged(nameof(Count));
+                OnPropertyChanged(nameof(this.Count));
             }
         }
 
         /// <inheritdoc />
         public string PackageId { get; set; } = "";
+
+        /// <summary>
+        /// A reference to the scripting environment.
+        /// </summary>
+        [JsonIgnore]
+        public ScriptHost ScriptHost { get; set; }
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -170,5 +194,4 @@ namespace Avalon.Common.Models
         public event PropertyChangedEventHandler PropertyChanged;
 
     }
-
 }
