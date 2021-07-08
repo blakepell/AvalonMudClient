@@ -555,13 +555,10 @@ namespace Avalon
                     // Load the settings for the file that was selected.
                     this.LoadSettings(dialog.FileName);
 
+                    // Inject the Conveyor/ScriptHost into the Triggers and aliases including
+                    // initial loading of scripts.
                     Utilities.Utilities.TriggerSetup();
-
-                    // Inject the Conveyor into the Triggers.
-                    foreach (var trigger in App.Settings.ProfileSettings.TriggerList)
-                    {
-                        trigger.Conveyor = App.Conveyor;
-                    }
+                    Utilities.Utilities.SetupAliases();
 
                     // We have a new profile, refresh the auto complete command list.
                     RefreshAutoCompleteEntries();
