@@ -15,6 +15,8 @@ using System;
 using System.Threading.Tasks;
 using Avalon.Common.Models;
 using Argus.Extensions;
+using Avalon.Common;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Avalon.HashCommands
 {
@@ -36,22 +38,51 @@ namespace Avalon.HashCommands
             ((Interpreter)this.Interpreter).ScriptHost.MoonSharp.Reset();
         }
 
+        private int _x = 0;
+
         public override void Execute()
         {
-            foreach (var item in App.Settings.ProfileSettings.AliasList)
-            {
-                App.Conveyor.EchoLog($"Alias={item.AliasExpression} Id={item.Id}, func={item.FunctionName}", LogType.Debug);
-            }
+            var c = AppServices.GetService<IConveyor>();
+            
+            c.EchoSuccess("It worked! It Worked!");
 
-            foreach (var item in App.Settings.ProfileSettings.TriggerList)
-            {
-                App.Conveyor.EchoLog($"Trigger={item.Pattern.SafeLeft(10)}... Id={item.Identifier}, func={item.FunctionName}", LogType.Debug);
-            }
+            //AppServices.CreateScope();
+            //var v = AppServices.GetServiceScoped<Variable>();
+            ////var v = AppServices.GetService<Variable>();
 
-            foreach (var item in App.MainWindow.Interp.ScriptHost.MoonSharp.Functions)            
-            {
-                App.Conveyor.EchoLog($"Function={item.Key}", LogType.Debug);
-            }
+            //App.Conveyor.EchoLog("v=" + v.Value ?? "null", LogType.Debug);
+
+            //if (string.IsNullOrWhiteSpace(v.Value))
+            //{
+            //    v.Value = Guid.NewGuid().ToString();
+            //}
+
+            //_x++;
+
+            //if (_x == 5)
+            //{
+            //    _x = 0;
+            //    AppServices.EndScope();
+            //}
+
+            //v = new Variable("", "replaced value");
+
+            //App.Conveyor.EchoLog("v=" + v.Value ?? "null", LogType.Debug);
+
+            //foreach (var item in App.Settings.ProfileSettings.AliasList)
+            //{
+            //    App.Conveyor.EchoLog($"Alias={item.AliasExpression} Id={item.Id}, func={item.FunctionName}", LogType.Debug);
+            //}
+
+            //foreach (var item in App.Settings.ProfileSettings.TriggerList)
+            //{
+            //    App.Conveyor.EchoLog($"Trigger={item.Pattern.SafeLeft(10)}... Id={item.Identifier}, func={item.FunctionName}", LogType.Debug);
+            //}
+
+            //foreach (var item in App.MainWindow.Interp.ScriptHost.MoonSharp.Functions)            
+            //{
+            //    App.Conveyor.EchoLog($"Function={item.Key}", LogType.Debug);
+            //}
 
             //            var cmds = new Avalon.Lua.ScriptCommands(this.Interpreter, new Random());
             //            var engine = new NLuaEngine();

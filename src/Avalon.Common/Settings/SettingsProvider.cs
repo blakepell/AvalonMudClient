@@ -359,10 +359,6 @@ namespace Avalon.Common.Settings
 
             trigger.Count = count;
 
-            // Inject the Conveyor and ScriptHost into all of the triggers so they're ready to roll.
-            trigger.Conveyor = this.Conveyor;
-            trigger.ScriptHost = scriptHost;
-
             this.ProfileSettings.TriggerList.Add(trigger);
         }
 
@@ -437,7 +433,6 @@ namespace Avalon.Common.Settings
                 }
             }
 
-            alias.ScriptHost = scriptHost;
             alias.Count = count;
             this.ProfileSettings.AliasList.Add(alias);
         }

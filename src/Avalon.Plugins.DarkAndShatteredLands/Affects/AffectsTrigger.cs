@@ -7,10 +7,12 @@
  * @license           : MIT
  */
 
+using Avalon.Common;
 using Avalon.Common.Triggers;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
+using Avalon.Common.Interfaces;
 
 namespace Avalon.Plugins.DarkAndShatteredLands.Affects
 {
@@ -95,26 +97,28 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
         /// </summary>
         public void UpdateUI()
         {
-            if (this.Conveyor == null)
+            var conveyor = AppServices.GetService<IConveyor>();
+
+            if (conveyor == null)
             {
                 return;
             }
 
             this.SortAffects();
 
-            this?.Conveyor.ProgressBarRepeaterClear();
+            conveyor.ProgressBarRepeaterClear();
 
             foreach (var affect in this.Affects)
             {
                 // We have a command that's not the default trying to cast (or is nothing and should be ignored).
                 if (this.AffectToCommands.ContainsKey(affect.Name) && !this.AffectToCommands[affect.Name].IgnoreCommand)
                 {
-                    this.Conveyor.ProgressBarRepeaterAdd(affect.Name, affect.Duration < 0 ? 50 : affect.Duration + 1, 50, affect.Display(), this.AffectToCommands[affect.Name].Command);
+                   conveyor.ProgressBarRepeaterAdd(affect.Name, affect.Duration < 0 ? 50 : affect.Duration + 1, 50, affect.Display(), this.AffectToCommands[affect.Name].Command);
                 }
                 else
                 {
                     // Default, try to cast.
-                    this.Conveyor.ProgressBarRepeaterAdd(affect.Name, affect.Duration < 0 ? 50 : affect.Duration + 1, 50, affect.Display(), $"c '{affect.Name}'");
+                    conveyor.ProgressBarRepeaterAdd(affect.Name, affect.Duration < 0 ? 50 : affect.Duration + 1, 50, affect.Display(), $"c '{affect.Name}'");
                 }
             }
 
@@ -136,12 +140,12 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
 
             if (found)
             {
-                this.Conveyor.ProgressBarRepeaterStatusVisible = true;
-                this.Conveyor.ProgressBarRepeaterStatusText = $"Spells Missing: {sb}";
+                conveyor.ProgressBarRepeaterStatusVisible = true;
+                conveyor.ProgressBarRepeaterStatusText = $"Spells Missing: {sb}";
             }
             else
             {
-                this.Conveyor.ProgressBarRepeaterStatusVisible = false;
+                conveyor.ProgressBarRepeaterStatusVisible = false;
             }
 
             Argus.Memory.StringBuilderPool.Return(sb);
@@ -183,13 +187,14 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
         public void RemoveAffect(string key)
         {
             bool found = false;
+            var conveyor = AppServices.GetService<IConveyor>();
 
             for (int i = this.Affects.Count - 1; i >= 0; i--)
             {
                 // It's run out, remove it, then continue.
                 if (this.Affects[i].Name.Equals(key, System.StringComparison.OrdinalIgnoreCase))
                 {
-                    this?.Conveyor.ProgressBarRemove(this.Affects[i].Name);
+                    conveyor.ProgressBarRemove(this.Affects[i].Name);
                     this.Affects.RemoveAt(i);
                     found = true;
                 }
@@ -267,6 +272,8 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
         /// </summary>
         public void DecrementAffectDurations()
         {
+            var conveyor = AppServices.GetService<IConveyor>();
+
             for (int i = this.Affects.Count - 1; i >= 0; i--)
             {
                 // It's perm (-1) or something custom we set (-2 being we know the spell was cast but don't know how
@@ -279,14 +286,14 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
                 // It's run out, remove it, then continue.
                 if (this.Affects[i].Duration == 0)
                 {
-                    this.Conveyor.ProgressBarRemove(this.Affects[i].Name);
+                    conveyor.ProgressBarRemove(this.Affects[i].Name);
                     this.Affects.RemoveAt(i);
                     continue;
                 }
 
                 // Reduce it's tick count by 1
                 this.Affects[i].Duration -= 1;
-                this?.Conveyor.ProgressBarRepeaterAdd(this.Affects[i].Name, this.Affects[i].Duration + 1, 50, this.Affects[i].Display());
+                conveyor.ProgressBarRepeaterAdd(this.Affects[i].Name, this.Affects[i].Duration + 1, 50, this.Affects[i].Display());
             }
         }
     }

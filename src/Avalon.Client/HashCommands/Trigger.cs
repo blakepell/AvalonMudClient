@@ -177,9 +177,6 @@ namespace Avalon.HashCommands
                             t.Enabled = false;
                         }
 
-                        // Set the Conveyor so it's usable
-                        t.Conveyor = this.Interpreter.Conveyor;
-                        
                         // Add it to the list.  BUG: This could cause a bug if a trigger is added and this has
                         // been called from the trigger loop itself (e.g. you're adding to a collection that is being
                         // currently enumerated.

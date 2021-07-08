@@ -91,12 +91,6 @@ namespace Avalon
         /// </summary>
         private void ActivatePlugins(string ipAddress)
         {
-            // If there are any system triggers, clear the references to the Conveyor.
-            foreach (var trigger in App.InstanceGlobals.SystemTriggers)
-            {
-                trigger.Conveyor = null;
-            }
-
             // Clear the system triggers list.
             App.InstanceGlobals.SystemTriggers.Clear();
 
@@ -117,7 +111,6 @@ namespace Avalon
                     foreach (var trigger in plugin.Triggers)
                     {
                         trigger.Plugin = true;
-                        trigger.Conveyor = App.Conveyor;
 
                         if (trigger.SystemTrigger)
                         {

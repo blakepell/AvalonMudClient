@@ -2213,9 +2213,7 @@ namespace Avalon.Lua
                     Temp = temp,
                     LineTransformer = true,
                     IsLua = true,
-                    ExecuteAs = ExecuteType.LuaMoonsharp,
-                    ScriptHost = App.MainWindow.Interp.ScriptHost,
-                    Conveyor = App.Conveyor
+                    ExecuteAs = ExecuteType.LuaMoonsharp
                 };
 
                 if (!string.IsNullOrWhiteSpace(id))
@@ -2233,8 +2231,6 @@ namespace Avalon.Lua
                 t.LineTransformer = true;
                 t.IsLua = true;
                 t.ExecuteAs = ExecuteType.LuaMoonsharp;
-                t.ScriptHost = App.MainWindow.Interp.ScriptHost;
-                t.Conveyor = App.Conveyor;
             }            
         }
 

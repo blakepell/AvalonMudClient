@@ -119,12 +119,6 @@ namespace Avalon.Common.Interfaces
         public string PackageId { get; set; }
 
         /// <summary>
-        /// A reference to the game's Conveyor so that the trigger can interact with the UI if it's
-        /// a CLR trigger.
-        /// </summary>
-        public IConveyor Conveyor { get; set; }
-
-        /// <summary>
         /// How the command should be executed (as a command or sent to a different output like
         /// a script engine or even to a file).
         /// </summary>

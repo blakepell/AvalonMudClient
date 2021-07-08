@@ -233,22 +233,6 @@ namespace Avalon.Controls
             Utilities.Utilities.TriggerSetup();
         }
 
-        private void DataList_InitializingNewItem(object sender, InitializingNewItemEventArgs e)
-        {
-            // Get the Trigger from the current line.
-            var trigger = e?.NewItem as Common.Triggers.Trigger;
-
-            if (trigger != null & App.Conveyor != null)
-            {
-                trigger.Conveyor = App.Conveyor;
-            }
-
-            if (trigger != null & App.MainWindow.Interp.ScriptHost != null)
-            {
-                trigger.ScriptHost = App.MainWindow.Interp.ScriptHost;
-            }
-        }
-
         /// <summary>
         /// Creates a new trigger and shows the trigger editor dialog.
         /// </summary>
@@ -256,11 +240,7 @@ namespace Avalon.Controls
         /// <param name="e"></param>
         private void ButtonNewTrigger_Click(object sender, RoutedEventArgs e)
         {
-            var trigger = new Common.Triggers.Trigger
-            {
-                Conveyor = App.Conveyor,
-                ScriptHost = App.MainWindow.Interp.ScriptHost
-            };
+            var trigger = new Common.Triggers.Trigger();
 
             App.Settings.ProfileSettings.TriggerList.Add(trigger);
 

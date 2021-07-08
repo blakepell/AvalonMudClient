@@ -76,6 +76,7 @@ namespace Avalon.Common.Triggers
         public virtual bool IsMatch(string line)
         {
             Match match;
+            var conveyor = AppServices.GetService<IConveyor>();
 
             // Does this trigger contain any variables?  If so, we'll need to special handle it.  We're also
             // going to require that the VariableReplacement value is set to true so the player has to
@@ -86,7 +87,7 @@ namespace Avalon.Common.Triggers
             if (this.VariableReplacement && Pattern.IndexOf('@') >= 0)
             {
                 // Replace any variables with their literal values.
-                string tempPattern = this.Conveyor.ReplaceVariablesWithValue(Pattern);
+                string tempPattern = conveyor.ReplaceVariablesWithValue(Pattern);
                 var tempRegex = new Regex(tempPattern, RegexOptions.IgnoreCase);
                 match = tempRegex.Match(line);
             }
@@ -126,11 +127,12 @@ namespace Avalon.Common.Triggers
                 // variables is problematic here and why we are forcing the use of Lua varargs (...)
                 try
                 {
-                    this.ProcessedCommand = this.ScriptHost.MoonSharp.ExecuteFunction<string>(this.FunctionName, paramList);
+                    var sc = AppServices.GetService<ScriptHost>();
+                    this.ProcessedCommand = sc.MoonSharp.ExecuteFunction<string>(this.FunctionName, paramList);
                 }
                 catch
                 {
-                    this.Conveyor.EchoError($"The previous exception was from a line transformer trigger with the following pattern: {this.Pattern}");
+                    conveyor.EchoError($"The previous exception was from a line transformer trigger with the following pattern: {this.Pattern}");
                     return false;
                 }
             }
@@ -164,7 +166,7 @@ namespace Avalon.Common.Triggers
                         // %1, %2, %3 values.  TODO - Is this right.. seems like it should do both if needed?
                         if (!string.IsNullOrWhiteSpace(match.Groups[i].Name) && !match.Groups[i].Name.IsNumeric() && !string.IsNullOrWhiteSpace(match.Groups[i].Value))
                         {
-                            Conveyor.SetVariable(match.Groups[i].Name, match.Groups[i].Value);
+                            conveyor.SetVariable(match.Groups[i].Name, match.Groups[i].Value);
                         }
                         else
                         {
@@ -181,7 +183,7 @@ namespace Avalon.Common.Triggers
             }
 
             // If the profile setting to track the last trigger date is set then set it.
-            if (this.Conveyor?.ProfileSettings?.TrackTriggerLastMatched == true)
+            if (conveyor?.ProfileSettings?.TrackTriggerLastMatched == true)
             {
                 this.LastMatched = DateTime.Now;
             }
@@ -201,15 +203,12 @@ namespace Avalon.Common.Triggers
         /// </summary>
         public void UpdateScriptingEnvironment()
         {
-            if (this.ScriptHost == null)
-            {
-                return;
-            }
+            var sc = AppServices.GetService<ScriptHost>();
 
             // Load the scripts into the scripting environment.
             if (this.ExecuteAs == ExecuteType.LuaMoonsharp && !string.IsNullOrWhiteSpace(this.Command))
             {
-                this.ScriptHost.AddFunction(new SourceCode(this.Command, this.FunctionName, ScriptType.MoonSharpLua));
+                sc.AddFunction(new SourceCode(this.Command, this.FunctionName, ScriptType.MoonSharpLua));
             }
         }
 
@@ -251,7 +250,8 @@ namespace Avalon.Common.Triggers
                 }
                 catch (Exception ex)
                 {
-                    this.Conveyor?.EchoLog($"Trigger creation error: {ex.Message}", LogType.Error);
+                    var conveyor = AppServices.GetService<IConveyor>();
+                    conveyor.EchoLog($"Trigger creation error: {ex.Message}", LogType.Error);
                 }
             }
         }
@@ -401,16 +401,6 @@ namespace Avalon.Common.Triggers
         /// </summary>
         [JsonIgnore]
         public string FunctionName { get; set; }
-
-        /// <inheritdoc />
-        [JsonIgnore]
-        public IConveyor Conveyor { get; set; }
-
-        /// <summary>
-        /// A reference to the scripting environment.
-        /// </summary>
-        [JsonIgnore]
-        public ScriptHost ScriptHost { get; set; }
 
         private bool _temp = false;
 

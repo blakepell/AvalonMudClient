@@ -37,16 +37,10 @@ namespace Avalon.Utilities
             {
                 foreach (var trigger in App.Settings.ProfileSettings.TriggerList)
                 {
-                    if (trigger.Conveyor == null && App.Conveyor != null)
+                    // If it's got the old IsLua bit and it's set as a Command (the default) set it to MoonSharp.
+                    if (trigger.IsLua && trigger.ExecuteAs == ExecuteType.Command)
                     {
-                        trigger.Conveyor = App.Conveyor;
-                        trigger.ScriptHost = App.MainWindow.Interp.ScriptHost;
-
-                        // If it's got the old IsLua bit and it's set as a Command (the default) set it to MoonSharp.
-                        if (trigger.IsLua && trigger.ExecuteAs == ExecuteType.Command)
-                        {
-                            trigger.ExecuteAs = ExecuteType.LuaMoonsharp;
-                        }
+                        trigger.ExecuteAs = ExecuteType.LuaMoonsharp;
                     }
 
                     // In case any of the function names are null or blank, set them up based off of the ID.
@@ -73,8 +67,6 @@ namespace Avalon.Utilities
             {
                 foreach (var alias in App.Settings.ProfileSettings.AliasList)
                 {
-                    alias.ScriptHost = App.MainWindow.Interp.ScriptHost;
-
                     // If it's got the old IsLua bit and it's set as a Command (the default) set it to MoonSharp.
                     if (alias.IsLua && alias.ExecuteAs == ExecuteType.Command)
                     {

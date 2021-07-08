@@ -65,8 +65,7 @@
                   EnableRowVirtualization="True"
                   VirtualizingStackPanel.IsVirtualizing="True"
                   VirtualizingPanel.VirtualizationMode="Recycling"
-                  CellEditEnding="DataList_OnCellEditEnding"
-                  InitializingNewItem="DataList_InitializingNewItem">
+                  CellEditEnding="DataList_OnCellEditEnding">
             <DataGrid.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>

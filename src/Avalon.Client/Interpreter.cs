@@ -23,6 +23,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Avalon.Common;
 
 namespace Avalon
 {
@@ -61,7 +62,7 @@ namespace Avalon
         /// </summary>
         private void MoonSharpInit()
         {
-            this.ScriptHost = new ScriptHost();
+            this.ScriptHost = AppServices.GetService<ScriptHost>();
             this.ScriptHost.RegisterObject<ScriptCommands>(_scriptCommands.GetType(), _scriptCommands, "lua");
 
             // Events for before and after execution of a script.

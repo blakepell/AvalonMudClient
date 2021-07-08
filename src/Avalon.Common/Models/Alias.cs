@@ -21,7 +21,6 @@ namespace Avalon.Common.Models
     /// </summary>
     public class Alias : INotifyPropertyChanged, ICloneable, IAlias
     {
-
         public Alias()
         {
             this.Id = Guid.NewGuid().ToString();
@@ -49,15 +48,12 @@ namespace Avalon.Common.Models
         /// </summary>
         public void UpdateScriptingEnvironment()
         {
-            if (this.ScriptHost == null)
-            {
-                return;
-            }
+            var sc = AppServices.GetService<ScriptHost>();
 
             // Load the scripts into the scripting environment.
             if (this.ExecuteAs == ExecuteType.LuaMoonsharp && !string.IsNullOrWhiteSpace(this.Command))
             {
-                this.ScriptHost.AddFunction(new SourceCode(this.Command, this.FunctionName, ScriptType.MoonSharpLua));
+                sc.AddFunction(new SourceCode(this.Command, this.FunctionName, ScriptType.MoonSharpLua));
             }
         }
 
@@ -170,12 +166,6 @@ namespace Avalon.Common.Models
 
         /// <inheritdoc />
         public string PackageId { get; set; } = "";
-
-        /// <summary>
-        /// A reference to the scripting environment.
-        /// </summary>
-        [JsonIgnore]
-        public ScriptHost ScriptHost { get; set; }
 
         protected virtual void OnPropertyChanged(string propertyName)
         {

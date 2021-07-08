@@ -25,6 +25,9 @@ using System.Text;
 using System.Linq;
 using ICSharpCode.AvalonEdit;
 using System.Windows.Media;
+using Avalon.Common;
+using Avalon.Common.Scripting;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Avalon
 {
@@ -33,7 +36,6 @@ namespace Avalon
     /// </summary>
     public partial class App
     {
-
         /// <summary>
         /// A reference to the GameWindow
         /// </summary>
@@ -80,9 +82,19 @@ namespace Avalon
         {
             try
             {
+                // Done to support the Interface.
+                var conveyor = new Conveyor();
+
+                AppServices.Init((sc) =>
+                {
+                    sc.AddSingleton<Conveyor>(conveyor);
+                    sc.AddSingleton<IConveyor>(conveyor);
+                    sc.AddSingleton<ScriptHost>();
+                });
+
                 // Setup the Conveyor for this instance of the mud client.  This can be passed to
                 // the business logic layer via because it inherits the IConveyor interface.
-                App.Conveyor = new Conveyor();
+                App.Conveyor = AppServices.GetService<Conveyor>();
 
                 // First thing's first, setup the Settings.  This will at least initialize the client
                 // settings (and if a profile has previously been loaded it will load that profile).
