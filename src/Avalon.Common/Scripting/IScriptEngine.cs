@@ -34,6 +34,7 @@ namespace Avalon.Common.Scripting
         /// can be shared between many script environments.
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <param name="t"></param>
         /// <param name="item"></param>
         /// <param name="prefix"></param>
         public void RegisterObject<T>(Type t, object item, string prefix);
@@ -57,7 +58,6 @@ namespace Avalon.Common.Scripting
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="functionName"></param>
-        /// <param name="code"></param>
         /// <param name="args"></param>
         Task<T> ExecuteFunctionAsync<T>(string functionName, params string[] args);
 
@@ -66,7 +66,6 @@ namespace Avalon.Common.Scripting
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="functionName"></param>
-        /// <param name="code"></param>
         /// <param name="args"></param>
         public T ExecuteFunction<T>(string functionName, params string[] args);
 

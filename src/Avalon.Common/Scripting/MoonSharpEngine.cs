@@ -9,7 +9,6 @@
 
 using Argus.Extensions;
 using Argus.Memory;
-using Cysharp.Text;
 using MoonSharp.Interpreter;
 using System;
 using System.Collections.Generic;
@@ -194,7 +193,7 @@ namespace Avalon.Common.Scripting
                 {
                     Exception = ex,
                     FunctionName = "",
-                    Description = $"Execute<T>"
+                    Description = "Execute<T>"
                 };
 
                 this?.ExceptionHandler(exd);
@@ -236,7 +235,7 @@ namespace Avalon.Common.Scripting
                 {
                     Exception = ex,
                     FunctionName = "",
-                    Description = $"ExecuteAsync<T>"
+                    Description = "ExecuteAsync<T>"
                 };
 
                 this?.ExceptionHandler(exd);
@@ -521,7 +520,7 @@ namespace Avalon.Common.Scripting
                 {
                     Exception = ex,
                     FunctionName = "",
-                    Description = $"ExecuteStatic<T>"
+                    Description = "ExecuteStatic<T>"
                 };
 
                 this?.ExceptionHandler(exd);
@@ -564,7 +563,7 @@ namespace Avalon.Common.Scripting
                 {
                     Exception = ex,
                     FunctionName = "",
-                    Description = $"ExecuteStaticAsync<T>"
+                    Description = "ExecuteStaticAsync<T>"
                 };
 
                 this?.ExceptionHandler(exd);

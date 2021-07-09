@@ -29,7 +29,7 @@ namespace Avalon.Common.Utilities
         /// The lock mechanism with support for recursion which allows <see cref="GetEnumerator"/> to be called without
         /// a <see cref="LockRecursionException"/> being thrown.
         /// </summary>
-        public ReaderWriterLockSlim Lock = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
+        public ReaderWriterLockSlim Lock = new(LockRecursionPolicy.SupportsRecursion);
 
         /// <summary>
         /// Delegate for when a list item changes.

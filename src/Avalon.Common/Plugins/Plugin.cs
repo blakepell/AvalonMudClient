@@ -34,7 +34,7 @@ namespace Avalon.Common.Plugins
 
         public abstract string IpAddress { get; set; }
 
-        public ProfileSettings ProfileSettings { get; set; } = new ProfileSettings();
+        public ProfileSettings ProfileSettings { get; set; } = new();
 
         public IConveyor Conveyor { get; set; }
 
@@ -46,7 +46,7 @@ namespace Avalon.Common.Plugins
 
         public bool Initialized { get; set; } = false;
 
-        public Dictionary<string, Type> LuaCommands { get; set; }  = new Dictionary<string, Type>();
+        public Dictionary<string, Type> LuaCommands { get; set; }  = new();
 
     }
 }

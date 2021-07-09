@@ -8,12 +8,11 @@
  */
 
 using Argus.Extensions;
+using Avalon.Common.Models;
+using Avalon.Common.Settings;
 using Cysharp.Text;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Avalon.Common.Models;
-using Avalon.Common.Settings;
 
 namespace Avalon.Common.Scripting
 {
@@ -36,7 +35,7 @@ namespace Avalon.Common.Scripting
         /// A list of current instances of any scripts so Script objects from the memory pool can pull
         /// from here when they need a new copy.  The key will be the function name.
         /// </summary>
-        public Dictionary<string, SourceCode> SourceCodeIndex { get; set; } = new Dictionary<string, SourceCode>();
+        public Dictionary<string, SourceCode> SourceCodeIndex { get; set; } = new();
 
         /// <summary>
         /// Creates a new instance of the <see cref="ScriptHost"/> with all scripting environments
@@ -67,6 +66,7 @@ namespace Avalon.Common.Scripting
         /// Registers an object with all of the available script engines.
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <param name="t"></param>
         /// <param name="item"></param>
         /// <param name="prefix"></param>
         public void RegisterObject<T>(Type t, object item, string prefix)

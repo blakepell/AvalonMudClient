@@ -28,12 +28,12 @@ namespace Avalon.Common.Settings
         /// <summary>
         /// The settings file that is the current loaded profile.
         /// </summary>
-        public ProfileSettings ProfileSettings { get; set; } = new ProfileSettings();
+        public ProfileSettings ProfileSettings { get; set; } = new();
 
         /// <summary>
         /// The core settings file that is not profile settings related.
         /// </summary>
-        public AvalonSettings AvalonSettings { get; set; } = new AvalonSettings();
+        public AvalonSettings AvalonSettings { get; set; } = new();
 
         /// <summary>
         /// The application data directory that is in the standard shared location for Windows.
@@ -167,7 +167,7 @@ namespace Avalon.Common.Settings
                     this.ProfileSettings.FileName = Path.GetFileName(settingsFile);
                     this.AvalonSettings.LastLoadedProfilePath = settingsFile;
                 }
-                catch (Exception ex)
+                catch
                 {
                     // No file or an error, default back to the safe storage location.
                     this.ProfileSettings = new ProfileSettings();
@@ -261,6 +261,7 @@ namespace Avalon.Common.Settings
         /// exist are updated preserving various information such as count..
         /// </summary>
         /// <param name="json"></param>
+        /// <param name="scriptHost"></param>
         public void ImportPackageFromJson(string json, ScriptHost scriptHost)
         {
             // Deserialize the JSON file that was provided to us.
@@ -276,6 +277,7 @@ namespace Avalon.Common.Settings
         /// Imports a <see cref="Package"/> object.
         /// </summary>
         /// <param name="package"></param>
+        /// <param name="scriptHost"></param>
         public void ImportPackage(Package package, ScriptHost scriptHost)
         {
             var item = this.ProfileSettings.InstalledPackages.FirstOrDefault(x => x.PackageId == package.Id);

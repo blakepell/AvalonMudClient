@@ -206,13 +206,13 @@ namespace Avalon.Common.Models
         }
 
         /// <inheritdoc />
-        public List<Alias> AliasList { get; set; } = new List<Alias>();
+        public List<Alias> AliasList { get; set; } = new();
 
         /// <inheritdoc />
-        public List<Trigger> TriggerList { get; set; } = new List<Trigger>();
+        public List<Trigger> TriggerList { get; set; } = new();
 
         /// <inheritdoc />
-        public List<Direction> DirectionList { get; set; } = new List<Direction>();
+        public List<Direction> DirectionList { get; set; } = new();
 
         protected virtual void OnPropertyChanged(string propertyName)
         {

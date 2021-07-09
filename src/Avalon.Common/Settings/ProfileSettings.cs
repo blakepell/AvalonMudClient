@@ -9,7 +9,6 @@
 
 using Avalon.Common.Attributes;
 using Avalon.Common.Models;
-using Avalon.Common.Triggers;
 using Avalon.Common.Utilities;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -231,22 +230,22 @@ namespace Avalon.Common.Settings
         /// aliases/triggers/directions etc. but might change something about the UI.
         /// </summary>
         [Browsable(false)]
-        public List<InstalledPackage> InstalledPackages { get; set; } = new List<InstalledPackage>();
+        public List<InstalledPackage> InstalledPackages { get; set; } = new();
 
         [Browsable(false)]
-        public ObservableCollection<Macro> MacroList { get; set; } = new ObservableCollection<Macro>();
+        public ObservableCollection<Macro> MacroList { get; set; } = new();
 
         [Browsable(false)]
-        public ObservableCollection<Alias> AliasList { get; set; } = new ObservableCollection<Alias>();
+        public ObservableCollection<Alias> AliasList { get; set; } = new();
 
         [Browsable(false)]
-        public FullyObservableCollection<Direction> DirectionList { get; set; } = new FullyObservableCollection<Direction>();
+        public FullyObservableCollection<Direction> DirectionList { get; set; } = new();
 
         [Browsable(false)]
-        public TriggerObservableCollection TriggerList { get; set; } = new TriggerObservableCollection();
+        public TriggerObservableCollection TriggerList { get; set; } = new();
 
         [Browsable(false)]
-        public FullyObservableCollection<Variable> Variables { get; set; } = new FullyObservableCollection<Variable>();
+        public FullyObservableCollection<Variable> Variables { get; set; } = new();
 
         protected virtual void OnPropertyChanged(string propertyName)
         {

@@ -222,10 +222,7 @@ namespace Avalon.Common.Triggers
         /// <inheritdoc />
         public string Identifier
         {
-            get
-            {
-                return _identifier;
-            }
+            get => _identifier;
             set
             {
                 if (value != null)

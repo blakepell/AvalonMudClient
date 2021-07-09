@@ -49,13 +49,13 @@ namespace Avalon.Common.Settings
         /// the window on startup.
         /// </summary>
         [Browsable(true)]
-        public WindowPosition LastWindowPosition { get; set; } = new WindowPosition();
+        public WindowPosition LastWindowPosition { get; set; } = new();
 
         /// <summary>
         /// Serialized state of the grid rows.
         /// </summary>
         [Browsable(false)]
-        public List<GridLengthState> GameGridState = new List<GridLengthState>();
+        public List<GridLengthState> GameGridState = new();
 
         /// <summary>
         /// Whether the back buffer terminal should be populated when data arrives.  This also determines whether PageUp() and PageDown() triggers

@@ -26,7 +26,7 @@ namespace Avalon.Common.Scripting
         /// <summary>
         /// Lock to ensure thread safety.
         /// </summary>
-        private readonly object _lock = new object();
+        private readonly object _lock = new();
 
         public object this[string property]
         {

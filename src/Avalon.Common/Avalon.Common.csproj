@@ -17,8 +17,6 @@
     <PackageReference Include="Argus.Core" Version="2021.6.26.1" />
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
-    <PackageReference Include="ZString" Version="2.4.2" />
   </ItemGroup>
 
   <ItemGroup>

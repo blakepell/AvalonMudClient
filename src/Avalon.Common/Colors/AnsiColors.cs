@@ -43,7 +43,7 @@ namespace Avalon.Common.Colors
         /// </summary>
         public static List<AnsiColor> ToList()
         {
-            return new List<AnsiColor>
+            return new()
             {
                 new Clear(),
                 new Green(),

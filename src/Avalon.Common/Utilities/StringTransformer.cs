@@ -31,12 +31,12 @@ namespace Avalon.Common.Utilities
         /// <summary>
         /// A single internal StringBuilder used to process and return the output.
         /// </summary>
-        private readonly StringBuilder _sb = new StringBuilder();
+        private readonly StringBuilder _sb = new();
 
         /// <summary>
         /// The list of individual lines that we will filter down.
         /// </summary>
-        public List<string> Lines { get; set; } = new List<string>();
+        public List<string> Lines { get; set; } = new();
 
         /// <summary>
         /// Returns the number of lines currently in the Lines list.

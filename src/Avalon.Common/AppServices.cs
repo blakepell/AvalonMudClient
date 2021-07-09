@@ -54,14 +54,13 @@ namespace Avalon.Common
         public static void AddSingleton<T>(T instance) where T: class
         {
             _serviceCollection ??= new ServiceCollection();
-            _serviceCollection.AddSingleton<T>(instance);
+            _serviceCollection.AddSingleton(instance);
             Instance.ServiceProvider = _serviceCollection.BuildServiceProvider();
         }
 
         /// <summary>
         /// Allows for the registration of dependency injected services via an <see cref="Action"/>.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="action"></param>
         public static void AddService(Action<ServiceCollection> action)
         {
