@@ -2,19 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <Version>2021.6.17.1</Version>
+    <Version>2021.7.9.1</Version>
     <Company>Blake Pell</Company>
     <Authors>Blake Pell</Authors>
     <Description>Common library for use with the Avalon Mud Client.</Description>
     <Copyright>2003-2021</Copyright>
     <PackageProjectUrl>https://github.com/blakepell/AvalonMudClient</PackageProjectUrl>
     <RepositoryUrl>https://github.com/blakepell/AvalonMudClient</RepositoryUrl>
-    <AssemblyVersion>2021.6.17.1</AssemblyVersion>
+    <AssemblyVersion>2021.7.9.1</AssemblyVersion>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Argus.Core" Version="2021.4.22.1" />
+    <PackageReference Include="Argus.Core" Version="2021.6.26.1" />
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />

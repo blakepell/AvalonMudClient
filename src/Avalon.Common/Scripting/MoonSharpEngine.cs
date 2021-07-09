@@ -67,7 +67,7 @@ namespace Avalon.Common.Scripting
 
             MemoryPool = new ObjectPool<Script>
             {
-                InitAction = this.InitializeScript,
+                GetAction = this.InitializeScript,
                 ReturnAction = script =>
                 {
                 }
@@ -80,8 +80,14 @@ namespace Avalon.Common.Scripting
         /// The default options and references to set on our <see cref="Script"/> objects.
         /// </summary>
         /// <param name="script"></param>
-        private void InitializeScript(Script script)
+        /// <param name="init"></param>
+        private void InitializeScript(Script script, bool init)
         {
+            if (!init)
+            {
+                return;
+            }
+
             // Setup Lua
             script.Options.CheckThreadAccess = false;
 
@@ -500,7 +506,7 @@ namespace Avalon.Common.Scripting
             var lua = new Script();
             DynValue ret;
 
-            this.InitializeScript(lua);
+            this.InitializeScript(lua, true);
 
             try
             {
@@ -543,7 +549,7 @@ namespace Avalon.Common.Scripting
             DynValue ret;
             var executionControlToken = new ExecutionControlToken();
 
-            this.InitializeScript(lua);
+            this.InitializeScript(lua, true);
 
             try
             {
