@@ -33,10 +33,10 @@ namespace Avalon.Lua
     /// </summary>
     public class ScriptCommands
     {
-        public ScriptCommands(IInterpreter interp, Random rnd)
+        public ScriptCommands(IInterpreter interp)
         {
             _interpreter = interp;
-            _random = rnd;
+            _random = new Random();
         }
 
         /// <summary>

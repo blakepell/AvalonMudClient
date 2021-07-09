@@ -4,7 +4,6 @@
              xmlns:ui="http://schemas.modernwpf.com/2019"
              Exit="Application_Exit"
              Startup="Application_Startup"
-             StartupUri="MainWindow.xaml"
              ShutdownMode="OnMainWindowClose">
     <Application.Resources>
         <ResourceDictionary>

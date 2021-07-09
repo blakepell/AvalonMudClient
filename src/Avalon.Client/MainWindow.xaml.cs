@@ -165,13 +165,7 @@ namespace Avalon
 
                 // Pass the necessary reference from this page to the Interpreter.  Add the interpreter
                 // references.
-                this.Interp = new Interpreter();
-
-                AppServices.AddService((s) =>
-                {
-                    s.AddSingleton<Interpreter>(this.Interp);
-                    s.AddSingleton<IInterpreter>(this.Interp);
-                });
+                this.Interp = AppServices.GetService<Interpreter>();
 
                 // Setup / cleanup any issues with triggers and aliases.
                 Utilities.Utilities.SetupTriggers();

@@ -27,6 +27,7 @@ using ICSharpCode.AvalonEdit;
 using System.Windows.Media;
 using Avalon.Common;
 using Avalon.Common.Scripting;
+using Avalon.Lua;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Avalon
@@ -83,11 +84,13 @@ namespace Avalon
             try
             {
                 // Done to support the Interface, we're going to go ahead and register any
-                // singleton instances that we can create here.
+                // singleton instances that we can create here.  Tier 1 services which can
+                // be loaded without dependency.
                 var conveyor = new Conveyor();
                 var scriptHost = new ScriptHost();
                 var settings = new SettingsProvider(conveyor);
-
+                var mainWindow = new MainWindow();
+                
                 AppServices.Init((sc) =>
                 {
                     sc.AddSingleton<Conveyor>(conveyor);
@@ -95,6 +98,7 @@ namespace Avalon
                     sc.AddSingleton<ScriptHost>(scriptHost);
                     sc.AddSingleton<SettingsProvider>(settings);
                     sc.AddSingleton<ISettingsProvider>(settings);
+                    sc.AddSingleton<MainWindow>(mainWindow);
                 });
 
                 // Setup the Conveyor for this instance of the mud client.  This can be passed to
@@ -104,6 +108,12 @@ namespace Avalon
                 // First thing's first, setup the Settings.  This will at least initialize the client
                 // settings (and if a profile has previously been loaded it will load that profile).
                 App.Settings = AppServices.GetService<SettingsProvider>();
+
+                // Set are reference in the App (backwards compatibility) and also set the current
+                // main window for the Application since we're manually showing the window at the
+                // end of this procedure.
+                App.MainWindow = AppServices.GetService<MainWindow>();
+                Application.Current.MainWindow = App.MainWindow;
 
                 // We're going to try to load the wav file to play the ANSI beep when it's needed.
                 if (File.Exists(@"Media\alert.wav"))
@@ -134,11 +144,32 @@ namespace Avalon
                 // from the current room will work.
                 AvalonEditCommands.DeleteLine.InputGestures.Clear();
 
+                // Tier 2 services, might require something from tier 1 so loaded second.  The interpreter echos to
+                // the main window, requires events wired up on the main window, requires the script host and needs
+                // the settings so we'll add it in after the fact here.
+                var interp = new Interpreter();
+
+                AppServices.AddService((sc) =>
+                {
+                    sc.AddSingleton<Interpreter>(interp);
+                    sc.AddSingleton<IInterpreter>(interp);
+                });
             }
             catch (Exception ex)
             {
                 // TODO - logging
                 MessageBox.Show($"A startup error occurred: {ex.Message}");
+            }
+
+            // Showing the main window needs to be the last thing since it will require the settings to be
+            // in place that are used in the MainWindow_Loaded event.
+            try
+            {
+                MainWindow.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"A startup error occurred showing MainWindow: {ex.Message}");
             }
         }
 

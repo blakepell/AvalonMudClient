@@ -51,8 +51,7 @@ namespace Avalon
 
             // Setup the scripting environment.  Error handlers are set here allowing the actual scripting
             // environment to stay generic while the client worries about the implementation details.
-            _random = new Random();
-            _scriptCommands = new ScriptCommands(this, _random);
+            _scriptCommands = new ScriptCommands(this);
 
             this.MoonSharpInit();
         }
@@ -107,7 +106,7 @@ namespace Avalon
 
             // Populate the script engine's memory pool.
             this.ScriptHost.MoonSharp.MemoryPool.Fill(5);
-            App.Conveyor.EchoInfo("{CM{coon{CS{charp{x Lua Memory Pool Initialized with 5/10 instances.");
+            this.Conveyor.EchoInfo("{CM{coon{CS{charp{x Lua Memory Pool Initialized with 5/10 instances.");
         }
 
         /// <summary>
@@ -693,12 +692,6 @@ namespace Avalon
         /// An interop object that allows scripts to interact with the .NET environment.
         /// </summary>
         private static ScriptCommands _scriptCommands;
-
-        /// <summary>
-        /// Single static Random object that will need to be locked between usages.  Calls to _random
-        /// should be locked for thread safety as Random is not thread safe.
-        /// </summary>
-        private static Random _random;
 
     }
 
