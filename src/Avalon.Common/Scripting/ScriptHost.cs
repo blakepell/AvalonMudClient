@@ -12,6 +12,8 @@ using Cysharp.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Avalon.Common.Models;
+using Avalon.Common.Settings;
 
 namespace Avalon.Common.Scripting
 {
@@ -89,6 +91,50 @@ namespace Avalon.Common.Scripting
         public void AddFunction(SourceCode src)
         {
             this.SourceCodeIndex[src.FunctionName] = src;
+        }
+
+        /// <summary>
+        /// Refreshes all Lua scripts.  This will attempt to load them from the DI provided
+        /// settings if it exists.
+        /// </summary>
+        public void RefreshScripts()
+        {
+            var settings = AppServices.GetService<SettingsProvider>();
+
+            if (settings?.ProfileSettings == null)
+            {
+                return;
+            }
+
+            foreach (var alias in settings.ProfileSettings.AliasList)
+            {
+                // In case any of the function names are null or blank, set them up based off of the ID.
+                if (string.IsNullOrWhiteSpace(alias.FunctionName))
+                {
+                    alias.FunctionName = ScriptHost.GetFunctionName(alias.Id, "a");
+                }
+
+                // Load the scripts into the scripting environment.
+                if (alias.ExecuteAs == ExecuteType.LuaMoonsharp)
+                {
+                    this.AddFunction(new SourceCode(alias.Command, alias.FunctionName, ScriptType.MoonSharpLua));
+                }
+            }
+
+            foreach (var trigger in settings.ProfileSettings.TriggerList)
+            {
+                // In case any of the function names are null or blank, set them up based off of the ID.
+                if (string.IsNullOrWhiteSpace(trigger.FunctionName))
+                {
+                    trigger.FunctionName = ScriptHost.GetFunctionName(trigger.Identifier, "tr");
+                }
+
+                // Load the scripts into the scripting environment.
+                if (trigger.ExecuteAs == ExecuteType.LuaMoonsharp)
+                {
+                    this.AddFunction(new SourceCode(trigger.Command, trigger.FunctionName, ScriptType.MoonSharpLua));
+                }
+            }
         }
 
         /// <summary>

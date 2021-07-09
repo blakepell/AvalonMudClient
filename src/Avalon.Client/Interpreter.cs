@@ -285,6 +285,9 @@ namespace Avalon
                     this.ScriptHost?.Reset();
                     Conveyor.EchoLog("Host change detected: Scripting environment reset.", LogType.Information);
 
+                    // Refresh the scripts so they will load when needed.
+                    this.ScriptHost?.RefreshScripts();
+                    
                     // Populate the script engine's memory pool.
                     this.ScriptHost?.MoonSharp.MemoryPool.Fill(5);
                     App.Conveyor.EchoInfo("{CM{coon{CS{charp{x Lua Memory Pool Initialized with 5/10 instances.");
