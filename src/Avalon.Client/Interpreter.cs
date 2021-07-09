@@ -33,9 +33,9 @@ namespace Avalon
     /// </summary>
     public class Interpreter : IInterpreter
     {
-        public Interpreter(IConveyor c)
+        public Interpreter()
         {
-            this.Conveyor = c;
+            this.Conveyor = AppServices.GetService<Conveyor>();
 
             // Reflect over all of the IHashCommands that are available.
             var type = typeof(IHashCommand);

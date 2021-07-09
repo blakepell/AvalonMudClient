@@ -53,11 +53,6 @@ namespace Avalon
         public MainWindowViewModel ViewModel = new MainWindowViewModel();
 
         /// <summary>
-        /// Lua control token to pause, stop and resume scripts.
-        /// </summary>
-        public ExecutionControlToken LuaControl;
-
-        /// <summary>
         /// Timer to time ticks with.
         /// </summary>
         public TickTimer TickTimer;
@@ -166,7 +161,7 @@ namespace Avalon
                 TitleBar.SearchBox.SearchExecuted += this.SearchBox_SearchExecutedAsync;
 
                 // Pass the necessary reference from this page to the Interpreter.
-                Interp = new Interpreter(App.Conveyor);
+                Interp = new Interpreter();
 
                 // Inject the Conveyor into the Triggers so the Triggers know how to talk to the UI.  Not doing this
                 // causes ya know, problems.
@@ -197,7 +192,7 @@ namespace Avalon
 
                 // Setup the auto complete commands.  If they're found refresh them, if they're not
                 // report it to the terminal window.  It should -always be found-.
-                RefreshAutoCompleteEntries();
+                this.RefreshAutoCompleteEntries();
 
                 // Update static variables from places that might be expensive to populate from (like Environment.Username).  Normally
                 // something like that isn't expensive but when run on variable replacement it can be more noticeable.
@@ -205,13 +200,13 @@ namespace Avalon
 
                 // Load any plugin classes from the plugins folder.  They will be "activated" when a mud who matches
                 // the plugin IP is connected to.
-                LoadPlugins();
+                this.LoadPlugins();
 
                 // Loads the initial list of items for the navigation slide out.
                 this.NavManager.Load();
 
                 // Update any UI settings
-                UpdateUISettings();
+                this.UpdateUISettings();
 
                 // Auto connect to the game if the setting is set.
                 if (App.Settings.ProfileSettings.AutoConnect)

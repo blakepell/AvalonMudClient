@@ -53,6 +53,17 @@ namespace Avalon.Common
         }
 
         /// <summary>
+        /// Creates an instance of an object and injects any dependencies into it that
+        /// are required via the constructor of that object.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static T CreateInstance<T>()
+        {
+            return ActivatorUtilities.CreateInstance<T>(Instance.ServiceProvider);
+        }
+
+        /// <summary>
         /// Mechanism for retrieving a service object.
         /// </summary>
         public IServiceProvider ServiceProvider { get; set; }
