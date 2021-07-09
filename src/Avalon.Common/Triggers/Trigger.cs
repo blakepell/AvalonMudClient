@@ -24,9 +24,12 @@ namespace Avalon.Common.Triggers
     /// </summary>
     public class Trigger : ITrigger, ICloneable, INotifyPropertyChanged, IModelInfo
     {
+        private IConveyor _conveyor;
+
         public Trigger()
         {
             this.Identifier = Guid.NewGuid().ToString();
+            _conveyor = AppServices.GetService<IConveyor>();
         }
 
         public Trigger(string pattern, string command, string character = "", bool isSilent = false, string identifier = "",
@@ -50,6 +53,7 @@ namespace Avalon.Common.Triggers
             this.SystemTrigger = systemTrigger;
             this.Priority = priority;
             this.StopProcessing = stopProcessing;
+            _conveyor = AppServices.GetService<IConveyor>();
         }
 
         public Trigger(string pattern, string command, string character, bool isSilent, string identifier)
@@ -59,6 +63,7 @@ namespace Avalon.Common.Triggers
             this.Character = character;
             this.Identifier = identifier;
             this.IsSilent = isSilent;
+            _conveyor = AppServices.GetService<IConveyor>();
         }
 
         public Trigger(string pattern, string command, string character, bool isSilent, string identifier, TerminalTarget moveTo, bool gag)
@@ -70,13 +75,13 @@ namespace Avalon.Common.Triggers
             this.IsSilent = isSilent;
             this.MoveTo = moveTo;
             this.Gag = gag;
+            _conveyor = AppServices.GetService<IConveyor>();
         }
 
         /// <inheritdoc/>
         public virtual bool IsMatch(string line)
         {
             Match match;
-            var conveyor = AppServices.GetService<IConveyor>();
 
             // Does this trigger contain any variables?  If so, we'll need to special handle it.  We're also
             // going to require that the VariableReplacement value is set to true so the player has to
@@ -87,7 +92,7 @@ namespace Avalon.Common.Triggers
             if (this.VariableReplacement && Pattern.IndexOf('@') >= 0)
             {
                 // Replace any variables with their literal values.
-                string tempPattern = conveyor.ReplaceVariablesWithValue(Pattern);
+                string tempPattern = _conveyor.ReplaceVariablesWithValue(Pattern);
                 var tempRegex = new Regex(tempPattern, RegexOptions.IgnoreCase);
                 match = tempRegex.Match(line);
             }
@@ -132,7 +137,7 @@ namespace Avalon.Common.Triggers
                 }
                 catch
                 {
-                    conveyor.EchoError($"The previous exception was from a line transformer trigger with the following pattern: {this.Pattern}");
+                    _conveyor.EchoError($"The previous exception was from a line transformer trigger with the following pattern: {this.Pattern}");
                     return false;
                 }
             }
@@ -166,7 +171,7 @@ namespace Avalon.Common.Triggers
                         // %1, %2, %3 values.  TODO - Is this right.. seems like it should do both if needed?
                         if (!string.IsNullOrWhiteSpace(match.Groups[i].Name) && !match.Groups[i].Name.IsNumeric() && !string.IsNullOrWhiteSpace(match.Groups[i].Value))
                         {
-                            conveyor.SetVariable(match.Groups[i].Name, match.Groups[i].Value);
+                            _conveyor.SetVariable(match.Groups[i].Name, match.Groups[i].Value);
                         }
                         else
                         {
@@ -183,7 +188,7 @@ namespace Avalon.Common.Triggers
             }
 
             // If the profile setting to track the last trigger date is set then set it.
-            if (conveyor?.ProfileSettings?.TrackTriggerLastMatched == true)
+            if (_conveyor?.ProfileSettings?.TrackTriggerLastMatched == true)
             {
                 this.LastMatched = DateTime.Now;
             }
