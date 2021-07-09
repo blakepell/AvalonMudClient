@@ -26,6 +26,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Avalon.Common;
+using Avalon.Common.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Avalon
 {
@@ -160,12 +163,18 @@ namespace Avalon
                 // Wire up what we're going to do for the search box.
                 TitleBar.SearchBox.SearchExecuted += this.SearchBox_SearchExecutedAsync;
 
-                // Pass the necessary reference from this page to the Interpreter.
-                Interp = new Interpreter();
+                // Pass the necessary reference from this page to the Interpreter.  Add the interpreter
+                // references.
+                this.Interp = new Interpreter();
 
-                // Inject the Conveyor into the Triggers so the Triggers know how to talk to the UI.  Not doing this
-                // causes ya know, problems.
-                Utilities.Utilities.TriggerSetup();
+                AppServices.AddService((s) =>
+                {
+                    s.AddSingleton<Interpreter>(this.Interp);
+                    s.AddSingleton<IInterpreter>(this.Interp);
+                });
+
+                // Setup / cleanup any issues with triggers and aliases.
+                Utilities.Utilities.SetupTriggers();
                 Utilities.Utilities.SetupAliases();
 
                 // Setup the handler so when it wants to write to the main window it can by raising the echo event.
@@ -552,7 +561,7 @@ namespace Avalon
 
                     // Inject the Conveyor/ScriptHost into the Triggers and aliases including
                     // initial loading of scripts.
-                    Utilities.Utilities.TriggerSetup();
+                    Utilities.Utilities.SetupTriggers();
                     Utilities.Utilities.SetupAliases();
 
                     // We have a new profile, refresh the auto complete command list.

@@ -158,7 +158,7 @@ namespace Avalon
                 }
 
                 // Just in case this will make sure the Conveyor is setup on this trigger.
-                Utilities.Utilities.TriggerSetup();
+                Utilities.Utilities.SetupTriggers();
 
                 this.Close();
             }

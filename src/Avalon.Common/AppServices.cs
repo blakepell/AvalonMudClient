@@ -31,6 +31,43 @@ namespace Avalon.Common
             var services = new ServiceCollection();
             action.Invoke(services);
             Instance.ServiceProvider = services.BuildServiceProvider();
+            _serviceCollection = services;
+        }
+
+        /// <summary>
+        /// Registers a singleton type that will be created the first time it is used.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public static void AddSingleton<T>() where T : class
+        {
+            _serviceCollection ??= new ServiceCollection();
+            _serviceCollection.AddSingleton<T>();
+            Instance.ServiceProvider = _serviceCollection.BuildServiceProvider();
+        }
+
+        /// <summary>
+        /// Registers a type singleton with the copy of the object that should be presented on
+        /// dependency injection.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="instance">The specific instance that should be added as a singleton.</param>
+        public static void AddSingleton<T>(T instance) where T: class
+        {
+            _serviceCollection ??= new ServiceCollection();
+            _serviceCollection.AddSingleton<T>(instance);
+            Instance.ServiceProvider = _serviceCollection.BuildServiceProvider();
+        }
+
+        /// <summary>
+        /// Allows for the registration of dependency injected services via an <see cref="Action"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="action"></param>
+        public static void AddService(Action<ServiceCollection> action)
+        {
+            _serviceCollection ??= new ServiceCollection();
+            action.Invoke(_serviceCollection);
+            Instance.ServiceProvider = _serviceCollection.BuildServiceProvider();
         }
 
         /// <summary>
@@ -94,5 +131,12 @@ namespace Avalon.Common
                 return _instance ??= new AppServices();
             }
         }
+
+        /// <summary>
+        /// A reference to the service collection so that services can be added at a time
+        /// later than the initial registration of objects.
+        /// </summary>
+        private static ServiceCollection _serviceCollection;
+
     }
 }

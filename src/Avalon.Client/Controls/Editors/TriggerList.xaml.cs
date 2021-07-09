@@ -122,7 +122,7 @@ namespace Avalon.Controls
                 Filter = Filter
             };
 
-            Utilities.Utilities.TriggerSetup();
+            Utilities.Utilities.SetupTriggers();
 
             DataList.Items.Refresh();
 
@@ -230,7 +230,7 @@ namespace Avalon.Controls
         /// <param name="e"></param>
         private void DataList_OnCellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            Utilities.Utilities.TriggerSetup();
+            Utilities.Utilities.SetupTriggers();
         }
 
         /// <summary>

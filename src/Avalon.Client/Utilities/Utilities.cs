@@ -31,7 +31,7 @@ namespace Avalon.Utilities
         /// <summary>
         /// Sets all triggers up with the Conveyor and ScriptHost from the MainWindow if they haven't been wired up already.
         /// </summary>
-        public static void TriggerSetup()
+        public static void SetupTriggers()
         {
             if (App.Settings?.ProfileSettings?.TriggerList != null)
             {
