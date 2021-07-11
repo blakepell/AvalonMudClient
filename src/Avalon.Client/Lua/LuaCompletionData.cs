@@ -107,6 +107,14 @@ namespace Avalon.Lua
                 textArea.Document.Replace(completionSegment, sb.ToString());
                 Argus.Memory.StringBuilderPool.Return(sb);
             }
+            else if (this.Text == "Get Arguments via getargs")
+            {
+                textArea.Document.Replace(completionSegment, "getarg(1, ...)");
+            }
+            else if (this.Text == "Get Arguments via select")
+            {
+                textArea.Document.Replace(completionSegment, "select(0, ...)");
+            }
             else
             {
                 textArea.Document.Replace(completionSegment, this.Text);

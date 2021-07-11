@@ -131,6 +131,8 @@ namespace Avalon.Lua
             data.Add(new LuaCompletionData("Scheduled Tasks", "A snippet to show how to use scheduled tasks", ""));
             data.Add(new LuaCompletionData("For Loop", "A snippet to show how to use scheduled tasks", ""));
             data.Add(new LuaCompletionData("For Loop Pairs", "A snippet to show how to use scheduled tasks", ""));
+            data.Add(new LuaCompletionData("Get Arguments via getargs", "A snippet the arguments that are passed into a Lua alias or trigger with 'getarg'.", ""));
+            data.Add(new LuaCompletionData("Get Arguments via select", "A snippet the arguments that are passed into a Lua alias or trigger with 'select'.", ""));
         }
 
     }
