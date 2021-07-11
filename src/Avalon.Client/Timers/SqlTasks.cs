@@ -97,6 +97,7 @@ namespace Avalon.Timers
             {
                 this.IsWriting = false;
                 _timer.IsEnabled = false;
+                return;
             }
 
             this.IsWriting = true;
@@ -389,6 +390,15 @@ namespace Avalon.Timers
         public void SetInterval(int seconds)
         {
             _timer.Interval = TimeSpan.FromSeconds(seconds);
+        }
+
+        /// <summary>
+        /// Returns the number of seconds between intervals in the batch SQLite tasks.
+        /// </summary>
+        /// <returns></returns>
+        public int GetInterval()
+        {
+            return (int)_timer.Interval.TotalSeconds;
         }
 
         /// <summary>

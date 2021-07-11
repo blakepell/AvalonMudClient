@@ -7,6 +7,7 @@
  * @license           : MIT
  */
 
+using System.Data;
 using Avalon.Common.Interfaces;
 using CommandLine;
 using System.Threading.Tasks;
@@ -33,12 +34,14 @@ namespace Avalon.HashCommands
                     var sb = Argus.Memory.StringBuilderPool.Take();
 
                     sb.AppendLine();
-                    sb.Append("{CSQLite Environment Info:{x\r\n");
+                    sb.Append("{CSQL{cite{x Environment Info:{x\r\n");
                     sb.Append("---------------------------------------------------------------------\r\n");
-
-                    sb.AppendFormat(" {{G * {{WSQL Scripts Pending:{{x         {{C{0}{{x\r\n", App.MainWindow.SqlTasks.SqlQueue.Count);
-                    sb.AppendFormat(" {{G * {{WSQL Scripts Run:{{x             {{C{0}{{x\r\n", App.MainWindow.SqlTasks.CommandsRun);
-                    sb.AppendFormat(" {{G * {{WCommand Cache Count:{{x         {{C{0}{{x\r\n", App.MainWindow.SqlTasks.SqliteCommandCache.Count);
+                    sb.AppendFormat(" {{G * {{WData Source:{{x          {{C{0}{{x\r\n", App.Settings.ProfileSettings.SqliteDatabase);
+                    sb.AppendFormat(" {{G * {{WConnection Open:{{x      {{C{0}{{x\r\n", App.MainWindow.SqlTasks.Connection.State == ConnectionState.Open ? "Yes" : "No");
+                    sb.AppendFormat(" {{G * {{WSQL Scripts Pending:{{x  {{C{0}{{x\r\n", App.MainWindow.SqlTasks.SqlQueue.Count);
+                    sb.AppendFormat(" {{G * {{WSQL Scripts Run:{{x      {{C{0}{{x\r\n", App.MainWindow.SqlTasks.CommandsRun);
+                    sb.AppendFormat(" {{G * {{WCommand Cache Count:{{x  {{C{0}{{x\r\n", App.MainWindow.SqlTasks.SqliteCommandCache.Count);
+                    sb.AppendFormat(" {{G * {{WBatch Interval:{{x       {{C{0}s{{c{{x\r\n", App.MainWindow.SqlTasks.GetInterval());
 
                     this.Interpreter.Conveyor.EchoText(sb.ToString());
 
