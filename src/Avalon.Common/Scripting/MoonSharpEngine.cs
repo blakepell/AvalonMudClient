@@ -322,7 +322,6 @@ namespace Avalon.Common.Scripting
                     try
                     {
                         _ = await lua.DoStringAsync(new ExecutionControlToken(), this.ScriptHost.SourceCodeIndex[functionName].AsFunctionString, codeFriendlyName: functionName);
-                        fnc = lua.Globals.Get(functionName);
                     }
                     catch (Exception ex)
                     {
@@ -336,6 +335,12 @@ namespace Avalon.Common.Scripting
                         this?.ExceptionHandler(exd);
                         throw new Exception($"ExecuteFunctionAsync<T>: (Lua) {functionName} failed to load.");
                     }
+
+                    // Track the hash for this function in this specific script instance.
+                    lua.SourceCodeHashIndex[functionName] = this.ScriptHost.SourceCodeIndex[functionName].Md5Hash;
+
+                    // Do the get again
+                    fnc = lua.Globals.Get(functionName);
                 }
             }
 
@@ -455,8 +460,13 @@ namespace Avalon.Common.Scripting
 
                         this?.ExceptionHandler(exd);
                         throw new Exception($"ExecuteFunction<T>: (Lua) {functionName} failed to load.");
-
                     }
+
+                    // Track the hash for this function in this specific script instance.
+                    lua.SourceCodeHashIndex[functionName] = this.ScriptHost.SourceCodeIndex[functionName].Md5Hash;
+
+                    // Do the get again
+                    fnc = lua.Globals.Get(functionName);
                 }
             }
 
