@@ -12,6 +12,7 @@ using Avalon.Controls;
 using ModernWpf;
 using System.Linq;
 using System.Windows.Input;
+using Avalon.Common.Models;
 
 namespace Avalon
 {
@@ -26,6 +27,12 @@ namespace Avalon
         /// </summary>
         private void MainWindow_OnPreviewKeyDown(object sender, KeyEventArgs e)
         {
+            // Allow the interactive Lua editor to have it's own macros.
+            if (LuaEditor.Editor.TextArea.IsFocused)
+            {
+                return;
+            }
+
             // Second, look for whether this key was a Macro, if a Macro is found, execute it,
             // set the focus to the text input box then get out.
             foreach (var item in App.Settings.ProfileSettings.MacroList)
