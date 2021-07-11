@@ -2206,20 +2206,20 @@ namespace Avalon.Lua
 
             if (t == null)
             {
-                var trigger = new Common.Triggers.Trigger
-                {
-                    Pattern = replace,
-                    Command = luaCode,
-                    Temp = temp,
-                    LineTransformer = true,
-                    IsLua = true,
-                    ExecuteAs = ExecuteType.LuaMoonsharp
-                };
+                var trigger = new Common.Triggers.Trigger();
 
+                // ID must be set before the code so the property function name is set.
                 if (!string.IsNullOrWhiteSpace(id))
                 {
                     trigger.Identifier = id;
                 }
+
+                trigger.Pattern = replace;
+                trigger.Command = luaCode;
+                trigger.Temp = temp;
+                trigger.LineTransformer = true;
+                trigger.IsLua = true;
+                trigger.ExecuteAs = ExecuteType.LuaMoonsharp;
 
                 App.Settings.ProfileSettings.TriggerList.Add(trigger);
             }
