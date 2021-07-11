@@ -3,14 +3,14 @@
   <PropertyGroup>
     <TargetFramework>net5.0-windows10.0.18362</TargetFramework>
     <UseWPF>true</UseWPF>
-    <Version>2021.7.9.1</Version>
+    <Version>2021.7.11.1</Version>
     <Authors>Blake Pell</Authors>
     <Company>Blake Pell</Company>
     <Product>Dark and Shattered Lands Plugin for Avalon Mud Client</Product>
     <PackageProjectUrl>https://github.com/blakepell/AvalonMudClient</PackageProjectUrl>
     <RepositoryUrl>https://github.com/blakepell/AvalonMudClient</RepositoryUrl>
-    <AssemblyVersion>2021.7.9.1</AssemblyVersion>
-    <FileVersion>2021.7.9.1</FileVersion>
+    <AssemblyVersion>2021.7.11.1</AssemblyVersion>
+    <FileVersion>2021.7.11.1</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
