@@ -59,6 +59,21 @@ namespace Avalon.HashCommands
                     sb.AppendFormat(" {{G * {{WLua Scripts in the Global Index:{{x     {{C{0}{{x\r\n", scriptHost.SourceCodeIndex.Count);
                     sb.AppendFormat(" {{G * {{WGlobal Variable Count:{{x               {{C{0}{{x\r\n", moonSharp.GlobalVariables.Count.ToString());
 
+                    if (moonSharp.SharedObjects.Count > 0)
+                    {
+                        sb.AppendLine();
+                        sb.Append("{CM{coon{CS{charp{x Plugin Registered Namespaces:{x\r\n");
+                        sb.Append("---------------------------------------------------------------------\r\n");
+                        sb.AppendFormat(" {{G *{{x ");
+
+                        foreach (var item in moonSharp.SharedObjects)
+                        {
+                            sb.AppendFormat("[{{W{0}{{x] ", item.Key);
+                        }
+
+                        sb.AppendLine();
+                    }
+
                     sb.AppendLine();
                     sb.Append("{CM{coon{CS{charp{x Global Variables:{x\r\n");
                     sb.Append("---------------------------------------------------------------------\r\n");
