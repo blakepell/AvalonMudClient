@@ -15,6 +15,7 @@ using System.Windows.Threading;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
 using ModernWpf;
+using SQLitePCL;
 
 namespace Avalon.Controls
 {
@@ -173,6 +174,24 @@ namespace Avalon.Controls
             }
 
             var alias = (Alias)item;
+            
+            // Search by function name.
+            if (TextFilter.Text.StartsWith("function:", StringComparison.Ordinal))
+            {
+                return alias?.FunctionName?.Contains(TextFilter.Text.Replace("function:", ""), StringComparison.OrdinalIgnoreCase) ?? false;
+            }
+
+            // Search by function name.
+            if (TextFilter.Text.StartsWith("id:", StringComparison.Ordinal))
+            {
+                return alias?.Id?.Contains(TextFilter.Text.Replace("id:", ""), StringComparison.OrdinalIgnoreCase) ?? false;
+            }
+
+            // Search by package name.
+            if (TextFilter.Text.StartsWith("package:", StringComparison.Ordinal))
+            {
+                return alias?.PackageId?.Contains(TextFilter.Text.Replace("package:", ""), StringComparison.OrdinalIgnoreCase) ?? false;
+            }
 
             // Ugly, but must be done in case nulls slip in (say if someone nulls out a value in the JSON
             // and it gets loaded that way).

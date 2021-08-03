@@ -103,10 +103,6 @@ namespace Avalon
                     this.Conveyor.EchoDebug($"Lua Internal Data: {exd.Description}");
                 }
             };
-
-            // Populate the script engine's memory pool.
-            this.ScriptHost.MoonSharp.MemoryPool.Fill(5);
-            this.Conveyor.EchoInfo("{CM{coon{CS{charp{x Lua Memory Pool Initialized with 5/10 instances.");
         }
 
         /// <summary>
@@ -287,10 +283,6 @@ namespace Avalon
 
                     // Refresh the scripts so they will load when needed.
                     this.ScriptHost?.RefreshScripts();
-                    
-                    // Populate the script engine's memory pool.
-                    this.ScriptHost?.MoonSharp.MemoryPool.Fill(5);
-                    App.Conveyor.EchoInfo("{CM{coon{CS{charp{x Lua Memory Pool Initialized with 5/10 instances.");
                 }
 
                 // We can set this now, when we come back in if the IP changes they we'll reset above.
@@ -310,7 +302,6 @@ namespace Avalon
                 Telnet?.Dispose();
                 Conveyor.EchoLog($"Connection Failed: {ex.Message}", LogType.Error);
             }
-
         }
 
         /// <summary>

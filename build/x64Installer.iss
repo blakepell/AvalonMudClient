@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Avalon Mud Client"
-#define MyAppVersion "2021.7.11.1"
+#define MyAppVersion "2021.8.3.2"
 #define MyAppPublisher "Blake Pell"
 #define MyAppURL "https://github.com/blakepell/AvalonMudClient"
 #define MyAppExeName "Avalon.exe"

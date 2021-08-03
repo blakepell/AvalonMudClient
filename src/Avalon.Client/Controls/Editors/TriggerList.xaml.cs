@@ -176,6 +176,24 @@ namespace Avalon.Controls
 
             var trigger = (Common.Triggers.Trigger)item;
 
+            // Search by function name.
+            if (TextFilter.Text.StartsWith("function:", StringComparison.Ordinal))
+            {
+                return trigger?.FunctionName?.Contains(TextFilter.Text.Replace("function:", ""), StringComparison.OrdinalIgnoreCase) ?? false;
+            }
+
+            // Search by function name.
+            if (TextFilter.Text.StartsWith("id:", StringComparison.Ordinal))
+            {
+                return trigger?.Identifier?.Contains(TextFilter.Text.Replace("id:", ""), StringComparison.OrdinalIgnoreCase) ?? false;
+            }
+
+            // Search by package name.
+            if (TextFilter.Text.StartsWith("package:", StringComparison.Ordinal))
+            {
+                return trigger?.PackageId?.Contains(TextFilter.Text.Replace("package:", ""), StringComparison.OrdinalIgnoreCase) ?? false;
+            }
+
             return (trigger?.Pattern?.Contains(TextFilter.Text, StringComparison.OrdinalIgnoreCase) ?? false)
                    || (trigger?.Command?.Contains(TextFilter.Text, StringComparison.OrdinalIgnoreCase) ?? false)
                    || (trigger?.Character?.Contains(TextFilter.Text, StringComparison.OrdinalIgnoreCase) ?? false)

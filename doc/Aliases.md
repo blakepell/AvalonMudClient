@@ -76,3 +76,16 @@ local personName = lua.GetVariable("Person")
 -- Echo it out so we can see that it was set.
 lua.Echo("You have set the 'Person' variable equal to " .. personName)
 ```
+
+### Search Tips:
+The alias data grid editor has a filter option at the of the panel that will default to searching the alias expression, command, character or group.  Additonal search options are available as defined the switches included below that allow you to specify which of the extended fields to search.
+
+```
+function:<function name>
+```
+```
+id:<ID of alias>
+```
+```
+package:<ID of package that the alias is associated with>
+```

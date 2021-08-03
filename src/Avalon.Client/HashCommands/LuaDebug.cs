@@ -64,7 +64,7 @@ namespace Avalon.HashCommands
                     if (moonSharp.SharedObjects.Count > 0)
                     {
                         sb.AppendLine();
-                        sb.Append("{CM{coon{CS{charp{x Plugin Registered Namespaces:{x\r\n");
+                        sb.Append("{CM{coon{CS{charp{x CLR Plugins and Memory Pool Script Instances:{x\r\n");
                         sb.Append("---------------------------------------------------------------------\r\n");
                         sb.AppendFormat(" {{G *{{x ");
 

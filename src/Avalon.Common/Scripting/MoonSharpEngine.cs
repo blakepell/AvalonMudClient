@@ -13,6 +13,7 @@ using MoonSharp.Interpreter;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Cysharp.Text;
 
 namespace Avalon.Common.Scripting
 {
@@ -357,11 +358,13 @@ namespace Avalon.Common.Scripting
             }
             catch (Exception ex)
             {
+                string formattedArgs = this.FormatArgs(args);
+
                 var exd = new ScriptExceptionData
                 {
                     Exception = ex,
                     FunctionName = functionName,
-                    Description = $"ExecuteFunctionAsync<T>: Lua Error running function {functionName}"
+                    Description = $"ExecuteFunctionAsync<T>: Lua Error running function {functionName}{formattedArgs}"
                 };
 
                 this?.ExceptionHandler(exd);
@@ -483,11 +486,13 @@ namespace Avalon.Common.Scripting
             }
             catch (Exception ex)
             {
+                string formattedArgs = this.FormatArgs(args);
+
                 var exd = new ScriptExceptionData
                 {
                     Exception = ex,
                     FunctionName = functionName,
-                    Description = $"ExecuteFunction<T>: Lua Error running function {functionName}"
+                    Description = $"ExecuteFunction<T>: Lua Error running function {functionName}{formattedArgs}"
                 };
 
                 this?.ExceptionHandler(exd);
@@ -684,6 +689,48 @@ namespace Avalon.Common.Scripting
                     Exception = ex
                 };
             }
+        }
+
+        /// <summary>
+        /// Returns arguments for display.
+        /// </summary>
+        /// <param name="args"></param>
+        private string FormatArgs(string[] args)
+        {
+            string buf;
+
+            if (args == null || args.Length > 0)
+            {
+                try
+                {
+                    using (var sb = ZString.CreateStringBuilder())
+                    {
+                        sb.Append('(');
+
+                        foreach (string arg in args)
+                        {
+                            sb.Append("\"");
+                            sb.Append(arg);
+                            sb.Append("\", ");
+                        }
+
+                        sb.Remove(sb.Length - 2, 2);
+                        sb.Append(')');
+
+                        buf = sb.ToString();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return $"Error Formatting Arguments: {ex.Message}";
+                }
+            }
+            else
+            {
+                buf = "()";
+            }
+
+            return buf;
         }
     }
 }

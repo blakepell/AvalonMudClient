@@ -55,7 +55,5 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Lua
 
             return affectsTrigger.Affects.Find(x => x.Name.Equals(affectName, StringComparison.OrdinalIgnoreCase))?.Duration ?? -2;
         }
-
     }
-
 }

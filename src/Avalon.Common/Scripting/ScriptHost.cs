@@ -114,7 +114,8 @@ namespace Avalon.Common.Scripting
                     alias.FunctionName = ScriptHost.GetFunctionName(alias.Id, "a");
                 }
 
-                // Load the scripts into the scripting environment.
+                // Load the scripts into the scripting environment.  AddFunction updates the dictionary
+                // by key so this will in effect add or update (not duplicate)
                 if (alias.ExecuteAs == ExecuteType.LuaMoonsharp)
                 {
                     this.AddFunction(new SourceCode(alias.Command, alias.FunctionName, ScriptType.MoonSharpLua));
