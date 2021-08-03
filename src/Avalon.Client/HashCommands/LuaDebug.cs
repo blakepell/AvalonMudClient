@@ -7,6 +7,8 @@
  * @license           : MIT
  */
 
+using System;
+using System.Linq;
 using Argus.Extensions;
 using Avalon.Common.Interfaces;
 using CommandLine;
@@ -73,6 +75,20 @@ namespace Avalon.HashCommands
 
                         sb.AppendLine();
                     }
+
+                    moonSharp.MemoryPool.InvokeAll((script) =>
+                    {
+                        sb.AppendFormat("  {{G* {{W{0}: {{C{1}{{x global keys\r\n", script.Id, script.Globals.Keys.Count());
+                        sb.Append("      {g*{x ");
+
+                        foreach (var item in moonSharp.SharedObjects)
+                        {
+                            bool found = script.Globals.Keys.Any(x => item.Key.Equals(x.CastToString(), StringComparison.OrdinalIgnoreCase));
+                            sb.AppendFormat(found ? "[{{W{0} {{GFound{{x] " : "[{{W{0} {{RMissing{{x]\r\n", item.Key);
+                        }
+
+                        sb.AppendLine();
+                    });
 
                     sb.AppendLine();
                     sb.Append("{CM{coon{CS{charp{x Global Variables:{x\r\n");

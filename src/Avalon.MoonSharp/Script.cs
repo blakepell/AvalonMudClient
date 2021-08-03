@@ -39,6 +39,11 @@ namespace MoonSharp.Interpreter
         public Dictionary<string, string> SourceCodeHashIndex { get; set; } = new();
 
         /// <summary>
+        /// A unique identifier for this specific <see cref="Script"/> instance.
+        /// </summary>
+        public string Id { get; }
+
+        /// <summary>
         /// Returns the number of instructions held by this <see cref="ByteCode"/> class.
         /// </summary>
         public int InstructionCount => _byteCode.InstructionCount;
@@ -73,6 +78,8 @@ namespace MoonSharp.Interpreter
         /// <param name="coreModules">The core modules to be pre-registered in the default global table.</param>
         public Script(CoreModules coreModules)
         {
+            this.Id = Guid.NewGuid().ToString();
+
             this.Options = new ScriptOptions(DefaultOptions);
             this.Registry = new Table(this);
             
