@@ -223,7 +223,9 @@ namespace Avalon.Lua
         /// <summary>
         /// Echos text to the main terminal.
         /// </summary>
-        /// <param name="msg"></param>
+        /// <param name="msg">The text to echo to the terminal.</param>
+        /// <param name="color">The known color name for the foreground color.</param>
+        /// <param name="reverse">Whether foreground color should be reversed with the background color.</param>
         [Description("Writes text to the main terminal.")]
         public void Echo(string msg, string color, bool reverse)
         {
@@ -253,7 +255,7 @@ namespace Avalon.Lua
         /// <summary>
         /// Echos an event to the main terminal.
         /// </summary>
-        /// <param name="msg"></param>
+        /// <param name="msg">The text to echo to the client.</param>
         [Description("Writes a text event to the main terminal.")]
         public void EchoEvent(string msg)
         {
