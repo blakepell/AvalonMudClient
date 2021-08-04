@@ -192,7 +192,7 @@ namespace Avalon.Utilities
                         for (int i = 1; i <= steps; i++)
                         {
                             sb.Append(direction);
-                            sb.Append(';');
+                            sb.Append(App.Settings.AvalonSettings.CommandSplitCharacter);
                         }
 
                     }
@@ -200,12 +200,12 @@ namespace Avalon.Utilities
                     {
                         // No number, put it in verbatim.
                         sb.Append(step);
-                        sb.Append(';');
+                        sb.Append(App.Settings.AvalonSettings.CommandSplitCharacter);
                     }
 
                 }
 
-                sb.TrimEnd(';');
+                sb.TrimEnd(App.Settings.AvalonSettings.CommandSplitCharacter);
 
                 // Finally, look for parens and turn semi-colons in between there into spaces.  This might be hacky but should
                 // allow for commands in the middle of our directions as long as they're surrounded by ().
@@ -222,7 +222,7 @@ namespace Avalon.Utilities
                         on = false;
                     }
 
-                    if (on && sb[i] == ';')
+                    if (on && sb[i] == App.Settings.AvalonSettings.CommandSplitCharacter)
                     {
                         sb[i] = ' ';
                     }
@@ -270,7 +270,7 @@ namespace Avalon.Utilities
             string forwardPath = Speedwalk(input, true);
 
             // Now, reverse that.
-            var path = forwardPath.Split(';').Reverse().ToList();
+            var path = forwardPath.Split(App.Settings.AvalonSettings.CommandSplitCharacter).Reverse().ToList();
 
             for (int i = 0; i < path.Count; i++)
             {
@@ -312,7 +312,7 @@ namespace Avalon.Utilities
                     for (int i = 1; i <= steps; i++)
                     {
                         sb.Append(direction);
-                        sb.Append(';');
+                        sb.Append(App.Settings.AvalonSettings.CommandSplitCharacter);
                     }
 
                 }
@@ -320,12 +320,12 @@ namespace Avalon.Utilities
                 {
                     // No number, put it in verbatim.
                     sb.Append(step);
-                    sb.Append(';');
+                    sb.Append(App.Settings.AvalonSettings.CommandSplitCharacter);
                 }
 
             }
 
-            sb.TrimEnd(';');
+            sb.TrimEnd(App.Settings.AvalonSettings.CommandSplitCharacter);
 
             if (!leaveParens)
             {
@@ -344,7 +344,7 @@ namespace Avalon.Utilities
                         on = false;
                     }
 
-                    if (on && sb[i] == ';')
+                    if (on && sb[i] == App.Settings.AvalonSettings.CommandSplitCharacter)
                     {
                         sb[i] = ' ';
                     }
@@ -355,7 +355,7 @@ namespace Avalon.Utilities
             }
             else
             {
-                sb.Replace(";", " ");
+                sb.Replace(App.Settings.AvalonSettings.CommandSplitCharacter, ' ');
             }
 
             return sb.ToString();

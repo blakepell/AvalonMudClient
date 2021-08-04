@@ -337,7 +337,7 @@ namespace Avalon
             // Split the list
             var list = new List<string>();
 
-            foreach (var item in cmd.Split(';'))
+            foreach (var item in cmd.Split(App.Settings.AvalonSettings.CommandSplitCharacter))
             {
                 var first = item.FirstArgument();
 

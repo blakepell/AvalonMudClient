@@ -327,6 +327,11 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public int DatabaseWriteInterval { get; set; } = 10;
 
+        [CategoryAttribute("Input")]
+        [DescriptionAttribute("The character used to split commands.")]
+        [Browsable(true)]
+        public char CommandSplitCharacter { get; set; } = ';';
+
         protected virtual void OnPropertyChanged(string propertyName)
         {
             var e = new PropertyChangedEventArgs(propertyName);
