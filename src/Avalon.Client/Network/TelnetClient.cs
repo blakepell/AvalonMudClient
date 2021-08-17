@@ -318,7 +318,7 @@ namespace Avalon.Network
             {
                 // Blow up any outstanding tasks
                 _internalCancellation.Cancel();
-
+                
                 // Both reader and writer use the TcpClient.GetStream(), and closing them will close the underlying stream
                 // So closing the stream for TcpClient is redundant but it means we're triple sure.
                 _tcpReader?.Close();

@@ -263,7 +263,7 @@ namespace Avalon
         /// Connects to the mud server.  Requires that the event handlers for required events be passed in here where they will
         /// be wired up.
         /// </summary>        
-        public async void Connect(EventHandler<string> lineReceived, EventHandler<string> dataReceived, EventHandler connectionClosed)
+        public async Task Connect(EventHandler<string> lineReceived, EventHandler<string> dataReceived, EventHandler connectionClosed)
         {
             try
             {

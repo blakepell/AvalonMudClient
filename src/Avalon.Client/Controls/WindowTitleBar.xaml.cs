@@ -208,13 +208,13 @@ namespace Avalon.Controls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void PART_Network_Click(object sender, RoutedEventArgs e)
+        private async void PART_Network_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 if (this.IsConnected == false)
                 {
-                    this.ParentWindow.Connect();
+                    await this.ParentWindow.Connect();
                 }
                 else
                 {

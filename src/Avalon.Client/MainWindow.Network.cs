@@ -30,13 +30,13 @@ namespace Avalon
         /// <summary>
         /// Connects to the server for the profile that is currently loaded.
         /// </summary>
-        public void Connect()
+        public async Task Connect()
         {
             // Activate any plugins for this game.
             ActivatePlugins();
 
             // Connect, then put the focus into the input text box.
-            Interp.Connect(HandleLineReceived, this.HandleDataReceived, HandleConnectionClosed);
+            await Interp.Connect(HandleLineReceived, this.HandleDataReceived, HandleConnectionClosed);
             TitleBar.IsConnected = true;
             MenuNetworkButton.Header = "Disconnect";
             TextInput.Focus();

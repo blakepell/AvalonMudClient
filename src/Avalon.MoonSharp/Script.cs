@@ -39,6 +39,13 @@ namespace MoonSharp.Interpreter
         public Dictionary<string, string> SourceCodeHashIndex { get; set; } = new();
 
         /// <summary>
+        /// A metadata field to tallied by the caller to track the number of registered plugin
+        /// types.  This can then be used to check if a Script object is out of sync with the
+        /// number of types it should have.
+        /// </summary>
+        public int PluginTypeCount { get; set; } = 0;
+
+        /// <summary>
         /// A unique identifier for this specific <see cref="Script"/> instance.
         /// </summary>
         public string Id { get; }

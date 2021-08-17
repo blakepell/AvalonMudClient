@@ -214,7 +214,7 @@ namespace Avalon
                 // Auto connect to the game if the setting is set.
                 if (App.Settings.ProfileSettings.AutoConnect)
                 {
-                    this.Connect();
+                    await this.Connect();
                 }
 
                 // Is there an auto execute command or set of commands to run?
@@ -559,7 +559,7 @@ namespace Avalon
                     Utilities.Utilities.SetupAliases();
 
                     // We have a new profile, refresh the auto complete command list.
-                    RefreshAutoCompleteEntries();
+                    this.RefreshAutoCompleteEntries();
 
                     // Close and open a connection to the database for the new profile.
                     await SqlTasks.OpenAsync($"Data Source={App.Settings.ProfileSettings.SqliteDatabase}");
@@ -567,8 +567,8 @@ namespace Avalon
                     // Auto connect if it's setup to do so (this will disconnect from the previous server if it was connected.
                     if (App.Settings.ProfileSettings.AutoConnect)
                     {
-                        Disconnect();
-                        Connect();
+                        this.Disconnect();
+                        await this.Connect();
                     }
 
                 }

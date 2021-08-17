@@ -83,7 +83,7 @@ namespace Avalon.Common.Scripting
         /// <param name="init"></param>
         private void InitializeScript(Script script, bool init)
         {
-            if (!init)
+            if (!init && script.PluginTypeCount == this.SharedObjects.Count)
             {
                 return;
             }
@@ -98,6 +98,7 @@ namespace Avalon.Common.Scripting
                 if (script.Globals.Get(item.Key).IsNil())
                 {
                     script.Globals.Set(item.Key, (DynValue)item.Value);
+                    script.PluginTypeCount++;
                 }
             }
 
@@ -136,21 +137,6 @@ namespace Avalon.Common.Scripting
             {
                 this.SharedObjects.Add(prefix, UserData.Create(item));
             }
-
-            // TODO, maybe clear here and refill.
-            // Dynamic types from plugins that need to be added into anything currently
-            // in the MemoryPool.  They will be added when new MemoryPool items are
-            // initialized.
-            this.MemoryPool.InvokeAll((script) =>
-            {
-                foreach (var item in this.SharedObjects)
-                {
-                    if (script.Globals.Get(item.Key).IsNil())
-                    {
-                        script.Globals.Set(item.Key, (DynValue)item.Value);
-                    }
-                }
-            });
         }
 
         /// <inheritdoc cref="Reset"/>

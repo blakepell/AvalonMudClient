@@ -43,7 +43,7 @@ namespace Avalon.Common.Interfaces
         /// Connects to the mud server.  Requires that the event handlers for required events be passed in here where they will
         /// be wired up.
         /// </summary>        
-        void Connect(EventHandler<string> lineReceived, EventHandler<string> dataReceived, EventHandler connectionClosed);
+        Task Connect(EventHandler<string> lineReceived, EventHandler<string> dataReceived, EventHandler connectionClosed);
 
         /// <summary>
         /// Disconnects from the mud server if there is a connection.
