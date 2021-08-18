@@ -172,6 +172,7 @@
                     </ResourceDictionary>
                 </Grid.Resources>
 
+                <!-- Main Menu -->
                 <Menu x:Name="MenuGame" Grid.Row="0" Grid.Column="0" BorderBrush="#444444" BorderThickness=".9,0,0,.9" Background="{StaticResource BrushWindowBackground}">
                     <MenuItem Header="_File">
                         <MenuItem x:Name="MenuNetworkButton" Header="Connect" Click="MenuNetworkButton_Click">
@@ -359,6 +360,7 @@
                     </MenuItem>
                 </Menu>
 
+                <!-- Right hand quick settings bar ... -->
                 <ui:CommandBar x:Name="PrimaryCommandBar" Grid.Row="0" Grid.Column="1" 
                                BorderBrush="Gray" 
                                BorderThickness="0,0,0,.9" 
@@ -376,6 +378,8 @@
                     </ui:CommandBar.SecondaryCommands>
                 </ui:CommandBar>
 
+                <!-- UniformGrid used to split the main terminal and the back buffer into two when 
+                     the back buffer is visible -->
                 <UniformGrid Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Columns="1">
                     <controls:AvalonTerminal x:Name="GameBackBufferTerminal" x:FieldModifier="public"
                             Visibility="Collapsed"
@@ -408,6 +412,7 @@
                     </controls:AvalonTerminal>
                 </UniformGrid>
 
+                <!-- Panel with all of the additional text terminals -->
                 <Border x:Name="Panel2" Grid.Row="1" Grid.Column="1" 
                             x:FieldModifier="public"
                             Margin="0" BorderThickness=".9,.9,0,0" BorderBrush="#444444">
@@ -488,6 +493,7 @@
                     </controls:TabControlEx>
                 </Border>
 
+                <!-- Progress Bar Repeater -->
                 <Border x:Name="Panel1" Grid.Row="2" Grid.Column="1"
                             x:FieldModifier="public" 
                             Margin="0" Padding="0" BorderThickness=".9,.9,0,0" BorderBrush="#444444">
@@ -496,15 +502,18 @@
                                               ></controls:BarRepeater>
                 </Border>
 
+                <!-- Variable Repeater -->
                 <Border x:Name="VariableRepeaterBorder" Grid.Row="3" Grid.RowSpan="3" Grid.Column="1"                            
                             Background="{StaticResource BrushWindowBackground}" BorderThickness=".9,.9,0,0" BorderBrush="#444444">
                     <controls:VariableRepeater x:Name="VariableRepeater" x:FieldModifier="public" />
                 </Border>
 
+                <!-- Info Bar -->
                 <Border x:Name="BorderInfoBar" Grid.Row="4" Grid.Column="0" BorderBrush="#444444" BorderThickness=".9,.9,0,0">
                     <controls:InfoBar x:Name="InfoBar" x:FieldModifier="public" Background="{StaticResource BrushWindowBackground}"></controls:InfoBar>
                 </Border>
 
+                <!-- Text input auto complete box -->
                 <Border x:Name="BorderTextInput" Grid.Row="5" Grid.Column="0" BorderBrush="#444444" BorderThickness=".0,0,0,0">
                     <editors:AutoCompleteTextBox x:Name="TextInput" Delay="300"
                                                   VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
@@ -614,5 +623,15 @@
                 <TextBlock></TextBlock>
             </StatusBarItem>
         </StatusBar>
+
+        <!-- AutoComplete Popup -->
+        <Popup x:Name="PopupAutoComplete"
+               IsOpen="false"
+               Placement="Left">
+            <ListBox x:Name="PopupAutoCompleteListBox"
+                     LostFocus="PopupAutoCompleteListBox_OnLostFocus"
+                     KeyDown="PopupAutoCompleteListBox_OnKeyDown">
+            </ListBox>
+        </Popup>
     </Grid>
 </Window>

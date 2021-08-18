@@ -79,6 +79,10 @@ namespace Avalon.HashCommands
                                        Interpreter.Conveyor.ClearTerminal(TerminalTarget.Terminal3);
                                    }
 
+                                   if (o.AutoComplete)
+                                   {
+                                       ((Interpreter) this.Interpreter).InputAutoCompleteKeywords.Clear();
+                                   }
                                });
 
             // Display the help or error output from the parameter parsing.
@@ -104,6 +108,9 @@ namespace Avalon.HashCommands
 
             [Option('3', "term3", Required = false, HelpText = "Clears terminal 3.")]
             public bool Term3 { get; set; }
+
+            [Option('a', "auto-complete", Required = false, HelpText = "Clears the auto complete list.")]
+            public bool AutoComplete { get; set; }
 
         }
     }

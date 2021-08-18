@@ -44,3 +44,4 @@
 15. `Control+-` Control and the minus key will make the terminal font size larger.
 16. `Tab` While in the main input box will auto complete from the command history.  Example.  Typing `un` and tab might complete to `unread` if it was previously entered as a command.
 17. `Control+Tab` While in the main input box will auto complete from the aliases list.  If no alias is found it will then search the command history as a fallback.
+18. `Shift+Tab` While in the main input box will auto complete from a list of previously used words if the auto completion feature is enabled in the settings.

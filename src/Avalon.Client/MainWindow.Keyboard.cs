@@ -7,12 +7,20 @@
  * @license           : MIT
  */
 
+using System;
+using System.Drawing.Printing;
 using Argus.Extensions;
 using Avalon.Controls;
 using ModernWpf;
 using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
 using System.Windows.Input;
 using Avalon.Common.Models;
+using Avalon.Extensions;
+using ICSharpCode.AvalonEdit;
 
 namespace Avalon
 {
@@ -182,6 +190,12 @@ namespace Avalon
                         GameTerminal.ScrollToLastLine();
                     }
 
+                    // Hide the auto completion box if it's open.
+                    if (PopupAutoComplete.IsOpen)
+                    {
+                        PopupAutoComplete.IsOpen = false;
+                    }
+
                     // Reset the input history to the default position and clear the text in the input box.
                     Interp.InputHistoryPosition = -1;
                     TextInput.Editor.Text = "";
@@ -191,6 +205,7 @@ namespace Avalon
                     e.Handled = true;
                     string command = null;
                     bool ctrl = ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control);
+                    bool shift = ((Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift);
 
                     // If control is down search aliases, if it's not search the history
                     if (ctrl && !string.IsNullOrWhiteSpace(TextInput.Editor.Text))
@@ -213,6 +228,42 @@ namespace Avalon
                         }
                     }
 
+                    // If shift is down search past input data, if it's not search the history
+                    if (shift && App.Settings.AvalonSettings.AutoCompleteWord && !string.IsNullOrWhiteSpace(TextInput.Editor.Text))
+                    {
+                        try
+                        {
+                            TextInput.Editor.SelectCurrentWord();
+                            string word = TextInput.Editor.SelectedText;
+
+                            App.MainWindow.PopupAutoComplete.IsOpen = false;
+                            App.MainWindow.PopupAutoComplete.PlacementTarget = TextInput.Editor;
+                            App.MainWindow.PopupAutoComplete.Height = 200;
+                            App.MainWindow.PopupAutoComplete.Width = 200;
+                            App.MainWindow.PopupAutoComplete.HorizontalOffset = App.MainWindow.PopupAutoComplete.Width;
+                            App.MainWindow.PopupAutoComplete.VerticalOffset = -200;
+                            App.MainWindow.PopupAutoComplete.IsOpen = true;
+
+                            // Get a list of words that match, then reverse it so the newest entries come first.
+                            var list = Interp.InputAutoCompleteKeywords.Where(x => x.StartsWith(word, StringComparison.OrdinalIgnoreCase)).Reverse();
+                            PopupAutoCompleteListBox.ItemsSource = list;
+
+                            // Select the first item in the list, then focus the list.
+                            PopupAutoCompleteListBox.Focus();
+
+                            if (PopupAutoCompleteListBox.Items.Count > 0)
+                            {
+                                PopupAutoCompleteListBox.SelectedIndex = 0;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            App.Conveyor.EchoLog(ex.Message, LogType.Error);
+                        }
+
+                        return;
+                    }
+
                     // If there is no input in the text editor, get the last entered command otherwise search the input
                     // history for the command (searching the latest entries backwards).
                     if (string.IsNullOrWhiteSpace(TextInput.Editor.Text))
@@ -231,6 +282,69 @@ namespace Avalon
                     }
 
                     break;
+            }
+        }
+
+        /// <summary>
+        /// Word auto completion from a list of used words.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PopupAutoCompleteListBox_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                switch (e.Key)
+                {
+                    case Key.Enter:
+                        e.Handled = true;
+
+                        int len = TextInput.Editor.SelectionLength;
+                        int start = TextInput.Editor.SelectionStart;
+                        var selectedValue = (string)PopupAutoCompleteListBox.SelectedItem;
+
+                        if (string.IsNullOrWhiteSpace(selectedValue))
+                        {
+                            PopupAutoComplete.IsOpen = false;
+                            TextInput.Editor.Focus();
+                            return;
+                        }
+
+                        PopupAutoComplete.IsOpen = false;
+
+                        TextInput.Editor.Text = TextInput.Editor.Text.Remove(start, len);
+                        TextInput.Editor.Text = TextInput.Editor.Text.Insert(start, selectedValue);
+                        TextInput.Editor.SelectionStart = start + selectedValue.Length;
+                        TextInput.Editor.Focus();
+
+                        break;
+                    case Key.Escape:
+                        PopupAutoComplete.IsOpen = false;
+                        TextInput.Editor.Focus();
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                App.Conveyor.EchoLog(ex.Message, LogType.Error);
+            }
+        }
+
+        /// <summary>
+        /// Closes the popup box and resets the focus onto the command input box when the
+        /// popup box loses focus.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PopupAutoCompleteListBox_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            var focused = FocusManager.GetFocusedElement(this);
+
+            var item = focused as ListBoxItem;
+            if (item == null)
+            {
+                PopupAutoComplete.IsOpen = false;
+                TextInput.Editor.Focus();
             }
         }
 

@@ -332,6 +332,11 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public char CommandSplitCharacter { get; set; } = ';';
 
+        [CategoryAttribute("Input")]
+        [DescriptionAttribute("If the shift+tab hot key is enabled to auto complete words from past input.")]
+        [Browsable(true)]
+        public bool AutoCompleteWord { get; set; } = false;
+
         protected virtual void OnPropertyChanged(string propertyName)
         {
             var e = new PropertyChangedEventArgs(propertyName);

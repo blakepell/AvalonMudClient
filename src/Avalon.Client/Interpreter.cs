@@ -24,6 +24,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalon.Common;
+using Avalon.Extensions;
 
 namespace Avalon
 {
@@ -130,7 +131,7 @@ namespace Avalon
             }
 
             _aliasRecursionDepth = 0;
-
+            
             foreach (string item in ParseCommand(cmd))
             {
                 if (Telnet == null)
@@ -221,6 +222,13 @@ namespace Avalon
                         App.Conveyor.SetText("Disconnected from server.", TextTarget.StatusBarText);
                     }
                 }
+            }
+
+            // Add words to our unique HashSet if the settings allow for it (and after the
+            // commands for the game have been sent.
+            if (App.Settings.AvalonSettings.AutoCompleteWord && addToInputHistory)
+            {
+                this.InputAutoCompleteKeywords.AddWords(cmd);
             }
         }
 
@@ -641,6 +649,12 @@ namespace Avalon
         /// The last host the client connected to (used to determine if the host has changed).
         /// </summary>
         private string _lastHost = "";
+
+        /// <summary>
+        /// A list of all unique words that have been entered as part of a command.  If the setting
+        /// is enabled this will be used to auto-complete a word based on a "shift+tab" input.
+        /// </summary>
+        public List<string> InputAutoCompleteKeywords = new List<string>();
 
         /// <summary>
         /// The history of all commands.

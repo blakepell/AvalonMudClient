@@ -12,7 +12,11 @@ using Avalon.Colors;
 using Avalon.Common.Colors;
 using Avalon.Common.Models;
 using System;
+using System.Collections.Generic;
+using System.Data.Common;
+using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -346,5 +350,60 @@ namespace Avalon.Extensions
 
             await tcs.Task;
         }
+
+        /// <summary>
+        /// Adds words from an input into a HashSet if they do not already exist.
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="input"></param>
+        public static void AddWords(this List<string> list, string input)
+        {
+            var matches = Regex.Matches(input, @"\b[\w']*\b");
+            var words = from m in matches
+                        group m by m.Value into x
+                        where !string.IsNullOrEmpty(x.Key) && x.Key.Length > 2
+                        select x.Key;
+
+            foreach (string word in words)
+            {
+                list.Remove(word);
+                list.Add(word);
+            }
+        }
+
+        /// <summary>
+        /// Selects the word that the cursor is on.
+        /// </summary>
+        /// <param name="tb"></param>
+        public static void SelectCurrentWord(this TextBox tb)
+        {
+            int currentPos = tb.SelectionStart;
+            int startPos = 0;
+            int endPos = 0;
+
+            for (int i = currentPos - 1; i > 0; i--)
+            {
+                if (tb.Text[i] == ' ')
+                {
+                    startPos = i + 1;
+                    break;
+                }
+            }
+
+            endPos = currentPos;
+
+            for (int i = currentPos; i <= tb.Text.Length; i++)
+            {
+                if (i >= tb.Text.Length || tb.Text[i] == ' ')
+                {
+                    endPos = i;
+                    break;
+                }
+            }
+            
+            tb.SelectionStart = startPos;
+            tb.SelectionLength = endPos - startPos;
+        }
+
     }
 }
