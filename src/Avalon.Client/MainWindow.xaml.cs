@@ -89,6 +89,10 @@ namespace Avalon
         /// <param name="e"></param>
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            // We are going to hide the window while it's loading, we will show it at the end of this
+            // to avoid the flickering and repositioning the settings being loaded causes.
+            this.Hide();
+
             // Package manager echo.
             this.StartupMessages();
 
@@ -259,6 +263,9 @@ namespace Avalon
                 App.Conveyor.EchoError(ex.Message);
                 App.Conveyor.EchoError(ex?.StackTrace ?? "No stack trace available.");
             }
+
+            // We're at the end of load, show the window.
+            this.Show();
         }
 
         /// <summary>
