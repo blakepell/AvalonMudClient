@@ -8,6 +8,7 @@
  */
 
 using Argus.Extensions;
+using Avalon.Common;
 using Avalon.Common.Models;
 using Avalon.Common.Settings;
 using Avalon.Controls;
@@ -16,7 +17,6 @@ using Avalon.Timers;
 using Avalon.Utilities;
 using Microsoft.Win32;
 using ModernWpf.Controls;
-using MoonSharp.Interpreter;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -26,9 +26,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Avalon.Common;
-using Avalon.Common.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Avalon
 {
@@ -275,6 +272,15 @@ namespace Avalon
         {
             var sb = Argus.Memory.StringBuilderPool.Take();
             sb.AppendLine();
+            sb.AppendLine("+------------------------------------------------------------------------------+");
+            sb.AppendLine("+ {GI{gMPORTANT: {CL{cua{x {gAlias/Triggers{x                                                +");
+            sb.AppendLine("+------------------------------------------------------------------------------+");
+            sb.AppendLine("+ The way that Lua aliases and triggers get parameters has changed from the    +");
+            sb.AppendLine("+ traditional %1, %2 format (this was an important change for performance).    +");
+            sb.AppendLine("+ See the example on the following link for how to get arguments.              +");
+            sb.AppendLine("+                                                                              +");
+            sb.AppendLine("+   {G*{x https://github.com/blakepell/AvalonMudClient/blob/master/doc/Lua.md      +");
+            sb.AppendLine("+                                                                              +");
             sb.AppendLine("+------------------------------------------------------------------------------+");
             sb.AppendLine("+ {GP{gackage {GM{ganager{x                                                              +");
             sb.AppendLine("+------------------------------------------------------------------------------+");
