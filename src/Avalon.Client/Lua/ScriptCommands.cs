@@ -2192,6 +2192,13 @@ namespace Avalon.Lua
         [Description("Adds or replaces a replacement trigger.  If a replacement the procedure will first search by ID if specified fall back to pattern if not.")]
         public void AddLineTransformer(string replace, string replaceWith, string id, bool temp = false)
         {
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => this.AddLineTransformer(replace, replaceWith, id, temp)));
+                return;
+            }
+
             // TODO, needs script host (get new trigger from conveyor, that way it can inject the proper stuff).
             // TODO, escape input
             Common.Triggers.Trigger t;
@@ -2243,6 +2250,13 @@ namespace Avalon.Lua
         [Description("Deletes replacement trigger by ID.")]
         public void RemoveLineTransformer(string id)
         {
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => RemoveLineTransformer(id)));
+                return;
+            }
+
             var t = App.Settings.ProfileSettings.TriggerList.Find(x => x.Identifier.Equals(id, StringComparison.Ordinal));
             App.Settings.ProfileSettings.TriggerList.Remove(t);
         }
