@@ -41,7 +41,7 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
 
         public AffectsTrigger()
         {
-            this.Pattern = @"^Spell: ([\w\s]+): modifies ([\w\s]+) by ([-+]?\d*) for (\d+) ([\w\s]+) *(.+)$";
+            this.Pattern = @"^(Spell|Song ): ([\w\s]+): modifies ([\w\s]+) by ([-+]?\d*) for (\d+) ([\w\s]+) *(.+)$";
             this.IsSilent = true;
             this.Identifier = "c40f9237-7753-4357-84a5-8e7d789853ed";
             this.Affects = new List<Affect>();
@@ -60,10 +60,10 @@ namespace Avalon.Plugins.DarkAndShatteredLands.Affects
             // Create the affect.
             var a = new Affect
             {
-                Name = Match.Groups[1].Value.Trim(),
-                Modifies = Match.Groups[2].Value.Trim(),
-                Modifier = int.Parse(Match.Groups[3].Value),
-                Duration = int.Parse(Match.Groups[4].Value)
+                Name = Match.Groups[2].Value.Trim(),
+                Modifies = Match.Groups[3].Value.Trim(),
+                Modifier = int.Parse(Match.Groups[4].Value),
+                Duration = int.Parse(Match.Groups[5].Value)
             };
 
             // Add the affect into our saved list.
