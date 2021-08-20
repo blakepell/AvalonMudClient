@@ -36,6 +36,12 @@ namespace Avalon.Controls
             // Instead of allocating a string here we're going to use a Span and work from it.
             var text = CurrentContext.Document.GetText(line).AsSpan();
 
+            // There are no ANSI codes on this line, no need to further process.
+            if (text.IndexOf('\x1B') == -1)
+            {
+                return;
+            }
+
             foreach (var color in Colorizer.ColorMap)
             {
                 int start = 0;
