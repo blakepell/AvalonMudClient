@@ -73,6 +73,17 @@ namespace Avalon.Plugins.DarkAndShatteredLands.HashCommands
                 buf = buf.Replace("[ Chaos ]", "[ {DChaos{x ]");
                 buf = buf.Replace("[ Slayers ]", "[ {YSlayers{x ]");
                 buf = buf.Replace("(WANTED)", "({RWANTED{x)");
+                buf = buf.Replace("(Hostile)", "({WHostile{x)");
+                buf = buf.Replace("( Dragon )", "( {GDragon{x )");
+                buf = buf.Replace("(THAX)", "{C({cTHAX{C){x");
+                buf = buf.Replace("(Marauders)", "{C({cMarauders{C){x");
+                buf = buf.Replace("(NT)", "{C({cNT{C){x");
+                buf = buf.Replace("(AR)", "{C({cAR{C){x");
+                buf = buf.Replace("(SH)", "{C({cSH{C){x");
+                buf = buf.Replace("(AL)", "{C({cAL{C){x");
+                buf = buf.Replace("(Darkonin)", "{C({cDarkonin{C){x");
+                buf = buf.Replace("(Abaddon)", "{C({cAbaddon{C){x");
+                //buf = buf.Replace("()", "{C({c{C){x");
 
                 this.Interpreter.Conveyor.EchoText($"{buf}\r\n");
             }
