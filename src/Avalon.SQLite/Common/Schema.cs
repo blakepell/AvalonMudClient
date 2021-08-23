@@ -10,7 +10,7 @@
 using System.Collections.ObjectModel;
 using Argus.ComponentModel;
 
-namespace Avalon.Sqlite
+namespace Avalon.Sqlite.Common
 {
 
     /// <summary>
@@ -18,6 +18,18 @@ namespace Avalon.Sqlite
     /// </summary>
     public class Schema : Observable
     {
+        private string _connectionString;
+
+        /// <summary>
+        /// The connection string of the schema, used to display a tooltip for the user.
+        /// </summary>
+        public string ConnectionString
+        {
+            get => _connectionString;
+            set => Set(ref _connectionString, value, nameof(ConnectionString));
+        }
+
+
         private string _databaseName;
 
         /// <summary>

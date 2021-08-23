@@ -55,6 +55,26 @@ namespace Avalon
             }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="uc">The UserControl to host as the main content.</param>
+        public Shell(Control uc, UIElement blurredElement)
+        {
+            InitializeComponent();
+
+            this.Container.Content = uc;
+            this.DataContext = this;
+
+            // If blurring is requested of the parent window and the parent window effect
+            // is null then set it, we'll get rid of it when this dialog closes.
+            if (blurredElement != null && blurredElement.Effect == null)
+            {
+                this.BlurredElement = blurredElement;
+                blurredElement.Effect = new BlurEffect();
+            }
+        }
+
         public string PrimaryButtonText
         {
             get => (string)GetValue(PrimaryButtonTextProperty);

@@ -38,6 +38,13 @@
         <controls:ChildWindowTitleBar Grid.Row="0" Title="{Binding Path=HeaderTitle}"></controls:ChildWindowTitleBar>
         
         <Border Grid.Row="1" Padding="10,0,10,10">
+            <Border.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="/Avalon.Sqlite;component/Themes/Gray.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </Border.Resources>
             <ContentControl x:Name="Container" x:FieldModifier="public" />
         </Border>
 

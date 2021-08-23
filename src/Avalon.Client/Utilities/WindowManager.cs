@@ -15,6 +15,7 @@ using ModernWpf.Controls;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
+using Avalon.Sqlite.Common;
 
 namespace Avalon.Utilities
 {
@@ -121,9 +122,10 @@ namespace Avalon.Utilities
                 try
                 {
                     // Setup the database control.            
-                    var ctrl = new SqliteQueryControl
+                    var ctrl = new QueryControl
                     {
-                        ConnectionString = $"Data Source={App.Settings.ProfileSettings.SqliteDatabase}"
+                        ConnectionString = $"Data Source={App.Settings.ProfileSettings.SqliteDatabase}",
+                        Theme = ControlTheme.Gray
                     };
 
                     // Removed dialog/blur

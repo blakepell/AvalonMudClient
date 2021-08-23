@@ -7,11 +7,11 @@
  * @license           : MIT
  */
 
+using Dapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Dapper;
 
 namespace Avalon.Sqlite
 {
@@ -23,13 +23,11 @@ namespace Avalon.Sqlite
     {
         private static readonly string ColumnAttributeName = "ColumnAttribute";
 
-        public ColumnAttributeTypeMapper()
-            : base(new SqlMapper.ITypeMap[]
-            {
-                new CustomPropertyTypeMap(typeof (T), SelectProperty),
-                new DefaultTypeMap(typeof (T))
-            })
+        public ColumnAttributeTypeMapper() 
+            : base(new SqlMapper.ITypeMap[] { new CustomPropertyTypeMap(typeof (T), SelectProperty),
+                                                     new DefaultTypeMap(typeof (T))})
         {
+
         }
 
         private static PropertyInfo SelectProperty(Type type, string columnName)
@@ -64,9 +62,12 @@ namespace Avalon.Sqlite
         {
             this.Name = name;
         }
+        public ColumnAttribute()
+        {
+
+        }
 
         public string Name { get; set; }
-        public ColumnAttribute() { }
     }
 
     public class FallbackTypeMapper : SqlMapper.ITypeMap
@@ -78,7 +79,6 @@ namespace Avalon.Sqlite
             _mappers = mappers;
         }
 
-
         public ConstructorInfo FindConstructor(string[] names, Type[] types)
         {
             foreach (var mapper in _mappers)
@@ -86,6 +86,7 @@ namespace Avalon.Sqlite
                 try
                 {
                     ConstructorInfo result = mapper.FindConstructor(names, types);
+
                     if (result != null)
                     {
                         return result;
@@ -105,6 +106,7 @@ namespace Avalon.Sqlite
                 try
                 {
                     ConstructorInfo result = mapper.FindExplicitConstructor();
+
                     if (result != null)
                     {
                         return result;
@@ -124,6 +126,7 @@ namespace Avalon.Sqlite
                 try
                 {
                     var result = mapper.GetConstructorParameter(constructor, columnName);
+
                     if (result != null)
                     {
                         return result;
@@ -143,6 +146,7 @@ namespace Avalon.Sqlite
                 try
                 {
                     var result = mapper.GetMember(columnName);
+
                     if (result != null)
                     {
                         return result;

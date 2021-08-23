@@ -1,17 +1,18 @@
 ﻿<?xml version="1.0"?>
 <SyntaxDefinition name="SQLite" extensions=".sql" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
-  <Color name="Comment" foreground="#608B4E" exampleText="-- comment" />
-  <Color name="Char" foreground="#D69D85" exampleText="name = 'abc'"/>
-  <Color name="Keywords" fontWeight="bold" foreground="#569CD6" exampleText="SELECT FROM"/>
+  <Color name="Comment" foreground="#107C10" exampleText="-- comment" />
+  <Color name="Char" foreground="#E81123" exampleText="name = 'abc'"/>
+  <Color name="Keywords" fontWeight="bold" foreground="#0063B1" exampleText="SELECT FROM"/>
+  <Color name="Functions" fontWeight="bold" foreground="#2D7D9A" exampleText="ABS"/>
 
   <Property name="DocCommentMarker" value="///" />
 
   <RuleSet name="CommentMarkerSet">
-    <Keywords fontWeight="bold" foreground="#D69D85">
+    <Keywords fontWeight="bold" foreground="#F7630C">
       <Word>TODO</Word>
       <Word>FIXME</Word>
     </Keywords>
-    <Keywords fontWeight="bold" foreground="#E0E000">
+    <Keywords fontWeight="bold" foreground="#F7630C">
       <Word>HACK</Word>
       <Word>UNDONE</Word>
     </Keywords>
@@ -181,6 +182,86 @@
       <Word>window</Word>
       <Word>with</Word>
       <Word>without</Word>
+    </Keywords>
+
+    <Keywords color="Functions">
+      <Word>avg</Word>
+      <Word>count</Word>
+      <Word>group_concat</Word>
+      <Word>sum</Word>
+      <Word>total</Word>
+      <Word>date</Word>
+      <Word>time</Word>
+      <Word>datetime</Word>
+      <Word>julianday</Word>
+      <Word>strftime</Word>
+      <Word>row_number</Word>
+      <Word>rank</Word>
+      <Word>dense_rank</Word>
+      <Word>percent_rank</Word>
+      <Word>cume_dist</Word>
+      <Word>ntile</Word>
+      <Word>lag</Word>
+      <Word>lead</Word>
+      <Word>last_value</Word>
+      <Word>nth_value</Word>
+      <Word>abs</Word>
+      <Word>char</Word>
+      <Word>coalesce</Word>
+      <Word>glob</Word>
+      <Word>hex</Word>
+      <Word>ifnull</Word>
+      <Word>iif</Word>
+      <Word>instr</Word>
+      <Word>last_insert_rowid</Word>
+      <Word>length</Word>
+      <Word>likelihood</Word>
+      <Word>likely</Word>
+      <Word>load_extension</Word>
+      <Word>lower</Word>
+      <Word>ltrim</Word>
+      <Word>max</Word>
+      <Word>min</Word>
+      <Word>nullif</Word>
+      <Word>printf</Word>
+      <Word>quote</Word>
+      <Word>random</Word>
+      <Word>randomblob</Word>
+      <Word>replace</Word>
+      <Word>round</Word>
+      <Word>rtrim</Word>
+      <Word>sign</Word>
+      <Word>soundex</Word>
+      <Word>sqlite_compileoption_get</Word>
+      <Word>sqlite_compileoption_used</Word>
+      <Word>sqlite_offset</Word>
+      <Word>sqlite_source_id</Word>
+      <Word>sqlite_version</Word>
+      <Word>substr</Word>
+      <Word>total_changes</Word>
+      <Word>trim</Word>
+      <Word>typeof</Word>
+      <Word>unicode</Word>
+      <Word>unlikely</Word>
+      <Word>upper</Word>
+      <Word>zeroblob</Word>
+      <Word>json</Word>
+      <Word>json_array</Word>
+      <Word>json_array_length</Word>
+      <Word>json_extract</Word>
+      <Word>json_insert</Word>
+      <Word>json_object</Word>
+      <Word>json_patch</Word>
+      <Word>json_remove</Word>
+      <Word>json_replace</Word>
+      <Word>json_set</Word>
+      <Word>json_type</Word>
+      <Word>json_valid</Word>
+      <Word>json_quote</Word>
+      <Word>json_group_array</Word>
+      <Word>json_group_object</Word>
+      <Word>json_each</Word>
+      <Word>json_tree</Word>
     </Keywords>
   </RuleSet>
 </SyntaxDefinition>

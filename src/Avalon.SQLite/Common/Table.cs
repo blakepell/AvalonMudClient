@@ -10,7 +10,7 @@
 using System.Collections.ObjectModel;
 using Argus.ComponentModel;
 
-namespace Avalon.Sqlite
+namespace Avalon.Sqlite.Common
 {
     /// <summary>
     /// The metadata for a SQLite table.

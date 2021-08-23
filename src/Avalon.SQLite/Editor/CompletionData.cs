@@ -12,10 +12,10 @@ using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Editing;
 using System;
 
-namespace Avalon.Sqlite
+namespace Avalon.Sqlite.Editor
 {
     /// <summary>
-    /// CompletionData.
+    /// Completion data class used for intellisense like support in AvalonEdit.
     /// </summary>
     public class CompletionData : ICompletionData
     {
