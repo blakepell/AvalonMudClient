@@ -128,6 +128,9 @@ namespace Avalon.Utilities
                         Theme = ControlTheme.Gray
                     };
 
+                    ctrl.ExpandTableNode();
+                    ctrl.ExpandViewsNode();
+
                     // Removed dialog/blur
                     //var win = new Shell(ctrl, App.MainWindow)
 
