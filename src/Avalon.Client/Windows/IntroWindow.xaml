@@ -12,6 +12,7 @@
         ui:WindowHelper.UseModernWindowStyle="True"
         Title="Choose your path" BorderBrush="Gray" BorderThickness="1"
         WindowStartupLocation="CenterScreen"
+        Loaded="IntroWindow_OnLoaded"
         Height="450" Width="800">
     <Window.Resources>
         <DataTemplate x:Key="ProfilesTemplate">
@@ -74,7 +75,7 @@
                         FontFamily="Segoe UI" Margin="15,10,0,0"></TextBlock>
                     <TextBlock
                         Foreground="#A2A2A2" VerticalAlignment="Top"
-                        Text="Version 2021.8.24.1"
+                        Text="{Binding Version}"
                         xf:Animations.Primary="{xf:Animate BasedOn={StaticResource FadeIn}, Duration=1000, Delay=500}"
                         FontSize="14"
                         FontFamily="Segoe UI" Margin="16,0,0,0"></TextBlock>
@@ -172,7 +173,7 @@
                     <ui:DropDownButton.Flyout>
                         <ui:MenuFlyout Placement="BottomEdgeAlignedLeft">
                             <MenuItem Header="Settings Folder" />
-                            <MenuItem Header="Profiles Folder" />
+                            <MenuItem Header="Profiles Folder" Click="MenuItemOpenProfilesFolder_OnClick" />
                             <MenuItem Header="Client Settings Folder" />
                         </ui:MenuFlyout>
                     </ui:DropDownButton.Flyout>

@@ -32,17 +32,19 @@ namespace Avalon.HashCommands
 
         public override void Execute()
         {
-            var sb = Argus.Memory.StringBuilderPool.Take();
-            var interp = (Interpreter) this.Interpreter;
-            int x = 0;
+            var win = new IntroWindow();
+            win.Show();
+            //var sb = Argus.Memory.StringBuilderPool.Take();
+            //var interp = (Interpreter) this.Interpreter;
+            //int x = 0;
 
-            foreach (string item in interp.InputAutoCompleteKeywords)
-            {
-                x++;
-                sb.AppendFormat("{0}.) {1}\r\n", x.ToString(), item);
-            }
+            //foreach (string item in interp.InputAutoCompleteKeywords)
+            //{
+            //    x++;
+            //    sb.AppendFormat("{0}.) {1}\r\n", x.ToString(), item);
+            //}
 
-            interp.Conveyor.EchoText(sb.ToString());
+            //interp.Conveyor.EchoText(sb.ToString());
         }
     }
 }

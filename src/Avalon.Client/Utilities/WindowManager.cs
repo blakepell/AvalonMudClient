@@ -25,7 +25,6 @@ namespace Avalon.Utilities
     /// </summary>
     public static class WindowManager
     {
-
         /// <summary>
         /// Event used from menus to shell any number of Shell based UserControls into windows.
         /// TODO Clean this function up, there's a lot of redundant code here.
@@ -187,5 +186,22 @@ namespace Avalon.Utilities
                 App.MainWindow.Interp.Conveyor.EchoLog("In order for the plugin updates to take effect you will need to close and then restart this application.", LogType.Warning);
             }
         }
+
+        /// <summary>
+        /// Shows a message box dialog.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="title"></param>
+        public static async Task<ContentDialogResult> MsgBox(string message, string title)
+        {
+            var dialog = new MessageBoxDialog()
+            {
+                Title = title,
+                Content = message,
+            };
+
+            return await dialog.ShowAsync();
+        }
+
     }
 }
