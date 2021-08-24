@@ -61,6 +61,7 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
  - [JSON.Net](https://github.com/JamesNK/Newtonsoft.Json) (MIT)
  - [MahApps.Metro.IconPacks](https://github.com/MahApps/MahApps.Metro.IconPacks) (MIT)
  - [Dapper] (https://github.com/StackExchange/Dapper) (Apache v2)
+ - [XamlFlair] (https://github.com/XamlFlair/XamlFlair) (MIT)
 
 ### Short Term Road-map
 

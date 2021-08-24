@@ -2,12 +2,14 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ui="http://schemas.modernwpf.com/2019"
+             xmlns:xamlFlair="clr-namespace:XamlFlair;assembly=XamlFlair.WPF"
              Exit="Application_Exit"
              Startup="Application_Startup"
              ShutdownMode="OnMainWindowClose">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <xamlFlair:XamlFlairResources />
                 <ui:ThemeResources />
                 <ui:XamlControlsResources />
                 <ui:ThemeResources RequestedTheme="Dark">
