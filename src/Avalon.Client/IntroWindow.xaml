@@ -37,18 +37,22 @@
                     HorizontalAlignment="Center"
                     Fill="Gray">
                 </Ellipse>
-                <TextBlock Grid.Row="0"
-                    Grid.Column="1"
-                    Text="{Binding GameName, Mode=OneTime}"
-                    Margin="12,6,0,0" />
-                <TextBlock Grid.Row="1"
-                    Grid.Column="1"
-                    Text="{Binding GameDisplay, Mode=OneTime}"
-                    Margin="12,0,0,0" />
-                <TextBlock
-                    Grid.Column="1"
-                    Grid.Row="2"
-                    Text="{Binding CustomDescription, Mode=OneTime}"
+                <StackPanel Grid.Row="0" Grid.Column="1"
+                    Orientation="Horizontal">
+                    <TextBlock Text="{Binding GameAddress, Mode=OneWay}"
+                               Margin="12,6,0,0" />
+                    <TextBlock Margin="0,6,0,0"
+                               Text=":"></TextBlock>
+                    <TextBlock Text="{Binding GamePort, Mode=OneWay}"
+                               Margin="0,6,0,0" />
+                </StackPanel>
+                <TextBlock Grid.Row="1" Grid.Column="1"
+                           Foreground="#A2A2A2"
+                           Text="{Binding LastSaveDate, Mode=OneWay}"
+                           Margin="12,0,0,0" />
+                <TextBlock Grid.Column="1" Grid.Row="2"
+                    Text="{Binding Filename, Mode=OneWay}"
+                    Foreground="#A2A2A2"
                     Margin="12,0,0,6" />
             </Grid>
         </DataTemplate>
@@ -75,7 +79,7 @@
                         FontFamily="Segoe UI" Margin="15,10,0,0"></TextBlock>
                     <TextBlock
                         Foreground="#A2A2A2" VerticalAlignment="Top"
-                        Text="{Binding Version}"
+                        Text="{Binding ViewModel.Version}"
                         xf:Animations.Primary="{xf:Animate BasedOn={StaticResource FadeIn}, Duration=1000, Delay=500}"
                         FontSize="14"
                         FontFamily="Segoe UI" Margin="16,0,0,0"></TextBlock>
@@ -111,7 +115,8 @@
 
                 <Button Background="#171717"
                         Width="175"
-                        Margin="5,0,0,0">
+                        Margin="5,0,0,0"
+                        Click="ButtonReportBug_OnClick">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <iconPacks:PackIconMaterial Kind="Bug" 
@@ -172,9 +177,8 @@
                     </ui:DropDownButton.Content>
                     <ui:DropDownButton.Flyout>
                         <ui:MenuFlyout Placement="BottomEdgeAlignedLeft">
-                            <MenuItem Header="Settings Folder" />
+                            <MenuItem Header="Client Settings Folder" Click="MenuItemOpenClientSettingsFolder_OnClick" />
                             <MenuItem Header="Profiles Folder" Click="MenuItemOpenProfilesFolder_OnClick" />
-                            <MenuItem Header="Client Settings Folder" />
                         </ui:MenuFlyout>
                     </ui:DropDownButton.Flyout>
                 </ui:DropDownButton>
@@ -187,7 +191,7 @@
                 Margin="0,10,0,0"
                 SelectionMode="Single" IsSelectionEnabled="True"
                 ItemTemplate="{StaticResource ProfilesTemplate}"
-                ItemsSource="{Binding Profiles}"></ui:GridView>
+                ItemsSource="{Binding ViewModel.Profiles}"></ui:GridView>
         </Border>
     </Grid>
 </Window>

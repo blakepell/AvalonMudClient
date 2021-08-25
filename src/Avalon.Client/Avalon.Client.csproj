@@ -15,7 +15,7 @@
     <Version>2021.8.21.1</Version>
     <AssemblyVersion>2021.8.21.1</AssemblyVersion>
     <FileVersion>2021.8.21.1</FileVersion>
-    <LangVersion>8.0</LangVersion>    
+    <LangVersion>9.0</LangVersion>    
     <Product>Avalon Mud Client</Product>
     <RepositoryUrl>https://github.com/blakepell/AvalonMudClient</RepositoryUrl>
     <PackageProjectUrl>https://github.com/blakepell/AvalonMudClient</PackageProjectUrl>
@@ -68,6 +68,9 @@
     </Compile>
     <Compile Update="MainWindow.ViewModel.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="IntroWindow.ViewModel.cs">
+      <DependentUpon>IntroWindow.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
