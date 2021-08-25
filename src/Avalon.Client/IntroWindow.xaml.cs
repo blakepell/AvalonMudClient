@@ -13,8 +13,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 using Avalon.Common.Settings;
+using ModernWpf.Controls;
 using Newtonsoft.Json;
 
 namespace Avalon
@@ -140,6 +143,19 @@ namespace Avalon
             catch (Exception ex)
             {
                 await WindowManager.MsgBox(ex.Message, "Report a Bug had a Bug.  Eek.");
+            }
+        }
+
+        private async void GridViewProfiles_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            if (e.ClickedItem is IntroWindowViewModel.ProfileViewModel vm)
+            {
+                var result = await WindowManager.InputBox($"Would you like to connect to {vm.GameAddress} port {vm.GamePort}?", "Connect");
+
+                if (result)
+                {
+                    this.Close();
+                }
             }
         }
     }

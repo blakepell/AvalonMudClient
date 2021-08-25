@@ -22,6 +22,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Threading;
+using Avalon.Utilities;
 
 namespace Avalon.Controls
 {
@@ -69,7 +70,7 @@ namespace Avalon.Controls
                     win.ProgressRingVisibility = Visibility.Collapsed;
                     win.StatusBarRightText = "0 Packages";
                     win.StatusBarLeftText = $"Packages for {App.Settings.ProfileSettings.IpAddress}.";
-                    await this.MsgBox($"There are no packages available for {App.Settings.ProfileSettings.IpAddress}", "No Packages Found");
+                    await WindowManager.MsgBox($"There are no packages available for {App.Settings.ProfileSettings.IpAddress}", "No Packages Found");
                     return;
                 }
 
@@ -94,7 +95,7 @@ namespace Avalon.Controls
             }
             catch (Exception ex)
             {
-                await this.MsgBox($"An error occurred requesting the package list: {ex.Message}", "Package Manager Error");
+                await WindowManager.MsgBox($"An error occurred requesting the package list: {ex.Message}", "Package Manager Error");
                 win.StatusBarLeftText = $"Package list failed: {ex.Message}";
                 win.StatusBarRightText = "0 Packages";
             }
@@ -119,47 +120,6 @@ namespace Avalon.Controls
 
             // Unsubscribe to the tick event so it doesn't leak.
             _typingTimer.Tick -= this._typingTimer_Tick;
-        }
-
-        /// <summary>
-        /// Shows a message box dialog.
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="title"></param>
-        public async Task<ContentDialogResult> MsgBox(string message, string title)
-        {
-            var dialog = new MessageBoxDialog()
-            {
-                Title = title,
-                Content = message,
-            };
-
-            return await dialog.ShowAsync();
-        }
-
-        /// <summary>
-        /// A yes or no input box.
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="title"></param>
-        public async Task<bool> InputBox(string message, string title)
-        {
-            var confirmDialog = new YesNoDialog()
-            {
-                Title = title,
-                Content = message,
-                PrimaryButtonText = "Yes",
-                SecondaryButtonText = "No"
-            };
-
-            var result = await confirmDialog.ShowAsync();
-
-            if (result == ContentDialogResult.Secondary)
-            {
-                return false;
-            }
-
-            return true;
         }
 
         /// <summary>
@@ -310,12 +270,12 @@ namespace Avalon.Controls
 
                 if (packageMinimumClientVersion > thisVersion)
                 {
-                    await this.MsgBox("This package requires a newer version of Avalon.  You may update your client from Help->Update Client and Plugins.", "Version Issue");
+                    await WindowManager.MsgBox("This package requires a newer version of Avalon.  You may update your client from Help->Update Client and Plugins.", "Version Issue");
                     return;
                 }
             }
 
-            var result = await InputBox($"Are you sure you want to install: {package.Name} version {package.Version}?", "Confirm Install");
+            var result = await WindowManager.InputBox($"Are you sure you want to install: {package.Name} version {package.Version}?", "Confirm Install");
 
             if (!result)
             {
@@ -349,12 +309,12 @@ namespace Avalon.Controls
                 // Update which ones if any are installed.
                 this.UpdateInstalledList();
 
-                await MsgBox($"{package.Name} version {package.Version} has successfully been installed.", "Success");
+                await WindowManager.MsgBox($"{package.Name} version {package.Version} has successfully been installed.", "Success");
                 win.StatusBarLeftText = $"{package.Name} was installed successfully.";
             }
             catch (Exception ex)
             {
-                await this.MsgBox($"An error occurred requesting the package list: {ex.Message}", "Package Manager Error");
+                await WindowManager.MsgBox($"An error occurred requesting the package list: {ex.Message}", "Package Manager Error");
                 win.StatusBarLeftText = $"Package list failed: {ex.Message}";
                 win.StatusBarRightText = "0 Packages";
             }
@@ -374,11 +334,11 @@ namespace Avalon.Controls
 
             if (string.IsNullOrWhiteSpace(package.Id))
             {
-                await MsgBox("The Package ID for this package is blank and thus cannot be uninstalled.", "Error");
+                await WindowManager.MsgBox("The Package ID for this package is blank and thus cannot be uninstalled.", "Error");
                 return;
             }
 
-            var result = await InputBox($"Are you sure you want to uninstall: {package.Name} version {package.Version}?", "Confirm Uninstall");
+            var result = await WindowManager.InputBox($"Are you sure you want to uninstall: {package.Name} version {package.Version}?", "Confirm Uninstall");
 
             if (!result)
             {
@@ -434,7 +394,7 @@ namespace Avalon.Controls
             // Update which ones if any are installed.
             this.UpdateInstalledList();
 
-            await MsgBox($"{package.Name} version {package.Version} was successfully uninstalled.", "Success");
+            await WindowManager.MsgBox($"{package.Name} version {package.Version} was successfully uninstalled.", "Success");
         }
 
         public void PrimaryButtonClick()

@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
+using Avalon.Utilities;
 
 namespace Avalon
 {
@@ -265,17 +266,9 @@ namespace Avalon
                 {
                     string buf = $"An error occurred on line {luaResult.Exception.ToLineNumber.ToString()}\r\nMessage: {luaResult?.Exception?.Message ?? "N/A"}\r\n\r\nWould you still like to save?";
 
-                    var confirmDialog = new YesNoDialog()
-                    {
-                        Title = "Syntax Error",
-                        Content = buf,
-                        PrimaryButtonText = "Yes",
-                        SecondaryButtonText = "No"
-                    };
+                    var result = await WindowManager.InputBox(buf, "Syntax Error");
 
-                    var result = await confirmDialog.ShowAsync();
-
-                    if (result == ContentDialogResult.Secondary)
+                    if (!result)
                     {
                         return;
                     }

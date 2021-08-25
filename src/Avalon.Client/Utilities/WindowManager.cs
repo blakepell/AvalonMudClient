@@ -203,5 +203,30 @@ namespace Avalon.Utilities
             return await dialog.ShowAsync();
         }
 
+        /// <summary>
+        /// A yes or no input box.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="title"></param>
+        public static async Task<bool> InputBox(string message, string title)
+        {
+            var confirmDialog = new YesNoDialog()
+            {
+                Title = title,
+                Content = message,
+                PrimaryButtonText = "Yes",
+                SecondaryButtonText = "No"
+            };
+            
+            var result = await confirmDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Secondary)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
     }
 }

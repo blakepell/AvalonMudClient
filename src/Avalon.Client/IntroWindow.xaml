@@ -190,6 +190,8 @@
             <ui:GridView HorizontalAlignment="Center"
                 Margin="0,10,0,0"
                 SelectionMode="Single" IsSelectionEnabled="True"
+                IsItemClickEnabled="True"
+                ItemClick="GridViewProfiles_OnItemClick"
                 ItemTemplate="{StaticResource ProfilesTemplate}"
                 ItemsSource="{Binding ViewModel.Profiles}"></ui:GridView>
         </Border>

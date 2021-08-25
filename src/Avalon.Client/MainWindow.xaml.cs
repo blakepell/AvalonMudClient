@@ -472,22 +472,6 @@ namespace Avalon
         }
 
         /// <summary>
-        /// Shows a message box dialog.
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="title"></param>
-        public async Task<ContentDialogResult> MsgBox(string message, string title)
-        {
-            var dialog = new MessageBoxDialog()
-            {
-                Title = title,
-                Content = message,
-            };
-
-            return await dialog.ShowAsync();
-        }
-
-        /// <summary>
         /// TODO - Move to utilities.
         /// </summary>
         /// <param name="window"></param>
@@ -615,17 +599,9 @@ namespace Avalon
 
                 if (dialog.ShowDialog() == true)
                 {
-                    var confirmDialog = new YesNoDialog()
-                    {
-                        Title = "Are you sure?",
-                        Content = $"Are you sure you want to import from: {Argus.IO.FileSystemUtilities.ExtractFileName(dialog.FileName)}?",
-                        PrimaryButtonText = "Yes",
-                        SecondaryButtonText = "No"
-                    };
+                    var result = await WindowManager.InputBox( $"Are you sure you want to import from: {Argus.IO.FileSystemUtilities.ExtractFileName(dialog.FileName)}?", "Are you sure?");
 
-                    var result = await confirmDialog.ShowAsync();
-
-                    if (result == ContentDialogResult.Secondary)
+                    if (!result)
                     {
                         Interp.EchoText("");
                         Interp.Conveyor.EchoLog("Cancelled Import\r\n", LogType.Warning);
@@ -661,7 +637,7 @@ namespace Avalon
             // Check to see if the directory exists (it should)
             if (!Directory.Exists(App.Settings.AppDataDirectory))
             {
-                await MsgBox($"The settings folder was not found at:\r\n\r\n{App.Settings.AppDataDirectory}", "Directory not found");
+                await WindowManager.MsgBox($"The settings folder was not found at:\r\n\r\n{App.Settings.AppDataDirectory}", "Directory not found");
                 return;
             }
 
@@ -671,7 +647,7 @@ namespace Avalon
             }
             catch (Exception ex)
             {
-                await MsgBox(ex.Message, "Open Directory Error");
+                await WindowManager.MsgBox(ex.Message, "Open Directory Error");
             }
         }
 
@@ -685,7 +661,7 @@ namespace Avalon
             // Check to see if the directory exists (it mostly likely should)
             if (!Directory.Exists(App.Settings.AvalonSettings.SaveDirectory))
             {
-                await MsgBox($"The profile folder was not found at:\r\n\r\n{App.Settings.AvalonSettings.SaveDirectory}", "Directory not found");
+                await WindowManager.MsgBox($"The profile folder was not found at:\r\n\r\n{App.Settings.AvalonSettings.SaveDirectory}", "Directory not found");
                 return;
             }
 
@@ -695,7 +671,7 @@ namespace Avalon
             }
             catch (Exception ex)
             {
-                await MsgBox(ex.Message, "Open Directory Error");
+                await WindowManager.MsgBox(ex.Message, "Open Directory Error");
             }
         }
 
@@ -704,7 +680,7 @@ namespace Avalon
             // Check to see if the directory exists (it mostly likely should)
             if (!Directory.Exists(App.Settings.AvalonSettings.SaveDirectory))
             {
-                await MsgBox($"The plugins folder was not found at:\r\n\r\n{App.Settings.PluginDirectory}", "Directory not found");
+                await WindowManager.MsgBox($"The plugins folder was not found at:\r\n\r\n{App.Settings.PluginDirectory}", "Directory not found");
                 return;
             }
 
@@ -714,7 +690,7 @@ namespace Avalon
             }
             catch (Exception ex)
             {
-                await MsgBox(ex.Message, "Open Directory Error");
+                await WindowManager.MsgBox(ex.Message, "Open Directory Error");
             }
         }
 
@@ -1211,7 +1187,7 @@ namespace Avalon
         {
             if (App.InstanceGlobals.LastEdited == InstanceGlobals.EditItem.None)
             {
-                await this.MsgBox("No triggers or aliases have been edited this session.", "Edit Last Alias or Trigger");
+                await WindowManager.MsgBox("No triggers or aliases have been edited this session.", "Edit Last Alias or Trigger");
                 return;
             }
 
@@ -1223,7 +1199,7 @@ namespace Avalon
                 // Hmm, no alias.. gracefully exit.
                 if (alias == null)
                 {
-                    await this.MsgBox("No alias you wish to edit could not be found or no longer exists.", "Edit Last Alias or Trigger");
+                    await WindowManager.MsgBox("No alias you wish to edit could not be found or no longer exists.", "Edit Last Alias or Trigger");
                     return;
                 }
 
@@ -1265,7 +1241,7 @@ namespace Avalon
                 // Hmm, no Trigger.. gracefully exit.
                 if (trigger == null)
                 {
-                    await this.MsgBox("No trigger you wish to edit could not be found or no longer exists.", "Edit Last Alias or Trigger");
+                    await WindowManager.MsgBox("No trigger you wish to edit could not be found or no longer exists.", "Edit Last Alias or Trigger");
                     return;
                 }
 

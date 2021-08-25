@@ -77,6 +77,15 @@ namespace Avalon
                 set => SetValue(LastSaveDateProperty, value);
             }
 
+            public static readonly DependencyProperty FullPathProperty = DependencyProperty.Register(
+                nameof(FullPath), typeof(string), typeof(ProfileViewModel), new PropertyMetadata(default(string)));
+
+            public string FullPath
+            {
+                get => (string)GetValue(FullPathProperty);
+                set => SetValue(FullPathProperty, value);
+            }
+
         }
     }
 }
