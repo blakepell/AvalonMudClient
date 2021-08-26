@@ -208,16 +208,18 @@ namespace Avalon.Utilities
         /// </summary>
         /// <param name="message"></param>
         /// <param name="title"></param>
-        public static async Task<bool> InputBox(string message, string title)
+        /// <param name="primaryButtonText"></param>
+        /// <param name="secondaryButtonText"></param>
+        public static async Task<bool> InputBox(string message, string title, string primaryButtonText = "Yes", string secondaryButtonText = "No")
         {
             var confirmDialog = new YesNoDialog()
             {
                 Title = title,
                 Content = message,
-                PrimaryButtonText = "Yes",
-                SecondaryButtonText = "No"
+                PrimaryButtonText = primaryButtonText,
+                SecondaryButtonText = secondaryButtonText
             };
-            
+
             var result = await confirmDialog.ShowAsync();
 
             if (result == ContentDialogResult.Secondary)
@@ -227,6 +229,5 @@ namespace Avalon.Utilities
 
             return true;
         }
-
     }
 }

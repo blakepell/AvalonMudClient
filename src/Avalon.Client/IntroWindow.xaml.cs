@@ -7,24 +7,20 @@
  * @license           : MIT
  */
 
+using Avalon.Common.Settings;
 using Avalon.Utilities;
+using ModernWpf.Controls;
+using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows;
-using Avalon.Common.Settings;
-using ModernWpf.Controls;
-using Newtonsoft.Json;
 
 namespace Avalon
 {
-    public partial class IntroWindow : Window
+    public partial class IntroWindow
     {
-        //public ObservableCollection<Profile> Profiles { get; set; }
 
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
             nameof(ViewModel), typeof(IntroWindowViewModel), typeof(IntroWindow), new PropertyMetadata(default(IntroWindowViewModel)));
@@ -43,11 +39,6 @@ namespace Avalon
             {
                 Profiles = new()
             };
-
-            //this.Profiles = new();
-            //this.Profiles.Add(new Profile() {GameAddress = "dsl-mud.org", GamePort = 4000, GameName = "Dark and Shattered Lands", CustomDescription = "Immortal" });
-            //this.Profiles.Add(new Profile() { GameAddress = "dsl-mud.org", GamePort = 4000, GameName = "Dark and Shattered Lands", CustomDescription = "Mortal" });
-            //this.Profiles.Add(new Profile() { GameAddress = "dsl-mud.org", GamePort = 8000, GameName = "Dark and Shattered Lands", CustomDescription = "Immortal" });
         }
 
         private void IntroWindow_OnLoaded(object sender, RoutedEventArgs e)
@@ -77,8 +68,6 @@ namespace Avalon
                     LastSaveDate = fi.LastWriteTime
                 });
             }
-
-
         }
 
         /// <summary>

@@ -84,9 +84,6 @@ namespace Avalon
             // to avoid the flickering and repositioning the settings being loaded causes.
             this.Hide();
 
-            // Package manager echo.
-            this.StartupMessages();
-
             // The settings for the app load in the app startup, they will then try to load the last profile that was used.
             App.Conveyor.EchoInfo($"{{GA{{gvalon {{GM{{gud {{GC{{glient{{x: Version {Assembly.GetExecutingAssembly()?.GetName()?.Version?.ToString() ?? "Unknown"}");
 
@@ -127,13 +124,6 @@ namespace Avalon
             try
             {
                 this.DataContext = this.ViewModel;
-
-                if (App.Settings.AvalonSettings.DeveloperMode)
-                {
-                    App.Conveyor.EchoInfo($"Global Settings Folder: {App.Settings.AppDataDirectory}");
-                    App.Conveyor.EchoInfo($"Global Settings File:   {App.Settings.AvalonSettingsFile}");
-                    App.Conveyor.EchoInfo($"Profiles Folder: {App.Settings.AvalonSettings.SaveDirectory}");
-                }
 
                 // Try to load the last profile loaded, if not found create a new profile.
                 if (File.Exists(App.Settings.AvalonSettings.LastLoadedProfilePath))
@@ -257,34 +247,6 @@ namespace Avalon
 
             // We're at the end of load, show the window.
             this.Show();
-        }
-
-        /// <summary>
-        /// Any important messages or notices that should be echoed to the client on startup.
-        /// </summary>
-        private void StartupMessages()
-        {
-            var sb = Argus.Memory.StringBuilderPool.Take();
-            sb.AppendLine();
-            sb.AppendLine("+------------------------------------------------------------------------------+");
-            sb.AppendLine("+ {GI{gMPORTANT: {CL{cua{x {gAlias/Triggers{x                                                +");
-            sb.AppendLine("+------------------------------------------------------------------------------+");
-            sb.AppendLine("+ The way that Lua aliases and triggers get parameters has changed from the    +");
-            sb.AppendLine("+ traditional %1, %2 format (this was an important change for performance).    +");
-            sb.AppendLine("+ See the example on the following link for how to get arguments.              +");
-            sb.AppendLine("+                                                                              +");
-            sb.AppendLine("+   {G*{x https://github.com/blakepell/AvalonMudClient/blob/master/doc/Lua.md      +");
-            sb.AppendLine("+                                                                              +");
-            sb.AppendLine("+------------------------------------------------------------------------------+");
-            sb.AppendLine("+ {GP{gackage {GM{ganager{x                                                              +");
-            sb.AppendLine("+------------------------------------------------------------------------------+");
-            sb.AppendLine("+ To search for alias/trigger/direction packages use the Edit->Package Manager +");
-            sb.AppendLine("+ menu option.  Packages can be used to easily and quickly setup your mud      +");
-            sb.AppendLine("+ client.                                                                      +");
-            sb.AppendLine("+------------------------------------------------------------------------------+");
-            sb.AppendLine();
-            App.Conveyor.EchoText(sb.ToString());
-            Argus.Memory.StringBuilderPool.Return(sb);
         }
 
         /// <summary>

@@ -20,6 +20,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using Avalon.Common.Models;
 using Avalon.Common.Scripting;
+using System.Reflection;
 
 namespace Avalon.Utilities
 {
@@ -489,6 +490,29 @@ namespace Avalon.Utilities
 
             // Set the binding anew.
             BindingOperations.SetBinding(depObj, depProp, binding);
+        }
+
+        /// <summary>
+        /// Returns debug information about the current environment.
+        /// </summary>
+        public static string GetDebugInformation()
+        {
+            var sb = Argus.Memory.StringBuilderPool.Take();
+
+            try
+            {
+                sb.AppendLine($"Version: {Assembly.GetExecutingAssembly()?.GetName()?.Version?.ToString() ?? "null"}");
+                sb.AppendLine($"Global Settings Folder: {App.Settings.AppDataDirectory}");
+                sb.AppendLine($"Global Settings File:   {App.Settings.AvalonSettingsFile}");
+                sb.AppendLine($"Profiles Folder: {App.Settings.AvalonSettings.SaveDirectory}");
+                sb.AppendLine($"Last Profile Loaded: {App.Settings.AvalonSettings.LastLoadedProfilePath ?? "null"}");
+                sb.AppendLine($"SQLite Connection String: {App.Settings.ProfileSettings.SqliteDatabase ?? "null"}");
+                return sb.ToString();
+            }
+            finally
+            {
+                Argus.Memory.StringBuilderPool.Return(sb);
+            }
         }
     }
 }
