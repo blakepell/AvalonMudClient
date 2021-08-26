@@ -68,12 +68,6 @@ namespace Avalon
         public SqlTasks SqlTasks;
 
         /// <summary>
-        /// A class which handles the management of the current set of navigation items for the left
-        /// hand slide out menu.
-        /// </summary>
-        public NavManager NavManager { get; set; } = new NavManager();
-
-        /// <summary>
         /// A queue of commands that will run after a specified time.
         /// </summary>
         public ScheduledTasks ScheduledTasks { get; set; }
@@ -207,7 +201,7 @@ namespace Avalon
                 this.LoadPlugins();
 
                 // Loads the initial list of items for the navigation slide out.
-                this.NavManager.Load();
+                this.ViewModel.NavManager.Load();
 
                 // Update any UI settings
                 this.UpdateUISettings();

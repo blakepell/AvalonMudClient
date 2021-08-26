@@ -131,7 +131,7 @@
                         <ScrollViewer
                             KeyboardNavigation.TabNavigation="Once"
                             VerticalScrollBarVisibility="Auto">
-                            <ui:ItemsRepeater ItemsSource="{Binding NavManager.NavMenuItems, ElementName=mainPage, UpdateSourceTrigger=PropertyChanged}">
+                            <ui:ItemsRepeater ItemsSource="{Binding NavManager.NavMenuItems, UpdateSourceTrigger=PropertyChanged}">
                                 <ui:ItemsRepeater.Layout>
                                     <ui:StackLayout Orientation="Vertical"/>
                                 </ui:ItemsRepeater.Layout>

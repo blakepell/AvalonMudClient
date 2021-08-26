@@ -8,6 +8,7 @@
  */
 
 using System.Windows;
+using Avalon.Controls;
 using MahApps.Metro.IconPacks;
 
 namespace Avalon
@@ -127,6 +128,19 @@ namespace Avalon
 
         public static readonly DependencyProperty StatusBarTextIconKindProperty = DependencyProperty.Register(
             nameof(StatusBarTextIconKind), typeof(PackIconMaterialKind), typeof(MainWindowViewModel), new PropertyMetadata(PackIconMaterialKind.None));
+
+        /// <summary>
+        /// A class which handles the management of the current set of navigation items for the left
+        /// hand slide out menu.
+        /// </summary>
+        public NavManager NavManager
+        {
+            get => (NavManager) GetValue(NavManagerProperty);
+            set => SetValue(NavManagerProperty, value);
+        }
+
+        public static readonly DependencyProperty NavManagerProperty = DependencyProperty.Register(
+            nameof(NavManager), typeof(NavManager), typeof(MainWindowViewModel), new PropertyMetadata(new NavManager()));
 
     }
 }
