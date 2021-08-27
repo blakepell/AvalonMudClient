@@ -12,6 +12,7 @@ using Avalon.Common.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using Argus.IO;
@@ -23,17 +24,28 @@ namespace Avalon.Common.Settings
     /// <summary>
     /// The default implementation for settings.
     /// </summary>
-    public class SettingsProvider : ISettingsProvider
+    public class SettingsProvider : ISettingsProvider,  INotifyPropertyChanged
     {
         /// <summary>
         /// The settings file that is the current loaded profile.
         /// </summary>
         public ProfileSettings ProfileSettings { get; set; } = new();
 
+        private AvalonSettings _avalonSettings = new();
+
         /// <summary>
         /// The core settings file that is not profile settings related.
         /// </summary>
-        public AvalonSettings AvalonSettings { get; set; } = new();
+        public AvalonSettings AvalonSettings
+        {
+            get => _avalonSettings;
+            set
+            {
+                _avalonSettings = value;
+                OnPropertyChanged(nameof(AvalonSettings));
+
+            }
+        }
 
         /// <summary>
         /// The application data directory that is in the standard shared location for Windows.
@@ -438,5 +450,14 @@ namespace Avalon.Common.Settings
             alias.Count = count;
             this.ProfileSettings.AliasList.Add(alias);
         }
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            var e = new PropertyChangedEventArgs(propertyName);
+            PropertyChanged?.Invoke(this, e);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
     }
 }

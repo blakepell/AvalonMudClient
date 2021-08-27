@@ -108,10 +108,20 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public bool ShowMainWindowBorder { get; set; } = false;
 
+        private int _terminalFontSize = 13;
+
         [CategoryAttribute("UI")]
         [DescriptionAttribute("The font size that should be used in the terminal panels.")]
         [Browsable(true)]
-        public int TerminalFontSize { get; set; } = 13;
+        public int TerminalFontSize
+        {
+            get => _terminalFontSize;
+            set
+            {
+                _terminalFontSize = value;
+                OnPropertyChanged(nameof(this.TerminalFontSize));
+            }
+        }
 
         /// <summary>
         /// Supported fonts.
@@ -159,16 +169,35 @@ namespace Avalon.Common.Settings
         public bool MouseWheelScrollReroutesToBackBuffer { get; set; } = true;
 
 
+        private bool _showLineNumbersInGameTerminal = false;
+
         [CategoryAttribute("UI")]
         [DescriptionAttribute("Whether or not line numbers should be shown in the game terminal.")]
         [Browsable(true)]
-        public bool ShowLineNumbersInGameTerminal { get; set; } = false;
+        public bool ShowLineNumbersInGameTerminal
+        {
+            get => _showLineNumbersInGameTerminal;
+            set
+            {
+                _showLineNumbersInGameTerminal = value;
+                OnPropertyChanged(nameof(this.ShowLineNumbersInGameTerminal));
+            }
+        }
+
+        private bool _wordWrapTerminals = true;
 
         [CategoryAttribute("UI")]
         [DescriptionAttribute("Word wrap the terminals.")]
         [Browsable(true)]
-        public bool WordWrapTerminals { get; set; } = true;
-
+        public bool WordWrapTerminals
+        {
+            get => _wordWrapTerminals;
+            set
+            {
+                _wordWrapTerminals = value;
+                OnPropertyChanged(nameof(this.WordWrapTerminals));
+            }
+        }
 
         private bool _variableRepeaterVisible = true;
 

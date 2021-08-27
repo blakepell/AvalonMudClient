@@ -21,11 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Argus.Core" Version="2021.6.26.1" />
+    <PackageReference Include="Argus.Core" Version="2021.8.16.1" />
     <PackageReference Include="AvalonEdit" Version="6.1.2.30" />
     <PackageReference Include="Dapper" Version="2.0.90" />
     <PackageReference Include="MahApps.Metro.IconPacks.MaterialDesign" Version="4.8.0" />
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.8" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.9" />
     <PackageReference Include="ModernWpfUI" Version="0.9.4" />
     <PackageReference Include="MahApps.Metro.IconPacks.VaadinIcons" Version="4.8.0" />
   </ItemGroup>

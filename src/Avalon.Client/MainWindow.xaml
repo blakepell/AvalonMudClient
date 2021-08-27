@@ -26,6 +26,7 @@
         >
     <!-- Resources (e.g. context menu) -->
     <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
         <providers:AutoCompleteCommandProvider x:Key="AutoCompleteCommandProvider"/>
         <DataTemplate x:Key="AutoCompleteCommandTemplate">
             <Grid>
@@ -50,12 +51,12 @@
                 </MenuItem.Icon>
             </MenuItem>
             <Separator />
-            <MenuItem Header="Font Size Larger" InputGestureText="Ctrl+Plus">
+            <MenuItem Header="Font Size Larger" InputGestureText="Ctrl+Plus" Click="MenuItemIncreaseFontSize_OnClick">
                 <MenuItem.Icon>
                     <ui:SymbolIcon Symbol="FontIncrease"></ui:SymbolIcon>
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Header="Font Size Smaller" InputGestureText="Ctrl+Minus">
+            <MenuItem Header="Font Size Smaller" InputGestureText="Ctrl+Minus" Click="MenuItemDecreaseFontSize_OnClick">
                 <MenuItem.Icon>
                     <ui:SymbolIcon Symbol="FontDecrease"></ui:SymbolIcon>
                 </MenuItem.Icon>
@@ -280,7 +281,7 @@
                         </MenuItem>
                     </MenuItem>
                     <MenuItem Header="_Tools">
-                        <MenuItem x:Name="MenuItemDeveloperTools" Header="Developer Tools">
+                        <MenuItem x:Name="MenuItemDeveloperTools" Header="Developer Tools" Visibility="{Binding Path=AvalonSettings.DeveloperMode, Converter={StaticResource ResourceKey=BoolToVisConverter}}">
                             <MenuItem.Icon>
                                 <ui:FontIcon Glyph="&#xEC7A;" />
                             </MenuItem.Icon>
@@ -366,15 +367,37 @@
                                BorderThickness="0,0,0,.9" 
                                Background="{StaticResource BrushWindowBackground}">
                     <ui:CommandBar.SecondaryCommands>
-                        <ui:AppBarToggleButton x:Name="ButtonAliasesEnabled" Icon="Shuffle" Label="Aliases Enabled" />
-                        <ui:AppBarToggleButton x:Name="ButtonTriggersEnabled" Icon="Directions" Label="Triggers Enabled"></ui:AppBarToggleButton>
-                        <ui:AppBarToggleButton x:Name="ButtonReplacementTriggersEnabled" Icon="Rename" Label="Replacement Triggers Enabled"></ui:AppBarToggleButton>
+                        <ui:AppBarToggleButton x:Name="ButtonAliasesEnabled"
+                                               IsChecked="{Binding Path=ProfileSettings.AliasesEnabled}"
+                                               Icon="Shuffle" 
+                                               Label="Aliases Enabled" />
+                        <ui:AppBarToggleButton x:Name="ButtonTriggersEnabled"
+                                               IsChecked="{Binding Path=ProfileSettings.TriggersEnabled}"
+                                               Icon="Directions"
+                                               Label="Triggers Enabled" />
+                        <ui:AppBarToggleButton x:Name="ButtonReplacementTriggersEnabled"
+                                               IsChecked="{Binding Path=ProfileSettings.ReplacementTriggersEnabled}"
+                                               Icon="Rename"
+                                               Label="Replacement Triggers Enabled" />
                         <ui:AppBarSeparator />
-                        <ui:AppBarToggleButton x:Name="ButtonVariableRepeaterVisible" Icon="Account" Label="Variable Repeater Visible" Click="ButtonVariableRepeaterVisible_Click"></ui:AppBarToggleButton>
+                        <ui:AppBarToggleButton x:Name="ButtonVariableRepeaterVisible" 
+                                               IsChecked="{Binding Path=AvalonSettings.VariableRepeaterVisible}"
+                                               Icon="Account" 
+                                               Label="Variable Repeater Visible" 
+                                               Click="ButtonVariableRepeaterVisible_Click" />
                         <ui:AppBarSeparator />
-                        <ui:AppBarToggleButton x:Name="ButtonCustomTab1Visible" Icon="PreviewLink" Label="Custom Tab 1 Visible"></ui:AppBarToggleButton>
-                        <ui:AppBarToggleButton x:Name="ButtonCustomTab2Visible" Icon="PreviewLink" Label="Custom Tab 2 Visible"></ui:AppBarToggleButton>
-                        <ui:AppBarToggleButton x:Name="ButtonCustomTab3Visible" Icon="PreviewLink" Label="Custom Tab 3 Visible"></ui:AppBarToggleButton>
+                        <ui:AppBarToggleButton x:Name="ButtonCustomTab1Visible" 
+                                               IsChecked="{Binding Path=AvalonSettings.CustomTab1Visible}"
+                                               Icon="PreviewLink" 
+                                               Label="{Binding Path=AvalonSettings.CustomTab1Label}" />
+                        <ui:AppBarToggleButton x:Name="ButtonCustomTab2Visible" 
+                                               IsChecked="{Binding Path=AvalonSettings.CustomTab2Visible}"
+                                               Icon="PreviewLink" 
+                                               Label="{Binding Path=AvalonSettings.CustomTab2Label}" />
+                        <ui:AppBarToggleButton x:Name="ButtonCustomTab3Visible"
+                                               IsChecked="{Binding Path=AvalonSettings.CustomTab3Visible}"
+                                               Icon="PreviewLink" 
+                                               Label="{Binding Path=AvalonSettings.CustomTab3Label}" />
                     </ui:CommandBar.SecondaryCommands>
                 </ui:CommandBar>
 
@@ -384,12 +407,14 @@
                     <controls:AvalonTerminal x:Name="GameBackBufferTerminal" x:FieldModifier="public"
                             Visibility="Collapsed"
                             DockPanel.Dock="Top"
-                            ShowLineNumbers="False" WordWrap="True"
+                            ShowLineNumbers="{Binding AvalonSettings.ShowLineNumbersInGameTerminal}"
+                            FontSize="{Binding AvalonSettings.TerminalFontSize}"
+                            WordWrap="{Binding AvalonSettings.WordWrapTerminals}"
                             FontFamily="Consolas" IsReadOnly="True"
                             Padding="10,0,20,0"
                             BorderThickness=".9,0,0,1"
                             Background="Black" Foreground="LightGray"
-                            FontSize="13" BorderBrush="#444444"
+                            BorderBrush="#444444"
                             ScrollViewer.PanningMode="VerticalOnly"
                             ContextMenu="{StaticResource AvalonTerminalContextMenu}"
                             PreviewMouseWheel="GameBackBufferTerminal_PreviewMouseWheel"
@@ -399,11 +424,13 @@
 
                     <controls:AvalonTerminal x:Name="GameTerminal" x:FieldModifier="public"
                             DockPanel.Dock="Bottom"
-                            ShowLineNumbers="False" WordWrap="True"
+                            ShowLineNumbers="{Binding AvalonSettings.ShowLineNumbersInGameTerminal}"
+                            FontSize="{Binding AvalonSettings.TerminalFontSize}"
+                            WordWrap="{Binding AvalonSettings.WordWrapTerminals}"
                             FontFamily="Consolas" IsReadOnly="True"
                             Padding="10,0,20,0"
                             Background="Black" Foreground="LightGray"
-                            FontSize="13" BorderBrush="#444444" BorderThickness=".9,0,0,0"                                                                                                  
+                            BorderBrush="#444444" BorderThickness=".9,0,0,0"                                                                                                  
                             ScrollViewer.PanningMode="VerticalOnly"                                                 
                             ContextMenu="{StaticResource AvalonTerminalContextMenu}"                            
                             PreviewMouseWheel="GameTerminal_PreviewMouseWheel"
@@ -424,19 +451,26 @@
                                 </ResourceDictionary.MergedDictionaries>
                             </ResourceDictionary>
                         </TabControl.Resources>
-                        <controls:TabItemEx x:Name="CustomTab1">
+                        <controls:TabItemEx x:Name="CustomTab1"
+                                            Visibility="{Binding Path=AvalonSettings.CustomTab1Visible, Converter={StaticResource ResourceKey=BoolToVisConverter}}">
                             <controls:TabItemEx.Header>
                                 <ui:SimpleStackPanel Orientation="Horizontal">
-                                    <Label x:Name="CustomTab1Label" x:FieldModifier="public" FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14">Custom Tab 1</Label>
-                                    <controls:Badge x:Name="CustomTab1Badge" x:FieldModifier="public"></controls:Badge>
+                                    <Label x:Name="CustomTab1Label" 
+                                           x:FieldModifier="public" 
+                                           Content="{Binding Path=AvalonSettings.CustomTab1Label}"
+                                           FontWeight="SemiBold" 
+                                           FontFamily="Segoe UI"
+                                           FontSize="14" />
+                                    <controls:Badge x:Name="CustomTab1Badge" x:FieldModifier="public" />
                                 </ui:SimpleStackPanel>
                             </controls:TabItemEx.Header>
                             <controls:AvalonTerminal
-                                    x:Name="Terminal1" ShowLineNumbers="False" WordWrap="True" GagEnabled="False"
+                                    x:Name="Terminal1" ShowLineNumbers="False" GagEnabled="False"
                                     FontFamily="Consolas" IsReadOnly="True"
                                     Padding="10,0,20,0"
                                     Background="Black" Foreground="LightGray"
-                                    FontSize="10pt"
+                                    FontSize="{Binding AvalonSettings.TerminalFontSize}"
+                                    WordWrap="{Binding AvalonSettings.WordWrapTerminals}"
                                     ScrollViewer.PanningMode="VerticalOnly"
                                     VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible"
                                     ContextMenu="{StaticResource AvalonTerminalContextMenu}"
@@ -444,38 +478,52 @@
                                     KeyDown="Terminal_OnKeyDown">
                             </controls:AvalonTerminal>
                         </controls:TabItemEx>
-                        <controls:TabItemEx x:Name="CustomTab2">
+                        <controls:TabItemEx x:Name="CustomTab2"
+                                            Visibility="{Binding Path=AvalonSettings.CustomTab2Visible, Converter={StaticResource ResourceKey=BoolToVisConverter}}">
                             <controls:TabItemEx.Header>
                                 <ui:SimpleStackPanel Orientation="Horizontal">
-                                    <Label x:Name="CustomTab2Label" x:FieldModifier="public" FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14">Custom Tab 2</Label>
+                                    <Label x:Name="CustomTab2Label"
+                                           x:FieldModifier="public"
+                                           Content="{Binding Path=AvalonSettings.CustomTab2Label}"
+                                           FontWeight="SemiBold"
+                                           FontFamily="Segoe UI"
+                                           FontSize="14" />
                                     <controls:Badge x:Name="CustomTab2Badge" x:FieldModifier="public"></controls:Badge>
                                 </ui:SimpleStackPanel>
                             </controls:TabItemEx.Header>
                             <controls:AvalonTerminal
-                                    x:Name="Terminal2" ShowLineNumbers="False" WordWrap="True" GagEnabled="False"
+                                    x:Name="Terminal2" ShowLineNumbers="False" GagEnabled="False"
                                     FontFamily="Consolas" IsReadOnly="True"
                                     Background="Black" Foreground="LightGray"
                                     Padding="10,0,20,0"
-                                    FontSize="13"                                 
+                                    FontSize="{Binding AvalonSettings.TerminalFontSize}"
+                                    WordWrap="{Binding AvalonSettings.WordWrapTerminals}"
                                     ScrollViewer.PanningMode="VerticalOnly"
                                     ContextMenu="{StaticResource AvalonTerminalContextMenu}"
                                     ScrollViewer.ScrollChanged="CommTerminal_ScrollChanged"
                                     KeyDown="Terminal_OnKeyDown">
                             </controls:AvalonTerminal>
                         </controls:TabItemEx>
-                        <controls:TabItemEx x:Name="CustomTab3">
+                        <controls:TabItemEx x:Name="CustomTab3"
+                                            Visibility="{Binding Path=AvalonSettings.CustomTab3Visible, Converter={StaticResource ResourceKey=BoolToVisConverter}}">
                             <controls:TabItemEx.Header>
                                 <ui:SimpleStackPanel Orientation="Horizontal">
-                                    <Label x:Name="CustomTab3Label" x:FieldModifier="public" FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14">Custom Tab 3</Label>
+                                    <Label x:Name="CustomTab3Label"
+                                           x:FieldModifier="public"
+                                           Content="{Binding Path=AvalonSettings.CustomTab3Label}"
+                                           FontWeight="SemiBold"
+                                           FontFamily="Segoe UI"
+                                           FontSize="14" />
                                     <controls:Badge x:Name="CustomTab3Badge" x:FieldModifier="public"></controls:Badge>
                                 </ui:SimpleStackPanel>
                             </controls:TabItemEx.Header>
                             <controls:AvalonTerminal
-                                    x:Name="Terminal3" ShowLineNumbers="False" WordWrap="True" GagEnabled="False"
+                                    x:Name="Terminal3" ShowLineNumbers="False" GagEnabled="False"
                                     FontFamily="Consolas" IsReadOnly="True"
                                     Background="Black" Foreground="LightGray"
                                     Padding="10,0,20,0"
-                                    FontSize="13"                                 
+                                    FontSize="{Binding AvalonSettings.TerminalFontSize}"
+                                    WordWrap="{Binding AvalonSettings.WordWrapTerminals}"
                                     ScrollViewer.PanningMode="VerticalOnly"
                                     ContextMenu="{StaticResource AvalonTerminalContextMenu}"
                                     ScrollViewer.ScrollChanged="CommTerminal_ScrollChanged"
@@ -503,9 +551,15 @@
                 </Border>
 
                 <!-- Variable Repeater -->
-                <Border x:Name="VariableRepeaterBorder" Grid.Row="3" Grid.RowSpan="3" Grid.Column="1"                            
-                            Background="{StaticResource BrushWindowBackground}" BorderThickness=".9,.9,0,0" BorderBrush="#444444">
-                    <controls:VariableRepeater x:Name="VariableRepeater" x:FieldModifier="public" />
+                <Border x:Name="VariableRepeaterBorder" 
+                        Grid.Row="3" Grid.RowSpan="3" Grid.Column="1"                            
+                        Visibility="{Binding Path=AvalonSettings.VariableRepeaterVisible, Converter={StaticResource ResourceKey=BoolToVisConverter}}"
+                        Background="{StaticResource BrushWindowBackground}"
+                        BorderThickness=".9,.9,0,0"
+                        BorderBrush="#444444">
+                    <controls:VariableRepeater x:Name="VariableRepeater"
+                                               x:FieldModifier="public"
+                                               Visibility="{Binding Path=AvalonSettings.VariableRepeaterVisible, Converter={StaticResource ResourceKey=BoolToVisConverter}}" />
                 </Border>
 
                 <!-- Info Bar -->

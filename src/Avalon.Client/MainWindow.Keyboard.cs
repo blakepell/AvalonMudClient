@@ -537,20 +537,34 @@ namespace Avalon
 
             if (param.Equals("+", System.StringComparison.OrdinalIgnoreCase))
             {
-                if (App.Settings.AvalonSettings.TerminalFontSize < 72)
-                {
-                    App.Settings.AvalonSettings.TerminalFontSize++;
-                }
+                this.MenuItemIncreaseFontSize_OnClick(null, null);
             }
             else if (param.Equals("-", System.StringComparison.OrdinalIgnoreCase))
             {
-                if (App.Settings.AvalonSettings.TerminalFontSize > 8)
-                {
-                    App.Settings.AvalonSettings.TerminalFontSize--;
-                }
+                this.MenuItemDecreaseFontSize_OnClick(null, null);
             }
+        }
 
-            UpdateUISettings();
+        /// <summary>
+        /// Increases the font size of all terminals.
+        /// </summary>
+        private void MenuItemIncreaseFontSize_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (App.Settings.AvalonSettings.TerminalFontSize < 72)
+            {
+                App.Settings.AvalonSettings.TerminalFontSize++;
+            }
+        }
+
+        /// <summary>
+        /// Decreases the font size of all terminals.
+        /// </summary>
+        private void MenuItemDecreaseFontSize_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (App.Settings.AvalonSettings.TerminalFontSize > 8)
+            {
+                App.Settings.AvalonSettings.TerminalFontSize--;
+            }
         }
 
         /// <summary>
@@ -560,6 +574,5 @@ namespace Avalon
         {
             App.MainWindow.TitleBar.SearchBox.Focus();
         }
-
     }
 }

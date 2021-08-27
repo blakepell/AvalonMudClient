@@ -8,6 +8,8 @@
  */
 
 using System.Windows;
+using Avalon.Common.Interfaces;
+using Avalon.Common.Settings;
 using Avalon.Controls;
 using MahApps.Metro.IconPacks;
 
@@ -25,6 +27,33 @@ namespace Avalon
             this.PendingSqlStatements = 0;
         }
 
+        public static readonly DependencyProperty AvalonSettingsProperty = DependencyProperty.Register(
+            nameof(AvalonSettings), typeof(AvalonSettings), typeof(MainWindowViewModel), new PropertyMetadata(default(AvalonSettings)));
+
+        /// <summary>
+        /// A reference to the currently loaded <see cref="AvalonSettings"/> object which holds our client settings.
+        /// </summary>
+        public AvalonSettings AvalonSettings
+        {
+            get => (AvalonSettings) GetValue(AvalonSettingsProperty);
+            set => SetValue(AvalonSettingsProperty, value);
+        }
+
+        public static readonly DependencyProperty ProfileSettingsProperty = DependencyProperty.Register(
+            nameof(ProfileSettings), typeof(ProfileSettings), typeof(MainWindowViewModel), new PropertyMetadata(default(ProfileSettings)));
+
+        /// <summary>
+        /// A reference to the currently loaded <see cref="ProfileSettings"/> object which holds our profile/game specific settings.
+        /// </summary>
+        public ProfileSettings ProfileSettings
+        {
+            get => (ProfileSettings) GetValue(ProfileSettingsProperty);
+            set => SetValue(ProfileSettingsProperty, value);
+        }
+
+        public static readonly DependencyProperty ScheduledTasksActiveProperty =
+            DependencyProperty.Register(nameof(ScheduledTasksActive), typeof(int), typeof(MainWindowViewModel), new PropertyMetadata(0));
+
         /// <summary>
         /// The current number of tasks that are currently scheduled.
         /// </summary>
@@ -34,8 +63,8 @@ namespace Avalon
             set => SetValue(ScheduledTasksActiveProperty, value);
         }
 
-        public static readonly DependencyProperty ScheduledTasksActiveProperty =
-            DependencyProperty.Register(nameof(ScheduledTasksActive), typeof(int), typeof(MainWindowViewModel), new PropertyMetadata(0));
+        public static readonly DependencyProperty LuaScriptsActiveProperty =
+            DependencyProperty.Register(nameof(LuaScriptsActive), typeof(int), typeof(MainWindowViewModel), new PropertyMetadata(0));
 
         /// <summary>
         /// The current number of Lua scripts that are active.
@@ -46,8 +75,8 @@ namespace Avalon
             set => SetValue(LuaScriptsActiveProperty, value);
         }
 
-        public static readonly DependencyProperty LuaScriptsActiveProperty =
-            DependencyProperty.Register(nameof(LuaScriptsActive), typeof(int), typeof(MainWindowViewModel), new PropertyMetadata(0));
+        public static readonly DependencyProperty PendingSqlStatementsProperty =
+            DependencyProperty.Register(nameof(PendingSqlStatements), typeof(int), typeof(MainWindowViewModel), new PropertyMetadata(0));
 
         /// <summary>
         /// The current number of pending SQL statements.
@@ -58,8 +87,8 @@ namespace Avalon
             set => SetValue(PendingSqlStatementsProperty, value);
         }
 
-        public static readonly DependencyProperty PendingSqlStatementsProperty =
-            DependencyProperty.Register(nameof(PendingSqlStatements), typeof(int), typeof(MainWindowViewModel), new PropertyMetadata(0));
+        public static readonly DependencyProperty SpellCheckEnabledProperty =
+            DependencyProperty.Register(nameof(SpellCheckEnabled), typeof(bool), typeof(MainWindow), new PropertyMetadata(true));
 
         /// <summary>
         /// Whether spell checking is currently enabled.
@@ -70,9 +99,8 @@ namespace Avalon
             set => SetValue(SpellCheckEnabledProperty, value);
         }
 
-        public static readonly DependencyProperty SpellCheckEnabledProperty =
-            DependencyProperty.Register(nameof(SpellCheckEnabled), typeof(bool), typeof(MainWindow), new PropertyMetadata(true));
-
+        public static readonly DependencyProperty StatusBarTextProperty = DependencyProperty.Register(
+            nameof(StatusBarText), typeof(string), typeof(MainWindowViewModel), new PropertyMetadata(""));
 
         /// <summary>
         /// User generated status bar text.
@@ -88,9 +116,8 @@ namespace Avalon
             }
         }
 
-        public static readonly DependencyProperty StatusBarTextProperty = DependencyProperty.Register(
-            nameof(StatusBarText), typeof(string), typeof(MainWindowViewModel), new PropertyMetadata(""));
-
+        public static readonly DependencyProperty StatusBarSeparatorVisibilityProperty = DependencyProperty.Register(
+            nameof(StatusBarSeparatorVisibility), typeof(Visibility), typeof(MainWindowViewModel), new PropertyMetadata(Visibility.Collapsed));
 
         /// <summary>
         /// The status bar separator for the main status bar TextBlock.
@@ -101,8 +128,8 @@ namespace Avalon
             set => SetValue(StatusBarSeparatorVisibilityProperty, value);
         }
 
-        public static readonly DependencyProperty StatusBarSeparatorVisibilityProperty = DependencyProperty.Register(
-            nameof(StatusBarSeparatorVisibility), typeof(Visibility), typeof(MainWindowViewModel), new PropertyMetadata(Visibility.Collapsed));
+        public static readonly DependencyProperty StatusBarTextIconVisibilityProperty = DependencyProperty.Register(
+            nameof(StatusBarTextIconVisibility), typeof(Visibility), typeof(MainWindowViewModel), new PropertyMetadata(Visibility.Collapsed));
 
         /// <summary>
         /// Sets the visibility of the icon that is paired with the StatusBarText property.
@@ -113,9 +140,8 @@ namespace Avalon
             set => SetValue(StatusBarTextIconVisibilityProperty, value);
         }
 
-        public static readonly DependencyProperty StatusBarTextIconVisibilityProperty = DependencyProperty.Register(
-            nameof(StatusBarTextIconVisibility), typeof(Visibility), typeof(MainWindowViewModel), new PropertyMetadata(Visibility.Collapsed));
-
+        public static readonly DependencyProperty StatusBarTextIconKindProperty = DependencyProperty.Register(
+            nameof(StatusBarTextIconKind), typeof(PackIconMaterialKind), typeof(MainWindowViewModel), new PropertyMetadata(PackIconMaterialKind.None));
 
         /// <summary>
         /// Sets the icon associated with the main status bar text box.
@@ -126,8 +152,8 @@ namespace Avalon
             set => SetValue(StatusBarTextIconKindProperty, value);
         }
 
-        public static readonly DependencyProperty StatusBarTextIconKindProperty = DependencyProperty.Register(
-            nameof(StatusBarTextIconKind), typeof(PackIconMaterialKind), typeof(MainWindowViewModel), new PropertyMetadata(PackIconMaterialKind.None));
+        public static readonly DependencyProperty NavManagerProperty = DependencyProperty.Register(
+            nameof(NavManager), typeof(NavManager), typeof(MainWindowViewModel), new PropertyMetadata(new NavManager()));
 
         /// <summary>
         /// A class which handles the management of the current set of navigation items for the left
@@ -138,9 +164,5 @@ namespace Avalon
             get => (NavManager) GetValue(NavManagerProperty);
             set => SetValue(NavManagerProperty, value);
         }
-
-        public static readonly DependencyProperty NavManagerProperty = DependencyProperty.Register(
-            nameof(NavManager), typeof(NavManager), typeof(MainWindowViewModel), new PropertyMetadata(new NavManager()));
-
     }
 }

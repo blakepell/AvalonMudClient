@@ -273,11 +273,14 @@ namespace Avalon
         {
             try
             {
+                // Setup the view model binding to the client settings.
+                this.ViewModel.AvalonSettings = App.Settings.AvalonSettings;
+
+                // Load the profile settings from the requested file.
                 App.Settings.LoadSettings(fileName);
 
-                // Setup any custom binding that has to happen via code.  This must happen after the
-                // profile is loaded if it comes from code.
-                this.SetupBinding();
+                // Setup the view model binding to the profile settings.
+                this.ViewModel.ProfileSettings = App.Settings.ProfileSettings;
 
                 // Any manually references that should occur.
                 VariableRepeater.Bind();
@@ -304,13 +307,6 @@ namespace Avalon
         /// </summary>
         public void UpdateUISettings()
         {
-            // Terminal font size
-            this.GameTerminal.FontSize = App.Settings.AvalonSettings.TerminalFontSize;
-            this.Terminal1.FontSize = App.Settings.AvalonSettings.TerminalFontSize;
-            this.Terminal2.FontSize = App.Settings.AvalonSettings.TerminalFontSize;
-            this.Terminal3.FontSize = App.Settings.AvalonSettings.TerminalFontSize;
-            this.GameBackBufferTerminal.FontSize = App.Settings.AvalonSettings.TerminalFontSize;
-
             // Terminal font
             FontFamily font;
 
@@ -335,16 +331,6 @@ namespace Avalon
 
             this.ViewModel.SpellCheckEnabled = App.Settings.ProfileSettings.SpellChecking;
 
-            // Line numbers
-            GameTerminal.ShowLineNumbers = App.Settings.AvalonSettings.ShowLineNumbersInGameTerminal;
-            GameBackBufferTerminal.ShowLineNumbers = App.Settings.AvalonSettings.ShowLineNumbersInGameTerminal;
-
-            // Word wrap
-            GameTerminal.WordWrap = App.Settings.AvalonSettings.WordWrapTerminals;
-            Terminal1.WordWrap = GameTerminal.WordWrap = App.Settings.AvalonSettings.WordWrapTerminals;
-            Terminal2.WordWrap = GameTerminal.WordWrap = App.Settings.AvalonSettings.WordWrapTerminals;
-            Terminal3.WordWrap = GameTerminal.WordWrap = App.Settings.AvalonSettings.WordWrapTerminals;
-
             // Scroll everything to the last line in case heights/widths/wrapping has changed.
             GameTerminal.ScrollToLastLine();
             Terminal1.ScrollToLastLine();
@@ -365,51 +351,6 @@ namespace Avalon
 
             // Grid Layout
             LoadGridState();
-        }
-
-        /// <summary>
-        /// Setup any bindings that have to happen in the code.
-        /// </summary>
-        /// <remarks>
-        /// We're binding in code because some of these objects can be loaded and reloaded and when that happens
-        /// the binding needs to be reset.
-        /// </remarks>
-        public void SetupBinding()
-        {
-            var boolToCollapsedConverter = new BooleanToVisibilityConverter();
-
-            // Developer Tools
-            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "DeveloperMode", MenuItemDeveloperTools, MenuItem.VisibilityProperty, boolToCollapsedConverter);
-
-            // Manually setup the bindings.  I couldn't get it to work in the Xaml because the 
-            // AppSettings gets replaced after this control is loaded.
-            Utilities.Utilities.SetBinding(App.Settings.ProfileSettings, "AliasesEnabled", ButtonAliasesEnabled, CheckBox.IsCheckedProperty);
-            Utilities.Utilities.SetBinding(App.Settings.ProfileSettings, "TriggersEnabled", ButtonTriggersEnabled, CheckBox.IsCheckedProperty);
-            Utilities.Utilities.SetBinding(App.Settings.ProfileSettings, "ReplacementTriggersEnabled", ButtonReplacementTriggersEnabled, CheckBox.IsCheckedProperty);
-
-            // Custom Tab 1 + Quick Toggle Bar
-            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab1Visible", CustomTab1, TabItemEx.VisibilityProperty, boolToCollapsedConverter);
-            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab1Label", CustomTab1Label, Label.ContentProperty);
-            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab1Visible", ButtonCustomTab1Visible, CheckBox.IsCheckedProperty);
-            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab1Label", ButtonCustomTab1Visible, AppBarToggleButton.LabelProperty);
-
-            // Custom Tab 2 + Quick Toggle Bar
-            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab2Visible", CustomTab2, TabItemEx.VisibilityProperty, boolToCollapsedConverter);
-            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab2Label", CustomTab2Label, Label.ContentProperty);
-            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab2Visible", ButtonCustomTab2Visible, CheckBox.IsCheckedProperty);
-            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab2Label", ButtonCustomTab2Visible, AppBarToggleButton.LabelProperty);
-
-            // Custom Tab 3 + Quick Toggle Bar
-            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab3Visible", CustomTab3, TabItemEx.VisibilityProperty, boolToCollapsedConverter);
-            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab3Label", CustomTab3Label, Label.ContentProperty);
-            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab3Visible", ButtonCustomTab3Visible, CheckBox.IsCheckedProperty);
-            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "CustomTab3Label", ButtonCustomTab3Visible, AppBarToggleButton.LabelProperty);
-
-            // Variable Repeater
-            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "VariableRepeaterVisible", VariableRepeater, UserControl.VisibilityProperty, boolToCollapsedConverter);
-            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "VariableRepeaterVisible", VariableRepeaterBorder, Border.VisibilityProperty, boolToCollapsedConverter);
-            Utilities.Utilities.SetBinding(App.Settings.AvalonSettings, "VariableRepeaterVisible", ButtonVariableRepeaterVisible, CheckBox.IsCheckedProperty);
-
         }
 
         /// <summary>
