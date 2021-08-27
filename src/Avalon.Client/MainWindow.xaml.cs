@@ -311,21 +311,15 @@ namespace Avalon
             switch (App.Settings.AvalonSettings.TerminalFont)
             {
                 case AvalonSettings.TerminalFonts.Consolas:
-                    font = new FontFamily("Consolas");
+                    this.ViewModel.TerminalFontFamily = new FontFamily("Consolas");
                     break;
                 case AvalonSettings.TerminalFonts.CourierNew:
-                    font = new FontFamily("Courier New");
+                    this.ViewModel.TerminalFontFamily = new FontFamily("Courier New");
                     break;
                 default:
-                    font = new FontFamily("Consolas");
+                    this.ViewModel.TerminalFontFamily = new FontFamily("Consolas");
                     break;
             }
-
-            this.GameTerminal.FontFamily = font;
-            this.Terminal1.FontFamily = font;
-            this.Terminal2.FontFamily = font;
-            this.Terminal3.FontFamily = font;
-            this.GameBackBufferTerminal.FontFamily = font;
 
             this.ViewModel.SpellCheckEnabled = App.Settings.ProfileSettings.SpellChecking;
 

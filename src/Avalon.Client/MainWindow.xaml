@@ -412,7 +412,8 @@
                             ShowLineNumbers="{Binding AvalonSettings.ShowLineNumbersInGameTerminal}"
                             FontSize="{Binding AvalonSettings.TerminalFontSize}"
                             WordWrap="{Binding AvalonSettings.WordWrapTerminals}"
-                            FontFamily="Consolas" IsReadOnly="True"
+                            FontFamily="{Binding TerminalFontFamily}"
+                            IsReadOnly="True"
                             Padding="10,0,20,0"
                             BorderThickness=".9,0,0,1"
                             Background="Black" Foreground="LightGray"
@@ -429,7 +430,8 @@
                             ShowLineNumbers="{Binding AvalonSettings.ShowLineNumbersInGameTerminal}"
                             FontSize="{Binding AvalonSettings.TerminalFontSize}"
                             WordWrap="{Binding AvalonSettings.WordWrapTerminals}"
-                            FontFamily="Consolas" IsReadOnly="True"
+                            FontFamily="{Binding TerminalFontFamily}"
+                            IsReadOnly="True"
                             Padding="10,0,20,0"
                             Background="Black" Foreground="LightGray"
                             BorderBrush="#444444" BorderThickness=".9,0,0,0"                                                                                                  
@@ -468,9 +470,10 @@
                             </controls:TabItemEx.Header>
                             <controls:AvalonTerminal
                                     x:Name="Terminal1" ShowLineNumbers="False" GagEnabled="False"
-                                    FontFamily="Consolas" IsReadOnly="True"
+                                    IsReadOnly="True"
                                     Padding="10,0,20,0"
                                     Background="Black" Foreground="LightGray"
+                                    FontFamily="{Binding TerminalFontFamily}"
                                     FontSize="{Binding AvalonSettings.TerminalFontSize}"
                                     WordWrap="{Binding AvalonSettings.WordWrapTerminals}"
                                     ScrollViewer.PanningMode="VerticalOnly"
@@ -495,9 +498,10 @@
                             </controls:TabItemEx.Header>
                             <controls:AvalonTerminal
                                     x:Name="Terminal2" ShowLineNumbers="False" GagEnabled="False"
-                                    FontFamily="Consolas" IsReadOnly="True"
+                                    IsReadOnly="True"
                                     Background="Black" Foreground="LightGray"
                                     Padding="10,0,20,0"
+                                    FontFamily="{Binding TerminalFontFamily}"
                                     FontSize="{Binding AvalonSettings.TerminalFontSize}"
                                     WordWrap="{Binding AvalonSettings.WordWrapTerminals}"
                                     ScrollViewer.PanningMode="VerticalOnly"
@@ -521,9 +525,10 @@
                             </controls:TabItemEx.Header>
                             <controls:AvalonTerminal
                                     x:Name="Terminal3" ShowLineNumbers="False" GagEnabled="False"
-                                    FontFamily="Consolas" IsReadOnly="True"
+                                    IsReadOnly="True"
                                     Background="Black" Foreground="LightGray"
                                     Padding="10,0,20,0"
+                                    FontFamily="{Binding TerminalFontFamily}"
                                     FontSize="{Binding AvalonSettings.TerminalFontSize}"
                                     WordWrap="{Binding AvalonSettings.WordWrapTerminals}"
                                     ScrollViewer.PanningMode="VerticalOnly"

@@ -8,6 +8,7 @@
  */
 
 using System.Windows;
+using System.Windows.Media;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Settings;
 using Avalon.Controls;
@@ -164,5 +165,15 @@ namespace Avalon
             get => (NavManager) GetValue(NavManagerProperty);
             set => SetValue(NavManagerProperty, value);
         }
+
+        public static readonly DependencyProperty TerminalFontFamilyProperty = DependencyProperty.Register(
+            nameof(TerminalFontFamily), typeof(FontFamily), typeof(MainWindowViewModel), new PropertyMetadata(new FontFamily("Consolas")));
+
+        public FontFamily TerminalFontFamily
+        {
+            get => (FontFamily) GetValue(TerminalFontFamilyProperty);
+            set => SetValue(TerminalFontFamilyProperty, value);
+        }
+
     }
 }
