@@ -286,12 +286,10 @@ namespace Avalon
                 VariableRepeater.Bind();
 
                 // The real title bar that Windows will show in the task bar.
-                this.Title = string.IsNullOrWhiteSpace(App.Settings.ProfileSettings.WindowTitle)
-                    ? "Avalon Mud Client"
-                    : App.Settings.ProfileSettings.WindowTitle;
-
-                // The title on the window chrome that we set.
-                TitleBar.Title = this.Title;
+                if (string.IsNullOrWhiteSpace(App.Settings.ProfileSettings.WindowTitle))
+                {
+                    App.Settings.ProfileSettings.WindowTitle = "Avalon Mud Client";
+                }
 
                 App.Conveyor.EchoLog($"Settings Loaded: {fileName}", LogType.Success);
             }
