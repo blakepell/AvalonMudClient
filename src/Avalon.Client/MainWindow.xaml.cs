@@ -206,7 +206,7 @@ namespace Avalon
                 if (!string.IsNullOrWhiteSpace(App.Settings.ProfileSettings.AutoExecuteCommand))
                 {
                     // Send the auto execute command if the user is connected.
-                    if (this.Interp.Telnet.IsConnected())
+                    if (this?.Interp?.Telnet != null && this.Interp.Telnet.IsConnected())
                     {
                         await Interp.Send(App.Settings.ProfileSettings.AutoExecuteCommand, true, false);
                     }
