@@ -169,7 +169,7 @@ namespace Avalon.HashCommands
 
                     if (!string.IsNullOrWhiteSpace(o.Title))
                     {
-                        App.MainWindow.Title = o.Title;
+                        App.Settings.ProfileSettings.WindowTitle = o.Title;
                     }
                 });
 

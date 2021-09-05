@@ -32,7 +32,7 @@
         </Viewbox>
 
         <!-- Title of the Window -->
-        <TextBlock Foreground="#DADADA" Text="{Binding Title, ElementName=Me}"
+        <TextBlock Foreground="#DADADA" Text="{Binding Path=Title}"
                    FontWeight="Normal" FontStyle="Normal" FontFamily="Segoe UI" FontSize="15" 
                    Margin="7,15,0,0"></TextBlock>
 

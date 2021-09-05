@@ -21,6 +21,7 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -37,23 +38,35 @@
                     HorizontalAlignment="Center"
                     Fill="Gray">
                 </Ellipse>
-                <StackPanel Grid.Row="0" Grid.Column="1"
+                <TextBlock Grid.Row="0" Grid.Column="1" 
+                           Margin="12,6, 0,0"
+                           Text="{Binding GameDescription, Mode=OneWay}" />
+                <StackPanel Grid.Row="1" Grid.Column="1"
                     Orientation="Horizontal">
                     <TextBlock Text="{Binding GameAddress, Mode=OneWay}"
-                               Margin="12,6,0,0" />
-                    <TextBlock Margin="0,6,0,0"
-                               Text=":"></TextBlock>
+                               Margin="12,0,0,0"
+                               Foreground="#A2A2A2" />
+                    <TextBlock Margin="0,0,0,0"
+                               Text=":"
+                               Foreground="#A2A2A2"></TextBlock>
                     <TextBlock Text="{Binding GamePort, Mode=OneWay}"
-                               Margin="0,6,0,0" />
+                               Margin="0,0,0,0"
+                               Foreground="#A2A2A2"/>
                 </StackPanel>
-                <TextBlock Grid.Row="1" Grid.Column="1"
+                <TextBlock Grid.Row="2" Grid.Column="1"
                            Foreground="#A2A2A2"
                            Text="{Binding LastSaveDate, Mode=OneWay}"
                            Margin="12,0,0,0" />
-                <TextBlock Grid.Column="1" Grid.Row="2"
-                    Text="{Binding Filename, Mode=OneWay}"
-                    Foreground="#A2A2A2"
-                    Margin="12,0,0,6" />
+                <StackPanel Grid.Row="3" Grid.Column="1"
+                            Margin="6,0,0,6"
+                            Orientation="Horizontal">
+                    <TextBlock Text="{Binding Filename, Mode=OneWay}"
+                               Foreground="#A2A2A2"
+                               Margin="6,0,0,6" />
+                    <TextBlock Text="{Binding ProfileSize, Mode=OneWay}"
+                               Foreground="#A2A2A2"
+                               Margin="5,0,0,6" />
+                </StackPanel>
             </Grid>
         </DataTemplate>
 
@@ -94,7 +107,8 @@
                        DockPanel.Dock="Right">
                 <Button Background="#171717"
                         Width="175"
-                        Margin="5,0,0,0">
+                        Margin="5,0,0,0"
+                        Click="ButtonNewProfile_OnClick">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <iconPacks:PackIconMaterial Kind="AccountPlus" 

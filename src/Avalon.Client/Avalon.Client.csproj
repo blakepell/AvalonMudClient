@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -69,8 +69,8 @@
     <Compile Update="MainWindow.ViewModel.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Update="IntroWindow.ViewModel.cs">
-      <DependentUpon>IntroWindow.xaml</DependentUpon>
+    <Compile Update="Windows\IntroWindow.ViewModel.cs">
+      <DependentUpon>Windows\IntroWindow.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -127,6 +127,10 @@
     <Page Update="Resources\TabControlStyles.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Windows\IntroWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Windows\MacroEditWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -141,6 +145,9 @@
     </Page>
     <Page Update="Windows\TriggerEditorWindow.xaml">
       <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\IntroWindowNewProfileDialog.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
   </ItemGroup>
 

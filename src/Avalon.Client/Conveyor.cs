@@ -242,14 +242,14 @@ namespace Avalon
             {
                 if (Application.Current.Dispatcher.CheckAccess())
                 {
-                    return App.MainWindow.Title;
+                    return App.Settings.ProfileSettings.WindowTitle;
                 }
 
                 string buf = "";
 
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    buf = App.MainWindow.Title;
+                    buf = App.Settings.ProfileSettings.WindowTitle;
                 });
 
                 return buf;
@@ -258,8 +258,7 @@ namespace Avalon
             {
                 if (Application.Current.Dispatcher.CheckAccess())
                 {
-                    App.MainWindow.Title = value;
-                    App.MainWindow.TitleBar.Title = value;
+                    App.Settings.ProfileSettings.WindowTitle = value;
                     return;
                 }
 
@@ -267,8 +266,7 @@ namespace Avalon
                 {
                     // Set both the official Windows title of the title bar and the faux custom title bar
                     // that we created on our UI.
-                    App.MainWindow.Title = value;
-                    App.MainWindow.TitleBar.Title = value;
+                    App.Settings.ProfileSettings.WindowTitle = value;
                 });
             }
         }

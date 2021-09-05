@@ -114,8 +114,10 @@
         </Grid.RowDefinitions>
 
         <!-- The title bar of the Window -->
-        <controls:WindowTitleBar x:Name="TitleBar" Grid.Row="0" HorizontalAlignment="Stretch" Title="{Binding Path=ProfileSettings.WindowTitle}"></controls:WindowTitleBar>
-
+        <controls:WindowTitleBar x:Name="TitleBar" 
+                                 Grid.Row="0"
+                                 HorizontalAlignment="Stretch"
+                                 Title="{Binding Path=Title, ElementName=mainPage}"></controls:WindowTitleBar>
         <!-- SplitView for the main part of the main grid -->
         <ui:SplitView x:Name="SplitViewMain" x:FieldModifier="public"
             Grid.Row="1"

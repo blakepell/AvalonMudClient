@@ -9,11 +9,14 @@
 
 using Avalon.Common.Settings;
 using Avalon.Utilities;
+using Argus.Extensions;
 using ModernWpf.Controls;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
 
@@ -41,6 +44,12 @@ namespace Avalon
             };
         }
 
+        /// <summary>
+        /// On loaded event for the IntroWindow.  We'll get our list of available profiles or allow the
+        /// player to setup a new profile for a game.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void IntroWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             var version = Assembly.GetExecutingAssembly().GetName().Version;
@@ -52,21 +61,34 @@ namespace Avalon
             }
 
             var files = Directory.GetFiles(App.Settings.AvalonSettings.SaveDirectory, "*.json");
+            var fileInfoList = new List<FileInfo>();
 
             foreach (string file in files)
             {
                 var fi = new FileInfo(file);
+                fileInfoList.Add(fi);
+            }
 
-                string json = File.ReadAllText(file);
-                var profile = JsonConvert.DeserializeObject<ProfileSettings>(json);
-                
-                this.ViewModel.Profiles.Add(new()
+            foreach (var fi in fileInfoList.OrderByDescending(x => x.LastWriteTime))
+            {
+                string json = File.ReadAllText(fi.FullName);
+
+                try
                 {
-                    GameAddress = profile?.IpAddress ?? "Empty Game Address",
-                    GamePort = profile?.Port ?? 0,
-                    Filename = fi.Name,
-                    LastSaveDate = fi.LastWriteTime
-                });
+                    var profile = JsonConvert.DeserializeObject<ProfileSettings>(json);
+
+                    this.ViewModel.Profiles.Add(new()
+                    {
+                        GameAddress = profile?.IpAddress ?? "Empty Game Address",
+                        GamePort = profile?.Port ?? 0,
+                        GameDescription =  profile?.WindowTitle ?? "No Game Description",
+                        Filename = fi.Name,
+                        FullPath = fi.FullName,
+                        LastSaveDate = fi.LastWriteTime,
+                        ProfileSize = fi.FormattedFileSize()
+                    });
+                }
+                catch { }
             }
         }
 
@@ -135,6 +157,11 @@ namespace Avalon
             }
         }
 
+        /// <summary>
+        /// Attempts to load the selected profile into the main mud client window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void GridViewProfiles_OnItemClick(object sender, ItemClickEventArgs e)
         {
             if (e.ClickedItem is IntroWindowViewModel.ProfileViewModel vm)
@@ -143,8 +170,31 @@ namespace Avalon
 
                 if (result)
                 {
+                    await App.MainWindow.OpenProfile(vm.FullPath);
                     this.Close();
                 }
+            }
+        }
+
+        /// <summary>
+        /// Allows the user to create a new profile.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void ButtonNewProfile_OnClick(object sender, RoutedEventArgs e)
+        {
+            var win = new IntroWindowNewProfileDialog();
+
+            var result = await win.ShowAsync();
+
+            if (result == ContentDialogResult.Secondary)
+            {
+                if (File.Exists(win.ProfileFileName))
+                {
+                    await App.MainWindow.OpenProfile(win.ProfileFileName);
+                }
+
+                this.Close();
             }
         }
     }

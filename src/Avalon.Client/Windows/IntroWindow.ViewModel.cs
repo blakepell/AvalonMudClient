@@ -59,6 +59,15 @@ namespace Avalon
                 set => SetValue(GamePortProperty, value);
             }
 
+            public static readonly DependencyProperty GameDescriptionProperty = DependencyProperty.Register(
+                nameof(GameDescription), typeof(string), typeof(ProfileViewModel), new PropertyMetadata(default(string)));
+
+            public string GameDescription
+            {
+                get => (string)GetValue(GameDescriptionProperty);
+                set => SetValue(GameDescriptionProperty, value);
+            }
+
             public static readonly DependencyProperty FilenameProperty = DependencyProperty.Register(
                 nameof(Filename), typeof(string), typeof(ProfileViewModel), new PropertyMetadata(default(string)));
 
@@ -86,6 +95,14 @@ namespace Avalon
                 set => SetValue(FullPathProperty, value);
             }
 
+            public static readonly DependencyProperty ProfileSizeProperty = DependencyProperty.Register(
+                nameof(ProfileSize), typeof(string), typeof(ProfileViewModel), new PropertyMetadata(default(string)));
+
+            public string ProfileSize
+            {
+                get => (string) GetValue(ProfileSizeProperty);
+                set => SetValue(ProfileSizeProperty, value);
+            }
         }
     }
 }

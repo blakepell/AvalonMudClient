@@ -278,7 +278,7 @@ namespace Avalon
 
                 // Load the profile settings from the requested file.
                 App.Settings.LoadSettings(fileName);
-
+                
                 // Setup the view model binding to the profile settings.
                 this.ViewModel.ProfileSettings = App.Settings.ProfileSettings;
 
@@ -426,39 +426,52 @@ namespace Avalon
         /// <param name="e"></param>
         private async void ButtonOpenProfile_OnClick(object sender, RoutedEventArgs e)
         {
+            var dialog = new OpenFileDialog
+            {
+                InitialDirectory = App.Settings.AvalonSettings.SaveDirectory,
+                Filter = "JSON files (*.json)|*.json|Text Files (*.txt)|*.txt|All files (*.*)|*.*"
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                await this.OpenProfile(dialog.FileName);
+            }
+        }
+
+        /// <summary>
+        /// Opens a profile and handles any errors that occur.
+        /// </summary>
+        /// <param name="filePath"></param>
+        public async Task OpenProfile(string filePath)
+        {
             try
             {
-                var dialog = new OpenFileDialog
+                if (!File.Exists(filePath))
                 {
-                    InitialDirectory = App.Settings.AvalonSettings.SaveDirectory,
-                    Filter = "JSON files (*.json)|*.json|Text Files (*.txt)|*.txt|All files (*.*)|*.*"
-                };
-
-                if (dialog.ShowDialog() == true)
-                {
-                    // Load the settings for the file that was selected.
-                    this.LoadSettings(dialog.FileName);
-
-                    // Inject the Conveyor/ScriptHost into the Triggers and aliases including
-                    // initial loading of scripts.
-                    Utilities.Utilities.SetupTriggers();
-                    Utilities.Utilities.SetupAliases();
-
-                    // We have a new profile, refresh the auto complete command list.
-                    this.RefreshAutoCompleteEntries();
-
-                    // Close and open a connection to the database for the new profile.
-                    await SqlTasks.OpenAsync($"Data Source={App.Settings.ProfileSettings.SqliteDatabase}");
-
-                    // Auto connect if it's setup to do so (this will disconnect from the previous server if it was connected.
-                    if (App.Settings.ProfileSettings.AutoConnect)
-                    {
-                        this.Disconnect();
-                        await this.Connect();
-                    }
-
+                    this.Interp.Conveyor.EchoError($"File not found: {filePath}");
+                    return;
                 }
 
+                // Load the settings for the file that was selected.
+                this.LoadSettings(filePath);
+
+                // Inject the Conveyor/ScriptHost into the Triggers and aliases including
+                // initial loading of scripts.
+                Utilities.Utilities.SetupTriggers();
+                Utilities.Utilities.SetupAliases();
+
+                // We have a new profile, refresh the auto complete command list.
+                this.RefreshAutoCompleteEntries();
+
+                // Close and open a connection to the database for the new profile.
+                await SqlTasks.OpenAsync($"Data Source={App.Settings.ProfileSettings.SqliteDatabase}");
+
+                // Auto connect if it's setup to do so (this will disconnect from the previous server if it was connected.
+                if (App.Settings.ProfileSettings.AutoConnect)
+                {
+                    this.Disconnect();
+                    await this.Connect();
+                }
             }
             catch (Exception ex)
             {
@@ -488,7 +501,7 @@ namespace Avalon
 
                 if (dialog.ShowDialog() == true)
                 {
-                    var result = await WindowManager.InputBox( $"Are you sure you want to import from: {Argus.IO.FileSystemUtilities.ExtractFileName(dialog.FileName)}?", "Are you sure?");
+                    var result = await WindowManager.InputBox($"Are you sure you want to import from: {Argus.IO.FileSystemUtilities.ExtractFileName(dialog.FileName)}?", "Are you sure?");
 
                     if (!result)
                     {
@@ -1061,7 +1074,8 @@ namespace Avalon
         {
             var win = new TickCommandEditor
             {
-                Owner = App.MainWindow, WindowStartupLocation = WindowStartupLocation.CenterOwner
+                Owner = App.MainWindow,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
             };
 
             _ = win.ShowDialog();

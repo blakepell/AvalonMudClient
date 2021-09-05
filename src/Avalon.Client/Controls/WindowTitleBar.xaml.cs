@@ -20,7 +20,6 @@ namespace Avalon.Controls
     /// </summary>
     public partial class WindowTitleBar
     {
-
         /// <summary>
         /// Represents the parent window which will be found once and then cached for later usage.
         /// </summary>
@@ -106,6 +105,7 @@ namespace Avalon.Controls
         public WindowTitleBar()
         {
             InitializeComponent();
+            this.DataContext = this;
         }
 
         /// <summary>
