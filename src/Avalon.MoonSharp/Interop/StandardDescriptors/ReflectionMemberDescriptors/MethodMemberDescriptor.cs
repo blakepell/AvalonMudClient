@@ -1,13 +1,12 @@
-﻿using System;
+﻿using MoonSharp.Interpreter.Compatibility;
+using MoonSharp.Interpreter.Interop.BasicDescriptors;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using MoonSharp.Interpreter.Compatibility;
-using MoonSharp.Interpreter.Diagnostics;
-using MoonSharp.Interpreter.Interop.BasicDescriptors;
 
 namespace MoonSharp.Interpreter.Interop
 {
@@ -321,19 +320,18 @@ namespace MoonSharp.Interpreter.Interop
         /// <param name="obj">The object.</param>
         /// <param name="context">The context.</param>
         /// <param name="args">The arguments.</param>
-        public override DynValue Execute(Script script, object obj, ScriptExecutionContext context,
-            CallbackArguments args)
+        public override DynValue Execute(Script script, object obj, ScriptExecutionContext context, CallbackArguments args)
         {
             this.CheckAccess(MemberDescriptorAccess.CanExecute, obj);
 
-            if (this.AccessMode == InteropAccessMode.LazyOptimized &&
-                m_OptimizedFunc == null && m_OptimizedAction == null)
+            if (this.AccessMode == InteropAccessMode.LazyOptimized 
+                && m_OptimizedFunc == null
+                && m_OptimizedAction == null)
             {
                 ((IOptimizableDescriptor)this).Optimize();
             }
 
-            List<int> outParams;
-            var pars = base.BuildArgumentList(script, obj, context, args, out outParams);
+            var pars = base.BuildArgumentList(script, obj, context, args, out List<int> outParams);
             object retv;
 
             if (m_OptimizedFunc != null)
