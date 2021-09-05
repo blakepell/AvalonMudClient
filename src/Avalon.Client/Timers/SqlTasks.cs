@@ -244,13 +244,14 @@ namespace Avalon.Timers
                 return;
             }
 
-            // Dispose of all of the cached SqliteCommand objects.
-            for (int i = this.SqliteCommandCache.Count - 1; i > 0; i--)
+            // Dispose of all of the cached SQL Commands
+            foreach (var item in this.SqliteCommandCache)
             {
-                this.SqliteCommandCache[i]?.Dispose();
-                this.SqliteCommandCache[i] = null;
-                this.SqliteCommandCache.Remove(i);
+                item.Value?.Dispose();
             }
+            
+            // Clear the dictionary.
+            this.SqliteCommandCache.Clear();
         }
 
         /// <summary>

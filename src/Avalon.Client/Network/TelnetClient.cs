@@ -377,7 +377,7 @@ namespace Avalon.Network
         {
             if (_traceEnabled)
             {
-                Trace.TraceInformation(text);
+                Trace.TraceInformation($"{DateTime.Now.ToString()}: {text}");
             }
         }
 
@@ -385,7 +385,7 @@ namespace Avalon.Network
         {
             if (_traceEnabled)
             {
-                Trace.TraceError(text);
+                Trace.TraceError($"{DateTime.Now.ToString()}: {text}");
             }
         }
 
