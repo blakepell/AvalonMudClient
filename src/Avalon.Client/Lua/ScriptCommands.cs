@@ -54,17 +54,15 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="cmd"></param>
         [Description("Sends text to the server.")]
-        public async void Send(string cmd)
+        public void Send(string cmd)
         {
+            // Null is not valid, but blank is.
             if (cmd == null)
             {
                 return;
             }
 
-            Application.Current.Dispatcher.Invoke(new Action(async () =>
-            {
-                await _interpreter.Send(cmd, false, false);
-            }));
+            Application.Current.Dispatcher.Invoke(new Action(() => _interpreter.Send(cmd, false, false)));
         }
 
         /// <summary>
@@ -72,17 +70,15 @@ namespace Avalon.Lua
         /// </summary>
         /// <param name="cmd"></param>
         [Description("Sends raw unprocessed text to the server.")]
-        public async void SendRaw(string cmd)
+        public void SendRaw(string cmd)
         {
+            // Null is not valid, but blank is.
             if (cmd == null)
             {
                 return;
             }
 
-            Application.Current.Dispatcher.Invoke(new Action(async () =>
-            {
-                await _interpreter.SendRaw(cmd, false);
-            }));
+            Application.Current.Dispatcher.Invoke(new Action(() => _interpreter.SendRaw(cmd, false)));
         }
 
         /// <summary>
@@ -320,6 +316,7 @@ namespace Avalon.Lua
         /// Makes an info echo.
         /// </summary>
         /// <param name="msg"></param>
+        /// <param name="args"></param>
         [Description("Writes an info log message to the main terminal.  Parameter arguments are supported but not required.")]
         public void LogInfo(string msg, params object[] args)
         {
@@ -338,6 +335,7 @@ namespace Avalon.Lua
         /// Makes an warning echo.
         /// </summary>
         /// <param name="msg"></param>
+        /// <param name="args"></param>
         [Description("Writes a warning log message to the main terminal.  Parameter arguments are supported but not required.")]
         public void LogWarning(string msg, params object[] args)
         {
@@ -356,6 +354,7 @@ namespace Avalon.Lua
         /// Makes an error echo.
         /// </summary>
         /// <param name="msg"></param>
+        /// <param name="args"></param>
         [Description("Writes an error log entry to the main terminal.  Parameter arguments are supported but not required.")]
         public void LogError(string msg, params object[] args)
         {
@@ -374,6 +373,7 @@ namespace Avalon.Lua
         /// Makes a success log echo.
         /// </summary>
         /// <param name="msg"></param>
+        /// <param name="args"></param>
         [Description("Writes a success log entry to the main terminal.  Parameter arguments are supported but not required.")]
         public void LogSuccess(string msg, params object[] args)
         {
@@ -564,7 +564,7 @@ namespace Avalon.Lua
                 return DateTime.Now.ToString(@"hh:mm:ss tt", new CultureInfo("en-US"));
             }
 
-            return $"{DateTime.Now.Hour}:{DateTime.Now.Minute}:{DateTime.Now.Second}";
+            return $"{DateTime.Now.Hour.ToString()}:{DateTime.Now.Minute.ToString()}:{DateTime.Now.Second.ToString()}";
         }
 
         /// <summary>
@@ -944,15 +944,7 @@ namespace Avalon.Lua
                 return false;
             }
 
-            foreach (var s in array)
-            {
-                if (s == searchValue)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return array.Any(s => s == searchValue);
         }
 
         /// <summary>
@@ -1336,11 +1328,10 @@ namespace Avalon.Lua
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                string text = "";
                 int i = App.MainWindow.GameTerminal.Document.LineCount;
                 int taken = 0;
 
-                while (string.IsNullOrEmpty(text) && i > 0)
+                while (i > 0)
                 {
                     var line = App.MainWindow.GameTerminal.Document.GetLineByNumber(i);
                     list.Add(App.MainWindow.GameTerminal.Document.GetText(line.Offset, line.Length));
@@ -1375,10 +1366,9 @@ namespace Avalon.Lua
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                string text = "";
                 int i = App.MainWindow.GameTerminal.Document.LineCount;
 
-                while (string.IsNullOrEmpty(text) && i > 0)
+                while (i > 0)
                 {
                     var line = App.MainWindow.GameTerminal.Document.GetLineByNumber(i);
                     list.Add(App.MainWindow.GameTerminal.Document.GetText(line.Offset, line.Length).RemoveAnsiCodes());
@@ -1413,10 +1403,9 @@ namespace Avalon.Lua
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                string text = "";
                 int i = App.MainWindow.GameTerminal.Document.LineCount;
 
-                while (string.IsNullOrEmpty(text) && i > 0)
+                while (i > 0)
                 {
                     var line = App.MainWindow.GameTerminal.Document.GetLineByNumber(i);
                     list.Add(App.MainWindow.GameTerminal.Document.GetText(line.Offset, line.Length).RemoveAnsiCodes());
@@ -1476,10 +1465,9 @@ namespace Avalon.Lua
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                string text = "";
                 int i = App.MainWindow.GameTerminal.Document.LineCount;
 
-                while (string.IsNullOrEmpty(text) && i > 0)
+                while (i > 0)
                 {
                     var line = App.MainWindow.GameTerminal.Document.GetLineByNumber(i);
                     list.Add(App.MainWindow.GameTerminal.Document.GetText(line.Offset, line.Length).RemoveAnsiCodes());
@@ -1515,10 +1503,9 @@ namespace Avalon.Lua
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                string text = "";
                 int i = App.MainWindow.GameTerminal.Document.LineCount;
 
-                while (string.IsNullOrEmpty(text) && i > 0)
+                while (i > 0)
                 {
                     var line = App.MainWindow.GameTerminal.Document.GetLineByNumber(i);
                     list.Add(App.MainWindow.GameTerminal.Document.GetText(line.Offset, line.Length).RemoveAnsiCodes());
@@ -1856,7 +1843,7 @@ namespace Avalon.Lua
 
             try
             {
-                foreach (var item in (string[])text.Split('\n'))
+                foreach (var item in text.Split('\n'))
                 {
                     if (!item.StartsWith(searchText))
                     {
@@ -1890,7 +1877,7 @@ namespace Avalon.Lua
 
             try
             {
-                foreach (var item in (string[])text.Split('\n'))
+                foreach (var item in text.Split('\n'))
                 {
                     if (!item.EndsWith(searchText))
                     {
@@ -1936,17 +1923,6 @@ namespace Avalon.Lua
             }
 
             return text.EndsWith(searchText);
-        }
-
-        /// <summary>
-        /// The number of Lua scripts that are actively running.
-        /// </summary>
-        [Description("The number of Lua scripts that are currently running.")]
-        public int LuaScriptsActive()
-        {
-            // TODO: Scripting
-            return -1;
-            //return ((Interpreter)_interpreter).LuaCaller.ActiveLuaScripts;
         }
 
         /// <summary>
@@ -2105,7 +2081,7 @@ namespace Avalon.Lua
         [Description("Sets the status bar text.")]
         public void SetText(string buf, TextTarget target = TextTarget.StatusBarText, string iconName = "None")
         {
-            PackIconMaterialKind icon = PackIconMaterialKind.None;
+            var icon = PackIconMaterialKind.None;
 
             try
             {
