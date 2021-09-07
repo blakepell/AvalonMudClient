@@ -122,7 +122,15 @@ namespace Avalon.Common.Scripting
             this.PostScriptExecute?.Invoke(this, null);
         }
 
-        /// <inheritdoc cref="RegisterObject{T}"/>
+        /// <summary>
+        /// Registers an instantiated object with the script engine.  This object will be passed into
+        /// the engine for use by scripts, including it's state if any.  An object if thread safe
+        /// can be shared between many script environments.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="t"></param>
+        /// <param name="item"></param>
+        /// <param name="prefix"></param>
         public void RegisterObject<T>(Type t, object item, string prefix)
         {
             // Register the type if it's not already registered.
