@@ -62,6 +62,7 @@ namespace Avalon.HashCommands
                     sb.AppendLine("+--------------------------------------------------------------------------+\r\n");
 
                     this.Interpreter.Conveyor.EchoText(sb.ToString());
+                    Argus.Memory.StringBuilderPool.Return(sb);
                 });
 
             // Display the help or error output from the parameter parsing.
