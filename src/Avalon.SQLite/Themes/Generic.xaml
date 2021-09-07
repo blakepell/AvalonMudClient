@@ -70,7 +70,6 @@
                                                      Background="Transparent" 
                                                      Foreground="{DynamicResource Foreground}"
                                                      Label="Execute Query [F5]"
-                                                     DataContext="{Binding ElementName=QueryControl}" 
                                                      IsEnabled="{Binding Path=IsQueryExecuting, Converter={StaticResource InverseBooleanConverter}}">
                                         <ui:AppBarButton.Icon>
                                             <ui:SymbolIcon Symbol="Play" Foreground="Green" />
