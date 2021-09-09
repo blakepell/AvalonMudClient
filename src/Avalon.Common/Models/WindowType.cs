@@ -18,14 +18,14 @@ namespace Avalon.Common.Models
         /// A default window which represents a normal window for the application (e.g. a WPF window if
         /// running WPF on Windows).
         /// </summary>
-        Default,
+        Default = 0,
         /// <summary>
         /// A window that inherits from ITerminalWindow
         /// </summary>
-        TerminalWindow,
+        TerminalWindow = 1,
         /// <summary>
         /// A window that implements ICompassWindow
         /// </summary>
-        CompassWindow
+        CompassWindow = 2
     }
 }

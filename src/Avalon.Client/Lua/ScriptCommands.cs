@@ -410,7 +410,6 @@ namespace Avalon.Lua
 
                 win.Text = "";
             });
-
         }
 
         /// <summary>

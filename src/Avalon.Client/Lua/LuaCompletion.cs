@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Argus.Extensions;
+using Avalon.HashCommands;
 
 namespace Avalon.Lua
 {
@@ -22,6 +23,8 @@ namespace Avalon.Lua
         /// to consolidate overloads.
         /// </summary>
         private static Dictionary<string, ICompletionData> _luaCompletionData;
+
+        private static Dictionary<string, ICompletionData> _winCompletionData;
 
         /// <summary>
         /// Loads the completion data based on the pattern.
@@ -39,7 +42,7 @@ namespace Avalon.Lua
 
                     // This should get all of our methods but exclude ones that are defined on
                     // object like ToString, GetHashCode, Equals, etc.
-                    foreach (var method in t.GetMethods().Where(m => m.DeclaringType != typeof(object)))
+                    foreach (var method in t.GetMethods().Where(m => m.DeclaringType != typeof(object)).OrderBy(m => m.Name))
                     {
                         if (_luaCompletionData.ContainsKey(method.Name))
                         {
@@ -58,6 +61,41 @@ namespace Avalon.Lua
                 else
                 {
                     foreach (var item in _luaCompletionData)
+                    {
+                        data.Add(item.Value);
+                    }
+                }
+            }
+            else if (pattern == "win")
+            {
+                if (_winCompletionData == null)
+                {
+                    // Initialize the Window completion data once.
+                    _winCompletionData = new Dictionary<string, ICompletionData>();
+
+                    var t = typeof(WindowScriptCommands);
+
+                    // This should get all of our methods but exclude ones that are defined on
+                    // object like ToString, GetHashCode, Equals, etc.
+                    foreach (var method in t.GetMethods().Where(m => m.DeclaringType != typeof(object)).OrderBy(m => m.Name))
+                    {
+                        if (_winCompletionData.ContainsKey(method.Name))
+                        {
+                            // It exists, therefore this is an overload.
+                            ConstructMembers(method, (LuaCompletionData)_winCompletionData[method.Name]);
+                        }
+                        else
+                        {
+                            var lcd = new LuaCompletionData(method.Name, "");
+                            _winCompletionData.Add(method.Name, lcd);
+                            ConstructMembers(method, lcd);
+                            data.Add(lcd);
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var item in _winCompletionData)
                     {
                         data.Add(item.Value);
                     }

@@ -23,7 +23,6 @@ namespace Avalon
     /// </summary>
     public partial class Shell : IWindow
     {
-
         /// <summary>
         /// Constructor
         /// </summary>

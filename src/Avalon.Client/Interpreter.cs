@@ -53,6 +53,7 @@ namespace Avalon
             // Setup the scripting environment.  Error handlers are set here allowing the actual scripting
             // environment to stay generic while the client worries about the implementation details.
             _scriptCommands = new ScriptCommands(this);
+            _winScriptCommands = new WindowScriptCommands(this);
 
             this.MoonSharpInit();
         }
@@ -64,6 +65,7 @@ namespace Avalon
         {
             this.ScriptHost = AppServices.GetService<ScriptHost>();
             this.ScriptHost.RegisterObject<ScriptCommands>(_scriptCommands.GetType(), _scriptCommands, "lua");
+            this.ScriptHost.RegisterObject<WindowScriptCommands>(_winScriptCommands.GetType(), _winScriptCommands, "win");
 
             // Events for before and after execution of a script.
             this.ScriptHost.MoonSharp.PreScriptExecute += (sender, e) =>
@@ -700,6 +702,11 @@ namespace Avalon
         /// An interop object that allows scripts to interact with the .NET environment.
         /// </summary>
         private static ScriptCommands _scriptCommands;
+
+        /// <summary>
+        /// An interop object that allows scripts to interact with our Window API.
+        /// </summary>
+        public static WindowScriptCommands _winScriptCommands;
 
     }
 

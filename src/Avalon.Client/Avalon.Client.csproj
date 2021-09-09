@@ -101,6 +101,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Media\SearchIconBlack.png" />
     <Resource Include="Media\SearchIconWhite.png" />
     <Resource Include="Resources\Fonts\segmdl2.ttf">

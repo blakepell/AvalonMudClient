@@ -7,6 +7,7 @@
  * @license           : MIT
  */
 
+using System;
 using Avalon.Common.Models;
 
 namespace Avalon.Common.Interfaces
@@ -68,9 +69,13 @@ namespace Avalon.Common.Interfaces
         string StatusText { get; set; }
 
         /// <summary>
+        /// The opacity of the window.
+        /// </summary>
+        double Opacity { get; set; }
+
+        /// <summary>
         /// The type of window that this represents.
         /// </summary>
         WindowType WindowType { get; set; }
-
     }
 }

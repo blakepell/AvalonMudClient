@@ -36,10 +36,23 @@ namespace Avalon.Common.Interfaces
         void AppendText(StringBuilder sb);
 
         /// <summary>
+        /// Clears the text in the terminal.
+        /// </summary>
+        void Clear();
+
+        /// <summary>
+        /// Scrolls to the last line in the terminal.
+        /// </summary>
+        void ScrollToEnd();
+
+        /// <summary>
+        /// Scrolls to the first line in the terminal.
+        /// </summary>
+        void ScrollToTop();
+
+        /// <summary>
         /// The full text in the terminal window.
         /// </summary>
         string Text { get; set; }
-
     }
-
 }

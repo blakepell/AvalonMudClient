@@ -96,7 +96,14 @@
         <Key word = "true" />
         <Key word = "until" />
         <Key word = "while" />
+      </KeyWords>
+
+      <KeyWords name = "AvalonNamespaces"
+                bold="true"
+                italic="false"
+                color="#D2A0DF">
         <Key word = "lua" />
+        <Key word = "win" />
         <Key word = "global" />
       </KeyWords>
 

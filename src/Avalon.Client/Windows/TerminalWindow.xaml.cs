@@ -122,6 +122,30 @@ namespace Avalon
         }
 
         /// <summary>
+        /// Clears the text in the terminal window.
+        /// </summary>
+        public void Clear()
+        {
+            Terminal.Text = "";
+        }
+
+        /// <summary>
+        /// Scrolls to the last line in the terminal.
+        /// </summary>
+        public void ScrollToEnd()
+        {
+            Terminal.ScrollToLastLine(true);
+        }
+
+        /// <summary>
+        /// Scrolls to the first line in the terminal.
+        /// </summary>
+        public void ScrollToTop()
+        {
+            Terminal.ScrollToLine(1);
+        }
+
+        /// <summary>
         /// Activates the Window and brings it to the forefront and focused.
         /// </summary>
         void IWindow.Activate()
