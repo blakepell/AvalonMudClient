@@ -275,44 +275,6 @@ namespace Avalon.Lua
         }
 
         /// <summary>
-        /// Echos text to a custom window.  The append parameter is true by default but if made
-        /// false this will clear the text in the window first.
-        /// </summary>
-        /// <param name="windowName"></param>
-        /// <param name="text"></param>
-        [Description("Writes text to a custom default terminal.")]
-        public void EchoWindow(string windowName, string text)
-        {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                // This case is if they specified a window that might exist, we'll find it, edit that.
-                var win = _interpreter.Conveyor.WindowList.FirstOrDefault(x =>
-                        x.WindowType == WindowType.TerminalWindow &&
-                        x.Name.Equals(windowName, StringComparison.Ordinal)) as
-                    TerminalWindow;
-
-                if (win == null)
-                {
-                    return;
-                }
-
-                var sb = Argus.Memory.StringBuilderPool.Take(text);
-                Colorizer.MudToAnsiColorCodes(sb);
-
-                var line = new Line
-                {
-                    FormattedText = sb.ToString(),
-                    ForegroundColor = AnsiColors.Default,
-                    ReverseColors = false
-                };
-
-                win.AppendText(line);
-
-                Argus.Memory.StringBuilderPool.Return(sb);
-            });
-        }
-
-        /// <summary>
         /// Makes an info echo.
         /// </summary>
         /// <param name="msg"></param>
@@ -385,30 +347,6 @@ namespace Avalon.Lua
             Application.Current.Dispatcher.Invoke(() =>
             {
                 _interpreter.Conveyor.EchoSuccess(args.Length > 0 ? string.Format(msg, args) : msg);
-            });
-        }
-
-        /// <summary>
-        /// Clears the text in a terminal of a specified window name.
-        /// </summary>
-        /// <param name="windowName"></param>
-        [Description("Clears the default terminal in the specified window.")]
-        public void ClearWindow(string windowName)
-        {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                // This case is if they specified a window that might exist, we'll find it, edit that.
-                var win = _interpreter.Conveyor.WindowList.FirstOrDefault(x =>
-                        x.WindowType == WindowType.TerminalWindow &&
-                        x.Name.Equals(windowName, StringComparison.Ordinal)) as
-                    TerminalWindow;
-
-                if (win == null)
-                {
-                    return;
-                }
-
-                win.Text = "";
             });
         }
 
