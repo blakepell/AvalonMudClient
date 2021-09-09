@@ -133,6 +133,13 @@ namespace Avalon
                     var data = _completionWindow.CompletionList.CompletionData;
                     LuaCompletion.LoadCompletionData(data, word);
                 }
+                else if (word == "win")
+                {
+                    // Open code completion after the user has pressed dot
+                    _completionWindow = new CompletionWindow(AvalonLuaEditor.TextArea);
+                    var data = _completionWindow.CompletionList.CompletionData;
+                    LuaCompletion.LoadCompletionData(data, word);
+                }
 
                 if (_completionWindow != null)
                 {

@@ -171,12 +171,19 @@ namespace Avalon.Controls
 
                     // Construct our custom highlighting rule via reflection.
                     var t = typeof(ScriptCommands);
+                    var tw = typeof(WindowScriptCommands);
+
                     var sb = new StringBuilder();
                     sb.Append(@"\b(");
 
                     // This should get all of our methods but exclude ones that are defined on
                     // object like ToString, GetHashCode, Equals, etc.
                     foreach (var method in t.GetMethods().Where(m => m.DeclaringType != typeof(object)))
+                    {
+                        sb.AppendFormat("{0}|", method.Name);
+                    }
+
+                    foreach (var method in tw.GetMethods().Where(m => m.DeclaringType != typeof(object)))
                     {
                         sb.AppendFormat("{0}|", method.Name);
                     }
