@@ -11,6 +11,7 @@ using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
 using CommandLine;
 using Argus.Extensions;
+using Avalon.Common;
 
 namespace Avalon.HashCommands
 {
@@ -46,23 +47,14 @@ namespace Avalon.HashCommands
                         return;
                     }
 
-                    var sb = Argus.Memory.StringBuilderPool.Take();
-                    sb.AppendLine("");
-                    sb.AppendLine("+--------------------------------------------------------------------------+");
-                    sb.AppendLine("+ Time         | Type     | Command                                        +");
-                    sb.AppendLine("+--------------------------------------------------------------------------+");
+                    var tb = new TableBuilder("Time", "Type", "Command");
 
                     foreach (var task in App.MainWindow.ScheduledTasks.Tasks)
                     {
-                        sb.AppendFormat("+ {0, -12} |", task.RunAfter.ToString("hh:mm:ss tt"));
-                        sb.AppendFormat(" {0, -8} | ", task.IsLua ? "Lua" : "Command");
-                        sb.AppendFormat("{0, -46} |\r\n", task.Command.TrimEnd('\n').TrimEnd('r').TrimLengthWithEllipses(46));
+                        tb.AddRow(task.RunAfter.ToString("hh:mm:ss tt"), task.IsLua ? "Lua" : "Command", task.Command.TrimEnd('\n').TrimEnd('r').TrimLengthWithEllipses(46));
                     }
 
-                    sb.AppendLine("+--------------------------------------------------------------------------+\r\n");
-
-                    this.Interpreter.Conveyor.EchoText(sb.ToString());
-                    Argus.Memory.StringBuilderPool.Return(sb);
+                    this.Interpreter.Conveyor.EchoText(tb.ToString());
                 });
 
             // Display the help or error output from the parameter parsing.
