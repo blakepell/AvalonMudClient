@@ -12,6 +12,9 @@ using Avalon.Common.Interfaces;
 using CommandLine;
 using System;
 using System.Linq;
+using System.Reflection.Metadata;
+using System.Threading.Tasks;
+using Avalon.Common;
 
 namespace Avalon.HashCommands
 {
@@ -111,21 +114,14 @@ namespace Avalon.HashCommands
                             return;
                         }
 
-                        var sb = Argus.Memory.StringBuilderPool.Take();
-                        int i = 0;
-
-                        sb.AppendLine("\r\nWindow Name");
-                        sb.AppendLine("----------------------------------------------------");
-
+                        var tb = new TableBuilder(new[] {"Window Name", "Type", "Title", "Status Text"});
+                        
                         foreach (var win in this.Interpreter.Conveyor.WindowList)
                         {
-                            i++;
-                            sb.AppendLine($"{i.ToString()}.) {win.Name}");
+                            tb.AddRow(win.Name, win.WindowType.ToString(), win.Title, win.StatusText);
                         }
 
-                        this.Interpreter.Conveyor.EchoText(sb.ToString());
-
-                        Argus.Memory.StringBuilderPool.Return(sb);
+                        this.Interpreter.Conveyor.EchoText(tb.ToString());
 
                         return;
                     }
