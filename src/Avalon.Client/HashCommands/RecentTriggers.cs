@@ -7,9 +7,11 @@
  * @license           : MIT
  */
 
+using Argus.Extensions;
+using Avalon.Common;
+using Avalon.Common.Interfaces;
 using System;
 using System.Linq;
-using Avalon.Common.Interfaces;
 
 namespace Avalon.HashCommands
 {
@@ -30,21 +32,15 @@ namespace Avalon.HashCommands
         public override void Execute()
         {
             var list = this.Interpreter.Conveyor.ProfileSettings.TriggerList.Where(x => x.LastMatched > DateTime.MinValue).OrderByDescending(x => x.LastMatched).Take(25);
-
-            var sb = Argus.Memory.StringBuilderPool.Take();
-
-
-            sb.Append("\r\nThere are currently {y").Append(this.Interpreter.Conveyor.ProfileSettings.TriggerList.Count).Append("{x user triggers loaded.\r\n");
-            sb.Append("There are currently {y").Append(App.InstanceGlobals.SystemTriggers.Count).Append("{x system triggers loaded via plugin.\r\n\r\n");
+            var tb = new TableBuilder("Last Matched", "Trigger");
 
             foreach (var trigger in list)
             {
-                sb.Append("{C").Append(trigger.LastMatched).Append(":{x ").Append(trigger.Pattern).Append("\r\n");
+                //in this case n = 10 - adjust as needed
+                tb.AddRow(trigger.LastMatched.ToString(), trigger.Pattern.Truncate(50, "..."));
             }
 
-            this.Interpreter.Conveyor.EchoText(sb.ToString());
-            Argus.Memory.StringBuilderPool.Return(sb);
+            this.Interpreter.Conveyor.EchoText(tb.ToString());
         }
-
     }
 }
