@@ -25,6 +25,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using Avalon.Common;
 
 namespace Avalon.Lua
 {
@@ -181,9 +182,8 @@ namespace Avalon.Lua
                 var line = new Line
                 {
                     FormattedText = $"{msg}\r\n",
-                    ForegroundColor = AnsiColors.Cyan,
-                    ReverseColors = false,
-                    IgnoreLastColor = true
+                    ForegroundColor = AnsiColors.Default,
+                    IgnoreLastColor = false
                 };
 
                 _interpreter.Conveyor.EchoText(line, TerminalTarget.Main);
