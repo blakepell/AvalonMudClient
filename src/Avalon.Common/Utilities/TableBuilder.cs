@@ -173,7 +173,7 @@ namespace Avalon.Common
         /// </summary>
         public override string ToString()
         {
-            var builder = new StringBuilder();
+            var sb = new StringBuilder();
 
             // find the longest column by searching each row
             var columnLengths = this.ColumnLengths();
@@ -191,26 +191,26 @@ namespace Avalon.Common
             var divider = Regex.Replace(columnHeaders, @"[^|]", "-");
             var dividerPlus = divider.Replace("|", "+");
 
-            builder.AppendLine(dividerPlus);
-            builder.AppendLine(columnHeaders);
-            builder.AppendLine(dividerPlus);
+            sb.AppendLine(dividerPlus);
+            sb.AppendLine(columnHeaders);
+            sb.AppendLine(dividerPlus);
 
             foreach (var row in results)
             {
-                builder.AppendLine(row);
+                sb.AppendLine(row);
 
                 if (this.Options.RowDivider)
                 {
-                    builder.AppendLine(dividerPlus);
+                    sb.AppendLine(dividerPlus);
                 }
             }
 
             if (!this.Options.RowDivider)
             {
-                builder.AppendLine(dividerPlus);
+                sb.AppendLine(dividerPlus);
             }
 
-            return builder.ToString();
+            return sb.ToString();
         }
 
         private string Format(List<int> columnLengths, char delimiter = '|')
