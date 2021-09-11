@@ -16,6 +16,7 @@ using System;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Windows;
 using Application = System.Windows.Application;
 using Line = Avalon.Common.Models.Line;
 
@@ -35,11 +36,11 @@ namespace Avalon.Lua
         }
 
         /// <summary>
-        /// Creates a new window.
+        /// Creates a new window.  This will also activate an existing window.
         /// </summary>
         /// <param name="windowName"></param>
         /// <param name="windowType"></param>
-        [Description("Creates a new instance of a window.  If the window already exists nothing is done.")]
+        [Description("Creates a new instance of a window.  If the window already exists nothing is done.  This will also activate an existing window.")]
         public void New(string windowName, WindowType windowType = WindowType.TerminalWindow)
         {
             // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
@@ -443,6 +444,78 @@ namespace Avalon.Lua
         }
 
         /// <summary>
+        /// Maximizes the specified window.
+        /// </summary>
+        /// <param name="windowName"></param>
+        [Description("Maximizes the specified window.")]
+        public void Maximize(string windowName)
+        {
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => this.Maximize(windowName)));
+                return;
+            }
+
+            var win = _interpreter.Conveyor.WindowList.FirstOrDefault(x => x.Name.Equals(windowName, StringComparison.Ordinal)) as Window;
+
+            if (win == null)
+            {
+                return;
+            }
+
+            win.WindowState = WindowState.Maximized;
+        }
+
+        /// <summary>
+        /// Minimizes the specified window.
+        /// </summary>
+        /// <param name="windowName"></param>
+        [Description("Minimizes the specified window.")]
+        public void Minimize(string windowName)
+        {
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => this.Minimize(windowName)));
+                return;
+            }
+
+            var win = _interpreter.Conveyor.WindowList.FirstOrDefault(x => x.Name.Equals(windowName, StringComparison.Ordinal)) as Window;
+
+            if (win == null)
+            {
+                return;
+            }
+
+            win.WindowState = WindowState.Minimized;
+        }
+
+        /// <summary>
+        /// Restores the specified window to it's normal state (not maximized or minimized).
+        /// </summary>
+        /// <param name="windowName"></param>
+        [Description("Restores the specified window to it's normal state (not maximized or minimized).")]
+        public void Restore(string windowName)
+        {
+            // If it doesn't have access then execute the same function on the UI thread, otherwise just run it.
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => this.Restore(windowName)));
+                return;
+            }
+
+            var win = _interpreter.Conveyor.WindowList.FirstOrDefault(x => x.Name.Equals(windowName, StringComparison.Ordinal)) as Window;
+
+            if (win == null)
+            {
+                return;
+            }
+
+            win.WindowState = WindowState.Normal;
+        }
+
+        /// <summary>
         /// Sets the title for the specified window.  If the window does not exist
         /// no action is performed.
         /// </summary>
@@ -542,5 +615,29 @@ namespace Avalon.Lua
             });
         }
 
+        /// <summary>
+        /// Whether a terminal window should show line numbers or not.
+        /// </summary>
+        /// <param name="windowName"></param>
+        /// <param name="visible">Whether to show line numbers in a terminal window or not.</param>
+        [Description("Restores the specified window to it's normal state (not maximized or minimized).")]
+        public void ShowLineNumbers(string windowName, bool visible)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                // This case is if they specified a window that might exist, we'll find it, edit that.
+                var win = _interpreter.Conveyor.WindowList.FirstOrDefault(x =>
+                        x.WindowType == WindowType.TerminalWindow &&
+                        x.Name.Equals(windowName, StringComparison.Ordinal)) as
+                    TerminalWindow;
+
+                if (win == null)
+                {
+                    return;
+                }
+
+                win.ShowLineNumbers(visible);
+            });
+        }
     }
 }

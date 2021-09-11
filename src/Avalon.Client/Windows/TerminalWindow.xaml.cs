@@ -146,12 +146,20 @@ namespace Avalon
         }
 
         /// <summary>
+        /// A function to control whether the line numbers are shown in the terminal or not.
+        /// </summary>
+        /// <param name="visible"></param>
+        public void ShowLineNumbers(bool visible)
+        {
+            Terminal.ShowLineNumbers = visible;
+        }
+
+        /// <summary>
         /// Activates the Window and brings it to the forefront and focused.
         /// </summary>
         void IWindow.Activate()
         {
             base.Activate();
         }
-
     }
 }
