@@ -15,6 +15,7 @@ using MoonSharp.Interpreter;
 using System;
 using System.ComponentModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using Application = System.Windows.Application;
@@ -637,6 +638,83 @@ namespace Avalon.Lua
                 }
 
                 win.ShowLineNumbers(visible);
+            });
+        }
+
+        /// <summary>
+        /// Loads a file into a terminal window.
+        /// </summary>
+        /// <param name="windowName"></param>
+        /// <param name="fileName"></param>
+        [Description("Loads a file into a terminal window.")]
+        public void LoadFile(string windowName, string fileName)
+        {
+            if (!File.Exists(fileName))
+            {
+                throw new Exception($"The specified file does not exist '{fileName}'");
+            }
+
+            string buf = File.ReadAllText(fileName);
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                // This case is if they specified a window that might exist, we'll find it, edit that.
+                var win = _interpreter.Conveyor.WindowList.FirstOrDefault(x =>
+                        x.WindowType == WindowType.TerminalWindow &&
+                        x.Name.Equals(windowName, StringComparison.Ordinal)) as
+                    TerminalWindow;
+
+                if (win == null)
+                {
+                    return;
+                }
+
+                win.Text = "";
+                win.AppendText(buf);
+            });
+        }
+
+        /// <summary>
+        /// Saves the text in the terminal window to the specified file.
+        /// </summary>
+        /// <param name="windowName"></param>
+        /// <param name="fileName"></param>
+        [Description("Saves the text in the terminal window to the specified file.  The file will be overwritten with this overload.")]
+        public void SaveFile(string windowName, string fileName)
+        {
+            SaveFile(windowName, fileName, false);
+        }
+
+        /// <summary>
+        /// Saves the text in the terminal window to the specified file.
+        /// </summary>
+        /// <param name="windowName"></param>
+        /// <param name="fileName"></param>
+        /// <param name="append"></param>
+        [Description("Saves the text in the terminal window to the specified file.")]
+        public void SaveFile(string windowName, string fileName, bool append)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                // This case is if they specified a window that might exist, we'll find it, edit that.
+                var win = _interpreter.Conveyor.WindowList.FirstOrDefault(x =>
+                        x.WindowType == WindowType.TerminalWindow &&
+                        x.Name.Equals(windowName, StringComparison.Ordinal)) as
+                    TerminalWindow;
+
+                if (win == null)
+                {
+                    return;
+                }
+
+                if (append)
+                {
+                    File.WriteAllTextAsync(fileName, win.Text);
+                }
+                else
+                {
+                    File.AppendAllTextAsync(fileName, win.Text);
+                }
             });
         }
     }
