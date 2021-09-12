@@ -69,7 +69,7 @@
     <Compile Update="MainWindow.ViewModel.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Windows\IntroWindow.ViewModel.cs">
+    <Compile Update="Windows\IntroWindow.ViewModel.xaml.cs">
       <DependentUpon>Windows\IntroWindow.xaml</DependentUpon>
     </Compile>
   </ItemGroup>

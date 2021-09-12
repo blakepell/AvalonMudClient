@@ -36,6 +36,15 @@ namespace Avalon
             set => SetValue(VersionProperty, value);
         }
 
+        public static readonly DependencyProperty SelectedProfileProperty = DependencyProperty.Register(
+            nameof(SelectedProfile), typeof(ProfileViewModel), typeof(IntroWindowViewModel), new PropertyMetadata(default(ProfileViewModel)));
+
+        public ProfileViewModel SelectedProfile
+        {
+            get => (ProfileViewModel) GetValue(SelectedProfileProperty);
+            set => SetValue(SelectedProfileProperty, value);
+        }
+
         /// <summary>
         /// A minimal snapshot of existing Profile's for use with binding on the IntroWindow.
         /// </summary>

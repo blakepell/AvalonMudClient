@@ -90,6 +90,18 @@ namespace Avalon
                 }
                 catch { }
             }
+
+            // Select the first item in the list will which be the last profile the user
+            // connected to (and saved).
+            if (GridViewProfiles.Items.Count > 0)
+            {
+                GridViewProfiles.SelectedIndex = 0;
+
+                if (GridViewProfiles.SelectedItem is IntroWindowViewModel.ProfileViewModel vm)
+                {
+                    this.ViewModel.SelectedProfile = vm;
+                }
+            }
         }
 
         /// <summary>
@@ -162,17 +174,18 @@ namespace Avalon
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void GridViewProfiles_OnItemClick(object sender, ItemClickEventArgs e)
+        private void GridViewProfiles_OnItemClick(object sender, ItemClickEventArgs e)
         {
             if (e.ClickedItem is IntroWindowViewModel.ProfileViewModel vm)
             {
-                var result = await WindowManager.InputBox($"Would you like to connect to {vm.GameAddress} port {vm.GamePort}?", "Connect");
+                this.ViewModel.SelectedProfile = vm;
+                //var result = await WindowManager.InputBox($"Would you like to connect to {vm.GameAddress} port {vm.GamePort}?", "Connect");
 
-                if (result)
-                {
-                    await App.MainWindow.OpenProfile(vm.FullPath);
-                    this.Close();
-                }
+                //if (result)
+                //{
+                //    await App.MainWindow.OpenProfile(vm.FullPath);
+                //    this.Close();
+                //}
             }
         }
 
