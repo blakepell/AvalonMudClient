@@ -1279,5 +1279,16 @@ namespace Avalon
                 this.BorderThickness = this.WindowState == WindowState.Maximized ? new Thickness(6) : new Thickness(0);
             }
         }
+
+        /// <summary>
+        /// Shows the connection manager window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemConnectionManager_OnClick(object sender, RoutedEventArgs e)
+        {
+            var cm = new IntroWindow();
+            cm.ShowDialog();
+        }
     }
 }

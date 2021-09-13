@@ -180,6 +180,11 @@
                 <!-- Main Menu -->
                 <Menu x:Name="MenuGame" Grid.Row="0" Grid.Column="0" BorderBrush="#444444" BorderThickness=".9,0,0,.9" Background="{StaticResource BrushWindowBackground}">
                     <MenuItem Header="_File">
+                        <MenuItem Header="Connection Manager" Click="MenuItemConnectionManager_OnClick">
+                            <MenuItem.Icon>
+                                <iconPacks:PackIconMaterialDesign Kind="CastConnected" />
+                            </MenuItem.Icon>
+                        </MenuItem>
                         <MenuItem x:Name="MenuNetworkButton" Header="Connect" Click="MenuNetworkButton_Click">
                             <MenuItem.Icon>
                                 <ui:SymbolIcon Symbol="MapDrive"></ui:SymbolIcon>
