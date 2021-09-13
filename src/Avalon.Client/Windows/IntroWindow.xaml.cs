@@ -19,6 +19,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Media;
 
 namespace Avalon
 {
@@ -76,6 +77,21 @@ namespace Avalon
                 try
                 {
                     var profile = JsonConvert.DeserializeObject<ProfileSettings>(json);
+                    SolidColorBrush accentBrush;
+                    var daysOld = Math.Abs((fi.LastWriteTime - DateTime.Now).TotalDays);
+
+                    if (daysOld >= 14)
+                    {
+                        accentBrush = Brushes.Red;
+                    }
+                    else if (daysOld >= 7)
+                    {
+                        accentBrush = Brushes.Yellow;
+                    }
+                    else
+                    {
+                        accentBrush = Brushes.Green;
+                    }
 
                     this.ViewModel.Profiles.Add(new()
                     {
@@ -85,8 +101,10 @@ namespace Avalon
                         Filename = fi.Name,
                         FullPath = fi.FullName,
                         LastSaveDate = fi.LastWriteTime,
-                        ProfileSize = fi.FormattedFileSize()
+                        ProfileSize = fi.FormattedFileSize(),
+                        AccentColor = accentBrush
                     });
+
                 }
                 catch { }
             }

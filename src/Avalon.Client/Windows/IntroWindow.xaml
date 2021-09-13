@@ -31,7 +31,8 @@
 
                 <controls:AvalonSword Grid.Row="0" Grid.Column="0" Grid.RowSpan="3"
                                       Margin="10,8,0,0"
-                                      ViewBoxHeight="48" ViewBoxWidth="48" AccentColor="Green"></controls:AvalonSword>
+                                      ViewBoxHeight="48" ViewBoxWidth="48" 
+                                      AccentColor="{Binding AccentColor}"></controls:AvalonSword>
 
                 <TextBlock Grid.Row="0" Grid.Column="1" 
                            Margin="12,6, 0,0"
@@ -69,7 +70,7 @@
                    Margin="25,25,0,0" 
                    LastChildFill="True">
             <StackPanel Orientation="Horizontal">
-                <controls:AvalonSword></controls:AvalonSword>
+                <controls:AvalonSword AccentColor="Green"></controls:AvalonSword>
 
                 <StackPanel Orientation="Vertical">
                     <TextBlock

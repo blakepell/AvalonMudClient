@@ -7,7 +7,8 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Viewbox Margin="0,0,0,0"
                  HorizontalAlignment="Center" VerticalAlignment="Top"
-                 Height="{Binding ViewBoxHeight}" Width="{Binding ViewBoxWidth}">
+                 Height="{Binding ViewBoxHeight, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                 Width="{Binding ViewBoxWidth, RelativeSource={RelativeSource AncestorType=UserControl}}">
         <Canvas Height="512" Width="512">
             <Canvas.RenderTransform>
                 <TranslateTransform X="0" Y="0"/>
@@ -33,7 +34,7 @@
                     <PathGeometry Figures="m 240 303.96785 c -9.77778 -16.3174 -17.83912 -29.9569 -17.9141 -30.30999 -0.075 -0.35309 7.98216 -8.75507 17.90476 -18.67105 l 18.04109 -18.02906 18.03174 18.02638 c 9.91746 9.91451 18.03175 18.18153 18.03175 18.37115 0 0.45354 -35.01639 58.91129 -35.75144 59.68487 -0.4228 0.44497 -5.0642 -6.91097 -18.3438 -29.0723 z" FillRule="NonZero"/>
                 </Path.Data>
             </Path>
-            <Path Fill="{Binding AccentColor}" StrokeThickness="0.0883883">
+            <Path Fill="{Binding AccentColor, RelativeSource={RelativeSource AncestorType=UserControl}}" StrokeThickness="0.0883883">
                 <Path.Data>
                     <PathGeometry Figures="m 239.63528 303.92201 -18.32951 -30.5492 18.35163 -18.35163 18.35162 -18.35162 18.3461 18.3461 18.3461 18.3461 -18.324 30.55166 c -10.0782 16.80342 -18.3439 30.55304 -18.36821 30.55472 -0.0243 0.002 -8.2925 -13.74407 -18.37373 -30.54613 z" FillRule="NonZero"/>
                 </Path.Data>

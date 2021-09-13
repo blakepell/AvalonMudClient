@@ -11,7 +11,7 @@ namespace Avalon.Controls
         public AvalonSword()
         {
             InitializeComponent();
-            this.DataContext = this;
+            //this.DataContext = this;
         }
 
         public static readonly DependencyProperty ViewBoxWidthProperty = DependencyProperty.Register(

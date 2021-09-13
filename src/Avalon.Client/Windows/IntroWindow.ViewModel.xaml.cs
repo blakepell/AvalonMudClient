@@ -10,6 +10,8 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Media;
+using Avalon.Controls;
 
 namespace Avalon
 {
@@ -111,6 +113,15 @@ namespace Avalon
             {
                 get => (string) GetValue(ProfileSizeProperty);
                 set => SetValue(ProfileSizeProperty, value);
+            }
+
+            public static readonly DependencyProperty AccentColorProperty = DependencyProperty.Register(
+                nameof(AccentColor), typeof(SolidColorBrush), typeof(ProfileViewModel), new PropertyMetadata(Brushes.Green));
+
+            public SolidColorBrush AccentColor
+            {
+                get => (SolidColorBrush) GetValue(AccentColorProperty);
+                set => SetValue(AccentColorProperty, value);
             }
         }
     }
