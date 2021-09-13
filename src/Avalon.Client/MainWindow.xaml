@@ -220,12 +220,12 @@
                         <Separator />
                         <MenuItem Header="_Open Profile" x:Name="ButtonOpenProfile" Click="ButtonOpenProfile_OnClick">
                             <MenuItem.Icon>
-                                <ui:SymbolIcon Symbol="OpenFile" />
+                                <iconPacks:PackIconMaterial Kind="AccountBoxOutline" />
                             </MenuItem.Icon>
                         </MenuItem>
                         <MenuItem Header="Import Package" x:Name="ButtonImportPackage" Click="ButtonImportPackage_OnClickAsync">
                             <MenuItem.Icon>
-                                <ui:SymbolIcon Symbol="Import" />
+                                <iconPacks:PackIconMaterial Kind="FileImportOutline" />
                             </MenuItem.Icon>
                         </MenuItem>
                         <MenuItem Header="_Save Profile" x:Name="ButtonSaveProfile" Click="ButtonSaveProfile_OnClick">
@@ -234,7 +234,11 @@
                             </MenuItem.Icon>
                         </MenuItem>
                         <Separator />
-                        <MenuItem Header="Exit Without Save" x:Name="ButtonExitWithoutSave" Click="ButtonExitWithoutSave_OnClickAsync" />
+                        <MenuItem Header="Exit Without Save" x:Name="ButtonExitWithoutSave" Click="ButtonExitWithoutSave_OnClickAsync">
+                            <MenuItem.Icon>
+                                <iconPacks:PackIconMaterial Kind="BookCancelOutline" />
+                            </MenuItem.Icon>
+                        </MenuItem>
                         <MenuItem Header="E_xit" x:Name="ButtonExit" Click="ButtonExit_OnClick" />
                     </MenuItem>
                     <MenuItem Header="_Edit">
@@ -312,7 +316,7 @@
                         <Separator />
                         <MenuItem Header="_Edit Global Lua File" Click="MenuItemEditGlobalLuaFile_Click">
                             <MenuItem.Icon>
-                                <ui:FontIcon Glyph="&#xE943;" />
+                                <iconPacks:PackIconMaterial Kind="LanguageLua" />
                             </MenuItem.Icon>
                         </MenuItem>
                         <Separator />
@@ -324,7 +328,7 @@
                         <Separator />
                         <MenuItem Header="Database Query Editor" Click="MenuShellWindow_Click" Tag="Database">
                             <MenuItem.Icon>
-                                <ui:SymbolIcon Symbol="Tag" />
+                                <iconPacks:PackIconMaterial Kind="Database" />
                             </MenuItem.Icon>
                         </MenuItem>
                         <Separator />
