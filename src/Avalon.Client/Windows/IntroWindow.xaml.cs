@@ -197,13 +197,6 @@ namespace Avalon
             if (e.ClickedItem is IntroWindowViewModel.ProfileViewModel vm)
             {
                 this.ViewModel.SelectedProfile = vm;
-                //var result = await WindowManager.InputBox($"Would you like to connect to {vm.GameAddress} port {vm.GamePort}?", "Connect");
-
-                //if (result)
-                //{
-                //    await App.MainWindow.OpenProfile(vm.FullPath);
-                //    this.Close();
-                //}
             }
         }
 
@@ -227,6 +220,23 @@ namespace Avalon
 
                 this.Close();
             }
+        }
+
+        /// <summary>
+        /// Sends a message to the main window to connect to the selected game.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void ButtonPlay_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(this?.ViewModel?.SelectedProfile?.FullPath))
+            {
+                await App.MainWindow.OpenProfile(this.ViewModel.SelectedProfile.FullPath);
+                this.Close();
+                return;
+            }
+
+            await WindowManager.MsgBox("You must select a profile first.", "Play Game").ConfigureAwait(false);
         }
     }
 }

@@ -214,7 +214,8 @@
                         DockPanel.Dock="Bottom"
                         Width="420"
                         HorizontalAlignment="Left"
-                        Margin="0, 5, 0, 0"></Button>
+                        Margin="0, 5, 0, 0"
+                        Click="ButtonPlay_OnClick"></Button>
             </DockPanel>
         </Border>
     </Grid>
