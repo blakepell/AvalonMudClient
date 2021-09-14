@@ -1,4 +1,4 @@
-﻿<Window x:Class="Avalon.IntroWindow"
+﻿<Window x:Class="Avalon.ConnectionManagerWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,7 +12,7 @@
         ui:WindowHelper.UseModernWindowStyle="True"
         Title="Choose your path" BorderBrush="Gray" BorderThickness="1"
         WindowStartupLocation="CenterScreen"
-        Loaded="IntroWindow_OnLoaded"
+        Loaded="ConnectionManagerWindow_OnLoaded"
         ResizeMode="NoResize"
         Height="600" Width="900">
     <Window.Resources>

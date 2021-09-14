@@ -1287,7 +1287,7 @@ namespace Avalon
         /// <param name="e"></param>
         private void MenuItemConnectionManager_OnClick(object sender, RoutedEventArgs e)
         {
-            var cm = new IntroWindow();
+            var cm = new ConnectionManagerWindow();
             cm.ShowDialog();
         }
     }

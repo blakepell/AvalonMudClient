@@ -16,12 +16,12 @@ using Avalon.Controls;
 namespace Avalon
 {
     /// <summary>
-    /// ViewModel for IntroWindow.
+    /// ViewModel for ConnectionManagerWindow.
     /// </summary>
-    public class IntroWindowViewModel : DependencyObject
+    public class ConnectionManagerWindowViewModel : DependencyObject
     {
         public static readonly DependencyProperty ProfilesProperty = DependencyProperty.Register(
-            "Profiles", typeof(ObservableCollection<ProfileViewModel>), typeof(IntroWindowViewModel), new PropertyMetadata(default(ObservableCollection<ProfileViewModel>)));
+            "Profiles", typeof(ObservableCollection<ProfileViewModel>), typeof(ConnectionManagerWindowViewModel), new PropertyMetadata(default(ObservableCollection<ProfileViewModel>)));
 
         public ObservableCollection<ProfileViewModel> Profiles
         {
@@ -30,7 +30,7 @@ namespace Avalon
         }
 
         public static readonly DependencyProperty VersionProperty = DependencyProperty.Register(
-            nameof(Version), typeof(string), typeof(IntroWindowViewModel), new PropertyMetadata(default(string)));
+            nameof(Version), typeof(string), typeof(ConnectionManagerWindowViewModel), new PropertyMetadata(default(string)));
 
         public string Version
         {
@@ -39,7 +39,7 @@ namespace Avalon
         }
 
         public static readonly DependencyProperty SelectedProfileProperty = DependencyProperty.Register(
-            nameof(SelectedProfile), typeof(ProfileViewModel), typeof(IntroWindowViewModel), new PropertyMetadata(default(ProfileViewModel)));
+            nameof(SelectedProfile), typeof(ProfileViewModel), typeof(ConnectionManagerWindowViewModel), new PropertyMetadata(default(ProfileViewModel)));
 
         public ProfileViewModel SelectedProfile
         {
@@ -48,7 +48,7 @@ namespace Avalon
         }
 
         /// <summary>
-        /// A minimal snapshot of existing Profile's for use with binding on the IntroWindow.
+        /// A minimal snapshot of existing Profile's for use with binding on the ConnectionManagerWindow.
         /// </summary>
         public class ProfileViewModel : DependencyObject
         {

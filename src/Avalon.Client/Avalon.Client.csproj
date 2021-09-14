@@ -69,8 +69,8 @@
     <Compile Update="MainWindow.ViewModel.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Windows\IntroWindow.ViewModel.xaml.cs">
-      <DependentUpon>Windows\IntroWindow.xaml</DependentUpon>
+    <Compile Update="Windows\ConnectionManagerWindow.ViewModel.xaml.cs">
+      <DependentUpon>ConnectionManagerWindow.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -131,7 +131,7 @@
     <Page Update="Resources\TabControlStyles.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Windows\IntroWindow.xaml">
+    <Page Update="Windows\ConnectionManagerWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

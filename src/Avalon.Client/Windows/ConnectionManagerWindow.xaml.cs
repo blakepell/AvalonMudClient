@@ -23,35 +23,35 @@ using System.Windows.Media;
 
 namespace Avalon
 {
-    public partial class IntroWindow
+    public partial class ConnectionManagerWindow
     {
 
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
-            nameof(ViewModel), typeof(IntroWindowViewModel), typeof(IntroWindow), new PropertyMetadata(default(IntroWindowViewModel)));
+            nameof(ViewModel), typeof(ConnectionManagerWindowViewModel), typeof(ConnectionManagerWindow), new PropertyMetadata(default(ConnectionManagerWindowViewModel)));
 
-        public IntroWindowViewModel ViewModel
+        public ConnectionManagerWindowViewModel ViewModel
         {
-            get => (IntroWindowViewModel) GetValue(ViewModelProperty);
+            get => (ConnectionManagerWindowViewModel) GetValue(ViewModelProperty);
             set => SetValue(ViewModelProperty, value);
         }
 
-        public IntroWindow()
+        public ConnectionManagerWindow()
         {
             InitializeComponent();
             this.DataContext = this;
-            this.ViewModel = new IntroWindowViewModel
+            this.ViewModel = new ConnectionManagerWindowViewModel
             {
                 Profiles = new()
             };
         }
 
         /// <summary>
-        /// On loaded event for the IntroWindow.  We'll get our list of available profiles or allow the
+        /// On loaded event for the ConnectionManagerWindow.  We'll get our list of available profiles or allow the
         /// player to setup a new profile for a game.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void IntroWindow_OnLoaded(object sender, RoutedEventArgs e)
+        private void ConnectionManagerWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             var version = Assembly.GetExecutingAssembly().GetName().Version;
             this.ViewModel.Version = $"Version {version.Major.ToString()}.{version.Minor.ToString()}.{version.Revision}.{version.Build.ToString()}";
@@ -115,7 +115,7 @@ namespace Avalon
             {
                 GridViewProfiles.SelectedIndex = 0;
 
-                if (GridViewProfiles.SelectedItem is IntroWindowViewModel.ProfileViewModel vm)
+                if (GridViewProfiles.SelectedItem is ConnectionManagerWindowViewModel.ProfileViewModel vm)
                 {
                     this.ViewModel.SelectedProfile = vm;
                 }
@@ -194,7 +194,7 @@ namespace Avalon
         /// <param name="e"></param>
         private void GridViewProfiles_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            if (e.ClickedItem is IntroWindowViewModel.ProfileViewModel vm)
+            if (e.ClickedItem is ConnectionManagerWindowViewModel.ProfileViewModel vm)
             {
                 this.ViewModel.SelectedProfile = vm;
             }
