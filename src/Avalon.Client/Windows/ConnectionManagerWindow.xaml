@@ -187,6 +187,7 @@
                 </ui:DropDownButton>
             </WrapPanel>
         </DockPanel>
+        <!-- List of Profiles -->
         <Border Grid.Row="1" Grid.Column="0"
             Background="#000000">
             <ui:GridView x:Name="GridViewProfiles"
@@ -199,22 +200,59 @@
                 ItemTemplate="{StaticResource ProfilesTemplate}"
                 ItemsSource="{Binding ViewModel.Profiles}"></ui:GridView>
         </Border>
+        <!-- The Selected Profile -->
         <Border Grid.Row="1" Grid.Column="1"
                 Background="#000000">
             <DockPanel VerticalAlignment="Top">
                 <StackPanel DockPanel.Dock="Top">
                     <TextBlock Text="{Binding ViewModel.SelectedProfile.GameDescription}"
                                DockPanel.Dock="Top"
-                               Margin="0,15,0,0"
+                               Margin="0,10,0,3"
                                FontSize="24"></TextBlock>
                     <Separator Width="420" HorizontalAlignment="Left"></Separator>
                 </StackPanel>
+                <Grid DockPanel.Dock="Top"
+                      Width="420" 
+                      Margin="20,12,0,0"
+                      HorizontalAlignment="Left">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" 
+                               Text="Game Description:"
+                               VerticalAlignment="Top"
+                               Margin="0,0,0,0"></TextBlock>
+                    <TextBox Grid.Row="0" Grid.Column="1"
+                             Margin="0,0,20,0"
+                             Text="{Binding ViewModel.SelectedProfile.GameDescription, Mode=TwoWay}" />
 
+                    <TextBlock Grid.Row="1" Grid.Column="0" 
+                               Text="IP Address:"
+                               VerticalAlignment="Top"
+                               Margin="0,5,0,0"></TextBlock>
+                    <TextBox Grid.Row="1" Grid.Column="1"
+                             Margin="0,5,20,0"
+                             Text="{Binding ViewModel.SelectedProfile.GameAddress, Mode=TwoWay}" />
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" 
+                               Text="Port:"
+                               VerticalAlignment="Top"
+                               Margin="0,5,0,0"></TextBlock>
+                    <TextBox Grid.Row="2" Grid.Column="1"
+                             Margin="0,5,20,0"
+                             Text="{Binding ViewModel.SelectedProfile.GamePort, Mode=TwoWay}" />
+                </Grid>
                 <Button Content="Play"
                         DockPanel.Dock="Bottom"
                         Width="420"
                         HorizontalAlignment="Left"
-                        Margin="0, 5, 0, 0"
+                        Margin="0, 10, 0, 0"
                         Click="ButtonPlay_OnClick"></Button>
             </DockPanel>
         </Border>

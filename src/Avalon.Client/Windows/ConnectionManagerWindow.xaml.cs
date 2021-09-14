@@ -231,7 +231,9 @@ namespace Avalon
         {
             if (!string.IsNullOrWhiteSpace(this?.ViewModel?.SelectedProfile?.FullPath))
             {
-                await App.MainWindow.OpenProfile(this.ViewModel.SelectedProfile.FullPath);
+                await App.MainWindow.OpenProfile(this.ViewModel.SelectedProfile.FullPath, this.ViewModel.SelectedProfile.GameAddress, this.ViewModel.SelectedProfile.GamePort);
+                App.Settings.ProfileSettings.WindowTitle = this.ViewModel.SelectedProfile.GameDescription;
+
                 this.Close();
                 return;
             }

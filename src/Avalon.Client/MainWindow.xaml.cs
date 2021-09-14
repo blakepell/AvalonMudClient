@@ -442,7 +442,9 @@ namespace Avalon
         /// Opens a profile and handles any errors that occur.
         /// </summary>
         /// <param name="filePath"></param>
-        public async Task OpenProfile(string filePath)
+        /// <param name="ipAddress"></param>
+        /// <param name="port"></param>
+        public async Task OpenProfile(string filePath, string ipAddress = "", int port = 0)
         {
             try
             {
@@ -465,6 +467,16 @@ namespace Avalon
 
                 // Close and open a connection to the database for the new profile.
                 await SqlTasks.OpenAsync($"Data Source={App.Settings.ProfileSettings.SqliteDatabase}");
+
+                if (!string.IsNullOrWhiteSpace(ipAddress))
+                {
+                    App.Settings.ProfileSettings.IpAddress = ipAddress;
+                }
+
+                if (port > 0)
+                {
+                    App.Settings.ProfileSettings.Port = port;
+                }
 
                 // Auto connect if it's setup to do so (this will disconnect from the previous server if it was connected.
                 if (App.Settings.ProfileSettings.AutoConnect)
