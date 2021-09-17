@@ -7,10 +7,9 @@
  * @license           : MIT
  */
 
-using System;
 using Avalon.Common.Interfaces;
+using System;
 using System.Linq;
-using Avalon.Common.Models;
 
 namespace Avalon.HashCommands
 {
