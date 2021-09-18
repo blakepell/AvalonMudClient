@@ -12,9 +12,9 @@
     <RootNamespace>Avalon</RootNamespace>
     <AssemblyName>Avalon</AssemblyName>
     <ApplicationIcon>DiamondHilt.ico</ApplicationIcon>
-    <Version>2021.9.14.1</Version>
-    <AssemblyVersion>2021.9.14.1</AssemblyVersion>
-    <FileVersion>2021.9.14.1</FileVersion>
+    <Version>2021.9.18.1</Version>
+    <AssemblyVersion>2021.9.18.1</AssemblyVersion>
+    <FileVersion>2021.9.18.1</FileVersion>
     <LangVersion>9.0</LangVersion>    
     <Product>Avalon Mud Client</Product>
     <RepositoryUrl>https://github.com/blakepell/AvalonMudClient</RepositoryUrl>
@@ -79,10 +79,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Argus.Core" Version="2021.8.16.1" />
+    <PackageReference Include="Argus.Core" Version="2021.9.16.1" />
     <PackageReference Include="AvalonEdit" Version="6.1.2.30" />
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
-    <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.8.0" />
+    <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.9.0" />
     <PackageReference Include="ModernWpfUI" Version="0.9.4" />
     <PackageReference Include="RestSharp" Version="106.12.0" />
     <PackageReference Include="RestSharp.Serializers.NewtonsoftJson" Version="106.12.0" />
