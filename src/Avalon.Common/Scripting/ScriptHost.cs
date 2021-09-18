@@ -38,6 +38,17 @@ namespace Avalon.Common.Scripting
         public Dictionary<string, SourceCode> SourceCodeIndex { get; set; } = new();
 
         /// <summary>
+        /// Locks various functions of the ScriptHost, including the ability to add functions
+        /// into the <see cref="SourceCodeIndex"/>.  Due to the fact that the index is updated
+        /// based on the property changes of aliases and triggers it becomes problematic when you
+        /// want to load a profile to observe it (which then loaded those assets).  This will
+        /// provide the ability to pause that behavior so profiles can be loaded without creating
+        /// a cross boundary issue of one profile loading scripts into another (a cautionary tale of
+        /// why putting logic in properties is always a last resort).
+        /// </summary>
+        public bool Lock { get; set; } = false;
+
+        /// <summary>
         /// Creates a new instance of the <see cref="ScriptHost"/> with all scripting environments
         /// initialized for use.
         /// </summary>
@@ -90,6 +101,12 @@ namespace Avalon.Common.Scripting
         /// <param name="src"></param>
         public void AddFunction(SourceCode src)
         {
+            // ScriptHost is locked, get out.
+            if (this.Lock)
+            {
+                return;
+            }
+
             this.SourceCodeIndex[src.FunctionName] = src;
         }
 

@@ -76,6 +76,8 @@ namespace Avalon
 
                 try
                 {
+                    App.MainWindow.Interp.ScriptHost.Lock = true;
+
                     var profile = JsonConvert.DeserializeObject<ProfileSettings>(json);
                     SolidColorBrush accentBrush;
                     var daysOld = Math.Abs((fi.LastWriteTime - DateTime.Now).TotalDays);
@@ -97,7 +99,7 @@ namespace Avalon
                     {
                         GameAddress = profile?.IpAddress ?? "Empty Game Address",
                         GamePort = profile?.Port ?? 0,
-                        GameDescription =  profile?.WindowTitle ?? "No Game Description",
+                        GameDescription = profile?.WindowTitle ?? "No Game Description",
                         Filename = fi.Name,
                         FullPath = fi.FullName,
                         LastSaveDate = fi.LastWriteTime,
@@ -106,7 +108,11 @@ namespace Avalon
                     });
 
                 }
-                catch { }
+                finally
+                {
+                    // Always, -always- unlock this after.
+                    App.MainWindow.Interp.ScriptHost.Lock = false;
+                }
             }
 
             // Select the first item in the list will which be the last profile the user
