@@ -2022,7 +2022,7 @@ namespace Avalon.Lua
 
             try
             {
-                icon = (PackIconMaterialKind)Enum.Parse(typeof(PackIconMaterialKind), iconName, true);
+                icon = Enum.Parse<PackIconMaterialKind>(iconName, true);
             }
             catch (Exception ex)
             {
