@@ -61,8 +61,28 @@ namespace Avalon
                 return;
             }
 
+            // TODO: Replace with argus file system searcher
             var files = Directory.GetFiles(App.Settings.AvalonSettings.SaveDirectory, "*.json");
             var fileInfoList = new List<FileInfo>();
+
+            // No profiles exist, create a default one.
+            if (files.Length == 0)
+            {
+                string fileName = Path.Combine($"{App.Settings.AvalonSettings.SaveDirectory}", $"dsl-mud.org-4000.json");
+
+                var profile = new ProfileSettings
+                {
+                    WindowTitle = "Dark and Shattered Lands: 4000",
+                    IpAddress = "dsl-mud.org",
+                    Port = 4000
+                };
+
+                // Write the profile settings file to disk.
+                File.WriteAllText(fileName, JsonConvert.SerializeObject(profile, Formatting.Indented));
+
+                // Like it always existed.
+                fileInfoList.Add(new FileInfo(fileName));
+            }
 
             foreach (string file in files)
             {
