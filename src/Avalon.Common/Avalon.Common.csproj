@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Argus.Core" Version="2021.9.16.1" />
+    <PackageReference Include="Argus.Core" Version="2021.9.19.1" />
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
   </ItemGroup>

@@ -20,9 +20,13 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
+using Argus.IO;
 
 namespace Avalon
 {
+    /// <summary>
+    /// Connection manager: Allows the player to easily switch and create new profiles.
+    /// </summary>
     public partial class ConnectionManagerWindow
     {
 
@@ -53,98 +57,100 @@ namespace Avalon
         /// <param name="e"></param>
         private void ConnectionManagerWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
-            var version = Assembly.GetExecutingAssembly().GetName().Version;
-            this.ViewModel.Version = $"Version {version.Major.ToString()}.{version.Minor.ToString()}.{version.Revision}.{version.Build.ToString()}";
-
-            if (!Directory.Exists(App.Settings.AvalonSettings.SaveDirectory))
+            try
             {
-                return;
-            }
+                var version = Assembly.GetExecutingAssembly().GetName().Version;
+                this.ViewModel.Version = $"Version {version.Major.ToString()}.{version.Minor.ToString()}.{version.Revision}.{version.Build.ToString()}";
 
-            // TODO: Replace with argus file system searcher
-            var files = Directory.GetFiles(App.Settings.AvalonSettings.SaveDirectory, "*.json");
-            var fileInfoList = new List<FileInfo>();
-
-            // No profiles exist, create a default one.
-            if (files.Length == 0)
-            {
-                string fileName = Path.Combine($"{App.Settings.AvalonSettings.SaveDirectory}", $"dsl-mud.org-4000.json");
-
-                var profile = new ProfileSettings
+                if (!Directory.Exists(App.Settings.AvalonSettings.SaveDirectory))
                 {
-                    WindowTitle = "Dark and Shattered Lands: 4000",
-                    IpAddress = "dsl-mud.org",
-                    Port = 4000
-                };
-
-                // Write the profile settings file to disk.
-                File.WriteAllText(fileName, JsonConvert.SerializeObject(profile, Formatting.Indented));
-
-                // Like it always existed.
-                fileInfoList.Add(new FileInfo(fileName));
-            }
-
-            foreach (string file in files)
-            {
-                var fi = new FileInfo(file);
-                fileInfoList.Add(fi);
-            }
-
-            foreach (var fi in fileInfoList.OrderByDescending(x => x.LastWriteTime))
-            {
-                string json = File.ReadAllText(fi.FullName);
-
-                try
-                {
-                    App.MainWindow.Interp.ScriptHost.Lock = true;
-
-                    var profile = JsonConvert.DeserializeObject<ProfileSettings>(json);
-                    SolidColorBrush accentBrush;
-                    var daysOld = Math.Abs((fi.LastWriteTime - DateTime.Now).TotalDays);
-
-                    if (daysOld >= 14)
-                    {
-                        accentBrush = Brushes.Red;
-                    }
-                    else if (daysOld >= 7)
-                    {
-                        accentBrush = Brushes.Yellow;
-                    }
-                    else
-                    {
-                        accentBrush = Brushes.Green;
-                    }
-
-                    this.ViewModel.Profiles.Add(new()
-                    {
-                        GameAddress = profile?.IpAddress ?? "Empty Game Address",
-                        GamePort = profile?.Port ?? 0,
-                        GameDescription = profile?.WindowTitle ?? "No Game Description",
-                        Filename = fi.Name,
-                        FullPath = fi.FullName,
-                        LastSaveDate = fi.LastWriteTime,
-                        ProfileSize = fi.FormattedFileSize(),
-                        AccentColor = accentBrush
-                    });
-
+                    return;
                 }
-                finally
+
+                var fs = new FileSystemSearch(App.Settings.AvalonSettings.SaveDirectory, "*.json", SearchOption.TopDirectoryOnly);
+                fs.IncludeDirectories = false;
+
+                var files = fs.OrderByDescending(x => x.LastWriteTime).ToList();
+            
+                // No profiles exist, create a default one.
+                if (files.Count == 0)
                 {
-                    // Always, -always- unlock this after.
-                    App.MainWindow.Interp.ScriptHost.Lock = false;
+                    string fileName = Path.Combine($"{App.Settings.AvalonSettings.SaveDirectory}", $"dsl-mud.org-4000.json");
+
+                    var profile = new ProfileSettings
+                    {
+                        WindowTitle = "Dark and Shattered Lands: 4000",
+                        IpAddress = "dsl-mud.org",
+                        Port = 4000
+                    };
+
+                    // Write the profile settings file to disk.
+                    File.WriteAllText(fileName, JsonConvert.SerializeObject(profile, Formatting.Indented));
+
+                    // Like it always existed.
+                    files.Add(new FileInfo(fileName));
+                }
+
+                foreach (var fi in files)
+                {
+                    string json = File.ReadAllText(fi.FullName);
+
+                    try
+                    {
+                        App.MainWindow.Interp.ScriptHost.Lock = true;
+
+                        var profile = JsonConvert.DeserializeObject<ProfileSettings>(json);
+                        SolidColorBrush accentBrush;
+                        var daysOld = Math.Abs((fi.LastWriteTime - DateTime.Now).TotalDays);
+
+                        if (daysOld >= 14)
+                        {
+                            accentBrush = Brushes.Red;
+                        }
+                        else if (daysOld >= 7)
+                        {
+                            accentBrush = Brushes.Yellow;
+                        }
+                        else
+                        {
+                            accentBrush = Brushes.Green;
+                        }
+
+                        this.ViewModel.Profiles.Add(new()
+                        {
+                            GameAddress = profile?.IpAddress ?? "Empty Game Address",
+                            GamePort = profile?.Port ?? 0,
+                            GameDescription = profile?.WindowTitle ?? "No Game Description",
+                            Filename = fi.Name,
+                            FullPath = fi.FullName,
+                            LastSaveDate = fi.LastWriteTime,
+                            ProfileSize = ((FileInfo)fi).FormattedFileSize(),
+                            AccentColor = accentBrush
+                        });
+
+                    }
+                    finally
+                    {
+                        // Always, -always- unlock this after.
+                        App.MainWindow.Interp.ScriptHost.Lock = false;
+                    }
+                }
+
+                // Select the first item in the list will which be the last profile the user
+                // connected to (and saved).
+                if (GridViewProfiles.Items.Count > 0)
+                {
+                    GridViewProfiles.SelectedIndex = 0;
+
+                    if (GridViewProfiles.SelectedItem is ConnectionManagerWindowViewModel.ProfileViewModel vm)
+                    {
+                        this.ViewModel.SelectedProfile = vm;
+                    }
                 }
             }
-
-            // Select the first item in the list will which be the last profile the user
-            // connected to (and saved).
-            if (GridViewProfiles.Items.Count > 0)
+            catch (Exception ex)
             {
-                GridViewProfiles.SelectedIndex = 0;
-
-                if (GridViewProfiles.SelectedItem is ConnectionManagerWindowViewModel.ProfileViewModel vm)
-                {
-                    this.ViewModel.SelectedProfile = vm;
-                }
+                MessageBox.Show($"A critical error occurred: '{ex.Message}'");
             }
         }
 

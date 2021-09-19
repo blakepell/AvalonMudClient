@@ -79,7 +79,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Argus.Core" Version="2021.9.16.1" />
+    <PackageReference Include="Argus.Core" Version="2021.9.19.1" />
     <PackageReference Include="AvalonEdit" Version="6.1.2.30" />
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
     <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.9.0" />
