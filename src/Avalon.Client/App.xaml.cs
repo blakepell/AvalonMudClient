@@ -187,6 +187,9 @@ namespace Avalon
                 // For saving of the grid layout into the settings object.
                 App.MainWindow.SaveGridState();
 
+                // Saves the last Lua script that the use had in the interactive editor.
+                App.Settings.ProfileSettings.LastInteractiveLuaScript = App.MainWindow.LuaEditor.Editor.Text;
+
                 // Actually save the settings.
                 App.Settings.SaveSettings();
             }

@@ -160,7 +160,6 @@ namespace Avalon.Common.Settings
         [Browsable(true)]
         public string AutoExecuteCommand { get; set; } = "";
 
-
         [CategoryAttribute("Game")]
         [DescriptionAttribute("A command used to cancel commands already sent to the server.  This would need is one provided by the game server and not not apply to all muds.")]
         [Browsable(true)]
@@ -232,6 +231,15 @@ namespace Avalon.Common.Settings
         [DescriptionAttribute("The path or execute name of a terminal that can be shelled from the navigation bar.  E.g. cmd, bash, wt.  If this value is blank the option won't be shown on the Nav Bar.")]
         [Browsable(true)]
         public string TerminalAppPath { get; set; } = "";
+
+        /// <summary>
+        /// The contents of the last Lua script that was run through the interactive console.
+        /// </summary>
+        [Lua]
+        [CategoryAttribute("Lua")]
+        [DescriptionAttribute("The contents of the last Lua script that was run through the interactive console.")]
+        [Browsable(false)]
+        public string LastInteractiveLuaScript { get; set; } = "";
 
         /// <summary>
         /// A list of any installed package ID's.  The package ID a trigger, alias, etc. belongs to will be stored there

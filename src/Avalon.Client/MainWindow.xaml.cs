@@ -196,6 +196,9 @@ namespace Avalon
                 // Update any UI settings
                 this.UpdateUISettings();
 
+                // Restore the last script the user was working on if they were.
+                LuaEditor.Editor.Text = App.Settings.ProfileSettings.LastInteractiveLuaScript;
+
                 // Auto connect to the game if the setting is set.
                 if (App.Settings.ProfileSettings.AutoConnect)
                 {
@@ -408,6 +411,7 @@ namespace Avalon
         {
             try
             {
+                App.Settings.ProfileSettings.LastInteractiveLuaScript = LuaEditor.Editor.Text;
                 App.MainWindow.SaveGridState();
                 App.Settings.SaveSettings();
                 App.Conveyor.EchoText("\r\n");
@@ -456,6 +460,9 @@ namespace Avalon
 
                 // Load the settings for the file that was selected.
                 this.LoadSettings(filePath);
+
+                // Restore the last script the user was working on if they were.
+                LuaEditor.Editor.Text = App.Settings.ProfileSettings.LastInteractiveLuaScript;
 
                 // Inject the Conveyor/ScriptHost into the Triggers and aliases including
                 // initial loading of scripts.
