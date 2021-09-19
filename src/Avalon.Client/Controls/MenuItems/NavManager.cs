@@ -71,11 +71,11 @@ namespace Avalon.Controls
                 Icon = PackIconMaterialKind.MapOutline,
                 MenuType = NavType.ShellWindow
             });
-
+            
             this.NavMenuItems.Add(new NavMenuItem
             {
                 Title = "Variables",
-                Icon = PackIconMaterialKind.IframeVariableOutline,
+                Icon = PackIconMaterialKind.ApplicationVariableOutline,
                 MenuType = NavType.ShellWindow
             });
 
