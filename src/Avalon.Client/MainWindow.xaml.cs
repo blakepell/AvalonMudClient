@@ -85,7 +85,8 @@ namespace Avalon
             this.Hide();
 
             // The settings for the app load in the app startup, they will then try to load the last profile that was used.
-            App.Conveyor.EchoInfo($"{{GA{{gvalon {{GM{{gud {{GC{{glient{{x: Version {Assembly.GetExecutingAssembly()?.GetName()?.Version?.ToString() ?? "Unknown"}");
+            App.Conveyor.EchoInfo(
+                $"{{GA{{gvalon {{GM{{gud {{GC{{glient{{x: Version {Assembly.GetExecutingAssembly()?.GetName()?.Version?.ToString() ?? "Unknown"}");
 
             try
             {
@@ -125,23 +126,6 @@ namespace Avalon
             {
                 this.DataContext = this.ViewModel;
 
-                // Try to load the last profile loaded, if not found create a new profile.
-                if (File.Exists(App.Settings.AvalonSettings.LastLoadedProfilePath))
-                {
-                    this.LoadSettings(App.Settings.AvalonSettings.LastLoadedProfilePath);
-                }
-                else
-                {
-                    if (string.IsNullOrWhiteSpace(App.Settings.AvalonSettings.LastLoadedProfilePath))
-                    {
-                        App.Conveyor.EchoInfo("New Profile being created.");
-                    }
-                    else
-                    {
-                        App.Conveyor.EchoInfo($"Last Profile Loaded Not Found: {App.Settings.AvalonSettings.LastLoadedProfilePath}");
-                    }
-                }
-
                 // Wire up any events that have to be wired up through code.
                 TextInput.Editor.PreviewKeyDown += this.Editor_PreviewKeyDown;
 
@@ -152,93 +136,19 @@ namespace Avalon
                 // references.
                 this.Interp = AppServices.GetService<Interpreter>();
 
-                // Setup / cleanup any issues with triggers and aliases.
-                Utilities.Utilities.SetupTriggers();
-                Utilities.Utilities.SetupAliases();
-
                 // Setup the handler so when it wants to write to the main window it can by raising the echo event.
                 Interp.Echo += this.InterpreterEcho;
 
                 // Setup the tick timer.
                 TickTimer = new TickTimer(App.Conveyor);
 
-                // TODO - Setting to disable.
                 // Setup the scheduled and batch tasks.
                 this.ScheduledTasks = new ScheduledTasks(this.Interp);
                 this.BatchTasks = new BatchTasks(this.Interp);
-                this.SqlTasks = new SqlTasks($"Data Source={App.Settings.ProfileSettings.SqliteDatabase}");
-
-                try
-                {
-                    await this.SqlTasks.OpenAsync();
-                }
-                catch (Exception ex)
-                {
-                    App.Conveyor.EchoError("An error occurred opening the SQLite database for this profile.");
-                    App.Conveyor.EchoError($"Error message: {ex.Message}");
-                }
-
-                // Setup the auto complete commands.  If they're found refresh them, if they're not
-                // report it to the terminal window.  It should -always be found-.
-                this.RefreshAutoCompleteEntries();
-
-                // Update static variables from places that might be expensive to populate from (like Environment.Username).  Normally
-                // something like that isn't expensive but when run on variable replacement it can be more noticeable.
-                Utilities.Utilities.UpdateCommonVariables();
 
                 // Load any plugin classes from the plugins folder.  They will be "activated" when a mud who matches
                 // the plugin IP is connected to.
                 this.LoadPlugins();
-
-                // Loads the initial list of items for the navigation slide out.
-                this.ViewModel.NavManager.Load();
-
-                // Update any UI settings
-                this.UpdateUISettings();
-
-                // Restore the last script the user was working on if they were.
-                LuaEditor.Editor.Text = App.Settings.ProfileSettings.LastInteractiveLuaScript;
-
-                // Auto connect to the game if the setting is set.
-                if (App.Settings.ProfileSettings.AutoConnect)
-                {
-                    await this.Connect();
-                }
-
-                // Is there an auto execute command or set of commands to run?
-                if (!string.IsNullOrWhiteSpace(App.Settings.ProfileSettings.AutoExecuteCommand))
-                {
-                    // Send the auto execute command if the user is connected.
-                    if (this?.Interp?.Telnet != null && this.Interp.Telnet.IsConnected())
-                    {
-                        await Interp.Send(App.Settings.ProfileSettings.AutoExecuteCommand, true, false);
-                    }
-                    else
-                    {
-                        App.Conveyor.EchoWarning("Auto Execute Command Skipped: Connection to server was closed.");
-                    }
-                }
-
-                // Finally, all is done, set the focus to the command box.
-                TextInput.Focus();
-
-                // Set the startup position.
-                switch (App.Settings.AvalonSettings.WindowStartupPosition)
-                {
-                    case WindowStartupPosition.OperatingSystemDefault:
-                        this.WindowState = WindowState.Normal;
-                        break;
-                    case WindowStartupPosition.Maximized:
-                        this.WindowState = WindowState.Maximized;
-                        break;
-                    case WindowStartupPosition.LastUsed:
-                        this.WindowState = (WindowState)App.Settings.AvalonSettings.LastWindowPosition.WindowState;
-                        this.Left = App.Settings.AvalonSettings.LastWindowPosition.Left;
-                        this.Top = App.Settings.AvalonSettings.LastWindowPosition.Top;
-                        this.Height = App.Settings.AvalonSettings.LastWindowPosition.Height;
-                        this.Width = App.Settings.AvalonSettings.LastWindowPosition.Width;
-                        break;
-                }
 
             }
             catch (Exception ex)
@@ -246,6 +156,16 @@ namespace Avalon
                 App.Conveyor.EchoError("A critical error on startup occurred.");
                 App.Conveyor.EchoError(ex.Message);
                 App.Conveyor.EchoError(ex?.StackTrace ?? "No stack trace available.");
+            }
+
+            // Show the connection manager, if they don't select something, exit the entire program.
+            var cm = new ConnectionManagerWindow();
+            var result = cm.ShowDialog();
+
+            if (!result.GetValueOrDefault(false))
+            {
+                App.InstanceGlobals.SkipSaveOnExit = true;
+                Application.Current.Shutdown(0);
             }
 
             // We're at the end of load, show the window.
@@ -281,7 +201,7 @@ namespace Avalon
 
                 // Load the profile settings from the requested file.
                 App.Settings.LoadSettings(fileName);
-                
+
                 // Setup the view model binding to the profile settings.
                 this.ViewModel.ProfileSettings = App.Settings.ProfileSettings;
 
@@ -472,8 +392,23 @@ namespace Avalon
                 // We have a new profile, refresh the auto complete command list.
                 this.RefreshAutoCompleteEntries();
 
+                // Update static variables from places that might be expensive to populate from (like Environment.Username).  Normally
+                // something like that isn't expensive but when run on variable replacement it can be more noticeable.
+                Utilities.Utilities.UpdateCommonVariables();
+
+                // Loads the initial list of items for the navigation slide out.
+                this.ViewModel.NavManager.Load();
+
                 // Close and open a connection to the database for the new profile.
+                if (this.SqlTasks == null)
+                {
+                    this.SqlTasks = new SqlTasks($"Data Source={App.Settings.ProfileSettings.SqliteDatabase}");
+                }
+
                 await SqlTasks.OpenAsync($"Data Source={App.Settings.ProfileSettings.SqliteDatabase}");
+
+                // Update any UI settings
+                this.UpdateUISettings();
 
                 if (!string.IsNullOrWhiteSpace(ipAddress))
                 {
@@ -491,6 +426,41 @@ namespace Avalon
                     this.Disconnect();
                     await this.Connect();
                 }
+
+                // Is there an auto execute command or set of commands to run?
+                if (!string.IsNullOrWhiteSpace(App.Settings.ProfileSettings.AutoExecuteCommand))
+                {
+                    // Send the auto execute command if the user is connected.
+                    if (this?.Interp?.Telnet != null && this.Interp.Telnet.IsConnected())
+                    {
+                        await Interp.Send(App.Settings.ProfileSettings.AutoExecuteCommand, true, false);
+                    }
+                    else
+                    {
+                        App.Conveyor.EchoWarning("Auto Execute Command Skipped: Connection to server was closed.");
+                    }
+                }
+
+                // Set the startup position.
+                switch (App.Settings.AvalonSettings.WindowStartupPosition)
+                {
+                    case WindowStartupPosition.OperatingSystemDefault:
+                        this.WindowState = WindowState.Normal;
+                        break;
+                    case WindowStartupPosition.Maximized:
+                        this.WindowState = WindowState.Maximized;
+                        break;
+                    case WindowStartupPosition.LastUsed:
+                        this.WindowState = (WindowState)App.Settings.AvalonSettings.LastWindowPosition.WindowState;
+                        this.Left = App.Settings.AvalonSettings.LastWindowPosition.Left;
+                        this.Top = App.Settings.AvalonSettings.LastWindowPosition.Top;
+                        this.Height = App.Settings.AvalonSettings.LastWindowPosition.Height;
+                        this.Width = App.Settings.AvalonSettings.LastWindowPosition.Width;
+                        break;
+                }
+
+                // Finally, all is done, set the focus to the command box.
+                TextInput.Focus();
             }
             catch (Exception ex)
             {

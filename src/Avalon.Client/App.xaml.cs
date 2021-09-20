@@ -199,8 +199,8 @@ namespace Avalon
             // here since the program is ending anyway.  We can log it in the future if need be.
             try
             {
-                App.MainWindow.SqlTasks.Flush();
-                App.MainWindow.SqlTasks.Dispose();
+                App.MainWindow?.SqlTasks?.Flush();
+                App.MainWindow?.SqlTasks?.Dispose();
             }
             catch { }
 

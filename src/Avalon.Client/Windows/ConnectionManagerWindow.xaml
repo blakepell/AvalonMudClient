@@ -13,6 +13,7 @@
         Title="Choose your path" BorderBrush="Gray" BorderThickness="1"
         WindowStartupLocation="CenterScreen"
         Loaded="ConnectionManagerWindow_OnLoaded"
+        Closing="ConnectionManagerWindow_OnClosing"
         ResizeMode="NoResize"
         Height="600" Width="900">
     <Window.Resources>

@@ -14,6 +14,7 @@ using ModernWpf.Controls;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -265,12 +266,27 @@ namespace Avalon
             {
                 await App.MainWindow.OpenProfile(this.ViewModel.SelectedProfile.FullPath, this.ViewModel.SelectedProfile.GameAddress, this.ViewModel.SelectedProfile.GamePort);
                 App.Settings.ProfileSettings.WindowTitle = this.ViewModel.SelectedProfile.GameDescription;
-
+                this.DialogResult = true;
                 this.Close();
                 return;
             }
-
+            
             await WindowManager.MsgBox("You must select a profile first.", "Play Game").ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Ensures the DialogResult is false unless Play was clicked and set it to true.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ConnectionManagerWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            if (this.DialogResult.HasValue && this.DialogResult.Value)
+            {
+                return;
+            }
+
+            this.DialogResult = false;
         }
     }
 }
