@@ -7,13 +7,13 @@
  * @license           : MIT
  */
 
+using Argus.Extensions;
+using Argus.IO;
 using Avalon.Common.Settings;
 using Avalon.Utilities;
-using Argus.Extensions;
 using ModernWpf.Controls;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -21,7 +21,6 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
-using Argus.IO;
 
 namespace Avalon
 {
@@ -243,7 +242,7 @@ namespace Avalon
         /// <param name="e"></param>
         private async void ButtonNewProfile_OnClick(object sender, RoutedEventArgs e)
         {
-            var win = new IntroWindowNewProfileDialog();
+            var win = new ConnectionManagerNewProfileDialog();
 
             var result = await win.ShowAsync();
 

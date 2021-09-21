@@ -14,9 +14,9 @@ using System.IO;
 
 namespace Avalon
 {
-    public partial class IntroWindowNewProfileDialog
+    public partial class ConnectionManagerNewProfileDialog
     {
-        public IntroWindowNewProfileDialog()
+        public ConnectionManagerNewProfileDialog()
         {
             InitializeComponent();
         }

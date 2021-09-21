@@ -150,7 +150,7 @@
     <Page Update="Windows\TriggerEditorWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Windows\IntroWindowNewProfileDialog.xaml">
+    <Page Update="Windows\ConnectionManagerNewProfileDialog.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
   </ItemGroup>
