@@ -224,6 +224,8 @@
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Grid.Column="0" 
                                Text="Game Description:"
@@ -248,6 +250,18 @@
                     <TextBox Grid.Row="2" Grid.Column="1"
                              Margin="0,5,20,0"
                              Text="{Binding ViewModel.SelectedProfile.GamePort, Mode=TwoWay}" />
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" 
+                               Text="File:"
+                               VerticalAlignment="Top"
+                               Margin="0,5,0,0"></TextBlock>
+                    <TextBlock Grid.Row="3" Grid.Column="1"
+                             Margin="0,5,20,0"
+                             Text="{Binding ViewModel.SelectedProfile.Filename, Mode=TwoWay}" />
+                    <TextBlock Grid.Row="4" Grid.Column="4"
+                               Margin="0,5,20,0"
+                               Text="{Binding ViewModel.SelectedProfile.ProfileSize, Mode=TwoWay}" />
+
                 </Grid>
                 <Button Content="Play"
                         DockPanel.Dock="Bottom"

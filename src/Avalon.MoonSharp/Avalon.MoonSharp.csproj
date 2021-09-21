@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net5.0</TargetFrameworks>
-    <Version>2021.9.20.1</Version>
+    <Version>2021.9.21.3</Version>
     <Authors>Marco Mastropaolo, Blake Pell</Authors>
     <Company>Marco Mastropaolo, Blake Pell</Company>
     <Description>Unofficial Moonsharp Lua interpreter forked and targetted .NET 5.</Description>
     <PackageTags>moonsharp lua uwp netcoreapp</PackageTags>
     <Copyright>2020-2021</Copyright>
-    <AssemblyVersion>2021.9.20.1</AssemblyVersion>
-    <FileVersion>2021.9.20.1</FileVersion>
+    <AssemblyVersion>2021.9.21.3</AssemblyVersion>
+    <FileVersion>2021.9.21.3</FileVersion>
     <PackageId>MoonSharp.Core</PackageId>
     <Product>MoonSharp (Unofficial)</Product>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

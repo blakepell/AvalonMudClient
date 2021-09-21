@@ -71,7 +71,9 @@ namespace Avalon
                 var fs = new FileSystemSearch(App.Settings.AvalonSettings.SaveDirectory, "*.json", SearchOption.TopDirectoryOnly);
                 fs.IncludeDirectories = false;
 
-                var files = fs.OrderByDescending(x => x.LastWriteTime).ToList();
+                // Get everything but "avalon.json" in the case where the save profiles folder is the
+                // same as the application data folder.
+                var files = fs.Where(x => !x.Name.Equals("avalon.json", StringComparison.OrdinalIgnoreCase)).OrderByDescending(x => x.LastWriteTime).ToList();
             
                 // No profiles exist, create a default one.
                 if (files.Count == 0)
@@ -81,6 +83,7 @@ namespace Avalon
                     var profile = new ProfileSettings
                     {
                         WindowTitle = "Dark and Shattered Lands: 4000",
+                        FileName = "dsl-mud.org-4000.json",
                         IpAddress = "dsl-mud.org",
                         Port = 4000
                     };
@@ -246,12 +249,17 @@ namespace Avalon
 
             if (result == ContentDialogResult.Secondary)
             {
+                if (string.IsNullOrWhiteSpace(win.ProfileFileName))
+                {
+                    return;
+                }
+
                 if (File.Exists(win.ProfileFileName))
                 {
                     await App.MainWindow.OpenProfile(win.ProfileFileName);
+                    this.DialogResult = true;
+                    this.Close();
                 }
-
-                this.Close();
             }
         }
 

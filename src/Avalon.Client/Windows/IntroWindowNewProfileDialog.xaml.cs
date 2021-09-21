@@ -33,6 +33,7 @@ namespace Avalon
 
             var profile = new ProfileSettings
             {
+                FileName = $"{IpAddress.Text}-{Port.Text}.json",
                 WindowTitle = this.GameDescription.Text,
                 IpAddress = IpAddress.Text,
                 Port = (int)Port.Value
