@@ -7,15 +7,15 @@
  * @license           : MIT
  */
 
-using System;
-using System.Linq;
-using Avalon.Extensions;
-using Avalon.Lua;
 using Argus.Extensions;
+using Avalon.Colors;
+using Avalon.Lua;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
+using System;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -23,7 +23,6 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml;
-using Avalon.Colors;
 
 namespace Avalon.Controls
 {
@@ -354,6 +353,76 @@ namespace Avalon.Controls
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        /// <summary>
+        /// Comments out any selected code.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonCommentOutSelection(object sender, RoutedEventArgs e)
+        {
+            if (this.Editor.SelectionLength <= 1)
+            {
+                return;
+            }
+
+            var sb = Argus.Memory.StringBuilderPool.Take();
+            string code = this.Editor.SelectedText;
+            var lines = this.Editor.SelectedText.Split('\n');
+
+            foreach (var line in lines)
+            {
+                string codeLine = line.TrimEnd();
+
+                if (codeLine.StartsWith("--"))
+                {
+                    sb.AppendLine(codeLine);
+                }
+                else
+                {
+                    sb.Append("--").Append(codeLine).Append("\r\n");
+                }
+            }
+
+            this.Editor.SelectedText = sb.ToString();
+
+            Argus.Memory.StringBuilderPool.Return(sb);
+        }
+
+        /// <summary>
+        /// Uncomments any selected code.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonUncommentSelection(object sender, RoutedEventArgs e)
+        {
+            if (this.Editor.SelectionLength <= 1)
+            {
+                return;
+            }
+
+            var sb = Argus.Memory.StringBuilderPool.Take();
+            string code = this.Editor.SelectedText;
+            var lines = this.Editor.SelectedText.Split('\n');
+
+            foreach (var line in lines)
+            {
+                string codeLine = line.TrimEnd();
+
+                if (codeLine.StartsWith("--"))
+                {
+                    sb.AppendLine(codeLine.Substring(2));
+                }
+                else
+                {
+                    sb.Append(codeLine).Append("\r\n");
+                }
+            }
+
+            this.Editor.SelectedText = sb.ToString();
+
+            Argus.Memory.StringBuilderPool.Return(sb);
         }
     }
 }

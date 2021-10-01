@@ -36,6 +36,24 @@
                     <TextBlock FontFamily="Segoe UI" Foreground="#DDDDDD" Margin="5,0,0,0">Run</TextBlock>
                 </StackPanel>
             </Button>
+            <Button Click="ButtonCommentOutSelection"
+                    Background="#171717" 
+                    Margin="0,0,0,0" 
+                    ui:ControlHelper.CornerRadius="0">
+                <StackPanel Orientation="Horizontal">
+                    <iconPacks:PackIconMaterial Kind="CommentPlusOutline" Foreground="#DDDDDD" Margin="0,3,0,0" ToolTip="Comments out a selected block of code." />
+                    <TextBlock FontFamily="Segoe UI" Foreground="#DDDDDD" Margin="5,0,0,0" ToolTip="Comments out a selected block of code.">Comment</TextBlock>
+                </StackPanel>
+            </Button>
+            <Button Click="ButtonUncommentSelection"
+                    Background="#171717" 
+                    Margin="0,0,0,0" 
+                    ui:ControlHelper.CornerRadius="0">
+                <StackPanel Orientation="Horizontal">
+                    <iconPacks:PackIconMaterial Kind="CommentMinusOutline" Foreground="#DDDDDD" Margin="0,3,0,0" ToolTip="Uncomments a selected block of code." />
+                    <TextBlock FontFamily="Segoe UI" Foreground="#DDDDDD" Margin="5,0,0,0" ToolTip="Uncomments a selected block of code.">Uncomment</TextBlock>
+                </StackPanel>
+            </Button>
             <Button Click="ButtonInfo_OnClick" 
                     Background="#171717" 
                     Margin="0,0,0,0"
