@@ -367,8 +367,20 @@ namespace Avalon.Sqlite
         /// <param name="e"></param>
         private async void ButtonExecuteSql_ClickAsync(object sender, RoutedEventArgs e)
         {
+            string sql;
+
             // Cross thread exception if we pass SqlText.Text into the Task, put it in string first.
-            string sql = _sqlEditor.Text;
+            // If text is selected in the editor we'll assume the caller only wants to run that
+            // portion of selected text (otherwise run the whole thing).
+            if (_sqlEditor.SelectionLength > 1)
+            {
+                sql = _sqlEditor.SelectedText;
+            }
+            else
+            {
+                sql = _sqlEditor.Text;
+            }
+
             await ExecuteQueryAsync(sql);
         }
 
