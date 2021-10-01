@@ -2016,10 +2016,10 @@ namespace Avalon.Lua
         /// <param name="target"></param>
         /// <param name="iconName"></param>
         [Description("Sets the status bar text.")]
-        public void SetText(string buf, TextTarget target = TextTarget.StatusBarText, string iconName = "None")
+        public void SetText(string buf, TextTarget target, string iconName = "None")
         {
             var icon = PackIconMaterialKind.None;
-
+            
             try
             {
                 icon = Enum.Parse<PackIconMaterialKind>(iconName, true);
