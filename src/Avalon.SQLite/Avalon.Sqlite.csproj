@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net5.0-windows10.0.18362</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net5.0-windows10.0.18362;net6.0-windows10.0.18362</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <Version>2021.10.1.1</Version>
     <Authors>Blake Pell</Authors>
@@ -21,13 +21,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Argus.Core" Version="2021.9.19.1" />
+    <PackageReference Include="Argus.Core" Version="2021.11.9.2" />
     <PackageReference Include="AvalonEdit" Version="6.1.2.30" />
-    <PackageReference Include="Dapper" Version="2.0.90" />
-    <PackageReference Include="MahApps.Metro.IconPacks.MaterialDesign" Version="4.9.0" />
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.10" />
+    <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="MahApps.Metro.IconPacks.MaterialDesign" Version="4.11.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.0" />
     <PackageReference Include="ModernWpfUI" Version="0.9.4" />
-    <PackageReference Include="MahApps.Metro.IconPacks.VaadinIcons" Version="4.9.0" />
+    <PackageReference Include="MahApps.Metro.IconPacks.VaadinIcons" Version="4.11.0" />
   </ItemGroup>
 
 </Project>

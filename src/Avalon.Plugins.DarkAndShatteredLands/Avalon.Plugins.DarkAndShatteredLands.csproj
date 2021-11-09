@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0-windows10.0.18362</TargetFramework>
+    <TargetFramework>net6.0-windows10.0.18362</TargetFramework>
     <UseWPF>true</UseWPF>
     <Version>2021.10.1.1</Version>
     <Authors>Blake Pell</Authors>
@@ -22,9 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Argus.Core" Version="2021.9.19.1" />
+    <PackageReference Include="Argus.Core" Version="2021.11.9.2" />
     <PackageReference Include="AvalonEdit" Version="6.1.2.30" />
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.10" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.0" />
     <PackageReference Include="ModernWpfUI" Version="0.9.4" />
   </ItemGroup>
 
