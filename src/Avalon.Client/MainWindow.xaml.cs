@@ -85,8 +85,7 @@ namespace Avalon
             this.Hide();
 
             // The settings for the app load in the app startup, they will then try to load the last profile that was used.
-            App.Conveyor.EchoInfo(
-                $"{{GA{{gvalon {{GM{{gud {{GC{{glient{{x: Version {Assembly.GetExecutingAssembly()?.GetName()?.Version?.ToString() ?? "Unknown"}");
+            App.Conveyor.EchoInfo($"{{GA{{gvalon {{GM{{gud {{GC{{glient{{x: Version {Assembly.GetExecutingAssembly()?.GetName()?.Version?.ToString() ?? "Unknown"}");
 
             try
             {

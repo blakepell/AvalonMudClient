@@ -32,29 +32,39 @@ namespace Avalon
         /// </summary>
         public async Task Connect()
         {
-            // Activate any plugins for this game.
-            ActivatePlugins();
-
-            // Connect, then put the focus into the input text box.
-            await Interp.Connect(HandleLineReceived, this.HandleDataReceived, HandleConnectionClosed);
-            TitleBar.IsConnected = true;
-            MenuNetworkButton.Header = "Disconnect";
-            TextInput.Focus();
-
-            // If a command has been defined to send after connect then check it and fire it off here.
-            if (!string.IsNullOrWhiteSpace(App.Settings.ProfileSettings.OnConnect))
+            try
             {
-                var source = new CancellationTokenSource();
+                // Activate any plugins for this game.
+                ActivatePlugins();
 
-                var t = Task.Run(async delegate
+                // Connect, then put the focus into the input text box.
+                await Interp.Connect(HandleLineReceived, this.HandleDataReceived, HandleConnectionClosed);
+                TitleBar.IsConnected = true;
+                MenuNetworkButton.Header = "Disconnect";
+                TextInput.Focus();
+
+                // If a command has been defined to send after connect then check it and fire it off here.
+                if (!string.IsNullOrWhiteSpace(App.Settings.ProfileSettings.OnConnect))
                 {
-                    await Task.Delay(TimeSpan.FromMilliseconds(App.Settings.ProfileSettings.OnConnectDelayMilliseconds), source.Token);
+                    var source = new CancellationTokenSource();
 
-                    Application.Current.Dispatcher.Invoke(new Action(async () =>
+                    var t = Task.Run(async delegate
                     {
-                        await Interp.Send(App.Settings.ProfileSettings.OnConnect);
-                    }));
-                });
+                        await Task.Delay(TimeSpan.FromMilliseconds(App.Settings.ProfileSettings.OnConnectDelayMilliseconds), source.Token);
+
+                        Application.Current.Dispatcher.Invoke(new Action(async () =>
+                        {
+                            if (Interp.Telnet.IsConnected())
+                            {
+                                await Interp.Send(App.Settings.ProfileSettings.OnConnect);
+                            }
+                        }));
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                App.Conveyor.EchoError($"Network Failure: {ex.Message}");
             }
         }
 
@@ -63,7 +73,15 @@ namespace Avalon
         /// </summary>
         public void Disconnect()
         {
-            Interp.Disconnect();
+            try
+            {
+                Interp.Disconnect();
+            }
+            catch (Exception ex)
+            {
+                App.Conveyor.EchoError($"Network Failure: {ex.Message}");
+            }
+
             TitleBar.IsConnected = false;
             MenuNetworkButton.Header = "Connect";
         }
@@ -88,7 +106,7 @@ namespace Avalon
             }
             catch (Exception ex)
             {
-                App.MainWindow.Interp.Conveyor.EchoLog($"Network Failure: {ex.Message}", LogType.Error);
+                App.Conveyor.EchoError($"Network Failure: {ex.Message}");
             }
         }
 
