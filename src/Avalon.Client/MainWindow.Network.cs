@@ -54,7 +54,7 @@ namespace Avalon
 
                         Application.Current.Dispatcher.Invoke(new Action(async () =>
                         {
-                            if (Interp.Telnet.IsConnected())
+                            if (Interp.Telnet != null && Interp.Telnet.IsConnected())
                             {
                                 await Interp.Send(App.Settings.ProfileSettings.OnConnect);
                             }
