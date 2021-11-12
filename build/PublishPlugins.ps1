@@ -8,7 +8,7 @@ $dotnet = "C:\Program Files\dotnet\dotnet.exe"
 New-Item -ItemType Directory -Force -Path $output
 
 # Clear the previous releases if it exists.
-Remove-Item "$output\*" -Recurse -Confirm:$true
+Remove-Item "$output\*" -Recurse -Confirm:$false
 
 # Build the 64 & 32 bit releases
 & $dotnet publish $project -c Release -r AnyCpu -o $output
