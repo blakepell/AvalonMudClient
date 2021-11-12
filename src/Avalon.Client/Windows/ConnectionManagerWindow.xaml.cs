@@ -263,14 +263,26 @@ namespace Avalon
         }
 
         /// <summary>
+        /// To track if the play button has been execluted and it slotted to close.
+        /// </summary>
+        private bool _playExecuted = false;
+
+        /// <summary>
         /// Sends a message to the main window to connect to the selected game.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private async void ButtonPlay_OnClick(object sender, RoutedEventArgs e)
         {
+            if (_playExecuted)
+            {
+                return;
+            }
+
             if (!string.IsNullOrWhiteSpace(this?.ViewModel?.SelectedProfile?.FullPath))
             {
+                // Tracking whether the plan was executed must be first.
+                _playExecuted = true;
                 await App.MainWindow.OpenProfile(this.ViewModel.SelectedProfile.FullPath, this.ViewModel.SelectedProfile.GameAddress, this.ViewModel.SelectedProfile.GamePort);
                 App.Settings.ProfileSettings.WindowTitle = this.ViewModel.SelectedProfile.GameDescription;
                 this.DialogResult = true;
@@ -293,7 +305,11 @@ namespace Avalon
                 return;
             }
 
-            this.DialogResult = false;
+            // Setting the DialogResult twice will result in an exception.
+            if (!_playExecuted)
+            {
+                this.DialogResult = false;
+            }
         }
     }
 }
