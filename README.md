@@ -25,7 +25,7 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
 
 ### Info
 
- - Language: C# / WPF for .Net Core 5
+ - Language: C# / WPF for .Net 6
  - OS Support: Windows 7, 8.1, 10 (1607+)
 
 ### Key Features
@@ -72,16 +72,10 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
 
  - Publish this app on the Windows Store free of charge.
 
-### Brief commentary
-
-I've been in the mud community since the mid 1990's.  The first mud I began playing on (briefly) was Moosehead Sled which is of note in MUD history as it served as a beta site for the ROM 2.3 codebase.  Shortly after I followed a number of players there to a new mud called Dark and Shattered Lands (dsl-mud.org) which I also coded for from the end of 1998 until sometime in 2004.  It is the mud I consider home where I have made many wonderful friends some of which I've known for over 23 or so years now.  After 10 years of not playing any MUD I came back in 2014.  That noted, my goal is to code this client in a way that it can be used for all MUDS/MUSH/MUCK games but in practice I use it for play on dsl-mud.org which is a Diku/Merc/ROM derivative mud.  The examples that I provide in regards to plugins, packages etc. will be centered around that game but should be applicable anywhere.
-
-I welcome requests, suggestions, feature requests, bug reports and collaboration.
-
 ### Recognition / Thank you to testers
 
 [Thank You](/doc/Thanks.md)
 
 ### License
  
- The Avalon Mud Client is being released under a modified MIT license with an additional clause requiring credit to the original author (me).  E.g. this means the license should be flexible enough to do what you need to do with it.
+ The Avalon Mud Client is being released under a modified MIT license with an additional clause requiring credit to the original author (Blake Pell).  E.g. this means the license should be flexible enough to do what you need to do with it.
