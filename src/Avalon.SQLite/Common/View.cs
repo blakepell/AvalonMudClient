@@ -8,7 +8,6 @@
  */
 
 using Argus.ComponentModel;
-using System.Collections.ObjectModel;
 
 namespace Avalon.Sqlite.Common
 {

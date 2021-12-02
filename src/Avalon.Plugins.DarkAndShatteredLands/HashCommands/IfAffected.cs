@@ -11,8 +11,6 @@ using Avalon.Common.Interfaces;
 using Avalon.HashCommands;
 using Avalon.Plugins.DarkAndShatteredLands.Affects;
 using CommandLine;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Avalon.Plugins.DarkAndShatteredLands.HashCommands
 {

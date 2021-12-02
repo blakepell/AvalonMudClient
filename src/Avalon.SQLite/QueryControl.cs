@@ -7,31 +7,13 @@
  * @license           : MIT
  */
 
-using Argus.Extensions;
 using Avalon.Sqlite.Common;
 using Avalon.Sqlite.Editor;
-using Dapper;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
-using Microsoft.Data.Sqlite;
 using ModernWpf.Controls;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Data;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Xml;
 
 /*
  * TODO: Faster selection of all records

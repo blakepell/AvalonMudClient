@@ -7,13 +7,9 @@
  * @license           : MIT
  */
 
-using Argus.Extensions;
 using Avalon.Common.Models;
 using Avalon.Common.Triggers;
 using Avalon.Plugins.DarkAndShatteredLands.Affects;
-using Microsoft.Data.Sqlite;
-using System;
-using System.Collections.Generic;
 
 namespace Avalon.Plugins.DarkAndShatteredLands
 {

@@ -8,8 +8,6 @@
  */
 
 using Avalon.Common.Interfaces;
-using System;
-using System.Diagnostics;
 using System.Windows.Controls;
 
 namespace Avalon.Plugins.DarkAndShatteredLands

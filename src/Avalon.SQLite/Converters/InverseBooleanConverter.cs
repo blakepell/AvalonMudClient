@@ -7,9 +7,6 @@
  * @license           : MIT
  */
 
-using System;
-using System.Windows.Data;
-
 namespace Avalon.Sqlite.Converters
 {
     /// <summary>
@@ -18,7 +15,7 @@ namespace Avalon.Sqlite.Converters
     [ValueConversion(typeof(bool), typeof(bool))]
     public class InverseBooleanConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (targetType != typeof(bool))
             {
@@ -28,7 +25,7 @@ namespace Avalon.Sqlite.Converters
             return value != null && !(bool)value;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (targetType != typeof(bool))
             {

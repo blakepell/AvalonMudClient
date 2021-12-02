@@ -8,11 +8,8 @@
  */
 
 using Avalon.Common;
-using Avalon.Common.Triggers;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Linq;
 using Avalon.Common.Interfaces;
+using Avalon.Common.Triggers;
 
 namespace Avalon.Plugins.DarkAndShatteredLands.Affects
 {

@@ -7,15 +7,11 @@
  * @license           : MIT
  */
 
-using Argus.Extensions;
 using Avalon.Common.Colors;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
 using Avalon.HashCommands;
-using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Avalon.Plugins.DarkAndShatteredLands.HashCommands
 {

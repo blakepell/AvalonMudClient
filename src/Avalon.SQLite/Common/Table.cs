@@ -7,7 +7,6 @@
  * @license           : MIT
  */
 
-using System.Collections.ObjectModel;
 using Argus.ComponentModel;
 
 namespace Avalon.Sqlite.Common

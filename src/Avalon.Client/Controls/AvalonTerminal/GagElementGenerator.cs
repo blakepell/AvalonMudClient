@@ -8,6 +8,7 @@
  */
 
 using Avalon.Colors;
+using Cysharp.Text;
 using ICSharpCode.AvalonEdit.Rendering;
 
 namespace Avalon.Controls

@@ -7,8 +7,6 @@
  * @license           : MIT
  */
 
-using Argus.Extensions;
-
 namespace Avalon.Plugins.DarkAndShatteredLands.Affects
 {
 

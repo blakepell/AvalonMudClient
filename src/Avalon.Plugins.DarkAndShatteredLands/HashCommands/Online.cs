@@ -7,13 +7,9 @@
  * @license           : MIT
  */
 
-using Argus.Extensions;
 using Avalon.Common.Interfaces;
 using Avalon.HashCommands;
-using System;
-using System.Diagnostics;
 using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Avalon.Plugins.DarkAndShatteredLands.HashCommands
 {

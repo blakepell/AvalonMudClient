@@ -7,11 +7,7 @@
  * @license           : MIT
  */
 
-using Argus.Extensions;
 using Avalon.Common.Interfaces;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;

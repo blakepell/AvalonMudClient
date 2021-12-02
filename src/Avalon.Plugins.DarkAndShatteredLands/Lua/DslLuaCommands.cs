@@ -9,8 +9,6 @@
 
 using Avalon.Common.Interfaces;
 using Avalon.Plugins.DarkAndShatteredLands.Affects;
-using System;
-using System.Linq;
 
 namespace Avalon.Plugins.DarkAndShatteredLands.Lua
 {

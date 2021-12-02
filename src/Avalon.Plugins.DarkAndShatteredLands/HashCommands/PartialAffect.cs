@@ -10,7 +10,6 @@
 using Avalon.Common.Interfaces;
 using Avalon.HashCommands;
 using Avalon.Plugins.DarkAndShatteredLands.Affects;
-using System.Threading.Tasks;
 
 namespace Avalon.Plugins.DarkAndShatteredLands.HashCommands
 {

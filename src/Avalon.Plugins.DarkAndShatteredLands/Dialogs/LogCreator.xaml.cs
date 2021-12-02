@@ -10,9 +10,6 @@
 using Avalon.Common.Colors;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Media;
