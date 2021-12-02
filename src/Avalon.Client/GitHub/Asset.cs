@@ -7,8 +7,6 @@
  * @license           : MIT
  */
 
-using Newtonsoft.Json;
-
 namespace Avalon.GitHub
 {
     public class Asset

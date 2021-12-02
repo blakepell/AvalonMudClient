@@ -7,9 +7,6 @@
  * @license           : MIT
  */
 
-using System;
-using System.Threading.Tasks;
-
 namespace Avalon.Common.Interfaces
 {
     public interface ITelnetClient : IDisposable

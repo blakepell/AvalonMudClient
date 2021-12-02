@@ -7,17 +7,12 @@
  * @license           : MIT
  */
 
-using System;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using Argus.Extensions;
 using Avalon.Colors;
 using Avalon.Common.Models;
 using Avalon.Controls;
 using Avalon.Utilities;
+using System.Threading;
+using System.Windows;
 
 namespace Avalon
 {

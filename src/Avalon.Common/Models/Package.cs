@@ -9,9 +9,6 @@
 
 using Avalon.Common.Interfaces;
 using Avalon.Common.Triggers;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace Avalon.Common.Models
 {

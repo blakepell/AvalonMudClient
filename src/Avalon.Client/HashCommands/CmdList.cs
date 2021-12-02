@@ -7,9 +7,6 @@
  * @license           : MIT
  */
 
-using System.Collections.Generic;
-using System.Linq;
-using Argus.Extensions;
 using Avalon.Common.Interfaces;
 
 namespace Avalon.HashCommands

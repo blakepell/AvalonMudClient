@@ -7,10 +7,9 @@
  * @license           : MIT
  */
 
-using System.Media;
-using Argus.Extensions;
 using Avalon.Common.Interfaces;
 using CommandLine;
+using System.Media;
 
 namespace Avalon.HashCommands
 {

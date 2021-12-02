@@ -7,8 +7,6 @@
  * @license           : MIT
  */
 
-using System;
-
 namespace Avalon.Common.Attributes
 {
     /// <summary>

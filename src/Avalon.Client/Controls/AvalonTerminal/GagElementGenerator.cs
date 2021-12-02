@@ -7,12 +7,8 @@
  * @license           : MIT
  */
 
-using System;
 using Avalon.Colors;
 using ICSharpCode.AvalonEdit.Rendering;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Avalon.Controls
 {

@@ -7,17 +7,9 @@
  * @license           : MIT
  */
 
-using Argus.Extensions;
 using Avalon.Colors;
 using Avalon.Common.Colors;
 using Avalon.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Reflection;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;

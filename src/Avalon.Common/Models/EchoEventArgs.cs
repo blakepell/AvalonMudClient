@@ -8,7 +8,6 @@
  */
 
 using Avalon.Common.Colors;
-using System;
 
 namespace Avalon.Common.Models
 {

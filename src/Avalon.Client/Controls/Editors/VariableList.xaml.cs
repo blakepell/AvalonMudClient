@@ -9,8 +9,6 @@
 
 using Avalon.Common.Models;
 using Avalon.Common.Utilities;
-using System;
-using System.Linq;
 using System.Windows.Controls;
 
 namespace Avalon.Controls

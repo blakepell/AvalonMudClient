@@ -7,7 +7,6 @@
  * @license           : MIT
  */
 
-using System.Collections.Generic;
 using System.Windows;
 
 namespace Avalon

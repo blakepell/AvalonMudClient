@@ -7,8 +7,8 @@
  * @license           : MIT
  */
 
-using System.Windows;
 using Avalon.Common.Interfaces;
+using System.Windows;
 
 namespace Avalon.HashCommands
 {

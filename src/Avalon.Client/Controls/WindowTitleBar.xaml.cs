@@ -9,7 +9,6 @@
 
 using Avalon.Common.Models;
 using ModernWpf;
-using System;
 using System.Windows;
 using System.Windows.Input;
 

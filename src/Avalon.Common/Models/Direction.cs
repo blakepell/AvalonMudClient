@@ -7,10 +7,6 @@
  * @license           : MIT
  */
 
-using Newtonsoft.Json;
-using System;
-using System.ComponentModel;
-
 namespace Avalon.Common.Models
 {
     /// <summary>

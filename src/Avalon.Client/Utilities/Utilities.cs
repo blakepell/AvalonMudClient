@@ -7,20 +7,12 @@
  * @license           : MIT
  */
 
-using Argus.Extensions;
-using System;
-using System.Collections.Generic;
+using Avalon.Common.Models;
+using Avalon.Common.Scripting;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
-using Avalon.Common.Models;
-using Avalon.Common.Scripting;
-using System.Reflection;
 
 namespace Avalon.Utilities
 {

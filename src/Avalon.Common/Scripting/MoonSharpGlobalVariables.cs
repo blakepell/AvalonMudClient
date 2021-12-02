@@ -7,7 +7,6 @@
  * @license           : MIT
  */
 
-using System.Collections.Generic;
 using MoonSharp.Interpreter;
 using MoonSharp.Interpreter.Interop;
 

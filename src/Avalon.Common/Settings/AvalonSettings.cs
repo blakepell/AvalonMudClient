@@ -7,8 +7,6 @@
  * @license           : MIT
  */
 
-using System.Collections.Generic;
-using System.ComponentModel;
 using Avalon.Common.Models;
 
 namespace Avalon.Common.Settings

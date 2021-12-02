@@ -7,8 +7,6 @@
  * @license           : MIT
  */
 
-using System.ComponentModel;
-
 namespace Avalon.Common.Scripting
 {
     /// <summary>

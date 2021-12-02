@@ -7,10 +7,8 @@
  * @license           : MIT
  */
 
-using Avalon.Common.Interfaces;
-using Newtonsoft.Json;
-using System.ComponentModel;
 using Argus.Extensions;
+using Avalon.Common.Interfaces;
 
 namespace Avalon.Common.Models
 {

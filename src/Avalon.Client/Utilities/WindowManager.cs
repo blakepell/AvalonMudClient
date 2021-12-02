@@ -10,12 +10,10 @@
 using Avalon.Common.Models;
 using Avalon.Controls;
 using Avalon.Sqlite;
+using Avalon.Sqlite.Common;
 using Avalon.Windows;
 using ModernWpf.Controls;
-using System;
-using System.Threading.Tasks;
 using System.Windows;
-using Avalon.Sqlite.Common;
 
 namespace Avalon.Utilities
 {

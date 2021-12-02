@@ -7,9 +7,7 @@
  * @license           : MIT
  */
 
-using System;
 using Avalon.Utilities;
-using System.Threading.Tasks;
 using MahApps.Metro.IconPacks;
 
 namespace Avalon.Controls

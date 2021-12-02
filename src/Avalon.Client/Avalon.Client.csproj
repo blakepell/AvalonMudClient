@@ -21,6 +21,7 @@
     <PackageProjectUrl>https://github.com/blakepell/AvalonMudClient</PackageProjectUrl>
     <PackageReleaseNotes></PackageReleaseNotes>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+	<LangVersion>10.0</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

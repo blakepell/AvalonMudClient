@@ -7,17 +7,11 @@
  * @license           : MIT
  */
 
+using Argus.IO;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using Argus.IO;
-using Trigger = Avalon.Common.Triggers.Trigger;
 using Avalon.Common.Scripting;
+using Trigger = Avalon.Common.Triggers.Trigger;
 
 namespace Avalon.Common.Settings
 {

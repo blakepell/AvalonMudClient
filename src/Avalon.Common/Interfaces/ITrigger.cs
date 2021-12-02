@@ -7,9 +7,8 @@
  * @license           : MIT
  */
 
-using System;
-using System.Text.RegularExpressions;
 using Avalon.Common.Models;
+using System.Text.RegularExpressions;
 
 namespace Avalon.Common.Interfaces
 {

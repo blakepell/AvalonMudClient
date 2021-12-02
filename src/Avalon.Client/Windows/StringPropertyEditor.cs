@@ -7,12 +7,10 @@
  * @license           : MIT
  */
 
-using System;
-using System.ComponentModel;
+using Avalon.Common.Attributes;
 using System.Drawing.Design;
 using System.Windows;
 using System.Windows.Forms.Design;
-using Avalon.Common.Attributes;
 
 namespace Avalon.Windows
 {

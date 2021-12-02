@@ -7,20 +7,13 @@
  * @license           : MIT
  */
 
-using System;
-using System.Drawing.Printing;
-using Argus.Extensions;
+using Avalon.Common.Models;
 using Avalon.Controls;
+using Avalon.Extensions;
 using ModernWpf;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Documents;
 using System.Windows.Input;
-using Avalon.Common.Models;
-using Avalon.Extensions;
-using ICSharpCode.AvalonEdit;
 
 namespace Avalon
 {

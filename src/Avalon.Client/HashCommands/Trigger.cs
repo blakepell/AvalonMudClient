@@ -9,7 +9,6 @@
 
 using Avalon.Common.Interfaces;
 using CommandLine;
-using System.Linq;
 
 namespace Avalon.HashCommands
 {

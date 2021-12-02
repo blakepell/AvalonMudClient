@@ -7,10 +7,8 @@
  * @license           : MIT
  */
 
-using System;
-using System.Reflection;
-using System.Windows.Media;
 using Avalon.Common.Interfaces;
+using System.Windows.Media;
 
 namespace Avalon.HashCommands
 {

@@ -7,10 +7,6 @@
  * @license           : MIT
  */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using Avalon.Common.Colors;
 using Avalon.Common.Models;
 

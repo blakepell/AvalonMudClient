@@ -9,7 +9,6 @@
 
 using Avalon.Common.Models;
 using Avalon.Common.Triggers;
-using System.Collections.Generic;
 
 namespace Avalon.Common.Interfaces
 {

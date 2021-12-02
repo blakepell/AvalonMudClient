@@ -7,10 +7,9 @@
  * @license           : MIT
  */
 
-using System.Data;
 using Avalon.Common.Interfaces;
 using CommandLine;
-using System.Threading.Tasks;
+using System.Data;
 
 namespace Avalon.HashCommands
 {

@@ -7,12 +7,11 @@
  * @license           : MIT
  */
 
-using System.Windows;
-using System.Windows.Media;
-using Avalon.Common.Interfaces;
 using Avalon.Common.Settings;
 using Avalon.Controls;
 using MahApps.Metro.IconPacks;
+using System.Windows;
+using System.Windows.Media;
 
 namespace Avalon
 {

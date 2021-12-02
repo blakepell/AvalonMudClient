@@ -8,8 +8,6 @@
  */
 
 using Avalon.Extensions;
-using System;
-using System.Collections;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;

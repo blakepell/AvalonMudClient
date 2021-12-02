@@ -7,8 +7,6 @@
  * @license           : MIT
  */
 
-using System;
-using System.Collections.Generic;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Settings;
 using Avalon.Common.Triggers;

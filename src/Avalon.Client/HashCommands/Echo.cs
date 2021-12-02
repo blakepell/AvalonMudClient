@@ -7,9 +7,6 @@
  * @license           : MIT
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Avalon.Colors;
 using Avalon.Common.Colors;
 using Avalon.Common.Interfaces;

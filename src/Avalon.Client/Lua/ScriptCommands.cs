@@ -7,25 +7,17 @@
  * @license           : MIT
  */
 
-using Argus.Extensions;
 using Avalon.Colors;
 using Avalon.Common.Colors;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
 using Avalon.Extensions;
 using MahApps.Metro.IconPacks;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
-using Avalon.Common;
 
 namespace Avalon.Lua
 {

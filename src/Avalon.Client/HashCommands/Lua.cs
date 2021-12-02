@@ -8,7 +8,6 @@
  */
 
 using Avalon.Common.Interfaces;
-using System.Threading.Tasks;
 
 namespace Avalon.HashCommands
 {

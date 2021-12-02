@@ -7,11 +7,9 @@
  * @license           : MIT
  */
 
-using System;
-using System.Collections.Concurrent;
-using System.Threading.Tasks;
-using System.Windows;
 using Avalon.Common.Models;
+using System.Collections.Concurrent;
+using System.Windows;
 
 namespace Avalon.Timers
 {

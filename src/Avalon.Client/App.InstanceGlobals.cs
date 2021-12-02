@@ -8,8 +8,6 @@
  */
 
 using Avalon.Common.Triggers;
-using Avalon.Utilities;
-using System.Collections.Generic;
 
 namespace Avalon
 {

@@ -9,7 +9,6 @@
 
 using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
-using Argus.Extensions;
 
 namespace Avalon.HashCommands
 {

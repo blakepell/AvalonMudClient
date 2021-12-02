@@ -9,7 +9,6 @@
 
 using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;

@@ -7,7 +7,6 @@
  * @license           : MIT
  */
 
-using System;
 using Avalon.Common.Models;
 
 namespace Avalon.Common.Interfaces

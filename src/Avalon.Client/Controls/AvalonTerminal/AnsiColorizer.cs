@@ -8,15 +8,13 @@
  * @license           : MIT
  */
 
+using Avalon.Colors;
 using Avalon.Common.Colors;
 using Avalon.Extensions;
-using Argus.Extensions;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Rendering;
-using System;
 using System.Windows;
 using System.Windows.Media;
-using Avalon.Colors;
 
 namespace Avalon.Controls
 {

@@ -10,10 +10,7 @@
 using Avalon.Common.Attributes;
 using Avalon.Common.Models;
 using Avalon.Common.Utilities;
-using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 
 namespace Avalon.Common.Settings
 {

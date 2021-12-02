@@ -9,7 +9,6 @@
 
 using Avalon.Common.Triggers;
 using System.Buffers;
-using System.Collections.Generic;
 
 namespace Avalon.Common.Utilities
 {

@@ -7,9 +7,6 @@
  * @license           : MIT
  */
 
-using System;
-using System.Text;
-using System.Threading.Tasks;
 using Avalon.Common.Interfaces;
 using CommandLine;
 using CommandLine.Text;

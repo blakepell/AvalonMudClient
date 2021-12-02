@@ -7,9 +7,6 @@
  * @license           : MIT
  */
 
-using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Avalon.GitHub
 {
     public class Release

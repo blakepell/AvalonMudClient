@@ -7,15 +7,13 @@
  * @license           : MIT
  */
 
-using System;
+using Avalon.Common.Interfaces;
+using Avalon.Common.Models;
+using ModernWpf;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Threading;
-using Avalon.Common.Interfaces;
-using Avalon.Common.Models;
-using ModernWpf;
-using SQLitePCL;
 
 namespace Avalon.Controls
 {

@@ -7,18 +7,11 @@
  * @license           : MIT
  */
 
-using Argus.Extensions;
 using Argus.IO;
 using Avalon.Common.Settings;
 using Avalon.Utilities;
 using ModernWpf.Controls;
-using Newtonsoft.Json;
-using System;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 

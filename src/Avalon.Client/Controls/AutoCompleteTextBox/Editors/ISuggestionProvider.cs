@@ -7,8 +7,6 @@
  * @license           : MIT
  */
 
-using System.Collections;
-
 namespace Avalon.Controls.AutoCompleteTextBox.Editors
 {
     public interface ISuggestionProvider

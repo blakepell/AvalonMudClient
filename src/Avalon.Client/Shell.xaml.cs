@@ -11,7 +11,6 @@ using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
 using Avalon.Extensions;
 using ModernWpf.Controls;
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Effects;

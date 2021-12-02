@@ -10,10 +10,6 @@
 using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
 using Avalon.Common.Plugins;
-using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 

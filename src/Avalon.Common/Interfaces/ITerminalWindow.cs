@@ -8,7 +8,6 @@
  */
 
 using Avalon.Common.Models;
-using System.Text;
 
 namespace Avalon.Common.Interfaces
 {

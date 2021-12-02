@@ -13,6 +13,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <AssemblyVersion>2021.11.24.1</AssemblyVersion>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
+	<LangVersion>10.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

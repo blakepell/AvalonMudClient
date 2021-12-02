@@ -7,28 +7,31 @@
  * @license           : MIT
  */
 
-using System.Collections.Generic;
-using System.Windows;
-using Avalon.Common.Settings;
-using Avalon.Common.Interfaces;
-using Avalon.Utilities;
-using System.Media;
-using System.IO;
-using System.ComponentModel;
-using Avalon.Windows;
-using System.Drawing.Design;
-using Avalon.Common.Plugins;
-using System;
-using System.Threading.Tasks;
-using Argus.Extensions;
-using System.Text;
-using System.Linq;
-using ICSharpCode.AvalonEdit;
-using System.Windows.Media;
+global using Argus.Extensions;
+global using System;
+global using System.Collections.Generic;
+global using System.IO;
+global using System.Linq;
+global using System.Text;
+global using System.Text.RegularExpressions;
+global using System.Threading.Tasks;
+global using System.ComponentModel;
+global using System.Collections;
+global using System.Reflection;
+global using Newtonsoft.Json;
 using Avalon.Common;
+using Avalon.Common.Interfaces;
+using Avalon.Common.Plugins;
 using Avalon.Common.Scripting;
-using Avalon.Lua;
+using Avalon.Common.Settings;
+using Avalon.Utilities;
+using Avalon.Windows;
+using ICSharpCode.AvalonEdit;
 using Microsoft.Extensions.DependencyInjection;
+using System.Drawing.Design;
+using System.Media;
+using System.Windows;
+using System.Windows.Media;
 
 namespace Avalon
 {

@@ -10,7 +10,6 @@
 using Avalon.Common.Models;
 using Avalon.Common.Scripting;
 using Avalon.Common.Settings;
-using System.Collections.Generic;
 using Trigger = Avalon.Common.Triggers.Trigger;
 
 namespace Avalon.Common.Interfaces

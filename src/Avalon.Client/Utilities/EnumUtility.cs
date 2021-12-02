@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-
-namespace Avalon.Utilities
+﻿namespace Avalon.Utilities
 {
     /// <summary>
     /// Enum utility that provides a method to return a enum value along with a description attribute provided by

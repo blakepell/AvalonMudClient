@@ -7,8 +7,6 @@
  * @license           : MIT
  */
 
-using System.Threading.Tasks;
-
 namespace Avalon.Common.Interfaces
 {
     /// <summary>

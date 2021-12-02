@@ -7,12 +7,10 @@
  * @license           : MIT
  */
 
-using Argus.Extensions;
 using Avalon.Colors;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
 using CommandLine;
-using System.Threading.Tasks;
 
 namespace Avalon.HashCommands
 {

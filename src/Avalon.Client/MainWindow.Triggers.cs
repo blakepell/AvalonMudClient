@@ -7,9 +7,6 @@
  * @license           : MIT
  */
 
-using System;
-using System.Linq;
-using Argus.Extensions;
 using Avalon.Colors;
 using Avalon.Common.Colors;
 using Avalon.Common.Models;

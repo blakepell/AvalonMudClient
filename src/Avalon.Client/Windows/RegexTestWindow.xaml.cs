@@ -8,9 +8,6 @@
  */
 
 using Avalon.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;

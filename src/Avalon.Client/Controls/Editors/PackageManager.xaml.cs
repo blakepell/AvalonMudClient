@@ -9,20 +9,15 @@
 
 using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
+using Avalon.Utilities;
 using ModernWpf;
-using ModernWpf.Controls;
 using RestSharp;
 using RestSharp.Serializers.NewtonsoftJson;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Threading;
-using Avalon.Utilities;
 
 namespace Avalon.Controls
 {

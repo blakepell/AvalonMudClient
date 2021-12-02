@@ -7,7 +7,6 @@
  * @license           : MIT
  */
 
-using Argus.Extensions;
 using Avalon.Common;
 using Avalon.Common.Models;
 using Avalon.Common.Settings;
@@ -16,13 +15,7 @@ using Avalon.Controls.AutoCompleteTextBox;
 using Avalon.Timers;
 using Avalon.Utilities;
 using Microsoft.Win32;
-using ModernWpf.Controls;
-using System;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;

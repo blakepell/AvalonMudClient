@@ -4,7 +4,7 @@
     <Version>2021.11.24.1</Version>
     <Authors>Marco Mastropaolo, Blake Pell</Authors>
     <Company>Marco Mastropaolo, Blake Pell</Company>
-    <Description>Unofficial Moonsharp Lua interpreter forked and targetted .NET 5.</Description>
+    <Description>Unofficial Moonsharp Lua interpreter forked and targetted .NET 6.</Description>
     <PackageTags>moonsharp lua uwp netcoreapp</PackageTags>
     <Copyright>2020-2021</Copyright>
     <AssemblyVersion>2021.11.24.1</AssemblyVersion>
@@ -18,7 +18,7 @@
     <PackageProjectUrl>https://github.com/blakepell/Moonsharp</PackageProjectUrl>
     <RepositoryUrl>https://github.com/blakepell/Moonsharp</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>Project will now target only the framework required by Avalon.</PackageReleaseNotes>
+	<LangVersion>10.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Include="LICENSE.txt">

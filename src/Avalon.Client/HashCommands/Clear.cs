@@ -7,7 +7,6 @@
  * @license           : MIT
  */
 
-using Argus.Extensions;
 using Avalon.Common.Interfaces;
 using Avalon.Common.Models;
 using CommandLine;

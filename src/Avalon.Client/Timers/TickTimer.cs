@@ -7,16 +7,15 @@
  * @license           : MIT
  */
 
+using Avalon.Common.Colors;
 using Avalon.Common.Interfaces;
-using System;
+using Avalon.Common.Models;
 using System.Diagnostics;
 using System.Windows.Threading;
-using Avalon.Common.Colors;
-using Avalon.Common.Models;
 
 namespace Avalon.Timers
 {
- 
+
     /// <summary>
     /// A general purpose tick timer.  It requires some time mechanism from the game to properly work.
     /// In many Diku based muds an hour (and sometimes half hour) is available that can be put into your

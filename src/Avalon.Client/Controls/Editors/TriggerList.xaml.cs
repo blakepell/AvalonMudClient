@@ -7,15 +7,12 @@
  * @license           : MIT
  */
 
-using System;
+using Avalon.Common.Interfaces;
+using ModernWpf;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Threading;
-using Argus.Extensions;
-using Avalon.Common.Interfaces;
-using Avalon.Utilities;
-using ModernWpf;
 
 namespace Avalon.Controls
 {

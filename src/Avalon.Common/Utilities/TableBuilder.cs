@@ -8,11 +8,6 @@
  * This is a modified version of the ConsoleTable project by Khalid Abuhakmeh.
  */
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Avalon.Common

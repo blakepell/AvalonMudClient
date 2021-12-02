@@ -14,11 +14,6 @@ using Avalon.Common.Models;
 using Avalon.Common.Settings;
 using Avalon.Extensions;
 using MahApps.Metro.IconPacks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Avalon

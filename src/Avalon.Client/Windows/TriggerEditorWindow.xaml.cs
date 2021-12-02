@@ -9,12 +9,7 @@
 
 using Avalon.Colors;
 using Avalon.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Media;
 using Trigger = Avalon.Common.Triggers.Trigger;
 
 namespace Avalon

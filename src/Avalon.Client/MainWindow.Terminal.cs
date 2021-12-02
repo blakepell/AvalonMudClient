@@ -7,14 +7,12 @@
  * @license           : MIT
  */
 
-using System;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using Avalon.Colors;
 using Avalon.Controls;
 using Avalon.Extensions;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace Avalon
 {

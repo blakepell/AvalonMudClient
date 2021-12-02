@@ -9,9 +9,6 @@
 
 using Avalon.Common.Interfaces;
 using Avalon.Common.Scripting;
-using System;
-using System.ComponentModel;
-using Newtonsoft.Json;
 
 namespace Avalon.Common.Models
 {

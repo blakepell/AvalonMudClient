@@ -7,9 +7,9 @@
  * @license           : MIT
  */
 
+using Avalon.Common.Interfaces;
 using System.Media;
 using System.Windows.Forms;
-using Avalon.Common.Interfaces;
 
 namespace Avalon.HashCommands
 {

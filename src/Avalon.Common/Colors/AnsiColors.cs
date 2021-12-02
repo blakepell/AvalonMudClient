@@ -7,8 +7,6 @@
  * @license           : MIT
  */
 
-using System.Collections.Generic;
-
 namespace Avalon.Common.Colors
 {
     public static class AnsiColors

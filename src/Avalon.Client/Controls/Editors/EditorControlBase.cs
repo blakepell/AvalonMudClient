@@ -8,14 +8,12 @@
  */
 
 using Avalon.Common.Interfaces;
+using Avalon.Common.Utilities;
 using ModernWpf;
-using System;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Threading;
-using Avalon.Common.Utilities;
 
 namespace Avalon.Controls
 {

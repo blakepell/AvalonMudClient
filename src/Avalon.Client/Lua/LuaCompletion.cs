@@ -8,11 +8,6 @@
  */
 
 using ICSharpCode.AvalonEdit.CodeCompletion;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using Argus.Extensions;
-using Avalon.HashCommands;
 
 namespace Avalon.Lua
 {

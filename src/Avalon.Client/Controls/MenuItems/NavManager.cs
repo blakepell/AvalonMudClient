@@ -9,8 +9,6 @@
 
 using MahApps.Metro.IconPacks;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
 using System.Runtime.CompilerServices;
 
 namespace Avalon.Controls

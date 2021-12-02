@@ -7,10 +7,9 @@
  * @license           : MIT
  */
 
-using System;
-using System.Windows.Interop;
-using System.Runtime.InteropServices;
 using Avalon.Common.Interfaces;
+using System.Runtime.InteropServices;
+using System.Windows.Interop;
 
 namespace Avalon.HashCommands
 {

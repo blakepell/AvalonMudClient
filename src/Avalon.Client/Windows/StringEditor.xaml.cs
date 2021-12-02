@@ -8,14 +8,11 @@
  */
 
 using Avalon.Lua;
+using Avalon.Utilities;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
-using ModernWpf.Controls;
-using Newtonsoft.Json;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
-using Avalon.Utilities;
 
 namespace Avalon
 {

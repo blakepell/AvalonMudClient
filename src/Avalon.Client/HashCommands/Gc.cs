@@ -7,7 +7,6 @@
  * @license           : MIT
  */
 
-using System;
 using Avalon.Common.Interfaces;
 using CommandLine;
 

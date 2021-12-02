@@ -9,8 +9,6 @@
 
 using Avalon.Common.Settings;
 using ModernWpf.Controls;
-using Newtonsoft.Json;
-using System.IO;
 
 namespace Avalon
 {

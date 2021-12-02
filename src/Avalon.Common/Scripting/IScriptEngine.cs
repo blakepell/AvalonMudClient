@@ -7,10 +7,6 @@
  * @license           : MIT
  */
 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
 namespace Avalon.Common.Scripting
 {
     /// <summary>

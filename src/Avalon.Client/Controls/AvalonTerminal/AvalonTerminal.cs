@@ -7,18 +7,12 @@
  * @license           : MIT
  */
 
-using System.Text;
+using Avalon.Colors;
 using Avalon.Common.Colors;
-using System.Text.RegularExpressions;
+using Avalon.Common.Models;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using Avalon.Colors;
-using Avalon.Common.Models;
-using System;
-using System.Linq;
-using ICSharpCode.AvalonEdit.Folding;
-using ICSharpCode.AvalonEdit.Rendering;
 
 namespace Avalon.Controls
 {

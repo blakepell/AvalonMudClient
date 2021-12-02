@@ -7,8 +7,6 @@
  * @license           : MIT
  */
 
-using System.Linq;
-
 namespace Avalon.Controls
 {
     /// <summary>

@@ -8,11 +8,10 @@
  */
 
 using Avalon.Colors;
-using Avalon.Common.Models;
 using Avalon.Common.Colors;
 using Avalon.Common.Interfaces;
+using Avalon.Common.Models;
 using CommandLine;
-using System.Collections.Generic;
 
 namespace Avalon.HashCommands
 {

@@ -8,7 +8,6 @@
  */
 
 using ModernWpf.Controls;
-using System.Threading.Tasks;
 
 namespace Avalon
 {

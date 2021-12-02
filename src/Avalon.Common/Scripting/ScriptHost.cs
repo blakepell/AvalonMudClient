@@ -11,8 +11,6 @@ using Argus.Extensions;
 using Avalon.Common.Models;
 using Avalon.Common.Settings;
 using Cysharp.Text;
-using System;
-using System.Collections.Generic;
 
 namespace Avalon.Common.Scripting
 {

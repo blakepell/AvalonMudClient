@@ -9,7 +9,6 @@
 
 using Avalon.Common.Interfaces;
 using MoonSharp.Interpreter;
-using System.Threading.Tasks;
 
 namespace Avalon.HashCommands
 {

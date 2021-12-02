@@ -7,10 +7,7 @@
  * @license           : MIT
  */
 
-using System;
-using System.Collections.Generic;
 using System.Windows.Threading;
-using System.Linq;
 
 namespace Avalon.Timers
 {
