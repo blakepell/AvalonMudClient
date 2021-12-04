@@ -57,7 +57,7 @@ namespace Avalon
                 // Remove any ANSI codes from the selected text.
                 var sb = new StringBuilder(terminal.SelectedText);
                 Colorizer.RemoveAllAnsiCodes(sb);
-                Clipboard.SetText(sb.ToString(), TextDataFormat.Text);
+                Clipboard.SetDataObject(sb.ToString(), true);
             }
             catch (Exception ex)
             {
@@ -94,7 +94,7 @@ namespace Avalon
                 // Remove any ANSI codes from the selected text.
                 var sb = new StringBuilder(terminal.SelectedText);
                 Colorizer.AnsiToMudColorCodes(sb);
-                Clipboard.SetText(sb.ToString());
+                Clipboard.SetDataObject(sb.ToString(), true);
             }
             catch (Exception ex)
             {

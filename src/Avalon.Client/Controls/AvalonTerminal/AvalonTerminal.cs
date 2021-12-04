@@ -172,7 +172,20 @@ namespace Avalon.Controls
                     // Remove any ANSI codes from the selected text.
                     var sb = new StringBuilder(this.SelectedText);
                     Colorizer.RemoveAllAnsiCodes(sb);
-                    Clipboard.SetText(sb.ToString());
+
+                    try
+                    {
+                        Clipboard.SetDataObject(sb.ToString(), true);
+                    }
+                    catch (Exception ex)
+                    {
+                        App.Conveyor.EchoLog(ex.Message, LogType.Error);
+
+                        if (!string.IsNullOrWhiteSpace(ex.StackTrace))
+                        {
+                            App.Conveyor.EchoLog(ex.StackTrace, LogType.Error);
+                        }
+                    }
 
                     // Set the handled to true
                     e.Handled = true;
