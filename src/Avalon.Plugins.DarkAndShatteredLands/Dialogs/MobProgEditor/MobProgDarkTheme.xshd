@@ -90,6 +90,12 @@
       <Word>objval4</Word>
       <Word>grpsize</Word>
       <Word>ismounted</Word>
+	  <Word>isghosted</Word>
+	  <Word>quest_step</Word>
+	  <Word>step_value</Word>
+	  <Word>quest_kill_count</Word>
+	  <Word>attackers</Word>
+	  <Word>isremort</Word>
       <Word>comm</Word>
       <Word>isship</Word>
       <Word>rank</Word>
@@ -99,6 +105,7 @@
     <Keywords color="Commands">
       <Word>mob</Word>
       <Word>asound</Word>
+	  <Word>asound2</Word>
       <Word>gecho</Word>
       <Word>zecho</Word>
       <Word>kill</Word>
@@ -127,6 +134,8 @@
       <Word>call</Word>
       <Word>flee</Word>
       <Word>remove</Word>
+	  <Word>manasap</Word>
+	  <Word>manasapall</Word>
       <Word>mreclass</Word>
       <Word>noshout</Word>
       <Word>nodisp</Word>
@@ -137,7 +146,9 @@
       <Word>hunt</Word>
       <Word>ahunt</Word>
       <Word>ghunt</Word>
-      <Word>chunt</Word>      
+      <Word>chunt</Word>
+	  <Word>jailbreak</Word>
+	  <Word>sgive</Word>
     </Keywords>
     
     <Keywords color="Variable">
