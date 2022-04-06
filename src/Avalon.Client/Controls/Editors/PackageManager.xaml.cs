@@ -56,7 +56,7 @@ namespace Avalon.Controls
                 client.UseNewtonsoftJson();
 
                 // This retrieves all of the packages, but only the metadata, none of the content until something is specifically requested.
-                var request = new RestRequest("get-all-metadata", RestSharp.DataFormat.Json).AddQueryParameter("ip", App.Settings.ProfileSettings.IpAddress);
+                var request = new RestRequest("get-all-metadata").AddQueryParameter("ip", App.Settings.ProfileSettings.IpAddress);
                 this.PackageList = await client.GetAsync<List<Package>>(request);
 
                 if (this.PackageList.Count == 0)
@@ -289,7 +289,7 @@ namespace Avalon.Controls
                 client.UseNewtonsoftJson();
 
                 // This retrieves only the specific package by the ID we want to install.
-                var request = new RestRequest("get", RestSharp.DataFormat.Json).AddQueryParameter("id", package.Id);
+                var request = new RestRequest("get").AddQueryParameter("id", package.Id);
                 var fullPackage = await client.GetAsync<Package>(request);
 
                 // Loop through all items in this package and make sure the PackageId is set of every part
