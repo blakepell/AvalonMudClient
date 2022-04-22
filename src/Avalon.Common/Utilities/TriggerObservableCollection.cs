@@ -31,7 +31,7 @@ namespace Avalon.Common.Utilities
             // that's done we can release and then allow the enumeration to continue.
             try
             {
-                Lock.EnterUpgradeableReadLock();
+                Lock.EnterReadLock();
 
                 int count = this.Count;
                 snapshot = pool.Rent(count);
@@ -44,7 +44,7 @@ namespace Avalon.Common.Utilities
             }
             finally
             {
-                Lock.ExitUpgradeableReadLock();
+                Lock.ExitReadLock();
             }
 
             // Since the array returned from the pool could be larger than we requested
@@ -72,7 +72,7 @@ namespace Avalon.Common.Utilities
             // will get the count after the lock and then use it.
             try
             {
-                Lock.EnterUpgradeableReadLock();
+                Lock.EnterReadLock();
 
                 int count = this.Count;
                 snapshot = pool.Rent(count);
@@ -89,7 +89,7 @@ namespace Avalon.Common.Utilities
             }
             finally
             {
-                Lock.ExitUpgradeableReadLock();
+                Lock.ExitReadLock();
             }
 
             // Since the array returned from the pool could be larger than we requested
@@ -122,7 +122,7 @@ namespace Avalon.Common.Utilities
             // which lines get drawn).
             try
             {
-                Lock.EnterUpgradeableReadLock();
+                Lock.EnterReadLock();
 
                 int count = this.Count;
                 snapshot = pool.Rent(count);
@@ -140,7 +140,7 @@ namespace Avalon.Common.Utilities
             }
             finally
             {
-                Lock.ExitUpgradeableReadLock();
+                Lock.ExitReadLock();
             }
 
             // Since the array returned from the pool could be larger than we requested
@@ -165,7 +165,7 @@ namespace Avalon.Common.Utilities
 
             try
             {
-                Lock.EnterUpgradeableReadLock();
+                Lock.EnterReadLock();
 
                 int count = this.Count;
                 snapshot = pool.Rent(count);
@@ -183,7 +183,7 @@ namespace Avalon.Common.Utilities
             }
             finally
             {
-                Lock.ExitUpgradeableReadLock();
+                Lock.ExitReadLock();
             }
 
             // Since the array returned from the pool could be larger than we requested
@@ -196,7 +196,5 @@ namespace Avalon.Common.Utilities
 
             pool.Return(snapshot, true);
         }
-
-
     }
 }

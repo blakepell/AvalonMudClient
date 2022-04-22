@@ -77,7 +77,7 @@ namespace Avalon.Common.Utilities
             // will get the count after the lock and then use it.
             try
             {
-                Lock.EnterUpgradeableReadLock();
+                Lock.EnterReadLock();
 
                 count = this.Count;
                 snapshot = pool.Rent(count);
@@ -89,7 +89,7 @@ namespace Avalon.Common.Utilities
             }
             finally
             {
-                Lock.ExitUpgradeableReadLock();
+                Lock.ExitReadLock();
             }
 
             // Since the array returned from the pool could be larger than we requested
