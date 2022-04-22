@@ -9,6 +9,7 @@
 
 using Avalon.Common.Models;
 using Avalon.Common.Scripting;
+using Cysharp.Text;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Data;
@@ -96,29 +97,49 @@ namespace Avalon.Utilities
         /// </summary>
         private static HashSet<char> _unsupportedChars = new HashSet<char> { (char)1, (char)249, (char)251, (char)252, (char)255, (char)65533 };
 
+        private const string UP = "\x1B[1A";
+        private const string DOWN = "\x1B[1B";
+        private const string RIGHT = "\x1B[1C";
+        private const string LEFT = "\x1B[1D";
+        private const string BLINK = "\x1B[5m";
+        private const string CLEAR_SCREEN = "\x1B[2J";
+
         /// <summary>
         /// Removes unsupported characters or other sets of sequences we don't want parsed.
         /// </summary>
         /// <param name="sb"></param>
         public static void RemoveUnsupportedCharacters(this StringBuilder sb)
         {
-            // Go through the StringBuilder backwards and remove any characters in our HashSet.
-            for (int i = sb.Length - 1; i >= 0; i--)
+            // It was almost 3 times faster to use a value based string builder and then
+            // repopulate the original StringBuilder with the processed output.
+            using (var zsb = ZString.CreateStringBuilder())
             {
-                if (_unsupportedChars.Contains(sb[i]))
+                foreach (ReadOnlyMemory<char> chunk in sb.GetChunks())
                 {
-                    sb.Remove(i, 1);
+                    foreach (char ch in chunk.Span)
+                    {
+                        if (!_unsupportedChars.Contains(ch))
+                        {
+                            zsb.Append(ch);
+                        }
+                    }
                 }
-            }
 
-            // Remove the up, down, left, right, blink, reverse and underline.  We're not supporting
-            // these at this time although we will support come of them in the future.
-            sb.Replace("\x1B[1A", ""); // Up
-            sb.Replace("\x1B[1B", ""); // Down
-            sb.Replace("\x1B[1C", ""); // Right
-            sb.Replace("\x1B[1D", ""); // Left
-            sb.Replace("\x1B[5m", ""); // Blink
-            sb.Replace("\x1b[2J", ""); // Clear Screen
+                // Remove the up, down, left, right, blink, reverse and underline.  We're not supporting
+                // these at this time although we will support come of them in the future.
+                if (zsb.AsSpan().IndexOf('\x1B') != -1)
+                {
+                    zsb.Replace(UP, "");
+                    zsb.Replace(DOWN, "");
+                    zsb.Replace(RIGHT, "");
+                    zsb.Replace(LEFT, "");
+                    zsb.Replace(BLINK, "");
+                    zsb.Replace(CLEAR_SCREEN, "");
+                }
+
+                sb.Clear();
+                sb.Append(zsb.AsSpan());
+            }
         }
 
         /// <summary>
