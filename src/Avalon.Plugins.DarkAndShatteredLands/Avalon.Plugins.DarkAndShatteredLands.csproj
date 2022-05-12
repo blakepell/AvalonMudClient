@@ -11,7 +11,7 @@
     <RepositoryUrl>https://github.com/blakepell/AvalonMudClient</RepositoryUrl>
     <AssemblyVersion>2022.4.22.1</AssemblyVersion>
     <FileVersion>2022.4.22.1</FileVersion>
-	<LangVersion>10.0</LangVersion>
+	<LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

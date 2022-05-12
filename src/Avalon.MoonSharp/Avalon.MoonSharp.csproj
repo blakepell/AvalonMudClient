@@ -18,7 +18,7 @@
     <PackageProjectUrl>https://github.com/blakepell/Moonsharp</PackageProjectUrl>
     <RepositoryUrl>https://github.com/blakepell/Moonsharp</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-	<LangVersion>10.0</LangVersion>
+	<LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Include="LICENSE.txt">

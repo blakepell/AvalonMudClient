@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>Avalon.Web</RootNamespace>
     <UserSecretsId>4d382530-b0a6-4577-8de9-44de7f9ebe08</UserSecretsId>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
