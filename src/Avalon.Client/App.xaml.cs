@@ -173,6 +173,7 @@ namespace Avalon
             catch (Exception ex)
             {
                 MessageBox.Show($"A startup error occurred showing MainWindow: {ex.Message}");
+                Environment.Exit(8);
             }
         }
 
