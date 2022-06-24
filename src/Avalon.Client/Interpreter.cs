@@ -258,7 +258,7 @@ namespace Avalon
 
                 if (this.Telnet == null || !this.Telnet.IsConnected())
                 {
-                    App.Conveyor.SetText("Disconnected from server.", TextTarget.StatusBarText);
+                    App.Conveyor.SetText("Disconnected from server.");
                 }
             }
         }
@@ -437,6 +437,8 @@ namespace Avalon
             InputHistory.Clear();
         }
 
+        private static HashSet<string> _directions = new() { "n", "s", "e", "w", "nw", "sw", "ne", "se", "u", "d" };
+
         /// <summary>
         /// Adds a command into the history buffer.
         /// </summary>
@@ -471,7 +473,7 @@ namespace Avalon
                 }
                 else
                 {
-                    if (!cmd.In("n", "s", "e", "w", "nw", "sw", "ne", "se", "u", "d"))
+                    if (!_directions.Contains(cmd))
                     {
                         this.InputHistory.Add(cmd);
                         this.Conveyor.SetVariable("LastCommand", cmd);
@@ -650,12 +652,12 @@ namespace Avalon
         /// A list of all unique words that have been entered as part of a command.  If the setting
         /// is enabled this will be used to auto-complete a word based on a "shift+tab" input.
         /// </summary>
-        public List<string> InputAutoCompleteKeywords = new List<string>();
+        public List<string> InputAutoCompleteKeywords = new();
 
         /// <summary>
         /// The history of all commands.
         /// </summary>
-        public List<string> InputHistory = new List<string>();
+        public List<string> InputHistory = new();
 
         /// <summary>
         /// The current position in the history the caller is at
@@ -670,7 +672,7 @@ namespace Avalon
         /// <summary>
         /// A list of the hash commands (we will avoid reflection).
         /// </summary>
-        public List<IHashCommand> HashCommands { get; set; } = new List<IHashCommand>();
+        public List<IHashCommand> HashCommands { get; set; } = new();
 
         /// <summary>
         /// The Conveyor class that can be used to interact with the UI.
@@ -685,7 +687,7 @@ namespace Avalon
         /// <summary>
         /// Commands that have been recorded
         /// </summary>
-        public List<string> RecordedCommands { get; set; } = new List<string>();
+        public List<string> RecordedCommands { get; set; } = new();
 
         /// <summary>
         /// The Scripting host that contains all of our supported scripting environments.
