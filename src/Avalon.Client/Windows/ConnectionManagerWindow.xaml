@@ -139,7 +139,7 @@
                     </Button.Content>
                 </Button>
 
-                <Button Background="#171717"
+                <!--<Button Background="#171717"
                         Width="175"
                         Margin="5,0,0,0">
                     <Button.Content>
@@ -158,7 +158,7 @@
                             </StackPanel>
                         </StackPanel>
                     </Button.Content>
-                </Button>
+                </Button>-->
 
                 <ui:DropDownButton Background="#171717"
                                    Margin="5,0,0,0"
