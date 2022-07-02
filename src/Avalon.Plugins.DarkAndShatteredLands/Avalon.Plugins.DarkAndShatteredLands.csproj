@@ -1,16 +1,16 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net6.0-windows7.0</TargetFramework>
 		<UseWPF>true</UseWPF>
-		<Version>2022.4.22.1</Version>
+		<Version>2022.7.1.1</Version>
 		<Authors>Blake Pell</Authors>
 		<Company>Blake Pell</Company>
 		<Product>Dark and Shattered Lands Plugin for Avalon Mud Client</Product>
 		<PackageProjectUrl>https://github.com/blakepell/AvalonMudClient</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/blakepell/AvalonMudClient</RepositoryUrl>
-		<AssemblyVersion>2022.4.22.1</AssemblyVersion>
-		<FileVersion>2022.4.22.1</FileVersion>
+		<AssemblyVersion>2022.7.1.1</AssemblyVersion>
+		<FileVersion>2022.7.1.1</FileVersion>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 
