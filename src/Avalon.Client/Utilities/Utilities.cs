@@ -527,5 +527,14 @@ namespace Avalon.Utilities
                 Argus.Memory.StringBuilderPool.Return(sb);
             }
         }
+
+        /// <summary>
+        /// If the mud client is currently running in a UWP container.
+        /// </summary>
+        public static bool IsRunningAsUwp()
+        {
+            var bridge = new Argus.Windows.DesktopBridge();
+            return bridge.IsRunningAsUwp();
+        }
     }
 }
