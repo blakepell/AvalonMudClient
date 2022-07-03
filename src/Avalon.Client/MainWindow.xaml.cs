@@ -77,8 +77,17 @@ namespace Avalon
             // to avoid the flickering and repositioning the settings being loaded causes.
             this.Hide();
 
-            // The settings for the app load in the app startup, they will then try to load the last profile that was used.
-            App.Conveyor.EchoInfo($"{{GA{{gvalon {{GM{{gud {{GC{{glient{{x: Version {Assembly.GetExecutingAssembly()?.GetName()?.Version?.ToString() ?? "Unknown"}");
+            if (Utilities.Utilities.IsRunningAsUwp())
+            {
+                // The settings for the app load in the app startup, they will then try to load the last profile that was used.
+                App.Conveyor.EchoInfo($"{{GA{{gvalon {{GM{{gud {{GC{{glient{{x: Version {Assembly.GetExecutingAssembly()?.GetName()?.Version?.ToString() ?? "Unknown"} (UWP)");
+                MenuItemUpdateClient.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                // The settings for the app load in the app startup, they will then try to load the last profile that was used.
+                App.Conveyor.EchoInfo($"{{GA{{gvalon {{GM{{gud {{GC{{glient{{x: Version {Assembly.GetExecutingAssembly()?.GetName()?.Version?.ToString() ?? "Unknown"}");
+            }
 
             try
             {
