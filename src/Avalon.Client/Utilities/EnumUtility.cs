@@ -2,16 +2,14 @@
 {
     /// <summary>
     /// Enum utility that provides a method to return a enum value along with a description attribute provided by
-    /// it for use with binding to ComboBoxes.
+    /// it for use with binding to ComboBoxes via XAML.
     /// </summary>
     public static class EnumUtility
     {
-     
         /// <summary>
         /// Returns the value and description for the given enum.
         /// </summary>
         /// <param name="enumType"></param>
-        /// <returns></returns>
         public static object[] GetValuesAndDescriptions(Type enumType)
         {
             var values = Enum.GetValues(enumType).Cast<object>();
