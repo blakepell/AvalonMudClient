@@ -242,6 +242,12 @@ namespace MoonSharp.Interpreter.Tree
                             escape = false;
                             zmode = false;
                         }
+                        else if (c == '/')
+                        {
+                            sb.Append('/');
+                            escape = false;
+                            zmode = false;
+                        }
                         else if (c == '[')
                         {
                             sb.Append('[');
