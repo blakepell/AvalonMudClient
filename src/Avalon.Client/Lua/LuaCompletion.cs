@@ -37,7 +37,7 @@ namespace Avalon.Lua
 
                     // This should get all of our methods but exclude ones that are defined on
                     // object like ToString, GetHashCode, Equals, etc.
-                    foreach (var method in t.GetMethods().Where(m => m.DeclaringType != typeof(object)).OrderBy(m => m.Name))
+                    foreach (var method in t.GetMethods().Where(m => !m.IsSpecialName && m.DeclaringType != typeof(object)).OrderBy(m => m.Name))
                     {
                         if (_luaCompletionData.ContainsKey(method.Name))
                         {
@@ -72,7 +72,7 @@ namespace Avalon.Lua
 
                     // This should get all of our methods but exclude ones that are defined on
                     // object like ToString, GetHashCode, Equals, etc.
-                    foreach (var method in t.GetMethods().Where(m => m.DeclaringType != typeof(object)).OrderBy(m => m.Name))
+                    foreach (var method in t.GetMethods().Where(m => !m.IsSpecialName && m.DeclaringType != typeof(object)).OrderBy(m => m.Name))
                     {
                         if (_winCompletionData.ContainsKey(method.Name))
                         {
