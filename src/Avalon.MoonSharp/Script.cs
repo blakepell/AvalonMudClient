@@ -506,10 +506,10 @@ namespace MoonSharp.Interpreter
         /// <returns>
         /// A DynValue containing the result of the processing of the loaded chunk.
         /// </returns>
-        public Task<DynValue> DoStringAsync(ExecutionControlToken ecToken, string code, Table globalContext = null,
+        public async Task<DynValue> DoStringAsync(ExecutionControlToken ecToken, string code, Table globalContext = null,
             string codeFriendlyName = null)
         {
-            return this.LoadStringAsync(code, globalContext, codeFriendlyName)
+            return await this.LoadStringAsync(code, globalContext, codeFriendlyName)
                 // ReSharper disable once AsyncConverter.AsyncWait
                 .ContinueWith(prevTask => this.CallAsync(ecToken, prevTask.Result).Result);
         }
