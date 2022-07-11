@@ -380,7 +380,8 @@ namespace Avalon.Controls
                 }
             }
 
-            this.Editor.SelectedText = sb.ToString();
+            // Get rid of the final return
+            this.Editor.SelectedText = sb.ToString().TrimEnd('\r', '\n');
 
             Argus.Memory.StringBuilderPool.Return(sb);
         }
@@ -415,7 +416,8 @@ namespace Avalon.Controls
                 }
             }
 
-            this.Editor.SelectedText = sb.ToString();
+            // Get rid of the final return
+            this.Editor.SelectedText = sb.ToString().TrimEnd('\r', '\n');
 
             Argus.Memory.StringBuilderPool.Return(sb);
         }
