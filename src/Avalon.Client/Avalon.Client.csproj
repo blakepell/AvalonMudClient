@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net6.0-windows7.0</TargetFramework>
@@ -10,9 +10,9 @@
 		<RootNamespace>Avalon</RootNamespace>
 		<AssemblyName>Avalon</AssemblyName>
 		<ApplicationIcon>DiamondHilt.ico</ApplicationIcon>
-		<Version>2022.7.3.2</Version>
-		<AssemblyVersion>2022.7.3.2</AssemblyVersion>
-		<FileVersion>2022.7.3.2</FileVersion>
+    <Version>2022.7.18.3</Version>
+    <AssemblyVersion>2022.7.18.3</AssemblyVersion>
+    <FileVersion>2022.7.18.3</FileVersion>
 		<LangVersion>latest</LangVersion>
 		<Product>Avalon Mud Client</Product>
 		<RepositoryUrl>https://github.com/blakepell/AvalonMudClient</RepositoryUrl>
@@ -79,7 +79,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Argus.Core" Version="2022.7.3.1" />
+		<PackageReference Include="Argus.Core" Version="2022.7.5.3" />
 		<PackageReference Include="AvalonEdit" Version="6.1.3.50" />
 		<PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />
 		<PackageReference Include="ModernWpfUI" Version="0.9.6" />
