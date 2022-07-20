@@ -1,115 +1,123 @@
 ﻿<?xml version="1.0"?>
 <SyntaxDefinition name = "Lua"
                   extensions = ".lua">
-  <Properties>
-    <Property name="LineComment"
-              value="--"/>
-  </Properties>
+	<Properties>
+		<Property name="LineComment"
+				  value="--"/>
+	</Properties>
 
-  <Digits name = "Digits"
-          bold = "false"
-          italic = "false"
-          color = "#B5CEA8"/>
+	<Digits name = "Digits"
+			bold = "false"
+			italic = "false"
+			color = "#B5CEA8"/>
 
-  <RuleSets>
-    <RuleSet ignorecase="false">
-      <Delimiters>~@$%^&amp;*()+=|\[]{};"'&lt;&gt; ,#:	</Delimiters>
+	<RuleSets>
+		<RuleSet ignorecase="false">
+			<Delimiters>~@$%^&amp;*()+=|\[]{};"'&lt;&gt; ,#:	</Delimiters>
 
-      <Span name = "BlockComment"
-            bold = "false"
-            italic = "false"
-            color = "#608B4E"
-            stopateol = "false">
-        <Begin>--[[</Begin>
-        <End>]]</End>
-      </Span>
+			<Span name = "BlockComment"
+				  bold = "false"
+				  italic = "false"
+				  color = "#608B4E"
+				  stopateol = "false">
+				<Begin>--[[</Begin>
+				<End>]]</End>
+			</Span>
 
-      <Span name = "LineComment"
-            bold = "false"
-            italic = "false"
-            color = "#608B4E"
-            stopateol = "true">
-        <Begin>--</Begin>
-      </Span>
+			<Span name = "LineComment"
+				  bold = "false"
+				  italic = "false"
+				  color = "#608B4E"
+				  stopateol = "true">
+				<Begin>--</Begin>
+			</Span>
 
-      <Span name = "String"
-            bold = "false"
-            italic = "false"
-            color = "#D69D85"
-            stopateol = "true">
-        <Begin>"</Begin>
-        <End>"</End>
-      </Span>
+			<Span name = "String"
+				  bold = "false"
+				  italic = "false"
+				  color = "#D69D85"
+				  stopateol = "true">
+				<Begin>"</Begin>
+				<End>"</End>
+			</Span>
 
-      <KeyWords name = "Punctuation"
-                bold = "false"
-                italic = "false"
-                color = "#6A6A6A">
-        <Key word = "?" />
-        <Key word = "," />
-        <Key word = "." />
-        <Key word = ";" />
-        <Key word = ":" />
-        <Key word = "(" />
-        <Key word = ")" />
-        <Key word = "[" />
-        <Key word = "]" />
-        <Key word = "{" />
-        <Key word = "}" />
-        <Key word = "+" />
-        <Key word = "-" />
-        <Key word = "/" />
-        <Key word = "%" />
-        <Key word = "*" />
-        <Key word = "&lt;" />
-        <Key word = "&gt;" />
-        <Key word = "^" />
-        <Key word = "=" />
-        <Key word = "~" />
-        <Key word = "!" />
-        <Key word = "|" />
-        <Key word = "&amp;" />
-      </KeyWords>
+			<KeyWords name = "Punctuation"
+					  bold = "false"
+					  italic = "false"
+					  color = "#6A6A6A">
+				<Key word = "?" />
+				<Key word = "," />
+				<Key word = "." />
+				<Key word = ";" />
+				<Key word = ":" />
+				<Key word = "(" />
+				<Key word = ")" />
+				<Key word = "[" />
+				<Key word = "]" />
+				<Key word = "{" />
+				<Key word = "}" />
+				<Key word = "+" />
+				<Key word = "-" />
+				<Key word = "/" />
+				<Key word = "%" />
+				<Key word = "*" />
+				<Key word = "&lt;" />
+				<Key word = "&gt;" />
+				<Key word = "^" />
+				<Key word = "=" />
+				<Key word = "~" />
+				<Key word = "!" />
+				<Key word = "|" />
+				<Key word = "&amp;" />
+			</KeyWords>
 
-      <KeyWords name = "Keywords"
-                bold="true"
-                italic="false"
-                color="#569CD6">
-        <Key word = "and" />
-        <Key word = "break" />
-        <Key word = "do" />
-        <Key word = "else" />
-        <Key word = "elseif" />
-        <Key word = "end" />
-        <Key word = "false" />
-        <Key word = "for" />
-        <Key word = "function" />
-        <Key word = "if" />
-        <Key word = "in" />
-        <Key word = "local" />
-        <Key word = "nil" />
-        <Key word = "not" />
-        <Key word = "or" />
-        <Key word = "repeat" />
-        <Key word = "return" />
-        <Key word = "then" />
-        <Key word = "true" />
-        <Key word = "until" />
-        <Key word = "while" />
-      </KeyWords>
+			<KeyWords name = "Keywords"
+					  bold="true"
+					  italic="false"
+					  color="#569CD6">
+				<Key word = "and" />
+				<Key word = "break" />
+				<Key word = "do" />
+				<Key word = "else" />
+				<Key word = "elseif" />
+				<Key word = "end" />
+				<Key word = "false" />
+				<Key word = "for" />
+				<Key word = "function" />
+				<Key word = "if" />
+				<Key word = "in" />
+				<Key word = "local" />
+				<Key word = "nil" />
+				<Key word = "not" />
+				<Key word = "or" />
+				<Key word = "repeat" />
+				<Key word = "return" />
+				<Key word = "then" />
+				<Key word = "true" />
+				<Key word = "until" />
+				<Key word = "while" />
+			</KeyWords>
 
-      <KeyWords name = "AvalonNamespaces"
-                bold="true"
-                italic="false"
-                color="#D2A0DF">
-        <Key word = "lua" />
-        <Key word = "win" />
-        <Key word = "global" />
-      </KeyWords>
+			<KeyWords name = "AvalonNamespaces"
+					  bold="true"
+					  italic="false"
+					  color="#D2A0DF">
+				<Key word = "lua" />
+				<Key word = "win" />
+				<Key word = "global" />
+				<Key word = "io" />
+				<Key word = "debug" />
+				<Key word = "dynamic" />
+				<Key word = "json" />
+				<Key word = "math" />
+				<Key word = "os" />
+				<Key word = "string" />
+				<Key word = "table" />
+			</KeyWords>
 
-      <!-- Our extension keywords are not going to be dynamically loaded via reflection so this doesn't have
+			<!-- Our extension keywords are not going to be dynamically loaded via reflection so this doesn't have
            to be updated every time we add a new method which is, a lot. -->
 
-    </RuleSet>
-  </RuleSets>
+		</RuleSet>
+	</RuleSets>
 </SyntaxDefinition>
