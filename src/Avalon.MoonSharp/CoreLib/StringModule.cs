@@ -285,5 +285,11 @@ namespace MoonSharp.Interpreter.CoreLib
 
             return DynValue.NewBoolean(arg_s1.String.Contains(arg_s2.String));
         }
+
+        [MoonSharpModuleMethod]
+        public static DynValue guid(ScriptExecutionContext executionContext, CallbackArguments args)
+        {
+            return DynValue.NewString(Guid.NewGuid().ToString());
+        }
     }
 }
