@@ -10,9 +10,9 @@
 		<RootNamespace>Avalon</RootNamespace>
 		<AssemblyName>Avalon</AssemblyName>
 		<ApplicationIcon>DiamondHilt.ico</ApplicationIcon>
-    <Version>2022.7.18.3</Version>
-    <AssemblyVersion>2022.7.18.3</AssemblyVersion>
-    <FileVersion>2022.7.18.3</FileVersion>
+    <Version>2022.7.29.1</Version>
+    <AssemblyVersion>2022.7.29.1</AssemblyVersion>
+    <FileVersion>2022.7.29.1</FileVersion>
 		<LangVersion>latest</LangVersion>
 		<Product>Avalon Mud Client</Product>
 		<RepositoryUrl>https://github.com/blakepell/AvalonMudClient</RepositoryUrl>

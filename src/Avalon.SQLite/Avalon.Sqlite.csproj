@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>net6.0-windows7.0</TargetFramework>
 		<UseWPF>true</UseWPF>
-    <Version>2022.7.18.3</Version>
+    <Version>2022.7.29.1</Version>
 		<Authors>Blake Pell</Authors>
 		<Company>Blake Pell</Company>
 		<Description>SQLite Query Control and Extensions for WPF (.NET Core)</Description>
@@ -11,7 +11,7 @@
 		<PackageProjectUrl>https://github.com/blakepell/AvalonMudClient</PackageProjectUrl>
 		<PackageId>Avalon.Sqlite</PackageId>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>2022.7.18.3</AssemblyVersion>
+    <AssemblyVersion>2022.7.29.1</AssemblyVersion>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
