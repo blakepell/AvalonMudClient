@@ -779,6 +779,11 @@ namespace Avalon
         /// <param name="id"></param>
         public ITrigger FindTrigger(string id)
         {
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                return Application.Current.Dispatcher.Invoke(() => this.FindTrigger(id));
+            }
+
             ITrigger trigger = App.Settings.ProfileSettings.TriggerList.Find(x => x.Identifier.Equals(id, StringComparison.Ordinal));
 
             // If the trigger is null, go through the system triggers.
