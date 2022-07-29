@@ -2,6 +2,8 @@
 
 A Windows MUD (multi-user dimension) client that allows you to connect to and play any number of text based online multi user games.
 
+[Install via the Windows Store](https://www.microsoft.com/en-us/p/avalon-mud-client/9pk5q5vtfz6z?activetab=pivot:overviewtab)
+
 [Screenshots](doc/Screenshots.md)
 
 ![alt text](doc/images/ClientTerminal.png "Main Terminal")
