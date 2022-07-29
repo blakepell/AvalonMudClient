@@ -93,12 +93,12 @@ namespace Avalon.Controls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ButtonRunLua_OnClick(object sender, RoutedEventArgs e)
+        private async void ButtonRunLua_OnClick(object sender, RoutedEventArgs e)
         {
             try
             {
                 // Executes a single use one time script that will be discarded when done.
-                _ = App.MainWindow.Interp.ScriptHost.MoonSharp.ExecuteStaticAsync<object>(Editor.Text);
+                _ = await App.MainWindow.Interp.ScriptHost.MoonSharp.ExecuteStaticAsync<object>(Editor.Text);
             }
             catch (Exception ex)
             {
