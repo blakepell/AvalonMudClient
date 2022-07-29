@@ -15,6 +15,7 @@ using Avalon.Common.Settings;
 using Avalon.Extensions;
 using MahApps.Metro.IconPacks;
 using System.Windows;
+using Avalon.HashCommands;
 
 namespace Avalon
 {
@@ -705,6 +706,13 @@ namespace Avalon
         /// <returns>Returns true if the group was found, false if it was not.</returns>
         public bool EnableGroup(string groupName)
         {
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                bool val = false;
+                Application.Current.Dispatcher.Invoke(new Action(() => val = this.EnableGroup(groupName)));
+                return val;
+            }
+
             bool found = false;
 
             foreach (var item in App.Settings.ProfileSettings.TriggerList.Enumerable())
@@ -735,6 +743,13 @@ namespace Avalon
         /// <returns>Returns true if the group was found, false if it was not.</returns>
         public bool DisableGroup(string groupName)
         {
+            if (!Application.Current.Dispatcher.CheckAccess())
+            {
+                bool val = false;
+                Application.Current.Dispatcher.Invoke(new Action(() => val = this.DisableGroup(groupName)));
+                return val;
+            }
+
             bool found = false;
 
             foreach (var item in App.Settings.ProfileSettings.TriggerList.Enumerable())
