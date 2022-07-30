@@ -68,6 +68,8 @@ namespace Avalon.Network
             }
 
             _tcpClient = new TcpClient();
+            _tcpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
+
             await _tcpClient.ConnectAsync(_host, _port);
 
             _tcpReader = new StreamReader(_tcpClient.GetStream());
@@ -93,6 +95,8 @@ namespace Avalon.Network
             }
 
             _tcpClient = new TcpClient();
+            _tcpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
+
             await _tcpClient.ConnectAsync(socks4ProxyHost, socks4ProxyPort);
 
             // Simple implementation of http://en.wikipedia.org/wiki/SOCKS#SOCKS4
