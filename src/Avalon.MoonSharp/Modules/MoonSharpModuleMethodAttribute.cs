@@ -16,5 +16,10 @@ namespace MoonSharp.Interpreter
         /// Gets or sets the name of the function in the module (defaults to member name)
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// An optional description that can be used for intellisense.
+        /// </summary>
+        public string Description { get; set; }
     }
 }
