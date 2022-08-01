@@ -65,7 +65,7 @@ namespace MoonSharp.Interpreter.CoreLib
             var vi = args.AsType(1, "byte", DataType.Number, true);
             var vj = args.AsType(2, "byte", DataType.Number, true);
 
-            return PerformByteLike(vs, vi, vj,i => Unicode2Ascii(i));
+            return PerformByteLike(vs, vi, vj, i => Unicode2Ascii(i));
         }
 
         [MoonSharpModuleMethod]
@@ -112,7 +112,7 @@ namespace MoonSharp.Interpreter.CoreLib
                 return defval;
             }
 
-            int i = (int) Math.Round(vi.Number, 0);
+            int i = (int)Math.Round(vi.Number, 0);
 
             if (i == 0)
             {
@@ -190,7 +190,7 @@ namespace MoonSharp.Interpreter.CoreLib
 
             string sep = (arg_sep.IsNotNil()) ? arg_sep.String : null;
 
-            int count = (int) arg_n.Number;
+            int count = (int)arg_n.Number;
 
             using (var sb = ZString.CreateStringBuilder())
             {
@@ -290,6 +290,83 @@ namespace MoonSharp.Interpreter.CoreLib
         public static DynValue guid(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             return DynValue.NewString(Guid.NewGuid().ToString());
+        }
+
+        [MoonSharpModuleMethod]
+        public static DynValue doink(ScriptExecutionContext executionContext, CallbackArguments args)
+        {
+            return DynValue.NewString("hellllo");
+        }
+
+        [MoonSharpModuleMethod]
+        public static DynValue left(ScriptExecutionContext executionContext, CallbackArguments args)
+        {
+            var arg_s1 = args.AsType(0, "left", DataType.String, true);
+            var arg_s2 = args.AsType(1, "left", DataType.Number, true);
+
+            if (arg_s1.IsNil() || arg_s2.IsNil())
+            {
+                return DynValue.NewString("");
+            }
+
+            int length = (int)arg_s2.Number;
+
+            if (length >= arg_s1.String.Length)
+            {
+                return DynValue.NewString(arg_s1.String);
+            }
+
+            return DynValue.NewString(arg_s1.String.Substring(0, length));
+        }
+
+        [MoonSharpModuleMethod]
+        public static DynValue right(ScriptExecutionContext executionContext, CallbackArguments args)
+        {
+            var arg_s1 = args.AsType(0, "right", DataType.String, true);
+            var arg_s2 = args.AsType(1, "right", DataType.Number, true);
+            
+            if (arg_s1.IsNil() || arg_s2.IsNil() || arg_s2.Number <= 0)
+            {
+                return DynValue.NewString("");
+            }
+            
+            int length = (int)arg_s2.Number;
+
+            if (length >= arg_s1.String.Length)
+            {
+                return DynValue.NewString(arg_s1.String);
+            }
+
+            return DynValue.NewString(arg_s1.String.Substring(arg_s1.String.Length - length, length));
+        }
+
+        [MoonSharpModuleMethod]
+        public static DynValue mid(ScriptExecutionContext executionContext, CallbackArguments args)
+        {
+            var arg_s1 = args.AsType(0, "mid", DataType.String, true);
+            var arg_s2 = args.AsType(1, "mid", DataType.Number, true);
+            var arg_s3 = args.AsType(2, "mid", DataType.Number, true);
+
+            if (arg_s1.IsNil() || arg_s2.IsNil() || arg_s3.IsNil())
+            {
+                return DynValue.NewString("");
+            }
+
+            int startIndex = (int)arg_s2.Number - 1;
+            int length = (int)arg_s3.Number;
+
+            // We don't have a zero index in Lua.. so if someone asks for it convert it to 1.
+            if (startIndex == 0)
+            {
+                startIndex = 1;
+            }
+
+            if (startIndex + length > arg_s1.String.Length + 1)
+            {
+                return DynValue.NewString(arg_s1.String.Substring(startIndex));
+            }
+
+            return DynValue.NewString(arg_s1.String.Substring(startIndex, length));
         }
     }
 }
