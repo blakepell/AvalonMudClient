@@ -124,19 +124,28 @@ namespace MoonSharp.Interpreter.Serialization
             throw new ScriptRuntimeException("Value is not a primitive value or a prime table.");
         }
 
+        /// <summary>
+        /// Escapes a string for common escape sequences.
+        /// </summary>
+        /// <param name="s"></param>
         private static string EscapeString(string s)
         {
-            s = s.Replace(@"\", @"\\");
-            s = s.Replace("\n", @"\n");
-            s = s.Replace("\r", @"\r");
-            s = s.Replace("\t", @"\t");
-            s = s.Replace("\a", @"\a");
-            s = s.Replace("\f", @"\f");
-            s = s.Replace("\b", @"\b");
-            s = s.Replace("\v", @"\v");
-            s = s.Replace("\"", "\\\"");
-            s = s.Replace("\'", @"\'");
-            return "\"" + s + "\"";
+            using (var sb = ZString.CreateStringBuilder())
+            {
+                sb.Append(s);
+                sb.Replace(@"\", @"\\");
+                sb.Replace("\n", @"\n");
+                sb.Replace("\r", @"\r");
+                sb.Replace("\t", @"\t");
+                sb.Replace("\a", @"\a");
+                sb.Replace("\f", @"\f");
+                sb.Replace("\b", @"\b");
+                sb.Replace("\v", @"\v");
+                sb.Replace("\"", "\\\"");
+                sb.Replace("\'", @"\'");
+                sb.AppendFormat("\"{0}\"", s);
+                return sb.ToString();
+            }
         }
     }
 }
