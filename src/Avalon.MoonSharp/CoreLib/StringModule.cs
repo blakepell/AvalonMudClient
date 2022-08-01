@@ -5,6 +5,7 @@
 using Cysharp.Text;
 using MoonSharp.Interpreter.CoreLib.StringLib;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MoonSharp.Interpreter.CoreLib
 {
@@ -12,6 +13,8 @@ namespace MoonSharp.Interpreter.CoreLib
     /// Class implementing string Lua functions 
     /// </summary>
     [MoonSharpModule(Namespace = "string")]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class StringModule
     {
         public static void MoonSharpInit(Table globalTable, Table stringTable)
@@ -301,59 +304,59 @@ namespace MoonSharp.Interpreter.CoreLib
         [MoonSharpModuleMethod]
         public static DynValue left(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-            var arg_s1 = args.AsType(0, "left", DataType.String, true);
-            var arg_s2 = args.AsType(1, "left", DataType.Number, true);
+            var arg1 = args.AsType(0, "left", DataType.String, true);
+            var arg2 = args.AsType(1, "left", DataType.Number, true);
 
-            if (arg_s1.IsNil() || arg_s2.IsNil())
+            if (arg1.IsNil() || arg2.IsNil())
             {
                 return DynValue.NewString("");
             }
 
-            int length = (int)arg_s2.Number;
+            int length = (int)arg2.Number;
 
-            if (length >= arg_s1.String.Length)
+            if (length >= arg1.String.Length)
             {
-                return DynValue.NewString(arg_s1.String);
+                return DynValue.NewString(arg1.String);
             }
 
-            return DynValue.NewString(arg_s1.String.Substring(0, length));
+            return DynValue.NewString(arg1.String.Substring(0, length));
         }
 
         [MoonSharpModuleMethod]
         public static DynValue right(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-            var arg_s1 = args.AsType(0, "right", DataType.String, true);
-            var arg_s2 = args.AsType(1, "right", DataType.Number, true);
+            var arg1 = args.AsType(0, "right", DataType.String, true);
+            var arg2 = args.AsType(1, "right", DataType.Number, true);
             
-            if (arg_s1.IsNil() || arg_s2.IsNil() || arg_s2.Number <= 0)
+            if (arg1.IsNil() || arg2.IsNil() || arg2.Number <= 0)
             {
                 return DynValue.NewString("");
             }
             
-            int length = (int)arg_s2.Number;
+            int length = (int)arg2.Number;
 
-            if (length >= arg_s1.String.Length)
+            if (length >= arg1.String.Length)
             {
-                return DynValue.NewString(arg_s1.String);
+                return DynValue.NewString(arg1.String);
             }
 
-            return DynValue.NewString(arg_s1.String.Substring(arg_s1.String.Length - length, length));
+            return DynValue.NewString(arg1.String.Substring(arg1.String.Length - length, length));
         }
 
         [MoonSharpModuleMethod]
         public static DynValue mid(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-            var arg_s1 = args.AsType(0, "mid", DataType.String, true);
-            var arg_s2 = args.AsType(1, "mid", DataType.Number, true);
-            var arg_s3 = args.AsType(2, "mid", DataType.Number, true);
+            var arg1 = args.AsType(0, "mid", DataType.String, true);
+            var arg2 = args.AsType(1, "mid", DataType.Number, true);
+            var arg3 = args.AsType(2, "mid", DataType.Number, true);
 
-            if (arg_s1.IsNil() || arg_s2.IsNil() || arg_s3.IsNil())
+            if (arg1.IsNil() || arg2.IsNil() || arg3.IsNil())
             {
                 return DynValue.NewString("");
             }
 
-            int startIndex = (int)arg_s2.Number - 1;
-            int length = (int)arg_s3.Number;
+            int startIndex = (int)arg2.Number - 1;
+            int length = (int)arg3.Number;
 
             // We don't have a zero index in Lua.. so if someone asks for it convert it to 1.
             if (startIndex == 0)
@@ -361,12 +364,12 @@ namespace MoonSharp.Interpreter.CoreLib
                 startIndex = 1;
             }
 
-            if (startIndex + length > arg_s1.String.Length + 1)
+            if (startIndex + length > arg1.String.Length + 1)
             {
-                return DynValue.NewString(arg_s1.String.Substring(startIndex));
+                return DynValue.NewString(arg1.String.Substring(startIndex));
             }
 
-            return DynValue.NewString(arg_s1.String.Substring(startIndex, length));
+            return DynValue.NewString(arg1.String.Substring(startIndex, length));
         }
     }
 }
