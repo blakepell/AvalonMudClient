@@ -289,19 +289,19 @@ namespace MoonSharp.Interpreter.CoreLib
             return DynValue.NewBoolean(arg_s1.String.Contains(arg_s2.String));
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Returns a cryptographically unique GUID (global unique identifier).",
+            AutoCompleteHint = "string.guid()",
+            ParameterCount = 0,
+            ReturnTypeHint = "string")]
         public static DynValue guid(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             return DynValue.NewString(Guid.NewGuid().ToString());
         }
 
-        [MoonSharpModuleMethod]
-        public static DynValue doink(ScriptExecutionContext executionContext, CallbackArguments args)
-        {
-            return DynValue.NewString("hellllo");
-        }
-
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Returns the specified numbers of characters from the left side of a string.",
+                               AutoCompleteHint = "string.left(string value, int length)",
+                               ParameterCount = 2,
+                               ReturnTypeHint = "string")]
         public static DynValue left(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var arg1 = args.AsType(0, "left", DataType.String, true);
@@ -322,17 +322,20 @@ namespace MoonSharp.Interpreter.CoreLib
             return DynValue.NewString(arg1.String.Substring(0, length));
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Returns the specified numbers of characters from the right side of a string.",
+                               AutoCompleteHint = "string.right(string value, int length)",
+                               ParameterCount = 2,
+                               ReturnTypeHint = "string")]
         public static DynValue right(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var arg1 = args.AsType(0, "right", DataType.String, true);
             var arg2 = args.AsType(1, "right", DataType.Number, true);
-            
+
             if (arg1.IsNil() || arg2.IsNil() || arg2.Number <= 0)
             {
                 return DynValue.NewString("");
             }
-            
+
             int length = (int)arg2.Number;
 
             if (length >= arg1.String.Length)
@@ -343,7 +346,10 @@ namespace MoonSharp.Interpreter.CoreLib
             return DynValue.NewString(arg1.String.Substring(arg1.String.Length - length, length));
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Returns the specified numbers of characters from the point of the provided starting index.",
+                               AutoCompleteHint = "string.mid(string value, int startingIndex, int length)",
+                               ParameterCount = 2,
+                               ReturnTypeHint = "string")]
         public static DynValue mid(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var arg1 = args.AsType(0, "mid", DataType.String, true);
@@ -371,5 +377,35 @@ namespace MoonSharp.Interpreter.CoreLib
 
             return DynValue.NewString(arg1.String.Substring(startIndex, length));
         }
+
+        [MoonSharpModuleMethod(Description = "Capitalizes the string.",
+            AutoCompleteHint = "string.capitalize(string value)",
+            ParameterCount = 1,
+            ReturnTypeHint = "string")]
+        public static DynValue capitalize(ScriptExecutionContext executionContext, CallbackArguments args)
+        {
+            var arg1 = args.AsType(0, "capitalize", DataType.String, true);
+
+            if (arg1.IsNil() || arg1.String.Length == 0)
+            {
+                return DynValue.NewString("");
+            }
+
+            if (char.IsUpper(arg1.String[0]))
+            {
+                return DynValue.NewString(arg1.String);
+            }
+
+            // Length will be greater than 0 if it gets here.
+            var chars = arg1.String.ToCharArray();
+
+            if (char.IsLower(chars[0]))
+            {
+                chars[0] = char.ToUpper(chars[0]);
+            }
+
+            return DynValue.NewString(new string(chars));
+        }
+
     }
 }

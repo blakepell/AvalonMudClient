@@ -21,5 +21,20 @@ namespace MoonSharp.Interpreter
         /// An optional description that can be used for intellisense.
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// An options auto complete verbiage hint for IDE's that implement it.
+        /// </summary>
+        public string AutoCompleteHint { get; set; }
+
+        /// <summary>
+        /// A return hint so that autocomplete can infer what the DynValue is of the method.
+        /// </summary>
+        public string ReturnTypeHint { get; set; }
+
+        /// <summary>
+        /// The number of parameters a function has.
+        /// </summary>
+        public int ParameterCount { get; set; } = 0;
     }
 }
