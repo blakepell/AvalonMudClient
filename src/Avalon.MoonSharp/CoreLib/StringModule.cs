@@ -24,7 +24,10 @@ namespace MoonSharp.Interpreter.CoreLib
             globalTable.OwnerScript.SetTypeMetatable(DataType.String, stringMetatable);
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Converts one or more numeric values into their char equivalent.",
+            AutoCompleteHint = "string.char(int value)",
+            ParameterCount = 1,
+            ReturnTypeHint = "string")]
         public static DynValue @char(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             using (var sb = ZString.CreateStringBuilder())
@@ -60,8 +63,10 @@ namespace MoonSharp.Interpreter.CoreLib
             }
         }
 
-
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Takes a character or a string as an argument and then converts that character into its internal numeric representations",
+            AutoCompleteHint = "string.byte(string value)\r\nstring.byte(string value, int index)",
+            ParameterCount = 1,
+            ReturnTypeHint = "int")]
         public static DynValue @byte(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var vs = args.AsType(0, "byte", DataType.String);
@@ -71,7 +76,10 @@ namespace MoonSharp.Interpreter.CoreLib
             return PerformByteLike(vs, vi, vj, i => Unicode2Ascii(i));
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Same as string.byte except that it returns a unicode codepoint instead of byte value.",
+            AutoCompleteHint = "string.unicode(s [, i [, j]])",
+            ParameterCount = 3,
+            ReturnTypeHint = "int")]
         public static DynValue unicode(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var vs = args.AsType(0, "unicode", DataType.String);
@@ -130,34 +138,48 @@ namespace MoonSharp.Interpreter.CoreLib
             return s.Length - i;
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "The length of the string.",
+            AutoCompleteHint = "string.len(string value)",
+            ParameterCount = 1,
+            ReturnTypeHint = "int")]
         public static DynValue len(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var vs = args.AsType(0, "len", DataType.String);
             return DynValue.NewNumber(vs.String.Length);
         }
 
-
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Looks for the first match of pattern",
+            AutoCompleteHint = "string.match(string value, string pattern)\r\nstring.match(string value, string pattern, int startIndex)",
+            ParameterCount = 2,
+            ReturnTypeHint = "string[]")]
         public static DynValue match(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             return executionContext.EmulateClassicCall(args, "match", KopiLua_StringLib.str_match);
         }
 
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Returns strings that match the pattern.",
+            AutoCompleteHint = "string.gmatch(string value, string pattern)\r\nstring.gmatch(string value, string pattern, int startIndex)",
+            ParameterCount = 2,
+            ReturnTypeHint = "string[]")]
         public static DynValue gmatch(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             return executionContext.EmulateClassicCall(args, "gmatch", KopiLua_StringLib.str_gmatch);
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Substitute one string for another in a specified string.",
+            AutoCompleteHint = "string.gsub(string value, string searchFor, string replaceWith)\r\nstring.gsub(string value, string searchFor, string replaceWith, int startIndex)",
+            ParameterCount = 3,
+            ReturnTypeHint = "string")]
         public static DynValue gsub(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             return executionContext.EmulateClassicCall(args, "gsub", KopiLua_StringLib.str_gsub);
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Finds the first occurrence of one string in another and returns the index.",
+            AutoCompleteHint = "string.find(string value, string searchValue)\r\nstring.find(string value, string searchValue, int startIndex)",
+            ParameterCount = 2,
+            ReturnTypeHint = "int")]
         public static DynValue find(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             return executionContext.EmulateClassicCall(args, "find",
@@ -165,21 +187,31 @@ namespace MoonSharp.Interpreter.CoreLib
         }
 
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Converts the string to lower case.",
+            AutoCompleteHint = "string.lower(string value)",
+            ParameterCount = 1,
+            ReturnTypeHint = "string")]
         public static DynValue lower(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var arg_s = args.AsType(0, "lower", DataType.String);
             return DynValue.NewString(arg_s.String.ToLower());
         }
 
-        [MoonSharpModuleMethod]
+
+        [MoonSharpModuleMethod(Description = "Converts the string to upper case.",
+            AutoCompleteHint = "string.upper(string value)",
+            ParameterCount = 1,
+            ReturnTypeHint = "string")]
         public static DynValue upper(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var arg_s = args.AsType(0, "upper", DataType.String);
             return DynValue.NewString(arg_s.String.ToUpper());
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Returns a string that is the concatenation of n copies of the string s separated by the string sep.",
+            AutoCompleteHint = "string.rep (s, n [, sep])",
+            ParameterCount = 3,
+            ReturnTypeHint = "string")]
         public static DynValue rep(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var arg_s = args.AsType(0, "rep", DataType.String);
@@ -211,14 +243,19 @@ namespace MoonSharp.Interpreter.CoreLib
             }
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Returns a formatted version of its variable number of arguments following the description given in its first argument (which must be a string).",
+            AutoCompleteHint = "string.format (string value, ···)",
+            ParameterCount = 2,
+            ReturnTypeHint = "string")]
         public static DynValue format(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             return executionContext.EmulateClassicCall(args, "format", KopiLua_StringLib.str_format);
         }
 
-
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Reverses the string.",
+            AutoCompleteHint = "string.reverse(string value)",
+            ParameterCount = 1,
+            ReturnTypeHint = "string")]
         public static DynValue reverse(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var arg_s = args.AsType(0, "reverse", DataType.String);
@@ -234,7 +271,10 @@ namespace MoonSharp.Interpreter.CoreLib
             return DynValue.NewString(new string(elements));
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Returns the substring of s that starts at i and continues until j; i and j can be negative.",
+            AutoCompleteHint = "string.sub (string value, int startIndex, int endIndex)",
+            ParameterCount = 3,
+            ReturnTypeHint = "string")]
         public static DynValue sub(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var arg_s = args.AsType(0, "sub", DataType.String);
@@ -247,7 +287,10 @@ namespace MoonSharp.Interpreter.CoreLib
             return DynValue.NewString(s);
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "If one string starts with another.",
+            AutoCompleteHint = "string.startsWith(string value, string startsWith)",
+            ParameterCount = 2,
+            ReturnTypeHint = "bool")]
         public static DynValue startsWith(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var arg_s1 = args.AsType(0, "startsWith", DataType.String, true);
@@ -261,7 +304,10 @@ namespace MoonSharp.Interpreter.CoreLib
             return DynValue.NewBoolean(arg_s1.String.StartsWith(arg_s2.String));
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "If one string ends with another.",
+            AutoCompleteHint = "string.startsWith(string value, string endsWith)",
+            ParameterCount = 2,
+            ReturnTypeHint = "bool")]
         public static DynValue endsWith(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var arg_s1 = args.AsType(0, "endsWith", DataType.String, true);
@@ -275,7 +321,10 @@ namespace MoonSharp.Interpreter.CoreLib
             return DynValue.NewBoolean(arg_s1.String.EndsWith(arg_s2.String));
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "If one string contains another.",
+            AutoCompleteHint = "string.contains(string value, string containsValue)",
+            ParameterCount = 2,
+            ReturnTypeHint = "bool")]
         public static DynValue contains(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var arg_s1 = args.AsType(0, "contains", DataType.String, true);
