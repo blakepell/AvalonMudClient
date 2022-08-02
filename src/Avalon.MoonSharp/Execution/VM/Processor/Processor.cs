@@ -8,16 +8,21 @@ namespace MoonSharp.Interpreter.Execution.VM
 {
     internal sealed partial class Processor
     {
+        /// <summary>
+        /// The size of the stack.
+        /// </summary>
+        const int STACK_SIZE = 131072;
+
         private bool _canYield = true;
         private List<Processor> _coroutinesStack;
-        private FastStack<CallStackItem> _executionStack = new(131072);
+        private FastStack<CallStackItem> _executionStack = new(STACK_SIZE);
         private Table _globalTable;
         private int _owningThreadID = -1;
         private Processor _parent;
         private ByteCode _rootChunk;
         private int _savedInstructionPtr = -1;
         private Script _script;
-        private FastStack<DynValue> _valueStack = new(131072);
+        private FastStack<DynValue> _valueStack = new(STACK_SIZE);
 
         public Processor(Script script, Table globalContext, ByteCode byteCode)
         {
