@@ -13,16 +13,10 @@ namespace MoonSharp.Interpreter.CoreLib
     [MoonSharpModule(Namespace = "math")]
     public class MathModule
     {
-        [MoonSharpModuleMethod(Description = "Returns Pi",
-            AutoCompleteHint = "math.pi()",
-            ParameterCount = 0,
-            ReturnTypeHint = "double")]
+        [MoonSharpModuleConstant]
         public const double pi = Math.PI;
 
-        [MoonSharpModuleMethod(Description = "Returns the max numeric value.",
-            AutoCompleteHint = "math.huge()",
-            ParameterCount = 0,
-            ReturnTypeHint = "double")]
+        [MoonSharpModuleConstant]
         public const double huge = double.MaxValue;
 
         private static Random GetRandom(Script s)
