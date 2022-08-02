@@ -13,7 +13,10 @@ namespace MoonSharp.Interpreter.CoreLib
     [MoonSharpModule(Namespace = "os")]
     public class OsSystemModule
     {
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Shells a process.",
+            AutoCompleteHint = "os.execute(string path)",
+            ParameterCount = 1,
+            ReturnTypeHint = "tuple")]
         public static DynValue execute(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var v = args.AsType(0, "execute", DataType.String, true);
@@ -39,7 +42,10 @@ namespace MoonSharp.Interpreter.CoreLib
             }
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Exits the current process/program execution.",
+            AutoCompleteHint = "os.exit()\r\nos.exit(int exitCode)",
+            ParameterCount = 1,
+            ReturnTypeHint = "void")]
         public static DynValue exit(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var v_exitCode = args.AsType(0, "exit", DataType.Number, true);
@@ -55,7 +61,10 @@ namespace MoonSharp.Interpreter.CoreLib
             throw new InvalidOperationException("Unreachable code.. reached.");
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Returns an environment variable.",
+            AutoCompleteHint = "os.getenv(string variableName)",
+            ParameterCount = 1,
+            ReturnTypeHint = "string")]
         public static DynValue getenv(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var varName = args.AsType(0, "getenv", DataType.String);
@@ -70,7 +79,10 @@ namespace MoonSharp.Interpreter.CoreLib
             return DynValue.NewString(val);
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Removes a file.",
+            AutoCompleteHint = "os.remove(string path)",
+            ParameterCount = 1,
+            ReturnTypeHint = "tuple")]
         public static DynValue remove(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             string fileName = args.AsType(0, "remove", DataType.String).String;
@@ -94,7 +106,10 @@ namespace MoonSharp.Interpreter.CoreLib
             }
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Renames a file.",
+            AutoCompleteHint = "os.rename(string oldName, string newName)",
+            ParameterCount = 2,
+            ReturnTypeHint = "bool")]
         public static DynValue rename(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             string fileNameOld = args.AsType(0, "rename", DataType.String).String;
@@ -118,13 +133,19 @@ namespace MoonSharp.Interpreter.CoreLib
             }
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Not Implemented",
+            AutoCompleteHint = "os.ssetlocale()",
+            ParameterCount = 0,
+            ReturnTypeHint = "void")]
         public static DynValue setlocale(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             return DynValue.NewString("n/a");
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Gets a temporary filename.",
+            AutoCompleteHint = "os.tmpname",
+            ParameterCount = 0,
+            ReturnTypeHint = "string")]
         public static DynValue tmpname(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             return DynValue.NewString(Script.GlobalOptions.Platform.IO_OS_GetTempFilename());

@@ -10,7 +10,10 @@ namespace MoonSharp.Interpreter.CoreLib
     [MoonSharpModule(Namespace = "debug")]
     public class DebugModule
     {
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Returns a value for the specified object.",
+            AutoCompleteHint = "debug.getuservalue(object obj)",
+            ParameterCount = 1,
+            ReturnTypeHint = "object")]
         public static DynValue getuservalue(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var v = args[0];
@@ -23,7 +26,10 @@ namespace MoonSharp.Interpreter.CoreLib
             return v.UserData.UserValue ?? DynValue.Nil;
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Sets a user value.",
+            AutoCompleteHint = "debug.setuservalue(object value)",
+            ParameterCount = 1,
+            ReturnTypeHint = "bool")]
         public static DynValue setuservalue(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var v = args.AsType(0, "setuservalue", DataType.UserData);
@@ -32,13 +38,19 @@ namespace MoonSharp.Interpreter.CoreLib
             return v.UserData.UserValue = t;
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Gets a the registry for a given script.",
+            AutoCompleteHint = "debug.getregistry()",
+            ParameterCount = 0,
+            ReturnTypeHint = "table")]
         public static DynValue getregistry(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             return DynValue.NewTable(executionContext.GetScript().Registry);
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Returns a table for the specified value.",
+            AutoCompleteHint = "debug.getmetatable(object value)",
+            ParameterCount = 1,
+            ReturnTypeHint = "table")]
         public static DynValue getmetatable(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var v = args[0];
@@ -57,7 +69,10 @@ namespace MoonSharp.Interpreter.CoreLib
             return DynValue.Nil;
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Sets the value of a metatable.",
+            AutoCompleteHint = "debug.setmetatable(object obj, object value)",
+            ParameterCount = 2,
+            ReturnTypeHint = "table")]
         public static DynValue setmetatable(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var v = args[0];
@@ -81,7 +96,10 @@ namespace MoonSharp.Interpreter.CoreLib
             return v;
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Gets an up value.",
+            AutoCompleteHint = "debug.getupvalue(int value, function func)",
+            ParameterCount = 2,
+            ReturnTypeHint = "tuple<string, closure>")]
         public static DynValue getupvalue(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             int index = (int) args.AsType(1, "getupvalue", DataType.Number).Number - 1;
@@ -106,7 +124,10 @@ namespace MoonSharp.Interpreter.CoreLib
         }
 
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Returns the ID of an up value.",
+            AutoCompleteHint = "debug.upvaludid(function func, int value)",
+            ParameterCount = 2,
+            ReturnTypeHint = "int")]
         public static DynValue upvalueid(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             int index = (int) args.AsType(1, "getupvalue", DataType.Number).Number - 1;
@@ -129,7 +150,10 @@ namespace MoonSharp.Interpreter.CoreLib
         }
 
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Sets an up value",
+            AutoCompleteHint = "debug.setupvalue(int value, function func)",
+            ParameterCount = 2,
+            ReturnTypeHint = "string")]
         public static DynValue setupvalue(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             int index = (int) args.AsType(1, "setupvalue", DataType.Number).Number - 1;
@@ -154,7 +178,10 @@ namespace MoonSharp.Interpreter.CoreLib
         }
 
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Joins two up values.",
+            AutoCompleteHint = "debug.upvaluejoin(function func1, int value, function func2, int value2)",
+            ParameterCount = 4,
+            ReturnTypeHint = "void")]
         public static DynValue upvaluejoin(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var f1 = args.AsType(0, "upvaluejoin", DataType.Function);
@@ -181,7 +208,10 @@ namespace MoonSharp.Interpreter.CoreLib
         }
 
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "No description available.",
+            AutoCompleteHint = "debug.traceback(object obj1, object obj2)",
+            ParameterCount = 2,
+            ReturnTypeHint = "string")]
         public static DynValue traceback(ScriptExecutionContext executionContext, CallbackArguments args)
         {
                 var vMessage = args[0];

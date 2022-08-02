@@ -36,7 +36,10 @@ namespace MoonSharp.Interpreter.CoreLib
             return Epoch + ts;
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Returns the number of seconds of CPU time a program has used.",
+            AutoCompleteHint = "os.clock.()",
+            ParameterCount = 0,
+            ReturnTypeHint = "int")]
         public static DynValue clock(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var t = GetUnixTime(DateTime.UtcNow, Time0);
@@ -49,7 +52,10 @@ namespace MoonSharp.Interpreter.CoreLib
             return t;
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Returns the difference in time between two values.",
+            AutoCompleteHint = "os.difftime(int value1, int value2)",
+            ParameterCount = 2,
+            ReturnTypeHint = "int")]
         public static DynValue difftime(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var t2 = args.AsType(0, "difftime", DataType.Number);
@@ -63,7 +69,10 @@ namespace MoonSharp.Interpreter.CoreLib
             return DynValue.NewNumber(t2.Number - t1.Number);
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Returns the current date and time.",
+            AutoCompleteHint = "os.time()\r\nos.time{year=1970, month=1, day=1, hour=0, sec=1}",
+            ParameterCount = 1,
+            ReturnTypeHint = "int")]
         public static DynValue time(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var date = DateTime.UtcNow;
@@ -115,13 +124,16 @@ namespace MoonSharp.Interpreter.CoreLib
 
             if (d.HasValue)
             {
-                return (int) d.Value;
+                return (int)d.Value;
             }
 
             return null;
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Returns the date as a table or a string.",
+            AutoCompleteHint = "os.date()\r\nos.date(string format, int datetime)",
+            ParameterCount = 2,
+            ReturnTypeHint = "string or table")]
         public static DynValue date(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var reference = DateTime.UtcNow;
@@ -144,8 +156,6 @@ namespace MoonSharp.Interpreter.CoreLib
             }
             else
             {
-#if !(ENABLE_DOTNET || NETFX_CORE)
-
                 try
                 {
                     reference = TimeZoneInfo.ConvertTimeFromUtc(reference, TimeZoneInfo.Local);
@@ -156,9 +166,7 @@ namespace MoonSharp.Interpreter.CoreLib
                     // this catches a weird mono bug: https://bugzilla.xamarin.com/show_bug.cgi?id=11817
                     // however the behavior is definitely not correct. damn.
                 }
-#endif
             }
-
 
             if (format == "*t")
             {
@@ -170,7 +178,7 @@ namespace MoonSharp.Interpreter.CoreLib
                 t.Set("hour", DynValue.NewNumber(reference.Hour));
                 t.Set("min", DynValue.NewNumber(reference.Minute));
                 t.Set("sec", DynValue.NewNumber(reference.Second));
-                t.Set("wday", DynValue.NewNumber(((int) reference.DayOfWeek) + 1));
+                t.Set("wday", DynValue.NewNumber(((int)reference.DayOfWeek) + 1));
                 t.Set("yday", DynValue.NewNumber(reference.DayOfYear));
                 t.Set("isdst", DynValue.NewBoolean(isDst));
 

@@ -16,7 +16,10 @@ namespace MoonSharp.Interpreter.CoreLib
             UserData.RegisterType<DynamicExprWrapper>(InteropAccessMode.HideMembers);
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Evaluates an expression",
+            AutoCompleteHint = "dynamic.eval(object obj)",
+            ParameterCount = 1,
+            ReturnTypeHint = "object")]
         public static DynValue eval(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             try
@@ -43,7 +46,10 @@ namespace MoonSharp.Interpreter.CoreLib
             }
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Prepares an expression for evaluation.",
+            AutoCompleteHint = "dynamic.prepare(object obj)",
+            ParameterCount = 1,
+            ReturnTypeHint = "object")]
         public static DynValue prepare(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             try

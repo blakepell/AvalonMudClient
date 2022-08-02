@@ -124,7 +124,10 @@ namespace MoonSharp.Interpreter.CoreLib
         }
 
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Closes the current io stream.",
+            AutoCompleteHint = "io.close()",
+            ParameterCount = 0,
+            ReturnTypeHint = "tuple<nil, string>")]
         public static DynValue close(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var outp = args.AsUserData<FileUserDataBase>(0, "close", true) ??
@@ -132,7 +135,10 @@ namespace MoonSharp.Interpreter.CoreLib
             return outp.close(executionContext, args);
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Flushes the current io stream.",
+            AutoCompleteHint = "io.flush()",
+            ParameterCount = 0,
+            ReturnTypeHint = "bool")]
         public static DynValue flush(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var outp = args.AsUserData<FileUserDataBase>(0, "close", true) ??
@@ -142,13 +148,19 @@ namespace MoonSharp.Interpreter.CoreLib
         }
 
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "When called with a file name, it opens the named file (in text mode), and sets its handle as the default input file. When called with a file handle, it simply sets this file handle as the default input file. When called without parameters, it returns the current default input file. o In case of errors this function raises the error, instead of returning an error code.",
+            AutoCompleteHint = "io.input(string file)",
+            ParameterCount = 1,
+            ReturnTypeHint = "object")]
         public static DynValue input(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             return HandleDefaultStreamSetter(executionContext, args, StandardFileType.StdIn);
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Sets the output to a file.",
+            AutoCompleteHint = "io.output(string filenme)",
+            ParameterCount = 0,
+            ReturnTypeHint = "object")]
         public static DynValue output(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             return HandleDefaultStreamSetter(executionContext, args, StandardFileType.StdOut);
@@ -186,7 +198,10 @@ namespace MoonSharp.Interpreter.CoreLib
             return new UTF8Encoding(false);
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Returns an iterator function that each time called returns a new line from the file.",
+            AutoCompleteHint = "io.lines()",
+            ParameterCount = 0,
+            ReturnTypeHint = "enumerable<string>")]
         public static DynValue lines(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             string filename = args.AsType(0, "lines", DataType.String).String;
@@ -218,7 +233,10 @@ namespace MoonSharp.Interpreter.CoreLib
             }
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Opens an output file.",
+            AutoCompleteHint = "io.open(string filename, string mode, string encoding)",
+            ParameterCount = 0,
+            ReturnTypeHint = "object")]
         public static DynValue open(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             string filename = args.AsType(0, "open", DataType.String).String;
@@ -294,7 +312,10 @@ namespace MoonSharp.Interpreter.CoreLib
             return ex.Message;
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Checks whether an object is a valid file handle.",
+            AutoCompleteHint = "io.type(object obj)",
+            ParameterCount = 1,
+            ReturnTypeHint = "string")]
         public static DynValue type(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             if (args[0].Type != DataType.UserData)
@@ -317,21 +338,56 @@ namespace MoonSharp.Interpreter.CoreLib
             return DynValue.NewString("closed file");
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Checks whether an object is a valid file handle.",
+            AutoCompleteHint = "io.typebool(object obj)",
+            ParameterCount = 1,
+            ReturnTypeHint = "bool")]
+        public static DynValue typebool(ScriptExecutionContext executionContext, CallbackArguments args)
+        {
+            if (args[0].Type != DataType.UserData)
+            {
+                return DynValue.Nil;
+            }
+
+            var file = args[0].UserData.Object as FileUserDataBase;
+
+            if (file == null)
+            {
+                return DynValue.Nil;
+            }
+
+            if (file.isopen())
+            {
+                return DynValue.NewBoolean(true);
+            }
+
+            return DynValue.NewBoolean(false);
+        }
+
+        [MoonSharpModuleMethod(Description = "Reads from a file.",
+            AutoCompleteHint = "io.read(file f)",
+            ParameterCount = 1,
+            ReturnTypeHint = "string")]
         public static DynValue read(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var file = GetDefaultFile(executionContext, StandardFileType.StdIn);
             return file.read(executionContext, args);
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Writes to a file.",
+            AutoCompleteHint = "io.write(string value)",
+            ParameterCount = 1,
+            ReturnTypeHint = "tuple<nil, string>")]
         public static DynValue write(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var file = GetDefaultFile(executionContext, StandardFileType.StdOut);
             return file.write(executionContext, args);
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Returns an open temporary file.",
+            AutoCompleteHint = "io.tmpfile()",
+            ParameterCount = 0,
+            ReturnTypeHint = "file")]
         public static DynValue tmpfile(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             string tmpfilename = Script.GlobalOptions.Platform.IO_OS_GetTempFilename();

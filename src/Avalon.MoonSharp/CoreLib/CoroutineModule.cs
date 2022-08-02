@@ -12,7 +12,9 @@ namespace MoonSharp.Interpreter.CoreLib
     [MoonSharpModule(Namespace = "coroutine")]
     public class CoroutineModule
     {
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Creates a new coroutine",
+            AutoCompleteHint = "coroutine.create(function func)",
+            ParameterCount = 1)]
         public static DynValue create(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             if (args[0].Type != DataType.Function && args[0].Type != DataType.ClrFunction)
@@ -23,7 +25,9 @@ namespace MoonSharp.Interpreter.CoreLib
             return executionContext.GetScript().CreateCoroutine(args[0]);
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Returns a function that resumes the coroutine each time it is called.",
+            AutoCompleteHint = "coroutine.wrap(function func)",
+            ParameterCount = 1)]
         public static DynValue wrap(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             if (args[0].Type != DataType.Function && args[0].Type != DataType.ClrFunction)
@@ -43,7 +47,10 @@ namespace MoonSharp.Interpreter.CoreLib
             return handle.Coroutine.Resume(args.GetArray());
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Starts of continues the execution of a coroutine.",
+            AutoCompleteHint = "coroutine.create(thread t)",
+            ParameterCount = 1,
+            ReturnTypeHint = "tuple<object...>")]
         public static DynValue resume(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var handle = args.AsType(0, "resume", DataType.Thread);
@@ -86,21 +93,29 @@ namespace MoonSharp.Interpreter.CoreLib
             }
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Yields a thread (or thread pool) of the current coroutine dispatcher to other coroutines to run.",
+            AutoCompleteHint = "coroutine.yield()",
+            ParameterCount = 0)]
         public static DynValue yield(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             return DynValue.NewYieldReq(args.GetArray());
         }
 
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Returns the running coroutine.",
+            AutoCompleteHint = "coroutine.create(function func)",
+            ParameterCount = 0,
+            ReturnTypeHint = "tuple<coroutine, bool>")]
         public static DynValue running(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var C = executionContext.GetCallingCoroutine();
             return DynValue.NewTuple(DynValue.NewCoroutine(C), DynValue.NewBoolean(C.State == CoroutineState.Main));
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Returns the status of a coroutine.",
+            AutoCompleteHint = "coroutine.status(thread t)",
+            ParameterCount = 1,
+            ReturnTypeHint = "string")]
         public static DynValue status(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var handle = args.AsType(0, "status", DataType.Thread);

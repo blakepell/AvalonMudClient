@@ -6,6 +6,7 @@ using Cysharp.Text;
 using MoonSharp.Interpreter.CoreLib.StringLib;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.RegularExpressions;
 
 namespace MoonSharp.Interpreter.CoreLib
 {
@@ -456,5 +457,159 @@ namespace MoonSharp.Interpreter.CoreLib
             return DynValue.NewString(new string(chars));
         }
 
+        private static bool IsNumeric(string theValue)
+        {
+            return long.TryParse(theValue, System.Globalization.NumberStyles.Integer, System.Globalization.NumberFormatInfo.InvariantInfo, out long _);
+        }
+
+        [MoonSharpModuleMethod(Description = "If a string value is a number.",
+            AutoCompleteHint = "string.isnumber(string value)",
+            ParameterCount = 1,
+            ReturnTypeHint = "bool")]
+        public static DynValue isnumber(ScriptExecutionContext executionContext, CallbackArguments args)
+        {
+            var arg_s1 = args.AsType(0, "isnumber", DataType.String, true);
+
+            if (IsNumeric(arg_s1.String))
+            {
+                return DynValue.True;
+            }
+
+            return DynValue.False;
+        }
+
+        private static bool IsDate(string input)
+        {
+            if (!string.IsNullOrEmpty(input))
+            {
+                DateTime dt;
+                return (DateTime.TryParse(input, out dt));
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        [MoonSharpModuleMethod(Description = "If a string value is a date.",
+            AutoCompleteHint = "string.isdate(string value)",
+            ParameterCount = 1,
+            ReturnTypeHint = "bool")]
+        public static DynValue isdate(ScriptExecutionContext executionContext, CallbackArguments args)
+        {
+            var arg_s1 = args.AsType(0, "isdate", DataType.String, true);
+
+            if (IsDate(arg_s1.String))
+            {
+                return DynValue.True;
+            }
+
+            return DynValue.False;
+        }
+
+        private static bool IsGuid(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw new ArgumentNullException("value");
+            }
+
+            var format = new Regex(
+                "^[A-Fa-f0-9]{32}$|" +
+                "^({|\\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(}|\\))?$|" +
+                "^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$");
+            var match = format.Match(value);
+
+            return match.Success;
+        }
+
+        [MoonSharpModuleMethod(Description = "If a string value is a valid GUID.",
+            AutoCompleteHint = "string.isguid(string value)",
+            ParameterCount = 1,
+            ReturnTypeHint = "bool")]
+        public static DynValue isguid(ScriptExecutionContext executionContext, CallbackArguments args)
+        {
+            var arg_s1 = args.AsType(0, "isguid", DataType.String, true);
+
+            if (IsGuid(arg_s1.String))
+            {
+                return DynValue.True;
+            }
+
+            return DynValue.False;
+        }
+
+        private static string ToProperCase(string text)
+        {
+            System.Globalization.CultureInfo cultureInfo = System.Threading.Thread.CurrentThread.CurrentCulture;
+            System.Globalization.TextInfo textInfo = cultureInfo.TextInfo;
+            return textInfo.ToTitleCase(text);
+        }
+
+        [MoonSharpModuleMethod(Description = "Converts the string to proper case.",
+            AutoCompleteHint = "string.propercase(string value)",
+            ParameterCount = 1,
+            ReturnTypeHint = "string")]
+        public static DynValue propercase(ScriptExecutionContext executionContext, CallbackArguments args)
+        {
+            var arg_s1 = args.AsType(0, "propercase", DataType.String, true);
+            return DynValue.NewString(ToProperCase(arg_s1.String));
+        }
+
+        [MoonSharpModuleMethod(Description = "Returns true if the provided value is null, empty or whitespace.",
+            AutoCompleteHint = "string.isempty(string value)",
+            ParameterCount = 1,
+            ReturnTypeHint = "bool")]
+        public static DynValue isempty(ScriptExecutionContext executionContext, CallbackArguments args)
+        {
+            var arg_s1 = args.AsType(0, "isguid", DataType.String, true);
+
+            if (string.IsNullOrWhiteSpace(arg_s1.String))
+            {
+                return DynValue.True;
+            }
+            
+            return DynValue.False;
+        }
+
+        /// <summary>
+        /// If the value is a bool.
+        /// </summary>
+        /// <param name="value"></param>
+        private static bool IsBoolean(string value)
+        {
+            var val = value.ToLower().Trim();
+
+            switch (val)
+            {
+                case "false":
+                case "f":
+                case "true":
+                case "t":
+                case "yes":
+                case "no":
+                case "y":
+                case "n":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        [MoonSharpModuleMethod(Description = "Returns a true or false based on if the string value can be inferred as a bool (e.g. 'yes' would return true)",
+            AutoCompleteHint = "string.isbool(string value)",
+            ParameterCount = 1,
+            ReturnTypeHint = "bool")]
+        public static DynValue isbool(ScriptExecutionContext executionContext, CallbackArguments args)
+        {
+            var arg_s1 = args.AsType(0, "isbool", DataType.String, true);
+
+            if (IsBoolean(arg_s1.String))
+            {
+                return DynValue.True;
+            }
+
+            return DynValue.False;
+        }
     }
 }

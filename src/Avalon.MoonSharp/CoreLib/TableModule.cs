@@ -15,7 +15,10 @@ namespace MoonSharp.Interpreter.CoreLib
     [MoonSharpModule(Namespace = "table")]
     public class TableModule
     {
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Returns multiple values from a table.",
+            AutoCompleteHint = "table.unpack{x,y,z,....}",
+            ParameterCount = 2,
+            ReturnTypeHint = "tuple")]
         public static DynValue unpack(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var s = args.AsType(0, "unpack", DataType.Table);
@@ -38,7 +41,10 @@ namespace MoonSharp.Interpreter.CoreLib
             return DynValue.NewTuple(v);
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Return a table as a result from multiple values passed into a function.",
+            AutoCompleteHint = "table.pack(x,y,z,....)",
+            ParameterCount = 2,
+            ReturnTypeHint = "table")]
         public static DynValue pack(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var t = new Table(executionContext.GetScript());
@@ -54,7 +60,10 @@ namespace MoonSharp.Interpreter.CoreLib
             return v;
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Receives the array to be sorted, plus an optional order function.",
+            AutoCompleteHint = "table.sort(x,f)",
+            ParameterCount = 2,
+            ReturnTypeHint = "table")]
         public static DynValue sort(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var vlist = args.AsType(0, "sort", DataType.Table);
@@ -148,7 +157,10 @@ namespace MoonSharp.Interpreter.CoreLib
             return 0;
         }
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Inserts an item into the given position of a table.",
+            AutoCompleteHint = "table.insert(table tbl, obj item)",
+            ParameterCount = 2,
+            ReturnTypeHint = "table")]
         public static DynValue insert(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var vlist = args.AsType(0, "table.insert", DataType.Table);
@@ -192,7 +204,10 @@ namespace MoonSharp.Interpreter.CoreLib
         }
 
 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Removes an item from a given position in a table.",
+            AutoCompleteHint = "table.remove(table tbl, object item)",
+            ParameterCount = 2,
+            ReturnTypeHint = "table")]
         public static DynValue remove(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var vlist = args.AsType(0, "table.remove", DataType.Table);
@@ -232,7 +247,10 @@ namespace MoonSharp.Interpreter.CoreLib
         //Given a list where all elements are strings or numbers, returns the string list[i]..sep..list[i+1] (...) sep..list[j]. 
         //The default value for sep is the empty string, the default for i is 1, and the default for j is #list. If i is greater 
         //than j, returns the empty string. 
-        [MoonSharpModuleMethod]
+        [MoonSharpModuleMethod(Description = "Concatenates the elements of a table to form a string.",
+            AutoCompleteHint = "table.concat (list [, sep [, i [, j]]])",
+            ParameterCount = 2,
+            ReturnTypeHint = "string")]
         public static DynValue concat(ScriptExecutionContext executionContext, CallbackArguments args)
         {
             var vlist = args.AsType(0, "concat", DataType.Table);
