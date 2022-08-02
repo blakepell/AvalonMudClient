@@ -7,7 +7,7 @@ namespace MoonSharp.Interpreter
     /// <summary>
     /// Descriptor which acts as a non-containing adapter from IUserDataType to IUserDataDescriptor
     /// </summary>
-    internal class AutoDescribingUserDataDescriptor : IUserDataDescriptor
+    public class AutoDescribingUserDataDescriptor : IUserDataDescriptor
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AutoDescribingUserDataDescriptor"/> class.
