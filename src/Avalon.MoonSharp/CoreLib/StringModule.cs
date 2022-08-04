@@ -7,6 +7,7 @@ using MoonSharp.Interpreter.CoreLib.StringLib;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
+using MoonSharp.Interpreter.Serialization;
 
 namespace MoonSharp.Interpreter.CoreLib
 {
@@ -640,6 +641,58 @@ namespace MoonSharp.Interpreter.CoreLib
         {
             var arg_s1 = args.AsType(0, "trimStart", DataType.String, true);
             return DynValue.NewString(arg_s1.String.TrimStart());
+        }
+
+        [MoonSharpModuleMethod(Description = "Returns the index of the first occurrence of one string in another.",
+            AutoCompleteHint = "string.indexOf(string value, string searchFor)\r\nstring.indexOf(string value, string searchFor, int startIndex)",
+            ParameterCount = 3,
+            ReturnTypeHint = "int")]
+        public static DynValue indexOf(ScriptExecutionContext executionContext, CallbackArguments args)
+        {
+            var arg1 = args.AsType(0, "indexOf", DataType.String, true);
+            var arg2 = args.AsType(1, "indexOf", DataType.String, true);
+            var arg3 = args.AsType(2, "indexOf", DataType.Number, true);
+
+            if (arg3.IsNil())
+            {
+                return DynValue.NewNumber(arg1.String.IndexOf(arg2.String, StringComparison.Ordinal));
+            }
+            
+            return DynValue.NewNumber(arg1.String.IndexOf(arg2.String, (int)arg3.Number, StringComparison.Ordinal));
+        }
+
+        [MoonSharpModuleMethod(Description = "Pads the right side of a string with a specified number of characters.  If more than one character is provided for the padding character then only the first character of that string is used.",
+            AutoCompleteHint = "string.padRight(string originalValue, string charToPad, int length)",
+            ParameterCount = 2,
+            ReturnTypeHint = "string")]
+        public static DynValue padRight(ScriptExecutionContext executionContext, CallbackArguments args)
+        {
+            var arg = args.AsType(0, "padRight", DataType.String, true);
+            var arg2 = args.AsType(1, "padRight", DataType.String, true);
+            var arg3 = args.AsType(2, "padRight", DataType.Number, true);
+
+            int len = (int)arg3.Number;
+            var c = arg2.String[0];
+            string buf = arg.String.PadRight(arg.String.Length + len, c);
+            
+            return DynValue.NewString(buf);
+        }
+
+        [MoonSharpModuleMethod(Description = "Pads the left side of a string with a specified number of characters.  If more than one character is provided for the padding character then only the first character of that string is used.",
+            AutoCompleteHint = "string.padLeft(string originalValue, string charToPad, int length)",
+            ParameterCount = 2,
+            ReturnTypeHint = "string")]
+        public static DynValue padLeft(ScriptExecutionContext executionContext, CallbackArguments args)
+        {
+            var arg = args.AsType(0, "padLeft", DataType.String, true);
+            var arg2 = args.AsType(1, "padLeft", DataType.String, true);
+            var arg3 = args.AsType(2, "padLeft", DataType.Number, true);
+
+            int len = (int)arg3.Number;
+            var c = arg2.String[0];
+            string buf = arg.String.PadLeft(arg.String.Length + len, c);
+
+            return DynValue.NewString(buf);
         }
     }
 }
