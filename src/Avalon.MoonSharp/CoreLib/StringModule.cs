@@ -611,5 +611,35 @@ namespace MoonSharp.Interpreter.CoreLib
 
             return DynValue.False;
         }
+
+        [MoonSharpModuleMethod(Description = "Trims whitespace off of the start and end of a string.",
+            AutoCompleteHint = "string.trim(string value)",
+            ParameterCount = 1,
+            ReturnTypeHint = "string")]
+        public static DynValue trim(ScriptExecutionContext executionContext, CallbackArguments args)
+        {
+            var arg_s1 = args.AsType(0, "trim", DataType.String, true);
+            return DynValue.NewString(arg_s1.String.Trim());
+        }
+
+        [MoonSharpModuleMethod(Description = "Trims whitespace off of the end of a string.",
+            AutoCompleteHint = "string.trimEnd(string value)",
+            ParameterCount = 1,
+            ReturnTypeHint = "string")]
+        public static DynValue trimEnd(ScriptExecutionContext executionContext, CallbackArguments args)
+        {
+            var arg_s1 = args.AsType(0, "trimEnd", DataType.String, true);
+            return DynValue.NewString(arg_s1.String.TrimEnd());
+        }
+
+        [MoonSharpModuleMethod(Description = "Trims whitespace off of the start of a string.",
+            AutoCompleteHint = "string.trimStart(string value)",
+            ParameterCount = 1,
+            ReturnTypeHint = "string")]
+        public static DynValue trimStart(ScriptExecutionContext executionContext, CallbackArguments args)
+        {
+            var arg_s1 = args.AsType(0, "trimStart", DataType.String, true);
+            return DynValue.NewString(arg_s1.String.TrimStart());
+        }
     }
 }
