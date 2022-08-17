@@ -65,11 +65,11 @@ namespace Avalon.HashCommands
                                                return;
                                            }
 
-                                           App.Beep.Play();
+                                           App.Beep?.Play();
 
                                            return;
                                        default:
-                                           SystemSounds.Beep.Play();
+                                           SystemSounds.Beep?.Play();
                                            return;
                                    }
                                });

@@ -139,7 +139,7 @@ namespace Avalon
             // One beep per line max, everything else is ignored.
             if (App.Settings.ProfileSettings.AnsiBeep && e.Contains('\a'))
             {
-                App.Beep.Play();
+                App.Beep?.Play();
             }
 
             try
