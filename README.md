@@ -28,7 +28,8 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
 ### Info
 
  - Language: C# / WPF for .Net 6
- - OS Support: Windows 7, 8.1, 10 (1607+)
+ - OS Support: Windows 11, 10 (1607+), 8.1, 7
+ - OS Support for Windows Store Version: Windows 11, Windows 10, version 1809 (10.0; Build 17763)
 
 ### Key Features
  
@@ -48,6 +49,7 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
  - Custom scraping that can be easily turned on and off via hash commands/LUA and then piped to variables (imagine an alias that scraped notes into a database for posterity, etc.).
  - Tick support.
  - Gagging, redirection and custom information panels.
+ - Line rewriting (being able to transform the text sent from the server before it's rendered to the mud client)
  - Regular Expression tester.
  
 ### Open Source Libraries used in Avalon
@@ -69,10 +71,6 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
 
  - Documentation
  - Ensure touch screen scrolling is smooth on all terminals and controls.
-
-### Long Term Road-map
-
- - Publish this app on the Windows Store free of charge.
 
 ### Recognition / Thank you to testers
 
