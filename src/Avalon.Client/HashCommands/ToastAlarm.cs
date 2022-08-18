@@ -29,7 +29,7 @@ namespace Avalon.HashCommands
 
         public override void Execute()
         {
-            SystemSounds.Exclamation.Play();
+            SystemSounds.Exclamation?.Play();
             App.Toast.ShowNotification("Avalon", this.Parameters, ToolTipIcon.Warning);
         }
 

@@ -43,19 +43,19 @@ namespace Avalon.HashCommands
                                    switch (o.BeepType)
                                    {
                                        case BeepType.Beep:
-                                           SystemSounds.Beep.Play();
+                                           SystemSounds.Beep?.Play();
                                            return;
                                        case BeepType.Asterisk:
-                                           SystemSounds.Asterisk.Play();
+                                           SystemSounds.Asterisk?.Play();
                                            return;
                                        case BeepType.Exclamation:
-                                           SystemSounds.Exclamation.Play();
+                                           SystemSounds.Exclamation?.Play();
                                            return;
                                        case BeepType.Hand:
-                                           SystemSounds.Hand.Play();
+                                           SystemSounds.Hand?.Play();
                                            return;
                                        case BeepType.Question:
-                                           SystemSounds.Question.Play();
+                                           SystemSounds.Question?.Play();
                                            return;
                                        case BeepType.Alert:
                                            // Special type, this will play even if other system sounds are muted.

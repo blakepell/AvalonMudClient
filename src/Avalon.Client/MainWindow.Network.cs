@@ -7,6 +7,7 @@
  * @license           : MIT
  */
 
+using System.Media;
 using Avalon.Colors;
 using Avalon.Common.Models;
 using Avalon.Controls;
@@ -139,7 +140,14 @@ namespace Avalon
             // One beep per line max, everything else is ignored.
             if (App.Settings.ProfileSettings.AnsiBeep && e.Contains('\a'))
             {
-                App.Beep?.Play();
+                if (App.Beep != null)
+                {
+                    App.Beep.Play();
+                }
+                else
+                {
+                    SystemSounds.Beep?.Play();
+                }
             }
 
             try
