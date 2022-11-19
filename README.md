@@ -69,8 +69,9 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
 
 ### Short Term Road-map
 
+ - Update to .NET 7
  - Documentation
- - Ensure touch screen scrolling is smooth on all terminals and controls.
+ - Ensure touch screen scrolling is smooth on all terminals and controls. 
 
 ### Recognition / Thank you to testers
 
