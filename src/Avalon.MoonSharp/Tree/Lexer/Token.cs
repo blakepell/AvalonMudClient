@@ -60,6 +60,7 @@ namespace MoonSharp.Interpreter.Tree
                 case "in":
                     return TokenType.In;
                 case "local":
+                case "var":
                     return TokenType.Local;
                 case "nil":
                     return TokenType.Nil;
