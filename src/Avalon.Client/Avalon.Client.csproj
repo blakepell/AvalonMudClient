@@ -6,13 +6,13 @@
 		<Authors>Blake Pell</Authors>
 		<Company></Company>
 		<Description>Avalon Mud Client</Description>
-		<Copyright>2003-2021</Copyright>
+		<Copyright>2003-2022</Copyright>
 		<RootNamespace>Avalon</RootNamespace>
 		<AssemblyName>Avalon</AssemblyName>
 		<ApplicationIcon>DiamondHilt.ico</ApplicationIcon>
-    <Version>2022.8.18.1</Version>
-    <AssemblyVersion>2022.8.18.1</AssemblyVersion>
-    <FileVersion>2022.8.18.1</FileVersion>
+		<Version>2022.11.17.1</Version>
+		<AssemblyVersion>2022.11.17.1</AssemblyVersion>
+		<FileVersion>2022.11.17.1</FileVersion>
 		<LangVersion>latest</LangVersion>
 		<Product>Avalon Mud Client</Product>
 		<RepositoryUrl>https://github.com/blakepell/AvalonMudClient</RepositoryUrl>
