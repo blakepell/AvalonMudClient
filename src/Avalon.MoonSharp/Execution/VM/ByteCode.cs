@@ -10,35 +10,10 @@ namespace MoonSharp.Interpreter.Execution.VM
         internal LoopTracker LoopTracker = new();
         private SourceRef _currentSourceRef;
         private List<SourceRef> _sourceRefStack = new();
-        private object _lock = new();
 
         public ByteCode(Script script)
         {
             this.Script = script;
-        }
-
-        /// <summary>
-        /// The current <see cref="SourceRef"/>
-        /// </summary>
-        /// <returns></returns>
-        public SourceRef CurrentSourceRef()
-        {
-            lock (_lock)
-            {
-                return _currentSourceRef;
-            }
-        }
-
-        /// <summary>
-        /// The current line number.
-        /// </summary>
-        /// <returns></returns>
-        public int ExecutingLineNumber()
-        {
-            lock (_lock)
-            {
-                return _currentSourceRef.FromLine;
-            }
         }
 
         /// <summary>

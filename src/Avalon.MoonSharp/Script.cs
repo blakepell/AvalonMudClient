@@ -30,16 +30,6 @@ namespace MoonSharp.Interpreter
         private Processor _mainProcessor;
         private Table[] _typeMetaTables = new Table[(int)LuaTypeExtensions.MaxMetaTypes];
 
-        public int LineNumber()
-        {
-            return _byteCode.ExecutingLineNumber();
-        }
-
-        public SourceRef CurrentSourceRef()
-        {
-            return _byteCode.CurrentSourceRef();
-        }
-
         /// <summary>
         /// A list of MD5 hashes for each function that has been loaded.  Each <see cref="Script"/> will have
         /// it's own list so the caller will know whether a new version of a function needs to be loaded since
