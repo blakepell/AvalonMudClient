@@ -10,6 +10,7 @@
 using Avalon.Common.Interfaces;
 using CommandLine;
 using System.Media;
+using Avalon.Common.Models;
 
 namespace Avalon.HashCommands
 {
@@ -40,43 +41,53 @@ namespace Avalon.HashCommands
             var result = Parser.Default.ParseArguments<BeepArguments>(CreateArgs(this.Parameters))
                                .WithParsed(o =>
                                {
-                                   switch (o.BeepType)
+                                   try
                                    {
-                                       case BeepType.Beep:
-                                           SystemSounds.Beep?.Play();
-                                           return;
-                                       case BeepType.Asterisk:
-                                           SystemSounds.Asterisk?.Play();
-                                           return;
-                                       case BeepType.Exclamation:
-                                           SystemSounds.Exclamation?.Play();
-                                           return;
-                                       case BeepType.Hand:
-                                           SystemSounds.Hand?.Play();
-                                           return;
-                                       case BeepType.Question:
-                                           SystemSounds.Question?.Play();
-                                           return;
-                                       case BeepType.Alert:
-                                           // Special type, this will play even if other system sounds are muted.
-                                           if (!System.IO.File.Exists(@"Media\alert.wav"))
-                                           {
-                                               this.Interpreter.Conveyor.EchoLog("Media\\alert.wav does not exist.", Common.Models.LogType.Error);
+                                       switch (o.BeepType)
+                                       {
+                                           case BeepType.Beep:
+                                               SystemSounds.Beep?.Play();
                                                return;
-                                           }
+                                           case BeepType.Asterisk:
+                                               SystemSounds.Asterisk?.Play();
+                                               return;
+                                           case BeepType.Exclamation:
+                                               SystemSounds.Exclamation?.Play();
+                                               return;
+                                           case BeepType.Hand:
+                                               SystemSounds.Hand?.Play();
+                                               return;
+                                           case BeepType.Question:
+                                               SystemSounds.Question?.Play();
+                                               return;
+                                           case BeepType.Alert:
+                                               // File in a UWP container vs. a normal Windows build.
+                                               string alertFile = Utilities.Utilities.IsRunningAsUwp() ? "//Avalon.Client/Media/alert.wav" : @"Media\alert.wav";
+                                               var uri = new Uri(@"pack://application:,,,/Avalon.Client;component/Media/alert.wav", UriKind.Absolute);
 
-                                           App.Beep?.Play();
+                                               // Special type, this will play even if other system sounds are muted.
+                                               if (!File.Exists(alertFile))
+                                               {
+                                                   this.Interpreter.Conveyor.EchoLog(alertFile, LogType.Error);
+                                                   return;
+                                               }
 
-                                           return;
-                                       default:
-                                           SystemSounds.Beep?.Play();
-                                           return;
+                                               App.Beep?.Play();
+
+                                               return;
+                                           default:
+                                               SystemSounds.Beep?.Play();
+                                               return;
+                                       }
+                                   }
+                                   catch (Exception ex)
+                                   {
+                                       this.Interpreter.Conveyor.EchoError($"#beep error: {ex.Message}");
                                    }
                                });
 
             // Display the help or error output from the parameter parsing.
             this.DisplayParserOutput(result);
-
         }
 
         /// <summary>
