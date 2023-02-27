@@ -93,7 +93,7 @@ namespace Avalon
                 var scriptHost = new ScriptHost();
                 var settings = new SettingsProvider(conveyor);
                 var mainWindow = new MainWindow();
-                
+
                 AppServices.Init((sc) =>
                 {
                     sc.AddSingleton<Conveyor>(conveyor);
@@ -118,17 +118,19 @@ namespace Avalon
                 App.MainWindow = AppServices.GetService<MainWindow>();
                 Application.Current.MainWindow = App.MainWindow;
 
+                string alertFile = Utilities.Utilities.IsRunningAsUwp() ? "ms-appx:///Media/alert.wav" : @"Media\alert.wav";
+
                 // We're going to try to load the wav file to play the ANSI beep when it's needed.
-                if (File.Exists(@"Media\alert.wav"))
+                if (File.Exists(alertFile))
                 {
-                    App.Beep = new SoundPlayer(@"Media\alert.wav");
+                    App.Beep = new SoundPlayer(alertFile);
                     App.Beep.Load();
                 }
 
                 // Adds the string editor to all strings.. but based on convention (or attribute) we'll 
                 // determine which string editor opens.
                 TypeDescriptor.AddAttributes(typeof(string), new EditorAttribute(typeof(StringPropertyEditor), typeof(UITypeEditor)));
-                
+
                 // Setup our global exception handling if the setting is set for it.
                 if (App.Settings.AvalonSettings.GlobalExceptionHandlingEnabled)
                 {
@@ -220,7 +222,7 @@ namespace Avalon
             {
                 foreach (var item in Conveyor.WindowList.Where(x => x != null))
                 {
-                    item.Close();                   
+                    item.Close();
                 }
             }
         }
