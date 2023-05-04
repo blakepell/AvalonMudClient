@@ -28,7 +28,7 @@ namespace Avalon
 
         public ConnectionManagerWindowViewModel ViewModel
         {
-            get => (ConnectionManagerWindowViewModel) GetValue(ViewModelProperty);
+            get => (ConnectionManagerWindowViewModel)GetValue(ViewModelProperty);
             set => SetValue(ViewModelProperty, value);
         }
 
@@ -53,20 +53,23 @@ namespace Avalon
             try
             {
                 var version = Assembly.GetExecutingAssembly().GetName().Version;
-                this.ViewModel.Version = $"Version {version.Major.ToString()}.{version.Minor.ToString()}.{version.Revision}.{version.Build.ToString()}";
+
+                this.ViewModel.Version = version != null ? $"Version {version.Major.ToString()}.{version.Minor.ToString()}.{version.Revision}.{version.Build.ToString()}" : "Version Unknown";
 
                 if (!Directory.Exists(App.Settings.AvalonSettings.SaveDirectory))
                 {
                     return;
                 }
 
-                var fs = new FileSystemSearch(App.Settings.AvalonSettings.SaveDirectory, "*.json", SearchOption.TopDirectoryOnly);
-                fs.IncludeDirectories = false;
+                var fs = new FileSystemSearch(App.Settings.AvalonSettings.SaveDirectory, "*.json", SearchOption.TopDirectoryOnly)
+                {
+                    IncludeDirectories = false
+                };
 
                 // Get everything but "avalon.json" in the case where the save profiles folder is the
                 // same as the application data folder.
                 var files = fs.Where(x => !x.Name.Equals("avalon.json", StringComparison.OrdinalIgnoreCase)).OrderByDescending(x => x.LastWriteTime).ToList();
-            
+
                 // No profiles exist, create a default one.
                 if (files.Count == 0)
                 {
