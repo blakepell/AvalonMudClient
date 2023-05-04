@@ -37,7 +37,7 @@ namespace Avalon
             {
                 return;
             }
-
+            
             // Replacement triggers come, they actually alter the line in the terminal.
             this.ProcessReplacementTriggers(line);
 

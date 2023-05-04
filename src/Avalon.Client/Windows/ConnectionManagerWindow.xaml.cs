@@ -256,7 +256,7 @@ namespace Avalon
         }
 
         /// <summary>
-        /// To track if the play button has been execluted and it slotted to close.
+        /// To track if the play button has been executed and it slotted to close.
         /// </summary>
         private bool _playExecuted = false;
 
@@ -272,18 +272,25 @@ namespace Avalon
                 return;
             }
 
-            if (!string.IsNullOrWhiteSpace(this?.ViewModel?.SelectedProfile?.FullPath))
+            try
             {
-                // Tracking whether the plan was executed must be first.
-                _playExecuted = true;
-                await App.MainWindow.OpenProfile(this.ViewModel.SelectedProfile.FullPath, this.ViewModel.SelectedProfile.GameAddress, this.ViewModel.SelectedProfile.GamePort);
-                App.Settings.ProfileSettings.WindowTitle = this.ViewModel.SelectedProfile.GameDescription;
-                this.DialogResult = true;
-                this.Close();
-                return;
+                if (!string.IsNullOrWhiteSpace(this?.ViewModel?.SelectedProfile?.FullPath))
+                {
+                    // Tracking whether the plan was executed must be first.
+                    _playExecuted = true;
+                    await App.MainWindow.OpenProfile(this.ViewModel.SelectedProfile.FullPath, this.ViewModel.SelectedProfile.GameAddress, this.ViewModel.SelectedProfile.GamePort);
+                    App.Settings.ProfileSettings.WindowTitle = this.ViewModel.SelectedProfile.GameDescription;
+                    this.DialogResult = true;
+                    this.Close();
+                    return;
+                }
+
+                await WindowManager.MsgBox("You must select a profile first.", "Play Game").ConfigureAwait(false);
             }
-            
-            await WindowManager.MsgBox("You must select a profile first.", "Play Game").ConfigureAwait(false);
+            catch (Exception ex)
+            {
+                await WindowManager.MsgBox(ex.Message, "Play Game").ConfigureAwait(false);
+            }
         }
 
         /// <summary>
