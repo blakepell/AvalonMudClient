@@ -292,6 +292,12 @@ namespace Avalon
         {
             var wordBeforeDot = string.Empty;
             var caretPosition = textEditor.CaretOffset - 2;
+
+            if (caretPosition < 0)
+            {
+                return "";
+            }
+
             var lineOffset = textEditor.Document.GetOffset(textEditor.Document.GetLocation(caretPosition));
             string text = textEditor.Document.GetText(lineOffset, 1);
 
