@@ -86,6 +86,16 @@ namespace Avalon
         {
             try
             {
+                var splashScreen = new SplashScreen("Media/SplashScreen.png");
+                splashScreen.Show(true);
+            }
+            catch
+            {
+                // Eat error
+            }
+
+            try
+            {
                 // Done to support the Interface, we're going to go ahead and register any
                 // singleton instances that we can create here.  Tier 1 services which can
                 // be loaded without dependency.
