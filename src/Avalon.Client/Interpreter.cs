@@ -41,7 +41,7 @@ namespace Avalon
             foreach (var t in types)
             {
                 var cmd = (IHashCommand)Activator.CreateInstance(t, this);
-                HashCommands.Add(cmd);
+                this.HashCommands.Add(cmd);
             }
 
             // Setup the scripting environment.  Error handlers are set here allowing the actual scripting
@@ -109,7 +109,7 @@ namespace Avalon
         public Task Send(string cmd)
         {
             // Elided this call.
-            return Send(cmd, false, true);
+            return this.Send(cmd, false, true);
         }
 
         /// <summary>
@@ -123,16 +123,16 @@ namespace Avalon
             // Add the whole thing to the command history
             if (addToInputHistory)
             {
-                AddInputHistory(cmd);
+                this.AddInputHistory(cmd);
             }
 
             _aliasRecursionDepth = 0;
             
-            foreach (string item in ParseCommand(cmd))
+            foreach (string item in this.ParseCommand(cmd))
             {
-                if (Telnet == null)
+                if (this.Telnet == null)
                 {
-                    Conveyor.EchoLog("You are not connected to the game.", LogType.Error);
+                    this.Conveyor.EchoLog("You are not connected to the game.", LogType.Error);
                     return;
                 }
 
@@ -143,7 +143,7 @@ namespace Avalon
                         // Show the command in the window that was sent.
                         if (!silent)
                         {
-                            EchoText(item, AnsiColors.Yellow);
+                            this.EchoText(item, AnsiColors.Yellow);
                         }
 
                         // Spam guard
@@ -162,13 +162,13 @@ namespace Avalon
 
                             if (_spamGuardCounter == 15)
                             {
-                                EchoText(App.Settings.ProfileSettings.SpamGuardCommand, AnsiColors.Yellow);
-                                await Telnet.SendAsync(App.Settings.ProfileSettings.SpamGuardCommand);
+                                this.EchoText(App.Settings.ProfileSettings.SpamGuardCommand, AnsiColors.Yellow);
+                                await this.Telnet.SendAsync(App.Settings.ProfileSettings.SpamGuardCommand);
                                 _spamGuardCounter = 0;
                             }
                         }
 
-                        await Telnet.SendAsync(item);
+                        await this.Telnet.SendAsync(item);
                     }
                     else
                     {
@@ -190,7 +190,7 @@ namespace Avalon
 
                         if (hashCmd == null)
                         {
-                            Conveyor.EchoLog($"Hash command '{firstWord}' was not found.\r\n", LogType.Error);
+                            this.Conveyor.EchoLog($"Hash command '{firstWord}' was not found.\r\n", LogType.Error);
                         }
                         else
                         {
@@ -224,7 +224,7 @@ namespace Avalon
             // commands for the game have been sent.
             if (App.Settings.AvalonSettings.AutoCompleteWord && addToInputHistory)
             {
-                this.InputAutoCompleteKeywords.AddWords(cmd);
+                InputAutoCompleteKeywords.AddWords(cmd);
             }
         }
 
@@ -236,21 +236,21 @@ namespace Avalon
         /// <param name="silent">Whether the commands should be outputted to the game window.</param>
         public async Task SendRaw(string cmd, bool silent)
         {
-            if (Telnet == null)
+            if (this.Telnet == null)
             {
-                Conveyor.EchoLog("You are not connected to the game.", LogType.Error);
+                this.Conveyor.EchoLog("You are not connected to the game.", LogType.Error);
                 return;
             }
 
             // Show the command in the window that was sent.
             if (!silent)
             {
-                EchoText(cmd, AnsiColors.Yellow);
+                this.EchoText(cmd, AnsiColors.Yellow);
             }
 
             try
             {
-                await Telnet.SendAsync(cmd);
+                await this.Telnet.SendAsync(cmd);
             }
             catch (Exception ex)
             {
@@ -271,10 +271,10 @@ namespace Avalon
         {
             try
             {
-                if (Telnet != null)
+                if (this.Telnet != null)
                 {
-                    Telnet.Dispose();
-                    Telnet = null;
+                    this.Telnet.Dispose();
+                    this.Telnet = null;
                 }
 
                 // If there was a last host and it was not the current IP to connect to it likely means
@@ -283,7 +283,7 @@ namespace Avalon
                 if (!string.IsNullOrWhiteSpace(_lastHost) && !string.Equals(_lastHost, App.Settings.ProfileSettings.IpAddress))
                 {
                     this.ScriptHost?.Reset();
-                    Conveyor.EchoLog("Host change detected: Scripting environment reset.", LogType.Information);
+                    this.Conveyor.EchoLog("Host change detected: Scripting environment reset.", LogType.Information);
 
                     // Refresh the scripts so they will load when needed.
                     this.ScriptHost?.RefreshScripts();
@@ -292,7 +292,7 @@ namespace Avalon
                 // We can set this now, when we come back in if the IP changes they we'll reset above.
                 _lastHost = App.Settings.ProfileSettings.IpAddress;
 
-                Conveyor.EchoLog($"Connecting: {App.Settings.ProfileSettings.IpAddress}:{App.Settings.ProfileSettings.Port}", LogType.Information);
+                this.Conveyor.EchoLog($"Connecting: {App.Settings.ProfileSettings.IpAddress}:{App.Settings.ProfileSettings.Port}", LogType.Information);
 
                 var ctc = new CancellationTokenSource();
                 this.Telnet = new TelnetClient(App.Settings.ProfileSettings.IpAddress, App.Settings.ProfileSettings.Port, TimeSpan.FromSeconds(0), ctc.Token);
@@ -303,8 +303,8 @@ namespace Avalon
             }
             catch (Exception ex)
             {
-                Telnet?.Dispose();
-                Conveyor.EchoLog($"Connection Failed: {ex.Message}", LogType.Error);
+                this.Telnet?.Dispose();
+                this.Conveyor.EchoLog($"Connection Failed: {ex.Message}", LogType.Error);
             }
         }
 
@@ -327,7 +327,7 @@ namespace Avalon
 
             if (_aliasRecursionDepth >= 10)
             {
-                Conveyor.EchoLog($"Alias error: Reached max recursion depth of {_aliasRecursionDepth.ToString()}.\r\n", LogType.Error);
+                this.Conveyor.EchoLog($"Alias error: Reached max recursion depth of {_aliasRecursionDepth.ToString()}.\r\n", LogType.Error);
                 return new List<string>();
             }
 
@@ -336,7 +336,7 @@ namespace Avalon
             cmd = this.Conveyor.ReplaceVariablesWithValue(cmd);
 
             // Get the current character
-            string characterName = Conveyor.GetVariable("Character");
+            string characterName = this.Conveyor.GetVariable("Character");
 
             // Split the list
             var list = new List<string>();
@@ -390,7 +390,7 @@ namespace Avalon
                     // it's one where we'll let the user place the words where they need to be.
                     if (!alias.Command.Contains('%'))
                     {
-                        list.AddRange(ParseCommand($"{alias.Command} {first.Item2}".Trim()));
+                        list.AddRange(this.ParseCommand($"{alias.Command} {first.Item2}".Trim()));
                         _aliasRecursionDepth--;
                     }
                     else
@@ -410,14 +410,14 @@ namespace Avalon
                                 sb.Replace($"%{i.ToString()}", first.Item2.ParseWord(i, " "));
                             }
 
-                            list.AddRange(ParseCommand(sb.ToString()));
+                            list.AddRange(this.ParseCommand(sb.ToString()));
                             sb.Dispose();
 
                             _aliasRecursionDepth--;
                         }
                         else
                         {
-                            list.AddRange(ParseCommand(alias.Command));
+                            list.AddRange(this.ParseCommand(alias.Command));
                             _aliasRecursionDepth--;
                         }
                     }
@@ -433,7 +433,7 @@ namespace Avalon
         /// </summary>
         public void ClearHistory()
         {
-            InputHistoryPosition = 0;
+            this.InputHistoryPosition = 0;
             InputHistory.Clear();
         }
 
@@ -468,14 +468,14 @@ namespace Avalon
                 // last command.
                 if (cmd.Length > 2)
                 {
-                    this.InputHistory.Add(cmd);
+                    InputHistory.Add(cmd);
                     this.Conveyor.SetVariable("LastCommand", cmd);
                 }
                 else
                 {
                     if (!_directions.Contains(cmd))
                     {
-                        this.InputHistory.Add(cmd);
+                        InputHistory.Add(cmd);
                         this.Conveyor.SetVariable("LastCommand", cmd);
                     }
                 }
@@ -483,7 +483,7 @@ namespace Avalon
             }
 
             // Reset the history position.
-            InputHistoryPosition = 0;
+            this.InputHistoryPosition = 0;
         }
 
         /// <summary>
@@ -491,18 +491,18 @@ namespace Avalon
         /// </summary>
         public string InputHistoryNext()
         {
-            if (InputHistoryPosition < InputHistory.Count - 1)
+            if (this.InputHistoryPosition < InputHistory.Count - 1)
             {
-                InputHistoryPosition += 1;
+                this.InputHistoryPosition += 1;
             }
 
             // No history available, return blank.
-            if (InputHistoryPosition == 0 && InputHistory.Count == 0)
+            if (this.InputHistoryPosition == 0 && InputHistory.Count == 0)
             {
                 return "";
             }
 
-            return InputHistory[(InputHistory.Count - InputHistoryPosition) - 1];
+            return InputHistory[(InputHistory.Count - this.InputHistoryPosition) - 1];
         }
 
         /// <summary>
@@ -510,7 +510,7 @@ namespace Avalon
         /// </summary>
         public string InputHistoryCurrent()
         {
-            return InputHistory[(InputHistory.Count - InputHistoryPosition) - 1];
+            return InputHistory[(InputHistory.Count - this.InputHistoryPosition) - 1];
         }
 
         /// <summary>
@@ -518,18 +518,18 @@ namespace Avalon
         /// </summary>
         public string InputHistoryPrevious()
         {
-            if (InputHistoryPosition > 0)
+            if (this.InputHistoryPosition > 0)
             {
-                InputHistoryPosition -= 1;
+                this.InputHistoryPosition -= 1;
             }
 
             // No history available, return blank.
-            if ((InputHistoryPosition == 0 && InputHistory.Count == 0) || InputHistoryPosition < 0)
+            if ((this.InputHistoryPosition == 0 && InputHistory.Count == 0) || this.InputHistoryPosition < 0)
             {
                 return "";
             }
 
-            return InputHistory[(InputHistory.Count - InputHistoryPosition) - 1];
+            return InputHistory[(InputHistory.Count - this.InputHistoryPosition) - 1];
         }
 
         /// <summary>
@@ -631,9 +631,9 @@ namespace Avalon
         /// Event handler when the interpreter needs to send data to echo on the client.
         /// </summary>
         /// <param name="e">The event arguments including the text, foreground and background colors to echo.</param>
-        protected virtual void OnEcho(EchoEventArgs e)
+        private void OnEcho(EchoEventArgs e)
         {
-            var handler = Echo;
+            var handler = this.Echo;
             handler?.Invoke(this, e);
         }
 
