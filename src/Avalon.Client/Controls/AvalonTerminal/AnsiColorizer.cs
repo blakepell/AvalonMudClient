@@ -44,6 +44,7 @@ namespace Avalon.Controls
             {
                 int start = 0;
                 int index;
+                int ansiLength = color.AnsiColor.AnsiCode.AsSpan().Length;
 
                 while ((index = text.IndexOf(color.AnsiColor.AnsiCode.AsSpan(), start)) >= 0)
                 {
@@ -68,7 +69,7 @@ namespace Avalon.Controls
                         });
 
                     // Search for next occurrence, again, we'll reference the span and not the length.
-                    start = index + color.AnsiColor.AnsiCode.AsSpan().Length;
+                    start = index + ansiLength;
                 }
             }
 
@@ -79,6 +80,7 @@ namespace Avalon.Controls
             {
                 int start = 0;
                 int index;
+                int ansiLength = color.AnsiColor.AnsiCode.AsSpan().Length;
 
                 while ((index = text.IndexOf(color.AnsiColor.AnsiCode.AsSpan(), start)) >= 0)
                 {
@@ -111,7 +113,7 @@ namespace Avalon.Controls
                         });
 
                     // Search for the next occurrence
-                    start = index + color.AnsiColor.AnsiCode.AsSpan().Length;
+                    start = index + ansiLength;
                 }
             }
         }
