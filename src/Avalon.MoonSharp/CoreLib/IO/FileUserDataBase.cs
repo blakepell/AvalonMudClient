@@ -70,14 +70,7 @@ namespace MoonSharp.Interpreter.CoreLib.IO
                     {
                         var d = this.ReadNumber();
 
-                        if (d.HasValue)
-                        {
-                            v = DynValue.NewNumber(d.Value);
-                        }
-                        else
-                        {
-                            v = DynValue.Nil;
-                        }
+                        v = d.HasValue ? DynValue.NewNumber(d.Value) : DynValue.Nil;
                     }
                     else if (opt.StartsWith("*a"))
                     {
@@ -180,9 +173,7 @@ namespace MoonSharp.Interpreter.CoreLib.IO
                 }
             }
 
-            double d;
-
-            if (double.TryParse(chr, out d))
+            if (double.TryParse(chr, out double d))
             {
                 return d;
             }

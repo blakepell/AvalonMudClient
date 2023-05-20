@@ -64,8 +64,8 @@ namespace MoonSharp.Interpreter
 
             DefaultOptions = new ScriptOptions
             {
-                DebugPrint = s => GlobalOptions.Platform.DefaultPrint(s),
-                DebugInput = s => GlobalOptions.Platform.DefaultInput(s),
+                DebugPrint = GlobalOptions.Platform.DefaultPrint,
+                DebugInput = GlobalOptions.Platform.DefaultInput,
                 CheckThreadAccess = true,
                 ScriptLoader = PlatformAutoDetector.GetDefaultScriptLoader(),
                 TailCallOptimizationThreshold = 65536
@@ -164,7 +164,7 @@ namespace MoonSharp.Interpreter
         public DynValue LoadString(string code, Table globalTable = null, string codeFriendlyName = null)
         {
             this.CheckScriptOwnership(globalTable);
-            var source = new SourceCode(codeFriendlyName ?? $"chunk_x", code, this);
+            var source = new SourceCode(codeFriendlyName ?? "chunk_x", code, this);
             int address = Loader_Fast.LoadChunk(this, source, _byteCode);
 
             return this.MakeClosure(address, globalTable ?? this.Globals);

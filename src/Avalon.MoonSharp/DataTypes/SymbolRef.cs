@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-
-namespace MoonSharp.Interpreter
+﻿namespace MoonSharp.Interpreter
 {
     /// <summary>
     /// This class stores a possible l-value (that is a potential target of an assignment)

@@ -160,8 +160,7 @@ namespace MoonSharp.Interpreter.Interop
                 else
                 {
                     mst.Table.Set(++i,
-                        DynValue.NewString(string.Format("unsupported - {0} is not serializable",
-                            m.GetType().FullName)));
+                        DynValue.NewString($"unsupported - {m.GetType().FullName} is not serializable"));
                 }
             }
         }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using Cysharp.Text;
 
 namespace MoonSharp.Interpreter.Tree
@@ -290,7 +289,7 @@ namespace MoonSharp.Interpreter.Tree
         {
             // here we are at the first '=' or second '['
             var text = new StringBuilder(1024);
-            string end_pattern = "]";
+            string endPattern = "]";
 
             if (startpattern == null)
             {
@@ -305,11 +304,11 @@ namespace MoonSharp.Interpreter.Tree
 
                     if (c == '=')
                     {
-                        end_pattern += "=";
+                        endPattern += "=";
                     }
                     else if (c == '[')
                     {
-                        end_pattern += "]";
+                        endPattern += "]";
                         break;
                     }
                     else
@@ -322,7 +321,7 @@ namespace MoonSharp.Interpreter.Tree
             }
             else
             {
-                end_pattern = startpattern.Replace('[', ']');
+                endPattern = startpattern.Replace('[', ']');
             }
 
 
@@ -341,9 +340,9 @@ namespace MoonSharp.Interpreter.Tree
                     { IsPrematureStreamTermination = true };
                 }
 
-                if (c == ']' && this.CursorMatches(end_pattern))
+                if (c == ']' && this.CursorMatches(endPattern))
                 {
-                    for (int i = 0; i < end_pattern.Length; i++)
+                    for (int i = 0; i < endPattern.Length; i++)
                     {
                         this.CursorCharNext();
                     }
@@ -514,7 +513,7 @@ namespace MoonSharp.Interpreter.Tree
 
                 for (char c = this.CursorCharNext(); this.CursorNotEof(); c = this.CursorCharNext())
                 {
-                redo_Loop:
+                    redo_Loop:
 
                     if (c == '\\')
                     {

@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using Cysharp.Text;
 
 namespace MoonSharp.Interpreter.CoreLib
@@ -309,16 +308,8 @@ namespace MoonSharp.Interpreter.CoreLib
 
             //!COMPAT: tonumber supports only 2,8,10 or 16 as base
             //UPDATE: added support for 3-9 base numbers
-            DynValue ee;
 
-            if (args[0].Type != DataType.Number)
-            {
-                ee = args.AsType(0, "tonumber", DataType.String);
-            }
-            else
-            {
-                ee = DynValue.NewString(args[0].Number.ToString(CultureInfo.InvariantCulture));
-            }
+            var ee = args[0].Type != DataType.Number ? args.AsType(0, "tonumber", DataType.String) : DynValue.NewString(args[0].Number.ToString(CultureInfo.InvariantCulture));
 
             int bb = (int) b.Number;
 

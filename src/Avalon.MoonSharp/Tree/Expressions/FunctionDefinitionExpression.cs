@@ -29,7 +29,7 @@ namespace MoonSharp.Interpreter.Tree.Expressions
 
         private FunctionDefinitionExpression(ScriptLoadingContext lcontext, bool pushSelfParam, bool usesGlobalEnv, bool isLambda) : base(lcontext)
         {
-            if (_usesGlobalEnv = usesGlobalEnv)
+            if (_usesGlobalEnv == usesGlobalEnv)
             {
                 CheckTokenType(lcontext, TokenType.Function);
             }

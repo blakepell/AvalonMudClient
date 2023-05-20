@@ -687,9 +687,8 @@ namespace MoonSharp.Interpreter.CoreLib.StringLib
 
         private static int str_find_aux(LuaState L, int find)
         {
-            uint l1, l2;
-            CharPtr s = LuaLCheckLString(L, 1, out l1);
-            CharPtr p = PatchPattern(LuaLCheckLString(L, 2, out l2));
+            CharPtr s = LuaLCheckLString(L, 1, out uint l1);
+            CharPtr p = PatchPattern(LuaLCheckLString(L, 2, out uint l2));
 
             int init = posrelat(LuaLOptInteger(L, 3, 1), l1) - 1;
             if (init < 0)
@@ -840,8 +839,8 @@ namespace MoonSharp.Interpreter.CoreLib.StringLib
 
         private static void add_s(MatchState ms, LuaLBuffer b, CharPtr s, CharPtr e)
         {
-            uint l, i;
-            CharPtr news = LuaToLString(ms.L, 3, out l);
+            uint i;
+            CharPtr news = LuaToLString(ms.L, 3, out uint l);
             for (i = 0; i < l; i++)
             {
                 if (news[i] != L_ESC)
@@ -919,8 +918,7 @@ namespace MoonSharp.Interpreter.CoreLib.StringLib
 
         public static int str_gsub(LuaState L)
         {
-            uint srcl;
-            CharPtr src = LuaLCheckLString(L, 1, out srcl);
+            CharPtr src = LuaLCheckLString(L, 1, out uint srcl);
             CharPtr p = PatchPattern(LuaLCheckStringStr(L, 2));
             int tr = LuaType(L, 3);
             int max_s = LuaLOptInt(L, 4, (int) (srcl + 1));
@@ -985,8 +983,7 @@ namespace MoonSharp.Interpreter.CoreLib.StringLib
 
         private static void addquoted(LuaState L, LuaLBuffer b, int arg)
         {
-            uint l;
-            CharPtr s = LuaLCheckLString(L, arg, out l);
+            CharPtr s = LuaLCheckLString(L, arg, out uint l);
             LuaLAddChar(b, '"');
             while ((l--) != 0)
             {
@@ -1108,8 +1105,7 @@ namespace MoonSharp.Interpreter.CoreLib.StringLib
         {
             int top = LuaGetTop(L);
             int arg = 1;
-            uint sfl;
-            CharPtr strfrmt = LuaLCheckLString(L, arg, out sfl);
+            CharPtr strfrmt = LuaLCheckLString(L, arg, out uint sfl);
             var strfrmt_end = strfrmt + sfl;
             var b = new LuaLBuffer(L);
             LuaLBuffInit(L, b);
@@ -1178,8 +1174,7 @@ namespace MoonSharp.Interpreter.CoreLib.StringLib
                         }
                         case 's':
                         {
-                            uint l;
-                            CharPtr s = LuaLCheckLString(L, arg, out l);
+                            CharPtr s = LuaLCheckLString(L, arg, out uint l);
                             if ((strchr(form, '.') == null) && l >= 100)
                             {
                                 /* no precision and string is too long to be formatted;

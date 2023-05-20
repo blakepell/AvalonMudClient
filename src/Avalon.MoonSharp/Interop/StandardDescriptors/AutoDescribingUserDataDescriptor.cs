@@ -41,9 +41,7 @@ namespace MoonSharp.Interpreter
         public DynValue Index(ExecutionControlToken ecToken, Script script, object obj, DynValue index,
             bool isDirectIndexing)
         {
-            var u = obj as IUserDataType;
-
-            if (u != null)
+            if (obj is IUserDataType u)
             {
                 return u.Index(ecToken, script, index, isDirectIndexing);
             }
@@ -63,9 +61,7 @@ namespace MoonSharp.Interpreter
         public bool SetIndex(ExecutionControlToken ecToken, Script script, object obj, DynValue index, DynValue value,
             bool isDirectIndexing)
         {
-            var u = obj as IUserDataType;
-
-            if (u != null)
+            if (obj is IUserDataType u)
             {
                 return u.SetIndex(ecToken, script, index, value, isDirectIndexing);
             }
@@ -103,9 +99,7 @@ namespace MoonSharp.Interpreter
         /// <param name="metaname">The name of the metamember.</param>
         public DynValue MetaIndex(ExecutionControlToken ecToken, Script script, object obj, string metaname)
         {
-            var u = obj as IUserDataType;
-
-            if (u != null)
+            if (obj is IUserDataType u)
             {
                 return u.MetaIndex(ecToken, script, metaname);
             }

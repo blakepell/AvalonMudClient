@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Cysharp.Text;
 
 namespace MoonSharp.Interpreter.CoreLib
@@ -259,9 +258,9 @@ namespace MoonSharp.Interpreter.CoreLib
 
                     isEscapeSequence = false;
 
-                    if (STANDARD_PATTERNS.ContainsKey(c))
+                    if (STANDARD_PATTERNS.TryGetValue(c, out string value))
                     {
-                        sb.Append(d.ToString(STANDARD_PATTERNS[c]));
+                        sb.Append(d.ToString(value));
                     }
                     else if (c == 'e')
                     {

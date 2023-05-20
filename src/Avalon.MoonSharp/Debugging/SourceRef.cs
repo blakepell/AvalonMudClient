@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MoonSharp.Interpreter.Debugging
+﻿namespace MoonSharp.Interpreter.Debugging
 {
     /// <summary>
     /// Class representing a reference to source code interval

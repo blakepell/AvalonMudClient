@@ -136,15 +136,15 @@ namespace MoonSharp.Interpreter.Loaders
         {
             file = this.GetFileName(file);
 
-            if (_resources.ContainsKey(file))
+            if (_resources.TryGetValue(file, out string loadFile))
             {
-                return _resources[file];
+                return loadFile;
             }
 
-            string error = string.Format(
-                @"Cannot load script '{0}'. By default, scripts should be .txt files placed under a Assets/Resources/{1} directory.
+            string error =
+                $@"Cannot load script '{file}'. By default, scripts should be .txt files placed under a Assets/Resources/{DEFAULT_PATH} directory.
 If you want scripts to be put in another directory or another way, use a custom instance of UnityAssetsScriptLoader or implement
-your own IScriptLoader (possibly extending ScriptLoaderBase).", file, DEFAULT_PATH);
+your own IScriptLoader (possibly extending ScriptLoaderBase).";
 
             throw new Exception(error);
         }

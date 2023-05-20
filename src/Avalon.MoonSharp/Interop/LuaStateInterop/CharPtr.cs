@@ -47,7 +47,6 @@
 
 using System;
 using System.Diagnostics;
-using System.Text;
 using Cysharp.Text;
 
 namespace MoonSharp.Interpreter.Interop.LuaStateInterop
@@ -106,7 +105,7 @@ namespace MoonSharp.Interpreter.Interop.LuaStateInterop
 
         public CharPtr(IntPtr ptr)
         {
-            chars = new char[0];
+            chars = Array.Empty<char>();
             index = 0;
         }
 

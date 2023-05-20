@@ -67,18 +67,9 @@ namespace MoonSharp.Interpreter.CoreLib
         {
             var R = S.Registry;
 
-            optionsStream = optionsStream ?? Script.GlobalOptions.Platform.IO_GetStandardStream(file);
+            optionsStream ??= Script.GlobalOptions.Platform.IO_GetStandardStream(file);
 
-            FileUserDataBase udb;
-
-            if (file == StandardFileType.StdIn)
-            {
-                udb = StandardIOFileUserDataBase.CreateInputStream(optionsStream);
-            }
-            else
-            {
-                udb = StandardIOFileUserDataBase.CreateOutputStream(optionsStream);
-            }
+            FileUserDataBase udb = file == StandardFileType.StdIn ? StandardIOFileUserDataBase.CreateInputStream(optionsStream) : StandardIOFileUserDataBase.CreateOutputStream(optionsStream);
 
             R.Set("853BEAAF298648839E2C99D005E1DF94_STD_" + file, UserData.Create(udb));
         }
@@ -113,14 +104,10 @@ namespace MoonSharp.Interpreter.CoreLib
 
         public static void SetDefaultFile(Script script, StandardFileType file, Stream stream)
         {
-            if (file == StandardFileType.StdIn)
-            {
-                SetDefaultFile(script, file, StandardIOFileUserDataBase.CreateInputStream(stream));
-            }
-            else
-            {
-                SetDefaultFile(script, file, StandardIOFileUserDataBase.CreateOutputStream(stream));
-            }
+            SetDefaultFile(script, file,
+                file == StandardFileType.StdIn
+                    ? StandardIOFileUserDataBase.CreateInputStream(stream)
+                    : StandardIOFileUserDataBase.CreateOutputStream(stream));
         }
 
 
@@ -273,14 +260,7 @@ namespace MoonSharp.Interpreter.CoreLib
                 }
                 else if (encoding == null)
                 {
-                    if (!isBinary)
-                    {
-                        e = GetUTF8Encoding();
-                    }
-                    else
-                    {
-                        e = new BinaryEncoding();
-                    }
+                    e = !isBinary ? GetUTF8Encoding() : new BinaryEncoding();
                 }
                 else
                 {
@@ -306,7 +286,7 @@ namespace MoonSharp.Interpreter.CoreLib
         {
             if (ex is FileNotFoundException)
             {
-                return string.Format("{0}: No such file or directory", filename);
+                return $"{filename}: No such file or directory";
             }
 
             return ex.Message;

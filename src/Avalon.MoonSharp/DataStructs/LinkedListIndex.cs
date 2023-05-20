@@ -29,14 +29,12 @@ namespace MoonSharp.Interpreter.DataStructs
         /// <param name="key">The key.</param>
         public LinkedListNode<TValue> Find(TKey key)
         {
-            LinkedListNode<TValue> node;
-
             if (_map == null)
             {
                 return null;
             }
 
-            if (_map.TryGetValue(key, out node))
+            if (_map.TryGetValue(key, out var node))
             {
                 return node;
             }
@@ -74,10 +72,7 @@ namespace MoonSharp.Interpreter.DataStructs
         {
             var node = _linkedList.AddLast(value);
 
-            if (_map == null)
-            {
-                _map = new Dictionary<TKey, LinkedListNode<TValue>>();
-            }
+            _map ??= new Dictionary<TKey, LinkedListNode<TValue>>();
 
             _map.Add(key, node);
         }

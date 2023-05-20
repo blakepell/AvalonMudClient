@@ -102,7 +102,7 @@ namespace MoonSharp.Interpreter.CoreLib
             ReturnTypeHint = "tuple<string, closure>")]
         public static DynValue getupvalue(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-            int index = (int) args.AsType(1, "getupvalue", DataType.Number).Number - 1;
+            int index = (int)args.AsType(1, "getupvalue", DataType.Number).Number - 1;
 
             if (args[0].Type == DataType.ClrFunction)
             {
@@ -130,7 +130,7 @@ namespace MoonSharp.Interpreter.CoreLib
             ReturnTypeHint = "int")]
         public static DynValue upvalueid(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-            int index = (int) args.AsType(1, "getupvalue", DataType.Number).Number - 1;
+            int index = (int)args.AsType(1, "getupvalue", DataType.Number).Number - 1;
 
             if (args[0].Type == DataType.ClrFunction)
             {
@@ -156,7 +156,7 @@ namespace MoonSharp.Interpreter.CoreLib
             ReturnTypeHint = "string")]
         public static DynValue setupvalue(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-            int index = (int) args.AsType(1, "setupvalue", DataType.Number).Number - 1;
+            int index = (int)args.AsType(1, "setupvalue", DataType.Number).Number - 1;
 
             if (args[0].Type == DataType.ClrFunction)
             {
@@ -214,31 +214,21 @@ namespace MoonSharp.Interpreter.CoreLib
             ReturnTypeHint = "string")]
         public static DynValue traceback(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-                var vMessage = args[0];
-                var vLevel = args[1];
+            var vMessage = args[0];
 
-                double defaultSkip = 1.0;
+            if (vMessage.Type == DataType.Thread)
+            {
+                vMessage = args[1];
+            }
 
-                var cor = executionContext.GetCallingCoroutine();
+            if (vMessage.IsNotNil() && vMessage.Type != DataType.String && vMessage.Type != DataType.Number)
+            {
+                return vMessage;
+            }
 
-                if (vMessage.Type == DataType.Thread)
-                {
-                    cor = vMessage.Coroutine;
-                    vMessage = args[1];
-                    vLevel = args[2];
-                    defaultSkip = 0.0;
-                }
+            string message = vMessage.CastToString();
 
-                if (vMessage.IsNotNil() && vMessage.Type != DataType.String && vMessage.Type != DataType.Number)
-                {
-                    return vMessage;
-                }
-
-                string message = vMessage.CastToString();
-
-                int skip = (int)((vLevel.CastToNumber()) ?? defaultSkip);
-
-                return DynValue.NewString(message ?? "");
+            return DynValue.NewString(message ?? "");
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using MoonSharp.Interpreter.Debugging;
-using MoonSharp.Interpreter.Diagnostics;
 using MoonSharp.Interpreter.Execution;
 using MoonSharp.Interpreter.Execution.VM;
 using MoonSharp.Interpreter.Tree.Expressions;
@@ -18,8 +17,7 @@ namespace MoonSharp.Interpreter.Tree.Fast_Interface
                 lcontext.IsDynamicExpression = true;
                 lcontext.Anonymous = true;
 
-                Expression exp;
-                exp = Expression.Expr(lcontext);
+                var exp = Expression.Expr(lcontext);
 
                 return new DynamicExprExpression(exp, lcontext);
             }
@@ -75,9 +73,7 @@ namespace MoonSharp.Interpreter.Tree.Fast_Interface
 
             try
             {
-                FunctionDefinitionExpression fnx;
-
-                fnx = new FunctionDefinitionExpression(lcontext, usesGlobalEnv);
+                var fnx = new FunctionDefinitionExpression(lcontext, usesGlobalEnv);
 
                 int beginIp;
 

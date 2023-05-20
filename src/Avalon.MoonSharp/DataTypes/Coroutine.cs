@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using MoonSharp.Interpreter.Debugging;
 using MoonSharp.Interpreter.Execution.VM;
 
 namespace MoonSharp.Interpreter
@@ -229,7 +227,7 @@ namespace MoonSharp.Interpreter
         /// <exception cref="System.InvalidOperationException">Only non-CLR coroutines can be resumed with this overload of the Resume method. Use the overload accepting a ScriptExecutionContext instead</exception>
         public DynValue Resume()
         {
-            return this.Resume(new DynValue[0]);
+            return this.Resume(Array.Empty<DynValue>());
         }
 
 
@@ -239,7 +237,7 @@ namespace MoonSharp.Interpreter
         /// <param name="context">The ScriptExecutionContext.</param>
         public DynValue Resume(ScriptExecutionContext context)
         {
-            return this.Resume(context, new DynValue[0]);
+            return this.Resume(context, Array.Empty<DynValue>());
         }
 
         /// <summary>
@@ -314,7 +312,7 @@ namespace MoonSharp.Interpreter
         /// <exception cref="System.InvalidOperationException">Only non-CLR coroutines can be resumed with this overload of the Resume method. Use the overload accepting a ScriptExecutionContext instead</exception>
         public Task<DynValue> ResumeAsync()
         {
-            return Task.Factory.StartNew(() => this.Resume());
+            return Task.Factory.StartNew(this.Resume);
         }
 
 

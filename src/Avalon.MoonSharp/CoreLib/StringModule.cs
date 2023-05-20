@@ -7,7 +7,6 @@ using MoonSharp.Interpreter.CoreLib.StringLib;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
-using MoonSharp.Interpreter.Serialization;
 
 namespace MoonSharp.Interpreter.CoreLib
 {
@@ -75,7 +74,7 @@ namespace MoonSharp.Interpreter.CoreLib
             var vi = args.AsType(1, "byte", DataType.Number, true);
             var vj = args.AsType(2, "byte", DataType.Number, true);
 
-            return PerformByteLike(vs, vi, vj, i => Unicode2Ascii(i));
+            return PerformByteLike(vs, vi, vj, Unicode2Ascii);
         }
 
         [MoonSharpModuleMethod(Description = "Same as string.byte except that it returns a unicode codepoint instead of byte value.",
@@ -481,15 +480,7 @@ namespace MoonSharp.Interpreter.CoreLib
 
         private static bool IsDate(string input)
         {
-            if (!string.IsNullOrEmpty(input))
-            {
-                DateTime dt;
-                return (DateTime.TryParse(input, out dt));
-            }
-            else
-            {
-                return false;
-            }
+            return !string.IsNullOrEmpty(input) && DateTime.TryParse(input, out _);
         }
 
         [MoonSharpModuleMethod(Description = "If a string value is a date.",
@@ -512,7 +503,7 @@ namespace MoonSharp.Interpreter.CoreLib
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
             }
 
             var format = new Regex(

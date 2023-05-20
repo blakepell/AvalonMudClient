@@ -95,7 +95,7 @@ namespace MoonSharp.Interpreter.Interop
         /// <param name="obj">The object.</param>
         public string AsString(object obj)
         {
-            return (obj != null) ? obj.ToString() : null;
+            return obj?.ToString();
         }
 
 

@@ -26,7 +26,7 @@ namespace MoonSharp.Interpreter.Execution.Scopes
         {
             var sref = _definedNames[name];
             _definedNames.Remove(name);
-            _definedNames.Add($"@{name}_{Guid.NewGuid().ToString("N")}", sref);
+            _definedNames.Add($"@{name}_{Guid.NewGuid():N}", sref);
         }
 
 
@@ -94,15 +94,12 @@ namespace MoonSharp.Interpreter.Execution.Scopes
 
         internal void DefineLabel(LabelStatement label)
         {
-            if (_localLabels == null)
-            {
-                _localLabels = new Dictionary<string, LabelStatement>();
-            }
+            _localLabels ??= new Dictionary<string, LabelStatement>();
 
-            if (_localLabels.ContainsKey(label.Label))
+            if (_localLabels.TryGetValue(label.Label, out var localLabel))
             {
                 throw new SyntaxErrorException(label.NameToken, "label '{0}' already defined on line {1}", label.Label,
-                    _localLabels[label.Label].SourceRef.FromLine);
+                    localLabel.SourceRef.FromLine);
             }
 
             _localLabels.Add(label.Label, label);
@@ -111,10 +108,7 @@ namespace MoonSharp.Interpreter.Execution.Scopes
 
         internal void RegisterGoto(GotoStatement gotostat)
         {
-            if (_pendingGotos == null)
-            {
-                _pendingGotos = new List<GotoStatement>();
-            }
+            _pendingGotos ??= new List<GotoStatement>();
 
             _pendingGotos.Add(gotostat);
             gotostat.SetDefinedVars(_definedNames.Count, _lastDefinedName);
@@ -129,9 +123,7 @@ namespace MoonSharp.Interpreter.Execution.Scopes
 
             foreach (var gotostat in _pendingGotos)
             {
-                LabelStatement label;
-
-                if (_localLabels != null && _localLabels.TryGetValue(gotostat.Label, out label))
+                if (_localLabels != null && _localLabels.TryGetValue(gotostat.Label, out var label))
                 {
                     if (label.DefinedVarsCount > gotostat.DefinedVarsCount)
                     {

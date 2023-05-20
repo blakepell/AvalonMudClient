@@ -47,7 +47,7 @@ namespace MoonSharp.Interpreter.Loaders
             {
                 var s = globalContext.RawGet("LUA_PATH");
 
-                if (s != null && s.Type == DataType.String)
+                if (s is { Type: DataType.String })
                 {
                     return this.ResolveModuleName(modname, UnpackStringPaths(s.String));
                 }
@@ -134,12 +134,7 @@ namespace MoonSharp.Interpreter.Loaders
                 }
             }
 
-            if (modulePaths == null)
-            {
-                modulePaths = UnpackStringPaths("?;?.lua");
-            }
-
-            return modulePaths;
+            return modulePaths ?? (modulePaths = UnpackStringPaths("?;?.lua"));
         }
     }
 }

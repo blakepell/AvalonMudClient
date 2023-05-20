@@ -38,7 +38,7 @@ namespace MoonSharp.Interpreter.Tree.Statements
             lcontext.Scope.PushBlock();
 
             _names = names
-                .Select(n => lcontext.Scope.TryDefineLocal(n))
+                .Select(lcontext.Scope.TryDefineLocal)
                 .ToArray();
 
             _nameExps = _names

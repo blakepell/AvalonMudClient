@@ -36,9 +36,8 @@ namespace MoonSharp.Interpreter.Interop
 
             if (va != null && ha != null && va.Visible)
             {
-                throw new InvalidOperationException(string.Format(
-                    "A member ('{0}') can't have discording MoonSharpHiddenAttribute and MoonSharpVisibleAttribute.",
-                    mi.Name));
+                throw new InvalidOperationException(
+                    $"A member ('{mi.Name}') can't have discording MoonSharpHiddenAttribute and MoonSharpVisibleAttribute.");
             }
 
             if (ha != null)
@@ -225,7 +224,7 @@ namespace MoonSharp.Interpreter.Interop
             }
             catch (ReflectionTypeLoadException)
             {
-                return new Type[0];
+                return Type.EmptyTypes;
             }
         }
 
@@ -341,14 +340,7 @@ namespace MoonSharp.Interpreter.Interop
                 }
                 else
                 {
-                    if (lastWasUnderscore)
-                    {
-                        sb.Append(char.ToUpperInvariant(name[i]));
-                    }
-                    else
-                    {
-                        sb.Append(name[i]);
-                    }
+                    sb.Append(lastWasUnderscore ? char.ToUpperInvariant(name[i]) : name[i]);
 
                     lastWasUnderscore = false;
                 }

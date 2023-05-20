@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MoonSharp.Interpreter.Execution
@@ -16,7 +17,7 @@ namespace MoonSharp.Interpreter.Execution
 
         internal ClosureContext()
         {
-            this.Symbols = new string[0];
+            this.Symbols = Array.Empty<string>();
         }
 
         /// <summary>

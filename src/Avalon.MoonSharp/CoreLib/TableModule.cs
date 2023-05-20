@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Cysharp.Text;
 
 namespace MoonSharp.Interpreter.CoreLib

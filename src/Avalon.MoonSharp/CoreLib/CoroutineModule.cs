@@ -59,8 +59,7 @@ namespace MoonSharp.Interpreter.CoreLib
             {
                 var ret = handle.Coroutine.Resume(args.GetArray(1));
 
-                var retval = new List<DynValue>();
-                retval.Add(DynValue.True);
+                var retval = new List<DynValue> { DynValue.True };
 
                 if (ret.Type == DataType.Tuple)
                 {

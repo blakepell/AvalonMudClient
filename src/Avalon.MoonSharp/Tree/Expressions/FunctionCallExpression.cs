@@ -53,9 +53,11 @@ namespace MoonSharp.Interpreter.Tree.Expressions
                 case TokenType.Brk_Open_Curly:
                 case TokenType.Brk_Open_Curly_Shared:
                 {
-                    _arguments = new List<Expression>();
-                    _arguments.Add(new TableConstructor(lcontext,
-                        lcontext.Lexer.Current.Type == TokenType.Brk_Open_Curly_Shared));
+                    _arguments = new List<Expression>
+                    {
+                        new TableConstructor(lcontext,
+                            lcontext.Lexer.Current.Type == TokenType.Brk_Open_Curly_Shared)
+                    };
                     this.SourceRef = callToken.GetSourceRefUpTo(lcontext.Lexer.Current);
                 }
                     break;

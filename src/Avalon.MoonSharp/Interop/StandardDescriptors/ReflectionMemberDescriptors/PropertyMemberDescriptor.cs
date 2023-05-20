@@ -3,7 +3,6 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
 using MoonSharp.Interpreter.Compatibility;
-using MoonSharp.Interpreter.Diagnostics;
 using MoonSharp.Interpreter.Interop.BasicDescriptors;
 using MoonSharp.Interpreter.Interop.Converters;
 

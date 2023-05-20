@@ -160,9 +160,9 @@ namespace MoonSharp.Interpreter.Interop.UserDataRegistries
         {
             lock (s_Lock)
             {
-                if (s_TypeRegistry.ContainsKey(t))
+                if (s_TypeRegistry.TryGetValue(t, out var value))
                 {
-                    PerformRegistration(t, null, s_TypeRegistry[t]);
+                    PerformRegistration(t, null, value);
                 }
             }
         }
@@ -196,8 +196,7 @@ namespace MoonSharp.Interpreter.Interop.UserDataRegistries
 
             lock (s_Lock)
             {
-                IUserDataDescriptor oldDescriptor;
-                s_TypeRegistry.TryGetValue(type, out oldDescriptor);
+                s_TypeRegistry.TryGetValue(type, out var oldDescriptor);
 
                 if (descriptor == null)
                 {
@@ -304,9 +303,9 @@ namespace MoonSharp.Interpreter.Interop.UserDataRegistries
                 IUserDataDescriptor typeDescriptor = null;
 
                 // if the type has been explicitly registered, return its descriptor as it's complete
-                if (s_TypeRegistry.ContainsKey(type))
+                if (s_TypeRegistry.TryGetValue(type, out var forType))
                 {
-                    return s_TypeRegistry[type];
+                    return forType;
                 }
 
                 if (RegistrationPolicy.AllowTypeAutoRegistration(type))
@@ -321,9 +320,7 @@ namespace MoonSharp.Interpreter.Interop.UserDataRegistries
                 // search for the base object descriptors
                 for (var t = type; t != null; t = Framework.Do.GetBaseType(t))
                 {
-                    IUserDataDescriptor u;
-
-                    if (s_TypeRegistry.TryGetValue(t, out u))
+                    if (s_TypeRegistry.TryGetValue(t, out var u))
                     {
                         typeDescriptor = u;
                         break;
@@ -361,9 +358,7 @@ namespace MoonSharp.Interpreter.Interop.UserDataRegistries
 
                 foreach (var interfaceType in Framework.Do.GetInterfaces(type))
                 {
-                    IUserDataDescriptor interfaceDescriptor;
-
-                    if (s_TypeRegistry.TryGetValue(interfaceType, out interfaceDescriptor))
+                    if (s_TypeRegistry.TryGetValue(interfaceType, out var interfaceDescriptor))
                     {
                         if (interfaceDescriptor is IGeneratorUserDataDescriptor dataDescriptor)
                         {

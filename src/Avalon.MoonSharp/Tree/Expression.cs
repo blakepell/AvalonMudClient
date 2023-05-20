@@ -24,9 +24,7 @@ namespace MoonSharp.Interpreter.Tree
 
         internal static List<Expression> ExprListAfterFirstExpr(ScriptLoadingContext lcontext, Expression expr1)
         {
-            var exps = new List<Expression>();
-
-            exps.Add(expr1);
+            var exps = new List<Expression> { expr1 };
 
             while ((lcontext.Lexer.Current.Type == TokenType.Comma))
             {
@@ -79,8 +77,7 @@ namespace MoonSharp.Interpreter.Tree
 
                 if (isPrimary && t.Type == TokenType.Op_Pwr)
                 {
-                    var powerChain = new List<Expression>();
-                    powerChain.Add(e);
+                    var powerChain = new List<Expression> { e };
 
                     while (t.Type == TokenType.Op_Pwr)
                     {

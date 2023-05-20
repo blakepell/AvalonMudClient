@@ -266,14 +266,7 @@ namespace MoonSharp.Interpreter.Execution.VM
 
                             break;
                         case OpCode.NewTable:
-                            if (i.NumVal == 0)
-                            {
-                                _valueStack.Push(DynValue.NewTable(_script));
-                            }
-                            else
-                            {
-                                _valueStack.Push(DynValue.NewPrimeTable());
-                            }
+                            _valueStack.Push(i.NumVal == 0 ? DynValue.NewTable(_script) : DynValue.NewPrimeTable());
 
                             break;
                         case OpCode.IterPrep:
@@ -332,7 +325,7 @@ namespace MoonSharp.Interpreter.Execution.VM
                     }
                 }
 
-            yield_to_calling_coroutine:
+                yield_to_calling_coroutine:
 
                 var yieldRequest = _valueStack.Pop().ToScalar();
 
@@ -406,7 +399,7 @@ namespace MoonSharp.Interpreter.Execution.VM
                 throw;
             }
 
-        return_to_native_code:
+            return_to_native_code:
             return _valueStack.Pop();
         }
 
@@ -513,7 +506,7 @@ namespace MoonSharp.Interpreter.Execution.VM
         private void ExecClosure(Instruction i)
         {
             var c = new Closure(_script, i.NumVal, i.SymbolList,
-                i.SymbolList.Select(s => this.GetUpvalueSymbol(s)).ToList());
+                i.SymbolList.Select(this.GetUpvalueSymbol).ToList());
 
             _valueStack.Push(DynValue.NewClosure(c));
         }
@@ -605,14 +598,7 @@ namespace MoonSharp.Interpreter.Execution.VM
 
                 if (meta != null && !meta.IsNil())
                 {
-                    if (meta.Type != DataType.Tuple)
-                    {
-                        v = this.GetScript().Call(meta, f, s, var);
-                    }
-                    else
-                    {
-                        v = meta;
-                    }
+                    v = meta.Type != DataType.Tuple ? this.GetScript().Call(meta, f, s, var) : meta;
 
                     f = v.Tuple.Length >= 1 ? v.Tuple[0] : DynValue.Nil;
                     s = v.Tuple.Length >= 2 ? v.Tuple[1] : DynValue.Nil;
@@ -738,7 +724,7 @@ namespace MoonSharp.Interpreter.Execution.VM
         {
             if (numargs == 0)
             {
-                return new DynValue[0];
+                return Array.Empty<DynValue>();
             }
 
             var lastParam = _valueStack.Peek(offsFromTop);
@@ -964,7 +950,7 @@ namespace MoonSharp.Interpreter.Execution.VM
             {
                 _valueStack.Push(csi.Continuation.Invoke(
                     new ScriptExecutionContext(ecToken, this, csi.Continuation, i.SourceCodeRef),
-                    new DynValue[1] { _valueStack.Pop() }));
+                    new DynValue[] { _valueStack.Pop() }));
             }
 
             return retpoint;

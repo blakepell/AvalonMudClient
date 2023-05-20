@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MoonSharp.Interpreter.DataStructs
 {
@@ -9,7 +10,7 @@ namespace MoonSharp.Interpreter.DataStructs
     /// <typeparam name="V">The value type</typeparam>
     internal class MultiDictionary<K, V>
     {
-        private V[] _defaultRet = new V[0];
+        private V[] _defaultRet = Array.Empty<V>();
         private Dictionary<K, List<V>> _map;
 
         /// <summary>
@@ -41,16 +42,13 @@ namespace MoonSharp.Interpreter.DataStructs
         /// <param name="value">The value.</param>
         public bool Add(K key, V value)
         {
-            List<V> list;
-
-            if (_map.TryGetValue(key, out list))
+            if (_map.TryGetValue(key, out var list))
             {
                 list.Add(value);
                 return false;
             }
 
-            list = new List<V>();
-            list.Add(value);
+            list = new List<V> { value };
             _map.Add(key, list);
             return true;
         }
@@ -62,9 +60,7 @@ namespace MoonSharp.Interpreter.DataStructs
         /// <param name="key">The key.</param>
         public IEnumerable<V> Find(K key)
         {
-            List<V> list;
-
-            if (_map.TryGetValue(key, out list))
+            if (_map.TryGetValue(key, out var list))
             {
                 return list;
             }
@@ -105,9 +101,7 @@ namespace MoonSharp.Interpreter.DataStructs
         /// <param name="value">The value.</param>
         public bool RemoveValue(K key, V value)
         {
-            List<V> list;
-
-            if (_map.TryGetValue(key, out list))
+            if (_map.TryGetValue(key, out var list))
             {
                 list.Remove(value);
 

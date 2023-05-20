@@ -35,6 +35,6 @@ namespace MoonSharp.Interpreter
         /// <summary>
         /// The number of parameters a function has.
         /// </summary>
-        public int ParameterCount { get; set; } = 0;
+        public int ParameterCount { get; set; }
     }
 }

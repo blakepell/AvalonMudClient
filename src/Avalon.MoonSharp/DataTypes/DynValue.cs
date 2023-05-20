@@ -466,12 +466,14 @@ namespace MoonSharp.Interpreter
         /// <param name="readOnly">if set to <c>true</c> the new instance is set as readonly, or writeable otherwise.</param>
         public DynValue Clone(bool readOnly)
         {
-            var v = new DynValue();
-            v._object = _object;
-            v.Number = this.Number;
-            v._hashCode = _hashCode;
-            v.Type = this.Type;
-            v.ReadOnly = readOnly;
+            var v = new DynValue
+            {
+                _object = _object,
+                Number = this.Number,
+                _hashCode = _hashCode,
+                Type = this.Type,
+                ReadOnly = readOnly
+            };
             return v;
         }
 

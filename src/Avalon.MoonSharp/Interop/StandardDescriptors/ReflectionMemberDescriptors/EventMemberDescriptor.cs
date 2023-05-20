@@ -199,8 +199,8 @@ namespace MoonSharp.Interpreter.Interop
             {
                 if (throwException)
                 {
-                    throw new ArgumentException(string.Format("Event handler cannot have more than {0} parameters",
-                        MAX_ARGS_IN_DELEGATE));
+                    throw new ArgumentException(
+                        $"Event handler cannot have more than {MAX_ARGS_IN_DELEGATE} parameters");
                 }
 
                 return false;
@@ -238,7 +238,7 @@ namespace MoonSharp.Interpreter.Interop
             lock (m_Lock)
             {
                 var closure = args.AsType(0,
-                    string.Format("userdata<{0}>.{1}.add", this.EventInfo.DeclaringType, this.EventInfo.Name),
+                    $"userdata<{this.EventInfo.DeclaringType}>.{this.EventInfo.Name}.add",
                     DataType.Function).Function;
 
                 if (m_Callbacks.Add(o, closure))
@@ -255,7 +255,7 @@ namespace MoonSharp.Interpreter.Interop
             lock (m_Lock)
             {
                 var closure = args.AsType(0,
-                    string.Format("userdata<{0}>.{1}.remove", this.EventInfo.DeclaringType, this.EventInfo.Name),
+                    $"userdata<{this.EventInfo.DeclaringType}>.{this.EventInfo.Name}.remove",
                     DataType.Function).Function;
 
                 if (m_Callbacks.RemoveValue(o, closure))

@@ -162,12 +162,9 @@ namespace MoonSharp.Interpreter.Interop.Converters
                 return DynValue.NewCallback(CallbackFunction.FromDelegate(script, d));
             }
 
-            if (obj is MethodInfo mi)
+            if (obj is MethodInfo { IsStatic: true } mi)
             {
-                if (mi.IsStatic)
-                {
-                    return DynValue.NewCallback(CallbackFunction.FromMethodInfo(script, mi));
-                }
+                return DynValue.NewCallback(CallbackFunction.FromMethodInfo(script, mi));
             }
 
             if (obj is IList list)

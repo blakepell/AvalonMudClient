@@ -709,7 +709,7 @@ namespace MoonSharp.Interpreter.Interop.LuaStateInterop
                         {
                             w = c.ToString();
                         }
-                        else if (o is string s && s.Length > 0)
+                        else if (o is string { Length: > 0 } s)
                         {
                             w = s[0].ToString();
                         }
@@ -731,14 +731,7 @@ namespace MoonSharp.Interpreter.Interop.LuaStateInterop
 
                         if (fieldLength != int.MinValue)
                         {
-                            if (flagLeft2Right)
-                            {
-                                w = w.PadRight(fieldLength, paddingCharacter);
-                            }
-                            else
-                            {
-                                w = w.PadLeft(fieldLength, paddingCharacter);
-                            }
+                            w = flagLeft2Right ? w.PadRight(fieldLength, paddingCharacter) : w.PadLeft(fieldLength, paddingCharacter);
                         }
 
                         defaultParamIx++;
@@ -982,14 +975,7 @@ namespace MoonSharp.Interpreter.Interop.LuaStateInterop
 
                     if (FieldLength != int.MinValue)
                     {
-                        if (PositiveSign) // xan - change here
-                        {
-                            w = w.PadLeft(FieldLength - 1, Padding);
-                        }
-                        else
-                        {
-                            w = w.PadLeft(FieldLength, Padding);
-                        }
+                        w = PositiveSign ? w.PadLeft(FieldLength - 1, Padding) : w.PadLeft(FieldLength, Padding); // xan - change here
                     }
 
                     if (IsPositive(Value, true))

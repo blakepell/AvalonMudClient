@@ -26,7 +26,7 @@ namespace MoonSharp.Interpreter.Interop
             }
 
             this.Name = "__new";
-            this.Parameters = new ParameterDescriptor[0];
+            this.Parameters = Array.Empty<ParameterDescriptor>();
 
             this.ValueTypeDefaultCtor = valueType;
         }

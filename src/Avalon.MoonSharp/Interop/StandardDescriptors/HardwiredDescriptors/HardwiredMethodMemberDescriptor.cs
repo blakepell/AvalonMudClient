@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using MoonSharp.Interpreter.Interop.BasicDescriptors;
+﻿using MoonSharp.Interpreter.Interop.BasicDescriptors;
 
 namespace MoonSharp.Interpreter.Interop.StandardDescriptors.HardwiredDescriptors
 {
@@ -10,8 +9,7 @@ namespace MoonSharp.Interpreter.Interop.StandardDescriptors.HardwiredDescriptors
         {
             this.CheckAccess(MemberDescriptorAccess.CanExecute, obj);
 
-            List<int> outParams = null;
-            var pars = base.BuildArgumentList(script, obj, context, args, out outParams);
+            var pars = base.BuildArgumentList(script, obj, context, args, out _);
             var retv = this.Invoke(script, obj, pars, this.CalcArgsCount(pars));
 
             return DynValue.FromObject(script, retv);

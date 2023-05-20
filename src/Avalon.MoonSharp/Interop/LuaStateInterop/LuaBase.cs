@@ -104,8 +104,7 @@ namespace MoonSharp.Interpreter.Interop.LuaStateInterop
 
         protected static string LuaToString(LuaState luaState, int p)
         {
-            uint l;
-            return LuaLCheckLString(luaState, p, out l);
+            return LuaLCheckLString(luaState, p, out uint _);
         }
 
         protected static void LuaLAddValue(LuaLBuffer b)
@@ -256,14 +255,12 @@ namespace MoonSharp.Interpreter.Interop.LuaStateInterop
 
         protected static CharPtr LuaLCheckString(LuaState L, int p)
         {
-            uint dummy;
-            return LuaLCheckLString(L, p, out dummy);
+            return LuaLCheckLString(L, p, out uint _);
         }
 
         protected static string LuaLCheckStringStr(LuaState L, int p)
         {
-            uint dummy;
-            return LuaLCheckLString(L, p, out dummy);
+            return LuaLCheckLString(L, p, out uint _);
         }
 
         protected static void LuaLArgError(LuaState L, int arg, string p)

@@ -37,7 +37,7 @@ namespace MoonSharp.Interpreter.Interop.UserDataRegistries
 
                 foreach (var mi in Framework.Do.GetMethods(type).Where(_mi => _mi.IsStatic))
                 {
-                    if (mi.GetCustomAttributes(typeof(ExtensionAttribute), false).Count() == 0)
+                    if (!mi.GetCustomAttributes(typeof(ExtensionAttribute), false).Any())
                     {
                         continue;
                     }

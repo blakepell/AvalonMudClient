@@ -193,8 +193,10 @@ namespace MoonSharp.Interpreter.Platforms
         public override int OS_Execute(string cmdline)
         {
             // This is windows only!
-            var psi = new ProcessStartInfo("cmd.exe", $"/C {cmdline}");
-            psi.ErrorDialog = false;
+            var psi = new ProcessStartInfo("cmd.exe", $"/C {cmdline}")
+            {
+                ErrorDialog = false
+            };
 
             var proc = Process.Start(psi);
             proc.WaitForExit();

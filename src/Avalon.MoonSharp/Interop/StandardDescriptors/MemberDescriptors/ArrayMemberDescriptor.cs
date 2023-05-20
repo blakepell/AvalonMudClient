@@ -22,7 +22,7 @@ namespace MoonSharp.Interpreter.Interop
                 name,
                 isSetter
                     ? ArrayIndexerSet
-                    : (Func<object, ScriptExecutionContext, CallbackArguments, object>) ArrayIndexerGet,
+                    : ArrayIndexerGet,
                 indexerParams)
         {
             m_IsSetter = isSetter;
@@ -38,7 +38,7 @@ namespace MoonSharp.Interpreter.Interop
                 name,
                 isSetter
                     ? ArrayIndexerSet
-                    : (Func<object, ScriptExecutionContext, CallbackArguments, object>) ArrayIndexerGet)
+                    : ArrayIndexerGet)
         {
             m_IsSetter = isSetter;
         }

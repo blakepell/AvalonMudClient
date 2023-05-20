@@ -71,14 +71,7 @@ namespace MoonSharp.Interpreter.CoreLib
             {
                 var arg = args.AsType(i, funcName, DataType.Number);
 
-                if (i == 0)
-                {
-                    accum = arg.Number;
-                }
-                else
-                {
-                    accum = func(accum, arg.Number);
-                }
+                accum = i == 0 ? arg.Number : func(accum, arg.Number);
             }
 
             return DynValue.NewNumber(accum);
@@ -91,7 +84,7 @@ namespace MoonSharp.Interpreter.CoreLib
             ReturnTypeHint = "int")]
         public static DynValue abs(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-            return exec1(args, "abs", d => Math.Abs(d));
+            return exec1(args, "abs", Math.Abs);
         }
 
         [MoonSharpModuleMethod(Description = "Returns the arc cosine of X (in radians)",
@@ -100,7 +93,7 @@ namespace MoonSharp.Interpreter.CoreLib
             ReturnTypeHint = "double")]
         public static DynValue acos(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-            return exec1(args, "acos", d => Math.Acos(d));
+            return exec1(args, "acos", Math.Acos);
         }
 
         [MoonSharpModuleMethod(Description = "Returns the arc sine of X (in radians)",
@@ -109,7 +102,7 @@ namespace MoonSharp.Interpreter.CoreLib
             ReturnTypeHint = "double")]
         public static DynValue asin(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-            return exec1(args, "asin", d => Math.Asin(d));
+            return exec1(args, "asin", Math.Asin);
         }
 
         [MoonSharpModuleMethod(Description = "Returns the arc tangent of X (in radians)",
@@ -118,7 +111,7 @@ namespace MoonSharp.Interpreter.CoreLib
             ReturnTypeHint = "double")]
         public static DynValue atan(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-            return exec1(args, "atan", d => Math.Atan(d));
+            return exec1(args, "atan", Math.Atan);
         }
 
         [MoonSharpModuleMethod(Description = "Returns the arc tangent of y/x (in radians), but uses the signs of both parameters to find the quadrant of the result. (It also handles correctly the case of x being zero.)",
@@ -127,7 +120,7 @@ namespace MoonSharp.Interpreter.CoreLib
             ReturnTypeHint = "double")]
         public static DynValue atan2(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-            return exec2(args, "atan2", (d1, d2) => Math.Atan2(d1, d2));
+            return exec2(args, "atan2", Math.Atan2);
         }
 
         [MoonSharpModuleMethod(Description = "Returns the smallest integer larger than or equal to x.",
@@ -136,7 +129,7 @@ namespace MoonSharp.Interpreter.CoreLib
             ReturnTypeHint = "double")]
         public static DynValue ceil(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-            return exec1(args, "ceil", d => Math.Ceiling(d));
+            return exec1(args, "ceil", Math.Ceiling);
         }
 
         [MoonSharpModuleMethod(Description = "Returns cosine of x.",
@@ -145,7 +138,7 @@ namespace MoonSharp.Interpreter.CoreLib
             ReturnTypeHint = "double")]
         public static DynValue cos(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-            return exec1(args, "cos", d => Math.Cos(d));
+            return exec1(args, "cos", Math.Cos);
         }
 
         [MoonSharpModuleMethod(Description = "Returns hyperbolic cosine of x.",
@@ -154,7 +147,7 @@ namespace MoonSharp.Interpreter.CoreLib
             ReturnTypeHint = "double")]
         public static DynValue cosh(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-            return exec1(args, "cosh", d => Math.Cosh(d));
+            return exec1(args, "cosh", Math.Cosh);
         }
 
         [MoonSharpModuleMethod(Description = "Returns the angle x (given in radians) in degrees.",
@@ -172,7 +165,7 @@ namespace MoonSharp.Interpreter.CoreLib
             ReturnTypeHint = "double")]
         public static DynValue exp(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-            return exec1(args, "exp", d => Math.Exp(d));
+            return exec1(args, "exp", Math.Exp);
         }
 
         [MoonSharpModuleMethod(Description = "Returns the largest interger smaller than or equal to x.",
@@ -181,7 +174,7 @@ namespace MoonSharp.Interpreter.CoreLib
             ReturnTypeHint = "double")]
         public static DynValue floor(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-            return exec1(args, "floor", d => Math.Floor(d));
+            return exec1(args, "floor", Math.Floor);
         }
 
         [MoonSharpModuleMethod(Description = "Returns the remainder of the division of x by y that rounds the quotient towards zero.",
@@ -190,7 +183,7 @@ namespace MoonSharp.Interpreter.CoreLib
             ReturnTypeHint = "double")]
         public static DynValue fmod(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-            return exec2(args, "fmod", (d1, d2) => Math.IEEERemainder(d1, d2));
+            return exec2(args, "fmod", Math.IEEERemainder);
         }
 
         [MoonSharpModuleMethod(Description = "Returns m and e such that x = m2e, e is an integer and the absolute value of m is in the range [0.5, 1) (or zero when x is zero).",
@@ -274,7 +267,7 @@ namespace MoonSharp.Interpreter.CoreLib
             ReturnTypeHint = "double")]
         public static DynValue log(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-            return exec2n(args, "log", Math.E, (d1, d2) => Math.Log(d1, d2));
+            return exec2n(args, "log", Math.E, Math.Log);
         }
 
         [MoonSharpModuleMethod(Description = "Returns the maximum value among its arguments.",
@@ -283,7 +276,7 @@ namespace MoonSharp.Interpreter.CoreLib
             ReturnTypeHint = "double")]
         public static DynValue max(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-            return execaccum(args, "max", (d1, d2) => Math.Max(d1, d2));
+            return execaccum(args, "max", Math.Max);
         }
 
         [MoonSharpModuleMethod(Description = "Returns the minimum value among its arguments.",
@@ -292,7 +285,7 @@ namespace MoonSharp.Interpreter.CoreLib
             ReturnTypeHint = "double")]
         public static DynValue min(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-            return execaccum(args, "min", (d1, d2) => Math.Min(d1, d2));
+            return execaccum(args, "min", Math.Min);
         }
 
         [MoonSharpModuleMethod(Description = "Returns two numbers, the integral part of x and the fractional part of x.",
@@ -313,7 +306,7 @@ namespace MoonSharp.Interpreter.CoreLib
             ReturnTypeHint = "double")]
         public static DynValue pow(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-            return exec2(args, "pow", (d1, d2) => Math.Pow(d1, d2));
+            return exec2(args, "pow", Math.Pow);
         }
 
         [MoonSharpModuleMethod(Description = "Returns the angle x (given in degrees) in radians.",
@@ -345,14 +338,7 @@ namespace MoonSharp.Interpreter.CoreLib
                 int a = n.IsNil() ? 1 : (int) n.Number;
                 int b = (int) m.Number;
 
-                if (a < b)
-                {
-                    d = R.Next(a, b + 1);
-                }
-                else
-                {
-                    d = R.Next(b, a + 1);
-                }
+                d = a < b ? R.Next(a, b + 1) : R.Next(b, a + 1);
             }
 
             return DynValue.NewNumber(d);
@@ -376,7 +362,7 @@ namespace MoonSharp.Interpreter.CoreLib
             ReturnTypeHint = "double")]
         public static DynValue sin(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-            return exec1(args, "sin", d => Math.Sin(d));
+            return exec1(args, "sin", Math.Sin);
         }
 
         [MoonSharpModuleMethod(Description = "Returns the hyperbolic sine of x.",
@@ -385,7 +371,7 @@ namespace MoonSharp.Interpreter.CoreLib
             ReturnTypeHint = "double")]
         public static DynValue sinh(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-            return exec1(args, "sinh", d => Math.Sinh(d));
+            return exec1(args, "sinh", Math.Sinh);
         }
 
         [MoonSharpModuleMethod(Description = "Returns the square root of a value.",
@@ -394,7 +380,7 @@ namespace MoonSharp.Interpreter.CoreLib
             ReturnTypeHint = "double")]
         public static DynValue sqrt(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-            return exec1(args, "sqrt", d => Math.Sqrt(d));
+            return exec1(args, "sqrt", Math.Sqrt);
         }
 
         [MoonSharpModuleMethod(Description = "Returns the tangent of x (assumed to be in radians)",
@@ -403,7 +389,7 @@ namespace MoonSharp.Interpreter.CoreLib
             ReturnTypeHint = "double")]
         public static DynValue tan(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-            return exec1(args, "tan", d => Math.Tan(d));
+            return exec1(args, "tan", Math.Tan);
         }
 
         [MoonSharpModuleMethod(Description = "Returns the hyperbolic tangent of a x.",
@@ -412,7 +398,7 @@ namespace MoonSharp.Interpreter.CoreLib
             ReturnTypeHint = "double")]
         public static DynValue tanh(ScriptExecutionContext executionContext, CallbackArguments args)
         {
-            return exec1(args, "tanh", d => Math.Tanh(d));
+            return exec1(args, "tanh", Math.Tanh);
         }
     }
 }

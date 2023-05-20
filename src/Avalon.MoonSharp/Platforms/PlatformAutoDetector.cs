@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using System.Linq.Expressions;
-using MoonSharp.Interpreter.Interop;
 using MoonSharp.Interpreter.Loaders;
 
 namespace MoonSharp.Interpreter.Platforms

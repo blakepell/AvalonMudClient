@@ -132,8 +132,8 @@ namespace MoonSharp.Interpreter.Interop
 
                     if (m_PropertyMap.ContainsKey(name))
                     {
-                        throw new ArgumentException(string.Format(
-                            "Type {0} has two definitions for MoonSharp property {1}", m_Type.FullName, name));
+                        throw new ArgumentException(
+                            $"Type {m_Type.FullName} has two definitions for MoonSharp property {name}");
                     }
 
                     m_PropertyMap.Add(name, pi);
@@ -163,19 +163,16 @@ namespace MoonSharp.Interpreter.Interop
 
         private bool TryAssignProperty(object obj, string name, DynValue value)
         {
-            if (m_PropertyMap.ContainsKey(name))
+            if (m_PropertyMap.TryGetValue(name, out var pi))
             {
-                var pi = m_PropertyMap[name];
-
                 if (pi != null)
                 {
                     object o;
 
-                    if (value.Type == DataType.Table && m_SubAssigners.ContainsKey(pi.PropertyType))
+                    if (value.Type == DataType.Table && m_SubAssigners.TryGetValue(pi.PropertyType, out var assigner))
                     {
-                        var subassigner = m_SubAssigners[pi.PropertyType];
                         o = Activator.CreateInstance(pi.PropertyType);
-                        subassigner.AssignObjectUnchecked(o, value.Table);
+                        assigner.AssignObjectUnchecked(o, value.Table);
                     }
                     else
                     {
@@ -235,8 +232,8 @@ namespace MoonSharp.Interpreter.Interop
 
             if (!Framework.Do.IsInstanceOfType(m_Type, obj))
             {
-                throw new ArgumentException(string.Format("Invalid type of object : got '{0}', expected {1}",
-                    obj.GetType().FullName, m_Type.FullName));
+                throw new ArgumentException(
+                    $"Invalid type of object : got '{obj.GetType().FullName}', expected {m_Type.FullName}");
             }
 
             foreach (var pair in data.Pairs)

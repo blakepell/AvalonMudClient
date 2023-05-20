@@ -10,9 +10,8 @@ namespace MoonSharp.Interpreter.Tree
         public static double ParseNumber(Token T)
         {
             string txt = T.Text;
-            double res;
 
-            if (!double.TryParse(txt, NumberStyles.Float, CultureInfo.InvariantCulture, out res))
+            if (!double.TryParse(txt, NumberStyles.Float, CultureInfo.InvariantCulture, out double res))
             {
                 throw new SyntaxErrorException(T, "malformed number near '{0}'", txt);
             }
@@ -28,9 +27,7 @@ namespace MoonSharp.Interpreter.Tree
                 throw new InternalErrorException("hex numbers must start with '0x' near '{0}'.", txt);
             }
 
-            ulong res;
-
-            if (!ulong.TryParse(txt.Substring(2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out res))
+            if (!ulong.TryParse(txt.Substring(2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out ulong res))
             {
                 throw new SyntaxErrorException(T, "malformed number near '{0}'", txt);
             }
@@ -76,9 +73,9 @@ namespace MoonSharp.Interpreter.Tree
                 s = s.Substring(2);
 
                 double value = 0.0;
-                int dummy, exp = 0;
+                int exp = 0;
 
-                s = ReadHexProgressive(s, ref value, out dummy);
+                s = ReadHexProgressive(s, ref value, out int _);
 
                 if (s.Length > 0 && s[0] == '.')
                 {

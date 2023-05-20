@@ -395,9 +395,9 @@ namespace MoonSharp.Interpreter.Interop.BasicDescriptors
 
             if (odesc != null)
             {
-                if (members.ContainsKey(name))
+                if (members.TryGetValue(name, out var member))
                 {
-                    var overloads = members[name] as OverloadedMethodMemberDescriptor;
+                    var overloads = member as OverloadedMethodMemberDescriptor;
 
                     if (overloads != null)
                     {
@@ -405,9 +405,8 @@ namespace MoonSharp.Interpreter.Interop.BasicDescriptors
                     }
                     else
                     {
-                        throw new ArgumentException(string.Format(
-                            "Multiple members named {0} are being added to type {1} and one or more of these members do not support overloads.",
-                            name, this.Type.FullName));
+                        throw new ArgumentException(
+                            $"Multiple members named {name} are being added to type {this.Type.FullName} and one or more of these members do not support overloads.");
                     }
                 }
                 else
@@ -419,9 +418,8 @@ namespace MoonSharp.Interpreter.Interop.BasicDescriptors
             {
                 if (members.ContainsKey(name))
                 {
-                    throw new ArgumentException(string.Format(
-                        "Multiple members named {0} are being added to type {1} and one or more of these members do not support overloads.",
-                        name, this.Type.FullName));
+                    throw new ArgumentException(
+                        $"Multiple members named {name} are being added to type {this.Type.FullName} and one or more of these members do not support overloads.");
                 }
 
                 members.Add(name, desc);
@@ -478,9 +476,7 @@ namespace MoonSharp.Interpreter.Interop.BasicDescriptors
         /// <param name="indexName">Member name to be indexed.</param>
         protected virtual DynValue TryIndex(Script script, object obj, string indexName)
         {
-            IMemberDescriptor desc;
-
-            if (m_Members.TryGetValue(indexName, out desc))
+            if (m_Members.TryGetValue(indexName, out var desc))
             {
                 return desc.GetValue(script, obj);
             }
@@ -558,14 +554,7 @@ namespace MoonSharp.Interpreter.Interop.BasicDescriptors
             }
             else
             {
-                if (value == null)
-                {
-                    values = new[] {index};
-                }
-                else
-                {
-                    values = new[] {index, value};
-                }
+                values = value == null ? new[] {index} : new[] {index, value};
             }
 
             var args = new CallbackArguments(values, false);
