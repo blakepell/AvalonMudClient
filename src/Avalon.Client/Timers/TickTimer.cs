@@ -125,7 +125,7 @@ namespace Avalon.Timers
         /// <summary>
         /// Timer to time ticks with.
         /// </summary>
-        private readonly DispatcherTimer _tickTimer = new DispatcherTimer();
+        private readonly DispatcherTimer _tickTimer = new();
 
         /// <summary>
         /// A Stopwatch to see how long the tick actually took.

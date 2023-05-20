@@ -73,7 +73,7 @@ namespace Avalon
         /// <summary>
         /// A list of the text boxes on the window that can be iterated through in a for loop.
         /// </summary>
-        private readonly List<RichTextBox> _textBoxList = new List<RichTextBox>();
+        private readonly List<RichTextBox> _textBoxList = new();
 
 
         /// <summary>

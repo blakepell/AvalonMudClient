@@ -16,7 +16,7 @@ namespace Avalon.Controls.AutoCompleteTextBox
     /// </summary>
     public class AutoCompleteCommandProvider : ISuggestionProvider
     {
-        public List<AutoCompleteCommand> Items { get; set; } = new List<AutoCompleteCommand>();
+        public List<AutoCompleteCommand> Items { get; set; } = new();
 
         /// <summary>
         /// Updates the list of auto complete entries.

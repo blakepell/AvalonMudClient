@@ -40,12 +40,12 @@ namespace Avalon.Timers
         /// <summary>
         /// The dispatch timer used for checking the queue.
         /// </summary>
-        private readonly DispatcherTimer _timer = new DispatcherTimer(DispatcherPriority.Background);
+        private readonly DispatcherTimer _timer = new(DispatcherPriority.Background);
 
         /// <summary>
         /// All pending scheduled.
         /// </summary>
-        public List<SqlTask> SqlQueue { get; set; } = new List<SqlTask>();
+        public List<SqlTask> SqlQueue { get; set; } = new();
 
         /// <summary>
         /// The SQLite Connection.

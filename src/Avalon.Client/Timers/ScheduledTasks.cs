@@ -129,12 +129,12 @@ namespace Avalon.Timers
         /// <summary>
         /// The dispatch timer used for checking the queue.
         /// </summary>
-        private readonly DispatcherTimer _timer = new DispatcherTimer();
+        private readonly DispatcherTimer _timer = new();
 
         /// <summary>
         /// All pending scheduled.
         /// </summary>
-        public List<ScheduledTask> Tasks { get; set; } = new List<ScheduledTask>();
+        public List<ScheduledTask> Tasks { get; set; } = new();
 
     }
 

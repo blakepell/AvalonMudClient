@@ -106,7 +106,7 @@ namespace Avalon.Timers
         /// <summary>
         /// All pending scheduled.
         /// </summary>
-        public BlockingCollection<BatchTask> Tasks { get; set; } = new BlockingCollection<BatchTask>(new ConcurrentQueue<BatchTask>());
+        public BlockingCollection<BatchTask> Tasks { get; set; } = new(new ConcurrentQueue<BatchTask>());
 
     }
 

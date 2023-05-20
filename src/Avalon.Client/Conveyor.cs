@@ -1279,7 +1279,7 @@ namespace Avalon
         /// <summary>
         /// A StringBuilder for holding scraped data.
         /// </summary>
-        public StringBuilder Scrape { get; set; } = new StringBuilder();
+        public StringBuilder Scrape { get; set; } = new();
 
         /// <summary>
         /// Whether the main terminal should be scraping data into the Scrape StringBuilder for later use.
@@ -1299,7 +1299,7 @@ namespace Avalon
         /// <summary>
         /// A list of user spawned windows.  These can represent any number of <see cref="WindowType"/> objects.
         /// </summary>
-        public List<IWindow> WindowList { get; set; } = new List<IWindow>();
+        public List<IWindow> WindowList { get; set; } = new();
 
     }
 }

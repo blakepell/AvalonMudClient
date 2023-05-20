@@ -52,12 +52,12 @@ namespace Avalon
                     return;
                 }
 
-                // If the SetText crashes more often than not, change SetText to SetDataObject.
-
-                // Remove any ANSI codes from the selected text.
-                var sb = new StringBuilder(terminal.SelectedText);
-                Colorizer.RemoveAllAnsiCodes(sb);
-                Clipboard.SetDataObject(sb.ToString(), true);
+                // We're using SetDataObject here instead of SetText because SetText
+                // crashes more often that not.
+                using (var sb = Colorizer.CreateStringBuilder(terminal.SelectedText))
+                {
+                    Clipboard.SetDataObject(sb.ToString(), true);
+                }
             }
             catch (Exception ex)
             {

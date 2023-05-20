@@ -440,37 +440,37 @@ namespace Avalon
         /// <summary>
         /// For handling executing the load plugin menu option via a hot-key.
         /// </summary>
-        public static readonly RoutedUICommand LoadPlugin = new RoutedUICommand("LoadPlugin", "LoadPlugin", typeof(MainWindow));
+        public static readonly RoutedUICommand LoadPlugin = new("LoadPlugin", "LoadPlugin", typeof(MainWindow));
 
         /// <summary>
         /// For handling executing the select element option via a hot-key.
         /// </summary>
-        public static readonly RoutedUICommand SelectElement = new RoutedUICommand("SelectElement", "SelectElement", typeof(MainWindow));
+        public static readonly RoutedUICommand SelectElement = new("SelectElement", "SelectElement", typeof(MainWindow));
 
         /// <summary>
         /// For handling executing the edit last item via a hot-key.
         /// </summary>
-        public static readonly RoutedUICommand EditLastItem = new RoutedUICommand("EditLastItem", "EditLastItem", typeof(MainWindow));
+        public static readonly RoutedUICommand EditLastItem = new("EditLastItem", "EditLastItem", typeof(MainWindow));
 
         /// <summary>
         /// For handling making the terminal font sizes larger and smaller via a hot-key.
         /// </summary>
-        public static readonly RoutedUICommand FontSizeChange = new RoutedUICommand("FontSizeChange", "FontSizeChange", typeof(MainWindow));
+        public static readonly RoutedUICommand FontSizeChange = new("FontSizeChange", "FontSizeChange", typeof(MainWindow));
 
         /// <summary>
         /// For handling find requests, will behave different depending on the tab selected.
         /// </summary>
-        public static readonly RoutedUICommand Find = new RoutedUICommand("Find", "Find", typeof(MainWindow));
+        public static readonly RoutedUICommand Find = new("Find", "Find", typeof(MainWindow));
 
         /// <summary>
         /// For handling to focus elements from hot keys.
         /// </summary>
-        public static readonly RoutedUICommand FocusByName = new RoutedUICommand("FocusByName", "FocusByName", typeof(MainWindow));
+        public static readonly RoutedUICommand FocusByName = new("FocusByName", "FocusByName", typeof(MainWindow));
 
         /// <summary>
         /// For handling hot keys to shell various known windows.
         /// </summary>
-        public static readonly RoutedUICommand ShellWindow = new RoutedUICommand("ShellWindow", "ShellWindow", typeof(MainWindow));
+        public static readonly RoutedUICommand ShellWindow = new("ShellWindow", "ShellWindow", typeof(MainWindow));
 
         /// <summary>
         /// Event used from menus to shell any number of Shell based UserControls into windows.

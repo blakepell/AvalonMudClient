@@ -59,18 +59,18 @@ namespace Avalon
         /// <summary>
         /// A list of plugins that were loaded via reflection on startup.
         /// </summary>
-        internal static List<Plugin> Plugins { get; set; } = new List<Plugin>();
+        internal static List<Plugin> Plugins { get; set; } = new();
 
         /// <summary>
         /// Ability to send a Windows OS toast message.
         /// </summary>
-        public static Toast Toast { get; set; } = new Toast();
+        public static Toast Toast { get; set; } = new();
 
         /// <summary>
         /// Global variables that are specific to this instance and not persisted across boots of
         /// the mud client.
         /// </summary>
-        internal static InstanceGlobals InstanceGlobals { get; set; } = new InstanceGlobals();
+        internal static InstanceGlobals InstanceGlobals { get; set; } = new();
 
         /// <summary>
         /// The SoundPlayer used to play the ANSI beep.

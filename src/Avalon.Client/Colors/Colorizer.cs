@@ -23,7 +23,7 @@ namespace Avalon.Colors
         /// <summary>
         /// Regular expression to find the last ANSI color code used.
         /// </summary>
-        private static readonly Regex _escapeSequenceRegEx = new Regex(@"\x1B\[[^@-~]*[@-~]", RegexOptions.Compiled);
+        private static readonly Regex _escapeSequenceRegEx = new(@"\x1B\[[^@-~]*[@-~]", RegexOptions.Compiled);
 
         /// <summary>
         /// Static list of colors we support that allows for translation between the different formats.
@@ -32,8 +32,8 @@ namespace Avalon.Colors
         /// Black is notable here because it is set to AnsiColors.DarkGray.  The reason for this is we don't want black text to
         /// render on the black mud client background (for now).
         /// </remarks>
-        public static List<ColorMap> ColorMap = new List<ColorMap>
-            {
+        public static List<ColorMap> ColorMap = new()
+        {
                 // These should be in the order they need to be processed.
                 new ColorMap { AnsiColor = AnsiColors.Clear, Brush = Brushes.LightGray },
                 new ColorMap { AnsiColor = AnsiColors.Green, Brush = Brushes.Lime },
@@ -63,8 +63,8 @@ namespace Avalon.Colors
         /// have no color so the AnsiColor will be ignored (unless we add custom control sequences to do things inside this
         /// client for the client).
         /// </summary>
-        public static List<ColorMap> StyleMap = new List<ColorMap>
-            {
+        public static List<ColorMap> StyleMap = new()
+        {
                 new ColorMap { AnsiColor = AnsiColors.Reverse, Brush = Brushes.Transparent },
                 new ColorMap { AnsiColor = AnsiColors.Underline, Brush = Brushes.Transparent }
                 // Remove ANSI codes that deal with moving the cursor around and one's we aren't currently supporting.
@@ -123,28 +123,52 @@ namespace Avalon.Colors
         }
 
         /// <summary>
-        /// Removes all known ANSI codes from the output text.  Note: This updates the
-        /// Utf16ValueStringBuilder directly.
+        /// Creates a <see cref="Utf16ValueStringBuilder"/> and appends the specified text
+        /// without any ANSI codes that are included with it.
         /// </summary>
-        /// <param name="sb"></param>
+        /// <param name="text"></param>
+        /// <remarks>Caller should call Dispose when they are done with this method.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RemoveAllAnsiCodes(ref Utf16ValueStringBuilder sb)
+        public static Utf16ValueStringBuilder CreateStringBuilder(string text)
         {
-            var span = sb.AsSpan();
+            var sb = ZString.CreateStringBuilder();
+            var span = text.AsSpan();
+            int length = span.Length;
 
-            // If there are ANSI codes don't bother RegEx matching.
-            if (span.IndexOf('\x1B') == -1)
+            int startIndex = 0;
+            for (int i = 0; i < span.Length; i++)
             {
-                return;
+                // Check for start of ANSI code
+                if (span[i] != '\x1b')
+                {
+                    continue;
+                }
+
+                // Append string before ANSI code
+                sb.Append(span.Slice(startIndex, i - startIndex));
+                startIndex = i;
+
+                // Look for end of ANSI code
+                for (int j = i + 1; j < length; j++)
+                {
+                    // ANSI codes end with a letter in the range A-Z or a-z
+                    if ((span[j] >= 'A' && span[j] <= 'Z') || (span[j] >= 'a' && span[j] <= 'z'))
+                    {
+                        // Update startIndex to skip ANSI code
+                        startIndex = j + 1;
+                        i = j;
+                        break;
+                    }
+                }
             }
 
-            var result = _escapeSequenceRegEx.Matches(sb.ToString());
-
-            for (int i = result.Count - 1; i > -1; i--)
+            // Append remainder of string after last ANSI code
+            if (startIndex < text.Length)
             {
-                var m = result[i];
-                sb.Remove(m.Index, m.Length);
+                sb.Append(span[startIndex..]);
             }
+
+            return sb;
         }
 
         /// <summary>

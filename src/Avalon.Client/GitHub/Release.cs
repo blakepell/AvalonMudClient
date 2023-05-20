@@ -15,7 +15,7 @@ namespace Avalon.GitHub
         [JsonProperty("tag_name")]
         public string TagName { get; set; } = "";
 
-        public List<Asset> Assets { get; set; } = new List<Asset>();
+        public List<Asset> Assets { get; set; } = new();
 
     }
 }

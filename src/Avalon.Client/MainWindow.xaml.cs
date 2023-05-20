@@ -43,7 +43,7 @@ namespace Avalon
         /// <summary>
         /// A view model to house various data elements that should be displayed on the main game window.
         /// </summary>
-        public MainWindowViewModel ViewModel = new MainWindowViewModel();
+        public MainWindowViewModel ViewModel = new();
 
         /// <summary>
         /// Timer to time ticks with.

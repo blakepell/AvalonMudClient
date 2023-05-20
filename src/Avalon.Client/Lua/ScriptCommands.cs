@@ -40,7 +40,7 @@ namespace Avalon.Lua
         /// <summary>
         /// Locking object for the random number generator
         /// </summary>
-        private static readonly object _randomLock = new object();
+        private static readonly object _randomLock = new();
 
         /// <summary>
         /// Sends text to the server.

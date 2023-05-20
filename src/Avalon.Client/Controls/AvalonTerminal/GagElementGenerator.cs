@@ -22,15 +22,6 @@ namespace Avalon.Controls
     public class GagElementGenerator : VisualLineElementGenerator
     {
         /// <summary>
-        /// This might seem like a micro optimization but the StringBuilder used in GetFirstInterestedOffset had a performance
-        /// hit allocated that is avoided if we reuse the StringBuilder and simply clear it.  Since this is called A LOT it
-        /// while rendering the impact was enough that this made sense.  Since this is heavily used in the Gag and it's only
-        /// allocated once when the Gag is created I've chosen to keep this here instead of using the StringBuilderPool because
-        /// it's always going to be needed so I've just made it dedicated.
-        /// </summary>
-        private readonly StringBuilder _sb = new();
-
-        /// <summary>
         /// Tracks all of the collapsed sections so that we can call UnCollapse() if needed.
         /// </summary>
         public Dictionary<int, CollapsedLineSection> CollapsedLineSections = new();
@@ -134,13 +125,12 @@ namespace Avalon.Controls
                 return startOffset;
             }
 
-            // Clear the StringBuilder and re-remove the ANSI codes so the match can run again.
-            _sb.Clear();
-            _sb.Append(segment.Text);
-            Colorizer.RemoveAllAnsiCodes(_sb);
+            // Create a stack string builder that appends without adding the ansi codes to the result.
+            // We'll then pass the span over it to the regex functions thus avoiding string allocations.
+            var sb = Colorizer.CreateStringBuilder(segment.Text);
 
             // Create only one string that will pass multiple times into the trigger's IsMatch function.
-            string text = _sb.ToString();
+            var span = sb.AsSpan();
 
             // Once a trigger is found that this thing basically gets out.  It might behoove us here to run the system triggers
             // first and maybe have a priority sequence so they can be run in a certain order.  The example being, the prompt
@@ -156,9 +146,10 @@ namespace Avalon.Controls
                 {
                     // These triggers match for the gag but do NOT execute the trigger's command (VERY important because it would cause the triggers
                     // to get fired multiple times as the line is re-rendered on the screen.. that is -bad-).
-                    if (endLine?.NextLine != null && trigger.Regex?.IsMatch(text) == true)
+                    if (endLine?.NextLine != null && trigger.Regex?.IsMatch(span) == true)
                     {
-                        CollapsedLineSections.Add(endLine.LineNumber, this.CurrentContext.TextView.CollapseLines(endLine.NextLine, endLine.NextLine));
+                        CollapsedLineSections.Add(endLine.LineNumber,
+                            this.CurrentContext.TextView.CollapseLines(endLine.NextLine, endLine.NextLine));
                         return startOffset;
                     }
                 }
@@ -166,9 +157,10 @@ namespace Avalon.Controls
                 // Regular triggers, same comments as above.
                 foreach (var trigger in App.Settings.ProfileSettings.TriggerList.GagEnumerable())
                 {
-                    if (endLine?.NextLine != null && trigger.Regex?.IsMatch(text) == true)
+                    if (endLine?.NextLine != null && trigger.Regex?.IsMatch(span) == true)
                     {
-                        CollapsedLineSections.Add(endLine.LineNumber, this.CurrentContext.TextView.CollapseLines(endLine.NextLine, endLine.NextLine));
+                        CollapsedLineSections.Add(endLine.LineNumber,
+                            this.CurrentContext.TextView.CollapseLines(endLine.NextLine, endLine.NextLine));
                         return startOffset;
                     }
                 }
@@ -176,6 +168,10 @@ namespace Avalon.Controls
             catch
             {
                 // TODO: Error Logging
+            }
+            finally
+            {
+                sb.Dispose();
             }
 
             return -1;

@@ -30,7 +30,7 @@ namespace Avalon
         /// These are immutable triggers that are set by the mud client or loaded from a plugin that will be
         /// isolated from the user defined triggers.  These run before triggers but after line transformer triggers.
         /// </summary>
-        public List<Trigger> SystemTriggers { get; set; } = new List<Trigger>();
+        public List<Trigger> SystemTriggers { get; set; } = new();
         
         /// <summary>
         /// An override to force skipping a save on exit in case someone borked their settings up.

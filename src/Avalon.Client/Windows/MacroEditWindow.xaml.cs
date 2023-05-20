@@ -36,7 +36,7 @@ namespace Avalon
         /// <summary>
         /// The values of the original macro so we can back it out if the use cancels.
         /// </summary>
-        private readonly Macro _originalMacro = new Macro();
+        private readonly Macro _originalMacro = new();
 
         /// <summary>
         /// The macro passed into the dialog.

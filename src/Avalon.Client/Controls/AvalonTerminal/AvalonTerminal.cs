@@ -13,6 +13,7 @@ using Avalon.Common.Models;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using Cysharp.Text;
 
 namespace Avalon.Controls
 {
@@ -54,7 +55,7 @@ namespace Avalon.Controls
         /// <summary>
         /// Regular expression to find the last ANSI color code used.
         /// </summary>
-        private readonly Regex _lastColorRegEx = new Regex(@"\x1B\[[^@-~]*[@-~]", RegexOptions.RightToLeft | RegexOptions.Compiled);
+        private readonly Regex _lastColorRegEx = new(@"\x1B\[[^@-~]*[@-~]", RegexOptions.RightToLeft | RegexOptions.Compiled);
 
         /// <summary>
         /// Gag element generator.
@@ -83,7 +84,7 @@ namespace Avalon.Controls
             this.TextArea.TextView.ElementGenerators.Add(this.Gag);
 
             // For custom key handling like trapping copy and paste.
-            this.PreviewKeyDown += OnPreviewKeyDown;
+            this.PreviewKeyDown += this.OnPreviewKeyDown;
 
             // To handle code for when the size of the control changes (namingly, the width).
             this.SizeChanged += this.AvalonTerminal_SizeChanged;
@@ -92,7 +93,7 @@ namespace Avalon.Controls
             this.TextArea.TextView.VisualLinesChanged += this.TextView_VisualLinesChanged;
 
             // When the control is unloaded we'll unwind anything that needs cleaned up like event handlers.
-            this.Unloaded += AvalonTerminal_Unloaded;
+            this.Unloaded += this.AvalonTerminal_Unloaded;
         }
 
         /// <summary>
@@ -104,7 +105,7 @@ namespace Avalon.Controls
         {
             try
             {
-                this.PreviewKeyDown -= OnPreviewKeyDown;
+                this.PreviewKeyDown -= this.OnPreviewKeyDown;
                 this.SizeChanged -= this.AvalonTerminal_SizeChanged;
                 this.TextArea.TextView.VisualLinesChanged -= this.TextView_VisualLinesChanged;
                 this.Unloaded -= this.AvalonTerminal_Unloaded;
@@ -170,8 +171,7 @@ namespace Avalon.Controls
                 if (e.Key == Key.C)
                 {
                     // Remove any ANSI codes from the selected text.
-                    var sb = new StringBuilder(this.SelectedText);
-                    Colorizer.RemoveAllAnsiCodes(sb);
+                    var sb = Colorizer.CreateStringBuilder(this.SelectedText);
 
                     try
                     {
@@ -185,6 +185,10 @@ namespace Avalon.Controls
                         {
                             App.Conveyor.EchoLog(ex.StackTrace, LogType.Error);
                         }
+                    }
+                    finally
+                    {
+                        sb.Dispose();
                     }
 
                     // Set the handled to true
@@ -215,7 +219,7 @@ namespace Avalon.Controls
                 ForegroundColor = AnsiColors.Default
             };
 
-            Append(line);
+            this.Append(line);
         }
 
 
@@ -237,7 +241,7 @@ namespace Avalon.Controls
                 ForegroundColor = AnsiColors.Default
             };
 
-            Append(line);
+            this.Append(line);
         }
 
         /// <summary>
@@ -260,7 +264,7 @@ namespace Avalon.Controls
                 ScrollToLastLine = scrollToLastLine
             };
 
-            Append(line);
+            this.Append(line);
         }
 
         /// <summary>
@@ -283,7 +287,7 @@ namespace Avalon.Controls
                 ScrollToLastLine = scrollToLastLine
             };
 
-            Append(line);
+            this.Append(line);
         }
 
         /// <summary>
@@ -305,7 +309,7 @@ namespace Avalon.Controls
                 ForegroundColor = foregroundColor
             };
 
-            Append(line);
+            this.Append(line);
         }
 
         /// <summary>
@@ -327,7 +331,7 @@ namespace Avalon.Controls
                 ForegroundColor = foregroundColor
             };
 
-            Append(line);
+            this.Append(line);
         }
 
         /// <summary>
@@ -351,7 +355,7 @@ namespace Avalon.Controls
                 ReverseColors = reverseColors
             };
 
-            Append(line);
+            this.Append(line);
         }
 
         /// <summary>
@@ -375,7 +379,7 @@ namespace Avalon.Controls
                 ReverseColors = reverseColors
             };
 
-            Append(line);
+            this.Append(line);
         }
 
         /// <summary>
@@ -401,7 +405,7 @@ namespace Avalon.Controls
                 ScrollToLastLine = scrollToLastLine
             };
 
-            Append(line);
+            this.Append(line);
         }
 
         /// <summary>
@@ -427,7 +431,7 @@ namespace Avalon.Controls
                 ScrollToLastLine = scrollToLastLine
             };
 
-            Append(line);
+            this.Append(line);
         }
 
         /// <summary>
@@ -501,7 +505,7 @@ namespace Avalon.Controls
             line.FormattedText = sb.ToString();
             Argus.Memory.StringBuilderPool.Return(sb);
 
-            Append(line);
+            this.Append(line);
         }
 
         /// <summary>
@@ -519,7 +523,7 @@ namespace Avalon.Controls
             Colorizer.MudToAnsiColorCodes(sb);
             line.FormattedText = sb.ToString();
 
-            Append(line);
+            this.Append(line);
         }
 
         /// <summary>

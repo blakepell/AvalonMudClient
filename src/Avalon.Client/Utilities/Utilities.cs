@@ -95,7 +95,7 @@ namespace Avalon.Utilities
         /// <summary>
         /// Characters that will be removed from incoming data via <see cref="RemoveUnsupportedCharacters"/>.
         /// </summary>
-        private static HashSet<char> _unsupportedChars = new HashSet<char> { (char)1, (char)249, (char)251, (char)252, (char)255, (char)65533 };
+        private static HashSet<char> _unsupportedChars = new() { (char)1, (char)249, (char)251, (char)252, (char)255, (char)65533 };
 
         private const string UP = "\x1B[1A";
         private const string DOWN = "\x1B[1B";
