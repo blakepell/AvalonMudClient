@@ -397,5 +397,15 @@ namespace Avalon.Extensions
             tb.SelectionLength = endPos - startPos;
         }
 
+        /// <summary>
+        /// Pick off one argument from a string and return a tuple
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>Tuple where Item1 is the first word and Item2 is the remainder</returns>
+        /// <remarks>Was formerly known as one_argument</remarks>
+        public static Tuple<string, string> FirstArgument(this string value)
+        {
+            return new Tuple<string, string>(value.FirstWord(), value.RemoveWord(1));
+        }
     }
 }

@@ -1,55 +1,55 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFramework>net7.0-windows7.0</TargetFramework>
-		<UseWPF>true</UseWPF>
-    <Version>2022.8.18.1</Version>
-		<Authors>Blake Pell</Authors>
-		<Company>Blake Pell</Company>
-		<Product>Dark and Shattered Lands Plugin for Avalon Mud Client</Product>
-		<PackageProjectUrl>https://github.com/blakepell/AvalonMudClient</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/blakepell/AvalonMudClient</RepositoryUrl>
-    <AssemblyVersion>2022.8.18.1</AssemblyVersion>
-    <FileVersion>2022.8.18.1</FileVersion>
-		<LangVersion>latest</LangVersion>
-	</PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net7.0-windows7.0</TargetFramework>
+        <UseWPF>true</UseWPF>
+        <Version>2023.5.18.3</Version>
+        <Authors>Blake Pell</Authors>
+        <Company>Blake Pell</Company>
+        <Product>Dark and Shattered Lands Plugin for Avalon Mud Client</Product>
+        <PackageProjectUrl>https://github.com/blakepell/AvalonMudClient</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/blakepell/AvalonMudClient</RepositoryUrl>
+        <AssemblyVersion>2023.5.18.3</AssemblyVersion>
+        <FileVersion>2023.5.18.3</FileVersion>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
 
-	<ItemGroup>
-		<None Remove="Dialogs\MobProgEditor\MobProgDarkTheme.xshd" />
-	</ItemGroup>
+    <ItemGroup>
+        <None Remove="Dialogs\MobProgEditor\MobProgDarkTheme.xshd" />
+    </ItemGroup>
 
-	<ItemGroup>
-		<EmbeddedResource Include="Dialogs\MobProgEditor\MobProgDarkTheme.xshd" />
-	</ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Dialogs\MobProgEditor\MobProgDarkTheme.xshd" />
+    </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Argus.Core" Version="2022.7.5.3" />
-		<PackageReference Include="AvalonEdit" Version="6.1.3.50" />
-		<PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.7" />
-		<PackageReference Include="ModernWpfUI" Version="0.9.6" />
-	</ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Argus.Core" Version="2022.11.30.1" />
+        <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.5" />
+        <PackageReference Include="ModernWpfUI" Version="0.9.6" />
+    </ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\Avalon.Common\Avalon.Common.csproj" />
-	</ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Avalon.Common\Avalon.Common.csproj" />
+    </ItemGroup>
 
-	<ItemGroup>
-		<Page Update="Dialogs\MobProgEditor\MobProgEditorWindow.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="Dialogs\OlcVnumBatchCommandsWindow.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="Dialogs\LogCreator.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="Dialogs\RestringWindow.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-	</ItemGroup>
+    <ItemGroup>
+        <Page Update="Dialogs\MobProgEditor\MobProgEditorWindow.xaml">
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Dialogs\OlcVnumBatchCommandsWindow.xaml">
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Dialogs\LogCreator.xaml">
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Dialogs\RestringWindow.xaml">
+            <SubType>Designer</SubType>
+        </Page>
+    </ItemGroup>
 
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="copy &quot;$(TargetPath)&quot; &quot;%25APPDATA%25\..\Local\AvalonMudClient\Plugins&quot;" />
-	</Target>
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Exec Command="copy &quot;$(TargetPath)&quot; &quot;%25APPDATA%25\..\Local\AvalonMudClient\Plugins&quot;" />
+    </Target>
 
 </Project>

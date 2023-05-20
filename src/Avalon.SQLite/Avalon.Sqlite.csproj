@@ -1,34 +1,33 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFramework>net7.0-windows7.0</TargetFramework>
-		<UseWPF>true</UseWPF>
-    <Version>2022.8.18.1</Version>
-		<Authors>Blake Pell</Authors>
-		<Company>Blake Pell</Company>
-		<Description>SQLite Query Control and Extensions for WPF (.NET Core)</Description>
-		<Copyright>2020-2021</Copyright>
-		<PackageProjectUrl>https://github.com/blakepell/AvalonMudClient</PackageProjectUrl>
-		<PackageId>Avalon.Sqlite</PackageId>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>2022.8.18.1</AssemblyVersion>
-		<EnableNETAnalyzers>true</EnableNETAnalyzers>
-		<LangVersion>latest</LangVersion>
-	</PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net7.0-windows7.0</TargetFramework>
+        <UseWPF>true</UseWPF>
+        <Version>2023.5.18.3</Version>
+        <Authors>Blake Pell</Authors>
+        <Company>Blake Pell</Company>
+        <Description>SQLite Query Control and Extensions for WPF (.NET Core)</Description>
+        <Copyright>2020-2021</Copyright>
+        <PackageProjectUrl>https://github.com/blakepell/AvalonMudClient</PackageProjectUrl>
+        <PackageId>Avalon.Sqlite</PackageId>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <AssemblyVersion>2023.5.18.3</AssemblyVersion>
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
 
-	<ItemGroup>
-		<EmbeddedResource Include="Editor\SqliteLight.xshd" />
-		<EmbeddedResource Include="Editor\SqliteDark.xshd" />
-	</ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Editor\SqliteLight.xshd" />
+        <EmbeddedResource Include="Editor\SqliteDark.xshd" />
+    </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Argus.Core" Version="2022.7.5.3" />
-		<PackageReference Include="AvalonEdit" Version="6.1.3.50" />
-		<PackageReference Include="Dapper" Version="2.0.123" />
-		<PackageReference Include="MahApps.Metro.IconPacks.MaterialDesign" Version="4.11.0" />
-		<PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.7" />
-		<PackageReference Include="ModernWpfUI" Version="0.9.6" />
-		<PackageReference Include="MahApps.Metro.IconPacks.VaadinIcons" Version="4.11.0" />
-	</ItemGroup>
-
+    <ItemGroup>
+        <PackageReference Include="Argus.Core" Version="2022.11.30.1" />
+        <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
+        <PackageReference Include="Dapper" Version="2.0.123" />
+        <PackageReference Include="MahApps.Metro.IconPacks.MaterialDesign" Version="4.11.0" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.5" />
+        <PackageReference Include="ModernWpfUI" Version="0.9.6" />
+        <PackageReference Include="MahApps.Metro.IconPacks.VaadinIcons" Version="4.11.0" />
+    </ItemGroup>
 </Project>

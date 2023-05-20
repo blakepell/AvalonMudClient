@@ -38,7 +38,7 @@ New-Item -ItemType Directory -Force -Path $x64output
 Remove-Item "$x64output\*" -Recurse -Confirm:$false
 
 # Build the 64 & 32 bit releases
-& $dotnet publish $project -c Release -f net6.0-windows7.0 -r win-x64 -o $x64output
+& $dotnet publish $project -c Release -f net7.0-windows7.0 -r win-x64 -o $x64output
 
 # Execute the Inno scripts to build the installers.
 $installer = '"C:\Program Files (x86)\Inno Setup 6\iscc.exe" ".\x64Installer.iss"'

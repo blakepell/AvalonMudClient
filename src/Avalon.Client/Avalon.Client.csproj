@@ -1,159 +1,159 @@
-<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<OutputType>WinExe</OutputType>
-		<TargetFramework>net7.0-windows7.0</TargetFramework>
-		<UseWPF>true</UseWPF>
-		<Authors>Blake Pell</Authors>
-		<Company></Company>
-		<Description>Avalon Mud Client</Description>
-		<Copyright>2003-2022</Copyright>
-		<RootNamespace>Avalon</RootNamespace>
-		<AssemblyName>Avalon</AssemblyName>
-		<ApplicationIcon>DiamondHilt.ico</ApplicationIcon>
-		<Version>2022.11.17.1</Version>
-		<AssemblyVersion>2022.11.17.1</AssemblyVersion>
-		<FileVersion>2022.11.17.1</FileVersion>
-		<LangVersion>latest</LangVersion>
-		<Product>Avalon Mud Client</Product>
-		<RepositoryUrl>https://github.com/blakepell/AvalonMudClient</RepositoryUrl>
-		<PackageProjectUrl>https://github.com/blakepell/AvalonMudClient</PackageProjectUrl>
-		<PackageReleaseNotes></PackageReleaseNotes>
-		<ApplicationManifest>app.manifest</ApplicationManifest>
-		<LangVersion>latest</LangVersion>
-	</PropertyGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net7.0-windows7.0</TargetFramework>
+        <UseWPF>true</UseWPF>
+        <Authors>Blake Pell</Authors>
+        <Company></Company>
+        <Description>Avalon Mud Client</Description>
+        <Copyright>2003-2022</Copyright>
+        <RootNamespace>Avalon</RootNamespace>
+        <AssemblyName>Avalon</AssemblyName>
+        <ApplicationIcon>DiamondHilt.ico</ApplicationIcon>
+        <Version>2023.5.18.3</Version>
+        <AssemblyVersion>2023.5.18.3</AssemblyVersion>
+        <FileVersion>2023.5.18.3</FileVersion>
+        <LangVersion>latest</LangVersion>
+        <Product>Avalon Mud Client</Product>
+        <RepositoryUrl>https://github.com/blakepell/AvalonMudClient</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/blakepell/AvalonMudClient</PackageProjectUrl>
+        <PackageReleaseNotes></PackageReleaseNotes>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<PlatformTarget>AnyCPU</PlatformTarget>
-		<Prefer32Bit>false</Prefer32Bit>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <Prefer32Bit>false</Prefer32Bit>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DebugType>full</DebugType>
-		<DebugSymbols>true</DebugSymbols>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <DebugType>full</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+    </PropertyGroup>
 
-	<ItemGroup>
-		<None Remove="Media\SearchIconBlack.png" />
-		<None Remove="Media\SearchIconWhite.png" />
-		<None Remove="Media\SplashScreen.png" />
-		<None Remove="Resources\Fonts\segmdl2.ttf" />
-		<None Remove="Resources\LuaDarkTheme.xshd" />
-		<None Remove="Resources\LuaLightTheme.xshd" />
-	</ItemGroup>
+    <ItemGroup>
+        <None Remove="Media\SearchIconBlack.png" />
+        <None Remove="Media\SearchIconWhite.png" />
+        <None Remove="Media\SplashScreen.png" />
+        <None Remove="Resources\Fonts\segmdl2.ttf" />
+        <None Remove="Resources\LuaDarkTheme.xshd" />
+        <None Remove="Resources\LuaLightTheme.xshd" />
+    </ItemGroup>
 
-	<!--Custom nesting for the partial classes of the MainWindow we're using or isolate pieces of code -->
-	<ItemGroup>
-		<Compile Update="Controls\VariableRepeater.xaml.cs">
-			<SubType>Code</SubType>
-		</Compile>
-		<Compile Update="App.InstanceGlobals.cs">
-			<DependentUpon>App.xaml</DependentUpon>
-		</Compile>
-		<Compile Update="MainWindow.Keyboard.cs">
-			<DependentUpon>MainWindow.xaml</DependentUpon>
-		</Compile>
-		<Compile Update="MainWindow.Network.cs">
-			<DependentUpon>MainWindow.xaml</DependentUpon>
-		</Compile>
-		<Compile Update="MainWindow.Terminal.cs">
-			<DependentUpon>MainWindow.xaml</DependentUpon>
-		</Compile>
-		<Compile Update="MainWindow.Triggers.cs">
-			<DependentUpon>MainWindow.xaml</DependentUpon>
-		</Compile>
-		<Compile Update="MainWindow.Mouse.cs">
-			<DependentUpon>MainWindow.xaml</DependentUpon>
-		</Compile>
-		<Compile Update="MainWindow.Plugins.cs">
-			<DependentUpon>MainWindow.xaml</DependentUpon>
-		</Compile>
-		<Compile Update="MainWindow.ViewModel.cs">
-			<DependentUpon>MainWindow.xaml</DependentUpon>
-		</Compile>
-		<Compile Update="Windows\ConnectionManagerWindow.ViewModel.xaml.cs">
-			<DependentUpon>ConnectionManagerWindow.xaml</DependentUpon>
-		</Compile>
-	</ItemGroup>
+    <!--Custom nesting for the partial classes of the MainWindow we're using or isolate pieces of code -->
+    <ItemGroup>
+        <Compile Update="Controls\VariableRepeater.xaml.cs">
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="App.InstanceGlobals.cs">
+            <DependentUpon>App.xaml</DependentUpon>
+        </Compile>
+        <Compile Update="MainWindow.Keyboard.cs">
+            <DependentUpon>MainWindow.xaml</DependentUpon>
+        </Compile>
+        <Compile Update="MainWindow.Network.cs">
+            <DependentUpon>MainWindow.xaml</DependentUpon>
+        </Compile>
+        <Compile Update="MainWindow.Terminal.cs">
+            <DependentUpon>MainWindow.xaml</DependentUpon>
+        </Compile>
+        <Compile Update="MainWindow.Triggers.cs">
+            <DependentUpon>MainWindow.xaml</DependentUpon>
+        </Compile>
+        <Compile Update="MainWindow.Mouse.cs">
+            <DependentUpon>MainWindow.xaml</DependentUpon>
+        </Compile>
+        <Compile Update="MainWindow.Plugins.cs">
+            <DependentUpon>MainWindow.xaml</DependentUpon>
+        </Compile>
+        <Compile Update="MainWindow.ViewModel.cs">
+            <DependentUpon>MainWindow.xaml</DependentUpon>
+        </Compile>
+        <Compile Update="Windows\ConnectionManagerWindow.ViewModel.xaml.cs">
+            <DependentUpon>ConnectionManagerWindow.xaml</DependentUpon>
+        </Compile>
+    </ItemGroup>
 
-	<ItemGroup>
-		<EmbeddedResource Include="Resources\LuaDarkTheme.xshd" />
-	</ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Resources\LuaDarkTheme.xshd" />
+    </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Argus.Core" Version="2022.7.5.3" />
-		<PackageReference Include="AvalonEdit" Version="6.1.3.50" />
-		<PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />
-		<PackageReference Include="ModernWpfUI" Version="0.9.6" />
-		<PackageReference Include="RestSharp" Version="108.0.1" />
-		<PackageReference Include="RestSharp.Serializers.NewtonsoftJson" Version="108.0.1" />
-		<PackageReference Include="XamlFlair.WPF" Version="1.2.13" />
-	</ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Argus.Core" Version="2022.11.30.1" />
+        <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
+        <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />
+        <PackageReference Include="ModernWpfUI" Version="0.9.6" />
+        <PackageReference Include="RestSharp" Version="108.0.1" />
+        <PackageReference Include="RestSharp.Serializers.NewtonsoftJson" Version="108.0.1" />
+        <PackageReference Include="XamlFlair.WPF" Version="1.2.13" />
+    </ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\Avalon.Common\Avalon.Common.csproj" />
-		<ProjectReference Include="..\Avalon.MoonSharp\Avalon.MoonSharp.csproj" />
-		<ProjectReference Include="..\Avalon.SQLite\Avalon.Sqlite.csproj" />
-	</ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Avalon.Common\Avalon.Common.csproj" />
+        <ProjectReference Include="..\Avalon.MoonSharp\Avalon.MoonSharp.csproj" />
+        <ProjectReference Include="..\Avalon.SQLite\Avalon.Sqlite.csproj" />
+    </ItemGroup>
 
-	<ItemGroup>
-		<Folder Include="Properties\PublishProfiles\" />
-		<Folder Include="Resources\Themes\" />
-	</ItemGroup>
+    <ItemGroup>
+        <Folder Include="Properties\PublishProfiles\" />
+        <Folder Include="Resources\Themes\" />
+    </ItemGroup>
 
-	<ItemGroup>
-		<None Include="..\..\.editorconfig" Link=".editorconfig" />
-	</ItemGroup>
+    <ItemGroup>
+        <None Include="..\..\.editorconfig" Link=".editorconfig" />
+    </ItemGroup>
 
-	<ItemGroup>
-		<Resource Include="Media\SearchIconBlack.png" />
-		<Resource Include="Media\SearchIconWhite.png" />
-		<Resource Include="Media\SplashScreen.png" />
-		<Resource Include="Resources\Fonts\segmdl2.ttf">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-	</ItemGroup>
+    <ItemGroup>
+        <Resource Include="Media\SearchIconBlack.png" />
+        <Resource Include="Media\SearchIconWhite.png" />
+        <Resource Include="Media\SplashScreen.png" />
+        <Resource Include="Resources\Fonts\segmdl2.ttf">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+    </ItemGroup>
 
-	<ItemGroup>
-		<None Update="Media\alert.wav">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
+    <ItemGroup>
+        <None Update="Media\alert.wav">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
 
-	<ItemGroup>
-		<Page Update="Controls\VariableRepeater.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="Controls\ChildWindowTitleBar.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="Controls\WindowTitleBar.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="Resources\TabControlStyles.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="Windows\ConnectionManagerWindow.xaml">
-			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="Windows\MacroEditWindow.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="Windows\ListManagerWindow.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="Windows\SettingsWindow.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="Windows\CompassWindow.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="Windows\TriggerEditorWindow.xaml">
-			<SubType>Designer</SubType>
-		</Page>
-		<Page Update="Windows\ConnectionManagerNewProfileDialog.xaml">
-			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-		</Page>
-	</ItemGroup>
+    <ItemGroup>
+        <Page Update="Controls\VariableRepeater.xaml">
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Controls\ChildWindowTitleBar.xaml">
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Controls\WindowTitleBar.xaml">
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Resources\TabControlStyles.xaml">
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Windows\ConnectionManagerWindow.xaml">
+            <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Windows\MacroEditWindow.xaml">
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Windows\ListManagerWindow.xaml">
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Windows\SettingsWindow.xaml">
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Windows\CompassWindow.xaml">
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Windows\TriggerEditorWindow.xaml">
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Windows\ConnectionManagerNewProfileDialog.xaml">
+            <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+        </Page>
+    </ItemGroup>
 
 </Project>

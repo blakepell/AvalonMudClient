@@ -31,9 +31,20 @@ namespace Avalon.Plugins.DarkAndShatteredLands.HashCommands
 
         public override string Description { get; } = "Edits a mob prog";
 
+        /// <summary>
+        /// Pick off one argument from a string and return a tuple
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>Tuple where Item1 is the first word and Item2 is the remainder</returns>
+        /// <remarks>Was formerly known as one_argument</remarks>
+        private static Tuple<string, string> FirstArgument(string value)
+        {
+            return new Tuple<string, string>(value.FirstWord(), value.RemoveWord(1));
+        }
+
         public override async Task ExecuteAsync()
         {
-            var argOne = this.Parameters.FirstArgument();
+            var argOne = FirstArgument(this.Parameters);
             string argTwo = argOne.Item2;
 
             if (!argOne.Item2.IsNumeric())

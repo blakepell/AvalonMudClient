@@ -54,7 +54,7 @@ namespace Avalon.Controls
 
                 var client = new RestClient(App.Settings.AvalonSettings.PackageManagerApiUrl);
                 client.UseNewtonsoftJson();
-
+                
                 // This retrieves all of the packages, but only the metadata, none of the content until something is specifically requested.
                 var request = new RestRequest("get-all-metadata").AddQueryParameter("ip", App.Settings.ProfileSettings.IpAddress);
                 this.PackageList = await client.GetAsync<List<Package>>(request);
