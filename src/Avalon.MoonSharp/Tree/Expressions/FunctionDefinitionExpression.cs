@@ -29,7 +29,9 @@ namespace MoonSharp.Interpreter.Tree.Expressions
 
         private FunctionDefinitionExpression(ScriptLoadingContext lcontext, bool pushSelfParam, bool usesGlobalEnv, bool isLambda) : base(lcontext)
         {
-            if (_usesGlobalEnv == usesGlobalEnv)
+            // This is correct or at least is broken in a way that works, don't change it to == unless you want
+            // bad things to happen.  Bad bad things.
+            if (_usesGlobalEnv = usesGlobalEnv)
             {
                 CheckTokenType(lcontext, TokenType.Function);
             }
