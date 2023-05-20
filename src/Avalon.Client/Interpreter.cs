@@ -396,7 +396,7 @@ namespace Avalon
                     else
                     {
                         // Alias where the arguments are specified, we will support up to 9 arguments at this time.
-                        if (alias.Command.Contains("%", StringComparison.Ordinal))
+                        if (alias.Command.Contains('%', StringComparison.Ordinal))
                         {
                             var sb = ZString.CreateStringBuilder();
                             sb.Append(alias.Command);
@@ -407,7 +407,7 @@ namespace Avalon
                             // %1-%9
                             for (int i = 1; i <= 9; i++)
                             {
-                                sb.Replace($"%{i.ToString()}", first.Item2.ParseWord(i, " "));
+                                sb.Replace($"%{i}", first.Item2.ParseWord(i, " "));
                             }
 
                             list.AddRange(this.ParseCommand(sb.ToString()));
