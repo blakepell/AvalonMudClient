@@ -12,6 +12,7 @@
         <AssemblyVersion>2023.5.18.3</AssemblyVersion>
         <FileVersion>2023.5.18.3</FileVersion>
         <LangVersion>latest</LangVersion>
+        <Platforms>AnyCPU;x64</Platforms>
     </PropertyGroup>
 
     <ItemGroup>

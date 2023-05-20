@@ -20,6 +20,7 @@
     <RepositoryType>git</RepositoryType>
 	<LangVersion>latest</LangVersion>
 	<PackageIcon>DiamondSwordRed128.png</PackageIcon>
+	<Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\..\assets\DiamondSwordRed128.png">
