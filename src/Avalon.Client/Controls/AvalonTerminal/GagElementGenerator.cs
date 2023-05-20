@@ -28,12 +28,12 @@ namespace Avalon.Controls
         /// allocated once when the Gag is created I've chosen to keep this here instead of using the StringBuilderPool because
         /// it's always going to be needed so I've just made it dedicated.
         /// </summary>
-        private readonly StringBuilder _sb = new StringBuilder();
+        private readonly StringBuilder _sb = new();
 
         /// <summary>
         /// Tracks all of the collapsed sections so that we can call UnCollapse() if needed.
         /// </summary>
-        public Dictionary<int, CollapsedLineSection> CollapsedLineSections = new Dictionary<int, CollapsedLineSection>();
+        public Dictionary<int, CollapsedLineSection> CollapsedLineSections = new();
 
         /// <summary>
         /// Whether or not the gag is currently enabled.  It is important to reference the property for this
@@ -83,9 +83,9 @@ namespace Avalon.Controls
         /// <param name="lineNumber"></param>
         public void UncollapseLine(int lineNumber)
         {
-            if (CollapsedLineSections.ContainsKey(lineNumber))
+            if (CollapsedLineSections.TryGetValue(lineNumber, out var section))
             {
-                CollapsedLineSections[lineNumber].Uncollapse();
+                section.Uncollapse();
                 CollapsedLineSections.Remove(lineNumber);
             }
         }
@@ -116,7 +116,7 @@ namespace Avalon.Controls
                 // be re-applied (the content of what was moved from this terminal stays in the other terminals which probably
                 // will have gagging disabled nearly always since the main point of gagging is to cleanup the main terminal
                 // and organize what's coming in).
-                if (this.CollapsedLineSections.Count > 0)
+                if (CollapsedLineSections.Count > 0)
                 {
                     this.UncollapseAll();
                 }
@@ -124,8 +124,8 @@ namespace Avalon.Controls
                 return -1;
             }
             
-            var endLine = CurrentContext.VisualLine.LastDocumentLine;
-            var segment = CurrentContext.GetText(startOffset, endLine.EndOffset - startOffset);
+            var endLine = this.CurrentContext.VisualLine.LastDocumentLine;
+            var segment = this.CurrentContext.GetText(startOffset, endLine.EndOffset - startOffset);
             
             // If the line has already been collapsed, ignore it.  However, if a trigger changes this potentially would need
             // to be called again because it would have been collapsed by the old version.  But, this might be desirable.
@@ -158,7 +158,7 @@ namespace Avalon.Controls
                     // to get fired multiple times as the line is re-rendered on the screen.. that is -bad-).
                     if (endLine?.NextLine != null && trigger.Regex?.IsMatch(text) == true)
                     {
-                        CollapsedLineSections.Add(endLine.LineNumber, CurrentContext.TextView.CollapseLines(endLine.NextLine, endLine.NextLine));
+                        CollapsedLineSections.Add(endLine.LineNumber, this.CurrentContext.TextView.CollapseLines(endLine.NextLine, endLine.NextLine));
                         return startOffset;
                     }
                 }
@@ -168,7 +168,7 @@ namespace Avalon.Controls
                 {
                     if (endLine?.NextLine != null && trigger.Regex?.IsMatch(text) == true)
                     {
-                        CollapsedLineSections.Add(endLine.LineNumber, CurrentContext.TextView.CollapseLines(endLine.NextLine, endLine.NextLine));
+                        CollapsedLineSections.Add(endLine.LineNumber, this.CurrentContext.TextView.CollapseLines(endLine.NextLine, endLine.NextLine));
                         return startOffset;
                     }
                 }
@@ -183,7 +183,7 @@ namespace Avalon.Controls
 
         public override VisualLineElement ConstructElement(int offset)
         {
-            return new HiddenTextElement(CurrentContext.Document.GetLineByOffset(offset).TotalLength);
+            return new HiddenTextElement(this.CurrentContext.Document.GetLineByOffset(offset).TotalLength);
         }
 
     }

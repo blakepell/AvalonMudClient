@@ -36,6 +36,6 @@ namespace Avalon.Controls
         /// Since the TextHidden(1) is used a lot and it never changes, we're going to make one
         /// static copy of it to save a lot of allocations.
         /// </summary>
-        public static TextHidden TextHiddenElement = new TextHidden(1);
+        public static TextHidden TextHiddenElement = new(1);
     }
 }

@@ -9,6 +9,7 @@
 
 using Avalon.Common.Colors;
 using Cysharp.Text;
+using System.Runtime.CompilerServices;
 using System.Windows.Media;
 
 namespace Avalon.Colors
@@ -108,6 +109,31 @@ namespace Avalon.Colors
         {
             // If there are ANSI codes don't bother RegEx matching.
             if (sb.IndexOf('\x1B') == -1)
+            {
+                return;
+            }
+
+            var result = _escapeSequenceRegEx.Matches(sb.ToString());
+
+            for (int i = result.Count - 1; i > -1; i--)
+            {
+                var m = result[i];
+                sb.Remove(m.Index, m.Length);
+            }
+        }
+
+        /// <summary>
+        /// Removes all known ANSI codes from the output text.  Note: This updates the
+        /// Utf16ValueStringBuilder directly.
+        /// </summary>
+        /// <param name="sb"></param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RemoveAllAnsiCodes(ref Utf16ValueStringBuilder sb)
+        {
+            var span = sb.AsSpan();
+
+            // If there are ANSI codes don't bother RegEx matching.
+            if (span.IndexOf('\x1B') == -1)
             {
                 return;
             }

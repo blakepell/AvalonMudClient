@@ -95,7 +95,7 @@ namespace Avalon.Controls
                 return m;
             }
 
-            int endIndex = relevantText.Text.IndexOfAny(ParseExtended ? _endMarkersExtended : _endMarkers, index);
+            int endIndex = relevantText.Text.IndexOfAny(this.ParseExtended ? _endMarkersExtended : _endMarkers, index);
 
             if (endIndex > -1)
             {
@@ -115,7 +115,7 @@ namespace Avalon.Controls
         public override int GetFirstInterestedOffset(int startOffset)
         {
             // This will return either the offset or a -1 if it's not found as per the AvalonEdit docs.
-            return FindPosition(startOffset).MatchOffset;
+            return this.FindPosition(startOffset).MatchOffset;
         }
 
         /// <inheritdoc/>

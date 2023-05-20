@@ -935,7 +935,7 @@ namespace Avalon.Controls
         {
             get
             {
-                string text = "";
+                string text = null;
                 int i = this.Document.LineCount;
 
                 while (string.IsNullOrEmpty(text) && i > 0)
@@ -945,7 +945,7 @@ namespace Avalon.Controls
                     i--;
                 }
 
-                return text;
+                return text ?? "";
             }
         }
 
