@@ -14,6 +14,7 @@
         <AssemblyVersion>2023.5.18.3</AssemblyVersion>
         <EnableNETAnalyzers>true</EnableNETAnalyzers>
         <LangVersion>latest</LangVersion>
+        <Platforms>AnyCPU;x64</Platforms>
     </PropertyGroup>
 
     <ItemGroup>

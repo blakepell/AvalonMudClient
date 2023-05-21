@@ -2,6 +2,7 @@
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <TargetFramework>net7.0-windows7.0</TargetFramework>
+        <Platforms>x64;AnyCPU</Platforms>
         <UseWPF>true</UseWPF>
         <Authors>Blake Pell</Authors>
         <Company></Company>
