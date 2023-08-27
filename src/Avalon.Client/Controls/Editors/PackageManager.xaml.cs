@@ -53,7 +53,6 @@ namespace Avalon.Controls
                 win.StatusBarLeftText = $"Downloading packaging listing from {App.Settings.ProfileSettings.IpAddress}";
 
                 var client = new RestClient(App.Settings.AvalonSettings.PackageManagerApiUrl);
-                client.UseNewtonsoftJson();
                 
                 // This retrieves all of the packages, but only the metadata, none of the content until something is specifically requested.
                 var request = new RestRequest("get-all-metadata").AddQueryParameter("ip", App.Settings.ProfileSettings.IpAddress);
@@ -286,7 +285,6 @@ namespace Avalon.Controls
                 win.StatusBarLeftText = $"Downloading and installing {package.Name}";
 
                 var client = new RestClient(App.Settings.AvalonSettings.PackageManagerApiUrl);
-                client.UseNewtonsoftJson();
 
                 // This retrieves only the specific package by the ID we want to install.
                 var request = new RestRequest("get").AddQueryParameter("id", package.Id);

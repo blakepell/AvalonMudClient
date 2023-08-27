@@ -81,12 +81,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Argus.Core" Version="2022.11.30.1" />
+        <PackageReference Include="Argus.Core" Version="2023.6.28.1" />
         <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
         <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />
         <PackageReference Include="ModernWpfUI" Version="0.9.6" />
-        <PackageReference Include="RestSharp" Version="108.0.1" />
-        <PackageReference Include="RestSharp.Serializers.NewtonsoftJson" Version="108.0.1" />
+        <PackageReference Include="RestSharp" Version="110.2.0" />
+        <PackageReference Include="RestSharp.Serializers.NewtonsoftJson" Version="110.2.0" />
         <PackageReference Include="XamlFlair.WPF" Version="1.2.13" />
     </ItemGroup>
 
