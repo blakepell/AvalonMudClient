@@ -41,7 +41,11 @@ namespace Avalon
             foreach (var t in types)
             {
                 var cmd = (IHashCommand)Activator.CreateInstance(t, this);
-                this.HashCommands.Add(cmd);
+
+                if (cmd != null)
+                {
+                    this.HashCommands.Add(cmd);
+                }
             }
 
             // Setup the scripting environment.  Error handlers are set here allowing the actual scripting
