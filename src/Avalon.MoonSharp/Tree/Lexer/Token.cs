@@ -50,6 +50,7 @@ namespace MoonSharp.Interpreter.Tree
                 case "false":
                     return TokenType.False;
                 case "for":
+                case "foreach":
                     return TokenType.For;
                 case "function":
                     return TokenType.Function;

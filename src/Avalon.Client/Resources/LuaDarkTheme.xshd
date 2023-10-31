@@ -83,6 +83,7 @@
 				<Key word = "end" />
 				<Key word = "false" />
 				<Key word = "for" />
+				<Key word = "foreach" />
 				<Key word = "function" />
 				<Key word = "if" />
 				<Key word = "in" />
