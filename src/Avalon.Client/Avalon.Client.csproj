@@ -7,7 +7,7 @@
         <Authors>Blake Pell</Authors>
         <Company></Company>
         <Description>Avalon Mud Client</Description>
-        <Copyright>2003-2022</Copyright>
+        <Copyright>2003-2023</Copyright>
         <RootNamespace>Avalon</RootNamespace>
         <AssemblyName>Avalon</AssemblyName>
         <ApplicationIcon>DiamondHilt.ico</ApplicationIcon>

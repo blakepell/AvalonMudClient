@@ -6,7 +6,7 @@
     <Company>Blake Pell</Company>
     <Authors>Blake Pell</Authors>
     <Description>Common library for use with the Avalon Mud Client.</Description>
-    <Copyright>2003-2021</Copyright>
+    <Copyright>2003-2023</Copyright>
     <PackageProjectUrl>https://github.com/blakepell/AvalonMudClient</PackageProjectUrl>
     <RepositoryUrl>https://github.com/blakepell/AvalonMudClient</RepositoryUrl>
     <AssemblyVersion>2023.5.18.3</AssemblyVersion>
