@@ -3,18 +3,27 @@
  *
  * @project lead      : Blake Pell
  * @website           : http://www.blakepell.com
- * @copyright         : Copyright (c), 2018-2023 All rights reserved.
+ * @copyright         : Copyright (c), 2018-2021 All rights reserved.
  * @license           : MIT
  */
 
-using MoonSharp.Interpreter;
+using System.Collections.Generic;
 using MoonSharp.Interpreter.Interop;
 
-namespace Avalon.Common.Scripting
+namespace MoonSharp.Interpreter.Extensions
 {
     /// <summary>
     /// Shared global variables for the Lua environment.
     /// </summary>
+    /// <remarks>
+    /// The follow code shows how to register the globals type with MoonSharp
+    /// and then add it into a script under the global variable name "global".  This
+    /// will allow different script engine to share variable state between themselves.
+    ///     <code>
+    ///     UserData.RegisterType&lt;MoonSharpGlobalVariables&gt;();
+    ///     script.Globals["global"] = this.GlobalVariables;
+    ///     </code>
+    /// </remarks>
     public class MoonSharpGlobalVariables : IUserDataType
     {
         /// <summary>
@@ -90,9 +99,9 @@ namespace Avalon.Common.Scripting
 
             lock (_lock)
             {
-                if (_values.ContainsKey(index.String))
+                if (_values.TryGetValue(index.String, out var value))
                 {
-                    return _values[index.String].Clone();
+                    return value.Clone();
                 }
 
                 return DynValue.Nil;
