@@ -27,7 +27,7 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
 
 ### Info
 
- - Language: C# / WPF for .Net 7
+ - Language: C# / WPF for .Net 8
  - OS Support: Windows 11, 10 (1607+), 8.1, 7
  - OS Support for Windows Store Version: Windows 11, Windows 10, version 1809 (10.0; Build 17763)
 
@@ -69,7 +69,6 @@ A Windows MUD (multi-user dimension) client that allows you to connect to and pl
 
 ### Short Term Road-map
 
- - Update to .NET 7
  - Documentation
  - Ensure touch screen scrolling is smooth on all terminals and controls. 
 

@@ -9,6 +9,7 @@
 
 using Avalon.Common.Interfaces;
 using Avalon.Utilities;
+using Ascii = Avalon.Utilities.Ascii;
 
 namespace Avalon.HashCommands
 {
