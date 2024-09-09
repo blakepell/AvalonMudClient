@@ -1,11 +1,12 @@
-﻿<Application x:Class="Avalon.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:ui="http://schemas.modernwpf.com/2019"
-             xmlns:xamlFlair="clr-namespace:XamlFlair;assembly=XamlFlair.WPF"
-             Exit="Application_Exit"
-             Startup="Application_Startup"
-             ShutdownMode="OnMainWindowClose">
+﻿<Application
+    x:Class="Avalon.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="http://schemas.modernwpf.com/2019"
+    xmlns:xamlFlair="clr-namespace:XamlFlair;assembly=XamlFlair.WPF"
+    Exit="Application_Exit"
+    ShutdownMode="OnMainWindowClose"
+    Startup="Application_Startup">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -17,26 +18,26 @@
                         <ResourceDictionary x:Key="Light">
                             <ResourceDictionary.MergedDictionaries>
                                 <ui:ColorPaletteResources
-                                    TargetTheme="Light"
-                                    Accent="Green" BaseHigh="Red"
-                                    AltHigh="LightGray" />
+                                    Accent="Green"
+                                    AltHigh="LightGray"
+                                    BaseHigh="Red"
+                                    TargetTheme="Light" />
                             </ResourceDictionary.MergedDictionaries>
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark">
                             <ResourceDictionary.MergedDictionaries>
                                 <ui:ColorPaletteResources
-                                    TargetTheme="Dark"
                                     Accent="White"
-                                    BaseHigh="White"       
                                     AltHigh="#2D2D30"
-                                />
+                                    BaseHigh="White"
+                                    TargetTheme="Dark" />
                             </ResourceDictionary.MergedDictionaries>
                         </ResourceDictionary>
                     </ui:ThemeResources.ThemeDictionaries>
                 </ui:ThemeResources>
                 <ui:XamlControlsResources />
-                <ResourceDictionary Source="Resources/Themes/Dark.xaml"/>
-                <ResourceDictionary Source="Resources/EditorTextBoxStyles.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="Resources/Themes/Dark.xaml" />
+                <ResourceDictionary Source="Resources/EditorTextBoxStyles.xaml" />
                 <ResourceDictionary Source="/Avalon;component/Controls/SearchBox/SearchBox.xaml" />
                 <ResourceDictionary Source="/Avalon;component/Resources/Buttons.xaml" />
                 <ResourceDictionary Source="/Avalon;component/Resources/Geometries.xaml" />

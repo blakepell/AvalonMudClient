@@ -1,12 +1,11 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style x:Key="SegoeAssets">
         <Setter Property="TextElement.FontFamily" Value="/Avalon;component/Resources/Fonts/segmdl2.ttf#Segoe MDL2 Assets" />
     </Style>
 
-    <!-- Palette: Specific to this theme -->
-    <Color x:Key="Color"></Color>
+    <!--  Palette: Specific to this theme  -->
+    <Color x:Key="Color" />
     <Color x:Key="ColorWhiteMuted">#E2E2E2</Color>
     <Color x:Key="ColorAccent">#007ACC</Color>
     <Color x:Key="ColorAccentHover">#004777</Color>
@@ -26,33 +25,42 @@
     <Color x:Key="ColorDarkGrey10">#777777</Color>
     <Color x:Key="ColorDarkGrey11">#888888</Color>
 
-    <!-- Brushes: Same key exists in all themes, references theme specific colors -->
+    <!--  Brushes: Same key exists in all themes, references theme specific colors  -->
 
-    <!-- Window -->
-    <SolidColorBrush x:Key="BrushPrimaryText" Color="White"></SolidColorBrush>
-    <SolidColorBrush x:Key="BrushPrimaryTextMuted" Color="{StaticResource ColorWhiteMuted}"></SolidColorBrush>
-    <SolidColorBrush x:Key="BrushSecondaryText" Color="{StaticResource ColorDarkGrey11}"></SolidColorBrush>
+    <!--  Window  -->
+    <SolidColorBrush x:Key="BrushPrimaryText" Color="White" />
+    <SolidColorBrush x:Key="BrushPrimaryTextMuted" Color="{StaticResource ColorWhiteMuted}" />
+    <SolidColorBrush x:Key="BrushSecondaryText" Color="{StaticResource ColorDarkGrey11}" />
 
-    <SolidColorBrush x:Key="BrushAccent" Color="{StaticResource ColorAccent}"/>
-    <SolidColorBrush x:Key="BrushAccentHover" Color="{StaticResource ColorAccentHover}"></SolidColorBrush>
-    <SolidColorBrush x:Key="BrushAccentSecondary" Color="{StaticResource ColorDarkGrey7}"/>
-    <SolidColorBrush x:Key="BrushAccentHoverSecondary" Color="{StaticResource ColorDarkGrey4}"></SolidColorBrush>
+    <SolidColorBrush x:Key="BrushAccent" Color="{StaticResource ColorAccent}" />
+    <SolidColorBrush x:Key="BrushAccentHover" Color="{StaticResource ColorAccentHover}" />
+    <SolidColorBrush x:Key="BrushAccentSecondary" Color="{StaticResource ColorDarkGrey7}" />
+    <SolidColorBrush x:Key="BrushAccentHoverSecondary" Color="{StaticResource ColorDarkGrey4}" />
 
-    <SolidColorBrush x:Key="BrushWindowBackground" Color="{StaticResource ColorDarkGrey2}"></SolidColorBrush>
-    <SolidColorBrush x:Key="BrushWindowBorderBrush" Color="{StaticResource ColorDarkGrey7}"></SolidColorBrush>
-    <SolidColorBrush x:Key="BrushWindowTitleBarBackground" Color="{StaticResource ColorTitleBarBackground}"></SolidColorBrush>
-    <SolidColorBrush x:Key="BrushWindowBorderBrushSecondary" Color="{StaticResource ColorDarkGrey8}"></SolidColorBrush>
+    <SolidColorBrush x:Key="BrushWindowBackground" Color="{StaticResource ColorDarkGrey2}" />
+    <SolidColorBrush x:Key="BrushWindowBorderBrush" Color="{StaticResource ColorDarkGrey7}" />
+    <SolidColorBrush x:Key="BrushWindowTitleBarBackground" Color="{StaticResource ColorTitleBarBackground}" />
+    <SolidColorBrush x:Key="BrushWindowBorderBrushSecondary" Color="{StaticResource ColorDarkGrey8}" />
 
-    <!-- Tab Controls -->
-    <SolidColorBrush x:Key="BrushTabBackgroundSelected" Color="{StaticResource ColorDarkGrey2}"></SolidColorBrush>
-    <SolidColorBrush x:Key="BrushTabBackground" Color="{StaticResource ColorDarkGrey4}"></SolidColorBrush>
-    <SolidColorBrush x:Key="BrushTabBorder" Color="{StaticResource ColorDarkGrey11}"></SolidColorBrush>
-    <SolidColorBrush x:Key="BrushTabForeground" Color="White"></SolidColorBrush>
+    <!--  Tab Controls  -->
+    <SolidColorBrush x:Key="BrushTabBackgroundSelected" Color="{StaticResource ColorDarkGrey2}" />
+    <SolidColorBrush x:Key="BrushTabBackground" Color="{StaticResource ColorDarkGrey4}" />
+    <SolidColorBrush x:Key="BrushTabBorder" Color="{StaticResource ColorDarkGrey11}" />
+    <SolidColorBrush x:Key="BrushTabForeground" Color="White" />
 
-    <!-- Controls -->
-    <SolidColorBrush x:Key="BrushItemSeparator" Color="{StaticResource ColorDarkGrey6}" Opacity="0.5"/>
-    <SolidColorBrush x:Key="BrushControlBorder" Color="{StaticResource ColorDarkGrey7}"/>
-    <SolidColorBrush x:Key="BrushItemHovered" Color="{StaticResource ColorDarkGrey9}" Opacity="0.05"/>
-    <SolidColorBrush x:Key="BrushItemSelected" Color="{StaticResource ColorDarkGrey9}" Opacity="0.15"/>
+    <!--  Controls  -->
+    <SolidColorBrush
+        x:Key="BrushItemSeparator"
+        Opacity="0.5"
+        Color="{StaticResource ColorDarkGrey6}" />
+    <SolidColorBrush x:Key="BrushControlBorder" Color="{StaticResource ColorDarkGrey7}" />
+    <SolidColorBrush
+        x:Key="BrushItemHovered"
+        Opacity="0.05"
+        Color="{StaticResource ColorDarkGrey9}" />
+    <SolidColorBrush
+        x:Key="BrushItemSelected"
+        Opacity="0.15"
+        Color="{StaticResource ColorDarkGrey9}" />
 
 </ResourceDictionary>
