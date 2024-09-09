@@ -32,6 +32,8 @@ using System.Drawing.Design;
 using System.Media;
 using System.Windows;
 using System.Windows.Media;
+using Avalon.Network;
+using RestSharp;
 
 namespace Avalon
 {
@@ -78,11 +80,26 @@ namespace Avalon
         internal static SoundPlayer Beep;
 
         /// <summary>
+        /// The ApexGate Application ID
+        /// </summary>
+        internal static readonly string AppId = "";
+
+        /// <summary>
+        /// ApexGate API Key
+        /// </summary>
+        internal static readonly string ApiKey = "";
+
+        /// <summary>
+        /// ApexGate API Site URL
+        /// </summary>
+        internal static readonly string ApiSiteUrl = "";
+
+        /// <summary>
         /// Runs as the first thing in the programs pipeline.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Application_Startup(object sender, StartupEventArgs e)
+        private async void Application_Startup(object sender, StartupEventArgs e)
         {
             try
             {
@@ -161,7 +178,7 @@ namespace Avalon
 
                 // Tier 2 services, might require something from tier 1 so loaded second.  The interpreter echos to
                 // the main window, requires events wired up on the main window, requires the script host and needs
-                // the settings so we'll add it in after the fact here.
+                // the settings, so we'll add it in after the fact here.
                 var interp = new Interpreter();
 
                 AppServices.AddService((sc) =>
@@ -175,6 +192,26 @@ namespace Avalon
                 // TODO - logging
                 MessageBox.Show($"A startup error occurred: {ex.Message}");
             }
+
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(App.ApiKey))
+                {
+                    // Single rest client for the application in regard to talking to our API site.
+                    var client = new RestClient(App.ApiSiteUrl);
+                    client.AddDefaultHeader("authorization", App.ApiKey);
+
+                    AppServices.AddSingleton(client);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Load Rest Client Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+#if !DEBUG
+            await Api.ReportUsage(App.AppId);
+#endif
 
             // Showing the main window needs to be the last thing since it will require the settings to be
             // in place that are used in the MainWindow_Loaded event.
@@ -277,6 +314,10 @@ namespace Avalon
                 File.WriteAllText(logFile, sb.ToString(), Encoding.UTF8);
             }
             catch { }
+
+#if !DEBUG
+            Api.LogExceptionSync(App.AppId, exception);
+#endif
 
             Environment.Exit(8);
         }

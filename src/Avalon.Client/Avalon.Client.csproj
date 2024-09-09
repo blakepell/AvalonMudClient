@@ -97,6 +97,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Folder Include="Api\" />
         <Folder Include="Properties\PublishProfiles\" />
         <Folder Include="Resources\Themes\" />
     </ItemGroup>
