@@ -6,7 +6,7 @@
         xmlns:swf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         xmlns:controls="clr-namespace:Avalon.Controls"
-        ui:WindowHelper.UseModernWindowStyle="True" UseLayoutRounding="True"
+        ui:WindowHelper.UseModernWindowStyle="False" UseLayoutRounding="True"
         ui:TitleBar.Background="#1E1E1E" 
         Background="{StaticResource BrushWindowBackground}" 
         BorderBrush="{StaticResource BrushAccent}"
