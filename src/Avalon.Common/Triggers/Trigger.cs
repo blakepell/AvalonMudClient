@@ -243,8 +243,8 @@ namespace Avalon.Common.Triggers
                 try
                 {
                     // Only set the pattern if it compiled.
-                    this.Regex = new Regex(value, RegexOptions.Compiled);
-                    _pattern = value;
+                    // this.Regex = new Regex(value, RegexOptions.Compiled);
+                    // _pattern = value;
                     OnPropertyChanged(nameof(Pattern));
                 }
                 catch (Exception ex)
@@ -384,6 +384,7 @@ namespace Avalon.Common.Triggers
 
         /// <inheritdoc />
         [JsonIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
         public Regex Regex { get; set; }
 
         /// <inheritdoc />
@@ -393,12 +394,14 @@ namespace Avalon.Common.Triggers
         public string PackageId { get; set; } = "";
 
         /// <inheritdoc/>
+        [System.Text.Json.Serialization.JsonIgnore]
         public DateTime LastMatched { get; set; } = DateTime.MinValue;
 
         /// <summary>
         /// The name of the function for the OnMatchedEvent.
         /// </summary>
         [JsonIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
         public string FunctionName { get; set; }
 
         private bool _temp = false;
@@ -427,6 +430,7 @@ namespace Avalon.Common.Triggers
         /// <summary>
         /// The command after it's been processed.  This is what should get sent to the game.
         /// </summary>
+        [System.Text.Json.Serialization.JsonIgnore]
         [JsonIgnore]
         public string ProcessedCommand { get; private set; } = "";
 
@@ -436,6 +440,7 @@ namespace Avalon.Common.Triggers
         [JsonIgnore]
         public string TriggeringText { get; private set; } = "";
 
+        [System.Text.Json.Serialization.JsonIgnore]
         [JsonIgnore]
         public Match Match { get; set; }
 
