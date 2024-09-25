@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Avalon Mud Client
  *
  * @project lead      : Blake Pell
@@ -15,11 +15,10 @@ using System.Threading;
 
 namespace Avalon.Network
 {
-
     /// <summary>
     /// Telnet client.
     /// </summary>
-    public class TelnetClient : IDisposable, ITelnetClient
+    public class TelnetClient : ITelnetClient, IDisposable
     {
         private readonly int _port;
         private readonly string _host;
@@ -27,15 +26,21 @@ namespace Avalon.Network
         private readonly SemaphoreSlim _sendRateLimit;
         private readonly CancellationTokenSource _internalCancellation;
         private readonly bool _traceEnabled = true;
-        private const byte GO_AHEAD_CODE = 0xF9;
-
+        private const byte IAC = 0xFF; // Telnet command
+        private const byte SB = 0xFA; // Start sub negotiation
+        private const byte SE = 0xF0; // End sub negotiation
+        private const byte GMCP = 0xC9; // Assuming GMCP is 201 in decimal
+        private const byte GO_AHEAD_CODE = 0xF9; // Telnet Go-Ahead
         private TcpClient _tcpClient;
         private StreamReader _tcpReader;
         private StreamWriter _tcpWriter;
-
+        
         public EventHandler<string> LineReceived { get; set; }
         public EventHandler<string> DataReceived { get; set; }
+        public EventHandler<string> GmcpReceived { get; set; }
         public EventHandler ConnectionClosed { get; set; }
+
+        public bool EnableGmcp { get; set; } = true;
 
         /// <summary>
         /// Simple telnet client
@@ -64,7 +69,7 @@ namespace Avalon.Network
         {
             if (_tcpClient != null)
             {
-                throw new NotSupportedException($"{nameof(ConnectAsync)} aborted: Reconnecting is not supported. You must dispose of this instance and instantiate a new TelnetClient");
+                throw new NotSupportedException($"{nameof(this.ConnectAsync)} aborted: Reconnecting is not supported. You must dispose of this instance and instantiate a new TelnetClient");
             }
 
             _tcpClient = new TcpClient();
@@ -174,23 +179,23 @@ namespace Avalon.Network
             {
                 // We're waiting to release our semaphore, and someone cancelled the task on us (I'm looking at you, WaitForMessages...)
                 // This happens if we've just sent something and then disconnect immediately
-                TraceInformation($"{nameof(SendAsync)} aborted: {nameof(_internalCancellation.IsCancellationRequested)} == true");
+                this.TraceInformation($"{nameof(this.SendAsync)} aborted: {nameof(_internalCancellation.IsCancellationRequested)} == true");
             }
             catch (ObjectDisposedException)
             {
                 // This happens during ReadLineAsync() when we call Disconnect() and close the underlying stream
                 // This is an expected exception during disconnection if we're in the middle of a send
-                TraceInformation($"{nameof(SendAsync)} failed: {nameof(_tcpWriter)} or {nameof(_tcpWriter.BaseStream)} disposed");
+                this.TraceInformation($"{nameof(this.SendAsync)} failed: {nameof(_tcpWriter)} or {nameof(_tcpWriter.BaseStream)} disposed");
             }
             catch (IOException)
             {
                 // This happens when we start WriteLineAsync() if the socket is disconnected unexpectedly
-                TraceError($"{nameof(SendAsync)} failed: Socket disconnected unexpectedly");
+                this.TraceError($"{nameof(this.SendAsync)} failed: Socket disconnected unexpectedly");
                 throw;
             }
             catch (Exception error)
             {
-                TraceError($"{nameof(SendAsync)} failed: {error}");
+                this.TraceError($"{nameof(this.SendAsync)} failed: {error}");
                 throw;
             }
             finally
@@ -204,9 +209,11 @@ namespace Avalon.Network
         {
             // We're going to store the receiveBuffer and it's string value in these variables that will
             // be cleared.  This is more of a micro optimization.  They will need to be cleared each iteration.
-            var receiveBuffer = new char[4096];
+            var receiveBuffer = new byte[4096];
             var lineBuffer = new StringBuilder(4096);
             var dataBuffer = new StringBuilder(4096);
+            var gmcpBuffer = new StringBuilder(4096);
+            bool isReceivingGmcp = false;
 
             try
             {
@@ -214,7 +221,7 @@ namespace Avalon.Network
                 {
                     if (_internalCancellation.IsCancellationRequested)
                     {
-                        TraceInformation($"{nameof(WaitForMessageAsync)} aborted: {nameof(_internalCancellation.IsCancellationRequested)} == true");
+                        this.TraceInformation($"{nameof(this.WaitForMessageAsync)} aborted: {nameof(_internalCancellation.IsCancellationRequested)} == true");
                         break;
                     }
 
@@ -225,11 +232,11 @@ namespace Avalon.Network
                     {
                         if (!_tcpClient.Connected)
                         {
-                            TraceInformation($"{nameof(WaitForMessageAsync)} aborted: {nameof(_tcpClient)} is not connected");
+                            this.TraceInformation($"{nameof(this.WaitForMessageAsync)} aborted: {nameof(_tcpClient)} is not connected");
                             break;
                         }
 
-                        int dataReceivedLength = await _tcpReader.ReadAsync(receiveBuffer, 0, receiveBuffer.Length);
+                        int dataReceivedLength = await _tcpReader.BaseStream.ReadAsync(receiveBuffer, 0, receiveBuffer.Length);
 
                         // No data, break!
                         if (dataReceivedLength == 0)
@@ -243,34 +250,62 @@ namespace Avalon.Network
                         // been sent and can be processed for triggers and whatever else as a complete line.
                         for (int i = 0; i < receiveBuffer.Length; i++)
                         {
-                            // If it's a carriage return or a null character ignore it and move on.
-                            if (receiveBuffer[i] == 13 || receiveBuffer[i] == 0)
+                            // If it's IAC SB GMCP then start writing into the GMCP buffer.  That buffer should contain a command and then
+                            // a JSON object.  The GMCP will then end when IAC SE comes through.  In order to read the telnet opt codes the
+                            // receive buffer has to be in bytes.
+                            if (receiveBuffer[i] == IAC && i + 2 < dataReceivedLength && receiveBuffer[i + 1] == SB && receiveBuffer[i + 2] == GMCP)
                             {
+                                isReceivingGmcp = true;
+                                i += 2; // Skip IAC SB GMCP
                                 continue;
                             }
 
-                            // The dataBuffer being before the check will have the newline or go ahead
-                            // char included which is important since it's written to the screen.  This
-                            // is why the lineBuffer isn't appended to until after the \n (char 10) check.
-                            dataBuffer.Append(receiveBuffer[i]);
-
-                            // This was a newline or a telnetga (telnet go ahead), process it like it's a line.
-                            if (receiveBuffer[i] == 10 || receiveBuffer[i] == GO_AHEAD_CODE)
+                            if (this.EnableGmcp && isReceivingGmcp)
                             {
-                                // A complete line was found, send it on to the line handler.  Send the real
-                                // time data first to the OnDataReceived so that it renders before any triggers
-                                // that might need to write to the terminal.  The actual data needs to render
-                                // first, THEN any triggers (that might render subsequent text) can go.  We can't
-                                // reuse the dataBuffer for both because it sends immediately if there's no line
-                                // ending found while the lineBuffer hangs onto everything until then.
-                                this.OnDataReceived(dataBuffer.ToString());
-                                this.OnLineReceived(lineBuffer.ToString());
-                                dataBuffer.Clear();
-                                lineBuffer.Clear();
-                                continue;
-                            }
+                                // GMCP
+                                if (receiveBuffer[i] == IAC && i + 1 < dataReceivedLength && receiveBuffer[i + 1] == SE)
+                                {
+                                    isReceivingGmcp = false;
+                                    this.OnGmcpReceived(gmcpBuffer.ToString());
+                                    gmcpBuffer.Clear();
+                                    i++; // Skip SE
+                                    continue;
+                                }
 
-                            lineBuffer.Append(receiveBuffer[i]);
+                                gmcpBuffer.Append((char)receiveBuffer[i]);
+                            }
+                            else
+                            {
+                                // Normal flow
+                                // If it's a carriage return or a null character ignore it and move on.
+                                if (receiveBuffer[i] == 13 || receiveBuffer[i] == 0)
+                                {
+                                    continue;
+                                }
+
+                                // The dataBuffer being before the check will have the newline or go ahead
+                                // char included which is important since it's written to the screen.  This
+                                // is why the lineBuffer isn't appended to until after the \n (char 10) check.
+                                dataBuffer.Append((char)receiveBuffer[i]);
+
+                                // This was a newline or a telnetga (telnet go ahead), process it like it's a line.
+                                if (receiveBuffer[i] == 10 || receiveBuffer[i] == GO_AHEAD_CODE)
+                                {
+                                    // A complete line was found, send it on to the line handler.  Send the real
+                                    // time data first to the OnDataReceived so that it renders before any triggers
+                                    // that might need to write to the terminal.  The actual data needs to render
+                                    // first, THEN any triggers (that might render subsequent text) can go.  We can't
+                                    // reuse the dataBuffer for both because it sends immediately if there's no line
+                                    // ending found while the lineBuffer hangs onto everything until then.
+                                    this.OnDataReceived(dataBuffer.ToString());
+                                    this.OnLineReceived(lineBuffer.ToString());
+                                    dataBuffer.Clear();
+                                    lineBuffer.Clear();
+                                    continue;
+                                }
+
+                                lineBuffer.Append((char)receiveBuffer[i]);
+                            }
                         }
 
                         // We had data, a partial line, go ahead send it so the OnDataReceived event so it can be
@@ -285,18 +320,18 @@ namespace Avalon.Network
                     {
                         // This happens during ReadLineAsync() when we call Disconnect() and close the underlying stream
                         // This is an expected exception during disconnection
-                        TraceInformation($"{nameof(WaitForMessageAsync)} aborted: {nameof(_tcpReader)} or {nameof(_tcpReader.BaseStream)} disposed. This is expected after calling Disconnect()");
+                        this.TraceInformation($"{nameof(this.WaitForMessageAsync)} aborted: {nameof(_tcpReader)} or {nameof(_tcpReader.BaseStream)} disposed. This is expected after calling Disconnect()");
                         break;
                     }
                     catch (IOException)
                     {
                         // This happens when we start ReadLineAsync() if the socket is disconnected unexpectedly
-                        TraceError($"{nameof(WaitForMessageAsync)} aborted: Socket disconnected unexpectedly");
+                        this.TraceError($"{nameof(this.WaitForMessageAsync)} aborted: Socket disconnected unexpectedly");
                         break;
                     }
                     catch (Exception error)
                     {
-                        TraceError($"{nameof(WaitForMessageAsync)} aborted: {error}");
+                        this.TraceError($"{nameof(this.WaitForMessageAsync)} aborted: {error}");
                         break;
                     }
 
@@ -304,7 +339,7 @@ namespace Avalon.Network
             }
             finally
             {
-                TraceInformation($"{nameof(WaitForMessageAsync)} completed");
+                this.TraceInformation($"{nameof(this.WaitForMessageAsync)} completed");
             }
         }
 
@@ -334,11 +369,11 @@ namespace Avalon.Network
             }
             catch (Exception ex)
             {
-                TraceError($"{nameof(Disconnect)} error: {ex}");
+                this.TraceError($"{nameof(this.Disconnect)} error: {ex}");
             }
             finally
             {
-                OnConnectionClosed();
+                this.OnConnectionClosed();
             }
         }
 
@@ -390,24 +425,30 @@ namespace Avalon.Network
 
         public void OnLineReceived(string message)
         {
-            LineReceived?.Invoke(this, message);
+            this.LineReceived?.Invoke(this, message);
         }
 
         public void OnDataReceived(string message)
         {
-            DataReceived?.Invoke(this, message);
+            this.DataReceived?.Invoke(this, message);
+        }
+
+        public void OnGmcpReceived(string message)
+        {
+            this.GmcpReceived?.Invoke(this, message);
         }
 
         public void OnConnectionClosed()
         {
-            ConnectionClosed?.Invoke(this, new EventArgs());
+            this.ConnectionClosed?.Invoke(this, EventArgs.Empty);
         }
 
         private bool _disposed = false;
 
         public void Dispose()
         {
-            Dispose(true);
+            this.DataReceived -= DataReceived;
+            this.Dispose(true);
         }
 
         protected virtual void Dispose(bool disposing)
@@ -419,10 +460,11 @@ namespace Avalon.Network
 
             if (disposing)
             {
-                Disconnect();
+                this.Disconnect();
             }
 
             _disposed = true;
         }
     }
+
 }
