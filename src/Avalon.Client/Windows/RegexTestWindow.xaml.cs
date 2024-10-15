@@ -161,7 +161,8 @@ namespace Avalon
                         continue;
                     }
 
-                    var match = Regex.Match(rtb.Text().TrimEnd(), TextBoxRegexPattern.Text.TrimEnd());
+                    // Put a time out the regex match in case to stop run away regex patterns.
+                    var match = Regex.Match(rtb.Text().TrimEnd(), TextBoxRegexPattern.Text.TrimEnd(), RegexOptions.None, TimeSpan.FromSeconds(2));
 
                     if (match.Success)
                     {
@@ -213,6 +214,5 @@ namespace Avalon
 
             RunTests();
         }
-
     }
 }
