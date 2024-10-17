@@ -271,7 +271,13 @@ namespace Avalon.Network
                                     i++; // Skip SE
                                     continue;
                                 }
-
+\
+                                // If it's a null character ignore it and move on.
+                                if (receiveBuffer[i] == 0)
+                                {
+                                    continue;
+                                }
+                                
                                 gmcpBuffer.Append((char)receiveBuffer[i]);
                             }
                             else
