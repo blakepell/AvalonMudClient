@@ -11,7 +11,10 @@ using Avalon.Common.Settings;
 using Avalon.Controls;
 using MahApps.Metro.IconPacks;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
+using Avalon.Common;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Avalon
 {
@@ -174,5 +177,33 @@ namespace Avalon
             set => SetValue(TerminalFontFamilyProperty, value);
         }
 
+        /// <summary>
+        /// Toggles the network connect/disconnect button on the main window.
+        /// </summary>
+        public static ICommand ToggleConnectCommand { get; } = new AsyncRelayCommand(ToggleConnect);
+
+        /// <summary>
+        /// Toggles the network connect/disconnect button on the main window.
+        /// </summary>
+        public static async Task ToggleConnect()
+        {
+            var win = AppServices.GetRequiredService<MainWindow>();
+            
+            try
+            {
+                if (win.TitleBar.IsConnected == false)
+                {
+                    await App.MainWindow.Connect();
+                }
+                else
+                {
+                    App.MainWindow.Disconnect();
+                }
+            }
+            catch (Exception ex)
+            {
+                App.Conveyor.EchoError($"Network Failure: {ex.Message}");
+            }
+        }
     }
 }

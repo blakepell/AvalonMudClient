@@ -104,6 +104,7 @@
         <KeyBinding Command="local:MainWindow.SelectElement" Key="D3" Modifiers="Ctrl" CommandParameter="CustomTab3" />
         <KeyBinding Command="local:MainWindow.FontSizeChange" Key="OemPlus" Modifiers="Ctrl" CommandParameter="+" />
         <KeyBinding Command="local:MainWindow.FontSizeChange" Key="OemMinus" Modifiers="Ctrl" CommandParameter="-" />
+        <KeyBinding Command="{Binding ToggleConnectCommand}" Key="N" Modifiers="Ctrl" />
     </Window.InputBindings>
     <!-- Main Grid -->
     <Grid>
