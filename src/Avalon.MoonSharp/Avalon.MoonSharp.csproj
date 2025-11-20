@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.1;net6.0;net7.0;net8.0</TargetFrameworks>
-    <Version>2023.11.15.1</Version>
+    <TargetFrameworks>netstandard2.1;net6.0;net7.0;net8.0;net10.0</TargetFrameworks>
+    <Version>2025.11.20.1</Version>
     <Authors>Marco Mastropaolo, Blake Pell, MoonSharp Contributors</Authors>
     <Company>Marco Mastropaolo, Blake Pell, MoonSharp Contributors</Company>
     <Description>An unofficial Moonsharp Lua fork targetting .NET 7 optimized for use in Avalon Mud Client.  This port includes features not in the upstream repository and has removed unused features.</Description>
     <PackageTags>avalon lua moonsharp lua uwp dotnet core</PackageTags>
     <Copyright>2023</Copyright>
-    <AssemblyVersion>2023.11.15.1</AssemblyVersion>
-    <FileVersion>2023.11.15.1</FileVersion>
+    <AssemblyVersion>2025.11.20.1</AssemblyVersion>
+    <FileVersion>2023.11.20.1</FileVersion>
     <PackageId>AvalonLua.MoonSharp</PackageId>
     <Product>Avalon Lua (MoonSharp)</Product>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
