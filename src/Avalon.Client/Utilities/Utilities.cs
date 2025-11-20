@@ -284,7 +284,11 @@ namespace Avalon.Utilities
             string forwardPath = Speedwalk(input, true);
 
             // Now, reverse that.
-            var path = forwardPath.Split(App.Settings.AvalonSettings.CommandSplitCharacter).Reverse().ToList();
+            var pathList = forwardPath.Split(App.Settings.AvalonSettings.CommandSplitCharacter);
+
+            // C# 14 fix, Reverse in this case was returning a void instead of previous return value.
+            pathList.Reverse();
+            var path = pathList.ToList();
 
             for (int i = 0; i < path.Count; i++)
             {
