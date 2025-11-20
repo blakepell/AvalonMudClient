@@ -15,10 +15,11 @@ using System.Threading;
 
 namespace Avalon.Network
 {
+
     /// <summary>
     /// Telnet client.
     /// </summary>
-    public class TelnetClient : ITelnetClient, IDisposable
+    public class TelnetClient : IDisposable, ITelnetClient
     {
         private readonly int _port;
         private readonly string _host;
@@ -34,7 +35,8 @@ namespace Avalon.Network
         private TcpClient _tcpClient;
         private StreamReader _tcpReader;
         private StreamWriter _tcpWriter;
-        
+
+
         public EventHandler<string> LineReceived { get; set; }
         public EventHandler<string> DataReceived { get; set; }
         public EventHandler<string> GmcpReceived { get; set; }
@@ -81,84 +83,12 @@ namespace Avalon.Network
             _tcpWriter = new StreamWriter(_tcpClient.GetStream()) { AutoFlush = true };
 
             // Fire-and-forget looping task that waits for messages to arrive
-            WaitForMessageAsync();
+            this.WaitForMessageAsync();
         }
 
-        /// <summary>
-        /// Connect via SOCKS4 proxy. See http://en.wikipedia.org/wiki/SOCKS#SOCKS4.
-        /// When this task completes you are connected. 
-        /// You cannot call this method twice; if you need to reconnect, dispose of this instance and create a new one.
-        /// </summary>
-        /// <param name="socks4ProxyHost"></param>
-        /// <param name="socks4ProxyPort"></param>
-        /// <param name="socks4ProxyUser"></param>
-        public async Task ConnectAsync(string socks4ProxyHost, int socks4ProxyPort, string socks4ProxyUser)
+        public Task ConnectAsync(string socks4ProxyHost, int socks4ProxyPort, string socks4ProxyUser)
         {
-            if (_tcpClient != null)
-            {
-                throw new NotSupportedException($"{nameof(ConnectAsync)} aborted: Reconnecting is not supported. You must dispose of this instance and instantiate a new TelnetClient");
-            }
-
-            _tcpClient = new TcpClient();
-            _tcpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
-
-            await _tcpClient.ConnectAsync(socks4ProxyHost, socks4ProxyPort);
-
-            // Simple implementation of http://en.wikipedia.org/wiki/SOCKS#SOCKS4
-            // Similar to http://biko.codeplex.com/
-            byte[] hostAddress = (await Dns.GetHostAddressesAsync(_host)).First().GetAddressBytes();
-            byte[] hostPort = new byte[2]; // 16-bit number
-            hostPort[0] = Convert.ToByte(_port / 256);
-            hostPort[1] = Convert.ToByte(_port % 256);
-            byte[] proxyUserId = Encoding.ASCII.GetBytes(socks4ProxyUser ?? string.Empty); // Can't pass in null
-
-            // Request
-            // - We build a "please connect me" packet to send to the proxy
-            byte[] proxyRequest = new byte[9 + proxyUserId.Length];
-
-            proxyRequest[0] = 4; // SOCKS4;
-            proxyRequest[1] = 0x01; // Connect (we don't support Bind);
-
-            hostPort.CopyTo(proxyRequest, 2);
-            hostAddress.CopyTo(proxyRequest, 4);
-            proxyUserId.CopyTo(proxyRequest, 8);
-
-            proxyRequest[8 + proxyUserId.Length] = 0x00; // UserId terminator
-
-            // Send proxy request
-            // - Then we wait for an ack
-            // - If successful, we can use the TelnetClient directly and traffic will be proxied
-            await _tcpClient.GetStream().WriteAsync(proxyRequest, 0, proxyRequest.Length, _internalCancellation.Token);
-
-            // Response
-            // - First byte is null
-            // - Second byte is our result code (we want 0x5a Request granted)
-            // - Last 6 bytes should be ignored
-            byte[] proxyResponse = new byte[8];
-
-            // Wait for proxy response
-            await _tcpClient.GetStream().ReadAsync(proxyResponse, 0, proxyResponse.Length, _internalCancellation.Token);
-
-            if (proxyResponse[1] != 0x5a) // Request granted
-            {
-                switch (proxyResponse[1])
-                {
-                    case 0x5b:
-                        throw new InvalidOperationException("Proxy connect request rejected or failed");
-                    case 0x5c:
-                        throw new InvalidOperationException("Proxy connect request failed because client is not running identd (or not reachable from the server)");
-                    case 0x5d:
-                        throw new InvalidOperationException("Proxy connect request failed because client's identd could not confirm the user ID string in the request");
-                    default:
-                        throw new InvalidOperationException("Proxy connect request failed, unknown error occurred");
-                }
-            }
-
-            _tcpReader = new StreamReader(_tcpClient.GetStream());
-            _tcpWriter = new StreamWriter(_tcpClient.GetStream()) { AutoFlush = true };
-
-            // Fire-and-forget looping task that waits for messages to arrive
-            WaitForMessageAsync();
+            throw new NotImplementedException();
         }
 
         public async Task SendAsync(string message)
@@ -214,6 +144,7 @@ namespace Avalon.Network
             var dataBuffer = new StringBuilder(4096);
             var gmcpBuffer = new StringBuilder(4096);
             bool isReceivingGmcp = false;
+            bool pendingIAC = false; // Track if we've seen an IAC that might be part of IAC SE sequence
 
             try
             {
@@ -248,8 +179,21 @@ namespace Avalon.Network
                         // out as DataReceived so that the UI can render it.  The actual line will be sent separate
                         // because we don't know when the line terminator will come indicating a full line has
                         // been sent and can be processed for triggers and whatever else as a complete line.
-                        for (int i = 0; i < receiveBuffer.Length; i++)
+                        for (int i = 0; i < dataReceivedLength; i++)
                         {
+                            // Check for a pending IAC from the previous buffer followed by SE at the start of this buffer
+                            if (pendingIAC && isReceivingGmcp && receiveBuffer[i] == SE)
+                            {
+                                // Properly finish GMCP message that crossed buffer boundaries
+                                this.OnGmcpReceived(gmcpBuffer.ToString());
+                                gmcpBuffer.Clear();
+                                isReceivingGmcp = false;
+                                pendingIAC = false;
+                                continue;
+                            }
+
+                            pendingIAC = false; // Reset pending IAC flag
+
                             // If it's IAC SB GMCP then start writing into the GMCP buffer.  That buffer should contain a command and then
                             // a JSON object.  The GMCP will then end when IAC SE comes through.  In order to read the telnet opt codes the
                             // receive buffer has to be in bytes.
@@ -260,24 +204,40 @@ namespace Avalon.Network
                                 continue;
                             }
 
-                            if (this.EnableGmcp && isReceivingGmcp)
+                            // End of GMCP message (IAC SE)
+                            if (isReceivingGmcp && receiveBuffer[i] == IAC && i + 1 < dataReceivedLength && receiveBuffer[i + 1] == SE)
                             {
-                                // GMCP
-                                if (receiveBuffer[i] == IAC && i + 1 < dataReceivedLength && receiveBuffer[i + 1] == SE)
+                                // Properly finish GMCP message
+                                this.OnGmcpReceived(gmcpBuffer.ToString());
+                                gmcpBuffer.Clear();
+                                isReceivingGmcp = false;
+                                i++; // Skip SE
+                                continue;
+                            }
+
+                            // Check if we're at the end of buffer with an IAC - might be start of IAC SE sequence
+                            if (isReceivingGmcp && receiveBuffer[i] == IAC && i == dataReceivedLength - 1)
+                            {
+                                pendingIAC = true;
+                                continue;
+                            }
+
+                            if (isReceivingGmcp)
+                            {
+                                // Handle escaped IAC inside GMCP
+                                if (receiveBuffer[i] == IAC && i + 1 < dataReceivedLength && receiveBuffer[i + 1] == IAC)
                                 {
-                                    isReceivingGmcp = false;
-                                    this.OnGmcpReceived(gmcpBuffer.ToString());
-                                    gmcpBuffer.Clear();
-                                    i++; // Skip SE
+                                    gmcpBuffer.Append((char)IAC);
+                                    i++; // Skip the escaped IAC
                                     continue;
                                 }
 
-                                // If it's a null character ignore it and move on.
+                                // Ignore null characters
                                 if (receiveBuffer[i] == 0)
                                 {
                                     continue;
                                 }
-                                
+
                                 gmcpBuffer.Append((char)receiveBuffer[i]);
                             }
                             else
@@ -472,5 +432,4 @@ namespace Avalon.Network
             _disposed = true;
         }
     }
-
 }
