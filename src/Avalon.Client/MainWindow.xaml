@@ -1,70 +1,82 @@
-﻿<Window x:Class="Avalon.MainWindow" 
-        Title="{Binding Path=ProfileSettings.WindowTitle}" 
-        Height="600" Width="800"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Avalon"
-        xmlns:controls="clr-namespace:Avalon.Controls"
-        mc:Ignorable="d"
-        xmlns:ui="http://schemas.modernwpf.com/2019"
-        xmlns:editors="clr-namespace:Avalon.Controls.AutoCompleteTextBox.Editors"
-        xmlns:providers="clr-namespace:Avalon.Controls.AutoCompleteTextBox"
-        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        ui:WindowHelper.UseModernWindowStyle="False" 
-        x:Name="mainPage" TextOptions.TextFormattingMode="Ideal"
-        Loaded="MainWindow_Loaded"
-        UseLayoutRounding="True" SnapsToDevicePixels="True"
-        PreviewKeyDown="MainWindow_OnPreviewKeyDown"
-        Activated="MainWindow_Activated"
-        SizeChanged="MainPage_SizeChanged"
-        ResizeMode="CanResize" 
-        AllowsTransparency="True" 
-        WindowStyle="None"
-        BorderThickness=".9"
-        BorderBrush="{StaticResource BrushWindowBorderBrush}"
-        Style="{DynamicResource WindowChrome}"
-        >
-    <!-- Resources (e.g. context menu) -->
+﻿<Window
+    Activated="MainWindow_Activated"
+    AllowsTransparency="True"
+    BorderBrush="{StaticResource BrushWindowBorderBrush}"
+    BorderThickness=".9"
+    Height="600"
+    Loaded="MainWindow_Loaded"
+    PreviewKeyDown="MainWindow_OnPreviewKeyDown"
+    ResizeMode="CanResize"
+    SizeChanged="MainPage_SizeChanged"
+    SnapsToDevicePixels="True"
+    Style="{DynamicResource WindowChrome}"
+    TextOptions.TextFormattingMode="Ideal"
+    Title="{Binding Path=ProfileSettings.WindowTitle}"
+    UseLayoutRounding="True"
+    Width="800"
+    WindowStyle="None"
+    mc:Ignorable="d"
+    ui:WindowHelper.UseModernWindowStyle="False"
+    x:Class="Avalon.MainWindow"
+    x:Name="mainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:controls="clr-namespace:Avalon.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:editors="clr-namespace:Avalon.Controls.AutoCompleteTextBox.Editors"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:local="clr-namespace:Avalon"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:providers="clr-namespace:Avalon.Controls.AutoCompleteTextBox"
+    xmlns:ui="http://schemas.modernwpf.com/2019"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--  Resources (e.g. context menu)  -->
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
-        <providers:AutoCompleteCommandProvider x:Key="AutoCompleteCommandProvider"/>
+        <providers:AutoCompleteCommandProvider x:Key="AutoCompleteCommandProvider" />
         <DataTemplate x:Key="AutoCompleteCommandTemplate">
             <Grid>
-                <TextBlock Text="{Binding Path=Command}"></TextBlock>
+                <TextBlock Text="{Binding Path=Command}" />
             </Grid>
         </DataTemplate>
-        <ContextMenu x:Key="AvalonTerminalContextMenu" x:Shared="true" ui:ControlHelper.CornerRadius="0">
-            <MenuItem Header="Copy" Click="AvalonTerminalContextMenuCopy_OnClick">
+        <ContextMenu
+            ui:ControlHelper.CornerRadius="0"
+            x:Key="AvalonTerminalContextMenu"
+            x:Shared="true">
+            <MenuItem Click="AvalonTerminalContextMenuCopy_OnClick" Header="Copy">
                 <MenuItem.Icon>
                     <ui:SymbolIcon Symbol="Copy" />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Header="Copy with Mud Colors" Click="AvalonTerminalContextMenuCopyWithMudColors_OnClick">
+            <MenuItem Click="AvalonTerminalContextMenuCopyWithMudColors_OnClick" Header="Copy with Mud Colors">
                 <MenuItem.Icon>
-                    <ui:SymbolIcon Symbol="Copy" Foreground="Green" />
+                    <ui:SymbolIcon Foreground="Green" Symbol="Copy" />
                 </MenuItem.Icon>
             </MenuItem>
             <Separator />
-            <MenuItem Header="Test Selection in Regular Expression Tester" Click="MenuItemTestSelectionRegEx_Click">
+            <MenuItem Click="MenuItemTestSelectionRegEx_Click" Header="Test Selection in Regular Expression Tester">
                 <MenuItem.Icon>
                     <ui:SymbolIcon Symbol="Accept" />
                 </MenuItem.Icon>
             </MenuItem>
             <Separator />
-            <MenuItem Header="Font Size Larger" InputGestureText="Ctrl+Plus" Click="MenuItemIncreaseFontSize_OnClick">
+            <MenuItem
+                Click="MenuItemIncreaseFontSize_OnClick"
+                Header="Font Size Larger"
+                InputGestureText="Ctrl+Plus">
                 <MenuItem.Icon>
-                    <ui:SymbolIcon Symbol="FontIncrease"></ui:SymbolIcon>
+                    <ui:SymbolIcon Symbol="FontIncrease" />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Header="Font Size Smaller" InputGestureText="Ctrl+Minus" Click="MenuItemDecreaseFontSize_OnClick">
+            <MenuItem
+                Click="MenuItemDecreaseFontSize_OnClick"
+                Header="Font Size Smaller"
+                InputGestureText="Ctrl+Minus">
                 <MenuItem.Icon>
-                    <ui:SymbolIcon Symbol="FontDecrease"></ui:SymbolIcon>
+                    <ui:SymbolIcon Symbol="FontDecrease" />
                 </MenuItem.Icon>
             </MenuItem>
             <Separator />
-            <MenuItem Header="Clear Terminal" Click="AvalonTerminalContextMenuClear_OnClick">
+            <MenuItem Click="AvalonTerminalContextMenuClear_OnClick" Header="Clear Terminal">
                 <MenuItem.Icon>
                     <ui:SymbolIcon Symbol="ClearSelection" />
                 </MenuItem.Icon>
@@ -73,12 +85,12 @@
         <Style x:Key="WindowChrome">
             <Setter Property="WindowChrome.WindowChrome">
                 <Setter.Value>
-                    <WindowChrome ResizeBorderThickness="3" CaptionHeight="5" />
+                    <WindowChrome CaptionHeight="5" ResizeBorderThickness="3" />
                 </Setter.Value>
             </Setter>
         </Style>
     </Window.Resources>
-    <!-- Hot keys -->
+    <!--  Hot keys  -->
     <Window.CommandBindings>
         <CommandBinding Command="local:MainWindow.LoadPlugin" Executed="MenuItemManuallyLoadPlugin_Click" />
         <CommandBinding Command="local:MainWindow.EditLastItem" Executed="MenuItemOpenLastEditedAliasOrTrigger_Click" />
@@ -89,24 +101,84 @@
         <CommandBinding Command="local:MainWindow.ShellWindow" Executed="ShellWindowInternal" />
     </Window.CommandBindings>
     <Window.InputBindings>
-        <KeyBinding Command="local:MainWindow.ShellWindow" Key="A" Modifiers="Ctrl+Alt" CommandParameter="Aliases" />
-        <KeyBinding Command="local:MainWindow.ShellWindow" Key="T" Modifiers="Ctrl+Alt" CommandParameter="Triggers" />
-        <KeyBinding Command="local:MainWindow.ShellWindow" Key="M" Modifiers="Ctrl+Alt" CommandParameter="Macros" />
-        <KeyBinding Command="local:MainWindow.ShellWindow" Key="V" Modifiers="Ctrl+Alt" CommandParameter="Variables" />
-        <KeyBinding Command="local:MainWindow.ShellWindow" Key="D" Modifiers="Ctrl+Alt" CommandParameter="Directions" />
-        <KeyBinding Command="local:MainWindow.FocusByName" Key="I" Modifiers="Ctrl" CommandParameter="TextInput" />
-        <KeyBinding Command="local:MainWindow.ShellWindow" Key="D" Modifiers="Ctrl" CommandParameter="Directions Select" />
-        <KeyBinding Command="local:MainWindow.LoadPlugin" Key="P" Modifiers="Ctrl+Alt" />
-        <KeyBinding Command="local:MainWindow.Find" Key="F" Modifiers="Ctrl" />
-        <KeyBinding Command="local:MainWindow.EditLastItem" Key="L" Modifiers="Ctrl+Alt" />
-        <KeyBinding Command="local:MainWindow.SelectElement" Key="D1" Modifiers="Ctrl" CommandParameter="CustomTab1" />
-        <KeyBinding Command="local:MainWindow.SelectElement" Key="D2" Modifiers="Ctrl" CommandParameter="CustomTab2" />
-        <KeyBinding Command="local:MainWindow.SelectElement" Key="D3" Modifiers="Ctrl" CommandParameter="CustomTab3" />
-        <KeyBinding Command="local:MainWindow.FontSizeChange" Key="OemPlus" Modifiers="Ctrl" CommandParameter="+" />
-        <KeyBinding Command="local:MainWindow.FontSizeChange" Key="OemMinus" Modifiers="Ctrl" CommandParameter="-" />
-        <KeyBinding Command="{Binding ToggleConnectCommand}" Key="N" Modifiers="Ctrl" />
+        <KeyBinding
+            Command="local:MainWindow.ShellWindow"
+            CommandParameter="Aliases"
+            Key="A"
+            Modifiers="Ctrl+Alt" />
+        <KeyBinding
+            Command="local:MainWindow.ShellWindow"
+            CommandParameter="Triggers"
+            Key="T"
+            Modifiers="Ctrl+Alt" />
+        <KeyBinding
+            Command="local:MainWindow.ShellWindow"
+            CommandParameter="Macros"
+            Key="M"
+            Modifiers="Ctrl+Alt" />
+        <KeyBinding
+            Command="local:MainWindow.ShellWindow"
+            CommandParameter="Variables"
+            Key="V"
+            Modifiers="Ctrl+Alt" />
+        <KeyBinding
+            Command="local:MainWindow.ShellWindow"
+            CommandParameter="Directions"
+            Key="D"
+            Modifiers="Ctrl+Alt" />
+        <KeyBinding
+            Command="local:MainWindow.FocusByName"
+            CommandParameter="TextInput"
+            Key="I"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Command="local:MainWindow.ShellWindow"
+            CommandParameter="Directions Select"
+            Key="D"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Command="local:MainWindow.LoadPlugin"
+            Key="P"
+            Modifiers="Ctrl+Alt" />
+        <KeyBinding
+            Command="local:MainWindow.Find"
+            Key="F"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Command="local:MainWindow.EditLastItem"
+            Key="L"
+            Modifiers="Ctrl+Alt" />
+        <KeyBinding
+            Command="local:MainWindow.SelectElement"
+            CommandParameter="CustomTab1"
+            Key="D1"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Command="local:MainWindow.SelectElement"
+            CommandParameter="CustomTab2"
+            Key="D2"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Command="local:MainWindow.SelectElement"
+            CommandParameter="CustomTab3"
+            Key="D3"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Command="local:MainWindow.FontSizeChange"
+            CommandParameter="+"
+            Key="OemPlus"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Command="local:MainWindow.FontSizeChange"
+            CommandParameter="-"
+            Key="OemMinus"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Command="{Binding ToggleConnectCommand}"
+            Key="N"
+            Modifiers="Ctrl" />
     </Window.InputBindings>
-    <!-- Main Grid -->
+    <!--  Main Grid  -->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
@@ -114,40 +186,56 @@
             <RowDefinition Height="25" />
         </Grid.RowDefinitions>
 
-        <!-- The title bar of the Window -->
-        <controls:WindowTitleBar x:Name="TitleBar" 
-                                 Grid.Row="0"
-                                 HorizontalAlignment="Stretch"
-                                 Title="{Binding Path=Title, ElementName=mainPage}"></controls:WindowTitleBar>
-        <!-- SplitView for the main part of the main grid -->
-        <ui:SplitView x:Name="SplitViewMain" x:FieldModifier="public"
-            Grid.Row="1"
-            PaneBackground="{StaticResource BrushWindowBackground}"
-            IsPaneOpen="False"
-            OpenPaneLength="300"
+        <!--  The title bar of the Window  -->
+        <controls:WindowTitleBar
+            Grid.Row="0"
+            HorizontalAlignment="Stretch"
+            Title="{Binding Path=Title, ElementName=mainPage}"
+            x:Name="TitleBar" />
+        <!--  SplitView for the main part of the main grid  -->
+        <ui:SplitView
             CompactPaneLength="50"
             DisplayMode="CompactOverlay"
-            IsTabStop="False">
+            Grid.Row="1"
+            IsPaneOpen="False"
+            IsTabStop="False"
+            OpenPaneLength="300"
+            PaneBackground="{StaticResource BrushWindowBackground}"
+            x:FieldModifier="public"
+            x:Name="SplitViewMain">
             <ui:SplitView.Pane>
                 <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <ui:ItemsRepeaterScrollHost
-                        Margin="0,0,0,0"
                         HorizontalAlignment="Stretch"
+                        Margin="0,0,0,0"
                         VerticalAlignment="Top">
-                        <ScrollViewer
-                            KeyboardNavigation.TabNavigation="Once"
-                            VerticalScrollBarVisibility="Auto">
+                        <ScrollViewer KeyboardNavigation.TabNavigation="Once" VerticalScrollBarVisibility="Auto">
                             <ui:ItemsRepeater ItemsSource="{Binding NavManager.NavMenuItems, UpdateSourceTrigger=PropertyChanged}">
                                 <ui:ItemsRepeater.Layout>
-                                    <ui:StackLayout Orientation="Vertical"/>
+                                    <ui:StackLayout Orientation="Vertical" />
                                 </ui:ItemsRepeater.Layout>
                                 <DataTemplate>
-                                    <Button Style="{StaticResource NavBarButton}" ui:ControlHelper.CornerRadius="0" Click="NavBarButton_Click" Tag="{Binding Reference}">
+                                    <Button
+                                        Click="NavBarButton_Click"
+                                        Style="{StaticResource NavBarButton}"
+                                        Tag="{Binding Reference}"
+                                        ui:ControlHelper.CornerRadius="0">
                                         <ui:SimpleStackPanel Orientation="Horizontal">
-                                            <Viewbox Height="32" Width="32" Margin="3,0,24,0">
-                                                <iconPacks:PackIconMaterial Kind="{Binding Icon}" Foreground="#DADADA"  Margin="10,0,0,0" />
+                                            <Viewbox
+                                                Height="32"
+                                                Margin="3,0,24,0"
+                                                Width="32">
+                                                <iconPacks:PackIconMaterial
+                                                    Foreground="#DADADA"
+                                                    Kind="{Binding Icon}"
+                                                    Margin="10,0,0,0" />
                                             </Viewbox>
-                                            <TextBlock Text="{Binding Title}" FontSize="18" Foreground="#DADADA" FontFamily="Segoe UI" VerticalAlignment="Center"></TextBlock>
+                                            <TextBlock
+                                                FontFamily="Segoe UI"
+                                                FontSize="18"
+                                                Foreground="#DADADA"
+                                                Text="{Binding Title}"
+                                                VerticalAlignment="Center" />
                                         </ui:SimpleStackPanel>
                                     </Button>
                                 </DataTemplate>
@@ -156,19 +244,19 @@
                     </ui:ItemsRepeaterScrollHost>
                 </Border>
             </ui:SplitView.Pane>
-            <!-- This is the main tab view and mud client stuff -->
-            <Grid x:Name="GridGame" Margin="0">
+            <!--  This is the main tab view and mud client stuff  -->
+            <Grid Margin="0" x:Name="GridGame">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" x:Name="Row1"></RowDefinition>
-                    <RowDefinition Height="70*" x:Name="Row2"></RowDefinition>
-                    <RowDefinition Height="30*" x:Name="Row3"></RowDefinition>
-                    <RowDefinition Height="0" x:Name="Row4"></RowDefinition>
-                    <RowDefinition Height="30" x:Name="Row5"></RowDefinition>
-                    <RowDefinition Height="32" x:Name="Row6"></RowDefinition>
+                    <RowDefinition Height="Auto" x:Name="Row1" />
+                    <RowDefinition Height="70*" x:Name="Row2" />
+                    <RowDefinition Height="30*" x:Name="Row3" />
+                    <RowDefinition Height="0" x:Name="Row4" />
+                    <RowDefinition Height="30" x:Name="Row5" />
+                    <RowDefinition Height="32" x:Name="Row6" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="55*" x:Name="Col1"></ColumnDefinition>
-                    <ColumnDefinition Width="45*" x:Name="Col2"></ColumnDefinition>
+                    <ColumnDefinition Width="55*" x:Name="Col1" />
+                    <ColumnDefinition Width="45*" x:Name="Col2" />
                 </Grid.ColumnDefinitions>
                 <Grid.Resources>
                     <ResourceDictionary>
@@ -178,23 +266,32 @@
                     </ResourceDictionary>
                 </Grid.Resources>
 
-                <!-- Main Menu -->
-                <Menu x:Name="MenuGame" Grid.Row="0" Grid.Column="0" BorderBrush="#444444" BorderThickness=".9,0,0,.9" Background="{StaticResource BrushWindowBackground}">
+                <!--  Main Menu  -->
+                <Menu
+                    Background="{StaticResource BrushWindowBackground}"
+                    BorderBrush="#444444"
+                    BorderThickness=".9,0,0,.9"
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    x:Name="MenuGame">
                     <MenuItem Header="_File">
-                        <MenuItem Header="Connection Manager" Click="MenuItemConnectionManager_OnClick">
+                        <MenuItem Click="MenuItemConnectionManager_OnClick" Header="Connection Manager">
                             <MenuItem.Icon>
                                 <iconPacks:PackIconMaterialDesign Kind="CastConnected" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem x:Name="MenuNetworkButton" Header="Connect" Click="MenuNetworkButton_Click">
+                        <MenuItem
+                            Click="MenuNetworkButton_Click"
+                            Header="Connect"
+                            x:Name="MenuNetworkButton">
                             <MenuItem.Icon>
-                                <ui:SymbolIcon Symbol="MapDrive"></ui:SymbolIcon>
+                                <ui:SymbolIcon Symbol="MapDrive" />
                             </MenuItem.Icon>
                         </MenuItem>
                         <Separator />
-                        <MenuItem Header="Create Package" Click="MenuItemCreatePackage_Click">
+                        <MenuItem Click="MenuItemCreatePackage_Click" Header="Create Package">
                             <MenuItem.Icon>
-                                <ui:SymbolIcon Symbol="NewWindow"></ui:SymbolIcon>
+                                <ui:SymbolIcon Symbol="NewWindow" />
                             </MenuItem.Icon>
                         </MenuItem>
                         <Separator />
@@ -202,264 +299,344 @@
                             <MenuItem.Icon>
                                 <ui:FontIcon Glyph="&#xED25;" />
                             </MenuItem.Icon>
-                            <MenuItem Header="Open Settings Folder" Click="MenuItemOpenSettingsFolderAsync_Click">
+                            <MenuItem Click="MenuItemOpenSettingsFolderAsync_Click" Header="Open Settings Folder">
                                 <MenuItem.Icon>
                                     <ui:FontIcon Glyph="&#xED25;" />
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="Open Profiles Folder" Click="MenuItemOpenProfilesFolderAsync_Click">
+                            <MenuItem Click="MenuItemOpenProfilesFolderAsync_Click" Header="Open Profiles Folder">
                                 <MenuItem.Icon>
                                     <ui:FontIcon Glyph="&#xED25;" />
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="Open Plugins Folder" Click="MenuItemOpenPluginsFolderAsync_Click">
+                            <MenuItem Click="MenuItemOpenPluginsFolderAsync_Click" Header="Open Plugins Folder">
                                 <MenuItem.Icon>
                                     <ui:FontIcon Glyph="&#xED25;" />
                                 </MenuItem.Icon>
                             </MenuItem>
                         </MenuItem>
                         <Separator />
-                        <MenuItem Header="_Open Profile" x:Name="ButtonOpenProfile" Click="ButtonOpenProfile_OnClick">
+                        <MenuItem
+                            Click="ButtonOpenProfile_OnClick"
+                            Header="_Open Profile"
+                            x:Name="ButtonOpenProfile">
                             <MenuItem.Icon>
                                 <iconPacks:PackIconMaterial Kind="AccountBoxOutline" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="Import Package" x:Name="ButtonImportPackage" Click="ButtonImportPackage_OnClickAsync">
+                        <MenuItem
+                            Click="ButtonImportPackage_OnClickAsync"
+                            Header="Import Package"
+                            x:Name="ButtonImportPackage">
                             <MenuItem.Icon>
                                 <iconPacks:PackIconMaterial Kind="FileImportOutline" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="_Save Profile" x:Name="ButtonSaveProfile" Click="ButtonSaveProfile_OnClick">
+                        <MenuItem
+                            Click="ButtonSaveProfile_OnClick"
+                            Header="_Save Profile"
+                            x:Name="ButtonSaveProfile">
                             <MenuItem.Icon>
                                 <ui:SymbolIcon Symbol="Save" />
                             </MenuItem.Icon>
                         </MenuItem>
                         <Separator />
-                        <MenuItem Header="Exit Without Save" x:Name="ButtonExitWithoutSave" Click="ButtonExitWithoutSave_OnClickAsync">
+                        <MenuItem
+                            Click="ButtonExitWithoutSave_OnClickAsync"
+                            Header="Exit Without Save"
+                            x:Name="ButtonExitWithoutSave">
                             <MenuItem.Icon>
                                 <iconPacks:PackIconMaterial Kind="BookCancelOutline" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="E_xit" x:Name="ButtonExit" Click="ButtonExit_OnClick" />
+                        <MenuItem
+                            Click="ButtonExit_OnClick"
+                            Header="E_xit"
+                            x:Name="ButtonExit" />
                     </MenuItem>
                     <MenuItem Header="_Edit">
-                        <MenuItem Header="Change Character" Click="MenuItemChangeCharacter_Click">
+                        <MenuItem Click="MenuItemChangeCharacter_Click" Header="Change Character">
                             <MenuItem.Icon>
                                 <ui:SymbolIcon Symbol="OtherUser" />
                             </MenuItem.Icon>
                         </MenuItem>
                         <Separator />
-                        <MenuItem Header="Edit _Aliases" Click="MenuShellWindow_Click" Tag="Aliases" InputGestureText="Ctrl+Alt+A">
+                        <MenuItem
+                            Click="MenuShellWindow_Click"
+                            Header="Edit _Aliases"
+                            InputGestureText="Ctrl+Alt+A"
+                            Tag="Aliases">
                             <MenuItem.Icon>
                                 <ui:SymbolIcon Symbol="Shuffle" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="Edit _Directions" Click="MenuShellWindow_Click" Tag="Directions" InputGestureText="Ctrl+Alt+D">
+                        <MenuItem
+                            Click="MenuShellWindow_Click"
+                            Header="Edit _Directions"
+                            InputGestureText="Ctrl+Alt+D"
+                            Tag="Directions">
                             <MenuItem.Icon>
                                 <ui:SymbolIcon Symbol="Map" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="Edit _Macros" Click="MenuShellWindow_Click" Tag="Macros" InputGestureText="Ctrl+Alt+M">
+                        <MenuItem
+                            Click="MenuShellWindow_Click"
+                            Header="Edit _Macros"
+                            InputGestureText="Ctrl+Alt+M"
+                            Tag="Macros">
                             <MenuItem.Icon>
                                 <ui:SymbolIcon Symbol="Keyboard" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="Edit _Triggers" Click="MenuShellWindow_Click" Tag="Triggers" InputGestureText="Ctrl+Alt+T">
+                        <MenuItem
+                            Click="MenuShellWindow_Click"
+                            Header="Edit _Triggers"
+                            InputGestureText="Ctrl+Alt+T"
+                            Tag="Triggers">
                             <MenuItem.Icon>
                                 <ui:SymbolIcon Symbol="Directions" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="Edit _Variables" Click="MenuShellWindow_Click" Tag="Variables" InputGestureText="Ctrl+Alt+V">
+                        <MenuItem
+                            Click="MenuShellWindow_Click"
+                            Header="Edit _Variables"
+                            InputGestureText="Ctrl+Alt+V"
+                            Tag="Variables">
                             <MenuItem.Icon>
                                 <ui:SymbolIcon Symbol="Account" />
                             </MenuItem.Icon>
                         </MenuItem>
                         <Separator />
-                        <MenuItem Header="_Package Manager" Click="MenuShellWindow_Click" Tag="PackageManager">
+                        <MenuItem
+                            Click="MenuShellWindow_Click"
+                            Header="_Package Manager"
+                            Tag="PackageManager">
                             <MenuItem.Icon>
                                 <ui:SymbolIcon Symbol="SyncFolder" />
                             </MenuItem.Icon>
                         </MenuItem>
                     </MenuItem>
                     <MenuItem Header="_View">
-                        <MenuItem Header="Open Last Edited Alias or Trigger" Click="MenuItemOpenLastEditedAliasOrTrigger_Click" InputGestureText="Ctrl+Alt+L">
+                        <MenuItem
+                            Click="MenuItemOpenLastEditedAliasOrTrigger_Click"
+                            Header="Open Last Edited Alias or Trigger"
+                            InputGestureText="Ctrl+Alt+L">
                             <MenuItem.Icon>
                                 <ui:SymbolIcon Symbol="BackToWindow" />
                             </MenuItem.Icon>
                         </MenuItem>
                         <Separator />
-                        <MenuItem Header="Reset Layout" Click="MenuItemResetLayout_Click">
+                        <MenuItem Click="MenuItemResetLayout_Click" Header="Reset Layout">
                             <MenuItem.Icon>
                                 <ui:SymbolIcon Symbol="Undo" />
                             </MenuItem.Icon>
                         </MenuItem>
                     </MenuItem>
                     <MenuItem Header="_Tools">
-                        <MenuItem x:Name="MenuItemDeveloperTools" Header="Developer Tools" Visibility="{Binding Path=AvalonSettings.DeveloperMode, Converter={StaticResource ResourceKey=BoolToVisConverter}}">
+                        <MenuItem
+                            Header="Developer Tools"
+                            Visibility="{Binding Path=AvalonSettings.DeveloperMode, Converter={StaticResource ResourceKey=BoolToVisConverter}}"
+                            x:Name="MenuItemDeveloperTools">
                             <MenuItem.Icon>
                                 <ui:FontIcon Glyph="&#xEC7A;" />
                             </MenuItem.Icon>
-                            <MenuItem Header="Manually Load Plugin" Click="MenuItemManuallyLoadPlugin_Click" InputGestureText="Ctrl+Alt+P">
-                            </MenuItem>
+                            <MenuItem
+                                Click="MenuItemManuallyLoadPlugin_Click"
+                                Header="Manually Load Plugin"
+                                InputGestureText="Ctrl+Alt+P" />
                         </MenuItem>
-                        <MenuItem Header="Send _Text to Game" Click="MenuItemSendTextToGameAsync_Click">
+                        <MenuItem Click="MenuItemSendTextToGameAsync_Click" Header="Send _Text to Game">
                             <MenuItem.Icon>
                                 <ui:SymbolIcon Symbol="Send" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="Simulate Incoming Text" Click="MenuItemSimulateIncomingTextAsync_Click">
-                        </MenuItem>
-                        <MenuItem Header="Tick Timer Commands" Click="MenuItemTickTimerCommands_Click">
+                        <MenuItem Click="MenuItemSimulateIncomingTextAsync_Click" Header="Simulate Incoming Text" />
+                        <MenuItem Click="MenuItemTickTimerCommands_Click" Header="Tick Timer Commands">
                             <MenuItem.Icon>
                                 <ui:SymbolIcon Symbol="Clock" />
                             </MenuItem.Icon>
                         </MenuItem>
                         <Separator />
-                        <MenuItem Header="_Edit Global Lua File" Click="MenuItemEditGlobalLuaFile_Click">
+                        <MenuItem Click="MenuItemEditGlobalLuaFile_Click" Header="_Edit Global Lua File">
                             <MenuItem.Icon>
                                 <iconPacks:PackIconMaterial Kind="LanguageLua" />
                             </MenuItem.Icon>
                         </MenuItem>
                         <Separator />
-                        <MenuItem Header="Regular Expression Tester" Click="MenuItemRegexTester_Click">
+                        <MenuItem Click="MenuItemRegexTester_Click" Header="Regular Expression Tester">
                             <MenuItem.Icon>
                                 <ui:SymbolIcon Symbol="Accept" />
                             </MenuItem.Icon>
                         </MenuItem>
                         <Separator />
-                        <MenuItem Header="Database Query Editor" Click="MenuShellWindow_Click" Tag="Database">
+                        <MenuItem
+                            Click="MenuShellWindow_Click"
+                            Header="Database Query Editor"
+                            Tag="Database">
                             <MenuItem.Icon>
                                 <iconPacks:PackIconMaterial Kind="Database" />
                             </MenuItem.Icon>
                         </MenuItem>
                         <Separator />
-                        <MenuItem Header="_Settings" Click="MenuItemSettings_OnClick">
+                        <MenuItem Click="MenuItemSettings_OnClick" Header="_Settings">
                             <MenuItem.Icon>
                                 <ui:SymbolIcon Symbol="Setting" />
                             </MenuItem.Icon>
                         </MenuItem>
                     </MenuItem>
                     <MenuItem Header="_Help">
-                        <MenuItem Header="Documentation" Click="MenuItemDocumentation_Click">
+                        <MenuItem Click="MenuItemDocumentation_Click" Header="Documentation">
                             <MenuItem.Icon>
                                 <ui:SymbolIcon Symbol="Link" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="Hash Commands" Click="MenuItemHashCommands_Click">
+                        <MenuItem Click="MenuItemHashCommands_Click" Header="Hash Commands">
                             <MenuItem.Icon>
                                 <ui:SymbolIcon Symbol="Link" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="Lua" Click="MenuItemLua_Click">
+                        <MenuItem Click="MenuItemLua_Click" Header="Lua">
                             <MenuItem.Icon>
                                 <ui:SymbolIcon Symbol="Link" />
                             </MenuItem.Icon>
                         </MenuItem>
                         <Separator />
-                        <MenuItem Header="Source Code" Click="MenuItemSourceCode_Click">
+                        <MenuItem Click="MenuItemSourceCode_Click" Header="Source Code">
                             <MenuItem.Icon>
                                 <ui:FontIcon Glyph="&#xE943;" />
                             </MenuItem.Icon>
                         </MenuItem>
                         <Separator />
-                        <MenuItem x:Name="MenuItemUpdateClient" Header="Update Client and Plugins" Click="MenuItemUpdateClient_Click">
+                        <MenuItem
+                            Click="MenuItemUpdateClient_Click"
+                            Header="Update Client and Plugins"
+                            x:Name="MenuItemUpdateClient">
                             <MenuItem.Icon>
-                                <ui:SymbolIcon Symbol="Download"></ui:SymbolIcon>
+                                <ui:SymbolIcon Symbol="Download" />
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="Update Plugins" Click="MenuItemUpdatePlugins_Click">
+                        <MenuItem Click="MenuItemUpdatePlugins_Click" Header="Update Plugins">
                             <MenuItem.Icon>
-                                <ui:SymbolIcon Symbol="Download"></ui:SymbolIcon>
+                                <ui:SymbolIcon Symbol="Download" />
                             </MenuItem.Icon>
                         </MenuItem>
                     </MenuItem>
                 </Menu>
 
-                <!-- Right hand quick settings bar ... -->
-                <ui:CommandBar x:Name="PrimaryCommandBar" Grid.Row="0" Grid.Column="1" 
-                               BorderBrush="Gray" 
-                               BorderThickness="0,0,0,.9" 
-                               Background="{StaticResource BrushWindowBackground}">
+                <!--  Right hand quick settings bar ...  -->
+                <ui:CommandBar
+                    Background="{StaticResource BrushWindowBackground}"
+                    BorderBrush="Gray"
+                    BorderThickness="0,0,0,.9"
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    x:Name="PrimaryCommandBar">
                     <ui:CommandBar.SecondaryCommands>
-                        <ui:AppBarToggleButton x:Name="ButtonAliasesEnabled"
-                                               IsChecked="{Binding Path=ProfileSettings.AliasesEnabled}"
-                                               Icon="Shuffle" 
-                                               Label="Aliases Enabled" />
-                        <ui:AppBarToggleButton x:Name="ButtonTriggersEnabled"
-                                               IsChecked="{Binding Path=ProfileSettings.TriggersEnabled}"
-                                               Icon="Directions"
-                                               Label="Triggers Enabled" />
-                        <ui:AppBarToggleButton x:Name="ButtonReplacementTriggersEnabled"
-                                               IsChecked="{Binding Path=ProfileSettings.ReplacementTriggersEnabled}"
-                                               Icon="Rename"
-                                               Label="Replacement Triggers Enabled" />
+                        <ui:AppBarToggleButton
+                            Icon="Shuffle"
+                            IsChecked="{Binding Path=ProfileSettings.AliasesEnabled}"
+                            Label="Aliases Enabled"
+                            x:Name="ButtonAliasesEnabled" />
+                        <ui:AppBarToggleButton
+                            Icon="Directions"
+                            IsChecked="{Binding Path=ProfileSettings.TriggersEnabled}"
+                            Label="Triggers Enabled"
+                            x:Name="ButtonTriggersEnabled" />
+                        <ui:AppBarToggleButton
+                            Icon="Rename"
+                            IsChecked="{Binding Path=ProfileSettings.ReplacementTriggersEnabled}"
+                            Label="Replacement Triggers Enabled"
+                            x:Name="ButtonReplacementTriggersEnabled" />
                         <ui:AppBarSeparator />
-                        <ui:AppBarToggleButton x:Name="ButtonVariableRepeaterVisible" 
-                                               IsChecked="{Binding Path=AvalonSettings.VariableRepeaterVisible}"
-                                               Icon="Account" 
-                                               Label="Variable Repeater Visible" 
-                                               Click="ButtonVariableRepeaterVisible_Click" />
+                        <ui:AppBarToggleButton
+                            Click="ButtonVariableRepeaterVisible_Click"
+                            Icon="Account"
+                            IsChecked="{Binding Path=AvalonSettings.VariableRepeaterVisible}"
+                            Label="Variable Repeater Visible"
+                            x:Name="ButtonVariableRepeaterVisible" />
                         <ui:AppBarSeparator />
-                        <ui:AppBarToggleButton x:Name="ButtonCustomTab1Visible" 
-                                               IsChecked="{Binding Path=AvalonSettings.CustomTab1Visible}"
-                                               Icon="PreviewLink" 
-                                               Label="{Binding Path=AvalonSettings.CustomTab1Label}" />
-                        <ui:AppBarToggleButton x:Name="ButtonCustomTab2Visible" 
-                                               IsChecked="{Binding Path=AvalonSettings.CustomTab2Visible}"
-                                               Icon="PreviewLink" 
-                                               Label="{Binding Path=AvalonSettings.CustomTab2Label}" />
-                        <ui:AppBarToggleButton x:Name="ButtonCustomTab3Visible"
-                                               IsChecked="{Binding Path=AvalonSettings.CustomTab3Visible}"
-                                               Icon="PreviewLink" 
-                                               Label="{Binding Path=AvalonSettings.CustomTab3Label}" />
+                        <ui:AppBarToggleButton
+                            Icon="PreviewLink"
+                            IsChecked="{Binding Path=AvalonSettings.CustomTab1Visible}"
+                            Label="{Binding Path=AvalonSettings.CustomTab1Label}"
+                            x:Name="ButtonCustomTab1Visible" />
+                        <ui:AppBarToggleButton
+                            Icon="PreviewLink"
+                            IsChecked="{Binding Path=AvalonSettings.CustomTab2Visible}"
+                            Label="{Binding Path=AvalonSettings.CustomTab2Label}"
+                            x:Name="ButtonCustomTab2Visible" />
+                        <ui:AppBarToggleButton
+                            Icon="PreviewLink"
+                            IsChecked="{Binding Path=AvalonSettings.CustomTab3Visible}"
+                            Label="{Binding Path=AvalonSettings.CustomTab3Label}"
+                            x:Name="ButtonCustomTab3Visible" />
                     </ui:CommandBar.SecondaryCommands>
                 </ui:CommandBar>
 
-                <!-- UniformGrid used to split the main terminal and the back buffer into two when 
-                     the back buffer is visible -->
-                <UniformGrid Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Columns="1">
-                    <controls:AvalonTerminal x:Name="GameBackBufferTerminal" x:FieldModifier="public"
-                            Visibility="Collapsed"
-                            DockPanel.Dock="Top"
-                            ShowLineNumbers="{Binding AvalonSettings.ShowLineNumbersInGameTerminal}"
-                            FontSize="{Binding AvalonSettings.TerminalFontSize}"
-                            WordWrap="{Binding AvalonSettings.WordWrapTerminals}"
-                            FontFamily="{Binding TerminalFontFamily}"
-                            IsReadOnly="True"
-                            Padding="10,0,20,0"
-                            BorderThickness=".9,0,0,1"
-                            Background="Black" Foreground="LightGray"
-                            BorderBrush="#444444"
-                            ScrollViewer.PanningMode="VerticalOnly"
-                            ContextMenu="{StaticResource AvalonTerminalContextMenu}"
-                            PreviewMouseWheel="GameBackBufferTerminal_PreviewMouseWheel"
-                            KeyDown="Terminal_OnKeyDown"
-                            PreviewKeyDown="GameTerminal_PreviewKeyDown">
-                    </controls:AvalonTerminal>
+                <!--
+                    UniformGrid used to split the main terminal and the back buffer into two when
+                    the back buffer is visible
+                -->
+                <UniformGrid
+                    Columns="1"
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    Grid.RowSpan="3">
+                    <controls:AvalonTerminal
+                        Background="Black"
+                        BorderBrush="#444444"
+                        BorderThickness=".9,0,0,1"
+                        ContextMenu="{StaticResource AvalonTerminalContextMenu}"
+                        DockPanel.Dock="Top"
+                        FontFamily="{Binding TerminalFontFamily}"
+                        FontSize="{Binding AvalonSettings.TerminalFontSize}"
+                        Foreground="LightGray"
+                        IsReadOnly="True"
+                        KeyDown="Terminal_OnKeyDown"
+                        Padding="10,0,20,0"
+                        PreviewKeyDown="GameTerminal_PreviewKeyDown"
+                        PreviewMouseWheel="GameBackBufferTerminal_PreviewMouseWheel"
+                        ScrollViewer.PanningMode="VerticalOnly"
+                        ShowLineNumbers="{Binding AvalonSettings.ShowLineNumbersInGameTerminal}"
+                        Visibility="Collapsed"
+                        WordWrap="{Binding AvalonSettings.WordWrapTerminals}"
+                        x:FieldModifier="public"
+                        x:Name="GameBackBufferTerminal" />
 
-                    <controls:AvalonTerminal x:Name="GameTerminal" x:FieldModifier="public"
-                            DockPanel.Dock="Bottom"
-                            ShowLineNumbers="{Binding AvalonSettings.ShowLineNumbersInGameTerminal}"
-                            FontSize="{Binding AvalonSettings.TerminalFontSize}"
-                            WordWrap="{Binding AvalonSettings.WordWrapTerminals}"
-                            FontFamily="{Binding TerminalFontFamily}"
-                            IsReadOnly="True"
-                            Padding="10,0,20,0"
-                            Background="Black" Foreground="LightGray"
-                            BorderBrush="#444444" BorderThickness=".9,0,0,0"                                                                                                  
-                            ScrollViewer.PanningMode="VerticalOnly"                                                 
-                            ContextMenu="{StaticResource AvalonTerminalContextMenu}"                            
-                            PreviewMouseWheel="GameTerminal_PreviewMouseWheel"
-                            KeyDown="Terminal_OnKeyDown"
-                            PreviewKeyDown="GameTerminal_PreviewKeyDown">
-                    </controls:AvalonTerminal>
+                    <controls:AvalonTerminal
+                        Background="Black"
+                        BorderBrush="#444444"
+                        BorderThickness=".9,0,0,0"
+                        ContextMenu="{StaticResource AvalonTerminalContextMenu}"
+                        DockPanel.Dock="Bottom"
+                        FontFamily="{Binding TerminalFontFamily}"
+                        FontSize="{Binding AvalonSettings.TerminalFontSize}"
+                        Foreground="LightGray"
+                        IsReadOnly="True"
+                        KeyDown="Terminal_OnKeyDown"
+                        Padding="10,0,20,0"
+                        PreviewKeyDown="GameTerminal_PreviewKeyDown"
+                        PreviewMouseWheel="GameTerminal_PreviewMouseWheel"
+                        ScrollViewer.PanningMode="VerticalOnly"
+                        ShowLineNumbers="{Binding AvalonSettings.ShowLineNumbersInGameTerminal}"
+                        WordWrap="{Binding AvalonSettings.WordWrapTerminals}"
+                        x:FieldModifier="public"
+                        x:Name="GameTerminal" />
                 </UniformGrid>
 
-                <!-- Panel with all of the additional text terminals -->
-                <Border x:Name="Panel2" Grid.Row="1" Grid.Column="1" 
-                            x:FieldModifier="public"
-                            Margin="0" BorderThickness=".9,.9,0,0" BorderBrush="#444444">
-                    <controls:TabControlEx x:Name="TabCustom" Margin="0,0,0,0" SelectionChanged="TabCustom_SelectionChanged">
+                <!--  Panel with all of the additional text terminals  -->
+                <Border
+                    BorderBrush="#444444"
+                    BorderThickness=".9,.9,0,0"
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Margin="0"
+                    x:FieldModifier="public"
+                    x:Name="Panel2">
+                    <controls:TabControlEx
+                        Margin="0,0,0,0"
+                        SelectionChanged="TabCustom_SelectionChanged"
+                        x:Name="TabCustom">
                         <TabControl.Resources>
                             <ResourceDictionary>
                                 <ResourceDictionary.MergedDictionaries>
@@ -467,182 +644,249 @@
                                 </ResourceDictionary.MergedDictionaries>
                             </ResourceDictionary>
                         </TabControl.Resources>
-                        <controls:TabItemEx x:Name="CustomTab1"
-                                            Visibility="{Binding Path=AvalonSettings.CustomTab1Visible, Converter={StaticResource ResourceKey=BoolToVisConverter}}">
+                        <controls:TabItemEx Visibility="{Binding Path=AvalonSettings.CustomTab1Visible, Converter={StaticResource ResourceKey=BoolToVisConverter}}" x:Name="CustomTab1">
                             <controls:TabItemEx.Header>
                                 <ui:SimpleStackPanel Orientation="Horizontal">
-                                    <Label x:Name="CustomTab1Label" 
-                                           x:FieldModifier="public" 
-                                           Content="{Binding Path=AvalonSettings.CustomTab1Label}"
-                                           FontWeight="SemiBold" 
-                                           FontFamily="Segoe UI"
-                                           FontSize="14" />
-                                    <controls:Badge x:Name="CustomTab1Badge" x:FieldModifier="public" />
+                                    <Label
+                                        Content="{Binding Path=AvalonSettings.CustomTab1Label}"
+                                        FontFamily="Segoe UI"
+                                        FontSize="14"
+                                        FontWeight="SemiBold"
+                                        x:FieldModifier="public"
+                                        x:Name="CustomTab1Label" />
+                                    <controls:Badge x:FieldModifier="public" x:Name="CustomTab1Badge" />
                                 </ui:SimpleStackPanel>
                             </controls:TabItemEx.Header>
                             <controls:AvalonTerminal
-                                    x:Name="Terminal1" ShowLineNumbers="False" GagEnabled="False"
-                                    IsReadOnly="True"
-                                    Padding="10,0,20,0"
-                                    Background="Black" Foreground="LightGray"
-                                    FontFamily="{Binding TerminalFontFamily}"
-                                    FontSize="{Binding AvalonSettings.TerminalFontSize}"
-                                    WordWrap="{Binding AvalonSettings.WordWrapTerminals}"
-                                    ScrollViewer.PanningMode="VerticalOnly"
-                                    VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible"
-                                    ContextMenu="{StaticResource AvalonTerminalContextMenu}"
-                                    ScrollViewer.ScrollChanged="CommTerminal_ScrollChanged"
-                                    KeyDown="Terminal_OnKeyDown">
-                            </controls:AvalonTerminal>
+                                Background="Black"
+                                ContextMenu="{StaticResource AvalonTerminalContextMenu}"
+                                FontFamily="{Binding TerminalFontFamily}"
+                                FontSize="{Binding AvalonSettings.TerminalFontSize}"
+                                Foreground="LightGray"
+                                GagEnabled="False"
+                                HorizontalScrollBarVisibility="Visible"
+                                IsReadOnly="True"
+                                KeyDown="Terminal_OnKeyDown"
+                                Padding="10,0,20,0"
+                                ScrollViewer.PanningMode="VerticalOnly"
+                                ScrollViewer.ScrollChanged="CommTerminal_ScrollChanged"
+                                ShowLineNumbers="False"
+                                VerticalScrollBarVisibility="Visible"
+                                WordWrap="{Binding AvalonSettings.WordWrapTerminals}"
+                                x:Name="Terminal1" />
                         </controls:TabItemEx>
-                        <controls:TabItemEx x:Name="CustomTab2"
-                                            Visibility="{Binding Path=AvalonSettings.CustomTab2Visible, Converter={StaticResource ResourceKey=BoolToVisConverter}}">
+                        <controls:TabItemEx Visibility="{Binding Path=AvalonSettings.CustomTab2Visible, Converter={StaticResource ResourceKey=BoolToVisConverter}}" x:Name="CustomTab2">
                             <controls:TabItemEx.Header>
                                 <ui:SimpleStackPanel Orientation="Horizontal">
-                                    <Label x:Name="CustomTab2Label"
-                                           x:FieldModifier="public"
-                                           Content="{Binding Path=AvalonSettings.CustomTab2Label}"
-                                           FontWeight="SemiBold"
-                                           FontFamily="Segoe UI"
-                                           FontSize="14" />
-                                    <controls:Badge x:Name="CustomTab2Badge" x:FieldModifier="public"></controls:Badge>
+                                    <Label
+                                        Content="{Binding Path=AvalonSettings.CustomTab2Label}"
+                                        FontFamily="Segoe UI"
+                                        FontSize="14"
+                                        FontWeight="SemiBold"
+                                        x:FieldModifier="public"
+                                        x:Name="CustomTab2Label" />
+                                    <controls:Badge x:FieldModifier="public" x:Name="CustomTab2Badge" />
                                 </ui:SimpleStackPanel>
                             </controls:TabItemEx.Header>
                             <controls:AvalonTerminal
-                                    x:Name="Terminal2" ShowLineNumbers="False" GagEnabled="False"
-                                    IsReadOnly="True"
-                                    Background="Black" Foreground="LightGray"
-                                    Padding="10,0,20,0"
-                                    FontFamily="{Binding TerminalFontFamily}"
-                                    FontSize="{Binding AvalonSettings.TerminalFontSize}"
-                                    WordWrap="{Binding AvalonSettings.WordWrapTerminals}"
-                                    ScrollViewer.PanningMode="VerticalOnly"
-                                    ContextMenu="{StaticResource AvalonTerminalContextMenu}"
-                                    ScrollViewer.ScrollChanged="CommTerminal_ScrollChanged"
-                                    KeyDown="Terminal_OnKeyDown">
-                            </controls:AvalonTerminal>
+                                Background="Black"
+                                ContextMenu="{StaticResource AvalonTerminalContextMenu}"
+                                FontFamily="{Binding TerminalFontFamily}"
+                                FontSize="{Binding AvalonSettings.TerminalFontSize}"
+                                Foreground="LightGray"
+                                GagEnabled="False"
+                                IsReadOnly="True"
+                                KeyDown="Terminal_OnKeyDown"
+                                Padding="10,0,20,0"
+                                ScrollViewer.PanningMode="VerticalOnly"
+                                ScrollViewer.ScrollChanged="CommTerminal_ScrollChanged"
+                                ShowLineNumbers="False"
+                                WordWrap="{Binding AvalonSettings.WordWrapTerminals}"
+                                x:Name="Terminal2" />
                         </controls:TabItemEx>
-                        <controls:TabItemEx x:Name="CustomTab3"
-                                            Visibility="{Binding Path=AvalonSettings.CustomTab3Visible, Converter={StaticResource ResourceKey=BoolToVisConverter}}">
+                        <controls:TabItemEx Visibility="{Binding Path=AvalonSettings.CustomTab3Visible, Converter={StaticResource ResourceKey=BoolToVisConverter}}" x:Name="CustomTab3">
                             <controls:TabItemEx.Header>
                                 <ui:SimpleStackPanel Orientation="Horizontal">
-                                    <Label x:Name="CustomTab3Label"
-                                           x:FieldModifier="public"
-                                           Content="{Binding Path=AvalonSettings.CustomTab3Label}"
-                                           FontWeight="SemiBold"
-                                           FontFamily="Segoe UI"
-                                           FontSize="14" />
-                                    <controls:Badge x:Name="CustomTab3Badge" x:FieldModifier="public"></controls:Badge>
+                                    <Label
+                                        Content="{Binding Path=AvalonSettings.CustomTab3Label}"
+                                        FontFamily="Segoe UI"
+                                        FontSize="14"
+                                        FontWeight="SemiBold"
+                                        x:FieldModifier="public"
+                                        x:Name="CustomTab3Label" />
+                                    <controls:Badge x:FieldModifier="public" x:Name="CustomTab3Badge" />
                                 </ui:SimpleStackPanel>
                             </controls:TabItemEx.Header>
                             <controls:AvalonTerminal
-                                    x:Name="Terminal3" ShowLineNumbers="False" GagEnabled="False"
-                                    IsReadOnly="True"
-                                    Background="Black" Foreground="LightGray"
-                                    Padding="10,0,20,0"
-                                    FontFamily="{Binding TerminalFontFamily}"
-                                    FontSize="{Binding AvalonSettings.TerminalFontSize}"
-                                    WordWrap="{Binding AvalonSettings.WordWrapTerminals}"
-                                    ScrollViewer.PanningMode="VerticalOnly"
-                                    ContextMenu="{StaticResource AvalonTerminalContextMenu}"
-                                    ScrollViewer.ScrollChanged="CommTerminal_ScrollChanged"
-                                    KeyDown="Terminal_OnKeyDown">
-                            </controls:AvalonTerminal>
+                                Background="Black"
+                                ContextMenu="{StaticResource AvalonTerminalContextMenu}"
+                                FontFamily="{Binding TerminalFontFamily}"
+                                FontSize="{Binding AvalonSettings.TerminalFontSize}"
+                                Foreground="LightGray"
+                                GagEnabled="False"
+                                IsReadOnly="True"
+                                KeyDown="Terminal_OnKeyDown"
+                                Padding="10,0,20,0"
+                                ScrollViewer.PanningMode="VerticalOnly"
+                                ScrollViewer.ScrollChanged="CommTerminal_ScrollChanged"
+                                ShowLineNumbers="False"
+                                WordWrap="{Binding AvalonSettings.WordWrapTerminals}"
+                                x:Name="Terminal3" />
                         </controls:TabItemEx>
                         <controls:TabItemEx>
                             <controls:TabItemEx.Header>
                                 <ui:SimpleStackPanel Orientation="Horizontal">
-                                    <Label FontWeight="SemiBold" FontFamily="Segoe UI" FontSize="14" Margin="0,0,15,0">Lua</Label>
+                                    <Label
+                                        FontFamily="Segoe UI"
+                                        FontSize="14"
+                                        FontWeight="SemiBold"
+                                        Margin="0,0,15,0">
+                                        Lua
+                                    </Label>
                                 </ui:SimpleStackPanel>
                             </controls:TabItemEx.Header>
-                            <controls:AvalonLuaEditor x:Name="LuaEditor" SaveButtonVisibility="Collapsed"></controls:AvalonLuaEditor>
+                            <controls:AvalonLuaEditor SaveButtonVisibility="Collapsed" x:Name="LuaEditor" />
                         </controls:TabItemEx>
                     </controls:TabControlEx>
                 </Border>
 
-                <!-- Progress Bar Repeater -->
-                <Border x:Name="Panel1" Grid.Row="2" Grid.Column="1"
-                            x:FieldModifier="public" 
-                            Margin="0" Padding="0" BorderThickness=".9,.9,0,0" BorderBrush="#444444">
-                    <controls:BarRepeater x:Name="BarRepeater" x:FieldModifier="public" 
-                                              Margin="0,0,0,0" EnableMouseClick="True"
-                                              ></controls:BarRepeater>
+                <!--  Progress Bar Repeater  -->
+                <Border
+                    BorderBrush="#444444"
+                    BorderThickness=".9,.9,0,0"
+                    Grid.Column="1"
+                    Grid.Row="2"
+                    Margin="0"
+                    Padding="0"
+                    x:FieldModifier="public"
+                    x:Name="Panel1">
+                    <controls:BarRepeater
+                        EnableMouseClick="True"
+                        Margin="0,0,0,0"
+                        x:FieldModifier="public"
+                        x:Name="BarRepeater" />
                 </Border>
 
-                <!-- Variable Repeater -->
-                <Border x:Name="VariableRepeaterBorder" 
-                        Grid.Row="3" Grid.RowSpan="3" Grid.Column="1"                            
+                <!--  Variable Repeater  -->
+                <Border
+                    Background="{StaticResource BrushWindowBackground}"
+                    BorderBrush="#444444"
+                    BorderThickness=".9,.9,0,0"
+                    Grid.Column="1"
+                    Grid.Row="3"
+                    Grid.RowSpan="3"
+                    Visibility="{Binding Path=AvalonSettings.VariableRepeaterVisible, Converter={StaticResource ResourceKey=BoolToVisConverter}}"
+                    x:Name="VariableRepeaterBorder">
+                    <controls:VariableRepeater
                         Visibility="{Binding Path=AvalonSettings.VariableRepeaterVisible, Converter={StaticResource ResourceKey=BoolToVisConverter}}"
+                        x:FieldModifier="public"
+                        x:Name="VariableRepeater" />
+                </Border>
+
+                <!--  Info Bar  -->
+                <Border
+                    BorderBrush="#444444"
+                    BorderThickness=".9,.9,0,0"
+                    Grid.Column="0"
+                    Grid.Row="4"
+                    x:Name="BorderInfoBar">
+                    <controls:InfoBar
                         Background="{StaticResource BrushWindowBackground}"
-                        BorderThickness=".9,.9,0,0"
-                        BorderBrush="#444444">
-                    <controls:VariableRepeater x:Name="VariableRepeater"
-                                               x:FieldModifier="public"
-                                               Visibility="{Binding Path=AvalonSettings.VariableRepeaterVisible, Converter={StaticResource ResourceKey=BoolToVisConverter}}" />
+                        x:FieldModifier="public"
+                        x:Name="InfoBar" />
                 </Border>
 
-                <!-- Info Bar -->
-                <Border x:Name="BorderInfoBar" Grid.Row="4" Grid.Column="0" BorderBrush="#444444" BorderThickness=".9,.9,0,0">
-                    <controls:InfoBar x:Name="InfoBar" x:FieldModifier="public" Background="{StaticResource BrushWindowBackground}"></controls:InfoBar>
+                <!--  Text input auto complete box  -->
+                <Border
+                    BorderBrush="#444444"
+                    BorderThickness=".0,0,0,0"
+                    Grid.Column="0"
+                    Grid.Row="5"
+                    x:Name="BorderTextInput">
+                    <editors:AutoCompleteTextBox
+                        AcceptsTab="True"
+                        CharacterCasing="Normal"
+                        Delay="300"
+                        DisplayMember="Command"
+                        HorizontalAlignment="Stretch"
+                        ItemTemplate="{StaticResource ResourceKey=AutoCompleteCommandTemplate}"
+                        Provider="{StaticResource ResourceKey=AutoCompleteCommandProvider}"
+                        SpellCheckEnabled="{Binding Path=SpellCheckEnabled}"
+                        Style="{StaticResource MaterialAutoCompleteTextBox}"
+                        Text=""
+                        VerticalAlignment="Bottom"
+                        ui:ControlHelper.CornerRadius="0"
+                        x:Name="TextInput" />
                 </Border>
 
-                <!-- Text input auto complete box -->
-                <Border x:Name="BorderTextInput" Grid.Row="5" Grid.Column="0" BorderBrush="#444444" BorderThickness=".0,0,0,0">
-                    <editors:AutoCompleteTextBox x:Name="TextInput" Delay="300"
-                                                  VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
-                                                  ui:ControlHelper.CornerRadius="0"
-                                                  Text=""
-                                                  CharacterCasing="Normal"
-                                                  DisplayMember="Command"
-                                                  AcceptsTab="True"
-                                                  Style="{StaticResource MaterialAutoCompleteTextBox}"
-                                                  SpellCheckEnabled="{Binding Path= SpellCheckEnabled}"
-                                                  Provider="{StaticResource ResourceKey=AutoCompleteCommandProvider}"
-                                                  ItemTemplate="{StaticResource ResourceKey=AutoCompleteCommandTemplate}">
-                    </editors:AutoCompleteTextBox>
-                </Border>
+                <!--  Vertical Splitter  -->
+                <GridSplitter
+                    Background="Transparent"
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    Grid.RowSpan="2"
+                    HorizontalAlignment="Right"
+                    ShowsPreview="True"
+                    VerticalAlignment="Stretch"
+                    Width="3" />
 
-                <!-- Vertical Splitter -->
-                <GridSplitter Grid.Column="0" Grid.Row="1" Grid.RowSpan="2"
-                                  HorizontalAlignment="Right" VerticalAlignment="Stretch"
-                                  Background="Transparent" 
-                                  ShowsPreview="True"
-                                  Width="3" />
+                <!--  Horizontal Splitter  -->
+                <GridSplitter
+                    Background="Transparent"
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Height="3"
+                    HorizontalAlignment="Stretch"
+                    ResizeDirection="Rows"
+                    ShowsPreview="True"
+                    VerticalAlignment="Bottom" />
 
-                <!-- Horizontal Splitter -->
-                <GridSplitter Grid.Row="1" Grid.Column="1"
-                                  ResizeDirection="Rows"
-                                  HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
-                                  Background="Transparent" 
-                                  ShowsPreview="True"
-                                  Height="3" />
-
-                <!-- Horizontal Splitter -->
-                <GridSplitter Grid.Row="2" Grid.Column="1"
-                                  ResizeDirection="Rows"
-                                  HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
-                                  Background="Transparent" 
-                                  ShowsPreview="True"
-                                  Height="3" />
+                <!--  Horizontal Splitter  -->
+                <GridSplitter
+                    Background="Transparent"
+                    Grid.Column="1"
+                    Grid.Row="2"
+                    Height="3"
+                    HorizontalAlignment="Stretch"
+                    ResizeDirection="Rows"
+                    ShowsPreview="True"
+                    VerticalAlignment="Bottom" />
 
             </Grid>
         </ui:SplitView>
 
-        <!-- Status Bar -->
-        <!-- #007ACC, #CA5100, #8A179A, #121112 -->
-        <StatusBar Grid.Row="2" Background="{StaticResource BrushAccent}" Foreground="White" BorderBrush="#444444" BorderThickness="0,.9,0,0">
-            <StatusBarItem Width="47">
-            </StatusBarItem>
-            <Separator Width=".9" Height="19" Margin="3,0,0,0" Visibility="{Binding Path=StatusBarSeparatorVisibility}" />
+        <!--  Status Bar  -->
+        <!--  #007ACC, #CA5100, #8A179A, #121112  -->
+        <StatusBar
+            Background="{StaticResource BrushAccent}"
+            BorderBrush="#444444"
+            BorderThickness="0,.9,0,0"
+            Foreground="White"
+            Grid.Row="2">
+            <StatusBarItem Width="47" />
+            <Separator
+                Height="19"
+                Margin="3,0,0,0"
+                Visibility="{Binding Path=StatusBarSeparatorVisibility}"
+                Width=".9" />
             <StatusBarItem>
-                <Button FontFamily="Segoe UI" FontSize="12" Cursor="Hand">
+                <Button
+                    Cursor="Hand"
+                    FontFamily="Segoe UI"
+                    FontSize="12">
                     <Button.Template>
                         <ControlTemplate>
-                            <!-- Transparent background allows margin to participate in the hit test for the cursor -->
-                            <ui:SimpleStackPanel Orientation="Horizontal" Background="Transparent">
-                                <iconPacks:PackIconMaterial Kind="{Binding Path=StatusBarTextIconKind}" Margin="5,0,0,0" Visibility="{Binding Path=StatusBarTextIconVisibility}" />
-                                <TextBlock Margin="5, 0, 0, 0" FontFamily="Segoe UI" FontSize="12"
-                                           Text="{Binding Path= StatusBarText}"></TextBlock>
+                            <!--  Transparent background allows margin to participate in the hit test for the cursor  -->
+                            <ui:SimpleStackPanel Background="Transparent" Orientation="Horizontal">
+                                <iconPacks:PackIconMaterial
+                                    Kind="{Binding Path=StatusBarTextIconKind}"
+                                    Margin="5,0,0,0"
+                                    Visibility="{Binding Path=StatusBarTextIconVisibility}" />
+                                <TextBlock
+                                    FontFamily="Segoe UI"
+                                    FontSize="12"
+                                    Margin="5,0,0,0"
+                                    Text="{Binding Path=StatusBarText}" />
                             </ui:SimpleStackPanel>
                         </ControlTemplate>
                     </Button.Template>
@@ -650,42 +894,51 @@
             </StatusBarItem>
             <StatusBarItem DockPanel.Dock="Right">
                 <ui:SimpleStackPanel Orientation="Horizontal">
-                    <Button FontFamily="Segoe UI" FontSize="12" Click="SqlStatus_OnClick" Cursor="Hand">
+                    <Button
+                        Click="SqlStatus_OnClick"
+                        Cursor="Hand"
+                        FontFamily="Segoe UI"
+                        FontSize="12">
                         <Button.Template>
                             <ControlTemplate>
-                                <!-- Transparent background allows margin to participate in the hit test for the cursor -->
-                                <ui:SimpleStackPanel Orientation="Horizontal" Background="Transparent">
+                                <!--  Transparent background allows margin to participate in the hit test for the cursor  -->
+                                <ui:SimpleStackPanel Background="Transparent" Orientation="Horizontal">
                                     <iconPacks:PackIconMaterial Kind="Database" Margin="10,0,0,0" />
-                                    <TextBlock Margin="5, 0, 0, 0">Database:</TextBlock>
-                                    <TextBlock Margin="5, 0, 0, 0"
-                                               Text="{Binding Path= PendingSqlStatements}"></TextBlock>
+                                    <TextBlock Margin="5,0,0,0">Database:</TextBlock>
+                                    <TextBlock Margin="5,0,0,0" Text="{Binding Path=PendingSqlStatements}" />
                                 </ui:SimpleStackPanel>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
 
-                    <Button FontFamily="Segoe UI" FontSize="12" Click="LuaStatus_OnClick" Cursor="Hand">
+                    <Button
+                        Click="LuaStatus_OnClick"
+                        Cursor="Hand"
+                        FontFamily="Segoe UI"
+                        FontSize="12">
                         <Button.Template>
                             <ControlTemplate>
-                                <!-- Transparent background allows margin to participate in the hit test for the cursor -->
-                                <ui:SimpleStackPanel Orientation="Horizontal" Background="Transparent">
+                                <!--  Transparent background allows margin to participate in the hit test for the cursor  -->
+                                <ui:SimpleStackPanel Background="Transparent" Orientation="Horizontal">
                                     <iconPacks:PackIconMaterial Kind="LanguageLua" Margin="10,0,0,0" />
-                                    <TextBlock Margin="5, 0, 0, 0">Lua:</TextBlock>
-                                    <TextBlock Margin="5, 0, 0, 0"
-                                               Text="{Binding Path= LuaScriptsActive}"></TextBlock>
+                                    <TextBlock Margin="5,0,0,0">Lua:</TextBlock>
+                                    <TextBlock Margin="5,0,0,0" Text="{Binding Path=LuaScriptsActive}" />
                                 </ui:SimpleStackPanel>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
 
-                    <Button FontFamily="Segoe UI" FontSize="12" Click="ScheduledTaskStatus_OnClick" Cursor="Hand">
+                    <Button
+                        Click="ScheduledTaskStatus_OnClick"
+                        Cursor="Hand"
+                        FontFamily="Segoe UI"
+                        FontSize="12">
                         <Button.Template>
                             <ControlTemplate>
-                                <ui:SimpleStackPanel Orientation="Horizontal" Background="Transparent">
+                                <ui:SimpleStackPanel Background="Transparent" Orientation="Horizontal">
                                     <iconPacks:PackIconMaterial Kind="CalendarCheck" Margin="10,0,0,0" />
                                     <TextBlock Margin="5,0,0,0">Scheduled Tasks:</TextBlock>
-                                    <TextBlock Margin="5, 0, 0, 0" 
-                                               Text="{Binding Path= ScheduledTasksActive}"></TextBlock>
+                                    <TextBlock Margin="5,0,0,0" Text="{Binding Path=ScheduledTasksActive}" />
                                 </ui:SimpleStackPanel>
                             </ControlTemplate>
                         </Button.Template>
@@ -693,18 +946,19 @@
                 </ui:SimpleStackPanel>
             </StatusBarItem>
             <StatusBarItem>
-                <TextBlock></TextBlock>
+                <TextBlock />
             </StatusBarItem>
         </StatusBar>
 
-        <!-- AutoComplete Popup -->
-        <Popup x:Name="PopupAutoComplete"
-               IsOpen="false"
-               Placement="Left">
-            <ListBox x:Name="PopupAutoCompleteListBox"
-                     LostFocus="PopupAutoCompleteListBox_OnLostFocus"
-                     KeyDown="PopupAutoCompleteListBox_OnKeyDown">
-            </ListBox>
+        <!--  AutoComplete Popup  -->
+        <Popup
+            IsOpen="false"
+            Placement="Left"
+            x:Name="PopupAutoComplete">
+            <ListBox
+                KeyDown="PopupAutoCompleteListBox_OnKeyDown"
+                LostFocus="PopupAutoCompleteListBox_OnLostFocus"
+                x:Name="PopupAutoCompleteListBox" />
         </Popup>
     </Grid>
 </Window>
