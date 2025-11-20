@@ -183,7 +183,7 @@ namespace Avalon
         /// <param name="text"></param>
         public string ReplaceVariablesWithValue(string text)
         {
-            if (text == null)
+            if (string.IsNullOrEmpty(text))
             {
                 return "";
             }
