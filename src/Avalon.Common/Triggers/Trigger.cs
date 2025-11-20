@@ -240,11 +240,11 @@ namespace Avalon.Common.Triggers
             get => _pattern;
             set
             {
+
                 try
                 {
-                    // Only set the pattern if it compiled.
-                    // this.Regex = new Regex(value, RegexOptions.Compiled);
-                    // _pattern = value;
+                    this.Regex = new Regex(value, RegexOptions.Compiled);
+                    _pattern = value;
                     OnPropertyChanged(nameof(Pattern));
                 }
                 catch (Exception ex)
