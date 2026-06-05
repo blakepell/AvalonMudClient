@@ -1761,7 +1761,7 @@ namespace Avalon.Lua
         /// <param name="searchText"></param>
         /// <remarks>Either parameter being null returns either the text if it's not null or a blank string if it was null.</remarks>
         [Description("Removes all lines from a string that start with the specified text.")]
-        public string RemoveLinesStartingWith(string text, string searchText)
+        public string RemoveLinesStartingWith(string? text, string? searchText)
         {
             if (text.IsNullOrEmptyOrWhiteSpace() || searchText.IsNullOrEmptyOrWhiteSpace())
             {
@@ -1795,7 +1795,7 @@ namespace Avalon.Lua
         /// <param name="searchText"></param>
         /// <remarks>Either parameter being null returns either the text if it's not null or a blank string if it was null.</remarks>
         [Description("Removes all lines from a string that end with the specified text5.")]
-        public string RemoveLinesEndingWith(string text, string searchText)
+        public string RemoveLinesEndingWith(string? text, string? searchText)
         {
             if (text.IsNullOrEmptyOrWhiteSpace() || searchText.IsNullOrEmptyOrWhiteSpace())
             {
