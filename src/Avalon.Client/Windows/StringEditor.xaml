@@ -1,4 +1,4 @@
-<Window
+﻿<Window
     x:Class="Avalon.StringEditor"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -13,6 +13,7 @@
     Loaded="StringEditorWindow_Loaded"
     TextOptions.TextFormattingMode="Ideal"
     Unloaded="StringEditor_OnUnloaded"
+    Style="{StaticResource MosaicWindow}"
     UseLayoutRounding="True"
     mc:Ignorable="d">
     <Window.Resources>

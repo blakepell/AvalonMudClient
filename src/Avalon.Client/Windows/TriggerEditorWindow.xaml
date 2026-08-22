@@ -9,11 +9,12 @@
     xmlns:utilities="clr-namespace:Avalon.Utilities"
     Title="Trigger Editor"
     Width="820"
-    Height="780"
+    Height="830"
     MinWidth="640"
     MinHeight="480"
     Loaded="TriggerEditorWindow_Loaded"
     TextOptions.TextFormattingMode="Ideal"
+    Style="{StaticResource MosaicWindow}"
     UseLayoutRounding="True"
     mc:Ignorable="d">
     <Grid>

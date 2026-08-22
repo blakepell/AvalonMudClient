@@ -1,4 +1,4 @@
-<Window
+﻿<Window
     x:Class="Avalon.TickCommandEditor"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -12,6 +12,7 @@
     MinHeight="260"
     Loaded="TickCommandEditorWindow_Loaded"
     TextOptions.TextFormattingMode="Ideal"
+    Style="{StaticResource MosaicWindow}"
     UseLayoutRounding="True"
     mc:Ignorable="d">
     <Grid>

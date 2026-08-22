@@ -11,6 +11,7 @@
     MinWidth="600"
     MinHeight="400"
     TextOptions.TextFormattingMode="Ideal"
+    Style="{StaticResource MosaicWindow}"
     UseLayoutRounding="True"
     mc:Ignorable="d">
     <Grid>

@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         xmlns:mosaic="http://schemas.apexgate.net/wpf/mosaic-ui"
+        Style="{StaticResource MosaicWindow}"
         TextOptions.TextFormattingMode="Ideal"
         BorderBrush="{DynamicResource {x:Static mosaic:MosaicTheme.AccentBrush}}"
         xmlns:controls="clr-namespace:Avalon.Controls"
