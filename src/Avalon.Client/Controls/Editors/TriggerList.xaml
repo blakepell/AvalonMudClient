@@ -7,7 +7,7 @@
              xmlns:ui="http://schemas.modernwpf.com/2019"
              xmlns:utilities="clr-namespace:Avalon.Utilities"
              xmlns:models="clr-namespace:Avalon.Common.Models;assembly=Avalon.Common"
-             mc:Ignorable="d" ui:ThemeManager.RequestedTheme="Dark" 
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800"
              Loaded="TriggerList_OnLoaded"
              Unloaded="TriggerList_OnUnloaded">
@@ -69,7 +69,7 @@
             <DataGrid.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="/Resources/DataGridStyles.xaml" />
+                        <ResourceDictionary Source="/Avalon;component/Resources/DataGridStyles.xaml" />
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </DataGrid.Resources>

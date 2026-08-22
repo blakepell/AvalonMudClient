@@ -6,13 +6,13 @@
              xmlns:local="clr-namespace:Avalon.Controls"
              xmlns:ui="http://schemas.modernwpf.com/2019"
              xmlns:editors="clr-namespace:Avalon.Controls.AutoCompleteTextBox.Editors"
-             mc:Ignorable="d" ui:ThemeManager.RequestedTheme="Dark" 
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.Resources>
             <ResourceDictionary>
                 <ResourceDictionary.MergedDictionaries>
-                    <ResourceDictionary Source="/Resources/ColorList.xaml" />
+                    <ResourceDictionary Source="/Avalon;component/Resources/ColorList.xaml" />
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
         </Grid.Resources>
@@ -53,7 +53,7 @@
             <DataGrid.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="/Resources/DataGridReadOnly.xaml" />
+                        <ResourceDictionary Source="/Avalon;component/Resources/DataGridReadOnly.xaml" />
                     </ResourceDictionary.MergedDictionaries>
                     <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource DataGridRowStyle}" />
                 </ResourceDictionary>
@@ -159,4 +159,4 @@
         </DockPanel>
 
     </Grid>
-</local:VariableListBase>    
+</local:VariableListBase>

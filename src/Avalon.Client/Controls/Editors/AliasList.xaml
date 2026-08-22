@@ -7,7 +7,7 @@
              xmlns:models="clr-namespace:Avalon.Common.Models;assembly=Avalon.Common"
              xmlns:local="clr-namespace:Avalon.Controls"
              xmlns:utilities="clr-namespace:Avalon.Utilities"
-             mc:Ignorable="d" ui:ThemeManager.RequestedTheme="Dark" 
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800"
              Loaded="AliasList_OnLoaded"
              Unloaded="AliasList_OnUnloaded">
@@ -56,7 +56,7 @@
             <DataGrid.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="/Resources/DataGridStyles.xaml" />
+                        <ResourceDictionary Source="/Avalon;component/Resources/DataGridStyles.xaml" />
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </DataGrid.Resources>
