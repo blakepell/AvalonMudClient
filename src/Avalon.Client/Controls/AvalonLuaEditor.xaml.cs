@@ -68,12 +68,6 @@ namespace Avalon.Controls
         /// </summary>
         public string SaveProperty { get; set; }
 
-        /// <summary>
-        /// Whether or not the syntax highlighting has been loaded, for use if Loaded is called multiple
-        /// times which seems to be happening when the control is made visible.
-        /// </summary>
-        private bool _isSyntaxLoaded = false;
-
         public AvalonLuaEditor()
         {
             InitializeComponent();
@@ -82,8 +76,8 @@ namespace Avalon.Controls
 
         private void AvalonLuaEditor_OnLoaded(object sender, RoutedEventArgs e)
         {
-            this.SetupLuaEditor();
-            
+            Editor.TextArea.TextEntering -= AvalonLuaEditor_TextEntering;
+            Editor.TextArea.TextEntered -= AvalonLuaEditor_TextEntered;
             Editor.TextArea.TextEntering += AvalonLuaEditor_TextEntering;
             Editor.TextArea.TextEntered += AvalonLuaEditor_TextEntered;
         }
@@ -109,29 +103,6 @@ namespace Avalon.Controls
                     App.Conveyor.EchoError(ex.InnerException.Message);
                 }
             }
-        }
-
-        /// <summary>
-        /// Sets up the syntax highlighting for the interactive Lua editor.
-        /// </summary>
-        public void SetupLuaEditor()
-        {
-            // If the syntax has already been loaded, get out.
-            if (_isSyntaxLoaded)
-            {
-                return;
-            }
-
-            try
-            {
-                LoadSyntaxHighlighting(Editor);
-            }
-            catch (Exception ex)
-            {
-                App.Conveyor.EchoError($"Error setting up Lua syntax highlighting: {ex.Message}");
-            }
-
-            _isSyntaxLoaded = true;
         }
 
         /// <summary>
@@ -201,6 +172,8 @@ namespace Avalon.Controls
         {
             Editor.TextArea.TextEntering -= AvalonLuaEditor_TextEntering;
             Editor.TextArea.TextEntered -= AvalonLuaEditor_TextEntered;
+            _completionWindow?.Close();
+            _completionWindow = null;
         }
 
         private void AvalonLuaEditor_TextEntered(object sender, TextCompositionEventArgs e)
