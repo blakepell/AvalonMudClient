@@ -17,7 +17,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Label">
-                        <Border Name="badgeOuterBorder" CornerRadius="10" BorderBrush="White" BorderThickness="2" Background="#C80103">
+                        <Border x:Name="badgeOuterBorder" CornerRadius="10" BorderBrush="White" BorderThickness="2" Background="#C80103">
                             <Border.RenderTransform>
                                 <!-- 
                                 The TranslateTransform moves the badge so that when used as an Adorner, it bleeds over the upper left

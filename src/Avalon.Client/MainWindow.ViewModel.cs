@@ -191,7 +191,7 @@ namespace Avalon
             
             try
             {
-                if (win.TitleBar.IsConnected == false)
+                if (!win.IsConnected)
                 {
                     await App.MainWindow.Connect();
                 }

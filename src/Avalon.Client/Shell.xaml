@@ -4,51 +4,25 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        xmlns:ui="http://schemas.modernwpf.com/2019"        
-        ui:WindowHelper.UseModernWindowStyle="False"
-        xmlns:vm="clr-namespace:Avalon" xmlns:controls="clr-namespace:Avalon.Controls"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        xmlns:vm="clr-namespace:Avalon"
         d:DataContext ="{d:DesignInstance {x:Type vm:DesignTimeViewModel}, IsDesignTimeCreatable=True}"
         Title="{Binding Path=HeaderTitle}" Height="600" Width="800"
         Closed="ShellWindow_Closed" Loaded="ShellWindow_Loaded"
-        Style="{DynamicResource WindowChrome}"
-        Background="{StaticResource BrushWindowBackground}" 
-        ResizeMode="CanResize" 
-        AllowsTransparency="True"
-        WindowStyle="None"
-        BorderThickness="1"
-        BorderBrush="{StaticResource BrushWindowBorderBrushSecondary}"
+        ResizeMode="CanResize"
         >
-    <Window.Resources>
-        <Style x:Key="WindowChrome">
-            <Setter Property="WindowChrome.WindowChrome">
-                <Setter.Value>
-                    <WindowChrome ResizeBorderThickness="3"/>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="45"></RowDefinition>
             <RowDefinition Height="32"></RowDefinition>
         </Grid.RowDefinitions>
-
-        <controls:ChildWindowTitleBar Grid.Row="0" Title="{Binding Path=HeaderTitle}"></controls:ChildWindowTitleBar>
         
-        <Border Grid.Row="1" Padding="10,0,10,10">
-            <!--<Border.Resources>
-                <ResourceDictionary>
-                    <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="/Avalon.Sqlite;component/Themes/Gray.xaml" />
-                    </ResourceDictionary.MergedDictionaries>
-                </ResourceDictionary>
-            </Border.Resources>-->
+        <Border Grid.Row="0" Padding="10,10,10,10">
             <ContentControl x:Name="Container" x:FieldModifier="public" />
         </Border>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button x:Name="ButtonSecondary" Content="{Binding Path=SecondaryButtonText}" 
                     Style="{StaticResource RegularButton}" Margin="0,0,10,15" Width="100"
                     Visibility="{Binding Path=SecondaryButtonVisibility}"
@@ -60,7 +34,7 @@
                     Click="ButtonPrimary_Click"></Button>
         </StackPanel>
 
-        <StatusBar Grid.Row="3" 
+        <StatusBar Grid.Row="2"
                    Background="{StaticResource BrushAccentSecondary}" 
                    Foreground="{StaticResource BrushPrimaryText}" 
                    BorderBrush="{StaticResource BrushWindowBorderBrushSecondary}"

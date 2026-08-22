@@ -35,7 +35,7 @@ namespace Avalon
 
                 // Connect, then put the focus into the input text box.
                 await Interp.Connect(HandleLineReceived, this.HandleDataReceived, HandleConnectionClosed);
-                TitleBar.IsConnected = true;
+                IsConnected = true;
                 MenuNetworkButton.Header = "Disconnect";
                 TextInput.Focus();
 
@@ -78,7 +78,7 @@ namespace Avalon
                 App.Conveyor.EchoError($"Network Failure: {ex.Message}");
             }
 
-            TitleBar.IsConnected = false;
+            IsConnected = false;
             MenuNetworkButton.Header = "Connect";
         }
 
@@ -91,7 +91,7 @@ namespace Avalon
         {
             try
             {
-                if (TitleBar.IsConnected == false)
+                if (!IsConnected)
                 {
                     App.MainWindow.Connect();
                 }
@@ -113,7 +113,7 @@ namespace Avalon
         /// <param name="e"></param>
         public void HandleConnectionClosed(object sender, EventArgs e)
         {
-            TitleBar.IsConnected = false;
+            IsConnected = false;
             App.Conveyor.EchoLog($"Disconnected: {DateTime.Now}", LogType.Warning);
             Interp.Telnet = null;
         }
@@ -234,15 +234,15 @@ namespace Avalon
                     break;
                 case TerminalTarget.Terminal1:
                     term = Terminal1;
-                    CustomTab1Badge.IncrementOrReset(!CustomTab1.IsSelected);
+                    CustomTab1Badge.IncrementOrReset(!Terminal1Tool.IsActive);
                     break;
                 case TerminalTarget.Terminal2:
                     term = Terminal2;
-                    CustomTab2Badge.IncrementOrReset(!CustomTab2.IsSelected);
+                    CustomTab2Badge.IncrementOrReset(!Terminal2Tool.IsActive);
                     break;
                 case TerminalTarget.Terminal3:
                     term = Terminal3;
-                    CustomTab3Badge.IncrementOrReset(!CustomTab3.IsSelected);
+                    CustomTab3Badge.IncrementOrReset(!Terminal3Tool.IsActive);
                     break;
                 default:
                     term = GameTerminal;

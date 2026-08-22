@@ -9,8 +9,6 @@
 
 using Avalon.Common.Models;
 using Avalon.Controls;
-using Avalon.Sqlite;
-using Avalon.Sqlite.Common;
 using Avalon.Windows;
 using ModernWpf.Controls;
 using System.Windows;
@@ -116,60 +114,7 @@ namespace Avalon.Utilities
             }
             else if (windowName == "Database")
             {
-                try
-                {
-                    // Setup the database control.            
-                    var ctrl = new QueryControl
-                    {
-                        ConnectionString = $"Data Source={App.Settings.ProfileSettings.SqliteDatabase}",
-                        Theme = ControlTheme.Gray
-                    };
-
-                    ctrl.ExpandTableNode();
-                    ctrl.ExpandViewsNode();
-
-                    // Removed dialog/blur
-                    //var win = new Shell(ctrl, App.MainWindow)
-
-                    var win = new Shell(ctrl, null)
-                    {
-                        Name = "Database",
-                        HeaderTitle = "Database Query Editor",
-                        HeaderIcon = Symbol.Tag,
-                        SecondaryButtonVisibility = Visibility.Collapsed
-                    };
-
-                    await ctrl.RefreshSchemaAsync();
-
-                    win.SetSizeAndPosition(.85);
-                    win.Show();
-                    //App.MainWindow.ShowDialog(win);
-                }
-                catch (Exception ex)
-                {
-                    App.Conveyor.EchoLog(ex.Message, LogType.Error);
-                }
-            }
-            else if (windowName == "PackageManager")
-            {
-                try
-                {
-                    var win = new Shell(new PackageManager(), null)
-                    {
-                        Name = "PackageManager",
-                        HeaderTitle = "Package Manager",
-                        HeaderIcon = Symbol.SyncFolder,
-                        SecondaryButtonVisibility = Visibility.Collapsed
-                    };
-
-                    win.SetSizeAndPosition(.85);
-                    win.Show();
-
-                }
-                catch (Exception ex)
-                {
-                    App.Conveyor.EchoLog(ex.Message, LogType.Error);
-                }
+                App.MainWindow.ShowDatabaseToolWindow();
             }
             else if (windowName == "UpdateDLLPlugin")
             {

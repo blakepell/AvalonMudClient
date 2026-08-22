@@ -337,11 +337,11 @@ namespace Avalon
                 case TerminalTarget.Terminal1:
                     App.MainWindow.Terminal1.Append(line);
 
-                    if (!App.MainWindow.CustomTab1.IsSelected)
+                    if (!App.MainWindow.Terminal1Tool.IsActive)
                     {
                         App.MainWindow.CustomTab1Badge.Value += 1;
                     }
-                    else if (App.MainWindow.CustomTab1.IsSelected && App.MainWindow.CustomTab1Badge.Value != 0)
+                    else if (App.MainWindow.Terminal1Tool.IsActive && App.MainWindow.CustomTab1Badge.Value != 0)
                     {
                         // Only setting this if the value isn't 0 so it doesn't trigger UI processing.
                         App.MainWindow.CustomTab1Badge.Value = 0;
@@ -351,11 +351,11 @@ namespace Avalon
                 case TerminalTarget.Terminal2:
                     App.MainWindow.Terminal2.Append(line);
 
-                    if (!App.MainWindow.CustomTab2.IsSelected)
+                    if (!App.MainWindow.Terminal2Tool.IsActive)
                     {
                         App.MainWindow.CustomTab2Badge.Value += 1;
                     }
-                    else if (App.MainWindow.CustomTab2.IsSelected && App.MainWindow.CustomTab2Badge.Value != 0)
+                    else if (App.MainWindow.Terminal2Tool.IsActive && App.MainWindow.CustomTab2Badge.Value != 0)
                     {
                         // Only setting this if the value isn't 0 so it doesn't trigger UI processing.
                         App.MainWindow.CustomTab2Badge.Value = 0;
@@ -365,11 +365,11 @@ namespace Avalon
                 case TerminalTarget.Terminal3:
                     App.MainWindow.Terminal3.Append(line);
 
-                    if (!App.MainWindow.CustomTab3.IsSelected)
+                    if (!App.MainWindow.Terminal3Tool.IsActive)
                     {
                         App.MainWindow.CustomTab3Badge.Value += 1;
                     }
-                    else if (App.MainWindow.CustomTab3.IsSelected && App.MainWindow.CustomTab3Badge.Value != 0)
+                    else if (App.MainWindow.Terminal3Tool.IsActive && App.MainWindow.CustomTab3Badge.Value != 0)
                     {
                         // Only setting this if the value isn't 0 so it doesn't trigger UI processing.
                         App.MainWindow.CustomTab3Badge.Value = 0;
@@ -965,18 +965,7 @@ namespace Avalon
                 return;
             }
 
-            switch (tab)
-            {
-                case CustomTab.Tab1:
-                    App.MainWindow.CustomTab1.Visibility = visible.ToVisibleOrCollapse();
-                    break;
-                case CustomTab.Tab2:
-                    App.MainWindow.CustomTab2.Visibility = visible.ToVisibleOrCollapse();
-                    break;
-                case CustomTab.Tab3:
-                    App.MainWindow.CustomTab3.Visibility = visible.ToVisibleOrCollapse();
-                    break;
-            }
+            App.MainWindow.SetTerminalToolVisibility(tab, visible);
         }
 
         /// <summary>
@@ -996,15 +985,12 @@ namespace Avalon
             switch (tab)
             {
                 case CustomTab.Tab1:
-                    App.MainWindow.CustomTab1Label.Content = label;
                     App.Settings.AvalonSettings.CustomTab1Label = label;
                     break;
                 case CustomTab.Tab2:
-                    App.MainWindow.CustomTab2Label.Content = label;
                     App.Settings.AvalonSettings.CustomTab2Label = label;
                     break;
                 case CustomTab.Tab3:
-                    App.MainWindow.CustomTab3Label.Content = label;
                     App.Settings.AvalonSettings.CustomTab3Label = label;
                     break;
             }

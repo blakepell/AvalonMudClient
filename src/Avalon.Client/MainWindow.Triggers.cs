@@ -92,11 +92,11 @@ namespace Avalon
                             {
                                 Terminal1.Append(commLine);
 
-                                if (!App.MainWindow.CustomTab1.IsSelected)
+                                if (!App.MainWindow.Terminal1Tool.IsActive)
                                 {
                                     App.MainWindow.CustomTab1Badge.Value++;
                                 }
-                                else if (App.MainWindow.CustomTab1.IsSelected && App.MainWindow.CustomTab1Badge.Value != 0)
+                                else if (App.MainWindow.Terminal1Tool.IsActive && App.MainWindow.CustomTab1Badge.Value != 0)
                                 {
                                     // Only setting this if the value isn't 0 so it doesn't trigger UI processing.
                                     App.MainWindow.CustomTab1Badge.Value = 0;
@@ -108,11 +108,11 @@ namespace Avalon
                             {
                                 Terminal2.Append(commLine);
 
-                                if (!App.MainWindow.CustomTab2.IsSelected)
+                                if (!App.MainWindow.Terminal2Tool.IsActive)
                                 {
                                     App.MainWindow.CustomTab2Badge.Value++;
                                 }
-                                else if (App.MainWindow.CustomTab2.IsSelected && App.MainWindow.CustomTab2Badge.Value != 0)
+                                else if (App.MainWindow.Terminal2Tool.IsActive && App.MainWindow.CustomTab2Badge.Value != 0)
                                 {
                                     // Only setting this if the value isn't 0 so it doesn't trigger UI processing.
                                     App.MainWindow.CustomTab2Badge.Value = 0;
@@ -124,11 +124,11 @@ namespace Avalon
                             {
                                 Terminal3.Append(commLine);
 
-                                if (!App.MainWindow.CustomTab3.IsSelected)
+                                if (!App.MainWindow.Terminal3Tool.IsActive)
                                 {
                                     App.MainWindow.CustomTab3Badge.Value++;
                                 }
-                                else if (App.MainWindow.CustomTab3.IsSelected && App.MainWindow.CustomTab3Badge.Value != 0)
+                                else if (App.MainWindow.Terminal3Tool.IsActive && App.MainWindow.CustomTab3Badge.Value != 0)
                                 {
                                     // Only setting this if the value isn't 0 so it doesn't trigger UI processing.
                                     App.MainWindow.CustomTab3Badge.Value = 0;
@@ -221,11 +221,11 @@ namespace Avalon
                         {
                             Terminal1.Append(commLine);
 
-                            if (!App.MainWindow.CustomTab1.IsSelected)
+                            if (!App.MainWindow.Terminal1Tool.IsActive)
                             {
                                 App.MainWindow.CustomTab1Badge.Value++;
                             }
-                            else if (App.MainWindow.CustomTab1.IsSelected && App.MainWindow.CustomTab1Badge.Value != 0)
+                            else if (App.MainWindow.Terminal1Tool.IsActive && App.MainWindow.CustomTab1Badge.Value != 0)
                             {
                                 // Only setting this if the value isn't 0 so it doesn't trigger UI processing.
                                 App.MainWindow.CustomTab1Badge.Value = 0;
@@ -235,11 +235,11 @@ namespace Avalon
                         {
                             Terminal2.Append(commLine);
 
-                            if (!App.MainWindow.CustomTab2.IsSelected)
+                            if (!App.MainWindow.Terminal2Tool.IsActive)
                             {
                                 App.MainWindow.CustomTab2Badge.Value++;
                             }
-                            else if (App.MainWindow.CustomTab2.IsSelected && App.MainWindow.CustomTab2Badge.Value != 0)
+                            else if (App.MainWindow.Terminal2Tool.IsActive && App.MainWindow.CustomTab2Badge.Value != 0)
                             {
                                 // Only setting this if the value isn't 0 so it doesn't trigger UI processing.
                                 App.MainWindow.CustomTab2Badge.Value = 0;
@@ -249,11 +249,11 @@ namespace Avalon
                         {
                             Terminal3.Append(commLine);
 
-                            if (!App.MainWindow.CustomTab3.IsSelected)
+                            if (!App.MainWindow.Terminal3Tool.IsActive)
                             {
                                 App.MainWindow.CustomTab3Badge.Value++;
                             }
-                            else if (App.MainWindow.CustomTab3.IsSelected && App.MainWindow.CustomTab3Badge.Value != 0)
+                            else if (App.MainWindow.Terminal3Tool.IsActive && App.MainWindow.CustomTab3Badge.Value != 0)
                             {
                                 // Only setting this if the value isn't 0 so it doesn't trigger UI processing.
                                 App.MainWindow.CustomTab3Badge.Value = 0;

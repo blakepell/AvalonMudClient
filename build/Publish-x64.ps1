@@ -8,7 +8,6 @@ $project = "..\src\Avalon.Client\Avalon.Client.csproj"
 $project_common = "..\src\Avalon.Common\Avalon.Common.csproj"
 $project_moonsharp = "..\src\Avalon.MoonSharp\Avalon.MoonSharp.csproj"
 $project_dsl = "..\src\Avalon.Plugins.DarkAndShatteredLands\Avalon.Plugins.DarkAndShatteredLands.csproj"
-$project_sqlite = "..\src\Avalon.Sqlite\Avalon.Sqlite.csproj"
 $project_issx64 = ".\x64Installer.iss"
 
 $x64output = ".\x64"
@@ -23,7 +22,6 @@ Write-Host "Updating csproj and iss files to version: '$NewVersion'"
 & $PSScriptRoot\UpdateVersion.ps1 -project $project_common -version $newVersion
 & $PSScriptRoot\UpdateVersion.ps1 -project $project_moonsharp -version $newVersion
 & $PSScriptRoot\UpdateVersion.ps1 -project $project_dsl -version $newVersion
-& $PSScriptRoot\UpdateVersion.ps1 -project $project_sqlite -version $newVersion
 & $PSScriptRoot\UpdateVersion.ps1 -project $project_issx64 -version $newVersion
 
 # Optional plugin build

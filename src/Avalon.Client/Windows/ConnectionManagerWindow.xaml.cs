@@ -43,6 +43,14 @@ namespace Avalon
         }
 
         /// <summary>
+        /// Toggles between the supported dark and blue Mosaic themes.
+        /// </summary>
+        private void ButtonToggleTheme_OnClick(object sender, RoutedEventArgs e)
+        {
+            App.ToggleMosaicTheme();
+        }
+
+        /// <summary>
         /// On loaded event for the ConnectionManagerWindow.  We'll get our list of available profiles or allow the
         /// player to setup a new profile for a game.
         /// </summary>
@@ -215,19 +223,6 @@ namespace Avalon
             catch (Exception ex)
             {
                 await WindowManager.MsgBox(ex.Message, "Report a Bug had a Bug.  Eek.");
-            }
-        }
-
-        /// <summary>
-        /// Attempts to load the selected profile into the main mud client window.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void GridViewProfiles_OnItemClick(object sender, ItemClickEventArgs e)
-        {
-            if (e.ClickedItem is ConnectionManagerWindowViewModel.ProfileViewModel vm)
-            {
-                this.ViewModel.SelectedProfile = vm;
             }
         }
 

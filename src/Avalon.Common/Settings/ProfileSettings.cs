@@ -177,21 +177,6 @@ namespace Avalon.Common.Settings
             }
         }
 
-        private string _searchBarCommand = "";
-
-        [CategoryAttribute("UI")]
-        [DescriptionAttribute("The command the search bar should execute.")]
-        [Browsable(true)]
-        public string SearchBarCommand
-        {
-            get => _searchBarCommand;
-            set
-            {
-                _searchBarCommand = value;
-                OnPropertyChanged(nameof(SearchBarCommand));
-            }
-        }
-
         /// <summary>
         /// The location to the SQLite database for this profile.  Note that if the file is changed it will try
         /// to create a new database in the location specified.

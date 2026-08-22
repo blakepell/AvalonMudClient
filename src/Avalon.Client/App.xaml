@@ -1,9 +1,13 @@
-﻿<Application
+<wpf:MosaicApp
     x:Class="Avalon.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mosaic="http://schemas.apexgate.net/wpf/mosaic-ui"
     xmlns:ui="http://schemas.modernwpf.com/2019"
+    xmlns:vm="clr-namespace:Avalon.Common"
+    xmlns:wpf="clr-namespace:Mosaic.UI.Wpf;assembly=Mosaic.UI.Wpf"
     xmlns:xamlFlair="clr-namespace:XamlFlair;assembly=XamlFlair.WPF"
+    x:TypeArguments="vm:AppSettings, vm:AppViewModel"
     Exit="Application_Exit"
     ShutdownMode="OnMainWindowClose"
     Startup="Application_Startup">
@@ -11,37 +15,65 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <xamlFlair:XamlFlairResources />
-                <ui:ThemeResources />
                 <ui:XamlControlsResources />
-                <ui:ThemeResources RequestedTheme="Dark">
-                    <ui:ThemeResources.ThemeDictionaries>
-                        <ResourceDictionary x:Key="Light">
-                            <ResourceDictionary.MergedDictionaries>
-                                <ui:ColorPaletteResources
-                                    Accent="Green"
-                                    AltHigh="LightGray"
-                                    BaseHigh="Red"
-                                    TargetTheme="Light" />
-                            </ResourceDictionary.MergedDictionaries>
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Key="Dark">
-                            <ResourceDictionary.MergedDictionaries>
-                                <ui:ColorPaletteResources
-                                    Accent="White"
-                                    AltHigh="#2D2D30"
-                                    BaseHigh="White"
-                                    TargetTheme="Dark" />
-                            </ResourceDictionary.MergedDictionaries>
-                        </ResourceDictionary>
-                    </ui:ThemeResources.ThemeDictionaries>
-                </ui:ThemeResources>
-                <ui:XamlControlsResources />
+
+                <!-- Legacy resources remain available to custom Avalon controls.
+                     Mosaic owns native controls, windows, and live theme switching. -->
                 <ResourceDictionary Source="Resources/Themes/Dark.xaml" />
                 <ResourceDictionary Source="Resources/EditorTextBoxStyles.xaml" />
                 <ResourceDictionary Source="/Avalon;component/Controls/SearchBox/SearchBox.xaml" />
                 <ResourceDictionary Source="/Avalon;component/Resources/Buttons.xaml" />
                 <ResourceDictionary Source="/Avalon;component/Resources/Geometries.xaml" />
+
+                <mosaic:ThemeManager
+                    Native="True"
+                    SystemColors="True"
+                    Theme="Dark" />
             </ResourceDictionary.MergedDictionaries>
+
+            <!-- Shared Mosaic title bar and chrome for every WPF window. -->
+            <Style TargetType="{x:Type Window}">
+                <Setter Property="Background" Value="{DynamicResource {x:Static mosaic:MosaicTheme.WindowBackgroundBrush}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static mosaic:MosaicTheme.WindowForegroundBrush}}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static mosaic:MosaicTheme.ControlBorderBrush}}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="WindowStyle" Value="None" />
+                <Setter Property="mosaic:WindowChromeBehavior.ApplyThemeWindowBrushes" Value="True" />
+                <Setter Property="mosaic:WindowChromeBehavior.CaptionHeight" Value="0" />
+                <Setter Property="mosaic:WindowChromeBehavior.CornerRadius" Value="10" />
+                <Setter Property="mosaic:WindowChromeBehavior.GlassFrameThickness" Value="0" />
+                <Setter Property="mosaic:WindowChromeBehavior.IsEnabled" Value="True" />
+                <Setter Property="mosaic:WindowChromeBehavior.ResizeBorderThickness" Value="5" />
+                <Setter Property="mosaic:WindowChromeBehavior.UseAeroCaptionButtons" Value="True" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Window}">
+                            <Border
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="10">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <mosaic:WindowTitleBar
+                                        Grid.Row="0"
+                                        IconSource="{TemplateBinding Icon}"
+                                        TitleText="{TemplateBinding Title}" />
+                                    <AdornerDecorator Grid.Row="1">
+                                        <ContentPresenter
+                                            Content="{TemplateBinding Content}"
+                                            ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                            ContentTemplate="{TemplateBinding ContentTemplate}" />
+                                    </AdornerDecorator>
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
-</Application>
+</wpf:MosaicApp>

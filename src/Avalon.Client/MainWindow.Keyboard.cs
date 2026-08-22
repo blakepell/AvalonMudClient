@@ -458,11 +458,6 @@ namespace Avalon
         public static readonly RoutedUICommand FontSizeChange = new("FontSizeChange", "FontSizeChange", typeof(MainWindow));
 
         /// <summary>
-        /// For handling find requests, will behave different depending on the tab selected.
-        /// </summary>
-        public static readonly RoutedUICommand Find = new("Find", "Find", typeof(MainWindow));
-
-        /// <summary>
         /// For handling to focus elements from hot keys.
         /// </summary>
         public static readonly RoutedUICommand FocusByName = new("FocusByName", "FocusByName", typeof(MainWindow));
@@ -560,12 +555,5 @@ namespace Avalon
             }
         }
 
-        /// <summary>
-        /// Executes the default code for Finding depending on what context has the focus.
-        /// </summary>
-        private void FindInternal(object sender, ExecutedRoutedEventArgs e)
-        {
-            App.MainWindow.TitleBar.SearchBox.Focus();
-        }
     }
 }

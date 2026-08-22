@@ -81,10 +81,14 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Argus.Core" Version="2025.12.7.1" />
+        <PackageReference Include="Argus.Core" Version="2026.7.21.1" />
         <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
+        <PackageReference Include="Dapper" Version="2.1.79" />
         <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="6.2.1" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.11" />
         <PackageReference Include="ModernWpfUI" Version="0.9.6" />
+        <PackageReference Include="MosaicUIWpf" Version="2026.8.13.1" />
+        <PackageReference Include="MosaicUIWpf.AvalonDock" Version="2026.8.13.1" />
         <PackageReference Include="RestSharp" Version="114.0.0" />
         <PackageReference Include="RestSharp.Serializers.NewtonsoftJson" Version="114.0.0" />
         <PackageReference Include="XamlFlair.WPF" Version="1.2.13" />
@@ -93,7 +97,6 @@
     <ItemGroup>
         <ProjectReference Include="..\Avalon.Common\Avalon.Common.csproj" />
         <ProjectReference Include="..\Avalon.MoonSharp\Avalon.MoonSharp.csproj" />
-        <ProjectReference Include="..\Avalon.SQLite\Avalon.Sqlite.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -125,12 +128,6 @@
         <Page Update="Controls\VariableRepeater.xaml">
             <SubType>Designer</SubType>
         </Page>
-        <Page Update="Controls\ChildWindowTitleBar.xaml">
-            <SubType>Designer</SubType>
-        </Page>
-        <Page Update="Controls\WindowTitleBar.xaml">
-            <SubType>Designer</SubType>
-        </Page>
         <Page Update="Resources\TabControlStyles.xaml">
             <SubType>Designer</SubType>
         </Page>
@@ -142,9 +139,6 @@
             <SubType>Designer</SubType>
         </Page>
         <Page Update="Windows\ListManagerWindow.xaml">
-            <SubType>Designer</SubType>
-        </Page>
-        <Page Update="Windows\SettingsWindow.xaml">
             <SubType>Designer</SubType>
         </Page>
         <Page Update="Windows\CompassWindow.xaml">

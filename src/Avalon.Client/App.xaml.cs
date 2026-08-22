@@ -33,6 +33,8 @@ using System.Media;
 using System.Windows;
 using System.Windows.Media;
 using Avalon.Network;
+using Mosaic.UI.Wpf;
+using Mosaic.UI.Wpf.Themes;
 using RestSharp;
 
 namespace Avalon
@@ -40,7 +42,7 @@ namespace Avalon
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App
+    public partial class App : MosaicApp<AppSettings, AppViewModel>
     {
         /// <summary>
         /// A reference to the GameWindow
@@ -101,6 +103,11 @@ namespace Avalon
         /// <param name="e"></param>
         private async void Application_Startup(object sender, StartupEventArgs e)
         {
+            AppFolder = "AvalonMudClient";
+            ProgId = "ApexGate.AvalonMudClient";
+            base.OnStartup(e);
+            ApplySupportedTheme();
+
             try
             {
                 var splashScreen = new SplashScreen("Media/SplashScreen.png");
@@ -121,7 +128,7 @@ namespace Avalon
                 var settings = new SettingsProvider(conveyor);
                 var mainWindow = new MainWindow();
 
-                AppServices.Init((sc) =>
+                AppServices.AddService((sc) =>
                 {
                     sc.AddSingleton<Conveyor>(conveyor);
                     sc.AddSingleton<IConveyor>(conveyor);
@@ -272,6 +279,38 @@ namespace Avalon
                     item.Close();
                 }
             }
+
+            base.OnExit(e);
+        }
+
+        /// <summary>
+        /// Applies the saved Mosaic theme, normalizing unsupported themes to dark.
+        /// </summary>
+        private static void ApplySupportedTheme()
+        {
+            var settings = Argus.Memory.AppServices.GetRequiredService<AppSettings>();
+            var theme = settings.Theme is MosaicThemeMode.Dark or MosaicThemeMode.Blue
+                ? settings.Theme
+                : MosaicThemeMode.Dark;
+
+            settings.Theme = theme;
+            Argus.Memory.AppServices.GetRequiredService<ThemeManager>().Theme = theme;
+        }
+
+        /// <summary>
+        /// Toggles between the supported dark and blue Mosaic themes and persists the selection.
+        /// </summary>
+        internal static void ToggleMosaicTheme()
+        {
+            var themeManager = Argus.Memory.AppServices.GetRequiredService<ThemeManager>();
+            var settings = Argus.Memory.AppServices.GetRequiredService<AppSettings>();
+            var theme = themeManager.Theme == MosaicThemeMode.Blue
+                ? MosaicThemeMode.Dark
+                : MosaicThemeMode.Blue;
+
+            themeManager.Theme = theme;
+            settings.Theme = theme;
+            SaveAppSettings();
         }
 
         /// <summary>

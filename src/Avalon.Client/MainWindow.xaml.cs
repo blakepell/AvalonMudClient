@@ -15,6 +15,8 @@ using Avalon.Controls.AutoCompleteTextBox;
 using Avalon.Timers;
 using Avalon.Utilities;
 using Microsoft.Win32;
+using Mosaic.UI.Wpf.AvalonDock.Layout;
+using Mosaic.UI.Wpf.Themes;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,13 +29,42 @@ namespace Avalon
     /// </summary>
     public partial class MainWindow
     {
+        private readonly AutoCompleteCommandProvider _autoCompleteCommandProvider = new();
+
+        internal TerminalUnreadCounter CustomTab1Badge { get; } = new();
+
+        internal TerminalUnreadCounter CustomTab2Badge { get; } = new();
+
+        internal TerminalUnreadCounter CustomTab3Badge { get; } = new();
+
         public MainWindow()
         {
             InitializeComponent();
 
+            TextInput.Provider = _autoCompleteCommandProvider;
+
+            Terminal1Tool.IsActiveChanged += (_, _) => HandleTerminalToolActivation(Terminal1Tool, Terminal1, CustomTab1Badge);
+            Terminal2Tool.IsActiveChanged += (_, _) => HandleTerminalToolActivation(Terminal2Tool, Terminal2, CustomTab2Badge);
+            Terminal3Tool.IsActiveChanged += (_, _) => HandleTerminalToolActivation(Terminal3Tool, Terminal3, CustomTab3Badge);
+            ThemeManager.ThemeChanged += (_, _) =>
+                DockingManager.Theme = new Mosaic.UI.Wpf.AvalonDock.Themes.MosaicTheme();
+
             // Set the global reference.
             App.MainWindow = this;
         }
+
+        /// <summary>
+        /// Toggles the active Mosaic color theme.
+        /// </summary>
+        private void ButtonToggleTheme_OnClick(object sender, RoutedEventArgs e)
+        {
+            App.ToggleMosaicTheme();
+        }
+
+        /// <summary>
+        /// Gets whether the single active game session is connected.
+        /// </summary>
+        public bool IsConnected { get; private set; }
 
         /// <summary>
         /// The input history from the user so we can scroll back through it, etc.
@@ -73,9 +104,10 @@ namespace Avalon
         /// <param name="e"></param>
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            // We are going to hide the window while it's loading, we will show it at the end of this
-            // to avoid the flickering and repositioning the settings being loaded causes.
-            this.Hide();
+            // Keep this HWND alive while the connection manager is open. Mosaic's chrome behavior
+            // installs native window hooks during SourceInitialized; hiding and showing the window
+            // again from inside Loaded can tear down and re-enter those callbacks while layout is
+            // changing. The window starts transparent instead and is revealed after selection.
 
             if (Utilities.Utilities.IsRunningAsUwp())
             {
@@ -130,9 +162,6 @@ namespace Avalon
                 // Wire up any events that have to be wired up through code.
                 TextInput.Editor.PreviewKeyDown += this.Editor_PreviewKeyDown;
 
-                // Wire up what we're going to do for the search box.
-                TitleBar.SearchBox.SearchExecuted += this.SearchBox_SearchExecutedAsync;
-
                 // Pass the necessary reference from this page to the Interpreter.  Add the interpreter
                 // references.
                 this.Interp = AppServices.GetService<Interpreter>();
@@ -150,6 +179,9 @@ namespace Avalon
                 // Load any plugin classes from the plugins folder.  They will be "activated" when a mud who matches
                 // the plugin IP is connected to.
                 this.LoadPlugins();
+
+                // Settings and SQLite are available on demand from the regular menu.
+                SettingsTool.Hide();
 
             }
             catch (Exception ex)
@@ -169,24 +201,11 @@ namespace Avalon
                 Application.Current.Shutdown(0);
             }
 
-            // We're at the end of load, show the window.
-            this.Show();
-        }
-
-        /// <summary>
-        /// What to do when the search box is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void SearchBox_SearchExecutedAsync(object sender, SearchBox.SearchEventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(App.Settings.ProfileSettings.SearchBarCommand))
-            {
-                App.Conveyor.EchoLog("No search bar command has been set.  Open the settings and enter a command into the 'SearchBarCommand' property of the profile settings.", LogType.Information);
-                return;
-            }
-
-            await App.MainWindow.Interp.Send($"{App.Settings.ProfileSettings.SearchBarCommand}{e.SearchText}");
+            // We're at the end of load, reveal the already-created window without recreating or
+            // re-entering its native chrome lifecycle.
+            ShowInTaskbar = true;
+            Opacity = 1;
+            Activate();
         }
 
         /// <summary>
@@ -265,6 +284,11 @@ namespace Avalon
             // Apply the border settings by trigger the SizeChanged event.
             this.MainPage_SizeChanged(null, null);
 
+            SetToolVisibility(Terminal1Tool, App.Settings.AvalonSettings.CustomTab1Visible);
+            SetToolVisibility(Terminal2Tool, App.Settings.AvalonSettings.CustomTab2Visible);
+            SetToolVisibility(Terminal3Tool, App.Settings.AvalonSettings.CustomTab3Visible);
+            SetToolVisibility(VariablesTool, App.Settings.AvalonSettings.VariableRepeaterVisible);
+
             // Grid Layout
             LoadGridState();
         }
@@ -274,14 +298,7 @@ namespace Avalon
         /// </summary>
         public void RefreshAutoCompleteEntries()
         {
-            if (this.Resources["AutoCompleteCommandProvider"] is AutoCompleteCommandProvider ac)
-            {
-                ac.RefreshAutoCompleteEntries();
-            }
-            else
-            {
-                App.Conveyor.EchoWarning("Warning: AutoCompleteCommandProvider was not found.");
-            }
+            _autoCompleteCommandProvider.RefreshAutoCompleteEntries();
         }
 
         /// <summary>
@@ -407,9 +424,12 @@ namespace Avalon
                 }
 
                 await SqlTasks.OpenAsync($"Data Source={App.Settings.ProfileSettings.SqliteDatabase}");
+                SqliteQuery.DatabaseFilePath = App.Settings.ProfileSettings.SqliteDatabase;
 
                 // Update any UI settings
                 this.UpdateUISettings();
+                GameDocument.IsSelected = true;
+                GameDocument.IsActive = true;
 
                 if (!string.IsNullOrWhiteSpace(ipAddress))
                 {
@@ -594,8 +614,139 @@ namespace Avalon
         /// <param name="e"></param>
         private void MenuItemSettings_OnClick(object sender, RoutedEventArgs e)
         {
-            var win = new SettingsWindow();
-            this.ShowDialog(win);
+            ActivateToolWindow(SettingsTool);
+        }
+
+        private void ButtonApplySettings_OnClick(object sender, RoutedEventArgs e)
+        {
+            UpdateUISettings();
+            App.Settings.SaveSettings();
+        }
+
+        private void MenuItemDatabase_OnClick(object sender, RoutedEventArgs e)
+        {
+            ShowDatabaseToolWindow();
+        }
+
+        private async void MenuItemExternalTool_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (sender is not MenuItem { Tag: string title })
+            {
+                return;
+            }
+
+            var item = ViewModel.NavManager.NavMenuItems.FirstOrDefault(x =>
+                x.Title.Equals(title, StringComparison.OrdinalIgnoreCase));
+
+            if (item != null)
+            {
+                await item.ExecuteAsync();
+            }
+            else
+            {
+                App.Conveyor.EchoWarning($"{title} is not configured in the active profile.");
+            }
+        }
+
+        private void MenuItemToolWindow_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (sender is not MenuItem { Tag: string toolName })
+            {
+                return;
+            }
+
+            switch (toolName)
+            {
+                case "Lua":
+                    ActivateToolWindow(LuaTool);
+                    break;
+                case "SQLite":
+                    ActivateToolWindow(DatabaseTool);
+                    break;
+                case "Terminal1":
+                    ActivateToolWindow(Terminal1Tool);
+                    break;
+                case "Terminal2":
+                    ActivateToolWindow(Terminal2Tool);
+                    break;
+                case "Terminal3":
+                    ActivateToolWindow(Terminal3Tool);
+                    break;
+                case "Bars":
+                    ActivateToolWindow(BarsTool);
+                    break;
+            }
+        }
+
+        private void ActivateToolWindow(LayoutAnchorable tool)
+        {
+            if (!tool.IsVisible)
+            {
+                if (tool.IsHidden)
+                {
+                    tool.Show();
+                }
+                else
+                {
+                    tool.AddToLayout(DockingManager, AnchorableShowStrategy.Right);
+                }
+            }
+
+            if (tool.IsFloating)
+            {
+                tool.Dock();
+            }
+
+            tool.IsSelected = true;
+            tool.IsActive = true;
+        }
+
+        /// <summary>
+        /// Preserves a closable tool window in AvalonDock's hidden collection so it can be reopened.
+        /// </summary>
+        private void PersistentToolWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            if (sender is not LayoutAnchorable tool)
+            {
+                return;
+            }
+
+            e.Cancel = true;
+            Dispatcher.BeginInvoke(new Action(tool.Hide));
+        }
+
+        private static void SetToolVisibility(LayoutAnchorable tool, bool isVisible)
+        {
+            if (isVisible && !tool.IsVisible)
+            {
+                tool.Show();
+            }
+            else if (!isVisible && tool.IsVisible)
+            {
+                tool.Hide();
+            }
+        }
+
+        /// <summary>
+        /// Shows or hides an auxiliary terminal tool window for scripting APIs.
+        /// </summary>
+        public void SetTerminalToolVisibility(CustomTab tab, bool isVisible)
+        {
+            switch (tab)
+            {
+                case CustomTab.Tab1:
+                    SetToolVisibility(Terminal1Tool, isVisible);
+                    App.Settings.AvalonSettings.CustomTab1Visible = isVisible;
+                    break;
+                case CustomTab.Tab2:
+                    SetToolVisibility(Terminal2Tool, isVisible);
+                    App.Settings.AvalonSettings.CustomTab2Visible = isVisible;
+                    break;
+                case CustomTab.Tab3:
+                    SetToolVisibility(Terminal3Tool, isVisible);
+                    App.Settings.AvalonSettings.CustomTab3Visible = isVisible;
+                    break;
+            }
         }
 
         /// <summary>
@@ -991,68 +1142,21 @@ namespace Avalon
             ActivatePlugins(ipAddress);
         }
 
-        /// <summary>
-        /// Handles the event when the custom tab selection changes.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void TabCustom_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void HandleTerminalToolActivation(LayoutAnchorable tool, AvalonTerminal terminal, TerminalUnreadCounter badge)
         {
-            // When the game tab gets the focus always put the focus into the input box.
-            if (CustomTab1.IsSelected && TextInput.Editor != null)
+            if (!tool.IsActive || TextInput.Editor == null)
             {
-                Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    // Reset the value to 0, it's now been shown.
-                    CustomTab1Badge.Value = 0;
-
-                    // In order to get the focus in this instance an UpdateLayout() call has to be called first.
-                    UpdateLayout();
-
-                    Terminal1.ScrollToEnd();
-
-                    // When the app is first loaded the Editor was coming up null so we'll just check the nulls
-                    // and then default the caret position to 0 if that's the case.
-                    TextInput.Editor.CaretIndex = TextInput?.Editor?.Text?.Length ?? 0;
-                    TextInput.Editor.Focus();
-                }));
+                return;
             }
-            else if (CustomTab2.IsSelected && TextInput.Editor != null)
+
+            Dispatcher.BeginInvoke(new Action(() =>
             {
-                Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    // Reset the value to 0, it's now been shown.
-                    CustomTab2Badge.Value = 0;
-
-                    // In order to get the focus in this instance an UpdateLayout() call has to be called first.
-                    UpdateLayout();
-
-                    Terminal2.ScrollToEnd();
-
-                    // When the app is first loaded the Editor was coming up null so we'll just check the nulls
-                    // and then default the caret position to 0 if that's the case.
-                    TextInput.Editor.CaretIndex = TextInput?.Editor?.Text?.Length ?? 0;
-                    TextInput.Editor.Focus();
-                }));
-            }
-            else if (CustomTab3.IsSelected && TextInput.Editor != null)
-            {
-                Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    // Reset the value to 0, it's now been shown.
-                    CustomTab3Badge.Value = 0;
-
-                    // In order to get the focus in this instance an UpdateLayout() call has to be called first.
-                    UpdateLayout();
-
-                    Terminal3.ScrollToEnd();
-
-                    // When the app is first loaded the Editor was coming up null so we'll just check the nulls
-                    // and then default the caret position to 0 if that's the case.
-                    TextInput.Editor.CaretIndex = TextInput?.Editor?.Text?.Length ?? 0;
-                    TextInput.Editor.Focus();
-                }));
-            }
+                badge.Value = 0;
+                UpdateLayout();
+                terminal.ScrollToEnd();
+                TextInput.Editor.CaretIndex = TextInput.Editor.Text?.Length ?? 0;
+                TextInput.Editor.Focus();
+            }));
         }
 
         /// <summary>
@@ -1175,16 +1279,20 @@ namespace Avalon
         {
             if (ButtonVariableRepeaterVisible.IsChecked == true)
             {
-                Grid.SetRowSpan(VariableRepeaterBorder, 3);
-                Grid.SetColumnSpan(BorderInfoBar, 1);
-                Grid.SetColumnSpan(BorderTextInput, 1);
+                ActivateToolWindow(VariablesTool);
             }
             else
             {
-                Grid.SetRowSpan(VariableRepeaterBorder, 1);
-                Grid.SetColumnSpan(BorderInfoBar, 2);
-                Grid.SetColumnSpan(BorderTextInput, 2);
+                VariablesTool.Hide();
             }
+        }
+
+        /// <summary>
+        /// Opens and activates the SQLite tool window hosted by the main docking manager.
+        /// </summary>
+        public void ShowDatabaseToolWindow()
+        {
+            ActivateToolWindow(DatabaseTool);
         }
 
         /// <summary>
@@ -1257,9 +1365,6 @@ namespace Avalon
         /// </remarks>
         private void MainPage_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            // Make sure the maximize/restore buttons are correct when the window size changes.
-            TitleBar.UpdateUI();
-
             if (App.Settings.AvalonSettings.ShowMainWindowBorder)
             {
                 this.BorderThickness = this.WindowState == WindowState.Maximized ? new Thickness(8) : new Thickness(1);
@@ -1279,6 +1384,19 @@ namespace Avalon
         {
             var cm = new ConnectionManagerWindow();
             cm.ShowDialog();
+        }
+    }
+
+    /// <summary>
+    /// Tracks unread output for an auxiliary terminal without creating a hidden visual control.
+    /// </summary>
+    internal sealed class TerminalUnreadCounter
+    {
+        public int Value { get; set; }
+
+        public void IncrementOrReset(bool shouldIncrement)
+        {
+            Value = shouldIncrement ? Value + 1 : 0;
         }
     }
 }
