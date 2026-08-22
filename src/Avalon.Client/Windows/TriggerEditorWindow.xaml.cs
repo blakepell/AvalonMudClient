@@ -40,18 +40,13 @@ namespace Avalon
         {
             InitializeComponent();
 
-            // This is hacky but it was showing the text box and expanding the height even if the height was
-            // 32 in XAML if the text had multiple lines, but setting it before the property is set here forced
-            // it to stay at 32.
-            TextCommand.Height = 32;
-
             this.Trigger = trigger;
             TextPattern.Text = trigger.Pattern;
             TextCommand.Text = trigger.Command;
             TextCharacter.Text = trigger.Character;
             TextGroup.Text = trigger.Group;
             TextIdentifier.Text = trigger.Identifier;
-            TextPriority.Value = trigger.Priority;
+            TextPriority.Text = trigger.Priority.ToString();
             CheckBoxEnabled.IsChecked = trigger.Enabled;
             CheckBoxGag.IsChecked = trigger.Gag;
             CheckBoxVariableReplace.IsChecked = trigger.VariableReplacement;
@@ -131,16 +126,8 @@ namespace Avalon
                 this.Trigger.LineTransformer = (bool)CheckBoxLineTransformer.IsChecked;
                 this.Trigger.Temp = (bool)CheckBoxTemp.IsChecked;
 
-                // Set it to the default trigger priority if it is NaN.
-                if (double.IsNaN(TextPriority.Value))
-                {
-                    this.Trigger.Priority = 10000;
-                }
-                else
-                {
-
-                    this.Trigger.Priority = (int)TextPriority.Value;
-                }
+                // Set it to the default trigger priority if a valid number wasn't entered.
+                this.Trigger.Priority = int.TryParse(TextPriority.Text, out int priority) ? priority : 10000;
 
                 if (ComboBoxRedirectTo.SelectedValue != null)
                 {
@@ -232,19 +219,6 @@ namespace Avalon
             {
                 this.StatusText = $"Error: {ex.Message}";
             }        
-        }
-
-        /// <summary>
-        /// Limits the number box to only digits.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void TextPriority_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
-        {
-            if (e.Text.Any(c => !char.IsDigit(c)))
-            {
-                e.Handled = true;
-            }
         }
     }
 }

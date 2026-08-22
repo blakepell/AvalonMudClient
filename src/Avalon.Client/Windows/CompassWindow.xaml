@@ -4,9 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        xmlns:ui="http://schemas.modernwpf.com/2019"
+        xmlns:mosaic="http://schemas.apexgate.net/wpf/mosaic-ui"
         TextOptions.TextFormattingMode="Ideal"
-        BorderBrush="{StaticResource BrushAccent}"
+        BorderBrush="{DynamicResource {x:Static mosaic:MosaicTheme.AccentBrush}}"
         xmlns:controls="clr-namespace:Avalon.Controls"
         AllowsTransparency="False" WindowStyle="None"
         Title="Compass" Height="275" Width="275" Closed="CompassWindow_Closed">
@@ -21,7 +21,7 @@
                           Height="200" Width="200" FontSize="32"></controls:Compass>
 
         <DockPanel Grid.Row="1">
-            <StatusBar Background="{StaticResource BrushAccent}" Foreground="White">
+            <StatusBar Style="{StaticResource MosaicStatusBar}">
                 <TextBlock x:Name="TextBlockStatus" Text="" TextWrapping="NoWrap"></TextBlock>
             </StatusBar>
         </DockPanel>

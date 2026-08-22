@@ -34,7 +34,7 @@ namespace Avalon
                 FileName = $"{IpAddress.Text}-{Port.Text}.json",
                 WindowTitle = this.GameDescription.Text,
                 IpAddress = IpAddress.Text,
-                Port = (int)Port.Value
+                Port = int.TryParse(Port.Text, out int port) ? port : 4000
             };
 
             // Write the profile settings file.

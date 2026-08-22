@@ -11,6 +11,7 @@ using Avalon.Extensions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Mosaic.UI.Wpf.Themes;
 
 namespace Avalon
 {
@@ -82,9 +83,9 @@ namespace Avalon
         private bool _highlighting = false;
 
         /// <summary>
-        /// The default status bar color.
+        /// The Mosaic theme brush used to flag a pattern that failed to compile.
         /// </summary>
-        private readonly SolidColorBrush _defaultStatusColor = (SolidColorBrush)(new BrushConverter().ConvertFrom("#007ACC"));
+        private static Brush ErrorBrush => (Brush)Application.Current.TryFindResource(MosaicTheme.ErrorBrush) ?? Brushes.Red;
 
         /// <summary>
         /// Constructor.
@@ -176,18 +177,20 @@ namespace Avalon
                         rtb.SelectClear();
                     }
 
-                    this.BorderBrush = _defaultStatusColor;
-                    TextBlockStatus.Background = _defaultStatusColor;
-                    StatusBarWindow.Background = _defaultStatusColor;
+                    // Clearing the local values hands these back to the Mosaic theme so a live
+                    // theme switch continues to flow through them.
+                    this.ClearValue(BorderBrushProperty);
+                    TextBlockStatus.ClearValue(BackgroundProperty);
+                    StatusBarWindow.ClearValue(BackgroundProperty);
                     TextBlockStatus.Text = "";
                 }
                 
             }
             catch (Exception ex)
             {
-                this.BorderBrush = Brushes.Red;
-                TextBlockStatus.Background = Brushes.Red;
-                StatusBarWindow.Background = Brushes.Red;
+                this.BorderBrush = ErrorBrush;
+                TextBlockStatus.Background = ErrorBrush;
+                StatusBarWindow.Background = ErrorBrush;
                 TextBlockStatus.Text = ex.Message;
 
                 foreach (var rtb in _textBoxList)

@@ -4,9 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        xmlns:ui="http://schemas.modernwpf.com/2019"
+        xmlns:mosaic="http://schemas.apexgate.net/wpf/mosaic-ui"
         TextOptions.TextFormattingMode="Ideal"
-        BorderBrush="{StaticResource BrushAccent}"
+        BorderBrush="{DynamicResource {x:Static mosaic:MosaicTheme.AccentBrush}}"
         xmlns:controls="clr-namespace:Avalon.Controls"
         Loaded="TerminalWindowWindow_Loaded" AllowsTransparency="True" WindowStyle="None"
         Title="Terminal Window" Height="600" Width="800" Closed="TerminalWindowWindow_Closed">
@@ -28,7 +28,7 @@
         </controls:AvalonTerminal>
 
         <DockPanel Grid.Row="1">
-            <StatusBar Background="{StaticResource BrushAccent}" Foreground="White">
+            <StatusBar Style="{StaticResource MosaicStatusBar}">
                 <TextBlock x:Name="TextBlockStatus" Text="" TextWrapping="NoWrap"></TextBlock>
             </StatusBar>
         </DockPanel>

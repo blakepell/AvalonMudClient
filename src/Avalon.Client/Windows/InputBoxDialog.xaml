@@ -16,7 +16,7 @@
         VerticalAlignment="Stretch">
         <!-- Content body -->
         <TextBlock x:Name="TextBlockCaption" Text="What input would you like to enter?" TextWrapping="Wrap"></TextBlock>
-        <TextBox x:Name="TextBoxInput" ui:ControlHelper.CornerRadius="0" Margin="0,5,0,0"></TextBox>
+        <TextBox x:Name="TextBoxInput" Margin="0,5,0,0" />
     </StackPanel>
 
 </ui:ContentDialog>

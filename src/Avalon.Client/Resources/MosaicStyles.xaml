@@ -1,0 +1,53 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mosaic="http://schemas.apexgate.net/wpf/mosaic-ui">
+
+    <!--
+        Shared Mosaic styles for the Avalon dialogs.  Everything in here pulls from MosaicTheme
+        tokens via DynamicResource so that a live theme switch flows through the whole app.  Do
+        not hard code colors here, add a Mosaic token instead.
+    -->
+
+    <!--  Status bar that sits along the bottom of the editor dialogs.  -->
+    <Style x:Key="MosaicStatusBar" TargetType="{x:Type StatusBar}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static mosaic:MosaicTheme.AccentBrush}}" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Padding" Value="8,0" />
+        <Setter Property="MinHeight" Value="26" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static mosaic:MosaicTheme.FontSizeSmall}}" />
+    </Style>
+
+    <!--  Label that sits above an input field in the editor dialogs.  -->
+    <Style x:Key="MosaicFieldLabel" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static mosaic:MosaicTheme.ControlTextSecondaryForegroundBrush}}" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static mosaic:MosaicTheme.FontSizeSmall}}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Margin" Value="0,0,0,4" />
+    </Style>
+
+    <!--  Label that sits to the left of an input field in the editor dialogs.  -->
+    <Style
+        x:Key="MosaicInlineFieldLabel"
+        BasedOn="{StaticResource MosaicFieldLabel}"
+        TargetType="{x:Type TextBlock}">
+        <Setter Property="Margin" Value="0,0,10,0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <!--  Footer that holds the Cancel / Save actions of a dialog.  -->
+    <Style x:Key="MosaicDialogFooter" TargetType="{x:Type Border}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static mosaic:MosaicTheme.MessageBoxFooterBackgroundBrush}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static mosaic:MosaicTheme.ControlSeparatorBrush}}" />
+        <Setter Property="BorderThickness" Value="0,1,0,0" />
+    </Style>
+
+    <!--  Standard sizing for the action buttons that live in a dialog footer.  -->
+    <Style x:Key="MosaicDialogButton" TargetType="{x:Type mosaic:AccentButton}">
+        <Setter Property="Width" Value="100" />
+        <Setter Property="Height" Value="32" />
+        <Setter Property="Margin" Value="5,10" />
+    </Style>
+
+</ResourceDictionary>

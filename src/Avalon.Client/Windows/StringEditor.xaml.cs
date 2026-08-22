@@ -11,6 +11,7 @@ using Avalon.Lua;
 using Avalon.Utilities;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
+using Mosaic.UI.Wpf.Controls;
 using System.Windows;
 using System.Windows.Input;
 
@@ -52,10 +53,11 @@ namespace Avalon
                 {
                     case EditorType.Text:
                         this.Title = "Text Editor";
+                        AvalonLuaEditor.Language = SyntaxLanguage.None;
                         break;
                     case EditorType.Lua:
                         this.Title = "Lua Editor";
-                        Avalon.Controls.AvalonLuaEditor.LoadSyntaxHighlighting(AvalonLuaEditor);
+                        AvalonLuaEditor.Language = SyntaxLanguage.Lua;
                         this.StatusText = "Press [F1] for code snippets or type 'lua.' to see custom functions.";
                         break;
                 }

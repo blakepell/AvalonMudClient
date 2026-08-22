@@ -1,4 +1,4 @@
-<wpf:MosaicApp
+﻿<wpf:MosaicApp
     x:Class="Avalon.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -19,10 +19,9 @@
 
                 <!-- Legacy resources remain available to custom Avalon controls.
                      Mosaic owns native controls, windows, and live theme switching. -->
-                <ResourceDictionary Source="Resources/Themes/Dark.xaml" />
                 <ResourceDictionary Source="Resources/EditorTextBoxStyles.xaml" />
                 <ResourceDictionary Source="/Avalon;component/Controls/SearchBox/SearchBox.xaml" />
-                <ResourceDictionary Source="/Avalon;component/Resources/Buttons.xaml" />
+                <ResourceDictionary Source="/Avalon;component/Resources/MosaicStyles.xaml" />
                 <ResourceDictionary Source="/Avalon;component/Resources/Geometries.xaml" />
 
                 <mosaic:ThemeManager
