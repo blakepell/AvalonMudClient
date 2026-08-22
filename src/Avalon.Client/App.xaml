@@ -30,49 +30,6 @@
                     Theme="Dark" />
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- Shared Mosaic title bar and chrome for every WPF window. -->
-            <Style TargetType="{x:Type Window}">
-                <Setter Property="Background" Value="{DynamicResource {x:Static mosaic:MosaicTheme.WindowBackgroundBrush}}" />
-                <Setter Property="Foreground" Value="{DynamicResource {x:Static mosaic:MosaicTheme.WindowForegroundBrush}}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static mosaic:MosaicTheme.ControlBorderBrush}}" />
-                <Setter Property="BorderThickness" Value="1" />
-                <Setter Property="WindowStyle" Value="None" />
-                <Setter Property="mosaic:WindowChromeBehavior.ApplyThemeWindowBrushes" Value="True" />
-                <Setter Property="mosaic:WindowChromeBehavior.CaptionHeight" Value="0" />
-                <Setter Property="mosaic:WindowChromeBehavior.CornerRadius" Value="10" />
-                <Setter Property="mosaic:WindowChromeBehavior.GlassFrameThickness" Value="0" />
-                <Setter Property="mosaic:WindowChromeBehavior.IsEnabled" Value="True" />
-                <Setter Property="mosaic:WindowChromeBehavior.ResizeBorderThickness" Value="5" />
-                <Setter Property="mosaic:WindowChromeBehavior.UseAeroCaptionButtons" Value="True" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type Window}">
-                            <Border
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="10">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-                                    <mosaic:WindowTitleBar
-                                        Grid.Row="0"
-                                        IconSource="{TemplateBinding Icon}"
-                                        TitleText="{TemplateBinding Title}" />
-                                    <AdornerDecorator Grid.Row="1">
-                                        <ContentPresenter
-                                            Content="{TemplateBinding Content}"
-                                            ContentStringFormat="{TemplateBinding ContentStringFormat}"
-                                            ContentTemplate="{TemplateBinding ContentTemplate}" />
-                                    </AdornerDecorator>
-                                </Grid>
-                            </Border>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </wpf:MosaicApp>

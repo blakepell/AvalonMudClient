@@ -1,4 +1,4 @@
-<Window
+﻿<Window
     x:Class="Avalon.RegexTestWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -26,7 +26,7 @@
             HorizontalScrollBarVisibility="Disabled"
             VerticalScrollBarVisibility="Auto">
             <mosaic:SimpleStackPanel Orientation="Vertical" Spacing="10">
-                <mosaic:ContentPanel Title="Pattern">
+                <mosaic:ContentPanel Style="{StaticResource MosaicFormPanel}" Title="Pattern">
                     <TextBox
                         x:Name="TextBoxRegexPattern"
                         AcceptsReturn="False"
@@ -34,7 +34,7 @@
                         TextChanged="TextBox_TextChanged" />
                 </mosaic:ContentPanel>
 
-                <mosaic:ContentPanel Title="Test Text">
+                <mosaic:ContentPanel Style="{StaticResource MosaicFormPanel}" Title="Test Text">
                     <mosaic:SimpleStackPanel Orientation="Vertical" Spacing="6">
                         <RichTextBox
                             x:Name="TextBoxTest1"

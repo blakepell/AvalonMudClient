@@ -1,4 +1,4 @@
-<Window
+﻿<Window
     x:Class="Avalon.TriggerEditorWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -9,7 +9,7 @@
     xmlns:utilities="clr-namespace:Avalon.Utilities"
     Title="Trigger Editor"
     Width="820"
-    Height="640"
+    Height="780"
     MinWidth="640"
     MinHeight="480"
     Loaded="TriggerEditorWindow_Loaded"
@@ -42,7 +42,7 @@
             <mosaic:SimpleStackPanel Orientation="Vertical" Spacing="12">
 
                 <!--  Pattern and command.  -->
-                <mosaic:ContentPanel Title="Match and Execute">
+                <mosaic:ContentPanel Style="{StaticResource MosaicFormPanel}" Title="Match and Execute">
                     <mosaic:SimpleStackPanel Orientation="Vertical" Spacing="10">
                         <mosaic:SimpleStackPanel Orientation="Vertical">
                             <TextBlock Style="{StaticResource MosaicFieldLabel}" Text="Pattern" />
@@ -79,7 +79,7 @@
                 </mosaic:ContentPanel>
 
                 <!--  Metadata about where and when the trigger runs.  -->
-                <mosaic:ContentPanel Title="Details">
+                <mosaic:ContentPanel Style="{StaticResource MosaicFormPanel}" Title="Details">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -137,7 +137,7 @@
                 </mosaic:ContentPanel>
 
                 <!--  Behavior toggles.  -->
-                <mosaic:ContentPanel Title="Options">
+                <mosaic:ContentPanel Style="{StaticResource MosaicFormPanel}" Title="Options">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
