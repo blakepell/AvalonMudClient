@@ -101,6 +101,7 @@
 
     <ItemGroup>
         <Folder Include="Api\" />
+        <Folder Include="Assets\" />
         <Folder Include="Properties\PublishProfiles\" />
         <Folder Include="Resources\Themes\" />
     </ItemGroup>

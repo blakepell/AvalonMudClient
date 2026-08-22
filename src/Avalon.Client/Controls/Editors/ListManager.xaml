@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:ui="http://schemas.modernwpf.com/2019"
+             xmlns:mosaic="http://schemas.apexgate.net/wpf/mosaic-ui"
              mc:Ignorable="d"
              Loaded="ListManagerControl_Loaded">
     <Grid>
@@ -17,20 +17,17 @@
         </Grid.ColumnDefinitions>
         
         <TextBox x:Name="TextBoxAdd" Margin="5"
-                 ui:ControlHelper.CornerRadius="0"
                  Grid.Row="0" Grid.Column="0"
                  KeyDown="TextBoxAdd_KeyDown"></TextBox>
-        <Button x:Name="ButtonAdd"
+        <mosaic:AccentButton x:Name="ButtonAdd"
             Grid.Row="0" Grid.Column="1"
-            ui:ControlHelper.CornerRadius="0"
+            AccentButtonType="ThemeAccent"
             Content="Add Item" HorizontalAlignment="Right" Height="40" Width="75" Margin="0,0,5,0"
-            Click="ButtonAdd_Click"></Button>
+            Click="ButtonAdd_Click" />
 
-        <ListBox x:Name="ListItems" Background="#131313" 
-                 BorderThickness="1" BorderBrush="Gray"
+        <ListBox x:Name="ListItems"
                  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
                  Margin="5"
-                 ui:ControlHelper.CornerRadius="0"
                  ScrollViewer.VerticalScrollBarVisibility="Visible"
                  KeyDown="ListItems_KeyDown">
         </ListBox>

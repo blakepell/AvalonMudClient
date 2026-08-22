@@ -26,23 +26,63 @@
                 Visibility="{Binding SaveButtonVisibility}" />
             <Button
                 Click="ButtonRunLua_OnClick"
-                Content="Run"
-                ToolTip="Run Lua script" />
+                ToolTip="Run Lua script">
+                <Viewbox Width="16" Height="16">
+                    <Grid Width="16" Height="16">
+                        <Path Data="F1M3.777,1.084,3,1.5v12l.777.416,9-6V7.084Z" Fill="LawnGreen" />
+                    </Grid>
+                </Viewbox>
+            </Button>
             <Separator />
             <Button
                 Click="ButtonCommentOutSelection"
-                Content="Comment"
-                ToolTip="Comment the selected Lua code" />
+                ToolTip="Comment the selected Lua code">
+                <!-- Comment Out Selection -->
+                <Viewbox Width="16" Height="16">
+                    <Grid Width="16" Height="16">
+                        <!-- Code/comment lines -->
+                        <Path
+                            Data="M2,4 H12 V5 H2 Z
+                  M2,7 H10 V8 H2 Z
+                  M2,10 H12 V11 H2 Z"
+                            Fill="LightGray" />
+
+                        <!-- Slash indicating disabled/commented out -->
+                        <Path
+                            Data="M3,13 L12,2 L13,3 L4,14 Z"
+                            Fill="OrangeRed" />
+                    </Grid>
+                </Viewbox>
+            </Button>
             <Button
                 Click="ButtonUncommentSelection"
-                Content="Uncomment"
-                ToolTip="Uncomment the selected Lua code" />
+                ToolTip="Uncomment the selected Lua code">
+                <!-- Uncomment Selection -->
+                <Viewbox Width="16" Height="16">
+                    <Grid Width="16" Height="16">
+                        <!-- Code/comment lines -->
+                        <Path
+                            Data="M2,4 H12 V5 H2 Z
+                  M2,7 H10 V8 H2 Z
+                  M2,10 H12 V11 H2 Z"
+                            Fill="LightGray" />
+
+                        <!-- Small removal/undo indicator -->
+                        <Path
+                            Data="M11,2 L14,5 L11,8 V6
+                  C8,6 6,7 5,10
+                  C5,6 7,4 11,4 Z"
+                            Fill="LawnGreen" />
+                    </Grid>
+                </Viewbox>
+            </Button>
             <Separator />
             <Button
                 Click="ButtonInfo_OnClick"
-                Content="Info"
                 ToolTip="Show information about the Lua environment"
-                Visibility="{Binding InfoButtonVisibility}" />
+                Visibility="{Binding InfoButtonVisibility}">
+                <Image Source="pack://application:,,,/Avalon;component/Assets/info-48.png"></Image>
+            </Button>
         </ToolBar>
 
         <mosaic:SyntaxEditor

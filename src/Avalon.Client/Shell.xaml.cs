@@ -73,6 +73,14 @@ namespace Avalon
             }
         }
 
+        /// <summary>
+        /// Toggles the active Mosaic color theme.
+        /// </summary>
+        private void ButtonToggleTheme_OnClick(object sender, RoutedEventArgs e)
+        {
+            App.ToggleMosaicTheme();
+        }
+
         public string PrimaryButtonText
         {
             get => (string)GetValue(PrimaryButtonTextProperty);

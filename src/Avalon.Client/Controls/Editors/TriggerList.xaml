@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Avalon.Controls"
-             xmlns:ui="http://schemas.modernwpf.com/2019"
+             xmlns:mosaic="http://schemas.apexgate.net/wpf/mosaic-ui"
              xmlns:utilities="clr-namespace:Avalon.Utilities"
              xmlns:models="clr-namespace:Avalon.Common.Models;assembly=Avalon.Common"
              mc:Ignorable="d"
@@ -32,52 +31,45 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Button Content="New Trigger"
+        <mosaic:AccentButton Content="New Trigger"
                 Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left"
-                Style="{StaticResource RegularButtonAccent}" Margin="5,0,0,0"
+                AccentButtonType="ThemeAccent" Margin="5,10"
                 Width="100"
-                Click="ButtonNewTrigger_Click"></Button>
+                Click="ButtonNewTrigger_Click" />
 
         <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <CheckBox x:Name="CheckBoxTriggersEnabled" Content="Enabled" >
             </CheckBox>
-            <Grid Margin="0,10,5,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Padding="5,5,10,0">Filter:</Label>
-                <local:SearchBox x:Name="TextFilter" Grid.Column="1" Width="200"
-                                 TextChanged="TextFilter_TextChanged"
-                                 FontSize="14">
-                </local:SearchBox>
-            </Grid>
+            <mosaic:SearchBox
+                x:Name="TextFilter"
+                Width="220"
+                Margin="8,10,5,10"
+                FontSize="14"
+                TextChanged="TextFilter_TextChanged"
+                Watermark="Filter" />
         </StackPanel>
 
-        <DataGrid x:Name="DataList" x:FieldModifier="public" RowHeight="10"
+        <DataGrid x:Name="DataList" x:FieldModifier="public" MinRowHeight="32"
                   Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                  HeadersVisibility="Column" BorderBrush="Gray" BorderThickness="1"
+                  HeadersVisibility="Column"
                   Margin="5,0,5,5"
                   CanUserAddRows="True"
                   AutoGenerateColumns="False"
-                  GridLinesVisibility="All"
                   EnableColumnVirtualization="True"
                   EnableRowVirtualization="True"
                   VirtualizingStackPanel.IsVirtualizing="True"
                   VirtualizingPanel.VirtualizationMode="Recycling"
                   CellEditEnding="DataList_OnCellEditEnding">
-            <DataGrid.Resources>
-                <ResourceDictionary>
-                    <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="/Avalon;component/Resources/DataGridStyles.xaml" />
-                    </ResourceDictionary.MergedDictionaries>
-                </ResourceDictionary>
-            </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="72">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Click="ButtonEdit_OnClick" ui:ControlHelper.CornerRadius="0" Margin="0,0,0,0" HorizontalAlignment="Stretch">Edit</Button>
+                            <mosaic:AccentButton
+                                Margin="4,2"
+                                HorizontalAlignment="Stretch"
+                                AccentButtonType="ThemeAccent"
+                                Click="ButtonEdit_OnClick"
+                                Content="Edit" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
