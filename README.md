@@ -2,6 +2,8 @@
 
 A Windows MUD (multi-user dimension) client that allows you to connect to and play any number of text based online multi user games.
 
+**Note:** I am putting a version 2 together that will add tabbed mud terminals, GMCP support, a 2nd javascript based scripting language and updated the UI to use MosaicWpfUI.
+
 [Install via the Windows Store](https://www.microsoft.com/en-us/p/avalon-mud-client/9pk5q5vtfz6z?activetab=pivot:overviewtab)
 
 [Screenshots](doc/Screenshots.md)
