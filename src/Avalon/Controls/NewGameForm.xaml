@@ -1,0 +1,53 @@
+<UserControl x:Class="Avalon.Controls.NewGameForm"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mosaic="http://schemas.apexgate.net/wpf/mosaic" MinWidth="340" MaxWidth="480">
+    <UserControl.Resources>
+        <Style TargetType="Label"><Setter Property="Padding" Value="0,10,0,4"/></Style>
+        <Style TargetType="TextBox"><Setter Property="Padding" Value="8,6"/></Style>
+    </UserControl.Resources>
+    <StackPanel>
+        <Label Content="Game name *" Target="{Binding ElementName=GameName}"/>
+        <TextBox x:Name="GameName" MaxLength="120"/>
+        <Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="100"/></Grid.ColumnDefinitions>
+            <StackPanel Margin="0,0,12,0">
+                <Label Content="Hostname or IP address *" Target="{Binding ElementName=Host}"/>
+                <TextBox x:Name="Host" MaxLength="253"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <Label Content="Port *" Target="{Binding ElementName=Port}"/>
+                <TextBox x:Name="Port" Text="4000" MaxLength="5"/>
+            </StackPanel>
+        </Grid>
+        <CheckBox x:Name="AutoConnect" Content="Connect automatically when the game tab opens" Margin="0,10,0,0" />
+        <Label Content="Description" Target="{Binding ElementName=Description}"/>
+        <TextBox x:Name="Description" Height="78" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" MaxLength="8000"/>
+        <Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>
+            <StackPanel Margin="0,0,12,0">
+                <Label Content="Genre" Target="{Binding ElementName=Genre}"/>
+                <TextBox x:Name="Genre" MaxLength="24"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <Label Content="Play style" Target="{Binding ElementName=PlayStyle}"/>
+                <TextBox x:Name="PlayStyle" MaxLength="24"/>
+            </StackPanel>
+        </Grid>
+        <Label Content="Accent color" Target="{Binding ElementName=AccentColor}"/>
+        <mosaic:ColorPicker x:Name="AccentColor" HexValue="#4F46E5" MinHeight="32"/>
+        <Label Content="Card artwork (optional)" Target="{Binding ElementName=ImagePath}"/>
+        <DockPanel>
+            <Button DockPanel.Dock="Right" Content="Browse…" Click="Browse_OnClick" Margin="8,0,0,0" Padding="12,6"/>
+            <TextBox x:Name="ImagePath" IsReadOnly="True" ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"/>
+        </DockPanel>
+        <TextBlock Text="Recommended: 1200 × 600 px (2:1). Images fill and crop to fit." TextWrapping="Wrap" Margin="0,6,0,0"
+            Foreground="{DynamicResource {x:Static mosaic:MosaicTheme.ControlTextSecondaryForegroundBrush}}"/>
+        <Button Content="Remove artwork" HorizontalAlignment="Left" Click="RemoveArtwork_OnClick" Margin="0,6,0,0" Padding="8,3"/>
+        <TextBlock x:Name="ErrorText" TextWrapping="Wrap" Margin="0,12,0,0" Foreground="{DynamicResource {x:Static mosaic:MosaicTheme.ErrorBrush}}" AutomationProperties.LiveSetting="Polite"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+            <Button Content="Cancel" Click="Cancel_OnClick" Padding="18,8" Margin="0,0,8,0"/>
+            <mosaic:AccentButton x:Name="SaveButton" Content="Add Game" Click="Add_OnClick" Padding="18,8"/>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

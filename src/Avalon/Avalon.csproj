@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <ApplicationIcon>Assets\app.ico</ApplicationIcon>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>Avalon</RootNamespace>
+    <Version>2026.11.23.1</Version>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Argus.Core" Version="2026.7.21.1" />
+    <PackageReference Include="MosaicUIWpf" Version="2026.11.24.1" />
+    <PackageReference Include="MosaicUIWpf.AvalonDock" Version="2026.11.24.1" />
+    <PackageReference Include="NAudio" Version="3.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\**" />
+    <Resource Include="Assets\app.ico" />
+    <Resource Include="Assets\*.png" />
+    <Content Include="Assets\Audio\*.m4r" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="Assets\Regex.xshd" Condition="Exists('Assets\Regex.xshd')" />
+    <None Remove="Docs\**" />
+    <Resource Include="Docs\**\*.md" />
+  </ItemGroup>
+
+</Project>

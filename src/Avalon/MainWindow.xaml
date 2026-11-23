@@ -1,0 +1,973 @@
+<Window
+    x:Class="Avalon.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ad="https://github.com/blakepell/MosaicUIWpf"
+    xmlns:common="clr-namespace:Avalon.Common"
+    xmlns:controls="clr-namespace:Avalon.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mosaic="http://schemas.apexgate.net/wpf/mosaic"
+    xmlns:mosaicCore="clr-namespace:Mosaic.UI.Wpf;assembly=Mosaic.UI.Wpf"
+    xmlns:vm="clr-namespace:Avalon.ViewModels"
+    Title="Avalon Mud Client"
+    Width="1200"
+    Height="800"
+    mosaic:WindowChromeBehavior.CaptionHeight="0"
+    mosaic:WindowChromeBehavior.CornerRadius="10"
+    mosaic:WindowChromeBehavior.GlassFrameThickness="0"
+    mosaic:WindowChromeBehavior.IsEnabled="True"
+    mosaic:WindowChromeBehavior.ResizeBorderThickness="5"
+    mosaic:WindowChromeBehavior.UseAeroCaptionButtons="True"
+    Background="{DynamicResource {x:Static mosaic:MosaicTheme.WindowBackgroundBrush}}"
+    BorderBrush="{DynamicResource {x:Static mosaic:MosaicTheme.WindowBorderBrush}}"
+    DataContext="{StaticResource AppViewModel}"
+    Foreground="{DynamicResource {x:Static mosaic:MosaicTheme.WindowForegroundBrush}}"
+    Icon="/Assets/app.ico"
+    Loaded="MainWindow_OnLoaded"
+    SnapsToDevicePixels="True"
+    UseLayoutRounding="True"
+    mc:Ignorable="d">
+
+    <!--  Keyboard shortcuts, matching Continuum  -->
+    <Window.InputBindings>
+        <KeyBinding Key="F4" Command="{x:Static vm:AppCommands.ShowPropertiesCommand}" />
+        <KeyBinding
+            Key="A"
+            Command="{x:Static vm:AppCommands.EditAliasesCommand}"
+            Modifiers="Ctrl+Alt" />
+        <KeyBinding
+            Key="T"
+            Command="{x:Static vm:AppCommands.EditTriggersCommand}"
+            Modifiers="Ctrl+Alt" />
+        <KeyBinding
+            Key="V"
+            Command="{x:Static vm:AppCommands.EditVariablesCommand}"
+            Modifiers="Ctrl+Alt" />
+        <KeyBinding
+            Key="D"
+            Command="{x:Static vm:AppCommands.EditDirectionsCommand}"
+            Modifiers="Ctrl+Alt" />
+        <KeyBinding
+            Key="M"
+            Command="{x:Static vm:AppCommands.EditMacrosCommand}"
+            Modifiers="Ctrl+Alt" />
+        <KeyBinding
+            Key="P"
+            Command="{x:Static vm:AppCommands.EditGamesCommand}"
+            Modifiers="Ctrl+Alt" />
+        <KeyBinding
+            Key="X"
+            Command="{x:Static vm:AppCommands.EditScriptsCommand}"
+            Modifiers="Ctrl+Alt" />
+        <KeyBinding
+            Key="C"
+            Command="{x:Static vm:AppCommands.CloseAllAlertsCommand}"
+            Modifiers="Ctrl+Alt" />
+        <KeyBinding
+            Key="D"
+            Command="{x:Static vm:AppCommands.ShowDirectionsCommand}"
+            Modifiers="Ctrl" />
+    </Window.InputBindings>
+
+    <Window.Resources>
+        <Style x:Key="RibbonMenuHeadingStyle" TargetType="controls:RibbonMenuHeading">
+            <Setter Property="IsEnabled" Value="False" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static mosaic:MosaicTheme.ControlTextForegroundBrush}}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="controls:RibbonMenuHeading">
+                        <ContentPresenter
+                            Margin="5,3,6,3"
+                            VerticalAlignment="Center"
+                            ContentSource="Header"
+                            TextElement.FontWeight="{TemplateBinding FontWeight}"
+                            TextElement.Foreground="{TemplateBinding Foreground}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DrawingImage x:Key="LightThemeSwatch">
+            <DrawingImage.Drawing>
+                <GeometryDrawing Brush="#EFF0F1" Geometry="M 1,1 H 15 V 15 H 1 Z">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="#9DA1A5" Thickness="1" />
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        <DrawingImage x:Key="DarkThemeSwatch">
+            <DrawingImage.Drawing>
+                <GeometryDrawing Brush="#232325" Geometry="M 1,1 H 15 V 15 H 1 Z">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="#77777A" Thickness="1" />
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        <DrawingImage x:Key="BlackThemeSwatch">
+            <DrawingImage.Drawing>
+                <GeometryDrawing Brush="#000000" Geometry="M 1,1 H 15 V 15 H 1 Z">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="#565656" Thickness="1" />
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        <DrawingImage x:Key="BlueThemeSwatch">
+            <DrawingImage.Drawing>
+                <GeometryDrawing Brush="#101843" Geometry="M 1,1 H 15 V 15 H 1 Z">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="#788CDD" Thickness="1" />
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        <DrawingImage x:Key="HighContrastThemeSwatch">
+            <DrawingImage.Drawing>
+                <GeometryDrawing Brush="#000000" Geometry="M 1,1 H 15 V 15 H 1 Z">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="#FFFF00" Thickness="1" />
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <common:SolidColorBrushColorConverter x:Key="SolidColorBrushColorConverter" />
+        <common:NonEmptyStringConverter x:Key="NonEmptyStringConverter" />
+        <common:InvertedBoolToVisibilityConverter x:Key="InvertedBoolToVisibilityConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <DataTemplate x:Key="TerminalColorsEditor">
+            <mosaic:PropertyGrid Object="{Binding AppSettings.ColorTheme}">
+                <mosaic:PropertyGrid.Resources>
+                    <DataTemplate x:Key="TextEditor">
+                        <mosaic:HexColorTextBox
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            BorderThickness="0"
+                            Color="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource SolidColorBrushColorConverter}}" />
+                    </DataTemplate>
+                </mosaic:PropertyGrid.Resources>
+            </mosaic:PropertyGrid>
+        </DataTemplate>
+
+        <!--
+            The text editor used by the property grids.  Brushes and the terminal font fall through to the
+            text editor, so this replaces it with a color editor and a font auto complete box for those.  Their
+            bindings are only applied by the triggers so a hidden editor never writes back to another property.
+        -->
+        <DataTemplate x:Key="PropertyGridTextEditor">
+            <Grid>
+                <TextBox
+                    x:Name="Text"
+                    Padding="4"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Background="{DynamicResource {x:Static mosaic:MosaicTheme.ControlTextBackgroundBrush}}"
+                    BorderThickness="0"
+                    IsReadOnly="{Binding IsReadOnly}"
+                    Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                <mosaic:HexColorTextBox
+                    x:Name="Color"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    HorizontalContentAlignment="Stretch"
+                    BorderThickness="0"
+                    Visibility="Collapsed" />
+                <mosaic:FontAutoCompleteBox
+                    x:Name="Font"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    BorderThickness="0"
+                    Visibility="Collapsed" />
+            </Grid>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding PropertyType}" Value="{x:Type SolidColorBrush}">
+                    <Setter TargetName="Text" Property="Visibility" Value="Collapsed" />
+                    <Setter TargetName="Color" Property="Visibility" Value="Visible" />
+                    <Setter TargetName="Color" Property="Color" Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource SolidColorBrushColorConverter}}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Name}" Value="TerminalFont">
+                    <Setter TargetName="Text" Property="Visibility" Value="Collapsed" />
+                    <Setter TargetName="Font" Property="Visibility" Value="Visible" />
+                    <Setter TargetName="Font" Property="SelectedFontName" Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NonEmptyStringConverter}}" />
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid x:Name="WindowContent" HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--  Custom Title Bar  -->
+        <mosaic:WindowTitleBar
+            Grid.Row="0"
+            IconSource="/Assets/app.png"
+            IsStretchButtonVisible="True"
+            TitleText="{Binding Title, Mode=OneWay}">
+            <mosaic:WindowTitleBar.RightContent>
+                <StackPanel Orientation="Horizontal">
+                    <!--  Settings (Client / Profile), Continuum's cog popup  -->
+                    <Button
+                        Width="48"
+                        Click="SettingsButton_OnClick"
+                        Style="{DynamicResource {x:Static mosaic:MosaicTheme.WindowTitleBarButtonStyle}}"
+                        ToolTip="Settings">
+                        <TextBlock
+                            FontFamily="Segoe MDL2 Assets"
+                            FontSize="14"
+                            Text="&#xE713;" />
+                        <Button.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Command="{x:Static vm:AppCommands.ShowSettingsCommand}" Header="Client Settings">
+                                    <MenuItem.Icon>
+                                        <Image Source="/Assets/vs-settings-16.png" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Command="{x:Static vm:AppCommands.ShowProfileSettingsCommand}" Header="Profile Settings">
+                                    <MenuItem.Icon>
+                                        <Image Source="/Assets/vs-settings-16.png" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
+
+                    <!--  Toggle Ribbon  -->
+                    <Button
+                        Width="48"
+                        Command="{x:Static vm:AppCommands.ToggleRibbonCommand}"
+                        Style="{DynamicResource {x:Static mosaic:MosaicTheme.WindowTitleBarButtonStyle}}"
+                        ToolTip="Show or hide the ribbon">
+                        <TextBlock
+                            FontFamily="Segoe MDL2 Assets"
+                            FontSize="12"
+                            Text="&#xE70E;" />
+                    </Button>
+
+                    <!--  Toggle Theme Button  -->
+                    <Button
+                        Width="48"
+                        Click="ButtonToggleTheme_OnClick"
+                        Style="{DynamicResource {x:Static mosaic:MosaicTheme.WindowTitleBarButtonStyle}}"
+                        ToolTip="Cycle themes (Light, Dark, Black, Blue, High Contrast)">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <Viewbox Width="16" Height="16">
+                                    <Canvas Width="512" Height="512">
+                                        <Path Data="M8 256c0 137 111 248 248 248s248-111 248-248S393 8 256 8 8 119 8 256zm248 184V72c101.7 0 184 82.3 184 184 0 101.7-82.3 184-184 184z" Fill="{DynamicResource {x:Static mosaic:MosaicTheme.WindowForegroundBrush}}" />
+                                    </Canvas>
+                                </Viewbox>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </Button>
+                </StackPanel>
+            </mosaic:WindowTitleBar.RightContent>
+        </mosaic:WindowTitleBar>
+
+        <mosaic:RibbonContainerPanel Grid.Row="1">
+            <mosaic:Ribbon
+                x:Name="Ribbon"
+                Background="{DynamicResource {x:Static mosaic:MosaicTheme.WindowBackgroundBrush}}"
+                BodyBackground="{DynamicResource {x:Static mosaic:MosaicTheme.WindowBackgroundBrush}}"
+                BodyBorderBrush="{DynamicResource {x:Static mosaic:MosaicTheme.ControlBorderBrush}}"
+                BodyBorderThickness="0,0,0,1"
+                BodyCornerRadius="0"
+                BodyMargin="0"
+                LayoutMode="{Binding AppSettings.RibbonLayout, Mode=TwoWay}"
+                QuickAccessToolbarMode="Hidden">
+
+                <!--  ============================  FILE (BACKSTAGE)  ============================  -->
+                <mosaic:Ribbon.Backstage>
+                    <mosaic:RibbonBackstage x:Name="Backstage">
+                        <mosaic:RibbonBackstageTabItem Glyph="&#xE80F;" Header="Home">
+                            <controls:GamesPanel x:Name="GameLibrary" DataContext="{Binding AppSettings}" />
+                        </mosaic:RibbonBackstageTabItem>
+                        <mosaic:RibbonBackstageTabItem Glyph="&#xE946;" Header="Info">
+                            <ScrollViewer Focusable="False" VerticalScrollBarVisibility="Auto">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image
+                                            Width="64"
+                                            Height="64"
+                                            Margin="0,0,16,0"
+                                            Source="/Assets/app.png" />
+                                        <StackPanel VerticalAlignment="Center">
+                                            <TextBlock
+                                                FontSize="26"
+                                                FontWeight="Light"
+                                                Text="Avalon Mud Client" />
+                                            <mosaic:Shield
+                                                Margin="0,5"
+                                                HorizontalAlignment="Left"
+                                                Label="Avalon">
+                                                <mosaic:VersionTextBlock AssemblySource="EntryAssembly" />
+                                            </mosaic:Shield>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <Grid Margin="0,24,0,0">
+                                        <Grid.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Margin" Value="12,4,16,0" />
+                                                <Setter Property="FontWeight" Value="Normal" />
+                                                <Setter Property="TextWrapping" Value="Wrap" />
+                                            </Style>
+                                            <Style TargetType="Hyperlink" BasedOn="{StaticResource {x:Type Hyperlink}}">
+                                                <EventSetter Event="RequestNavigate" Handler="InfoLink_OnRequestNavigate" />
+                                            </Style>
+                                        </Grid.Resources>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <StackPanel Grid.ColumnSpan="2">
+                                            <TextBlock Margin="0" FontSize="16" FontWeight="SemiBold" Text="Third Party Library Usage" />
+                                            <Border
+                                                Height="1"
+                                                Margin="0,4,0,4"
+                                                Background="{DynamicResource {x:Static mosaic:MosaicTheme.ControlBorderBrush}}" />
+                                        </StackPanel>
+                                        <TextBlock Grid.Row="1" Text="Argus.Core" />
+                                        <TextBlock Grid.Row="1" Grid.Column="1">
+                                            <Hyperlink NavigateUri="https://github.com/blakepell/ArgusFramework">
+                                                <Run Text="{Binding NavigateUri, RelativeSource={RelativeSource AncestorType=Hyperlink}, Mode=OneWay}" />
+                                            </Hyperlink>
+                                        </TextBlock>
+                                        <TextBlock Grid.Row="2" Text="AvalonEdit" />
+                                        <TextBlock Grid.Row="2" Grid.Column="1">
+                                            <Hyperlink NavigateUri="https://github.com/icsharpcode/AvalonEdit">
+                                                <Run Text="{Binding NavigateUri, RelativeSource={RelativeSource AncestorType=Hyperlink}, Mode=OneWay}" />
+                                            </Hyperlink>
+                                        </TextBlock>
+                                        <TextBlock Grid.Row="3" Text="CommunityToolkit.Mvvm" />
+                                        <TextBlock Grid.Row="3" Grid.Column="1">
+                                            <Hyperlink NavigateUri="https://github.com/CommunityToolkit/dotnet">
+                                                <Run Text="{Binding NavigateUri, RelativeSource={RelativeSource AncestorType=Hyperlink}, Mode=OneWay}" />
+                                            </Hyperlink>
+                                        </TextBlock>
+                                        <TextBlock Grid.Row="4" Text="gong-wpf-dragdrop" />
+                                        <TextBlock Grid.Row="4" Grid.Column="1">
+                                            <Hyperlink NavigateUri="https://github.com/punker76/gong-wpf-dragdrop">
+                                                <Run Text="{Binding NavigateUri, RelativeSource={RelativeSource AncestorType=Hyperlink}, Mode=OneWay}" />
+                                            </Hyperlink>
+                                        </TextBlock>
+                                        <TextBlock Grid.Row="5" Text="Microsoft.Data.Sqlite" />
+                                        <TextBlock Grid.Row="5" Grid.Column="1">
+                                            <Hyperlink NavigateUri="https://learn.microsoft.com/dotnet/standard/data/sqlite/">
+                                                <Run Text="{Binding NavigateUri, RelativeSource={RelativeSource AncestorType=Hyperlink}, Mode=OneWay}" />
+                                            </Hyperlink>
+                                        </TextBlock>
+                                        <TextBlock Grid.Row="6" Text="Microsoft.Xaml.Behaviors.Wpf" />
+                                        <TextBlock Grid.Row="6" Grid.Column="1">
+                                            <Hyperlink NavigateUri="https://github.com/microsoft/XamlBehaviorsWpf">
+                                                <Run Text="{Binding NavigateUri, RelativeSource={RelativeSource AncestorType=Hyperlink}, Mode=OneWay}" />
+                                            </Hyperlink>
+                                        </TextBlock>
+                                        <TextBlock Grid.Row="7" Text="MosaicUIWpf" />
+                                        <TextBlock Grid.Row="7" Grid.Column="1">
+                                            <Hyperlink NavigateUri="https://github.com/blakepell/MosaicUIWpf">
+                                                <Run Text="{Binding NavigateUri, RelativeSource={RelativeSource AncestorType=Hyperlink}, Mode=OneWay}" />
+                                            </Hyperlink>
+                                        </TextBlock>
+                                        <TextBlock Grid.Row="8" Text="MosaicUIWpf.AvalonDock" />
+                                        <TextBlock Grid.Row="8" Grid.Column="1">
+                                            <Hyperlink NavigateUri="https://github.com/blakepell/MosaicUIWpf">
+                                                <Run Text="{Binding NavigateUri, RelativeSource={RelativeSource AncestorType=Hyperlink}, Mode=OneWay}" />
+                                            </Hyperlink>
+                                        </TextBlock>
+
+                                        <StackPanel Grid.Row="9" Grid.ColumnSpan="2" Margin="0,20,0,0">
+                                            <TextBlock Margin="0" FontSize="16" FontWeight="SemiBold" Text="Portions Based On" />
+                                            <Border
+                                                Height="1"
+                                                Margin="0,4,0,4"
+                                                Background="{DynamicResource {x:Static mosaic:MosaicTheme.ControlBorderBrush}}" />
+                                        </StackPanel>
+                                        <TextBlock Grid.Row="10" Text="Continuum MUD Client" />
+                                        <TextBlock Grid.Row="10" Grid.Column="1">
+                                            <Hyperlink NavigateUri="https://apps.microsoft.com/detail/9pp5h96ww37c?hl=en-US&amp;gl=US">Microsoft Store</Hyperlink>
+                                        </TextBlock>
+                                    </Grid>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </mosaic:RibbonBackstageTabItem>
+                        <Separator />
+                        <mosaic:RibbonBackstageButton
+                            Command="{x:Static vm:AppCommands.ViewSettingsFileCommand}"
+                            Content="View Settings Files"
+                            Glyph="&#xE8A5;" />
+                        <mosaic:RibbonBackstageButton
+                            Command="{x:Static vm:AppCommands.OpenSettingsFolderCommand}"
+                            Content="Open Settings Folder"
+                            Glyph="&#xE8B7;" />
+                        <mosaic:RibbonBackstageButton
+                            Command="{x:Static vm:AppCommands.OpenDocumentsFolderCommand}"
+                            Content="Open Documents Folder"
+                            Glyph="&#xE8B7;" />
+                        <mosaic:RibbonBackstageButton
+                            Command="{Binding SaveAsCommand}"
+                            Content="Save Settings As"
+                            Glyph="&#xE792;" />
+                        <Separator />
+                        <mosaic:RibbonBackstageButton
+                            Command="{x:Static vm:AppCommands.ShowSettingsCommand}"
+                            Content="Options"
+                            Glyph="&#xE713;" />
+                        <mosaic:RibbonBackstageButton
+                            Command="{x:Static vm:AppCommands.ExitWithoutSavingCommand}"
+                            Content="Exit (without saving Settings)"
+                            Glyph="&#xE711;" />
+                        <mosaic:RibbonBackstageButton
+                            Command="{x:Static vm:AppCommands.ExitCommand}"
+                            Content="Exit"
+                            Glyph="&#xE7E8;" />
+                    </mosaic:RibbonBackstage>
+                </mosaic:Ribbon.Backstage>
+
+                <!--  ============================  GAME  ============================  -->
+                <mosaic:RibbonTabItem mosaic:RibbonKeyTipService.KeyTip="G" Header="Game">
+                    <!--  Only one of Connect or Disconnect shows, for the game tab that is showing.  -->
+                    <mosaic:RibbonGroup Header="Network">
+                        <mosaic:RibbonButton
+                            Key="Connect"
+                            mosaic:RibbonItem.VariantBehavior="AlwaysLarge"
+                            mosaic:RibbonKeyTipService.KeyTip="C"
+                            Click="Connect_OnClick"
+                            Label="Connect"
+                            LargeImage="/Assets/on-48.png"
+                            SmallImage="/Assets/on-48.png"
+                            ToolTip="Connects to the game server."
+                            Visibility="{Binding ActiveTerminal.IsSessionActive, Converter={StaticResource InvertedBoolToVisibilityConverter}, FallbackValue=Visible}" />
+                        <mosaic:RibbonButton
+                            Key="Disconnect"
+                            mosaic:RibbonItem.VariantBehavior="AlwaysLarge"
+                            mosaic:RibbonKeyTipService.KeyTip="D"
+                            Click="Disconnect_OnClick"
+                            Label="Disconnect"
+                            LargeImage="/Assets/off-48.png"
+                            SmallImage="/Assets/off-48.png"
+                            ToolTip="Disconnects from the server."
+                            Visibility="{Binding ActiveTerminal.IsSessionActive, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" />
+
+                        <!--  Profiles  -->
+                        <mosaic:RibbonMenuButton
+                            Key="Profiles"
+                            mosaic:RibbonItem.VariantBehavior="AlwaysLarge"
+                            mosaic:RibbonKeyTipService.KeyTip="P"
+                            Label="Profiles"
+                            LargeImage="/Assets/profile-96.png"
+                            Loaded="AppearanceButton_OnLoaded"
+                            SmallImage="/Assets/profile-96.png">
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.NewGameCommand}"
+                                Header="New Profile"
+                                SmallImage="/Assets/add-48.png" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.EditGamesCommand}"
+                                Header="Edit Profiles"
+                                SmallImage="/Assets/edit-property-48.png" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.OpenGameCommand}"
+                                Header="Open Profile"
+                                SmallImage="/Assets/folder-48.png" />
+                            <Separator />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.ImportGameCommand}"
+                                Header="Import from File"
+                                SmallImage="/Assets/vs-import-settings-16.png"
+                                UseAdaptiveSmallImage="True" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.ExportGameCommand}"
+                                Header="Export to File"
+                                SmallImage="/Assets/vs-export-settings-16.png"
+                                UseAdaptiveSmallImage="True" />
+                            <Separator />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.SetCurrentCharacterCommand}"
+                                Header="Set Current Character"
+                                SmallImage="/Assets/profile-96.png" />
+                        </mosaic:RibbonMenuButton>
+                    </mosaic:RibbonGroup>
+
+                    <mosaic:RibbonGroup Header="Game Editors">
+                        <!--  Aliases  -->
+                        <mosaic:RibbonMenuButton
+                            Key="Aliases"
+                            mosaic:RibbonItem.VariantBehavior="AlwaysLarge"
+                            mosaic:RibbonKeyTipService.KeyTip="A"
+                            Label="Aliases"
+                            LargeImage="/Assets/alias-96.png"
+                            Loaded="AppearanceButton_OnLoaded"
+                            SmallImage="/Assets/alias-48.png">
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.NewAliasCommand}"
+                                Header="New Alias"
+                                SmallImage="/Assets/add-48.png" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.EditAliasesCommand}"
+                                Header="Edit Aliases"
+                                SmallImage="/Assets/edit-property-48.png" />
+                        </mosaic:RibbonMenuButton>
+
+                        <!--  Triggers  -->
+                        <mosaic:RibbonMenuButton
+                            Key="Triggers"
+                            mosaic:RibbonItem.VariantBehavior="AlwaysLarge"
+                            mosaic:RibbonKeyTipService.KeyTip="T"
+                            Label="Triggers"
+                            LargeImage="/Assets/lightning-96.png"
+                            Loaded="AppearanceButton_OnLoaded"
+                            SmallImage="/Assets/lightning-48.png">
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.NewTriggerCommand}"
+                                Header="New Trigger"
+                                SmallImage="/Assets/add-48.png" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.EditTriggersCommand}"
+                                Header="Edit Triggers"
+                                SmallImage="/Assets/edit-property-48.png" />
+                            <Separator />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.NewHighlightTriggerCommand}"
+                                Header="New Highlight Trigger"
+                                SmallImage="/Assets/add-48.png" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.EditHighlightTriggersCommand}"
+                                Header="Edit Highlight Triggers"
+                                SmallImage="/Assets/edit-property-48.png" />
+                            <Separator />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.ResetMaxExecutionStatsCommand}"
+                                Header="Reset Max Execution Statistics"
+                                SmallImage="/Assets/vs-timer-16.png"
+                                UseAdaptiveSmallImage="True" />
+                            <Separator />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.EditOnProfileLoadedCommand}"
+                                Header="Edit OnProfileLoaded Event"
+                                SmallImage="/Assets/lightning-48.png" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.EditOnProfileClosedCommand}"
+                                Header="Edit OnProfileClosed Event"
+                                SmallImage="/Assets/lightning-48.png" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.EditOnTickCommand}"
+                                Header="Edit OnTick Event"
+                                SmallImage="/Assets/lightning-48.png" />
+                        </mosaic:RibbonMenuButton>
+
+                        <!--  Directions  -->
+                        <mosaic:RibbonMenuButton
+                            Key="Directions"
+                            mosaic:RibbonItem.VariantBehavior="AlwaysLarge"
+                            mosaic:RibbonKeyTipService.KeyTip="R"
+                            Label="Directions"
+                            LargeImage="/Assets/map-96.png"
+                            Loaded="AppearanceButton_OnLoaded"
+                            SmallImage="/Assets/map-48.png">
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.NewDirectionCommand}"
+                                Header="New Direction"
+                                SmallImage="/Assets/add-48.png" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.EditDirectionsCommand}"
+                                Header="Edit Directions"
+                                SmallImage="/Assets/edit-property-48.png" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.ShowDirectionsCommand}"
+                                Header="Show Available Directions from Room"
+                                SmallImage="/Assets/map-48.png" />
+                            <Separator />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.StartRecordingCommand}"
+                                Header="Start Recording"
+                                SmallImage="/Assets/record-48.png"
+                                UseAdaptiveSmallImage="True" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.StopRecordingCommand}"
+                                Header="Stop Recording"
+                                SmallImage="/Assets/vs-stop-16.png"
+                                UseAdaptiveSmallImage="True" />
+                        </mosaic:RibbonMenuButton>
+
+                        <!--  Macros  -->
+                        <mosaic:RibbonMenuButton
+                            Key="Macros"
+                            mosaic:RibbonItem.VariantBehavior="AlwaysLarge"
+                            mosaic:RibbonKeyTipService.KeyTip="M"
+                            Label="Macros"
+                            LargeImage="/Assets/keyboard-48.png"
+                            Loaded="AppearanceButton_OnLoaded"
+                            SmallImage="/Assets/keyboard-48.png">
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.NewMacroCommand}"
+                                Header="New Macro"
+                                SmallImage="/Assets/add-48.png" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.EditMacrosCommand}"
+                                Header="Edit Macros"
+                                SmallImage="/Assets/edit-property-48.png" />
+                        </mosaic:RibbonMenuButton>
+
+                        <!--  Scripts  -->
+                        <mosaic:RibbonMenuButton
+                            Key="Scripts"
+                            mosaic:RibbonItem.VariantBehavior="AlwaysLarge"
+                            mosaic:RibbonKeyTipService.KeyTip="S"
+                            Label="Scripts"
+                            LargeImage="/Assets/source-code-96.png"
+                            Loaded="AppearanceButton_OnLoaded"
+                            SmallImage="/Assets/javascript-48.png">
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.NewScriptCommand}"
+                                Header="New Script"
+                                SmallImage="/Assets/add-48.png" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.EditScriptsCommand}"
+                                Header="Edit Scripts"
+                                SmallImage="/Assets/edit-property-48.png" />
+                            <Separator />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.NewInteractiveScriptEditorCommand}"
+                                Header="Interactive Script Editor"
+                                SmallImage="/Assets/javascript-48.png" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.SqliteQueryEditorCommand}"
+                                Header="SQLite Query Editor"
+                                SmallImage="/Assets/database-48.png" />
+                        </mosaic:RibbonMenuButton>
+
+                        <!--  Variables  -->
+                        <mosaic:RibbonMenuButton
+                            Key="Variables"
+                            mosaic:RibbonItem.VariantBehavior="AlwaysLarge"
+                            mosaic:RibbonKeyTipService.KeyTip="V"
+                            Label="Variables"
+                            LargeImage="/Assets/term-96.png"
+                            Loaded="AppearanceButton_OnLoaded"
+                            SmallImage="/Assets/term-96.png">
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.NewVariableCommand}"
+                                Header="New Variable"
+                                SmallImage="/Assets/add-48.png" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.EditVariablesCommand}"
+                                Header="Edit Variables"
+                                SmallImage="/Assets/edit-property-48.png" />
+                        </mosaic:RibbonMenuButton>
+
+                        <mosaic:RibbonButton
+                            Key="Notes"
+                            mosaic:RibbonItem.VariantBehavior="AlwaysLarge"
+                            mosaic:RibbonKeyTipService.KeyTip="N"
+                            Command="{x:Static vm:AppCommands.ShowNotesCommand}"
+                            Label="Notes"
+                            LargeImage="/Assets/notebook-48.png"
+                            SmallImage="/Assets/notebook-48.png" />
+                    </mosaic:RibbonGroup>
+
+                    <mosaic:RibbonGroup Header="UI">
+                        <!--  Terminal  -->
+                        <mosaic:RibbonMenuButton
+                            Key="Terminal"
+                            mosaic:RibbonItem.VariantBehavior="AlwaysLarge"
+                            Label="Terminal"
+                            LargeImage="/Assets/terminal-48.png"
+                            Loaded="AppearanceButton_OnLoaded"
+                            SmallImage="/Assets/terminal-48.png">
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.NewTerminalCommand}"
+                                Header="New Terminal"
+                                SmallImage="/Assets/terminal-48.png" />
+                            <Separator />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.SendMultilineCommand}"
+                                Header="Send Multiline Text to Terminal"
+                                SmallImage="/Assets/assignment-send-48.png" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.SimulateIncomingCommand}"
+                                Header="Simulate Incoming Text"
+                                SmallImage="/Assets/assignment-return-48.png" />
+                        </mosaic:RibbonMenuButton>
+
+                        <!--  Theme  -->
+                        <mosaic:RibbonSplitButton
+                            Key="Theme"
+                            mosaic:RibbonItem.VariantBehavior="AlwaysLarge"
+                            Click="ButtonToggleTheme_OnClick"
+                            Label="Theme"
+                            LargeImage="/Assets/theme-48.png"
+                            Loaded="AppearanceButton_OnLoaded"
+                            SmallImage="/Assets/theme-48.png">
+                            <controls:RibbonMenuHeading Header="Application Theme" Style="{StaticResource RibbonMenuHeadingStyle}" />
+                            <mosaic:RibbonMenuItem
+                                Click="SetTheme_OnClick"
+                                Header="Light"
+                                SmallImage="{StaticResource LightThemeSwatch}"
+                                Tag="{x:Static mosaicCore:MosaicThemeMode.Light}" />
+                            <mosaic:RibbonMenuItem
+                                Click="SetTheme_OnClick"
+                                Header="Dark"
+                                SmallImage="{StaticResource DarkThemeSwatch}"
+                                Tag="{x:Static mosaicCore:MosaicThemeMode.Dark}" />
+                            <mosaic:RibbonMenuItem
+                                Click="SetTheme_OnClick"
+                                Header="Black"
+                                SmallImage="{StaticResource BlackThemeSwatch}"
+                                Tag="{x:Static mosaicCore:MosaicThemeMode.Black}" />
+                            <mosaic:RibbonMenuItem
+                                Click="SetTheme_OnClick"
+                                Header="Blue"
+                                SmallImage="{StaticResource BlueThemeSwatch}"
+                                Tag="{x:Static mosaicCore:MosaicThemeMode.Blue}" />
+                            <mosaic:RibbonMenuItem
+                                Click="SetTheme_OnClick"
+                                Header="High Contrast"
+                                SmallImage="{StaticResource HighContrastThemeSwatch}"
+                                Tag="{x:Static mosaicCore:MosaicThemeMode.HighContrast}" />
+                            <Separator />
+                            <controls:RibbonMenuHeading Header="Terminal Colors" Style="{StaticResource RibbonMenuHeadingStyle}" />
+                            <mosaic:RibbonMenuItem
+                                Click="EditTerminalColors_OnClick"
+                                Header="Edit Terminal Colors"
+                                SmallImage="/Assets/vs-color-wheel-16.png"
+                                UseAdaptiveSmallImage="True" />
+                            <mosaic:RibbonMenuItem
+                                Click="ResetTerminalColors_OnClick"
+                                Header="Reset Terminal Colors"
+                                SmallImage="/Assets/vs-color-dialog-16.png"
+                                UseAdaptiveSmallImage="True" />
+                        </mosaic:RibbonSplitButton>
+
+                        <!--  Layout  -->
+                        <mosaic:RibbonMenuButton
+                            Key="Layout"
+                            mosaic:RibbonItem.VariantBehavior="AlwaysLarge"
+                            mosaic:RibbonKeyTipService.KeyTip="L"
+                            Label="Layout"
+                            LargeImage="/Assets/collage-96.png"
+                            Loaded="AppearanceButton_OnLoaded"
+                            SmallImage="/Assets/collage-96.png">
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.ResetLayoutCommand}"
+                                Header="Reset Layout"
+                                SmallImage="/Assets/reset-48.png" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.NewTerminalCommand}"
+                                Header="Add New Terminal"
+                                SmallImage="/Assets/terminal-48.png" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.AddVitalsPanelCommand}"
+                                Header="Add Vitals Panel" />
+                            <Separator />
+                            <controls:RibbonMenuHeading Header="Tool Windows" Style="{StaticResource RibbonMenuHeadingStyle}" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.ShowToolWindowCommand}"
+                                CommandParameter="{x:Static vm:ToolWindows.Variables}"
+                                Header="Show Variables"
+                                SmallImage="/Assets/vs-member-variable-16.png"
+                                UseAdaptiveSmallImage="True" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.ShowToolWindowCommand}"
+                                CommandParameter="{x:Static vm:ToolWindows.AliasButtons}"
+                                Header="Show Alias Buttons"
+                                SmallImage="/Assets/vs-replace-all-16.png"
+                                UseAdaptiveSmallImage="True" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.ShowToolWindowCommand}"
+                                CommandParameter="{x:Static vm:ToolWindows.Movement}"
+                                Header="Show Movement"
+                                SmallImage="/Assets/vs-compass-16.png"
+                                UseAdaptiveSmallImage="True" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.ShowToolWindowCommand}"
+                                CommandParameter="{x:Static vm:ToolWindows.Properties}"
+                                Header="Show Properties"
+                                SmallImage="/Assets/vs-property-document-16.png"
+                                UseAdaptiveSmallImage="True" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.ShowToolWindowCommand}"
+                                CommandParameter="{x:Static vm:ToolWindows.Log}"
+                                Header="Show Log"
+                                SmallImage="/Assets/vs-log-16.png"
+                                UseAdaptiveSmallImage="True" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.ShowToolWindowCommand}"
+                                CommandParameter="{x:Static vm:ToolWindows.Notes}"
+                                Header="Show Notes"
+                                SmallImage="/Assets/vs-notepad-16.png" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.ShowToolWindowCommand}"
+                                CommandParameter="{x:Static vm:ToolWindows.ColorTheme}"
+                                Header="Show Color Theme"
+                                SmallImage="/Assets/vs-color-palette-16.png"
+                                UseAdaptiveSmallImage="True" />
+                            <Separator />
+                            <controls:RibbonMenuHeading Header="Layout Options" Style="{StaticResource RibbonMenuHeadingStyle}" />
+                            <mosaic:RibbonMenuItem
+                                Click="SetRibbonLayout_OnClick"
+                                Header="Classic Ribbon"
+                                Tag="{x:Static mosaic:RibbonLayoutMode.Classic}" />
+                            <mosaic:RibbonMenuItem
+                                Click="SetRibbonLayout_OnClick"
+                                Header="Simplified Ribbon"
+                                Tag="{x:Static mosaic:RibbonLayoutMode.Simplified}" />
+                        </mosaic:RibbonMenuButton>
+                    </mosaic:RibbonGroup>
+
+                    <mosaic:RibbonGroup Header="Developer">
+                        <!--  Packages  -->
+                        <mosaic:RibbonMenuButton
+                            Key="Packages"
+                            mosaic:RibbonItem.VariantBehavior="AlwaysLarge"
+                            Label="Packages"
+                            LargeImage="/Assets/package-48.png"
+                            Loaded="AppearanceButton_OnLoaded"
+                            SmallImage="/Assets/package-48.png">
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.NewPackageCommand}"
+                                Header="New Package"
+                                SmallImage="/Assets/add-48.png" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.EditPackagesCommand}"
+                                Header="Edit Packages"
+                                SmallImage="/Assets/edit-property-48.png" />
+                            <Separator />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.CompilePackageCommand}"
+                                Header="Compile Package"
+                                SmallImage="/Assets/package-add-48.png" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.ImportPackageCommand}"
+                                Header="Import Package from File"
+                                SmallImage="/Assets/package-refresh-48.png" />
+                        </mosaic:RibbonMenuButton>
+
+                        <mosaic:RibbonButton
+                            Key="RegexTester"
+                            mosaic:RibbonItem.VariantBehavior="AlwaysLarge"
+                            Command="{x:Static vm:AppCommands.ShowRegexTesterCommand}"
+                            Label="Regex Tester"
+                            LargeImage="/Assets/regex-48.png"
+                            SmallImage="/Assets/regex-48.png" />
+
+                        <mosaic:RibbonButton
+                            Key="InteractiveScriptEditor"
+                            mosaic:RibbonItem.VariantBehavior="AlwaysLarge"
+                            Command="{x:Static vm:AppCommands.NewInteractiveScriptEditorCommand}"
+                            Label="Interactive Script Editor"
+                            LargeImage="/Assets/javascript-48.png"
+                            SmallImage="/Assets/javascript-48.png" />
+
+                        <mosaic:RibbonButton
+                            Key="LogViewer"
+                            mosaic:RibbonItem.VariantBehavior="AlwaysLarge"
+                            Command="{x:Static vm:AppCommands.ShowToolWindowCommand}"
+                            CommandParameter="{x:Static vm:ToolWindows.Log}"
+                            Label="Log Viewer"
+                            LargeImage="/Assets/log-file-64.png"
+                            SmallImage="/Assets/log-file-64.png" />
+                    </mosaic:RibbonGroup>
+                </mosaic:RibbonTabItem>
+
+                <!--  ============================  HELP  ============================  -->
+                <mosaic:RibbonTabItem mosaic:RibbonKeyTipService.KeyTip="H" Header="Help">
+                    <mosaic:RibbonGroup Header="Documentation">
+                        <mosaic:RibbonMenuButton
+                            Key="Documentation"
+                            mosaic:RibbonItem.VariantBehavior="AlwaysLarge"
+                            Label="Documentation"
+                            LargeImage="/Assets/books-48.png"
+                            Loaded="AppearanceButton_OnLoaded"
+                            SmallImage="/Assets/books-48.png">
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.ShowUserGuideCommand}"
+                                Header="Table of Contents"
+                                SmallImage="/Assets/books-48.png" />
+                            <mosaic:RibbonMenuItem
+                                Command="{x:Static vm:AppCommands.ShowDocumentationCommand}"
+                                CommandParameter="Scripting.md"
+                                Header="Scripting Reference"
+                                SmallImage="/Assets/javascript-48.png" />
+                        </mosaic:RibbonMenuButton>
+                        <mosaic:RibbonButton
+                            Key="KeyboardShortcuts"
+                            mosaic:RibbonItem.VariantBehavior="AlwaysLarge"
+                            Command="{x:Static vm:AppCommands.ShowDocumentationCommand}"
+                            CommandParameter="KeyboardShortcuts.md"
+                            Label="Keyboard Shortcuts"
+                            LargeImage="/Assets/books-48.png"
+                            SmallImage="/Assets/books-48.png" />
+                        <mosaic:RibbonButton
+                            Key="HashCommands"
+                            mosaic:RibbonItem.VariantBehavior="AlwaysLarge"
+                            Command="{x:Static vm:AppCommands.ShowDocumentationCommand}"
+                            CommandParameter="HashCommands.md"
+                            Label="Hash Commands"
+                            LargeImage="/Assets/notebook-48.png"
+                            SmallImage="/Assets/notebook-48.png" />
+                    </mosaic:RibbonGroup>
+                    <mosaic:RibbonGroup Header="Fix">
+                        <mosaic:RibbonButton
+                            Key="FixDuplicateIds"
+                            mosaic:RibbonItem.VariantBehavior="AlwaysLarge"
+                            Command="{x:Static vm:AppCommands.FixDuplicateIdsCommand}"
+                            Label="Fix Duplicate IDs"
+                            LargeImage="/Assets/bug-48.png"
+                            SmallImage="/Assets/bug-48.png" />
+                    </mosaic:RibbonGroup>
+                </mosaic:RibbonTabItem>
+
+                <!--  Ribbon Footer (Continuum's InfoBar)  -->
+                <mosaic:Ribbon.FooterContent>
+                    <controls:InfoBar
+                        Title="{Binding AlertTitle}"
+                        Margin="4,2,4,4"
+                        IsOpen="{Binding AlertVisible, Mode=TwoWay}"
+                        Message="{Binding AlertMessage}"
+                        Severity="{Binding AlertSeverity}" />
+                </mosaic:Ribbon.FooterContent>
+            </mosaic:Ribbon>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <ad:DockingManager x:Name="WorkspaceDock" ActiveContentChanged="WorkspaceDock_OnActiveContentChanged">
+                    <ad:DockingManager.Theme>
+                        <ad:MosaicTheme />
+                    </ad:DockingManager.Theme>
+                    <ad:LayoutRoot>
+                        <ad:LayoutPanel Orientation="Horizontal">
+                            <ad:LayoutDocumentPane x:Name="GameDocumentPane" />
+                        </ad:LayoutPanel>
+                    </ad:LayoutRoot>
+                </ad:DockingManager>
+
+                <!--  Status bar, matching Continuum's MainWindowStatusBar  -->
+                <controls:MainWindowStatusBar Grid.Row="1" />
+            </Grid>
+        </mosaic:RibbonContainerPanel>
+    </Grid>
+</Window>

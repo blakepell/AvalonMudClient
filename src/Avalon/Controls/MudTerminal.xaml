@@ -1,0 +1,280 @@
+<UserControl
+    x:Class="Avalon.Controls.MudTerminal"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:edit="http://icsharpcode.net/sharpdevelop/avalonedit"
+    xmlns:local="clr-namespace:Avalon.Controls"
+    x:Name="Self"
+    Background="#363636"
+    PreviewKeyDown="MudTerminal_OnPreviewKeyDown"
+    Unloaded="MudTerminal_OnUnloaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Mosaic.UI.Wpf;component/Controls/AvalonEdit/SearchPanel.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <ContextMenu x:Key="TerminalContextMenu" x:Shared="true">
+                <MenuItem Click="TerminalContextMenuCopy_OnClick" Header="Copy">
+                    <MenuItem.Icon>
+                        <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE8C8;" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Click="TerminalContextMenuRegex_OnClick" Header="Open in Regex Builder">
+                    <MenuItem.Icon>
+                        <Image Width="16" Height="16" Source="/Assets/vs-regex-16.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Click="TerminalContextMenuClear_OnClick" Header="Clear Terminal">
+                    <MenuItem.Icon>
+                        <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE894;" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </ContextMenu>
+
+            <ContextMenu x:Key="CommandBoxContextMenu" x:Shared="true">
+                <MenuItem Command="ApplicationCommands.Cut" Header="Cut" />
+                <MenuItem Command="ApplicationCommands.Copy" Header="Copy" />
+                <MenuItem Command="ApplicationCommands.Paste" Header="Paste" />
+            </ContextMenu>
+
+            <Style x:Key="TerminalStyle" TargetType="edit:TextEditor">
+                <Setter Property="Padding" Value="10,0,20,0" />
+                <Setter Property="Background" Value="{Binding AppSettings.ColorTheme.Background}" />
+                <Setter Property="BorderBrush" Value="#444444" />
+                <Setter Property="BorderThickness" Value=".9,0,0,0" />
+                <Setter Property="ContextMenu" Value="{StaticResource TerminalContextMenu}" />
+                <Setter Property="FontFamily" Value="{Binding AppSettings.TerminalFont}" />
+                <Setter Property="FontSize" Value="{Binding AppSettings.TerminalFontSize}" />
+                <Setter Property="Foreground" Value="{Binding AppSettings.ColorTheme.Default}" />
+                <Setter Property="HorizontalScrollBarVisibility" Value="Auto" />
+                <Setter Property="IsReadOnly" Value="True" />
+                <Setter Property="ScrollViewer.PanningMode" Value="VerticalOnly" />
+                <Setter Property="ShowLineNumbers" Value="{Binding AppSettings.ShowLineNumbersInGameTerminal}" />
+                <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+                <Setter Property="WordWrap" Value="{Binding AppSettings.WordWrapTerminals}" />
+                <EventSetter Event="KeyDown" Handler="Terminal_OnKeyDown" />
+                <EventSetter Event="MouseUp" Handler="Terminal_OnMouseUp" />
+                <EventSetter Event="PreviewKeyDown" Handler="Terminal_OnPreviewKeyDown" />
+            </Style>
+
+            <Style x:Key="InputActionStyle" TargetType="ButtonBase">
+                <Setter Property="Width" Value="32" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="{Binding AppSettings.CommandBoxForegroundColor}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ButtonBase">
+                            <Grid Background="{TemplateBinding Background}">
+                                <Border x:Name="Highlight" Background="{TemplateBinding Foreground}" Opacity="0" />
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Highlight" Property="Opacity" Value="0.08" />
+                                </Trigger>
+                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                    <Setter TargetName="Highlight" Property="Opacity" Value="0.08" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="Highlight" Property="Opacity" Value="0.16" />
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Opacity" Value="0.4" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="InputActionIconStyle" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ButtonBase}}" />
+            </Style>
+
+            <Style x:Key="PrivateInputStyle" TargetType="Control">
+                <Setter Property="Padding" Value="5,0" />
+                <Setter Property="FontFamily" Value="Consolas" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Foreground" Value="{Binding AppSettings.CommandBoxForegroundColor}" />
+                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Control">
+                            <ScrollViewer
+                                x:Name="PART_ContentHost"
+                                VerticalAlignment="Center"
+                                Focusable="False"
+                                HorizontalScrollBarVisibility="Hidden"
+                                VerticalScrollBarVisibility="Hidden" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Background="#363636">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="29" />
+        </Grid.RowDefinitions>
+
+        <!--
+            UniformGrid used to split the main terminal and the back buffer into two when
+            the back buffer is visible.
+        -->
+        <UniformGrid Grid.Row="0" Columns="1">
+            <Grid Visibility="{Binding Visibility, ElementName=BackBuffer}">
+                <Button
+                    Width="32"
+                    Height="32"
+                    Margin="0,2,20,0"
+                    Padding="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    AutomationProperties.Name="Close Back Buffer"
+                    Background="Black"
+                    Click="CloseBackBuffer_OnClick"
+                    Foreground="White"
+                    Opacity=".7"
+                    Panel.ZIndex="1000"
+                    ToolTip="Close Back Buffer">
+                    <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="12" Text="&#xE711;" />
+                </Button>
+                <edit:TextEditor
+                    x:Name="BackBuffer"
+                    AutomationProperties.Name="Game back buffer"
+                    BorderThickness=".9,0,0,1"
+                    PreviewMouseWheel="BackBuffer_OnPreviewMouseWheel"
+                    Style="{StaticResource TerminalStyle}"
+                    Visibility="Collapsed" />
+            </Grid>
+
+            <Grid>
+                <edit:TextEditor
+                    x:Name="Output"
+                    AutomationProperties.Name="Game output"
+                    PreviewMouseWheel="Output_OnPreviewMouseWheel"
+                    Style="{StaticResource TerminalStyle}" />
+
+                <!--  Alerts shown over the terminal (Continuum's AlertRepeater)  -->
+                <ItemsControl
+                    x:Name="AlertsHost"
+                    MaxWidth="520"
+                    Margin="0,8,28,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Panel.ZIndex="900"
+                    Focusable="False">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <local:InfoBar
+                                Margin="0,0,0,6"
+                                ActionClicked="Alert_OnActionClicked"
+                                ActionText="{Binding ActionMessage}"
+                                Closed="Alert_OnClosed"
+                                Message="{Binding Message}"
+                                Severity="{Binding Severity}"
+                                Title="{Binding Title}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </UniformGrid>
+
+        <Border
+            x:Name="CommandInput"
+            Grid.Row="1"
+            Background="{Binding AppSettings.CommandBoxBackgroundColor}"
+            BorderBrush="#444444"
+            BorderThickness=".9,1,.9,0"
+            IsEnabled="False">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <edit:TextEditor
+                    x:Name="Input"
+                    Padding="5"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    AutomationProperties.Name="Game command"
+                    Background="{Binding AppSettings.CommandBoxBackgroundColor}"
+                    ContextMenu="{StaticResource CommandBoxContextMenu}"
+                    Focusable="True"
+                    FontFamily="Consolas"
+                    FontSize="14"
+                    Foreground="{Binding AppSettings.CommandBoxForegroundColor}"
+                    HorizontalScrollBarVisibility="Hidden"
+                    PreviewKeyDown="Input_OnPreviewKeyDown"
+                    SnapsToDevicePixels="True"
+                    VerticalScrollBarVisibility="Hidden"
+                    WordWrap="False" />
+
+                <Grid x:Name="PrivateInputPanel" PreviewKeyDown="PrivateInput_OnPreviewKeyDown" Visibility="Collapsed">
+                    <PasswordBox
+                        x:Name="PrivateInput"
+                        AutomationProperties.Name="Game password"
+                        CaretBrush="{Binding AppSettings.CommandBoxForegroundColor}"
+                        Style="{StaticResource PrivateInputStyle}" />
+                    <TextBox
+                        x:Name="RevealedInput"
+                        AutomationProperties.Name="Game password (visible)"
+                        CaretBrush="{Binding AppSettings.CommandBoxForegroundColor}"
+                        CommandManager.PreviewCanExecute="RevealedInput_OnPreviewCanExecute"
+                        ContextMenuService.IsEnabled="False"
+                        IsUndoEnabled="False"
+                        Style="{StaticResource PrivateInputStyle}"
+                        Visibility="Collapsed" />
+                </Grid>
+
+                <Button
+                    x:Name="MultilineButton"
+                    Grid.Column="1"
+                    AutomationProperties.Name="Send Multiline Text to Game"
+                    Click="MultilineButton_OnClick"
+                    Style="{StaticResource InputActionStyle}"
+                    ToolTip="Send Multiline Text to Game">
+                    <TextBlock Style="{StaticResource InputActionIconStyle}" Text="&#xE724;" />
+                </Button>
+
+                <ToggleButton
+                    x:Name="PeekButton"
+                    Grid.Column="1"
+                    Checked="PeekButton_OnToggled"
+                    Unchecked="PeekButton_OnToggled"
+                    Visibility="Collapsed">
+                    <ToggleButton.Style>
+                        <Style BasedOn="{StaticResource InputActionStyle}" TargetType="ToggleButton">
+                            <Setter Property="AutomationProperties.Name" Value="Show password" />
+                            <Setter Property="ToolTip" Value="Show password" />
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="AutomationProperties.Name" Value="Hide password" />
+                                    <Setter Property="ToolTip" Value="Hide password" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
+                    <TextBlock>
+                        <TextBlock.Style>
+                            <Style BasedOn="{StaticResource InputActionIconStyle}" TargetType="TextBlock">
+                                <Setter Property="Text" Value="&#xE890;" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=PeekButton}" Value="True">
+                                        <Setter Property="Text" Value="&#xED1A;" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </ToggleButton>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

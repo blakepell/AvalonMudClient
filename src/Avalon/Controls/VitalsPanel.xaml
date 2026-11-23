@@ -1,0 +1,74 @@
+<UserControl
+    x:Class="Avalon.Controls.VitalsPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:themes="http://schemas.apexgate.net/wpf/mosaic-ui"
+    Background="{DynamicResource {x:Static themes:MosaicTheme.WindowBackgroundBrush}}"
+    Foreground="{DynamicResource {x:Static themes:MosaicTheme.ControlTextForegroundBrush}}"
+    UseLayoutRounding="True">
+    <UserControl.ContextMenu>
+        <ContextMenu>
+            <MenuItem Click="ConfigureVitals_OnClick" Header="Configure Vitals…" />
+        </ContextMenu>
+    </UserControl.ContextMenu>
+
+    <UserControl.Resources>
+        <Style x:Key="VitalBarStyle" TargetType="ProgressBar">
+            <Setter Property="Height" Value="10" />
+            <Setter Property="Maximum" Value="1" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="#26985A" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ProgressBar">
+                        <Grid x:Name="PART_Track" ClipToBounds="True">
+                            <Border Background="{DynamicResource {x:Static themes:MosaicTheme.ControlBorderBrush}}" CornerRadius="5" Opacity="0.65" />
+                            <Border x:Name="PART_Indicator" HorizontalAlignment="Left" Background="{TemplateBinding Foreground}" CornerRadius="5" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Condition}" Value="Warning">
+                    <Setter Property="Foreground" Value="#D9A928" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Condition}" Value="Critical">
+                    <Setter Property="Foreground" Value="#D4474F" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+        <Grid Margin="12,10" Grid.IsSharedSizeScope="True">
+            <ItemsControl x:Name="VitalRows">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,2" MinHeight="22">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="VitalLabels" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="VitalReadings" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock MaxWidth="112" VerticalAlignment="Center" Text="{Binding Label}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Label}" />
+                            <ProgressBar Grid.Column="1" Margin="10,0" AutomationProperties.Name="{Binding Label}" AutomationProperties.HelpText="{Binding Reading}" Style="{StaticResource VitalBarStyle}" Value="{Binding Fraction, Mode=OneWay}" />
+                            <TextBlock Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{Binding Reading}" Typography.NumeralAlignment="Tabular" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <TextBlock Text="Right-click to configure vitals." TextWrapping="Wrap">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding HasItems, ElementName=VitalRows}" Value="False">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

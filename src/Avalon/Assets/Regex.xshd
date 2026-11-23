@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SyntaxDefinition name="RegularExpression" extensions=".regex"
+                  xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+  <Color name="Default" />
+  <Color name="CharacterClass" foreground="#3B82F6" />
+  <Color name="Quantifier" foreground="#A855F7" />
+  <Color name="Group" foreground="#14B8A6" />
+  <Color name="EscapeSequence" foreground="#EF4444" />
+  <Color name="Anchor" foreground="#F59E0B" />
+  <Color name="Operator" foreground="#9CA3AF" />
+
+  <RuleSet>
+    <!-- Character Classes -->
+    <Span color="CharacterClass" begin="\[" end="\]">
+      <RuleSet>
+        <!-- Handle escape sequences within character classes -->
+        <Rule color="EscapeSequence">\\.</Rule>
+        <!-- Handle nested character classes -->
+        <Span color="CharacterClass" begin="\[" end="\]">
+          <RuleSet>
+            <!-- Handle escape sequences within nested character classes -->
+            <Rule color="EscapeSequence">\\.</Rule>
+          </RuleSet>
+        </Span>
+      </RuleSet>
+    </Span>
+
+    <!-- Escape Sequences outside character classes -->
+    <Rule color="EscapeSequence">\\[dDwWsSbBfnrtv\\*+?{}[\]()|.]</Rule>
+
+    <!-- Quantifiers -->
+    <Rule color="Quantifier">(\*|\+|\?|\{\d+(,\d*)?\})</Rule>
+
+    <!-- Groups -->
+    <Rule color="Group">(\(|\))</Rule>
+
+    <!-- Anchors -->
+    <Rule color="Anchor">[\^\$]</Rule>
+
+    <!-- Operators -->
+    <Rule color="Operator">[\.\|]</Rule>
+  </RuleSet>
+</SyntaxDefinition>

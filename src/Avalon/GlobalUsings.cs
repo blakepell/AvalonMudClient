@@ -1,0 +1,1 @@
+﻿global using MessageBox = Mosaic.UI.Wpf.Controls.MessageBox;
