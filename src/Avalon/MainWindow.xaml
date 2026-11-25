@@ -833,7 +833,10 @@
                                 Tag="{x:Static mosaic:RibbonLayoutMode.Simplified}" />
                         </mosaic:RibbonMenuButton>
                     </mosaic:RibbonGroup>
+                </mosaic:RibbonTabItem>
 
+                <!--  ============================  DEVELOPER  ============================  -->
+                <mosaic:RibbonTabItem mosaic:RibbonKeyTipService.KeyTip="D" Header="Developer">
                     <mosaic:RibbonGroup Header="Developer">
                         <!--  Packages  -->
                         <mosaic:RibbonMenuButton
@@ -886,6 +889,14 @@
                             Label="Log Viewer"
                             LargeImage="/Assets/log-file-64.png"
                             SmallImage="/Assets/log-file-64.png" />
+
+                        <mosaic:RibbonButton
+                            Key="SqliteQueryEditor"
+                            mosaic:RibbonItem.VariantBehavior="AlwaysLarge"
+                            Command="{x:Static vm:AppCommands.SqliteQueryEditorCommand}"
+                            Label="SQLite Query Editor"
+                            LargeImage="/Assets/database-48.png"
+                            SmallImage="/Assets/database-48.png" />
                     </mosaic:RibbonGroup>
                 </mosaic:RibbonTabItem>
 
