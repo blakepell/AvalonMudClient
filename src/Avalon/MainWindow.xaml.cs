@@ -20,6 +20,7 @@ using Mosaic.UI.Wpf;
 using Mosaic.UI.Wpf.AvalonDock;
 using Mosaic.UI.Wpf.AvalonDock.Layout;
 using Mosaic.UI.Wpf.AvalonDock.Serialization;
+using Mosaic.UI.Wpf.Common;
 using Mosaic.UI.Wpf.Controls;
 using Mosaic.UI.Wpf.Logging;
 using Mosaic.UI.Wpf.Themes;
@@ -686,6 +687,15 @@ namespace Avalon
             return grid;
         }
 
+        private void EditScriptProperty_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button { Tag: PropertyDescriptor property, CommandParameter: { } target })
+            {
+                var title = target is Game game ? $"{game.Name}: {property.DisplayName}" : property.DisplayName;
+                OpenScriptDocument(target, property.Name, title);
+            }
+        }
+
         private object CreateNotesEditor()
         {
             var editor = new MarkdownEditor
@@ -767,28 +777,37 @@ namespace Avalon
         /// Opens a JavaScript document.  With a target, Save writes the code back to that object's property;
         /// without one it is the Interactive Script Editor.
         /// </summary>
-        public void OpenScriptDocument(object? target, string? property, string title)
+        public void OpenScriptDocument(object? target, string? property, string title, Game? profile = null)
         {
+            Ribbon.CloseBackstage();
             if (target is not null)
             {
                 var existing = WorkspaceDock.Layout.Descendents().OfType<LayoutDocument>()
-                    .FirstOrDefault(d => d.Content is ScriptEditorControl editor && ReferenceEquals(editor.SaveObject, target));
+                    .FirstOrDefault(d => d.Content is ScriptEditorControl editor &&
+                        ReferenceEquals(editor.SaveObject, target) && editor.SaveToProperty == property);
                 if (existing is not null)
                 {
-                    existing.IsActive = true;
+                    existing.IsSelected = existing.IsActive = true;
                     return;
                 }
             }
 
-            var code = target is not null && property is not null ? target.GetType().GetProperty(property)?.GetValue(target) as string ?? "" : "";
-            var interpreter = ViewModel.ActiveTerminal?.Interpreter;
+            var scriptProperty = target is not null && property is not null ? TypeDescriptor.GetProperties(target)[property] : null;
+            profile ??= target as Game;
+            var interpreter = profile is null ? ViewModel.ActiveTerminal?.Interpreter :
+                _terminalDocuments.TryGetValue(profile, out var profileDocument) && profileDocument.Content is MudTerminal terminal
+                    ? terminal.Interpreter
+                    : null;
             var control = new ScriptEditorControl
             {
-                Text = code,
-                Environment = interpreter?.Environment ?? ScriptEnvironmentFactory.ForActiveGame(),
+                Text = scriptProperty?.GetValue(target) as string ?? "",
+                Environment = interpreter?.Environment ?? (profile is null
+                    ? ScriptEnvironmentFactory.ForActiveGame()
+                    : ScriptEnvironmentFactory.CreateForProfile(profile)),
                 SaveObject = target,
                 SaveToProperty = property
             };
+            control.MarkSaved();
             control.Executing += (_, _) => AdjustScriptsActive(1);
             control.Executed += (_, _) => AdjustScriptsActive(-1);
 
@@ -804,14 +823,26 @@ namespace Avalon
                     }
                 };
             }
-            else
+            else if (scriptProperty is not null)
             {
-                // Saving script source re-runs the definitions so new functions can be called right away.
                 control.SaveTextAsync = (text, _) =>
                 {
-                    target.GetType().GetProperty(property!)?.SetValue(target, text);
-                    ViewModel.ActiveTerminal?.Interpreter.RefreshScripts();
-                    AppCommands.Save();
+                    scriptProperty.SetValue(target, text);
+                    if (target is LocalSettings)
+                    {
+                        App.SaveClientSettings();
+                    }
+                    else
+                    {
+                        AppCommands.Save();
+                    }
+
+                    // Source definitions are cached by the terminal. Event scripts are read when the event fires.
+                    if (target is SourceCode && profile is not null &&
+                        _terminalDocuments.TryGetValue(profile, out var ownerDocument) && ownerDocument.Content is MudTerminal ownerTerminal)
+                    {
+                        ownerTerminal.Interpreter.RefreshScripts();
+                    }
                     return Task.CompletedTask;
                 };
             }

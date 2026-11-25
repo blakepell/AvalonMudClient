@@ -23,7 +23,10 @@
                 </MenuItem>
                 <MenuItem Click="TerminalContextMenuRegex_OnClick" Header="Open in Regex Builder">
                     <MenuItem.Icon>
-                        <mosaic:AdaptiveImage Width="16" Height="16" Source="/Assets/vs-regex-16.png" />
+                        <mosaic:AdaptiveImage
+                            Width="16"
+                            Height="16"
+                            Source="/Assets/vs-regex-16.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
@@ -68,7 +71,10 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="ButtonBase">
                             <Grid Background="{TemplateBinding Background}">
-                                <Border x:Name="Highlight" Background="{TemplateBinding Foreground}" Opacity="0" />
+                                <Border
+                                    x:Name="Highlight"
+                                    Background="{TemplateBinding Foreground}"
+                                    Opacity="0" />
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Grid>
                             <ControlTemplate.Triggers>
@@ -136,14 +142,17 @@
                     Padding="0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Top"
+                    Panel.ZIndex="1000"
                     AutomationProperties.Name="Close Back Buffer"
                     Background="Black"
                     Click="CloseBackBuffer_OnClick"
                     Foreground="White"
                     Opacity=".7"
-                    Panel.ZIndex="1000"
                     ToolTip="Close Back Buffer">
-                    <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="12" Text="&#xE711;" />
+                    <TextBlock
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="12"
+                        Text="&#xE711;" />
                 </Button>
                 <edit:TextEditor
                     x:Name="BackBuffer"
@@ -173,13 +182,13 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <local:InfoBar
+                                Title="{Binding Title}"
                                 Margin="0,0,0,6"
                                 ActionClicked="Alert_OnActionClicked"
                                 ActionText="{Binding ActionMessage}"
                                 Closed="Alert_OnClosed"
                                 Message="{Binding Message}"
-                                Severity="{Binding Severity}"
-                                Title="{Binding Title}" />
+                                Severity="{Binding Severity}" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
@@ -217,7 +226,10 @@
                     VerticalScrollBarVisibility="Hidden"
                     WordWrap="False" />
 
-                <Grid x:Name="PrivateInputPanel" PreviewKeyDown="PrivateInput_OnPreviewKeyDown" Visibility="Collapsed">
+                <Grid
+                    x:Name="PrivateInputPanel"
+                    PreviewKeyDown="PrivateInput_OnPreviewKeyDown"
+                    Visibility="Collapsed">
                     <PasswordBox
                         x:Name="PrivateInput"
                         AutomationProperties.Name="Game password"

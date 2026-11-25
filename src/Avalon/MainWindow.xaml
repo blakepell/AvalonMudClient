@@ -153,11 +153,7 @@
             </mosaic:PropertyGrid>
         </DataTemplate>
 
-        <!--
-            The text editor used by the property grids.  Brushes and the terminal font fall through to the
-            text editor, so this replaces it with a color editor and a font auto complete box for those.  Their
-            bindings are only applied by the triggers so a hidden editor never writes back to another property.
-        -->
+        <common:ScriptPropertyConverter x:Key="ScriptPropertyConverter" />
         <DataTemplate x:Key="PropertyGridTextEditor">
             <Grid>
                 <TextBox
@@ -168,7 +164,22 @@
                     Background="{DynamicResource {x:Static mosaic:MosaicTheme.ControlTextBackgroundBrush}}"
                     BorderThickness="0"
                     IsReadOnly="{Binding IsReadOnly}"
-                    Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                    Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                    Visibility="Collapsed" />
+                <Button
+                    x:Name="Script"
+                    Margin="4,2"
+                    HorizontalAlignment="Left"
+                    Click="EditScriptProperty_OnClick"
+                    CommandParameter="{Binding Object, RelativeSource={RelativeSource AncestorType=mosaic:PropertyGrid}}"
+                    Content="Edit Script…">
+                    <Button.Tag>
+                        <MultiBinding Converter="{StaticResource ScriptPropertyConverter}" Mode="OneWay">
+                            <Binding Path="Object" RelativeSource="{RelativeSource AncestorType=mosaic:PropertyGrid}" />
+                            <Binding Path="Name" />
+                        </MultiBinding>
+                    </Button.Tag>
+                </Button>
                 <mosaic:HexColorTextBox
                     x:Name="Color"
                     HorizontalAlignment="Stretch"
@@ -184,6 +195,10 @@
                     Visibility="Collapsed" />
             </Grid>
             <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Tag, ElementName=Script}" Value="{x:Null}">
+                    <Setter TargetName="Text" Property="Visibility" Value="Visible" />
+                    <Setter TargetName="Script" Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
                 <DataTrigger Binding="{Binding PropertyType}" Value="{x:Type SolidColorBrush}">
                     <Setter TargetName="Text" Property="Visibility" Value="Collapsed" />
                     <Setter TargetName="Color" Property="Visibility" Value="Visible" />
@@ -317,7 +332,7 @@
                                                 <Setter Property="FontWeight" Value="Normal" />
                                                 <Setter Property="TextWrapping" Value="Wrap" />
                                             </Style>
-                                            <Style TargetType="Hyperlink" BasedOn="{StaticResource {x:Type Hyperlink}}">
+                                            <Style BasedOn="{StaticResource {x:Type Hyperlink}}" TargetType="Hyperlink">
                                                 <EventSetter Event="RequestNavigate" Handler="InfoLink_OnRequestNavigate" />
                                             </Style>
                                         </Grid.Resources>
@@ -340,7 +355,11 @@
                                         </Grid.RowDefinitions>
 
                                         <StackPanel Grid.ColumnSpan="2">
-                                            <TextBlock Margin="0" FontSize="16" FontWeight="SemiBold" Text="Third Party Library Usage" />
+                                            <TextBlock
+                                                Margin="0"
+                                                FontSize="16"
+                                                FontWeight="SemiBold"
+                                                Text="Third Party Library Usage" />
                                             <Border
                                                 Height="1"
                                                 Margin="0,4,0,4"
@@ -395,8 +414,15 @@
                                             </Hyperlink>
                                         </TextBlock>
 
-                                        <StackPanel Grid.Row="9" Grid.ColumnSpan="2" Margin="0,20,0,0">
-                                            <TextBlock Margin="0" FontSize="16" FontWeight="SemiBold" Text="Portions Based On" />
+                                        <StackPanel
+                                            Grid.Row="9"
+                                            Grid.ColumnSpan="2"
+                                            Margin="0,20,0,0">
+                                            <TextBlock
+                                                Margin="0"
+                                                FontSize="16"
+                                                FontWeight="SemiBold"
+                                                Text="Portions Based On" />
                                             <Border
                                                 Height="1"
                                                 Margin="0,4,0,4"
@@ -775,9 +801,7 @@
                                 Command="{x:Static vm:AppCommands.NewTerminalCommand}"
                                 Header="Add New Terminal"
                                 SmallImage="/Assets/terminal-48.png" />
-                            <mosaic:RibbonMenuItem
-                                Command="{x:Static vm:AppCommands.AddVitalsPanelCommand}"
-                                Header="Add Vitals Panel" />
+                            <mosaic:RibbonMenuItem Command="{x:Static vm:AppCommands.AddVitalsPanelCommand}" Header="Add Vitals Panel" />
                             <Separator />
                             <controls:RibbonMenuHeading Header="Tool Windows" Style="{StaticResource RibbonMenuHeadingStyle}" />
                             <mosaic:RibbonMenuItem

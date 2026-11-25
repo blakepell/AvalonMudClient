@@ -25,12 +25,21 @@ public static class ScriptEnvironmentFactory
     /// </summary>
     public static ScriptEnvironment Create(Interpreter interpreter)
     {
-        var environment = CreateBase();
+        var environment = CreateForProfile(interpreter.Game);
         environment.RegisterObject("terminal", new TerminalScriptCommands(interpreter));
-        environment.RegisterObject("game", interpreter.Game);
+        return environment;
+    }
+
+    /// <summary>
+    /// Creates an environment for editing a profile whose terminal is closed.
+    /// </summary>
+    public static ScriptEnvironment CreateForProfile(Game profile)
+    {
+        var environment = CreateBase();
+        environment.RegisterObject("game", profile);
         // Continuum scripts use "profile" for the same object.
-        environment.RegisterObject("profile", interpreter.Game);
-        environment.RegisterObject("vm", interpreter.Game.ViewModel);
+        environment.RegisterObject("profile", profile);
+        environment.RegisterObject("vm", profile.ViewModel);
         return environment;
     }
 

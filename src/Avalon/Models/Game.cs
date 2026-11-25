@@ -325,8 +325,10 @@ public partial class Game : ObservableObject, IEditableModel
     /// Gets or sets JavaScript that runs when the game's terminal opens.
     /// </summary>
     [property: Display(Name = "On Profile Loaded Event")]
+    [property: DisplayName("On Profile Loaded Event")]
     [property: Category("Events")]
     [property: Description("JavaScript that runs when the game's terminal is opened.")]
+    [property: ModelEditor(TextEditor = TextEditorKind.Script)]
     [ObservableProperty, JsonPropertyName("OnProfileLoadedEvent")]
     public partial string OnProfileLoadedEvent { get; set; } = "";
 
@@ -334,8 +336,10 @@ public partial class Game : ObservableObject, IEditableModel
     /// Gets or sets JavaScript that runs when the game's terminal closes.
     /// </summary>
     [property: Display(Name = "On Profile Closed Event")]
+    [property: DisplayName("On Profile Closed Event")]
     [property: Category("Events")]
     [property: Description("JavaScript that runs when the game's terminal is closed.")]
+    [property: ModelEditor(TextEditor = TextEditorKind.Script)]
     [ObservableProperty, JsonPropertyName("OnProfileClosedEvent")]
     public partial string OnProfileClosedEvent { get; set; } = "";
 
@@ -343,8 +347,10 @@ public partial class Game : ObservableObject, IEditableModel
     /// Gets or sets JavaScript that runs every tick.
     /// </summary>
     [property: Display(Name = "On Tick Event")]
+    [property: DisplayName("On Tick Event")]
     [property: Category("Events")]
     [property: Description("JavaScript that runs every tick while connected.")]
+    [property: ModelEditor(TextEditor = TextEditorKind.Script)]
     [ObservableProperty, JsonPropertyName("OnTickEvent")]
     public partial string OnTickEvent { get; set; } = "";
 

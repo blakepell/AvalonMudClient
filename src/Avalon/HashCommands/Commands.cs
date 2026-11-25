@@ -471,9 +471,9 @@ public sealed class GoCommand : HashCommand
         string room = context.Interpreter.GetVariable("Room");
         var directions = context.Game.Directions;
 
-        var direct = directions.FirstOrDefault(d => d.Name.Equals(name, StringComparison.OrdinalIgnoreCase)
-                         && (room.Length == 0 || d.StartingRoom.Length == 0 || d.StartingRoom.Equals(room, StringComparison.OrdinalIgnoreCase)))
-                     ?? directions.FirstOrDefault(d => d.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+        var direct = directions.FirstOrDefault(d => string.Equals(d.Name, name, StringComparison.OrdinalIgnoreCase)
+                         && (room.Length == 0 || string.IsNullOrWhiteSpace(d.StartingRoom) || string.Equals(d.StartingRoom, room, StringComparison.OrdinalIgnoreCase)))
+                     ?? directions.FirstOrDefault(d => string.Equals(d.Name, name, StringComparison.OrdinalIgnoreCase));
         if (direct is null)
         {
             context.Error($"No direction named '{name}' was found.");
@@ -481,10 +481,10 @@ public sealed class GoCommand : HashCommand
         }
 
         // When the path starts somewhere else, look for a path from here to its start.
-        if (room.Length > 0 && direct.StartingRoom.Length > 0 && !direct.StartingRoom.Equals(room, StringComparison.OrdinalIgnoreCase))
+        if (room.Length > 0 && !string.IsNullOrWhiteSpace(direct.StartingRoom) && !string.Equals(direct.StartingRoom, room, StringComparison.OrdinalIgnoreCase))
         {
-            var bridge = directions.FirstOrDefault(d => d.EndingRoom.Equals(direct.StartingRoom, StringComparison.OrdinalIgnoreCase)
-                                                        && d.StartingRoom.Equals(room, StringComparison.OrdinalIgnoreCase));
+            var bridge = directions.FirstOrDefault(d => string.Equals(d.EndingRoom, direct.StartingRoom, StringComparison.OrdinalIgnoreCase)
+                                                        && string.Equals(d.StartingRoom, room, StringComparison.OrdinalIgnoreCase));
             if (bridge is null)
             {
                 context.Error($"Path not found from '{room}' to '{direct.Name}'.");

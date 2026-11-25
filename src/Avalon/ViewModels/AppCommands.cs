@@ -352,7 +352,7 @@ public static class AppCommands
     {
         if (item is SourceCode script)
         {
-            Main?.OpenScriptDocument(script, nameof(SourceCode.Code), script.Name);
+            Main?.OpenScriptDocument(script, nameof(SourceCode.Code), script.Name, game);
             return;
         }
         if (item is Macro macro)
@@ -429,7 +429,7 @@ public static class AppCommands
             script.Code = $"function {name.Replace('.', '_').Replace(' ', '_')}() {{\n    \n}}\n";
             collection(game).Add(item);
             Save();
-            Main?.OpenScriptDocument(script, nameof(SourceCode.Code), script.Name);
+            Main?.OpenScriptDocument(script, nameof(SourceCode.Code), script.Name, game);
             return;
         }
 
@@ -519,7 +519,7 @@ public static class AppCommands
                 {
                     var script = (SourceCode)item;
                     dialog.Close();
-                    Main?.OpenScriptDocument(script, nameof(SourceCode.Code), script.Name);
+                    Main?.OpenScriptDocument(script, nameof(SourceCode.Code), script.Name, game);
                 });
                 break;
             case nameof(Direction):
@@ -568,18 +568,7 @@ public static class AppCommands
             return;
         }
 
-        var info = typeof(Game).GetProperty(property)!;
-        var editor = new ScriptEditorWindow(info.GetValue(game) as string ?? "", SaveProperty) { Title = $"{game.Name}: {title}" };
-        if (editor.ShowDialog() == true)
-        {
-            SaveProperty(editor.Text);
-        }
-
-        void SaveProperty(string text)
-        {
-            info.SetValue(game, text);
-            Save();
-        }
+        Main?.OpenScriptDocument(game, property, $"{game.Name}: {title}");
     }
 
     private static void StopRecording()

@@ -6,8 +6,10 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Avalon.Models;
+using Avalon.ViewModels;
 using Mosaic.UI.Wpf.Themes;
 
 namespace Avalon.Controls;
@@ -246,14 +248,14 @@ public sealed class AliasButtonsRepeater : ActiveGamePanel
 }
 
 /// <summary>
-/// The Movement window: a ten direction compass that sends the direction when clicked.
+/// A ten-direction compass with a shortcut to the Directions dialog.
 /// </summary>
 public sealed class MovementView : ActiveGamePanel
 {
     private static readonly (string Label, string Command, int Row, int Column)[] Buttons =
     [
         ("NW", "nw", 0, 0), ("N", "n", 0, 1), ("NE", "ne", 0, 2), ("U", "u", 0, 4),
-        ("W", "w", 1, 0), ("Look", "look", 1, 1), ("E", "e", 1, 2),
+        ("W", "w", 1, 0), ("E", "e", 1, 2),
         ("SW", "sw", 2, 0), ("S", "s", 2, 1), ("SE", "se", 2, 2), ("D", "d", 2, 4)
     ];
 
@@ -262,11 +264,11 @@ public sealed class MovementView : ActiveGamePanel
     /// </summary>
     public MovementView()
     {
-        var grid = new UniformGrid { Rows = 3, Columns = 5, Margin = new Thickness(8), MaxWidth = 300, HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top };
+        var grid = new UniformGrid { Rows = 3, Columns = 5, Margin = new Thickness(8), HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top };
         var cells = new UIElement[15];
         foreach (var (label, command, row, column) in Buttons)
         {
-            var button = new Button { Content = label, Height = 40, Margin = new Thickness(2), ToolTip = command };
+            var button = CreateButton(label, command);
             button.Click += async (_, _) =>
             {
                 if (Terminal is { } terminal)
@@ -276,12 +278,30 @@ public sealed class MovementView : ActiveGamePanel
             };
             cells[row * 5 + column] = button;
         }
+
+        var map = new Image
+        {
+            Source = new BitmapImage(new Uri("pack://application:,,,/Assets/map-48.png")),
+            Width = 22,
+            Height = 22
+        };
+        var directions = CreateButton(map, "Directions");
+        directions.Command = AppCommands.ShowDirectionsCommand;
+        cells[6] = directions;
+
         foreach (var cell in cells)
         {
             grid.Children.Add(cell ?? new Border());
         }
 
         Content = grid;
+    }
+
+    private static Button CreateButton(object content, string label)
+    {
+        var button = new Button { Content = content, Width = 40, Height = 40, Padding = new Thickness(0), Margin = new Thickness(2), ToolTip = label };
+        System.Windows.Automation.AutomationProperties.SetName(button, label);
+        return button;
     }
 
     /// <inheritdoc/>

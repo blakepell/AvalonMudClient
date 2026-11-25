@@ -76,10 +76,11 @@ public sealed class DirectionsSelectWindow : DialogBase
 
         _all = string.IsNullOrWhiteSpace(room)
             ? game.Directions.OrderBy(d => d.Name).ToList()
-            : game.Directions.Where(d => d.StartingRoom.Equals(room, StringComparison.OrdinalIgnoreCase))
+            : game.Directions.Where(d => string.Equals(d.StartingRoom, room, StringComparison.OrdinalIgnoreCase))
                 .Concat(game.Directions.Where(d => game.Directions.Any(first =>
-                    first.StartingRoom.Equals(room, StringComparison.OrdinalIgnoreCase)
-                    && first.EndingRoom.Equals(d.StartingRoom, StringComparison.OrdinalIgnoreCase))))
+                    string.Equals(first.StartingRoom, room, StringComparison.OrdinalIgnoreCase)
+                    && !string.IsNullOrWhiteSpace(first.EndingRoom)
+                    && string.Equals(first.EndingRoom, d.StartingRoom, StringComparison.OrdinalIgnoreCase))))
                 .Concat(game.Directions.Where(d => string.IsNullOrWhiteSpace(d.StartingRoom)))
                 .Distinct().ToList();
 
@@ -103,16 +104,31 @@ public sealed class DirectionsSelectWindow : DialogBase
             }
         };
 
-        _search = new SearchBox { Height = 28, Margin = new Thickness(0, 0, 0, 6) };
+        _search = new SearchBox { Watermark = "Find a destination", Height = 28, Margin = new Thickness(0, 0, 0, 6) };
         _search.TextChanged += (_, _) =>
-            _list.ItemsSource = _all.Where(d => d.ToString().Contains(_search.Text, StringComparison.OrdinalIgnoreCase)).ToList();
+        {
+            var query = _search.Text.Trim();
+            _list.ItemsSource = _all.Where(d => d.ToString().Contains(query, StringComparison.OrdinalIgnoreCase)).ToList();
+            _list.SelectedIndex = 0;
+        };
+        _search.SearchExecuted += (_, _) =>
+        {
+            if (Selected is not null)
+            {
+                DialogResult = true;
+            }
+        };
 
         var panel = new DockPanel { Margin = new Thickness(12, 12, 12, 0) };
         DockPanel.SetDock(_search, Dock.Top);
         panel.Children.Add(_search);
         panel.Children.Add(_list);
         SetBody(panel, "Go");
-        Loaded += (_, _) => _search.Focus();
+        Loaded += (_, _) =>
+        {
+            _list.SelectedIndex = 0;
+            _search.Focus();
+        };
     }
 
     /// <summary>
