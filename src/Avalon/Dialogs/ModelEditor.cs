@@ -198,12 +198,7 @@ public sealed class ModelEditor : Window
         {
             var current = property.GetValue(_working) as string ?? "";
             var title = property.GetCustomAttribute<DisplayAttribute>()?.Name ?? property.Name;
-            void UpdateProperty(string value) => property.SetValue(_working, value);
-
-            if (EditText(this, attribute.TextEditor, current, _working, title, UpdateProperty) is { } result)
-            {
-                UpdateProperty(result);
-            }
+            EditText(this, attribute.TextEditor, current, _working, title, value => property.SetValue(_working, value));
         };
 
         var panel = new DockPanel();
@@ -214,15 +209,15 @@ public sealed class ModelEditor : Window
     }
 
     /// <summary>
-    /// Opens the editor that suits <paramref name="kind"/> and returns the edited text, or null when cancelled.
+    /// Opens the editor for <paramref name="kind"/> and writes accepted edits through the supplied callback.
     /// </summary>
     /// <param name="owner">The window that owns the editor.</param>
     /// <param name="kind">The kind of editor to open.</param>
     /// <param name="text">The text to edit.</param>
     /// <param name="model">The model being edited; its ExecuteAs decides between a script and a command editor.</param>
     /// <param name="title">The editor title.</param>
-    /// <param name="saveProperty">An optional callback to update the property when the script toolbar saves.</param>
-    public static string? EditText(Window? owner, TextEditorKind kind, string text, object? model, string title, Action<string>? saveProperty = null)
+    /// <param name="saveProperty">The callback that updates the property on OK or when the script toolbar saves.</param>
+    public static void EditText(Window? owner, TextEditorKind kind, string text, object? model, string title, Action<string> saveProperty)
     {
         if (kind == TextEditorKind.Command)
         {
@@ -235,13 +230,25 @@ public sealed class ModelEditor : Window
         {
             case TextEditorKind.Script:
                 var script = new ScriptEditorWindow(text, saveProperty) { Title = $"{title} (JavaScript)", Owner = owner };
-                return script.ShowDialog() == true ? script.Text : null;
+                if (script.ShowDialog() == true)
+                {
+                    saveProperty(script.Text);
+                }
+                break;
             case TextEditorKind.Regex:
                 var regex = new RegexBuilderWindow(text) { Owner = owner, IsSaveVisible = true };
-                return regex.ShowDialog() == true ? regex.Pattern : null;
+                if (regex.ShowDialog() == true)
+                {
+                    saveProperty(regex.Pattern);
+                }
+                break;
             default:
                 var editor = new StringEditor(text) { Title = title, Owner = owner };
-                return editor.ShowDialog() == true ? editor.Text : null;
+                if (editor.ShowDialog() == true)
+                {
+                    saveProperty(editor.Text);
+                }
+                break;
         }
     }
 

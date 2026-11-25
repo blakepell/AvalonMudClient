@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:edit="http://icsharpcode.net/sharpdevelop/avalonedit"
     xmlns:local="clr-namespace:Avalon.Controls"
+    xmlns:mosaic="http://schemas.apexgate.net/wpf/mosaic"
     x:Name="Self"
     Background="#363636"
     PreviewKeyDown="MudTerminal_OnPreviewKeyDown"
@@ -22,7 +23,7 @@
                 </MenuItem>
                 <MenuItem Click="TerminalContextMenuRegex_OnClick" Header="Open in Regex Builder">
                     <MenuItem.Icon>
-                        <Image Width="16" Height="16" Source="/Assets/vs-regex-16.png" />
+                        <mosaic:AdaptiveImage Width="16" Height="16" Source="/Assets/vs-regex-16.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />

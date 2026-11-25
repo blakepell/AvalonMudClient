@@ -226,12 +226,12 @@
                             <ContextMenu>
                                 <MenuItem Command="{x:Static vm:AppCommands.ShowSettingsCommand}" Header="Client Settings">
                                     <MenuItem.Icon>
-                                        <Image Source="/Assets/vs-settings-16.png" />
+                                        <mosaic:AdaptiveImage Source="/Assets/vs-settings-16.png" />
                                     </MenuItem.Icon>
                                 </MenuItem>
                                 <MenuItem Command="{x:Static vm:AppCommands.ShowProfileSettingsCommand}" Header="Profile Settings">
                                     <MenuItem.Icon>
-                                        <Image Source="/Assets/vs-settings-16.png" />
+                                        <mosaic:AdaptiveImage Source="/Assets/vs-settings-16.png" />
                                     </MenuItem.Icon>
                                 </MenuItem>
                             </ContextMenu>

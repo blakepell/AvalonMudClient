@@ -498,28 +498,19 @@ public static class AppCommands
                 list.AddMenuItem("Edit Alias Command", "vs-script-16.png", item =>
                 {
                     var alias = (Alias)item;
-                    if (ModelEditor.EditText(dialog, TextEditorKind.Command, alias.Command, alias, "Alias Command") is { } text)
-                    {
-                        alias.Command = text;
-                    }
+                    ModelEditor.EditText(dialog, TextEditorKind.Command, alias.Command, alias, "Alias Command", text => alias.Command = text);
                 });
                 break;
             case nameof(Trigger):
                 list.AddMenuItem("Edit Trigger Command", "vs-script-16.png", item =>
                 {
                     var trigger = (Trigger)item;
-                    if (ModelEditor.EditText(dialog, TextEditorKind.Command, trigger.Command, trigger, "Trigger Command") is { } text)
-                    {
-                        trigger.Command = text;
-                    }
+                    ModelEditor.EditText(dialog, TextEditorKind.Command, trigger.Command, trigger, "Trigger Command", text => trigger.Command = text);
                 });
                 list.AddMenuItem("Open Pattern in Regex Builder", "vs-regex-16.png", item =>
                 {
                     var trigger = (Trigger)item;
-                    if (ModelEditor.EditText(dialog, TextEditorKind.Regex, trigger.Pattern, trigger, "Pattern") is { } text)
-                    {
-                        trigger.Pattern = text;
-                    }
+                    ModelEditor.EditText(dialog, TextEditorKind.Regex, trigger.Pattern, trigger, "Pattern", text => trigger.Pattern = text);
                 });
                 list.AddMenuItem("Copy Trigger ID", "vs-copy-16.png", item => Clipboard.SetDataObject(((Trigger)item).Id, true));
                 break;
@@ -578,10 +569,15 @@ public static class AppCommands
         }
 
         var info = typeof(Game).GetProperty(property)!;
-        var editor = new ScriptEditorWindow(info.GetValue(game) as string ?? "") { Title = $"{game.Name}: {title}" };
+        var editor = new ScriptEditorWindow(info.GetValue(game) as string ?? "", SaveProperty) { Title = $"{game.Name}: {title}" };
         if (editor.ShowDialog() == true)
         {
-            info.SetValue(game, editor.Text);
+            SaveProperty(editor.Text);
+        }
+
+        void SaveProperty(string text)
+        {
+            info.SetValue(game, text);
             Save();
         }
     }

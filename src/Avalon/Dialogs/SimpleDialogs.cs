@@ -1,10 +1,8 @@
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using ICSharpCode.AvalonEdit;
-using Microsoft.Win32;
 using Mosaic.UI.Wpf.Controls;
 using Mosaic.UI.Wpf.Themes;
 
@@ -170,8 +168,8 @@ public sealed class ScriptEditorWindow : DialogBase
     /// Initializes a new instance of the <see cref="ScriptEditorWindow"/> class.
     /// </summary>
     /// <param name="code">The initial JavaScript source.</param>
-    /// <param name="saveProperty">An optional callback to update the property when saving the script.</param>
-    public ScriptEditorWindow(string code, Action<string>? saveProperty = null)
+    /// <param name="saveProperty">The callback that updates the property when saving the script.</param>
+    public ScriptEditorWindow(string code, Action<string> saveProperty)
     {
         Title = "Script Editor";
         Width = 900;
@@ -180,25 +178,13 @@ public sealed class ScriptEditorWindow : DialogBase
         {
             Text = code,
             Environment = Scripting.ScriptEnvironmentFactory.ForActiveGame(),
-            Margin = new Thickness(0)
-        };
-        if (saveProperty is not null)
-        {
-            _editor.SaveTextAsync = (text, token) =>
+            Margin = new Thickness(0),
+            SaveTextAsync = (text, _) =>
             {
                 saveProperty(text);
-
-                var dialog = new SaveFileDialog
-                {
-                    Title = "Save Script",
-                    Filter = "JavaScript (*.js)|*.js|All files (*.*)|*.*",
-                    DefaultExt = ".js"
-                };
-                return dialog.ShowDialog(this) == true
-                    ? File.WriteAllTextAsync(dialog.FileName, text, token)
-                    : Task.CompletedTask;
-            };
-        }
+                return Task.CompletedTask;
+            }
+        };
         SetBody(_editor, "OK");
     }
 
