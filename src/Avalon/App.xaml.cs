@@ -22,10 +22,12 @@ namespace Avalon
 
             var version = typeof(App).Assembly.GetName().Version;
             Logger.LogInfo($"Starting {viewModel.Title} version {version}.");
+            viewModel.McpServer.Attach(settings);
         }
 
         private void App_OnExit(object sender, ExitEventArgs e)
         {
+            AppServices.GetRequiredService<AppViewModel>().McpServer.Shutdown();
             Scripting.AudioScriptCommands.ReleasePlayers();
             base.OnExit(e);
         }

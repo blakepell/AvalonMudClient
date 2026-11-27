@@ -18,6 +18,7 @@ Avalon is an advanced MUD client crafted for immersive text-based gaming. Design
 | [Keyboard Shortcuts](KeyboardShortcuts.md) | Hot keys supported by the mud client and it's various UI element windows. |
 | [Layouts](Layouts.md) | Layouts are the arrangement of docked and floating windows that make up the client's interface. |
 | [Macros](Macros.md) | Macros bind a command to a key or key combination. |
+| [MCP Server](MCP-Server.md) | Lets AI assistants such as Claude Code and Codex connect to the running client. |
 | [Packages](Packages.md) | Packages bundle aliases, triggers, directions, variables and scripts so they can be installed, shared and removed as one. |
 | [Profiles](Profiles.md) | Profiles save your personalized settings and configurations to quickly switch between different gaming setups. |
 | [Scripting in Avalon](Scripting.md) | Scripting enhances the client by allowing automated and advanced customization options. Covers the objects and functions Avalon adds for working with the game. |

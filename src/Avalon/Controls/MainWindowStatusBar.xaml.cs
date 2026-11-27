@@ -24,6 +24,14 @@ public partial class MainWindowStatusBar : UserControl
 
     private void ButtonToggleAliases_Click(object sender, RoutedEventArgs e) => ActiveTerminal?.ToggleAliases();
 
+    private void ButtonToggleMcpServer_Click(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is AppViewModel { AppSettings: { } settings })
+        {
+            settings.McpServerEnabled = !settings.McpServerEnabled;
+        }
+    }
+
     private async void ButtonToggleGmcp_Click(object sender, RoutedEventArgs e)
     {
         if (ActiveTerminal is { } terminal)

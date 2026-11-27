@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="Argus.Core" Version="2026.7.21.1" />
+    <PackageReference Include="ModelContextProtocol.AspNetCore" Version="2.4.0" />
     <PackageReference Include="MosaicUIWpf" Version="2026.11.24.1" />
     <PackageReference Include="MosaicUIWpf.AvalonDock" Version="2026.11.24.1" />
     <PackageReference Include="NAudio" Version="3.3.0" />

@@ -33,6 +33,11 @@ namespace Avalon.Models
         private string _statusText = "Ready";
 
         /// <summary>
+        /// The MCP server, which follows the MCP settings.
+        /// </summary>
+        public Mcp.McpServerHost McpServer { get; } = new();
+
+        /// <summary>
         /// The game terminal whose document is currently showing, used by the status bar. Null when no
         /// game is open.
         /// </summary>

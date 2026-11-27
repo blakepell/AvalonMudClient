@@ -178,6 +178,25 @@ namespace Avalon.Models
         public partial bool IsRibbonMinimized { get; set; }
 
         /// <summary>
+        /// Gets or sets whether the MCP server runs, letting MCP clients such as AI assistants observe and
+        /// control the client.
+        /// </summary>
+        [property: Category("MCP Server")]
+        [property: DisplayName("Enabled")]
+        [property: Description("Runs a Model Context Protocol server on this computer that MCP clients (such as AI assistants) can connect to.")]
+        [ObservableProperty]
+        public partial bool McpServerEnabled { get; set; }
+
+        /// <summary>
+        /// Gets or sets the local port the MCP server listens on.
+        /// </summary>
+        [property: Category("MCP Server")]
+        [property: DisplayName("Port")]
+        [property: Description("The port the MCP server listens on. Clients connect to http://localhost:<port>/mcp.")]
+        [ObservableProperty]
+        public partial int McpServerPort { get; set; } = 7425;
+
+        /// <summary>
         /// Game listings.
         /// </summary>
         [property: Browsable(false)]

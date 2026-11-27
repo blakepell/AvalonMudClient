@@ -111,6 +111,8 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="18" />
                     </Grid.ColumnDefinitions>
                 </Grid>
@@ -230,8 +232,22 @@
 
         <Separator Grid.Column="10" Visibility="{Binding ActiveTerminal, Converter={StaticResource NullToVisibilityConverter}}" />
 
+        <!--  MCP server  -->
+        <StatusBarItem Grid.Column="11" ToolTip="{Binding McpServer.StatusToolTip}">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="{Binding McpServer.IsRunning, Converter={StaticResource BoolToIconConverter}, FallbackValue='pack://application:,,,/Assets/circle-x-24.png'}" Style="{StaticResource ToggleIcon}" />
+                <Button
+                    Click="ButtonToggleMcpServer_Click"
+                    Content="MCP"
+                    Style="{StaticResource StatusBarButton}"
+                    ToolTip="{Binding McpServer.StatusToolTip}" />
+            </StackPanel>
+        </StatusBarItem>
+
+        <Separator Grid.Column="12" />
+
         <!--  Terminal font size  -->
-        <StatusBarItem Grid.Column="11" Padding="4,0,4,0">
+        <StatusBarItem Grid.Column="13" Padding="4,0,4,0">
             <StackPanel Orientation="Horizontal">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{Binding AppSettings.TerminalFontSize, FallbackValue=14}" />
