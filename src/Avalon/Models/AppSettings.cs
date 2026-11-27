@@ -107,7 +107,7 @@ namespace Avalon.Models
         [property: DisplayName("Use Block Caret")]
         [property: Description("If a block caret should be used in the command box.")]
         [ObservableProperty]
-        public partial bool UseBlockCaret { get; set; }
+        public partial bool UseBlockCaret { get; set; } = true;
 
         /// <summary>
         /// Gets or sets the background color of the command box.
@@ -117,7 +117,7 @@ namespace Avalon.Models
         [property: Description("The background color of the terminal's command box.")]
         [property: JsonConverter(typeof(SolidColorBrushSerializer))]
         [ObservableProperty]
-        public partial SolidColorBrush CommandBoxBackgroundColor { get; set; } = Brushes.White;
+        public partial SolidColorBrush CommandBoxBackgroundColor { get; set; } = Brushes.Black;
 
         /// <summary>
         /// Gets or sets the foreground color of the command box.
@@ -127,7 +127,7 @@ namespace Avalon.Models
         [property: Description("The foreground color of the terminal's command box.")]
         [property: JsonConverter(typeof(SolidColorBrushSerializer))]
         [ObservableProperty]
-        public partial SolidColorBrush CommandBoxForegroundColor { get; set; } = Brushes.Black;
+        public partial SolidColorBrush CommandBoxForegroundColor { get; set; } = Brushes.White;
 
         /// <summary>
         /// Default font size for UI elements.

@@ -15,11 +15,19 @@
                 <themes:ThemeManager
                     Native="True"
                     SystemColors="True"
-                    Theme="Dark" />
+                    Theme="Black" />
                 <ResourceDictionary Source="/Themes/Dialogs.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Style BasedOn="{StaticResource GridViewItemContainerStyleKey}" TargetType="{x:Type ListViewItem}">
                 <Setter Property="Padding" Value="6,1" />
+            </Style>
+            <!--
+                The stock ComboBoxItem style binds its content alignment to an ancestor ItemsControl, which logs
+                binding errors whenever an item is detached from one.  Static values avoid that lookup.
+            -->
+            <Style BasedOn="{StaticResource {x:Type ComboBoxItem}}" TargetType="{x:Type ComboBoxItem}">
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                <Setter Property="VerticalContentAlignment" Value="Top" />
             </Style>
             <models:AppViewModelLocator x:Key="AppViewModel" />
         </ResourceDictionary>
