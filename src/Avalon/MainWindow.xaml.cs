@@ -169,6 +169,12 @@ namespace Avalon
         /// </summary>
         public MudTerminal OpenTerminal(Game game) => OpenTerminal(game, autoConnect: true);
 
+        /// <summary>
+        /// Returns the open terminal for a game, or null when the game has no tab open.
+        /// </summary>
+        public MudTerminal? FindTerminal(Game game) =>
+            _terminalDocuments.TryGetValue(game, out var document) ? document.Content as MudTerminal : null;
+
         private MudTerminal OpenTerminal(Game game, bool autoConnect)
         {
             var created = false;

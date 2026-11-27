@@ -18,6 +18,16 @@ namespace Avalon.Mcp;
 /// </summary>
 public sealed partial class McpServerHost : ObservableObject
 {
+    private const string ServerInstructions =
+        "Tools for observing and controlling the running Avalon Mud Client, a client for text-based multiplayer games (MUDs). " +
+        "Each saved game is a profile with its own aliases (shortcuts for what the player types), triggers (regular expressions " +
+        "that react to lines from the game), variables (named string values used as @Key) and scripts (shared JavaScript functions). " +
+        "Tools use the profile whose terminal is showing unless you name one; call list_profiles when unsure. " +
+        "Before writing any JavaScript, call get_scripting_guide (topic \"primer\"): scripts are Mosaic JavaScript running on .NET, " +
+        "not browser JavaScript, and Avalon's member names are case-sensitive .NET names such as terminal.Send. " +
+        "Prefer plain Command aliases and triggers when the action only sends game commands. List existing items before adding " +
+        "so you update rather than duplicate them, and confirm with the player before removing anything they didn't clearly ask to remove.";
+
     private readonly SemaphoreSlim _gate = new(1, 1);
     private AppSettings? _settings;
     private WebApplication? _app;
@@ -118,10 +128,15 @@ public sealed partial class McpServerHost : ObservableObject
             {
                 var version = typeof(McpServerHost).Assembly.GetName().Version?.ToString() ?? "1.0.0";
                 options.ServerInfo = new Implementation { Name = "avalon-mud-client", Title = "Avalon Mud Client", Version = version };
-                options.ServerInstructions = "Tools for observing and controlling the running Avalon Mud Client.";
+                options.ServerInstructions = ServerInstructions;
             })
             .WithHttpTransport(options => options.Stateless = true)
-            .WithTools<AvalonTools>();
+            .WithTools<AvalonTools>()
+            .WithTools<ProfileTools>()
+            .WithTools<AliasTools>()
+            .WithTools<TriggerTools>()
+            .WithTools<VariableTools>()
+            .WithTools<ScriptTools>();
 
         var app = builder.Build();
         app.MapMcp("/mcp");

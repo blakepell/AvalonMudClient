@@ -889,6 +889,45 @@
                                 SmallImage="/Assets/package-refresh-48.png" />
                         </mosaic:RibbonMenuButton>
 
+                        <controls:McpRegistrationMenu
+                            Key="Ai"
+                            mosaic:RibbonItem.VariantBehavior="AlwaysLarge"
+                            DropDownOpened="AiMenu_OnDropDownOpened"
+                            Label="AI"
+                            LargeImage="/Assets/ai-48.png"
+                            Loaded="AppearanceButton_OnLoaded"
+                            SmallImage="/Assets/ai-48.png">
+                            <mosaic:RibbonMenuItem
+                                x:Name="RegisterCodexMenuItem"
+                                Click="RegisterCodex_OnClick"
+                                Header="Register MCP Server with Codex"
+                                IsEnabled="False"
+                                SmallImage="/Assets/chatgpt-48.png"
+                                ToolTipService.ShowOnDisabled="True" />
+                            <mosaic:RibbonMenuItem
+                                x:Name="UnregisterCodexMenuItem"
+                                Click="UnregisterCodex_OnClick"
+                                Header="Unregister MCP Server from Codex"
+                                IsEnabled="False"
+                                SmallImage="/Assets/chatgpt-48.png"
+                                ToolTipService.ShowOnDisabled="True" />
+                            <Separator />
+                            <mosaic:RibbonMenuItem
+                                x:Name="RegisterClaudeMenuItem"
+                                Click="RegisterClaude_OnClick"
+                                Header="Register MCP Server with Claude Code"
+                                IsEnabled="False"
+                                SmallImage="/Assets/claude-ai-48.png"
+                                ToolTipService.ShowOnDisabled="True" />
+                            <mosaic:RibbonMenuItem
+                                x:Name="UnregisterClaudeMenuItem"
+                                Click="UnregisterClaude_OnClick"
+                                Header="Unregister MCP Server from Claude Code"
+                                IsEnabled="False"
+                                SmallImage="/Assets/claude-ai-48.png"
+                                ToolTipService.ShowOnDisabled="True" />
+                        </controls:McpRegistrationMenu>
+
                         <mosaic:RibbonButton
                             Key="RegexTester"
                             mosaic:RibbonItem.VariantBehavior="AlwaysLarge"

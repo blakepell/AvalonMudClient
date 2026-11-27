@@ -7,12 +7,34 @@ The server is off by default and only accepts connections from programs on your 
 
 ## Available Tools
 
+Tools that work with a profile use the profile whose terminal is showing, unless the assistant names another one. Changes are saved as soon as they're made, and appear right away in the editors and in any open terminal.
+
+### Profiles and Documentation
+
+| Tool | Description |
+|------|-------------|
+| `list_profiles` | Lists your profiles, which one is showing, and how many aliases, triggers, variables and scripts each has. |
+| `get_scripting_guide` | Gives the assistant Avalon's scripting documentation: a primer on the scripting language, how scripts are scoped and the most used objects, plus every page of the [Scripting](Scripting.md) and [language](Scripting/README.md) reference. |
+
+### Aliases, Triggers, Variables and Scripts
+
+| Tool | Description |
+|------|-------------|
+| `list_aliases`, `add_alias`, `update_alias`, `remove_alias` | List, add, change and remove [aliases](Aliases.md). |
+| `list_triggers`, `add_trigger`, `update_trigger`, `remove_trigger` | List, add, change and remove [triggers](Triggers.md). |
+| `test_trigger_pattern` | Tries a trigger pattern on sample lines without changing anything, showing what `%0`–`%9` would hold. |
+| `list_variables`, `set_variable`, `remove_variable` | List, create or change, and remove [variables](Variables.md). Setting a variable this way doesn't run its **On Change Event**. |
+| `list_scripts`, `get_script`, `add_script`, `update_script`, `remove_script` | List, read, add, change and remove the scripts in the Scripts list. |
+| `validate_javascript` | Checks that JavaScript has no syntax errors without saving or running it. |
+
+JavaScript and trigger patterns are checked before they're saved. If the code has a syntax error or the pattern isn't a valid regular expression, nothing is changed and the assistant is told why. The check only covers syntax, so it's still worth trying a new script in the game.
+
+### Status Bar
+
 | Tool | Description |
 |------|-------------|
 | `get_status_text` | Gets the text shown on the left side of the status bar. |
 | `set_status_text` | Sets the text shown on the left side of the status bar. |
-
-More tools for reading game state and changing settings will be added over time.
 
 ## Turning the Server On
 
@@ -30,7 +52,11 @@ With the default port, the server's address is:
 http://localhost:7425/mcp
 ```
 
-If you changed the port, use your port in place of `7425` in the commands below.
+## Registering from the Developer Tab
+
+Open **Developer → AI** to register or unregister Avalon with Codex or Claude Code. The menu uses your current MCP port and checks each client's user configuration to enable the applicable action. The corresponding CLI must be available on PATH. If you later change Avalon's port, unregister and register again to update the saved address.
+
+If you register from a terminal and changed the port, use your port in place of `7425` in the commands below.
 
 ## Adding Avalon to Claude Code
 

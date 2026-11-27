@@ -28,6 +28,8 @@
     <EmbeddedResource Include="Assets\Regex.xshd" Condition="Exists('Assets\Regex.xshd')" />
     <None Remove="Docs\**" />
     <Resource Include="Docs\**\*.md" />
+    <None Remove="Mcp\*.md" />
+    <Resource Include="Mcp\*.md" />
   </ItemGroup>
 
 </Project>
