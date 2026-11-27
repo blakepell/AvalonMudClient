@@ -29,6 +29,24 @@ Tools that work with a profile use the profile whose terminal is showing, unless
 
 JavaScript and trigger patterns are checked before they're saved. If the code has a syntax error or the pattern isn't a valid regular expression, nothing is changed and the assistant is told why. The check only covers syntax, so it's still worth trying a new script in the game.
 
+### Game Output
+
+These tools let the assistant read what the game has sent, so it can write triggers for the text your game really prints. They only read the terminal, they never send anything to the game, and they return small pieces of output rather than the whole scrollback.
+
+| Tool | Description |
+|------|-------------|
+| `get_command_output` | Gets what the game sent back after a command, such as `stats` or `score`. If you haven't sent the command since opening the profile, the assistant will ask you to type it once. |
+| `search_output` | Finds lines that match some text or a pattern, newest first, with a few lines around each one. |
+| `get_output_lines` | Gets a range of lines by number, for example to see more around a search result. |
+| `get_recent_output` | Gets the newest lines, up to a size limit. |
+| `list_recent_commands` | Lists the commands recently sent to the game. |
+
+Commands typed while the game hides what you type, such as passwords, aren't recorded. The profile has to be open for these tools to see its output.
+
+For example, after typing `stats` you can ask:
+
+> Make triggers that save my stats from the stats command into variables.
+
 ### Status Bar
 
 | Tool | Description |

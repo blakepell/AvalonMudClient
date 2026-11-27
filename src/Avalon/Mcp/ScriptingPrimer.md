@@ -125,6 +125,35 @@ if (terminal.GetVariable("AutoLoot") == "on") {
 
 A command alias needs no JavaScript: alias `kk`, command `kill %1;bash %1`, or command `cast 'fireball' @Target`.
 
+## Writing triggers against real game output
+
+Never guess what the game prints. Look at it first, in small pieces:
+
+1. `get_command_output("stats")` returns what the game sent after the player last typed `stats`. If it hasn't
+   been sent, ask the player to type it once. `search_output` finds other example lines (deaths, experience,
+   menus) with a few lines of context, and `get_output_lines` widens a block when you need more.
+2. Copy the exact lines into `test_trigger_pattern` and adjust the pattern until the placeholders hold what you
+   expect. Watch for padding, punctuation and lines that wrap.
+3. Save the trigger. The last line of a block is often the prompt; don't anchor a pattern to it unless that's the
+   point.
+
+**Storing values in variables needs no JavaScript.** Named groups set the variable of the same name every time the
+trigger matches, so a Command trigger with an **empty command** is enough:
+
+```
+Pattern: ^Str: (?<Str>\d+)\((?<StrMax>\d+)\)\s+Int: (?<Int>\d+)\((?<IntMax>\d+)\)
+Command: (empty)
+```
+
+Use one trigger per line of the output, and give the triggers the same group (for example `Stats`) so the
+player can turn them on and off together. A group that is empty in a match doesn't change its variable.
+
+**Multi-line blocks** (score sheets, inventories, `who` lists) where a line only means something inside the
+block: put the per-line triggers in a group that starts **disabled**, add a trigger on the block's first line
+with the command `#group-enable ScoreLines`, and one on its last line (or the prompt) with
+`#group-disable ScoreLines`. Keep the start and end triggers out of that group. This keeps the line triggers from firing on similar text elsewhere. Avoid one big
+JavaScript trigger that tries to parse the whole block from `terminal.LastLines()`.
+
 ## Prefer the simplest thing
 
 Use a **Command** alias or trigger when the action is just sending commands (`;`-separated, with `%1` and

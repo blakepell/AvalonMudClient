@@ -25,6 +25,9 @@ public sealed partial class McpServerHost : ObservableObject
         "Tools use the profile whose terminal is showing unless you name one; call list_profiles when unsure. " +
         "Before writing any JavaScript, call get_scripting_guide (topic \"primer\"): scripts are Mosaic JavaScript running on .NET, " +
         "not browser JavaScript, and Avalon's member names are case-sensitive .NET names such as terminal.Send. " +
+        "Write trigger patterns against real game text: get_command_output returns what the game sent after a command (such as " +
+        "\"stats\"), search_output finds example lines with a little context, and test_trigger_pattern checks a pattern against " +
+        "those lines before you save it. Ask for small pieces of output rather than large ranges. " +
         "Prefer plain Command aliases and triggers when the action only sends game commands. List existing items before adding " +
         "so you update rather than duplicate them, and confirm with the player before removing anything they didn't clearly ask to remove.";
 
@@ -136,7 +139,8 @@ public sealed partial class McpServerHost : ObservableObject
             .WithTools<AliasTools>()
             .WithTools<TriggerTools>()
             .WithTools<VariableTools>()
-            .WithTools<ScriptTools>();
+            .WithTools<ScriptTools>()
+            .WithTools<OutputTools>();
 
         var app = builder.Build();
         app.MapMcp("/mcp");

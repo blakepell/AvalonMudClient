@@ -103,6 +103,7 @@ public partial class MudTerminal : UserControl, IDisposable, ITerminalHost
         InitializeTerminal(Output);
         InitializeTerminal(BackBuffer);
         InitializeBackBuffer();
+        InitializeOutputHistory();
         Output.TextArea.TextView.LineTransformers.Add(_highlights);
         BackBuffer.TextArea.TextView.LineTransformers.Add(_highlights);
 
@@ -706,6 +707,7 @@ public partial class MudTerminal : UserControl, IDisposable, ITerminalHost
 
     private void Interpreter_OnCommandSent(object? sender, string command)
     {
+        RecordSentCommand(command);
         if (IsRecording && Direction.IsDirection(command.Trim().ToLowerInvariant()))
         {
             _recording.Add(command.Trim().ToLowerInvariant());
