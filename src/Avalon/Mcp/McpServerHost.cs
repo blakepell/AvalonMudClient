@@ -134,6 +134,11 @@ public sealed partial class McpServerHost : ObservableObject
                 options.ServerInstructions = ServerInstructions;
             })
             .WithHttpTransport(options => options.Stateless = true)
+            .WithRequestFilters(filters => filters.AddCallToolFilter(next => async (context, cancellationToken) =>
+            {
+                Logger.LogDebug(DescribeToolCall(context.Params));
+                return await next(context, cancellationToken);
+            }))
             .WithTools<AvalonTools>()
             .WithTools<ProfileTools>()
             .WithTools<AliasTools>()
@@ -209,6 +214,39 @@ public sealed partial class McpServerHost : ObservableObject
                 await app.DisposeAsync();
             }).Wait(TimeSpan.FromSeconds(2));
         }
+    }
+
+    /// <summary>
+    /// Describes a tool call for the log: the tool's name and its arguments, with long values shortened.
+    /// </summary>
+    private static string DescribeToolCall(CallToolRequestParams? request)
+    {
+        if (request is null)
+        {
+            return "MCP tool call";
+        }
+
+        if (request.Arguments is not { Count: > 0 } arguments)
+        {
+            return $"MCP tool call: {request.Name}";
+        }
+
+        const int maxLength = 80;
+        var parts = arguments.Select(argument =>
+        {
+            var value = argument.Value.ValueKind == System.Text.Json.JsonValueKind.String
+                ? argument.Value.GetString() ?? string.Empty
+                : argument.Value.GetRawText();
+            value = value.ReplaceLineEndings(" ");
+            if (value.Length > maxLength)
+            {
+                value = string.Concat(value.AsSpan(0, maxLength), "...");
+            }
+
+            return $"{argument.Key}={value}";
+        });
+
+        return $"MCP tool call: {request.Name} ({string.Join(", ", parts)})";
     }
 
     /// <summary>

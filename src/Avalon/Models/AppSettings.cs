@@ -8,6 +8,7 @@ using Mosaic.UI.Wpf.Common;
 using Mosaic.UI.Wpf.Controls;
 using Mosaic.UI.Wpf.Interfaces;
 using Mosaic.UI.Wpf.Json;
+using Mosaic.UI.Wpf.Logging;
 using System.Windows.Media;
 
 namespace Avalon.Models
@@ -197,10 +198,44 @@ namespace Avalon.Models
         public partial int McpServerPort { get; set; } = 7425;
 
         /// <summary>
+        /// The level at which a log entry should be stored.
+        /// </summary>
+        [property: Category("Logging")]
+        [property: DisplayName("Log Level")]
+        [property: Description("The level at which a log entry should be stored.")]
+        [property: Browsable(true)]
+        [ObservableProperty]
+        public partial LogSeverity LogLevel { get; set; } = LogSeverity.Info;
+
+        /// <summary>
         /// Game listings.
         /// </summary>
         [property: Browsable(false)]
         [ObservableProperty]
         public partial FullyObservableCollection<Game> Games { get; set; } = new();
+
+        /// <summary>
+        /// Custom logic for when known properties change value.
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(e);
+
+            // An error here can potentially corrupt the settings file if it happens
+            // during the load of it, try catch these.
+            try
+            {
+                // Update the static log level.
+                if (e.PropertyName == nameof(LogLevel))
+                {
+                    Logger.LogLevel = LogLevel;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+            }
+        }
     }
 }

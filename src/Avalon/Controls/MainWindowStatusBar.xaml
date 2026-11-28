@@ -14,6 +14,8 @@
     <UserControl.Resources>
         <common:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
         <common:BoolToIconConverter x:Key="BoolToIconConverter" />
+        <common:InvertedBoolToVisibilityConverter x:Key="InvertedBoolToVisibilityConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
         <!--  A flat, label-only button like Actipro's ribbon button in its StatusBarItem context.  -->
         <Style x:Key="StatusBarButton" TargetType="Button">
@@ -209,31 +211,8 @@
 
         <Separator Grid.Column="8" Visibility="{Binding ActiveTerminal, Converter={StaticResource NullToVisibilityConverter}}" />
 
-        <!--  Connection  -->
-        <StatusBarItem Grid.Column="9" ToolTip="Game Server Connection Information">
-            <StackPanel Orientation="Horizontal" Visibility="{Binding ActiveTerminal, Converter={StaticResource NullToVisibilityConverter}}">
-                <mosaic:AdaptiveImage Margin="0,0,5,0" Stretch="None">
-                    <mosaic:AdaptiveImage.Style>
-                        <Style TargetType="Image">
-                            <Setter Property="Source" Value="pack://application:,,,/Assets/vs-disconnected-16.png" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ActiveTerminal.IsConnected}" Value="True">
-                                    <Setter Property="Source" Value="pack://application:,,,/Assets/vs-connected-16.png" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </mosaic:AdaptiveImage.Style>
-                </mosaic:AdaptiveImage>
-                <TextBlock Text="{Binding ActiveTerminal.Game.IpAddress}" />
-                <TextBlock Text=":" />
-                <TextBlock Text="{Binding ActiveTerminal.Game.Port}" />
-            </StackPanel>
-        </StatusBarItem>
-
-        <Separator Grid.Column="10" Visibility="{Binding ActiveTerminal, Converter={StaticResource NullToVisibilityConverter}}" />
-
         <!--  MCP server  -->
-        <StatusBarItem Grid.Column="11" ToolTip="{Binding McpServer.StatusToolTip}">
+        <StatusBarItem Grid.Column="9" ToolTip="{Binding McpServer.StatusToolTip}">
             <StackPanel Orientation="Horizontal">
                 <Image Source="{Binding McpServer.IsRunning, Converter={StaticResource BoolToIconConverter}, FallbackValue='pack://application:,,,/Assets/circle-x-24.png'}" Style="{StaticResource ToggleIcon}" />
                 <Button
@@ -241,6 +220,29 @@
                     Content="MCP"
                     Style="{StaticResource StatusBarButton}"
                     ToolTip="{Binding McpServer.StatusToolTip}" />
+            </StackPanel>
+        </StatusBarItem>
+
+        <Separator Grid.Column="10" Visibility="{Binding ActiveTerminal, Converter={StaticResource NullToVisibilityConverter}}" />
+
+        <!--  Connection  -->
+        <StatusBarItem Grid.Column="11" ToolTip="Game Server Connection Information">
+            <StackPanel Orientation="Horizontal" Visibility="{Binding ActiveTerminal, Converter={StaticResource NullToVisibilityConverter}}">
+                <!--  Two images toggled by visibility: AdaptiveImage sets its own Source when it recolors for the
+                      theme, which would override a style trigger that swaps the Source.  -->
+                <mosaic:AdaptiveImage
+                    Margin="0,0,5,0"
+                    Source="pack://application:,,,/Assets/vs-connected-16.png"
+                    Stretch="None"
+                    Visibility="{Binding ActiveTerminal.IsSessionActive, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" />
+                <mosaic:AdaptiveImage
+                    Margin="0,0,5,0"
+                    Source="pack://application:,,,/Assets/vs-disconnected-16.png"
+                    Stretch="None"
+                    Visibility="{Binding ActiveTerminal.IsSessionActive, Converter={StaticResource InvertedBoolToVisibilityConverter}, FallbackValue=Visible}" />
+                <TextBlock Text="{Binding ActiveTerminal.Game.IpAddress}" />
+                <TextBlock Text=":" />
+                <TextBlock Text="{Binding ActiveTerminal.Game.Port}" />
             </StackPanel>
         </StatusBarItem>
 
